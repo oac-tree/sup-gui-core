@@ -38,4 +38,4 @@ void MessageHandlerDecorator::SendMessage(const std::string &text)
   m_component->SendMessage(text);
 }
 
-}  // namespace sequencergui
+}  // namespace sup::gui

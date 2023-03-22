@@ -29,7 +29,7 @@ namespace testutils
 {
 std::string GetTestSuiteOutputDir()
 {
-  return sequencergui::TestConfig::TestOutputDir();  // defined in auto-generated testconfig.h
+  return sup::gui::TestConfig::TestOutputDir();  // defined in auto-generated testconfig.h
 }
 
 std::string GetTextFileContent(const std::string &file_name)
