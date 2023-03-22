@@ -20,9 +20,9 @@
 #ifndef SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
 #define SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
 
-#include <mvvm/core/variant.h>
-
 #include <sup/gui/core/dto_types_fwd.h>
+
+#include <mvvm/core/variant.h>
 
 #include <memory>
 #include <string>

@@ -28,7 +28,7 @@ namespace mvvm
 {
 class ApplicationModel;
 class ModelHasChangedController;
-}
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -52,6 +52,6 @@ private:
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
 };
 
-}  // namespace anyvalueeditor
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_TEXTPANEL_H_

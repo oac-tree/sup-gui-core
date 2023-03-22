@@ -43,6 +43,6 @@ private:
   MessageHandlerInterface* m_component{nullptr};
 };
 
-}  // namespace sequencergui
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_

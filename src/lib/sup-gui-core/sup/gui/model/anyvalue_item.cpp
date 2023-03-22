@@ -58,7 +58,7 @@ bool AnyValueItem::IsArray() const
   return false;
 }
 
-std::vector<AnyValueItem *> AnyValueItem::GetChildren() const
+std::vector<AnyValueItem*> AnyValueItem::GetChildren() const
 {
   return {};
 }
@@ -116,7 +116,7 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
   return child;
 }
 
-std::vector<AnyValueItem *> AnyValueStructItem::GetChildren() const
+std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 {
   return GetItems<AnyValueItem>("");
 }
@@ -136,7 +136,7 @@ bool AnyValueArrayItem::IsArray() const
   return true;
 }
 
-std::vector<AnyValueItem *> AnyValueArrayItem::GetChildren() const
+std::vector<AnyValueItem*> AnyValueArrayItem::GetChildren() const
 {
   return GetItems<AnyValueItem>("");
 }

@@ -41,6 +41,6 @@ public:
   void SendMessage(const std::string& text) override;
 };
 
-}  // namespace sequencergui
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_STANDARD_MESSAGE_HANDLERS_H_

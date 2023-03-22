@@ -20,8 +20,9 @@
 #ifndef SUP_GUI_MODEL_ANYVALUE_ITEM_BUILDER_H_
 #define SUP_GUI_MODEL_ANYVALUE_ITEM_BUILDER_H_
 
-#include <sup/dto/i_any_visitor.h>
 #include <sup/gui/core/dto_types_fwd.h>
+
+#include <sup/dto/i_any_visitor.h>
 
 #include <memory>
 

@@ -21,14 +21,15 @@
 
 #include "highlighter/qsourcehighliter.h"
 
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_utils.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/project/model_has_changed_controller.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_utils.h>
 
 #include <QTextEdit>
 #include <QVBoxLayout>

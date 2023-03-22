@@ -22,8 +22,8 @@
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/json_value_parser.h>
 #include <sup/dto/json_type_parser.h>
+#include <sup/dto/json_value_parser.h>
 
 #include <map>
 #include <sstream>
@@ -147,7 +147,7 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string &str)
   sup::dto::JSONAnyTypeParser parser;
   if (!parser.ParseString(str))
   {
-    throw std::runtime_error("Can't parse Json type from string '"+str+"'");
+    throw std::runtime_error("Can't parse Json type from string '" + str + "'");
   }
   return parser.MoveAnyType();
 }

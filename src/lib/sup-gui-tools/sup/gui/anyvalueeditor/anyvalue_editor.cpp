@@ -23,6 +23,10 @@
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_toolbar.h"
 
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
@@ -30,9 +34,6 @@
 #include <mvvm/widgets/item_view_component_provider.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
 #include <QDebug>
 #include <QFileDialog>

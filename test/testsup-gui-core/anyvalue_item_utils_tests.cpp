@@ -19,11 +19,12 @@
 
 #include "sup/gui/model/anyvalue_item_utils.h"
 
-#include <gtest/gtest.h>
+#include <sup/gui/core/exceptions.h>
+#include <sup/gui/model/anyvalue_item.h>
 
 #include <sup/dto/anytype.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/core/exceptions.h>
+
+#include <gtest/gtest.h>
 
 #include <stdexcept>
 

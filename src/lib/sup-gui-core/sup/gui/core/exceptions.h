@@ -103,6 +103,6 @@ public:
   explicit InvalidOperationException(const std::string& message);
 };
 
-}  // namespace sequencergui
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_CORE_EXCEPTIONS_H_

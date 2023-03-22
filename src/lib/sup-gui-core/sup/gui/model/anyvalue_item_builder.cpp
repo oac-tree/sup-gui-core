@@ -19,8 +19,8 @@
 
 #include "anyvalue_item_builder.h"
 
-#include "anyvalue_item.h"
 #include "anyvalue_conversion_utils.h"
+#include "anyvalue_item.h"
 #include "scalar_conversion_utils.h"
 
 #include <mvvm/model/application_model.h>

@@ -19,10 +19,11 @@
 
 #include "domain_anyvalue_builder.h"
 
-#include <sup/dto/anyvalue.h>
-#include <sup/dto/anyvalue_composer.h>
 #include "anyvalue_item.h"
 #include "scalar_conversion_utils.h"
+
+#include <sup/dto/anyvalue.h>
+#include <sup/dto/anyvalue_composer.h>
 
 #include <cassert>
 #include <stack>

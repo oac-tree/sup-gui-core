@@ -19,11 +19,11 @@
 
 #include "anyvalue_editor_toolbar.h"
 
-#include <mvvm/widgets/widget_utils.h>
-
 #include <sup/gui/anyvalueeditor/anyvalue_editor_actions.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/widgets/style_utils.h>
+
+#include <mvvm/widgets/widget_utils.h>
 
 #include <QMenu>
 #include <QPushButton>

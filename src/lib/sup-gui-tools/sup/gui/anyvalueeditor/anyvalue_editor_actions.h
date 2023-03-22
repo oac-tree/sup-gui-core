@@ -20,9 +20,9 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
 
-#include <mvvm/model/application_model.h>
-
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
+
+#include <mvvm/model/application_model.h>
 
 #include <QObject>
 

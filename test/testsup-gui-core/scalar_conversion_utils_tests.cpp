@@ -19,15 +19,16 @@
 
 #include "sup/gui/model/scalar_conversion_utils.h"
 
-#include <gtest/gtest.h>
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/core/variant.h>
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/basic_scalar_types.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
+
+#include <gtest/gtest.h>
 
 using namespace sup::gui;
 

@@ -19,10 +19,11 @@
 
 #include "sup/gui/model/anyvalue_item.h"
 
-#include <gtest/gtest.h>
+#include <sup/gui/model/anyvalue_conversion_utils.h>
 
 #include <sup/dto/anytype.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
+
+#include <gtest/gtest.h>
 
 namespace
 {

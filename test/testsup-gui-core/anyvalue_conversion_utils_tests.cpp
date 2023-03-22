@@ -19,9 +19,9 @@
 
 #include "sup/gui/model/anyvalue_conversion_utils.h"
 
-#include <gtest/gtest.h>
-
 #include <sup/dto/anytype.h>
+
+#include <gtest/gtest.h>
 
 using namespace sup::gui;
 

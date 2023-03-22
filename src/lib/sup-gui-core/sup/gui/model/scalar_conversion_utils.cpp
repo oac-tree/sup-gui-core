@@ -19,8 +19,8 @@
 
 #include "scalar_conversion_utils.h"
 
-#include "anyvalue_item.h"
 #include "anyvalue_conversion_utils.h"
+#include "anyvalue_item.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>

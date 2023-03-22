@@ -19,10 +19,10 @@
 
 #include "sup/gui/model/anyvalue_utils.h"
 
-#include <gtest/gtest.h>
-
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>
+
+#include <gtest/gtest.h>
 
 //! Testing methods from ShallNotBeNamedValueUtils
 

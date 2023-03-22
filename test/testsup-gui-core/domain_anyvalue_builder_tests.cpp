@@ -19,10 +19,11 @@
 
 #include "sup/gui/model/domain_anyvalue_builder.h"
 
-#include <gtest/gtest.h>
+#include <sup/gui/model/anyvalue_item.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/model/anyvalue_item.h>
+
+#include <gtest/gtest.h>
 
 using namespace sup::gui;
 

@@ -19,10 +19,10 @@
 
 #include "sup/gui/anyvalueeditor/anyvalue_editor_actions.h"
 
-#include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
-#include <testutils/mock_callback_listener.h>
-#include <testutils/test_utils.h>
+#include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
@@ -30,10 +30,11 @@
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_utils.h>
+
+#include <gtest/gtest.h>
+#include <testutils/folder_based_test.h>
+#include <testutils/mock_callback_listener.h>
+#include <testutils/test_utils.h>
 
 using namespace sup::gui;
 using ::testing::_;
