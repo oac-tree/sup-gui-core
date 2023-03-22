@@ -3,7 +3,7 @@ project(sup-gui-core-project VERSION 0.4.99 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-option(COA_EXPORT_BUILDTREE "Export build tree in /home/user/.cmake registry" OFF)
+option(COA_EXPORT_BUILD_TREE "Export build tree in /home/user/.cmake registry" OFF)
 option(COA_SETUP_CLANGFORMAT "Setups target to beautify the code with 'make clangformat'" OFF)
 option(COA_USE_QT6 "Compile with Qt6" OFF)
 option(COA_BUILD_DOCUMENTATION "Build documentation" OFF)
