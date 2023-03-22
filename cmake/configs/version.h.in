@@ -55,6 +55,6 @@ inline std::string ProjectVersion()
     return project_version;
 }
 
-} // namespace sequencergui
+} // namespace sup::gui
 
 #endif // SUP_GUI_CORE_VERSION_H_

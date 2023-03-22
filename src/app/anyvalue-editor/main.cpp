@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : Graphical User Interface for SUP Sequencer
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : Integrated development environment for Sequencer procedures
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
   QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
   QCoreApplication::setApplicationName("anyvalue-editor");
   QCoreApplication::setApplicationVersion("0.1");
-  QCoreApplication::setOrganizationName("sequencer");
+  QCoreApplication::setOrganizationName("coa");
 
   mvvm::utils::SetupHighDpiScaling();
 
