@@ -78,7 +78,7 @@ file(MAKE_DIRECTORY ${SEQUENCERGUI_AUTOGEN_DIR})
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-if (SEQUENCERGUI_USE_QT6)
+if (COA_USE_QT6)
   find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core Gui PrintSupport Test)
 else()
   find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets Core Gui PrintSupport Test)
