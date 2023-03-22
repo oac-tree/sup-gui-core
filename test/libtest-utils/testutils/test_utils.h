@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TEST_UTILS_H
-#define TEST_UTILS_H
+#ifndef TESTUTILS_TEST_UTILS_H_
+#define TESTUTILS_TEST_UTILS_H_
 
 //! Collection of utility functions for various unit tests.
 
@@ -79,4 +79,4 @@ void CreateTextFile(const std::string& file_name, const std::string& content);
 
 }  // namespace testutils
 
-#endif  // TEST_UTILS_H
+#endif  // TESTUTILS_TEST_UTILS_H_

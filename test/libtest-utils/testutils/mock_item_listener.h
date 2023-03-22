@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_ITEM_LISTENER_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_ITEM_LISTENER_H_
+#ifndef TESTUTILS_MOCK_ITEM_LISTENER_H_
+#define TESTUTILS_MOCK_ITEM_LISTENER_H_
 
 #include <gmock/gmock.h>
 #include <mvvm/signals/item_listener.h>
@@ -52,4 +52,4 @@ protected:
 
 }  // namespace testutils
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_ITEM_LISTENER_H_
+#endif  // TESTUTILS_MOCK_ITEM_LISTENER_H_

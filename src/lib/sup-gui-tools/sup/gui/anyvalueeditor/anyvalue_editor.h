@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBANYVALUE_ANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_EDITOR_WIDGET_H_
-#define LIBANYVALUE_ANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_EDITOR_WIDGET_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
+#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
 
@@ -82,4 +82,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_EDITOR_WIDGET_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_

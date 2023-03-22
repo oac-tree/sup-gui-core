@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_ANYVALUE_EDITOR_TOOLBAR_H_
-#define LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_ANYVALUE_EDITOR_TOOLBAR_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_TOOLBAR_H_
+#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_TOOLBAR_H_
 
 #include <QToolBar>
 #include <memory>
@@ -63,4 +63,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_ANYVALUE_EDITOR_TOOLBAR_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_TOOLBAR_H_

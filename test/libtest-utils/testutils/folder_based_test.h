@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef FOLDERBASEDTEST_H
-#define FOLDERBASEDTEST_H
+#ifndef TESTUTILS_FOLDER_BASED_TEST_H_
+#define TESTUTILS_FOLDER_BASED_TEST_H_
 
 #include <gtest/gtest.h>
 
@@ -48,4 +48,4 @@ private:
 
 }  // namespace testutils
 
-#endif  //  FOLDERBASEDTEST_H
+#endif  // TESTUTILS_FOLDER_BASED_TEST_H_

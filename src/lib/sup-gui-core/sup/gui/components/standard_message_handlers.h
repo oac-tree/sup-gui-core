@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SEQUENCERGUI_CORE_STANDARD_MESSAGE_HANDLERS_H_
-#define SEQUENCERGUI_CORE_STANDARD_MESSAGE_HANDLERS_H_
+#ifndef SUP_GUI_COMPONENTS_STANDARD_MESSAGE_HANDLERS_H_
+#define SUP_GUI_COMPONENTS_STANDARD_MESSAGE_HANDLERS_H_
 
 #include <sup/gui/components/message_handler_interface.h>
 
@@ -43,4 +43,4 @@ public:
 
 }  // namespace sequencergui
 
-#endif  // SEQUENCERGUI_CORE_STANDARD_MESSAGE_HANDLERS_H_
+#endif  // SUP_GUI_COMPONENTS_STANDARD_MESSAGE_HANDLERS_H_

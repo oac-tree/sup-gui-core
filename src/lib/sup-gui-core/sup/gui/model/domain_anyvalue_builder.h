@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef GUI_DTO_DOMAIN_ANYVALUE_BUILDER_H_
-#define GUI_DTO_DOMAIN_ANYVALUE_BUILDER_H_
+#ifndef SUP_GUI_MODEL_DOMAIN_ANYVALUE_BUILDER_H_
+#define SUP_GUI_MODEL_DOMAIN_ANYVALUE_BUILDER_H_
 
 #include <sup/gui/core/dto_types_fwd.h>
 
@@ -46,4 +46,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // GUI_DTO_DOMAIN_ANYVALUE_BUILDER_H_
+#endif  // SUP_GUI_MODEL_DOMAIN_ANYVALUE_BUILDER_H_

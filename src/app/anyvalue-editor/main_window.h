@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
-#define ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#ifndef ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#define ANYVALUE_EDITOR_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 #include <memory>
@@ -58,4 +58,4 @@ private:
 
 }  // namespace anyvalueeditor
 
-#endif  // ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#endif  // ANYVALUE_EDITOR_MAIN_WINDOW_H_

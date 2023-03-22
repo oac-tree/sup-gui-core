@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
-#define LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
+#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
 
 #include <mvvm/model/application_model.h>
 
@@ -111,4 +111,4 @@ inline T* AnyValueEditorActions::AddAnyValueItem(const std::string& item_name)
 
 }  // namespace sup::gui
 
-#endif  // LIBANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_

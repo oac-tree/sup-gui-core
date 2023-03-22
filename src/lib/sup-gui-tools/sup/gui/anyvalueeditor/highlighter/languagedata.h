@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef ANYVALUEEDITOR_HIGHLIGHTER_LANGUAGEDATA_H_
-#define ANYVALUEEDITOR_HIGHLIGHTER_LANGUAGEDATA_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_HIGHLIGHTER_LANGUAGEDATA_H_
+#define SUP_GUI_ANYVALUEEDITOR_HIGHLIGHTER_LANGUAGEDATA_H_
 
 template <typename key, typename val>
 class QMultiHash;
@@ -163,4 +163,4 @@ void loadAsmData(QMultiHash<char, QLatin1String> &types, QMultiHash<char, QLatin
                  QMultiHash<char, QLatin1String> &builtin,
                  QMultiHash<char, QLatin1String> &literals, QMultiHash<char, QLatin1String> &other);
 }  // namespace QSourceHighlite
-#endif  // ANYVALUEEDITOR_HIGHLIGHTER_LANGUAGEDATA_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_HIGHLIGHTER_LANGUAGEDATA_H_

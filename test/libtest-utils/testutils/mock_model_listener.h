@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_
-#define TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_
+#ifndef TESTUTILS_MOCK_MODEL_LISTENER_H_
+#define TESTUTILS_MOCK_MODEL_LISTENER_H_
 
 #include <gmock/gmock.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
@@ -41,4 +41,4 @@ public:
 
 }  // namespace testutils
 
-#endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_
+#endif  // TESTUTILS_MOCK_MODEL_LISTENER_H_

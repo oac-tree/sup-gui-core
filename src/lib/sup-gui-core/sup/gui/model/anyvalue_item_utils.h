@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef GUI_DTO_ANYVALUE_ITEM_UTILS_H_
-#define GUI_DTO_ANYVALUE_ITEM_UTILS_H_
+#ifndef SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
+#define SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
 
 //! Collection of sup::gui::AnyValueItem related utility functions.
 
@@ -45,4 +45,4 @@ bool IsSuitableScalarType(const AnyValueArrayItem& array, const std::string& sca
 
 }  // namespace sup::gui
 
-#endif  // GUI_DTO_ANYVALUE_ITEM_UTILS_H_
+#endif  // SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_

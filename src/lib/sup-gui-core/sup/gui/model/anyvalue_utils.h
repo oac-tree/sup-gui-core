@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef GUI_DTO_ANYVALUE_UTILS_H_
-#define GUI_DTO_ANYVALUE_UTILS_H_
+#ifndef SUP_GUI_MODEL_ANYVALUE_UTILS_H_
+#define SUP_GUI_MODEL_ANYVALUE_UTILS_H_
 
 //! Collection of sup::dto::AnyValue related utility functions.
 
@@ -43,4 +43,4 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string& str);
 
 }  // namespace sup::gui
 
-#endif  // GUI_DTO_ANYVALUE_UTILS_H_
+#endif  // SUP_GUI_MODEL_ANYVALUE_UTILS_H_

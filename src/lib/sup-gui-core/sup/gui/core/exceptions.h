@@ -105,4 +105,4 @@ public:
 
 }  // namespace sequencergui
 
-#endif  // SEQUENCERGUI_CORE_EXCEPTIONS_H_
+#endif  // SUP_GUI_CORE_EXCEPTIONS_H_

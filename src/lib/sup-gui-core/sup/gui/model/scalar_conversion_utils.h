@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef GUI_DTO_SCALAR_CONVERSION_UTILS_H_
-#define GUI_DTO_SCALAR_CONVERSION_UTILS_H_
+#ifndef SUP_GUI_MODEL_SCALAR_CONVERSION_UTILS_H_
+#define SUP_GUI_MODEL_SCALAR_CONVERSION_UTILS_H_
 
 //! Utility functions to convert scalar AnyValue to AnyValueItem and back.
 
@@ -38,4 +38,4 @@ sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem& item);
 
 }  // namespace sup::gui
 
-#endif  // GUI_DTO_SCALAR_CONVERSION_UTILS_H_
+#endif  // SUP_GUI_MODEL_SCALAR_CONVERSION_UTILS_H_

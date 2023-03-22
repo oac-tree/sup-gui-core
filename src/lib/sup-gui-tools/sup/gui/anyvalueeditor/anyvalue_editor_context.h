@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBANYVALUE_ANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_EDITOR_CONTEXT_H_
-#define LIBANYVALUE_ANYVALUE_EDITOR_CORE_ANYVALUEEDITOR_EDITOR_CONTEXT_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_CONTEXT_H_
+#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_CONTEXT_H_
 
 #include <sup/gui/components/message_event.h>
 
@@ -45,4 +45,4 @@ struct AnyValueEditorContext
 
 }  // namespace sup::gui
 
-#endif
+#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_CONTEXT_H_

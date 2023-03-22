@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef GUI_DTO_CONVERSION_UTILS_H_
-#define GUI_DTO_CONVERSION_UTILS_H_
+#ifndef SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
+#define SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
 
 #include <mvvm/core/variant.h>
 
@@ -62,4 +62,4 @@ std::unique_ptr<AnyValueItem> CreateItem(const sup::dto::AnyValue& any_value);
 
 }  // namespace sup::gui
 
-#endif  // GUI_DTO_CONVERSION_UTILS_H_
+#endif  // SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
