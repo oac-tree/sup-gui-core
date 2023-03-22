@@ -2,9 +2,9 @@
  $HeadURL: $
  $Id: $
 
- Project       : SUP sequencer GUI
+ Project       : Graphical User Interface for SUP and PSPS
 
- Description   : SUP sequencer GUI.
+ Description   : Common libraries and tools for Operation Application GUIs
 
  Authors       : CODAC Operation Applications Team
 
@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.iter.codac.units</groupId>
-    <artifactId>sequencer-gui</artifactId>
+    <artifactId>sup-gui-core</artifactId>
     <packaging>codac</packaging>
     <!-- See ChangeLog file for details -->
     <version>0.4.99</version>
