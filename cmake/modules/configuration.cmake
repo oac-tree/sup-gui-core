@@ -99,9 +99,6 @@ find_package(sup-dto REQUIRED)
 # Generating config files
 # -----------------------------------------------------------------------------
 
-configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/testconfig.h.in  ${SUP_GUI_CORE_AUTOGEN_DIR}/testconfig.h @ONLY)
-
-if (SUP_GUI_CORE_BUMP_VERSION)
-    configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/version.h.in  ${SUP_GUI_CORE_PROJECT_DIR}/source/sequencer-gui/libsequencer-gui-core/sequencergui/core/version.h @ONLY)
-endif()
+configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/testconfig.h.in ${SUP_GUI_CORE_AUTOGEN_DIR}/testconfig.h @ONLY)
+configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/version.h.in ${SUP_GUI_CORE_AUTOGEN_DIR}/version.h @ONLY)
 
