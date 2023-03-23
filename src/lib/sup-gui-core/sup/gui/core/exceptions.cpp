@@ -33,24 +33,6 @@ RuntimeException::RuntimeException(const std::string& message) : MessageExceptio
 
 LogicErrorException::LogicErrorException(const std::string& message) : MessageException{message} {}
 
-TransformToDomainException::TransformToDomainException(const std::string& message)
-    : MessageException{message}
-{
-}
-
-NotFoundKeyException::NotFoundKeyException(const std::string& message) : MessageException{message}
-{
-}
-
-NotFoundValueException::NotFoundValueException(const std::string& message)
-    : MessageException{message}
-{
-}
-
-ExistingKeyException::ExistingKeyException(const std::string& message) : MessageException{message}
-{
-}
-
 NullException::NullException(const std::string& message) : MessageException{message} {}
 
 InvalidOperationException::InvalidOperationException(const std::string& message)

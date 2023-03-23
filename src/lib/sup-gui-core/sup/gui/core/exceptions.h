@@ -54,39 +54,6 @@ public:
   explicit LogicErrorException(const std::string& message);
 };
 
-//! Error detected in the Sequencer domain during the attempt to convert UI classes to
-//! sequencer classes.
-
-class TransformToDomainException : public MessageException
-{
-public:
-  explicit TransformToDomainException(const std::string& message);
-};
-
-//! Exception is thrown when no such key exists in a map.
-
-class NotFoundKeyException : public MessageException
-{
-public:
-  explicit NotFoundKeyException(const std::string& message);
-};
-
-//! Exception is thrown when no such value exists in a map.
-
-class NotFoundValueException : public MessageException
-{
-public:
-  explicit NotFoundValueException(const std::string& message);
-};
-
-//! Exception is thrown when such key already exists in the map.
-
-class ExistingKeyException : public MessageException
-{
-public:
-  explicit ExistingKeyException(const std::string& message);
-};
-
 //! Exception is thrown when the argument is nullptr.
 
 class NullException : public MessageException
