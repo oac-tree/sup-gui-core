@@ -1,15 +1,15 @@
 extensions = [ "breathe" ]
-breathe_projects = { "sequencer-gui": "@CMAKE_CURRENT_BINARY_DIR@/xml" }
-breathe_default_project = "sequencer-gui"
+breathe_projects = { "sup-gui-core": "@CMAKE_CURRENT_BINARY_DIR@/xml" }
+breathe_default_project = "sup-gui-core"
 
-project = "sequencer-gui"
+project = "sup-gui-core"
 author = "Gennady Pospelov"
 copyright = "ITER Organization"
 version = "@PROJECT_VERSION@"
 release = "@PROJECT_VERSION@"
 
 # Set link name generated in the top bar.
-html_title = 'SEQUENCER GUI'
+html_title = 'SUP GUI CORE'
 
 try:
     import sphinx_rtd_theme
