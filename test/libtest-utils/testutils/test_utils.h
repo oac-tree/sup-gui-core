@@ -77,6 +77,13 @@ std::string GetTextFileContent(const std::string& file_name);
 //! Create ASCII file with given content.
 void CreateTextFile(const std::string& file_name, const std::string& content);
 
+//! Returns true if given item can be casted to desired type.
+template <typename DesiredT, typename ItemT>
+bool CanCast(const ItemT* item)
+{
+  return dynamic_cast<const DesiredT*>(item) != nullptr;
+}
+
 }  // namespace testutils
 
 #endif  // TESTUTILS_TEST_UTILS_H_

@@ -30,6 +30,7 @@ namespace sup::gui
 class AnyValueItem : public mvvm::CompoundItem
 {
 public:
+  using CompoundItem::CompoundItem;
   explicit AnyValueItem(const std::string& item_type);
 
   virtual void SetAnyTypeName(const std::string& type_name);
@@ -50,7 +51,10 @@ class AnyValueEmptyItem : public AnyValueItem
 public:
   static inline const std::string Type = "AnyValueEmpty";
 
-  explicit AnyValueEmptyItem();
+  using AnyValueItem::AnyValueItem;
+  AnyValueEmptyItem();
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 };
 
 //! The item to represent AnyValue scalar.
@@ -60,7 +64,10 @@ class AnyValueScalarItem : public AnyValueItem
 public:
   static inline const std::string Type = "AnyValueScalar";
 
+  using AnyValueItem::AnyValueItem;
   AnyValueScalarItem();
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   void SetAnyTypeName(const std::string& type_name) override;
 
@@ -74,7 +81,10 @@ class AnyValueStructItem : public AnyValueItem
 public:
   static inline const std::string Type = "AnyValueStruct";
 
+  using AnyValueItem::AnyValueItem;
   AnyValueStructItem();
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   bool IsStruct() const override;
 
@@ -91,7 +101,10 @@ class AnyValueArrayItem : public AnyValueItem
 public:
   static inline const std::string Type = "AnyValueArray";
 
+  using AnyValueItem::AnyValueItem;
   AnyValueArrayItem();
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   bool IsArray() const override;
 

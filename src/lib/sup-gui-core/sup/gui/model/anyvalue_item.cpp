@@ -69,6 +69,11 @@ std::vector<AnyValueItem*> AnyValueItem::GetChildren() const
 
 AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type) {}
 
+std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<AnyValueEmptyItem>(*this, make_unique_id);
+}
+
 // ----------------------------------------------------------------------------
 // AnyValueScalarItem
 // ----------------------------------------------------------------------------
@@ -76,6 +81,11 @@ AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type) {}
 AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(Type)
 {
   SetDisplayName(kScalarTypeName);
+}
+
+std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<AnyValueScalarItem>(*this, make_unique_id);
 }
 
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
@@ -98,6 +108,11 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
 {
   SetDisplayName(kStructTypeName);
   RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*as_default*/ true);
+}
+
+std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<AnyValueStructItem>(*this, make_unique_id);
 }
 
 bool AnyValueStructItem::IsStruct() const
@@ -129,6 +144,11 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
 {
   SetDisplayName(kArrayTypeName);
   RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*as_default*/ true);
+}
+
+std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<AnyValueArrayItem>(*this, make_unique_id);
 }
 
 bool AnyValueArrayItem::IsArray() const
