@@ -50,7 +50,7 @@ public:
 TEST_F(AnyValueItemTest, InitialState)
 {
   {  // AnyValueItem
-    AnyValueItem item("test");
+    const AnyValueItem item("test");
     EXPECT_FALSE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
@@ -61,7 +61,7 @@ TEST_F(AnyValueItemTest, InitialState)
   }
 
   {  // AnyValueScalarItem
-    AnyValueScalarItem item;
+    const AnyValueScalarItem item;
     EXPECT_TRUE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
@@ -74,7 +74,7 @@ TEST_F(AnyValueItemTest, InitialState)
   }
 
   {  // AnyValueStructItem
-    AnyValueStructItem item;
+    const AnyValueStructItem item;
     EXPECT_FALSE(item.IsScalar());
     EXPECT_TRUE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
