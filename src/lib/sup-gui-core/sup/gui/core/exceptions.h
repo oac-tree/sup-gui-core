@@ -38,6 +38,14 @@ private:
   std::string message;
 };
 
+//! Exception is thrown on invalid operation.
+
+class NotImplementedException : public MessageException
+{
+public:
+  explicit NotImplementedException(const std::string& message);
+};
+
 //! Generic exception to throw at runtime.
 
 class RuntimeException : public MessageException

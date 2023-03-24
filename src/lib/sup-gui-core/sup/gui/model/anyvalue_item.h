@@ -33,6 +33,8 @@ public:
   using CompoundItem::CompoundItem;
   explicit AnyValueItem(const std::string& item_type);
 
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+
   virtual void SetAnyTypeName(const std::string& type_name);
 
   std::string GetAnyTypeName() const;

@@ -21,6 +21,8 @@
 
 #include "anyvalue_conversion_utils.h"
 
+#include <sup/gui/core/exceptions.h>
+
 namespace sup::gui
 {
 
@@ -32,6 +34,12 @@ static inline const int kAnyTypeNameRole = 10;  // role to store type name
 // ----------------------------------------------------------------------------
 
 AnyValueItem::AnyValueItem(const std::string& item_type) : CompoundItem(item_type) {}
+
+std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone(bool make_unique_id) const
+{
+  // This base is not intended to be used directly
+  throw sup::gui::NotImplementedException("Clone for AnyValueItem is not implemented");
+}
 
 void AnyValueItem::SetAnyTypeName(const std::string& type_name)
 {
