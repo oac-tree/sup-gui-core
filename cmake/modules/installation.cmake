@@ -17,7 +17,7 @@ install(EXPORT sup-gui-core-targets FILE sup-gui-core-targets.cmake NAMESPACE su
 export(TARGETS sup-gui-core sup-gui-tools NAMESPACE sup-gui-core:: FILE "${PROJECT_BINARY_DIR}/sup-gui-core-targets.cmake")
 
 # Export the package for use from the build-tree (goes to $HOME/.cmake)
-if(COA_EXPORT_BUILDTREE)
+if(COA_EXPORT_BUILD_TREE)
   set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
   export(PACKAGE sup-gui-core)
 endif()
