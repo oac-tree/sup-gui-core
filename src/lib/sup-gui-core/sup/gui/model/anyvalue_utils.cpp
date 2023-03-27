@@ -105,21 +105,21 @@ namespace sup::gui
 {
 
 //! Returns JSON string representing AnyValue.
-std::string GetAnyValueToJSONString(const anyvalue_t *value, bool is_pretty)
+std::string GetAnyValueToJSONString(const anyvalue_t &value, bool is_pretty)
 {
-  return sup::dto::AnyValueToJSONString(*value, is_pretty);
+  return sup::dto::AnyValueToJSONString(value, is_pretty);
 }
 
 //! Returns JSON string representing AnyType.
-std::string GetAnyTypeToJSONString(const anyvalue_t *value)
+std::string GetAnyTypeToJSONString(const anyvalue_t &value)
 {
-  return sup::dto::AnyTypeToJSONString(value->GetType());
+  return sup::dto::AnyTypeToJSONString(value.GetType());
 }
 
 //! Returns JSON string representing the values of an AnyValue.
-std::string GetValuesToJSONString(const anyvalue_t *value)
+std::string GetValuesToJSONString(const anyvalue_t &value)
 {
-  return sup::dto::ValuesToJSONString(*value);
+  return sup::dto::ValuesToJSONString(value);
 }
 
 bool ParseStringToScalarAnyvalue(const std::string &str, sup::dto::AnyValue &value)

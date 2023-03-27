@@ -29,11 +29,11 @@
 namespace sup::gui
 {
 
-std::string GetAnyValueToJSONString(const anyvalue_t* value, bool is_pretty = false);
+std::string GetAnyValueToJSONString(const anyvalue_t& value, bool is_pretty = false);
 
-std::string GetAnyTypeToJSONString(const anyvalue_t* value);
+std::string GetAnyTypeToJSONString(const anyvalue_t& value);
 
-std::string GetValuesToJSONString(const anyvalue_t* value);
+std::string GetValuesToJSONString(const anyvalue_t& value);
 
 bool ParseStringToScalarAnyvalue(const std::string& str, anyvalue_t& value);
 

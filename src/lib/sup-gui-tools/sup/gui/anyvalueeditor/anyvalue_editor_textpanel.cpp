@@ -67,7 +67,7 @@ void AnyValueEditorTextPanel::UpdateJson()
     try
     {
       auto any_value = sup::gui::CreateAnyValue(*item);
-      auto str = sup::gui::GetAnyValueToJSONString(&any_value, true);
+      auto str = sup::gui::GetAnyValueToJSONString(any_value, true);
       m_text_edit->setText(QString::fromStdString(str));
     }
     catch (const std::exception &ex)
