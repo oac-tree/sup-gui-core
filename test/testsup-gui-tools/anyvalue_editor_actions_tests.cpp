@@ -480,7 +480,7 @@ TEST_F(AnyValueEditorActionsTest, ImportFromFile)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
   sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = GetAnyValueToJSONString(anyvalue);
+  auto json_content = AnyValueToJSONString(anyvalue);
   testutils::CreateTextFile(file_path, json_content);
 
   // creating action for the context, when nothing is selected by the user
@@ -514,7 +514,7 @@ TEST_F(AnyValueEditorActionsTest, ImportFromFileToStructField)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
   sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = GetAnyValueToJSONString(anyvalue);
+  auto json_content = AnyValueToJSONString(anyvalue);
   testutils::CreateTextFile(file_path, json_content);
 
   // creating a

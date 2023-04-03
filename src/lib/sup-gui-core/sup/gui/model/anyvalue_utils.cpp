@@ -104,20 +104,17 @@ static std::map<std::string, ParseFunction> &GetParserMap()
 namespace sup::gui
 {
 
-//! Returns JSON string representing AnyValue.
-std::string GetAnyValueToJSONString(const anyvalue_t &value, bool is_pretty)
+std::string AnyValueToJSONString(const anyvalue_t &value, bool is_pretty)
 {
   return sup::dto::AnyValueToJSONString(value, is_pretty);
 }
 
-//! Returns JSON string representing AnyType.
-std::string GetAnyTypeToJSONString(const anyvalue_t &value)
+std::string AnyTypeToJSONString(const anyvalue_t &value)
 {
   return sup::dto::AnyTypeToJSONString(value.GetType());
 }
 
-//! Returns JSON string representing the values of an AnyValue.
-std::string GetValuesToJSONString(const anyvalue_t &value)
+std::string ValuesToJSONString(const anyvalue_t &value)
 {
   return sup::dto::ValuesToJSONString(value);
 }

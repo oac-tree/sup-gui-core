@@ -29,11 +29,14 @@
 namespace sup::gui
 {
 
-std::string GetAnyValueToJSONString(const anyvalue_t& value, bool is_pretty = false);
+//! Returns JSON string representing AnyValue.
+std::string AnyValueToJSONString(const anyvalue_t& value, bool is_pretty = false);
 
-std::string GetAnyTypeToJSONString(const anyvalue_t& value);
+//! Returns JSON string representing AnyType.
+std::string AnyTypeToJSONString(const anyvalue_t& value);
 
-std::string GetValuesToJSONString(const anyvalue_t& value);
+//! Returns JSON string representing the values of an AnyValue.
+std::string ValuesToJSONString(const anyvalue_t& value);
 
 bool ParseStringToScalarAnyvalue(const std::string& str, anyvalue_t& value);
 

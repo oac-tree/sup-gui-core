@@ -36,7 +36,7 @@ public:
 TEST_F(AnyValueUtilsTest, GetJsonString)
 {
   sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  EXPECT_EQ(sup::gui::GetValuesToJSONString(anyvalue), "42");
+  EXPECT_EQ(sup::gui::ValuesToJSONString(anyvalue), "42");
 }
 
 //! Validating method AnyTypeFromJSONString.
