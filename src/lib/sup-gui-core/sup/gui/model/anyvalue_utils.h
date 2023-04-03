@@ -38,8 +38,6 @@ std::string AnyTypeToJSONString(const anyvalue_t& value);
 //! Returns JSON string representing the values of an AnyValue.
 std::string ValuesToJSONString(const anyvalue_t& value);
 
-bool ParseStringToScalarAnyvalue(const std::string& str, anyvalue_t& value);
-
 sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename);
 
 //! Returns AnyType from its JSON representation.
