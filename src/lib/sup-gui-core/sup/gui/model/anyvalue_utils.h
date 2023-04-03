@@ -42,7 +42,12 @@ bool ParseStringToScalarAnyvalue(const std::string& str, anyvalue_t& value);
 
 sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename);
 
+//! Returns AnyType from its JSON representation.
 sup::dto::AnyType AnyTypeFromJSONString(const std::string& str);
+
+//! Returns AnyValue from JSON representation of its type and value.
+sup::dto::AnyValue AnyValueFromJSONString(const std::string& json_type,
+                                          const std::string& json_value);
 
 }  // namespace sup::gui
 
