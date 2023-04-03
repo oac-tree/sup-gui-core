@@ -67,6 +67,23 @@ TEST_F(AnyValueUtilsTest, AnyTypeFromJSONString)
 
 //! Validating method AnyValueFromJSONString.
 
+TEST_F(AnyValueUtilsTest, AnyValueFromTypeAndJSONValue)
+{
+  sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
+
+  {  // scalar
+    std::string json_value("42");
+    EXPECT_EQ(AnyValueFromJSONString(expected_anyvalue.GetType(), json_value), expected_anyvalue);
+  }
+
+  {  // malformed scalar
+    std::string json_value("abc");
+    EXPECT_THROW(AnyValueFromJSONString(expected_anyvalue.GetType(), json_value), RuntimeException);
+  }
+}
+
+//! Validating method AnyValueFromJSONString.
+
 TEST_F(AnyValueUtilsTest, AnyValueFromJSONString)
 {
   {  // scalar

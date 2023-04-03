@@ -62,18 +62,21 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string &str)
   return parser.MoveAnyType();
 }
 
-dto::AnyValue AnyValueFromJSONString(const std::string &json_type, const std::string &json_value)
+dto::AnyValue AnyValueFromJSONString(const dto::AnyType &anytype, const std::string &value_str)
 {
-  auto anytype = AnyTypeFromJSONString(json_type);
-
   sup::dto::JSONAnyValueParser value_parser;
-  if (!value_parser.TypedParseString(anytype, json_value))
+  if (!value_parser.TypedParseString(anytype, value_str))
   {
-    throw RuntimeException("Can't parse Json value from type '" + json_type + "' and value string '"
-                           + json_value + "'");
+    throw RuntimeException("Can't parse Json value from value '" + value_str + "'");
   }
 
   return value_parser.MoveAnyValue();
+}
+
+dto::AnyValue AnyValueFromJSONString(const std::string &type_str, const std::string &value_str)
+{
+  auto anytype = AnyTypeFromJSONString(type_str);
+  return AnyValueFromJSONString(anytype, value_str);
 }
 
 }  // namespace sup::gui

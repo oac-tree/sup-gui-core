@@ -43,9 +43,13 @@ sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename);
 //! Returns AnyType from its JSON representation.
 sup::dto::AnyType AnyTypeFromJSONString(const std::string& str);
 
+//! Returns AnyValue from AnyType and JSON representation of its value.
+sup::dto::AnyValue AnyValueFromJSONString(const sup::dto::AnyType& anytype,
+                                          const std::string& value_str);
+
 //! Returns AnyValue from JSON representation of its type and value.
-sup::dto::AnyValue AnyValueFromJSONString(const std::string& json_type,
-                                          const std::string& json_value);
+sup::dto::AnyValue AnyValueFromJSONString(const std::string& type_str,
+                                          const std::string& value_str);
 
 }  // namespace sup::gui
 
