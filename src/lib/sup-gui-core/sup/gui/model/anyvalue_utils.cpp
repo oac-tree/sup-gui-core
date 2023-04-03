@@ -19,6 +19,8 @@
 
 #include "anyvalue_utils.h"
 
+#include <sup/gui/core/exceptions.h>
+
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
@@ -144,7 +146,7 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string &str)
   sup::dto::JSONAnyTypeParser parser;
   if (!parser.ParseString(str))
   {
-    throw std::runtime_error("Can't parse Json type from string '" + str + "'");
+    throw RuntimeException("Can't parse Json type from string '" + str + "'");
   }
   return parser.MoveAnyType();
 }
@@ -156,8 +158,8 @@ dto::AnyValue AnyValueFromJSONString(const std::string &json_type, const std::st
   sup::dto::JSONAnyValueParser value_parser;
   if (!value_parser.TypedParseString(anytype, json_value))
   {
-    throw std::runtime_error("Can't parse Json value from type '" + json_type
-                             + "' and value string '" + json_value + "'");
+    throw RuntimeException("Can't parse Json value from type '" + json_type + "' and value string '"
+                           + json_value + "'");
   }
 
   return value_parser.MoveAnyValue();

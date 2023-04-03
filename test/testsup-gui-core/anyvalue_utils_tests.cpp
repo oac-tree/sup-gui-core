@@ -19,10 +19,14 @@
 
 #include "sup/gui/model/anyvalue_utils.h"
 
+#include <sup/gui/core/exceptions.h>
+
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>
 
 #include <gtest/gtest.h>
+
+using namespace sup::gui;
 
 //! Testing methods from ShallNotBeNamedValueUtils
 
@@ -36,7 +40,7 @@ public:
 TEST_F(AnyValueUtilsTest, GetJsonString)
 {
   sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  EXPECT_EQ(sup::gui::ValuesToJSONString(anyvalue), "42");
+  EXPECT_EQ(ValuesToJSONString(anyvalue), "42");
 }
 
 //! Validating method AnyTypeFromJSONString.
@@ -44,12 +48,12 @@ TEST_F(AnyValueUtilsTest, GetJsonString)
 TEST_F(AnyValueUtilsTest, AnyTypeFromJSONString)
 {
   {  // malformed type (missed closing bracket)
-    EXPECT_THROW(sup::gui::AnyTypeFromJSONString(R"RAW({"type":"int32")RAW"), std::runtime_error);
+    EXPECT_THROW(AnyTypeFromJSONString(R"RAW({"type":"int32")RAW"), RuntimeException);
   }
 
   {  // scalar
     sup::dto::AnyType expected_anytype(sup::dto::SignedInteger32Type);
-    EXPECT_EQ(sup::gui::AnyTypeFromJSONString(R"RAW({"type":"int32"})RAW"), expected_anytype);
+    EXPECT_EQ(AnyTypeFromJSONString(R"RAW({"type":"int32"})RAW"), expected_anytype);
   }
 
   {  // struct with a single field
@@ -57,7 +61,7 @@ TEST_F(AnyValueUtilsTest, AnyTypeFromJSONString)
                                           "structname"};
     std::string json_str(
         R"RAW({"type":"structname","attributes":[{"signed":{"type":"int32"}}]})RAW");
-    EXPECT_EQ(sup::gui::AnyTypeFromJSONString(json_str), expected_anytype);
+    EXPECT_EQ(AnyTypeFromJSONString(json_str), expected_anytype);
   }
 }
 
@@ -69,13 +73,13 @@ TEST_F(AnyValueUtilsTest, AnyValueFromJSONString)
     sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
     std::string json_type(R"RAW({"type":"int32"})RAW");
     std::string json_value("42");
-    EXPECT_EQ(sup::gui::AnyValueFromJSONString(json_type, json_value), expected_anyvalue);
+    EXPECT_EQ(AnyValueFromJSONString(json_type, json_value), expected_anyvalue);
   }
 
   {  // malformed scalar
     sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
     std::string json_type(R"RAW({"type":"int32"})RAW");
     std::string json_value("abc");
-    EXPECT_THROW(sup::gui::AnyValueFromJSONString(json_type, json_value), std::runtime_error);
+    EXPECT_THROW(AnyValueFromJSONString(json_type, json_value), RuntimeException);
   }
 }
