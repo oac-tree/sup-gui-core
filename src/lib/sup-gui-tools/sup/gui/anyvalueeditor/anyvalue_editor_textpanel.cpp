@@ -31,6 +31,8 @@
 
 #include <sup/dto/anyvalue.h>
 
+#include <QDebug>
+#include <QScrollBar>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
@@ -64,11 +66,14 @@ void AnyValueEditorTextPanel::UpdateJson()
 {
   if (auto item = mvvm::utils::GetTopItem<sup::gui::AnyValueItem>(m_model); item)
   {
+    SaveScrollBarPosition();
+
     try
     {
       auto any_value = sup::gui::CreateAnyValue(*item);
       auto str = sup::gui::AnyValueToJSONString(any_value, true);
       m_text_edit->setText(QString::fromStdString(str));
+      RestoreScrollBarPosition();
     }
     catch (const std::exception &ex)
     {
@@ -81,6 +86,23 @@ void AnyValueEditorTextPanel::UpdateJson()
   {
     m_text_edit->clear();
   }
+}
+
+void AnyValueEditorTextPanel::SaveScrollBarPosition()
+{
+  const int current_scrollbar_value = m_text_edit->verticalScrollBar()->value();
+  if (current_scrollbar_value > 0)
+  {
+    // We save scroll bar position only if current position is not zero.
+    // This is a simple way to ignore moments, when text editor was cleared because of
+    // inconsistency in the model.
+    m_cached_scrollbar_value = current_scrollbar_value;
+  }
+}
+
+void AnyValueEditorTextPanel::RestoreScrollBarPosition()
+{
+  m_text_edit->verticalScrollBar()->setValue(m_cached_scrollbar_value);
 }
 
 }  // namespace sup::gui

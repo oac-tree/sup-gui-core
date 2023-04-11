@@ -46,10 +46,13 @@ public:
 
 private:
   void UpdateJson();
+  void SaveScrollBarPosition();
+  void RestoreScrollBarPosition();
 
   QTextEdit* m_text_edit{nullptr};
   mvvm::ApplicationModel* m_model{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
+  int m_cached_scrollbar_value{0};
 };
 
 }  // namespace sup::gui
