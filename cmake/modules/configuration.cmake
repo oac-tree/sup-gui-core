@@ -100,5 +100,5 @@ find_package(sup-dto REQUIRED)
 # -----------------------------------------------------------------------------
 
 configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/testconfig.h.in ${SUP_GUI_CORE_AUTOGEN_DIR}/testconfig.h @ONLY)
-configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/version.h.in ${SUP_GUI_CORE_AUTOGEN_DIR}/version.h @ONLY)
+configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/version_constants.h.in ${SUP_GUI_CORE_AUTOGEN_DIR}/version_constants.h @ONLY)
 
