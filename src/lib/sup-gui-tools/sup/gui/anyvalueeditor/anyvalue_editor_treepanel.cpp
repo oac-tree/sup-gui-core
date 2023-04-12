@@ -32,12 +32,8 @@
 
 namespace
 {
-const QString kGroupName("AnyValueEditor");
-
-QString GetHeaderStateSettingName()
-{
-  return kGroupName + "/" + "header_state";
-}
+const QString kGroupName("AnyValueEditor/");
+const QString kHeaderStateSettingName = kGroupName + "header_state";
 
 }  // namespace
 
@@ -89,16 +85,16 @@ void AnyValueEditorTreePanel::AdjustColumnWidth()
 void AnyValueEditorTreePanel::ReadSettings()
 {
   const QSettings settings;
-  if (settings.contains(GetHeaderStateSettingName()))
+  if (settings.contains(kHeaderStateSettingName))
   {
-    m_custom_header->restoreState(settings.value(GetHeaderStateSettingName()).toByteArray());
+    m_custom_header->restoreState(settings.value(kHeaderStateSettingName).toByteArray());
   }
 }
 
 void AnyValueEditorTreePanel::WriteSettings()
 {
   QSettings settings;
-  settings.setValue(GetHeaderStateSettingName(), m_custom_header->saveState());
+  settings.setValue(kHeaderStateSettingName, m_custom_header->saveState());
 }
 
 }  // namespace sup::gui

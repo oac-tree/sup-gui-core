@@ -40,22 +40,11 @@
 
 namespace
 {
-const QString kGroupName("AnyValueEditor");
 
-QString GetCurrentWorkdirSettingName()
-{
-  return kGroupName + "/" + "workdir";
-}
-
-QString GetSplitterSettingName()
-{
-  return kGroupName + "/" + "splitter";
-}
-
-QString GetIsVisiblePanelSettingName()
-{
-  return kGroupName + "/" + "json_panel";
-}
+const QString kGroupName("AnyValueEditor/");
+const QString kCurrentWorkdirSettingName = kGroupName + "workdir";
+const QString kSplitterSettingName = kGroupName + "splitter";
+const QString kIsVisiblePanelSettingName = kGroupName + "json_panel";
 
 }  // namespace
 
@@ -151,23 +140,23 @@ AnyValueItem *AnyValueEditor::GetTopItem()
 void AnyValueEditor::ReadSettings()
 {
   const QSettings settings;
-  m_current_workdir = settings.value(GetCurrentWorkdirSettingName(), QDir::homePath()).toString();
+  m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
 
-  if (settings.contains(GetSplitterSettingName()))
+  if (settings.contains(kSplitterSettingName))
   {
-    m_splitter->restoreState(settings.value(GetSplitterSettingName()).toByteArray());
+    m_splitter->restoreState(settings.value(kSplitterSettingName).toByteArray());
   }
 
-  m_text_panel_is_visible = settings.value(GetIsVisiblePanelSettingName(), true).toBool();
+  m_text_panel_is_visible = settings.value(kIsVisiblePanelSettingName, true).toBool();
   m_text_edit->setVisible(m_text_panel_is_visible);
 }
 
 void AnyValueEditor::WriteSettings()
 {
   QSettings settings;
-  settings.setValue(GetCurrentWorkdirSettingName(), m_current_workdir);
-  settings.setValue(GetSplitterSettingName(), m_splitter->saveState());
-  settings.setValue(GetIsVisiblePanelSettingName(), m_text_panel_is_visible);
+  settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
+  settings.setValue(kSplitterSettingName, m_splitter->saveState());
+  settings.setValue(kIsVisiblePanelSettingName, m_text_panel_is_visible);
 }
 
 //! Set up all connections.
