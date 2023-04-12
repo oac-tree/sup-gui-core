@@ -22,6 +22,7 @@
 
 #include <QHeaderView>
 #include <vector>
+#include <QByteArray>
 
 namespace sup::gui
 {
@@ -36,7 +37,7 @@ class CustomHeaderView : public QHeaderView
 public:
   explicit CustomHeaderView(QWidget *parent);
 
-  void RestoreSize();
+  void RestoreFavoriteState();
 
   bool IsAdjustedByUser() const;
 
@@ -49,7 +50,7 @@ private:
 
   bool m_is_in_interactive_mode{false};
   bool m_is_adjusted_by_user{false};
-  std::vector<int> m_section_size;
+  QByteArray m_favorite_state;
 };
 
 }  // namespace sup::gui

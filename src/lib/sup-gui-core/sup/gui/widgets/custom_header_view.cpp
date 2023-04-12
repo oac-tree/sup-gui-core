@@ -19,6 +19,8 @@
 
 #include "custom_header_view.h"
 
+#include <QDebug>
+
 namespace sup::gui
 {
 
@@ -27,12 +29,15 @@ CustomHeaderView::CustomHeaderView(QWidget *parent) : QHeaderView(Qt::Horizontal
   connect(this, &QHeaderView::sectionResized, this, &CustomHeaderView::OnSectionResize);
 }
 
-void CustomHeaderView::RestoreSize()
+void CustomHeaderView::RestoreFavoriteState()
 {
-  for (size_t i = 0; i < m_section_size.size(); ++i)
-  {
-    resizeSection(i, m_section_size[i]);
-  }
+  //  for (size_t i = 0; i < m_section_size.size(); ++i)
+  //  {
+  //    qDebug() << "RestoreSize" << (this) << i << m_section_size[i];
+  //    resizeSection(i, m_section_size[i]);
+  //  }
+  qDebug() << "RestoreSize";
+  restoreState(m_favorite_state);
 }
 
 bool CustomHeaderView::IsAdjustedByUser() const
@@ -54,19 +59,29 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
 
 void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
 {
+  qDebug() << "OnSectionResize 2.1" << (this);
+  for (int i = 0; i < this->count(); ++i)
+  {
+    qDebug() << "    " << i << sectionSize(i);
+  }
+
   if (!m_is_in_interactive_mode)
   {
     return;
   }
 
+  qDebug() << "OnSectionResize 2.1";
+
   m_is_adjusted_by_user = true;
 
-  m_section_size.resize(this->count());
+  m_favorite_state = saveState();
 
-  for (int i = 0; i < this->count(); ++i)
-  {
-    m_section_size[i] = sectionSize(i);
-  }
+//  m_section_size.resize(this->count());
+
+//  for (int i = 0; i < this->count(); ++i)
+//  {
+//    m_section_size[i] = sectionSize(i);
+//  }
 }
 
 }  // namespace sup::gui

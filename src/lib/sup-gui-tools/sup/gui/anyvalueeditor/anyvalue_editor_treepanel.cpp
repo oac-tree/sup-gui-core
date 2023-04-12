@@ -20,6 +20,7 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/widgets/item_view_component_provider.h>
 
 #include <sup/gui/model/anyvalue_item.h>
@@ -29,6 +30,7 @@
 #include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <QDebug>
 
 namespace
 {
@@ -53,11 +55,25 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   layout->addWidget(m_tree_view);
 
   m_tree_view->setHeader(m_custom_header);
+  m_tree_view->setStretchLastSection(true);
 
   m_component_provider->SetApplicationModel(model);
   m_tree_view->expandAll();
 
   ReadSettings();
+
+  auto viewmodel = m_component_provider->GetViewModel();
+  auto on_rows_inserted = [this, viewmodel](const QModelIndex &parent, int first, int last)
+  {
+    qDebug() << "1.1";
+    if (viewmodel->rowCount() == 1)
+    {
+      qDebug() << "1.2";
+      m_custom_header->RestoreFavoriteState();
+//      AdjustColumnWidth();
+    }
+  };
+  connect(viewmodel, &mvvm::ViewModel::rowsInserted, this, on_rows_inserted);
 }
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
@@ -72,12 +88,15 @@ AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 
 void AnyValueEditorTreePanel::AdjustColumnWidth()
 {
+  qDebug() << "2.1";
   if (m_custom_header->IsAdjustedByUser())
   {
-    m_custom_header->RestoreSize();
+    qDebug() << "2.2";
+    m_custom_header->RestoreFavoriteState();
   }
   else
   {
+    qDebug() << "2.3";
     m_tree_view->resizeColumnToContents(0);
   }
 }
