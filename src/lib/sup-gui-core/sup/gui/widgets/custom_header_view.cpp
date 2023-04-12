@@ -19,8 +19,6 @@
 
 #include "custom_header_view.h"
 
-#include <QDebug>
-
 namespace sup::gui
 {
 
@@ -29,20 +27,27 @@ CustomHeaderView::CustomHeaderView(QWidget *parent) : QHeaderView(Qt::Horizontal
   connect(this, &QHeaderView::sectionResized, this, &CustomHeaderView::OnSectionResize);
 }
 
-void CustomHeaderView::RestoreFavoriteState()
+void CustomHeaderView::SetAsFavoriteState(QByteArray state)
 {
-  //  for (size_t i = 0; i < m_section_size.size(); ++i)
-  //  {
-  //    qDebug() << "RestoreSize" << (this) << i << m_section_size[i];
-  //    resizeSection(i, m_section_size[i]);
-  //  }
-  qDebug() << "RestoreSize";
-  restoreState(m_favorite_state);
+  m_favorite_state = std::move(state);
 }
 
-bool CustomHeaderView::IsAdjustedByUser() const
+void CustomHeaderView::RestoreFavoriteState()
 {
-  return m_is_adjusted_by_user;
+  if (!m_favorite_state.isEmpty())
+  {
+    restoreState(m_favorite_state);
+  }
+}
+
+bool CustomHeaderView::HasFavoriteState() const
+{
+  return !m_favorite_state.isEmpty();
+}
+
+QByteArray CustomHeaderView::GetFavoriteState() const
+{
+  return m_favorite_state;
 }
 
 void CustomHeaderView::mousePressEvent(QMouseEvent *event)
@@ -57,31 +62,16 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
   QHeaderView::mouseReleaseEvent(event);
 }
 
+//! Save size of columns in a header on any interactive resize activity. Will ignore programmatic
+//! column resize (i.e. due to resize of the parent widget).
 void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
 {
-  qDebug() << "OnSectionResize 2.1" << (this);
-  for (int i = 0; i < this->count(); ++i)
-  {
-    qDebug() << "    " << i << sectionSize(i);
-  }
-
   if (!m_is_in_interactive_mode)
   {
     return;
   }
 
-  qDebug() << "OnSectionResize 2.1";
-
-  m_is_adjusted_by_user = true;
-
   m_favorite_state = saveState();
-
-//  m_section_size.resize(this->count());
-
-//  for (int i = 0; i < this->count(); ++i)
-//  {
-//    m_section_size[i] = sectionSize(i);
-//  }
 }
 
 }  // namespace sup::gui

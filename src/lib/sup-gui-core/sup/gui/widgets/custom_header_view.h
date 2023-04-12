@@ -20,15 +20,16 @@
 #ifndef SUP_GUI_WIDGETS_CUSTOM_HEADER_VIEW_H_
 #define SUP_GUI_WIDGETS_CUSTOM_HEADER_VIEW_H_
 
-#include <QHeaderView>
-#include <vector>
 #include <QByteArray>
+#include <QHeaderView>
 
 namespace sup::gui
 {
 
-//! Horizontal header for QTreeView that remembers column size as they have been interactively
-//! adjusted.
+/**
+ * @brief The CustomHeaderView class provides a header for QTreeView that remembers column size as
+ * they have been interactively adjusted by the user.
+ */
 
 class CustomHeaderView : public QHeaderView
 {
@@ -37,9 +38,13 @@ class CustomHeaderView : public QHeaderView
 public:
   explicit CustomHeaderView(QWidget *parent);
 
+  void SetAsFavoriteState(QByteArray state);
+
   void RestoreFavoriteState();
 
-  bool IsAdjustedByUser() const;
+  bool HasFavoriteState() const;
+
+  QByteArray GetFavoriteState() const;
 
 protected:
   void mousePressEvent(QMouseEvent *event) override;
@@ -49,7 +54,6 @@ private:
   void OnSectionResize(int index, int prev_size, int new_size);
 
   bool m_is_in_interactive_mode{false};
-  bool m_is_adjusted_by_user{false};
   QByteArray m_favorite_state;
 };
 

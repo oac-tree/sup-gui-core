@@ -48,7 +48,7 @@ public:
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
-  void AdjustColumnWidth();
+  //  void AdjustColumnWidth();
 
 private:
   void ReadSettings();

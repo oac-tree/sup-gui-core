@@ -30,7 +30,6 @@
 #include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
-#include <QDebug>
 
 namespace
 {
@@ -55,25 +54,23 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   layout->addWidget(m_tree_view);
 
   m_tree_view->setHeader(m_custom_header);
-  m_tree_view->setStretchLastSection(true);
 
   m_component_provider->SetApplicationModel(model);
   m_tree_view->expandAll();
 
-  ReadSettings();
-
   auto viewmodel = m_component_provider->GetViewModel();
   auto on_rows_inserted = [this, viewmodel](const QModelIndex &parent, int first, int last)
   {
-    qDebug() << "1.1";
+    // On first insertion into an empty view, restore size of columns, as they have been
+    // adjusted by the user before.
     if (viewmodel->rowCount() == 1)
     {
-      qDebug() << "1.2";
       m_custom_header->RestoreFavoriteState();
-//      AdjustColumnWidth();
     }
   };
   connect(viewmodel, &mvvm::ViewModel::rowsInserted, this, on_rows_inserted);
+
+  ReadSettings();
 }
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
@@ -86,34 +83,19 @@ AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
   return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
 }
 
-void AnyValueEditorTreePanel::AdjustColumnWidth()
-{
-  qDebug() << "2.1";
-  if (m_custom_header->IsAdjustedByUser())
-  {
-    qDebug() << "2.2";
-    m_custom_header->RestoreFavoriteState();
-  }
-  else
-  {
-    qDebug() << "2.3";
-    m_tree_view->resizeColumnToContents(0);
-  }
-}
-
 void AnyValueEditorTreePanel::ReadSettings()
 {
   const QSettings settings;
   if (settings.contains(kHeaderStateSettingName))
   {
-    m_custom_header->restoreState(settings.value(kHeaderStateSettingName).toByteArray());
+    m_custom_header->SetAsFavoriteState(settings.value(kHeaderStateSettingName).toByteArray());
   }
 }
 
 void AnyValueEditorTreePanel::WriteSettings()
 {
   QSettings settings;
-  settings.setValue(kHeaderStateSettingName, m_custom_header->saveState());
+  settings.setValue(kHeaderStateSettingName, m_custom_header->GetFavoriteState());
 }
 
 }  // namespace sup::gui
