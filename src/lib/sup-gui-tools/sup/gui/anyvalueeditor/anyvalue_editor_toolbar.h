@@ -42,7 +42,7 @@ public:
   ~AnyValueEditorToolBar() override;
 
 signals:
-  void HidePannelButtonRequest();
+  void ToggleTextPanelVisibilityRequest();
   void ImportFromFileRequest();
   void ExportToFileRequest();
 

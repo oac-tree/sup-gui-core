@@ -34,6 +34,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
+#include <QCloseEvent>
 #include <QDebug>
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -54,6 +55,11 @@ QString GetCurrentWorkdirSettingName()
 QString GetSplitterSettingName()
 {
   return kAnyValueEditorGroupName + "/" + "splitter";
+}
+
+QString GetIsVisiblePanelSettingName()
+{
+  return kAnyValueEditorGroupName + "/" + "json_panel";
 }
 
 }  // namespace
@@ -160,6 +166,9 @@ void AnyValueEditor::ReadSettings()
   {
     m_splitter->restoreState(settings.value(GetSplitterSettingName()).toByteArray());
   }
+
+  m_text_panel_is_visible = settings.value(GetIsVisiblePanelSettingName(), true).toBool();
+  m_text_edit->setVisible(m_text_panel_is_visible);
 }
 
 void AnyValueEditor::WriteSettings()
@@ -167,14 +176,19 @@ void AnyValueEditor::WriteSettings()
   QSettings settings;
   settings.setValue(GetCurrentWorkdirSettingName(), m_current_workdir);
   settings.setValue(GetSplitterSettingName(), m_splitter->saveState());
+  settings.setValue(GetIsVisiblePanelSettingName(), m_text_panel_is_visible);
 }
 
 //! Set up all connections.
 
 void AnyValueEditor::SetupConnections()
 {
-  auto on_panel = [this]() { m_text_edit->setVisible(!m_text_edit->isVisible()); };
-  connect(m_tool_bar, &AnyValueEditorToolBar::HidePannelButtonRequest, this, on_panel);
+  auto on_panel = [this]()
+  {
+    m_text_panel_is_visible = !m_text_panel_is_visible;
+    m_text_edit->setVisible(m_text_panel_is_visible);
+  };
+  connect(m_tool_bar, &AnyValueEditorToolBar::ToggleTextPanelVisibilityRequest, this, on_panel);
 
   connect(m_tool_bar, &AnyValueEditorToolBar::ImportFromFileRequest, this,
           &AnyValueEditor::OnImportFromFileRequest);

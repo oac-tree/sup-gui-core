@@ -78,6 +78,7 @@ private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 
   QString m_current_workdir;  //! directory used during import/export operations
+  bool m_text_panel_is_visible{true};
 };
 
 }  // namespace sup::gui

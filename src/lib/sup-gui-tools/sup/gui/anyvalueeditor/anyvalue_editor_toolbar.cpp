@@ -81,7 +81,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActions *actions, QWi
   m_hide_pannel_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_hide_pannel_button->setToolTip("Hide/show the panel with JSON presentation");
   connect(m_hide_pannel_button, &QToolButton::clicked, this,
-          &AnyValueEditorToolBar::HidePannelButtonRequest);
+          &AnyValueEditorToolBar::ToggleTextPanelVisibilityRequest);
   addWidget(m_hide_pannel_button);
 
   m_export_button->setText("Export");
