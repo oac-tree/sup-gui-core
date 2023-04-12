@@ -22,8 +22,18 @@
 
 #include <QWidget>
 
+class QTreeView;
+
+namespace mvvm
+{
+class ApplicationModel;
+class ItemViewComponentProvider;
+}  // namespace mvvm
+
 namespace sup::gui
 {
+
+class AnyValueItem;
 
 //! A panel with a tree on the left side of AnyValueEditor.
 
@@ -32,7 +42,15 @@ class AnyValueEditorTreePanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTreePanel(QWidget* parent = nullptr);
+  explicit AnyValueEditorTreePanel(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
+  ~AnyValueEditorTreePanel() override;
+
+  sup::gui::AnyValueItem* GetSelectedItem() const;
+
+private:
+  QTreeView* m_tree_view{nullptr};
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
+
 };
 
 }  // namespace sup::gui

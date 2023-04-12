@@ -32,7 +32,6 @@ class QTreeView;
 namespace mvvm
 {
 class ApplicationModel;
-class AllItemsTreeView;
 class ItemViewComponentProvider;
 }  // namespace mvvm
 
@@ -43,6 +42,7 @@ class AnyValueItem;
 class AnyValueEditorToolBar;
 class AnyValueEditorActions;
 class AnyValueEditorTextPanel;
+class AnyValueEditorTreePanel;
 
 class AnyValueEditor : public QWidget
 {
@@ -72,10 +72,9 @@ private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorToolBar* m_tool_bar{nullptr};
-  QTreeView* m_tree_view{nullptr};
   AnyValueEditorTextPanel* m_text_edit{nullptr};
+  AnyValueEditorTreePanel* m_tree_panel{nullptr};
   QSplitter* m_splitter{nullptr};
-  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 
   QString m_current_workdir;  //! directory used during import/export operations
   bool m_text_panel_is_visible{true};

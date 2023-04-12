@@ -22,26 +22,21 @@
 #include "anyvalue_editor_actions.h"
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_toolbar.h"
+#include "anyvalue_editor_treepanel.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
-#include <mvvm/widgets/all_items_tree_view.h>
-#include <mvvm/widgets/item_view_component_provider.h>
 
 #include <sup/dto/anyvalue.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
-#include <QCloseEvent>
-#include <QDebug>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
-#include <QTreeView>
 
 namespace
 {
@@ -72,15 +67,14 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_actions(new AnyValueEditorActions(CreateActionContext(), m_model.get(), this))
     , m_tool_bar(new AnyValueEditorToolBar(m_actions))
-    , m_tree_view(new QTreeView)
     , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
+    , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
     , m_splitter(new QSplitter)
-    , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_tool_bar);
 
-  m_splitter->addWidget(m_tree_view);
+  m_splitter->addWidget(m_tree_panel);
   m_splitter->addWidget(m_text_edit);
   m_splitter->setCollapsible(0, false);
   m_splitter->setCollapsible(1, false);
@@ -93,9 +87,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   m_model->RegisterItem<sup::gui::AnyValueStructItem>();
   m_model->RegisterItem<sup::gui::AnyValueArrayItem>();
   m_model->RegisterItem<sup::gui::AnyValueScalarItem>();
-
-  m_component_provider->SetApplicationModel(m_model.get());
-  m_tree_view->expandAll();
 
   SetupConnections();
 
@@ -141,7 +132,7 @@ void AnyValueEditor::OnExportToFileRequest()
 
 sup::gui::AnyValueItem *AnyValueEditor::GetSelectedItem() const
 {
-  return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
+  return m_tree_panel->GetSelectedItem();
 }
 
 //! Sets initial value. The given value will be cloned inside the editor's model and used as
