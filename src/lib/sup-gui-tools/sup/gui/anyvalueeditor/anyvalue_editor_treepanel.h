@@ -34,6 +34,7 @@ namespace sup::gui
 {
 
 class AnyValueItem;
+class CustomHeaderView;
 
 //! A panel with a tree on the left side of AnyValueEditor.
 
@@ -47,10 +48,15 @@ public:
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
-private:
-  QTreeView* m_tree_view{nullptr};
-  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
+  void AdjustColumnWidth();
 
+private:
+  void ReadSettings();
+  void WriteSettings();
+
+  QTreeView* m_tree_view{nullptr};
+  CustomHeaderView* m_custom_header{nullptr};
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };
 
 }  // namespace sup::gui

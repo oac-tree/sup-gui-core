@@ -19,14 +19,27 @@
 
 #include "anyvalue_editor_treepanel.h"
 
-#include <mvvm/widgets/item_view_component_provider.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/widgets/item_view_component_provider.h>
 
-#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
+#include <sup/gui/widgets/custom_header_view.h>
 
+#include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
+
+namespace
+{
+const QString kGroupName("AnyValueEditor");
+
+QString GetHeaderStateSettingName()
+{
+  return kGroupName + "/" + "header_state";
+}
+
+}  // namespace
 
 namespace sup::gui
 {
@@ -34,6 +47,7 @@ namespace sup::gui
 AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, QWidget *parent)
     : QWidget(parent)
     , m_tree_view(new QTreeView)
+    , m_custom_header(new sup::gui::CustomHeaderView(this))
     , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
 {
   auto layout = new QVBoxLayout(this);
@@ -42,15 +56,49 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
 
   layout->addWidget(m_tree_view);
 
+  m_tree_view->setHeader(m_custom_header);
+
   m_component_provider->SetApplicationModel(model);
   m_tree_view->expandAll();
+
+  ReadSettings();
 }
 
-AnyValueEditorTreePanel::~AnyValueEditorTreePanel() = default;
+AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
+{
+  WriteSettings();
+}
 
 AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 {
   return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
+}
+
+void AnyValueEditorTreePanel::AdjustColumnWidth()
+{
+  if (m_custom_header->IsAdjustedByUser())
+  {
+    m_custom_header->RestoreSize();
+  }
+  else
+  {
+    m_tree_view->resizeColumnToContents(0);
+  }
+}
+
+void AnyValueEditorTreePanel::ReadSettings()
+{
+  const QSettings settings;
+  if (settings.contains(GetHeaderStateSettingName()))
+  {
+    m_custom_header->restoreState(settings.value(GetHeaderStateSettingName()).toByteArray());
+  }
+}
+
+void AnyValueEditorTreePanel::WriteSettings()
+{
+  QSettings settings;
+  settings.setValue(GetHeaderStateSettingName(), m_custom_header->saveState());
 }
 
 }  // namespace sup::gui

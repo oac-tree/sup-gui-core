@@ -40,21 +40,21 @@
 
 namespace
 {
-const QString kAnyValueEditorGroupName("AnyValueEditor");
+const QString kGroupName("AnyValueEditor");
 
 QString GetCurrentWorkdirSettingName()
 {
-  return kAnyValueEditorGroupName + "/" + "workdir";
+  return kGroupName + "/" + "workdir";
 }
 
 QString GetSplitterSettingName()
 {
-  return kAnyValueEditorGroupName + "/" + "splitter";
+  return kGroupName + "/" + "splitter";
 }
 
 QString GetIsVisiblePanelSettingName()
 {
-  return kAnyValueEditorGroupName + "/" + "json_panel";
+  return kGroupName + "/" + "json_panel";
 }
 
 }  // namespace
