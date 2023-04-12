@@ -23,10 +23,6 @@
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_toolbar.h"
 
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
@@ -34,6 +30,9 @@
 #include <mvvm/widgets/item_view_component_provider.h>
 
 #include <sup/dto/anyvalue.h>
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
 #include <QDebug>
 #include <QFileDialog>
@@ -51,6 +50,12 @@ QString GetCurrentWorkdirSettingName()
 {
   return kAnyValueEditorGroupName + "/" + "workdir";
 }
+
+QString GetSplitterSettingName()
+{
+  return kAnyValueEditorGroupName + "/" + "splitter";
+}
+
 }  // namespace
 
 namespace sup::gui
@@ -66,13 +71,13 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
     , m_splitter(new QSplitter)
     , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
 {
-  ReadSettings();
-
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_tool_bar);
 
   m_splitter->addWidget(m_tree_view);
   m_splitter->addWidget(m_text_edit);
+  m_splitter->setCollapsible(0, false);
+  m_splitter->setCollapsible(1, false);
 
   layout->addWidget(m_splitter);
 
@@ -87,6 +92,8 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   m_tree_view->expandAll();
 
   SetupConnections();
+
+  ReadSettings();
 }
 
 AnyValueEditor::~AnyValueEditor()
@@ -148,12 +155,18 @@ void AnyValueEditor::ReadSettings()
 {
   const QSettings settings;
   m_current_workdir = settings.value(GetCurrentWorkdirSettingName(), QDir::homePath()).toString();
+
+  if (settings.contains(GetSplitterSettingName()))
+  {
+    m_splitter->restoreState(settings.value(GetSplitterSettingName()).toByteArray());
+  }
 }
 
 void AnyValueEditor::WriteSettings()
 {
   QSettings settings;
   settings.setValue(GetCurrentWorkdirSettingName(), m_current_workdir);
+  settings.setValue(GetSplitterSettingName(), m_splitter->saveState());
 }
 
 //! Set up all connections.
@@ -201,7 +214,7 @@ void AnyValueEditor::UpdateCurrentWorkdir(const QString &file_name)
 void AnyValueEditor::ImportAnyValueFromFile(const QString &file_name)
 {
   // FIXME expandAll will not work if uncomment. Check this after the refactoring of
-  // ViewModelConrtoller
+  // ViewModelController
 
   //  m_component_provider->SetApplicationModel(nullptr);
   m_actions->OnImportFromFileRequest(file_name.toStdString());

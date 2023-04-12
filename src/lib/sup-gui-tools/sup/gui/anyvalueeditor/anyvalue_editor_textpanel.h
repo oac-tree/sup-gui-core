@@ -42,7 +42,7 @@ class AnyValueEditorTextPanel : public QWidget
 
 public:
   explicit AnyValueEditorTextPanel(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
-  ~AnyValueEditorTextPanel();
+  ~AnyValueEditorTextPanel() override;
 
 private:
   void UpdateJson();
