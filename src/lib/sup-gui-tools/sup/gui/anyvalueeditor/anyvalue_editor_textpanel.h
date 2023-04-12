@@ -33,8 +33,7 @@ class ModelHasChangedController;
 namespace sup::gui
 {
 
-//! Collapsible panel on the right of AnyValueEditor with json representation of AnyValueItem being
-//! edited.
+//! Collapsible panel on the right of AnyValueEditor with JSON representation of AnyValue.
 
 class AnyValueEditorTextPanel : public QWidget
 {

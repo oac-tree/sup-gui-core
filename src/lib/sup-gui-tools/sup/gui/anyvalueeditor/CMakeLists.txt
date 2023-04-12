@@ -8,6 +8,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_textpanel.h
   anyvalue_editor_toolbar.cpp
   anyvalue_editor_toolbar.h
+  anyvalue_editor_treepanel.cpp
+  anyvalue_editor_treepanel.h
 )
 
 add_subdirectory(highlighter)
