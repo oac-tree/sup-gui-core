@@ -80,6 +80,14 @@ void MainWindow::InitMenu()
   file_menu->addAction(save_action);
   connect(save_action, &QAction::triggered, m_anyvalue_editor,
           &sup::gui::AnyValueEditor::OnExportToFileRequest);
+
+  auto exit_action = new QAction("E&xit Application", this);
+  exit_action->setShortcuts(QKeySequence::Quit);
+  exit_action->setStatusTip("Exit the application");
+  connect(exit_action, &QAction::triggered, this, &QMainWindow::close);
+
+  file_menu->addSeparator();
+  file_menu->addAction(exit_action);
 }
 
 void MainWindow::InitComponents()
