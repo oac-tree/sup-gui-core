@@ -139,6 +139,7 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
   child->SetAnyTypeName(field_type);
   child->SetData(value);
   child->SetDisplayName(field_name);
+  child->SetToolTip(field_type);
   return child;
 }
 
