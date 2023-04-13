@@ -23,6 +23,8 @@
 #include <QObject>
 
 class QMainWindow;
+class QMenuBar;
+class QAction;
 
 namespace anyvalueeditor
 {
@@ -32,9 +34,21 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(QMainWindow* parent = nullptr);
+  explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
+
+signals:
+  void OnImportFromFileRequest();
+  void OnExportToFileRequest();
+
+private:
+  void CreateActions(QMainWindow* mainwindow);
+  void SetupMenus(QMenuBar* menubar);
+
+  QAction* m_open_action{nullptr};
+  QAction* m_save_action{nullptr};
+  QAction* m_exit_action{nullptr};
 };
 
-}  // namespace sup::gui
+}  // namespace anyvalueeditor
 
 #endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_

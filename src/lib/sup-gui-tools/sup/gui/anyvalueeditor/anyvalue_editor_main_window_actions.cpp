@@ -19,14 +19,46 @@
 
 #include "anyvalue_editor_main_window_actions.h"
 
+#include <QAction>
 #include <QMainWindow>
+#include <QMenuBar>
 
 namespace anyvalueeditor
 {
 
-AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *parent)
-    : QObject(parent)
+AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *mainwindow)
+    : QObject(mainwindow)
 {
+  CreateActions(mainwindow);
+  SetupMenus(mainwindow->menuBar());
 }
 
-}  // namespace sup::gui
+void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
+{
+  m_open_action = new QAction("Open", this);
+  m_open_action->setShortcuts(QKeySequence::Open);
+  connect(m_open_action, &QAction::triggered, this,
+          &AnyValueEditorMainWindowActions::OnImportFromFileRequest);
+
+  m_save_action = new QAction("Save", this);
+  m_save_action->setShortcuts(QKeySequence::Save);
+  connect(m_save_action, &QAction::triggered, this,
+          &AnyValueEditorMainWindowActions::OnExportToFileRequest);
+
+  m_exit_action = new QAction("E&xit Application", this);
+  m_exit_action->setShortcuts(QKeySequence::Quit);
+  m_exit_action->setStatusTip("Exit the application");
+  connect(m_exit_action, &QAction::triggered, mainwindow, &QMainWindow::close);
+}
+
+void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
+{
+  auto file_menu = menubar->addMenu("&File");
+
+  file_menu->addAction(m_open_action);
+  file_menu->addAction(m_save_action);
+  file_menu->addSeparator();
+  file_menu->addAction(m_exit_action);
+}
+
+}  // namespace anyvalueeditor

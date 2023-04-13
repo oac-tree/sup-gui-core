@@ -50,7 +50,6 @@ protected:
 
 private:
   void InitApplication();
-  void InitMenu();
   void InitComponents();
   void ReadSettings();
   void WriteSettings();

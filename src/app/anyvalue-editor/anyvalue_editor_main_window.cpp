@@ -61,34 +61,6 @@ void AnyValueEditorMainWindow::InitApplication()
 {
   ReadSettings();
   InitComponents();
-  InitMenu();
-}
-
-void AnyValueEditorMainWindow::InitMenu()
-{
-  Q_ASSERT(m_anyvalue_editor);
-
-  auto file_menu = menuBar()->addMenu("&File");
-
-  auto open_action = new QAction("Open", this);
-  open_action->setShortcuts(QKeySequence::Open);
-  file_menu->addAction(open_action);
-  connect(open_action, &QAction::triggered, m_anyvalue_editor,
-          &sup::gui::AnyValueEditor::OnImportFromFileRequest);
-
-  auto save_action = new QAction("Save", this);
-  save_action->setShortcuts(QKeySequence::Save);
-  file_menu->addAction(save_action);
-  connect(save_action, &QAction::triggered, m_anyvalue_editor,
-          &sup::gui::AnyValueEditor::OnExportToFileRequest);
-
-  auto exit_action = new QAction("E&xit Application", this);
-  exit_action->setShortcuts(QKeySequence::Quit);
-  exit_action->setStatusTip("Exit the application");
-  connect(exit_action, &QAction::triggered, this, &QMainWindow::close);
-
-  file_menu->addSeparator();
-  file_menu->addAction(exit_action);
 }
 
 void AnyValueEditorMainWindow::InitComponents()
@@ -97,6 +69,11 @@ void AnyValueEditorMainWindow::InitComponents()
 
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
   setCentralWidget(m_anyvalue_editor);
+
+  connect(m_action_manager, &AnyValueEditorMainWindowActions::OnImportFromFileRequest,
+          m_anyvalue_editor, &sup::gui::AnyValueEditor::OnImportFromFileRequest);
+  connect(m_action_manager, &AnyValueEditorMainWindowActions::OnExportToFileRequest,
+          m_anyvalue_editor, &sup::gui::AnyValueEditor::OnExportToFileRequest);
 }
 
 void AnyValueEditorMainWindow::ReadSettings()
