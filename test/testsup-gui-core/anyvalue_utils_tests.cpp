@@ -28,7 +28,7 @@
 
 using namespace sup::gui;
 
-//! Testing methods from ShallNotBeNamedValueUtils
+//! Testing methods from AnyValueUtils.
 
 class AnyValueUtilsTest : public ::testing::Test
 {

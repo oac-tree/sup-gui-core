@@ -54,7 +54,8 @@ public:
 AnyValueViewModel::AnyValueViewModel(mvvm::SessionModelInterface *model, QObject *parent)
     : ViewModel(parent)
 {
-  SetController(mvvm::factory::CreateController<mvvm::TopItemsStrategy, RowStrategy>(model, this));
+  SetController(
+      mvvm::factory::CreateController<mvvm::AllChildrenStrategy, RowStrategy>(model, this));
 }
 
 }  // namespace sup::gui
