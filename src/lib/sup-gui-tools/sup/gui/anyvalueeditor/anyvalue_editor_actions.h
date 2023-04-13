@@ -75,7 +75,7 @@ private:
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 
-  void AddAnyValueItem(std::unique_ptr<AnyValueItem> item, const std::string& item_name);
+  void AddAnyValueItem(std::unique_ptr<AnyValueItem> item);
 
   mvvm::ApplicationModel* m_model{nullptr};
   AnyValueEditorContext m_context;

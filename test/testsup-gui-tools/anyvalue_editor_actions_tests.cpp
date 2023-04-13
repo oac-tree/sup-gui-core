@@ -168,7 +168,9 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToAnotherStruct)
 
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueStruct"));
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kStructTypeName);
+
+  const std::string expected_field_name("field0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 
 //! Attempt to add a structure as a field to a scalar.
@@ -209,7 +211,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 
   // expecting warning callback further down
@@ -242,7 +244,8 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToStruct)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::dto::kInt32TypeName);
+  const std::string expected_field_name("field0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 };
 
@@ -266,7 +269,8 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToArray)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::dto::kInt32TypeName);
+  const std::string expected_field_name("index0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 };
 
@@ -391,7 +395,8 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueArrayToStruct)
 
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueArray"));
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kArrayTypeName);
+  const std::string expected_field_name("field0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 
 //! Attempt to add array as a field to a scalar.

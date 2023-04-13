@@ -19,6 +19,8 @@
 
 #include "anyvalue_editor_actions.h"
 
+#include "anyvalue_editor_helper.h"
+
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
@@ -43,12 +45,12 @@ AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorContext context,
 
 void AnyValueEditorActions::OnAddAnyValueStruct()
 {
-  AddAnyValueItem(std::make_unique<AnyValueStructItem>(), ::sup::gui::kStructTypeName);
+  AddAnyValueItem(std::make_unique<AnyValueStructItem>());
 }
 
 void AnyValueEditorActions::OnAddAnyValueArray()
 {
-  AddAnyValueItem(std::make_unique<AnyValueArrayItem>(), ::sup::gui::kArrayTypeName);
+  AddAnyValueItem(std::make_unique<AnyValueArrayItem>());
 }
 
 void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
@@ -64,7 +66,7 @@ void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
 
   auto item = std::make_unique<AnyValueScalarItem>();
   item->SetAnyTypeName(scalar_type);
-  AddAnyValueItem(std::move(item), scalar_type);
+  AddAnyValueItem(std::move(item));
 }
 
 void AnyValueEditorActions::OnRemoveSelected()
@@ -144,8 +146,7 @@ void AnyValueEditorActions::SendMessage(const std::string& text, const std::stri
   m_context.send_message_callback(message);
 }
 
-void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item,
-                                            const std::string& item_name)
+void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item)
 {
   if (!GetSelectedItem() && GetTopItem())
   {
@@ -157,12 +158,12 @@ void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item,
   {
     try
     {
-      item->SetDisplayName(item_name);
+      SetupDisplayName(*parent, *item);
       m_model->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
     }
     catch (const std::exception& ex)
     {
-      SendMessage("Can't add item `" + item_name + "' to current selection", "", ex.what());
+      SendMessage("Can't add item `' to current selection", "", ex.what());
     }
   }
 }

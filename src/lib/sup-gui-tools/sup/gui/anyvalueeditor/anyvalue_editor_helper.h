@@ -27,15 +27,19 @@
 namespace mvvm
 {
 class ApplicationModel;
+class SessionItem;
 }
 
 namespace sup::gui
 {
 class AnyValueItem;
-}
 
-namespace sup::gui
-{
+/**
+ * @brief Sets appropriate display name for a child.
+ * @param parent A parent where a child will be inserted.
+ * @param child Future child of a parent
+ */
+void SetupDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child);
 
 }  // namespace sup::gui
 
