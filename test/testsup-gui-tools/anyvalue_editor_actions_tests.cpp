@@ -19,6 +19,8 @@
 
 #include "sup/gui/anyvalueeditor/anyvalue_editor_actions.h"
 
+#include "sup/gui/anyvalueeditor/anyvalue_editor_helper.h"
+
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
@@ -169,7 +171,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToAnotherStruct)
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueStruct"));
 
-  const std::string expected_field_name("field0");
+  const std::string expected_field_name(kFieldNamePrefix+"0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 
@@ -244,7 +246,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToStruct)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  const std::string expected_field_name("field0");
+  const std::string expected_field_name(kFieldNamePrefix+"0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 };
@@ -269,7 +271,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToArray)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  const std::string expected_field_name("index0");
+  const std::string expected_field_name(kElementNamePrefix+"0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 };
@@ -395,7 +397,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueArrayToStruct)
 
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueArray"));
-  const std::string expected_field_name("field0");
+  const std::string expected_field_name(kFieldNamePrefix+"0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 

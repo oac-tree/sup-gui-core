@@ -34,6 +34,9 @@ namespace sup::gui
 {
 class AnyValueItem;
 
+const std::string kFieldNamePrefix = "field";
+const std::string kElementNamePrefix = "element";
+
 /**
  * @brief Sets appropriate display name for a child.
  * @param parent A parent where a child will be inserted.

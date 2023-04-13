@@ -23,13 +23,6 @@
 
 #include <mvvm/model/application_model.h>
 
-namespace
-{
-const char* kFieldPrefix = "field";
-const char* kIndexPrefix = "index";
-
-}  // namespace
-
 namespace sup::gui
 {
 
@@ -45,7 +38,7 @@ void SetupDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child)
   if (parent.GetType() == AnyValueStructItem::Type)
   {
     auto struct_item = static_cast<const AnyValueStructItem*>(&parent);
-    std::string display_name = kFieldPrefix + std::to_string(struct_item->GetChildrenCount());
+    std::string display_name = kFieldNamePrefix + std::to_string(struct_item->GetChildrenCount());
     child.SetDisplayName(display_name);
     return;
   }
@@ -53,7 +46,7 @@ void SetupDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child)
   if (parent.GetType() == AnyValueArrayItem::Type)
   {
     auto struct_item = static_cast<const AnyValueArrayItem*>(&parent);
-    std::string display_name = kIndexPrefix + std::to_string(struct_item->GetChildrenCount());
+    std::string display_name = kElementNamePrefix + std::to_string(struct_item->GetChildrenCount());
     child.SetDisplayName(display_name);
     return;
   }
