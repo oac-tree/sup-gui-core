@@ -75,39 +75,11 @@ private:
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 
-  template <typename T>
-  T* AddAnyValueItem(const std::string& item_name);
+  void AddAnyValueItem(std::unique_ptr<AnyValueItem> item, const std::string& item_name);
 
   mvvm::ApplicationModel* m_model{nullptr};
   AnyValueEditorContext m_context;
 };
-
-template <typename T>
-inline T* AnyValueEditorActions::AddAnyValueItem(const std::string& item_name)
-{
-  T* result{nullptr};
-
-  if (!GetSelectedItem() && GetTopItem())
-  {
-    SendMessage("Please select an item where you want to add a field");
-    return nullptr;
-  }
-
-  if (auto parent = GetParent(); parent)
-  {
-    try
-    {
-      result = m_model->InsertItem<T>(parent, mvvm::TagIndex::Append());
-      result->SetDisplayName(item_name);
-    }
-    catch (const std::exception& ex)
-    {
-      SendMessage("Can't add item `" + item_name + "' to current selection", "", ex.what());
-    }
-  }
-
-  return result;
-}
 
 }  // namespace sup::gui
 

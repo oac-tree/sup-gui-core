@@ -43,12 +43,12 @@ AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorContext context,
 
 void AnyValueEditorActions::OnAddAnyValueStruct()
 {
-  AddAnyValueItem<sup::gui::AnyValueStructItem>(::sup::gui::kStructTypeName);
+  AddAnyValueItem(std::make_unique<AnyValueStructItem>(), ::sup::gui::kStructTypeName);
 }
 
 void AnyValueEditorActions::OnAddAnyValueArray()
 {
-  AddAnyValueItem<sup::gui::AnyValueArrayItem>(::sup::gui::kArrayTypeName);
+  AddAnyValueItem(std::make_unique<AnyValueArrayItem>(), ::sup::gui::kArrayTypeName);
 }
 
 void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
@@ -62,10 +62,9 @@ void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
     }
   }
 
-  if (auto result = AddAnyValueItem<sup::gui::AnyValueScalarItem>(scalar_type); result)
-  {
-    result->SetAnyTypeName(scalar_type);
-  }
+  auto item = std::make_unique<AnyValueScalarItem>();
+  item->SetAnyTypeName(scalar_type);
+  AddAnyValueItem(std::move(item), scalar_type);
 }
 
 void AnyValueEditorActions::OnRemoveSelected()
@@ -143,6 +142,29 @@ void AnyValueEditorActions::SendMessage(const std::string& text, const std::stri
 {
   auto message = sup::gui::CreateInvalidOperationMessage(text, informative, details);
   m_context.send_message_callback(message);
+}
+
+void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item,
+                                            const std::string& item_name)
+{
+  if (!GetSelectedItem() && GetTopItem())
+  {
+    SendMessage("Please select an item where you want to add a field");
+    return;
+  }
+
+  if (auto parent = GetParent(); parent)
+  {
+    try
+    {
+      item->SetDisplayName(item_name);
+      m_model->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
+    }
+    catch (const std::exception& ex)
+    {
+      SendMessage("Can't add item `" + item_name + "' to current selection", "", ex.what());
+    }
+  }
 }
 
 }  // namespace sup::gui

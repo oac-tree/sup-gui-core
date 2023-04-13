@@ -29,4 +29,7 @@ class AnyValueEditorHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(AnyValueEditorHelperTest, InitialState) {}
+TEST_F(AnyValueEditorHelperTest, InitialState)
+{
+
+}
