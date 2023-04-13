@@ -44,6 +44,8 @@ public:
   virtual bool IsArray() const;
 
   virtual std::vector<AnyValueItem*> GetChildren() const;
+
+  int GetChildrenCount() const;
 };
 
 //! The item to represent AnyValue empty item.

@@ -59,6 +59,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
     EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
+    EXPECT_EQ(item.GetChildrenCount(), 0);
   }
 
   {  // AnyValueScalarItem
@@ -73,6 +74,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kScalarTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
+    EXPECT_EQ(item.GetChildrenCount(), 0);
   }
 
   {  // AnyValueStructItem
@@ -87,6 +89,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kStructTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
+    EXPECT_EQ(item.GetChildrenCount(), 0);
   }
 
   {  // AnyValueArrayItem
@@ -101,6 +104,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kArrayTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
+    EXPECT_EQ(item.GetChildrenCount(), 0);
   }
 }
 
@@ -140,6 +144,7 @@ TEST_F(AnyValueItemTest, AddScalarField)
   EXPECT_EQ(scalar->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(scalar->Data<int>(), 42);
   EXPECT_EQ(item.GetChildren(), std::vector<AnyValueItem*>({scalar}));
+  EXPECT_EQ(item.GetChildrenCount(), 1);
 }
 
 TEST_F(AnyValueItemTest, Clone)

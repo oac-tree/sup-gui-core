@@ -74,6 +74,11 @@ std::vector<AnyValueItem*> AnyValueItem::GetChildren() const
   return {};
 }
 
+int AnyValueItem::GetChildrenCount() const
+{
+  return static_cast<int>(GetChildren().size());
+}
+
 // ----------------------------------------------------------------------------
 // AnyValueEmptyItem
 // ----------------------------------------------------------------------------
