@@ -19,13 +19,13 @@
 
 #include "anyvalue_editor_treepanel.h"
 
-#include <mvvm/model/application_model.h>
-#include <mvvm/viewmodel/viewmodel.h>
-#include <mvvm/widgets/item_view_component_provider.h>
-
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 #include <sup/gui/widgets/custom_header_view.h>
+
+#include <mvvm/model/application_model.h>
+#include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/widgets/item_view_component_provider.h>
 
 #include <QSettings>
 #include <QTreeView>
@@ -54,6 +54,10 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   layout->addWidget(m_tree_view);
 
   m_tree_view->setHeader(m_custom_header);
+  m_tree_view->setEditTriggers(QAbstractItemView::SelectedClicked
+                               | QAbstractItemView::EditKeyPressed
+                               | QAbstractItemView::DoubleClicked);
+  m_tree_view->setAlternatingRowColors(true);
 
   m_component_provider->SetApplicationModel(model);
   m_tree_view->expandAll();
