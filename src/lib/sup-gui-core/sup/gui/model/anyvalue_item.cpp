@@ -33,7 +33,10 @@ static inline const int kAnyTypeNameRole = 10;  // role to store type name
 // AnyValueItem
 // ----------------------------------------------------------------------------
 
-AnyValueItem::AnyValueItem(const std::string& item_type) : CompoundItem(item_type) {}
+AnyValueItem::AnyValueItem(const std::string& item_type) : CompoundItem(item_type)
+{
+  SetFlag(mvvm::Appearance::kProperty, true);
+}
 
 std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone(bool make_unique_id) const
 {

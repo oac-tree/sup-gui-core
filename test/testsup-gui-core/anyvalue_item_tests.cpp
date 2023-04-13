@@ -58,6 +58,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
     EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
+    EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
   }
 
   {  // AnyValueScalarItem
@@ -71,6 +72,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kScalarTypeName);
+    EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
   }
 
   {  // AnyValueStructItem
@@ -84,6 +86,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kStructTypeName);
+    EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
   }
 
   {  // AnyValueArrayItem
@@ -97,6 +100,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kArrayTypeName);
+    EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
   }
 }
 
