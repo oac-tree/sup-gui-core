@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace sequencergui
+namespace sup::gui
 {
 
 //! Returns major project version.

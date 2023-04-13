@@ -7,5 +7,6 @@
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
         <file>icons/file-export-outline.svg</file>
+        <file>icons/iter_logo.png</file>
     </qresource>
 </RCC>

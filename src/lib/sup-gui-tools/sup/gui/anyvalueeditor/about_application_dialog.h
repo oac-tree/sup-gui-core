@@ -17,40 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_ABOUT_APPLICATION_DIALOG_H_
+#define SUP_GUI_ANYVALUEEDITOR_ABOUT_APPLICATION_DIALOG_H_
 
-#include <QObject>
+#include <QDialog>
 
-class QMainWindow;
-class QMenuBar;
-class QAction;
+class QBoxLayout;
 
 namespace anyvalueeditor
 {
 
-class AnyValueEditorMainWindowActions : public QObject
+//! About application dialog.
+
+class AboutApplicationDialog : public QDialog
 {
   Q_OBJECT
-
 public:
-  explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
-
-signals:
-  void OnImportFromFileRequest();
-  void OnExportToFileRequest();
+  AboutApplicationDialog(QWidget* parent = 0);
 
 private:
-  void CreateActions(QMainWindow* mainwindow);
-  void SetupMenus(QMenuBar* menubar);
-  void OnAbout();
-
-  QAction* m_open_action{nullptr};
-  QAction* m_save_action{nullptr};
-  QAction* m_exit_action{nullptr};
-  QAction* m_about_action{nullptr};
+  QBoxLayout* createLogoLayout();
+  QBoxLayout* createTextLayout();
+  QBoxLayout* createButtonLayout();
 };
 
-}  // namespace anyvalueeditor
+}  // namespace sequencergui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_ABOUT_APPLICATION_DIALOG_H_

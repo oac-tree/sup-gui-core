@@ -19,6 +19,10 @@
 
 #include "anyvalue_editor_main_window_actions.h"
 
+#include "about_application_dialog.h"
+
+#include <mvvm/widgets/widget_utils.h>
+
 #include <QAction>
 #include <QMainWindow>
 #include <QMenuBar>
@@ -49,6 +53,10 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
   m_exit_action->setShortcuts(QKeySequence::Quit);
   m_exit_action->setStatusTip("Exit the application");
   connect(m_exit_action, &QAction::triggered, mainwindow, &QMainWindow::close);
+
+  m_about_action = new QAction("About application", this);
+  m_about_action->setStatusTip("About application");
+  connect(m_about_action, &QAction::triggered, this, &AnyValueEditorMainWindowActions::OnAbout);
 }
 
 void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
@@ -59,6 +67,15 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
   file_menu->addAction(m_save_action);
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
+
+  auto help_menu = menubar->addMenu("&Help");
+  help_menu->addAction(m_about_action);
+}
+
+void AnyValueEditorMainWindowActions::OnAbout()
+{
+  AboutApplicationDialog dialog(mvvm::utils::FindMainWindow());
+  dialog.exec();
 }
 
 }  // namespace anyvalueeditor

@@ -19,7 +19,7 @@
 
 #include "version_constants.h"  // from <build>/autogen
 
-namespace sequencergui
+namespace sup::gui
 {
 
 int ProjectVersionMajor()
@@ -42,4 +42,4 @@ std::string ProjectVersion()
   return kProjectVersionString;
 }
 
-}
+}  // namespace sup::gui
