@@ -23,33 +23,35 @@
 
 #include <mvvm/model/application_model.h>
 
+#include <map>
+
+namespace
+{
+
+std::string GetElementPrefix(const sup::gui::AnyValueItem& parent)
+{
+  const static std::map<std::string, std::string> type_to_prefix{
+      {sup::gui::AnyValueStructItem::Type, sup::gui::kFieldNamePrefix},
+      {sup::gui::AnyValueArrayItem::Type, sup::gui::kElementNamePrefix}};
+
+  auto iter = type_to_prefix.find(parent.GetType());
+  return iter == type_to_prefix.end() ? std::string() : iter->second;
+}
+
+}  // namespace
+
 namespace sup::gui
 {
 
-void SetupDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child)
+std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child)
 {
-  auto model = parent.GetModel();
-
-  if (&parent == model->GetRootItem())
+  if (auto anyvalue_item = dynamic_cast<const AnyValueItem*>(&parent); anyvalue_item)
   {
-    return;  // for top level items we leave display name unchanged
+    // if parent is an AnyValueItem, suggest the name which is based on number of previous children
+    return GetElementPrefix(*anyvalue_item) + std::to_string(anyvalue_item->GetChildrenCount());
   }
 
-  if (parent.GetType() == AnyValueStructItem::Type)
-  {
-    auto struct_item = static_cast<const AnyValueStructItem*>(&parent);
-    std::string display_name = kFieldNamePrefix + std::to_string(struct_item->GetChildrenCount());
-    child.SetDisplayName(display_name);
-    return;
-  }
-
-  if (parent.GetType() == AnyValueArrayItem::Type)
-  {
-    auto struct_item = static_cast<const AnyValueArrayItem*>(&parent);
-    std::string display_name = kElementNamePrefix + std::to_string(struct_item->GetChildrenCount());
-    child.SetDisplayName(display_name);
-    return;
-  }
+  return {}; // no good suggestions otherwise
 }
 
 }  // namespace sup::gui

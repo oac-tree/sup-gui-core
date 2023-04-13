@@ -158,7 +158,10 @@ void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item)
   {
     try
     {
-      SetupDisplayName(*parent, *item);
+      if (auto name = SuggestDisplayName(*parent, *item); name.has_value())
+      {
+        item->SetDisplayName(name.value());
+      }
       m_model->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
     }
     catch (const std::exception& ex)

@@ -19,6 +19,8 @@
 
 #include "sup/gui/anyvalueeditor/anyvalue_editor_helper.h"
 
+#include <sup/gui/model/anyvalue_item.h>
+
 #include <gtest/gtest.h>
 
 using namespace sup::gui;
@@ -29,7 +31,22 @@ class AnyValueEditorHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(AnyValueEditorHelperTest, InitialState)
+TEST_F(AnyValueEditorHelperTest, SuggestNameForStructField)
 {
+  AnyValueStructItem parent;
+  AnyValueScalarItem child;
 
+  auto name = SuggestDisplayName(parent, child);
+  ASSERT_TRUE(name.has_value());
+  EXPECT_EQ(name.value(), sup::gui::kFieldNamePrefix + "0");
+}
+
+TEST_F(AnyValueEditorHelperTest, SuggestNameForRaayElement)
+{
+  AnyValueArrayItem parent;
+  AnyValueScalarItem child;
+
+  auto name = SuggestDisplayName(parent, child);
+  ASSERT_TRUE(name.has_value());
+  EXPECT_EQ(name.value(), sup::gui::kElementNamePrefix + "0");
 }

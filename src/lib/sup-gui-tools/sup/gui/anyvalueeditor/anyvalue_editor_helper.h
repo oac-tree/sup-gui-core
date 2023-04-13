@@ -22,13 +22,14 @@
 
 //! Helper functions for AnyValueEditor.
 
+#include <optional>
 #include <string>
 
 namespace mvvm
 {
 class ApplicationModel;
 class SessionItem;
-}
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -38,11 +39,11 @@ const std::string kFieldNamePrefix = "field";
 const std::string kElementNamePrefix = "element";
 
 /**
- * @brief Sets appropriate display name for a child.
+ * @brief Suggests appropriate display name for a child.
  * @param parent A parent where a child will be inserted.
  * @param child Future child of a parent
  */
-void SetupDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child);
+std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child);
 
 }  // namespace sup::gui
 
