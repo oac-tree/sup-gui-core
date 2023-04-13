@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "main_window.h"
+#include "anyvalue_editor_main_window.h"
 
 #include <mvvm/widgets/app_utils.h>
 
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 
   QApplication app(argc, argv);
 
-  anyvalueeditor::MainWindow win;
+  anyvalueeditor::AnyValueEditorMainWindow win;
 
   win.show();
 

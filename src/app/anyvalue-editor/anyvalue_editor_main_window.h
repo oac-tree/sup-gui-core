@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef ANYVALUE_EDITOR_MAIN_WINDOW_H_
-#define ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#ifndef ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#define ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 #include <memory>
@@ -35,13 +35,13 @@ namespace anyvalueeditor
 
 //! The main window of this application.
 
-class MainWindow : public QMainWindow
+class AnyValueEditorMainWindow : public QMainWindow
 {
   Q_OBJECT
 
 public:
-  MainWindow();
-  ~MainWindow() override;
+  AnyValueEditorMainWindow();
+  ~AnyValueEditorMainWindow() override;
 
 protected:
   void closeEvent(QCloseEvent* event) override;
@@ -58,4 +58,4 @@ private:
 
 }  // namespace anyvalueeditor
 
-#endif  // ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#endif  // ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_

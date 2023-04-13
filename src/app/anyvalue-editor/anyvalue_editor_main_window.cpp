@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "main_window.h"
+#include "anyvalue_editor_main_window.h"
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor.h>
 
@@ -43,27 +43,27 @@ QString GetWindowPosSettingName()
 
 namespace anyvalueeditor
 {
-MainWindow::MainWindow()
+AnyValueEditorMainWindow::AnyValueEditorMainWindow()
 {
   InitApplication();
 }
 
-MainWindow::~MainWindow() = default;
+AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;
 
-void MainWindow::closeEvent(QCloseEvent* event)
+void AnyValueEditorMainWindow::closeEvent(QCloseEvent* event)
 {
   WriteSettings();
   QMainWindow::closeEvent(event);
 }
 
-void MainWindow::InitApplication()
+void AnyValueEditorMainWindow::InitApplication()
 {
   ReadSettings();
   InitComponents();
   InitMenu();
 }
 
-void MainWindow::InitMenu()
+void AnyValueEditorMainWindow::InitMenu()
 {
   Q_ASSERT(m_anyvalue_editor);
 
@@ -90,20 +90,20 @@ void MainWindow::InitMenu()
   file_menu->addAction(exit_action);
 }
 
-void MainWindow::InitComponents()
+void AnyValueEditorMainWindow::InitComponents()
 {
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
   setCentralWidget(m_anyvalue_editor);
 }
 
-void MainWindow::ReadSettings()
+void AnyValueEditorMainWindow::ReadSettings()
 {
   const QSettings settings;
   resize(settings.value(GetWindowSizeSettingName(), QSize(800, 600)).toSize());
   move(settings.value(GetWindowPosSettingName(), QPoint(200, 200)).toPoint());
 }
 
-void MainWindow::WriteSettings()
+void AnyValueEditorMainWindow::WriteSettings()
 {
   QSettings settings;
   settings.setValue(GetWindowSizeSettingName(), size());
