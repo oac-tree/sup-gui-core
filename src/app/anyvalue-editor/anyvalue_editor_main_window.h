@@ -33,6 +33,8 @@ class AnyValueEditor;
 namespace anyvalueeditor
 {
 
+class AnyValueEditorMainWindowActions;
+
 //! The main window of this application.
 
 class AnyValueEditorMainWindow : public QMainWindow
@@ -53,6 +55,7 @@ private:
   void ReadSettings();
   void WriteSettings();
 
+  AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditor* m_anyvalue_editor{nullptr};
 };
 

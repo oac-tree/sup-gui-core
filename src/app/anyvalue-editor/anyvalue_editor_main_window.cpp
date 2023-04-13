@@ -20,6 +20,7 @@
 #include "anyvalue_editor_main_window.h"
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor.h>
+#include <sup/gui/anyvalueeditor/anyvalue_editor_main_window_actions.h>
 
 #include <QCoreApplication>
 #include <QMenuBar>
@@ -92,6 +93,8 @@ void AnyValueEditorMainWindow::InitMenu()
 
 void AnyValueEditorMainWindow::InitComponents()
 {
+  m_action_manager = new AnyValueEditorMainWindowActions(this);
+
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
   setCentralWidget(m_anyvalue_editor);
 }
