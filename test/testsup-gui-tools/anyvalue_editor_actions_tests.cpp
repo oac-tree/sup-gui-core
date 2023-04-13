@@ -97,8 +97,7 @@ TEST_F(AnyValueEditorActionsTest, SetInitialValue)
   EXPECT_NE(copied_item, &item);
   EXPECT_EQ(copied_item->GetAnyTypeName(), item.GetAnyTypeName());
   EXPECT_EQ(copied_item->Data<int>(), item.Data<int>());
-  //  EXPECT_EQ(copied_item->GetIdentifier(), item.GetIdentifier()); FIXME uncomment after
-  //  implementing
+  EXPECT_EQ(copied_item->GetIdentifier(), item.GetIdentifier());
 }
 
 // -------------------------------------------------------------------------------------------------

@@ -25,6 +25,7 @@
 #include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -117,8 +118,8 @@ void AnyValueEditorActions::SetInitialValue(const AnyValueItem& item)
     SendMessage("Only one top item is allowed");
   }
 
-  // FIXME provide clone, not copy, to preserve identifier of the item being edited
-  mvvm::utils::CopyItem(&item, m_model, m_model->GetRootItem(), mvvm::TagIndex::Append());
+  m_model->InsertItem(mvvm::utils::CloneItem(item), m_model->GetRootItem(),
+                      mvvm::TagIndex::Append());
 }
 
 AnyValueItem* AnyValueEditorActions::GetTopItem()
