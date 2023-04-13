@@ -97,6 +97,7 @@ std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone(bool make_unique_id)
 AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(Type)
 {
   SetDisplayName(kScalarTypeName);
+  SetToolTip(kScalarTypeName);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone(bool make_unique_id) const
@@ -123,6 +124,7 @@ bool AnyValueScalarItem::IsScalar() const
 AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
 {
   SetDisplayName(kStructTypeName);
+  SetToolTip(kStructTypeName);
   RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*as_default*/ true);
 }
 
@@ -160,6 +162,7 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
 {
   SetDisplayName(kArrayTypeName);
+  SetToolTip(kArrayTypeName);
   RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*as_default*/ true);
 }
 

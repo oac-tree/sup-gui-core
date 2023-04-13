@@ -66,6 +66,7 @@ void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
 
   auto item = std::make_unique<AnyValueScalarItem>();
   item->SetAnyTypeName(scalar_type);
+  item->SetToolTip(scalar_type);
   AddAnyValueItem(std::move(item));
 }
 

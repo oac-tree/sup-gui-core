@@ -249,6 +249,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToStruct)
   const std::string expected_field_name(kFieldNamePrefix+"0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
 };
 
 //! Adding a scalar as an array element (which is marked as selected).
@@ -274,6 +275,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToArray)
   const std::string expected_field_name(kElementNamePrefix+"0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
 };
 
 //! Attempt to add scalar as a field to another scalar.
