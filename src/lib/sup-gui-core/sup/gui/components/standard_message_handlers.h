@@ -33,12 +33,21 @@ public:
   void SendMessage(const std::string& text) override;
 };
 
-//! Create null message handlers. It simply throws the message.
+//! A message handler that does nothing.
 
 class NullMessageHandler : public MessageHandlerInterface
 {
 public:
   void SendMessage(const std::string& text) override;
+};
+
+//! A message handler that throws an exception of given type.
+
+template <typename T>
+class ThrowingMessageHandler : public MessageHandlerInterface
+{
+public:
+  void SendMessage(const std::string& text) override { throw T(text); }
 };
 
 }  // namespace sup::gui

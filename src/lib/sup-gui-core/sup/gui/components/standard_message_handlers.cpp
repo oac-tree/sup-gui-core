@@ -19,8 +19,6 @@
 
 #include "standard_message_handlers.h"
 
-#include <sup/gui/core/exceptions.h>
-
 #include <QDebug>
 
 namespace sup::gui
@@ -33,7 +31,7 @@ void StdMessageHandler::SendMessage(const std::string &text)
 
 void NullMessageHandler::SendMessage(const std::string &text)
 {
-  throw RuntimeException(text);
+  (void)text;
 }
 
 }  // namespace sup::gui
