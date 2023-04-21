@@ -113,4 +113,15 @@ bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &sca
   return false;
 }
 
+std::vector<std::string> GetAnyValueItemTypes()
+{
+  return {AnyValueEmptyItem::Type, AnyValueScalarItem::Type,
+          AnyValueStructItem::Type, AnyValueArrayItem::Type};
+}
+
+mvvm::TagInfo CreateAnyValueTag(std::string name, int min, int max)
+{
+  return mvvm::TagInfo(std::move(name), min, max, GetAnyValueItemTypes());
+}
+
 }  // namespace sup::gui

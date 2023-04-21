@@ -22,7 +22,10 @@
 
 //! Collection of sup::gui::AnyValueItem related utility functions.
 
+#include <mvvm/model/taginfo.h>
+
 #include <string>
+#include <vector>
 
 namespace sup::gui
 {
@@ -42,6 +45,14 @@ void UpdateAnyValueItemData(const AnyValueItem& source, AnyValueItem& target);
 //! If array is empty, will always return true. If array is not empty, \it scalar_type should
 //! coincide with what is already in the array.
 bool IsSuitableScalarType(const AnyValueArrayItem& array, const std::string& scalar_type);
+
+//! Return a list of valid AnyValueItem type strings
+
+std::vector<std::string> GetAnyValueItemTypes();
+
+//! Create a TagInfo for a AnyValueItem (of any valid kind)
+
+mvvm::TagInfo CreateAnyValueTag(std::string name, int min = 0, int max = -1);
 
 }  // namespace sup::gui
 

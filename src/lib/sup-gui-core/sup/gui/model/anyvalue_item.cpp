@@ -20,6 +20,7 @@
 #include "anyvalue_item.h"
 
 #include "anyvalue_conversion_utils.h"
+#include "anyvalue_item_utils.h"
 
 #include <sup/gui/core/exceptions.h>
 
@@ -125,7 +126,7 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
 {
   SetDisplayName(kStructTypeName);
   SetToolTip(kStructTypeName);
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*as_default*/ true);
+  RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone(bool make_unique_id) const
@@ -152,7 +153,7 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
 
 std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 {
-  return GetItems<AnyValueItem>("");
+  return GetItems<AnyValueItem>(kChildren);
 }
 
 // ----------------------------------------------------------------------------
@@ -163,7 +164,7 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
 {
   SetDisplayName(kArrayTypeName);
   SetToolTip(kArrayTypeName);
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*as_default*/ true);
+  RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone(bool make_unique_id) const
@@ -178,7 +179,7 @@ bool AnyValueArrayItem::IsArray() const
 
 std::vector<AnyValueItem*> AnyValueArrayItem::GetChildren() const
 {
-  return GetItems<AnyValueItem>("");
+  return GetItems<AnyValueItem>(kChildren);
 }
 
 }  // namespace sup::gui

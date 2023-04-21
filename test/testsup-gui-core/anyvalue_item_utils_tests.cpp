@@ -172,3 +172,30 @@ TEST_F(AnyValueItemUtilsTests, IsSuitableScalarType)
     EXPECT_FALSE(IsSuitableScalarType(item, sup::dto::kInt16TypeName));
   }
 }
+
+TEST_F(AnyValueItemUtilsTests, GetAnyValueItemTypes)
+{
+  const auto types = GetAnyValueItemTypes();
+
+  EXPECT_EQ(types.size(), 4);
+
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueEmptyItem::Type), types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueScalarItem::Type), types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueStructItem::Type), types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueArrayItem::Type), types.end());
+
+  EXPECT_EQ(std::find(types.begin(), types.end(), AnyValueItem::Type), types.end());
+}
+
+TEST_F(AnyValueItemUtilsTests, CreateAnyValueTag)
+{
+  auto tag = CreateAnyValueTag("tag");
+ 
+  EXPECT_TRUE(tag.IsValidType(AnyValueEmptyItem::Type));
+  EXPECT_TRUE(tag.IsValidType(AnyValueScalarItem::Type));
+  EXPECT_TRUE(tag.IsValidType(AnyValueStructItem::Type));
+  EXPECT_TRUE(tag.IsValidType(AnyValueArrayItem::Type));
+
+  EXPECT_FALSE(tag.IsValidType(AnyValueItem::Type));
+  EXPECT_FALSE(tag.IsValidType(mvvm::SessionItem::Type));
+}
