@@ -19,7 +19,8 @@
 
 #include "anyvalue_editor_main_window_actions.h"
 
-#include "about_application_dialog.h"
+#include <sup/gui/core/version.h>
+#include <sup/gui/widgets/about_application_dialog.h>
 
 #include <mvvm/widgets/widget_utils.h>
 
@@ -74,8 +75,9 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
 
 void AnyValueEditorMainWindowActions::OnAbout()
 {
-  AboutApplicationDialog dialog(mvvm::utils::FindMainWindow());
-  dialog.exec();
+  sup::gui::AboutApplicationDialog::ShowDialog(mvvm::utils::FindMainWindow(), "AnyValue Editor",
+                                               "AnyValue structure and value editor",
+                                               QString::fromStdString(sup::gui::ProjectVersion()));
 }
 
 }  // namespace anyvalueeditor
