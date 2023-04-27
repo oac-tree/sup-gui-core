@@ -118,6 +118,7 @@ void AnyValueEditorActions::SetInitialValue(const AnyValueItem& item)
   if (auto item = GetTopItem(); item)
   {
     SendMessage("Only one top item is allowed");
+    return;
   }
 
   m_model->InsertItem(mvvm::utils::CloneItem(item), m_model->GetRootItem(),
