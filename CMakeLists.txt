@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13.5)
-project(sup-gui-core-project VERSION 0.4.99 LANGUAGES CXX)
+project(sup-gui-core-project VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
