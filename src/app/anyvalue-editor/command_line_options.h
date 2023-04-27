@@ -17,31 +17,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "anyvalue_editor_main_window.h"
-#include "command_line_options.h"
+#ifndef SEQUENCERGUI_MAINWINDOW_COMMAND_LINE_OPTIONS_H_
+#define SEQUENCERGUI_MAINWINDOW_COMMAND_LINE_OPTIONS_H_
 
-#include <sup/gui/core/version.h>
-#include <sup/gui/widgets/application_helper.h>
+//! Command line options.
 
-#include <QApplication>
+#include <QString>
 
-int main(int argc, char** argv)
+namespace anyvalueeditor
 {
-  auto version = QString::fromStdString(sup::gui::ProjectVersion());
 
-  sup::gui::InitCoreApplication("anyvalue-editor", version);
+struct Options
+{
+  //! rely on system scale via QT_ variables, if true
+  bool scale = false;
 
-  auto options = anyvalueeditor::ParseOptions(argc, argv);
+  //! print system environment information
+  bool info = false;
 
-  sup::gui::SetupHighDpiScaling(options.scale);
+  //! appplication system font point size
+  int system_font_psize = -1;
 
-  QApplication app(argc, argv);
+  //! main appplication GUI style
+  QString style;
+};
 
-  sup::gui::SetWindowStyle(options.style, options.system_font_psize, options.info);
+//! Parse command line options.
+Options ParseOptions(int argc, char** argv);
 
-  anyvalueeditor::AnyValueEditorMainWindow win;
+}  // namespace sequencergui
 
-  win.show();
-
-  return app.exec();
-}
+#endif  // SEQUENCERGUI_MAINWINDOW_COMMAND_LINE_OPTIONS_H_

@@ -1,6 +1,6 @@
 set(executable_name anyvalue-editor)
 
-add_executable(${executable_name} main.cpp anyvalue_editor_main_window.cpp)
+add_executable(${executable_name} main.cpp anyvalue_editor_main_window.cpp command_line_options.cpp)
 
 target_link_libraries(${executable_name} sup-gui-tools Qt${QT_VERSION_MAJOR}::Widgets)
 
