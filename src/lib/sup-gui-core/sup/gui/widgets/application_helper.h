@@ -43,8 +43,19 @@ void InitCoreApplication(const QString &app_name, const QString &version);
  * @brief Sets main GUI style of the application and main font size.
  * @param app_style The name of the GUI style from Qt's style factory.
  * @param font_psize System font size in pt.
+ * @param verbose Provide output to the console regarding desktop geometry.
  */
-void SetWindowStyle(const QString &app_style, int font_size);
+void SetWindowStyle(const QString &app_style, int font_size, bool verbose = false);
+
+/**
+ * @brief Sets up high DPI scaling.
+ * @param scale_from_environment Use environment variables QT_SCALE_FACTOR,
+ * QT_SCREEN_SCALE_FACTORS and QT_AUTO_SCREEN_SCALE_FACTOR to scale the UI.
+ *
+ * @details By default we use internal scaling mechanism and ignore values of scaling envionment
+ * variables.
+ */
+void SetupHighDpiScaling(bool scale_from_environment = false);
 
 }  // namespace sup::gui
 

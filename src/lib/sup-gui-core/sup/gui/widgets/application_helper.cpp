@@ -24,6 +24,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QStyleFactory>
+#include <iostream>
 
 namespace
 {
@@ -50,7 +51,7 @@ void InitCoreApplication(const QString &app_name, const QString &version)
   QCoreApplication::setOrganizationName("coa");
 }
 
-void SetWindowStyle(const QString &app_style, int font_size)
+void SetWindowStyle(const QString &app_style, int font_size, bool verbose)
 {
   if (!app_style.isEmpty())
   {
@@ -67,6 +68,16 @@ void SetWindowStyle(const QString &app_style, int font_size)
   }
 
   mvvm::utils::SetApplicationFontSize(font_size);
+
+  if (verbose)
+  {
+    std::cout << mvvm::utils::GetDesktopInfo();
+  }
+}
+
+void SetupHighDpiScaling(bool scale_from_environment)
+{
+  mvvm::utils::SetupHighDpiScaling(scale_from_environment);
 }
 
 }  // namespace sup::gui
