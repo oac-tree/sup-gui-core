@@ -51,7 +51,7 @@ public:
   explicit ProjectHandler(mvvm::SessionModelInterface* model, QWidget* parent);
   ~ProjectHandler() override;
 
-  bool CanCloseProject() const;
+  bool CloseCurrentProject() const;
   void UpdateNames();
   void OnCreateNewProject();
   void OnOpenExistingProject(const QString& dirname = {});

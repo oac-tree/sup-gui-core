@@ -55,7 +55,7 @@ void ProjectHandler::UpdateNames()
 //! Returns 'true' if current project can be closed.
 //! Internally will perform check for unsaved data, and proceed via save/discard/cancel dialog.
 
-bool ProjectHandler::CanCloseProject() const
+bool ProjectHandler::CloseCurrentProject() const
 {
   return m_project_manager->CloseCurrentProject();
 }
