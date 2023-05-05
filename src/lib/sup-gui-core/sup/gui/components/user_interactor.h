@@ -17,43 +17,44 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
-#define SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
+#ifndef SUP_GUI_COMPONENTS_USER_INTERACTOR_H_
+#define SUP_GUI_COMPONENTS_USER_INTERACTOR_H_
 
-#include <QStringList>
+#include <string>
+
+class QWidget;
+
+namespace mvvm
+{
+enum class SaveChangesAnswer;
+}
 
 namespace sup::gui
 {
 
-/**
- * @brief Collection of settings to save the last directory selected by the user, and list of recent
- * projects.
- */
+class RecentProjectSettings;
 
-class RecentProjectSettings
+//! Provide save/discard/cancel and similar dialogs on user request.
+//! Intended to work in pair with ProjectManagerDecorator.
+
+class UserInteractor
 {
 public:
-  RecentProjectSettings();
-  ~RecentProjectSettings();
+  UserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent);
 
-  QString GetCurrentWorkdir() const;
+  std::string OnSelectDirRequest();
 
-  void UpdateWorkdirFromSelection(const QString& dirname);
+  std::string OnCreateDirRequest();
 
-  QStringList GetRecentProjects();
-
-  void AddToRecentProjects(const QString& dirname);
-
-  void ClearRecentProjectsList();
+  mvvm::SaveChangesAnswer OnSaveChangesRequest();
 
 private:
-  void WriteSettings();
-  void ReadSettings();
+  std::string SummonSelectDialog() const;
 
-  QString m_current_workdir;
-  QStringList m_recent_projects;
+  sup::gui::RecentProjectSettings* m_settings{nullptr};
+  QWidget* m_parent{nullptr};
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
+#endif  // SUP_GUI_COMPONENTS_USER_INTERACTOR_H_
