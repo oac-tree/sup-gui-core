@@ -45,8 +45,8 @@ private:
   void SetupMenus(QMenuBar* menubar);
   void OnAbout();
 
-  QAction* m_open_action{nullptr};
-  QAction* m_save_action{nullptr};
+  QAction* m_import_action{nullptr};
+  QAction* m_export_action{nullptr};
   QAction* m_exit_action{nullptr};
   QAction* m_about_action{nullptr};
 };

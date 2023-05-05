@@ -40,14 +40,14 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *ma
 
 void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 {
-  m_open_action = new QAction("Open", this);
-  m_open_action->setShortcuts(QKeySequence::Open);
-  connect(m_open_action, &QAction::triggered, this,
+  m_import_action = new QAction("Open", this);
+  m_import_action->setShortcuts(QKeySequence::Open);
+  connect(m_import_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnImportFromFileRequest);
 
-  m_save_action = new QAction("Save", this);
-  m_save_action->setShortcuts(QKeySequence::Save);
-  connect(m_save_action, &QAction::triggered, this,
+  m_export_action = new QAction("Save", this);
+  m_export_action->setShortcuts(QKeySequence::Save);
+  connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnExportToFileRequest);
 
   m_exit_action = new QAction("E&xit Application", this);
@@ -64,8 +64,8 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
 {
   auto file_menu = menubar->addMenu("&File");
 
-  file_menu->addAction(m_open_action);
-  file_menu->addAction(m_save_action);
+  file_menu->addAction(m_import_action);
+  file_menu->addAction(m_export_action);
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
 

@@ -22,7 +22,6 @@
 
 #include <QObject>
 #include <memory>
-#include <vector>
 
 class QWidget;
 
@@ -36,12 +35,10 @@ namespace sup::gui
 {
 
 class UserInteractor;
-class ApplicationModels;
-class RecentProjectWidget;
 class RecentProjectSettings;
 
-//! Main class to coordinate all activity on user's request to create new project,
-//! open existing one, or choose one of recent projects on disk.
+//! Main class to coordinate all activity on the user's request to create a new project,
+//! open the existing one, or choose one of the recent projects on disk.
 
 class ProjectHandler : public QObject
 {
@@ -52,22 +49,18 @@ public:
   ~ProjectHandler() override;
 
   bool CloseCurrentProject() const;
-  void UpdateNames();
-  void OnCreateNewProject();
-  void OnOpenExistingProject(const QString& dirname = {});
-  void OnSaveCurrentProject();
-  void OnSaveProjectAs();
+  void CreateNewProject();
+  void OpenExistingProject(const QString& dirname = {});
+  void SaveCurrentProject();
+  void SaveProjectAs();
 
   void ClearRecentProjectsList();
 
   QStringList GetRecentProjectList() const;
 
-signals:
-  void CurrentProjectModified(const QString& project_dir, bool is_modified);
-  void RecentProjectsListModified(const QStringList& projects);
-
 private:
   void InitProjectManager();
+  void UpdateNames();
   void UpdateCurrentProjectName();
   void UpdateRecentProjectNames();
 

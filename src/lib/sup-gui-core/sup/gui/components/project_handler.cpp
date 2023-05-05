@@ -23,7 +23,6 @@
 #include "user_interactor.h"
 
 #include <mvvm/factories/project_manager_factory.h>
-#include <mvvm/model/application_model.h>
 #include <mvvm/project/project_types.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -44,14 +43,6 @@ ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* pare
 
 ProjectHandler::~ProjectHandler() = default;
 
-//! Update names (name of the current project, recent project name list, notifies the world).
-
-void ProjectHandler::UpdateNames()
-{
-  UpdateCurrentProjectName();
-  UpdateRecentProjectNames();
-}
-
 //! Returns 'true' if current project can be closed.
 //! Internally will perform check for unsaved data, and proceed via save/discard/cancel dialog.
 
@@ -60,7 +51,7 @@ bool ProjectHandler::CloseCurrentProject() const
   return m_project_manager->CloseCurrentProject();
 }
 
-void ProjectHandler::OnCreateNewProject()
+void ProjectHandler::CreateNewProject()
 {
   if (m_project_manager->CreateNewProject({}))
   {
@@ -68,7 +59,7 @@ void ProjectHandler::OnCreateNewProject()
   }
 }
 
-void ProjectHandler::OnOpenExistingProject(const QString& dirname)
+void ProjectHandler::OpenExistingProject(const QString& dirname)
 {
   if (m_project_manager->OpenExistingProject(dirname.toStdString()))
   {
@@ -76,7 +67,7 @@ void ProjectHandler::OnOpenExistingProject(const QString& dirname)
   }
 }
 
-void ProjectHandler::OnSaveCurrentProject()
+void ProjectHandler::SaveCurrentProject()
 {
   if (m_project_manager->SaveCurrentProject())
   {
@@ -84,7 +75,7 @@ void ProjectHandler::OnSaveCurrentProject()
   }
 }
 
-void ProjectHandler::OnSaveProjectAs()
+void ProjectHandler::SaveProjectAs()
 {
   if (m_project_manager->SaveProjectAs({}))
   {
@@ -118,7 +109,15 @@ void ProjectHandler::InitProjectManager()
   m_project_manager = CreateProjectManager(project_context, user_context);
 }
 
-//! Updates the name of the current project on main window, notifies the world.
+//! Update names (name of the current project, recent project name list).
+
+void ProjectHandler::UpdateNames()
+{
+  UpdateCurrentProjectName();
+  UpdateRecentProjectNames();
+}
+
+//! Updates the name of the current project on main window.
 
 void ProjectHandler::UpdateCurrentProjectName()
 {
@@ -131,17 +130,14 @@ void ProjectHandler::UpdateCurrentProjectName()
   {
     main_window->setWindowTitle(title);
   }
-
-  emit CurrentProjectModified(current_project_dir, is_modified);
 }
 
-//! Update recent project list in settings, notifies the world.
+//! Update recent project list in settings.
 
 void ProjectHandler::UpdateRecentProjectNames()
 {
   m_recent_project_settings->AddToRecentProjects(
       QString::fromStdString(m_project_manager->CurrentProjectDir()));
-  emit RecentProjectsListModified(m_recent_project_settings->GetRecentProjects());
 }
 
 }  // namespace sup::gui
