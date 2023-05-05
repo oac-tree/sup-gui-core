@@ -75,6 +75,9 @@ void ProjectHandler::SaveCurrentProject()
   }
 }
 
+//! Performs saving of the project under different name. The name will be asked at the later stage
+//! via corresponding dialog.
+
 void ProjectHandler::SaveProjectAs()
 {
   if (m_project_manager->SaveProjectAs({}))
@@ -109,7 +112,7 @@ void ProjectHandler::InitProjectManager()
   m_project_manager = CreateProjectManager(project_context, user_context);
 }
 
-//! Update names (name of the current project, recent project name list).
+//! Performs internal updates related to project name change.
 
 void ProjectHandler::UpdateNames()
 {

@@ -45,6 +45,11 @@ private:
   void SetupMenus(QMenuBar* menubar);
   void OnAbout();
 
+  QAction* m_create_new_project_action{nullptr};
+  QAction* m_open_existing_project_action{nullptr};
+  QAction* m_save_current_project_action{nullptr};
+  QAction* m_save_project_as_action{nullptr};
+
   QAction* m_import_action{nullptr};
   QAction* m_export_action{nullptr};
   QAction* m_exit_action{nullptr};

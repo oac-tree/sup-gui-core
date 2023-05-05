@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   message_handler_interface.h
   project_handler.cpp
   project_handler.h
+  project_handler_utils.cpp
+  project_handler_utils.h
   recent_project_settings.cpp
   recent_project_settings.h
   standard_message_handlers.cpp
