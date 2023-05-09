@@ -26,24 +26,28 @@
 #include <QAction>
 #include <QMenu>
 
-namespace sup::gui
+namespace
 {
 
-QAction *GetNewProjectAction(ProjectHandler &handler)
+/**
+ * @brief Returns an action to trigger "close current project" request.
+ * Action's ownership will belong to project handler.
+ */
+QAction *GetNewProjectAction(sup::gui::ProjectHandler &handler)
 {
   auto result = new QAction("&New Project", &handler);
   result->setShortcuts(QKeySequence::New);
   result->setStatusTip("Create a new project");
-  QObject::connect(result, &QAction::triggered, &handler, &ProjectHandler::CreateNewProject);
+  QObject::connect(result, &QAction::triggered, &handler,
+                   &sup::gui::ProjectHandler::CreateNewProject);
   return result;
 }
 
-void AddNewProjectAction(QMenu *menu, ProjectHandler &handler)
-{
-  menu->addAction(GetNewProjectAction(handler));
-}
-
-QAction *GetOpenExistingProjectAction(ProjectHandler &handler)
+/**
+ * @brief Returns an action to trigger "open existing project" request.
+ * Action's ownership will belong to project handler.
+ */
+QAction *GetOpenExistingProjectAction(sup::gui::ProjectHandler &handler)
 {
   auto result = new QAction("&Open Project", &handler);
   result->setShortcuts(QKeySequence::Open);
@@ -53,12 +57,11 @@ QAction *GetOpenExistingProjectAction(ProjectHandler &handler)
   return result;
 }
 
-void AddOpenExistingProjectAction(QMenu *menu, ProjectHandler &handler)
-{
-  menu->addAction(GetOpenExistingProjectAction(handler));
-}
-
-QAction *GetSaveCurrentProjectAction(ProjectHandler &handler)
+/**
+ * @brief Returns an action to trigger "save current project" request.
+ * Action's ownership will belong to project handler.
+ */
+QAction *GetSaveCurrentProjectAction(sup::gui::ProjectHandler &handler)
 {
   auto result = new QAction("&Save Project", &handler);
   result->setShortcuts(QKeySequence::Save);
@@ -69,18 +72,37 @@ QAction *GetSaveCurrentProjectAction(ProjectHandler &handler)
   return result;
 }
 
-void AddSaveCurrentProjectAction(QMenu *menu, ProjectHandler &handler)
-{
-  menu->addAction(GetSaveCurrentProjectAction(handler));
-}
-
-QAction *GetSaveProjectAsAction(ProjectHandler &handler)
+/**
+ * @brief Returns an action to trigger "save project as" request.
+ * Action's ownership will belong to project handler.
+ */
+QAction *GetSaveProjectAsAction(sup::gui::ProjectHandler &handler)
 {
   auto result = new QAction("Save &As...", &handler);
   result->setShortcuts(QKeySequence::SaveAs);
   result->setStatusTip("Save project under different name");
   QObject::connect(result, &QAction::triggered, &handler, &sup::gui::ProjectHandler::SaveProjectAs);
   return result;
+}
+
+}  // namespace
+
+namespace sup::gui
+{
+
+void AddNewProjectAction(QMenu *menu, ProjectHandler &handler)
+{
+  menu->addAction(GetNewProjectAction(handler));
+}
+
+void AddOpenExistingProjectAction(QMenu *menu, ProjectHandler &handler)
+{
+  menu->addAction(GetOpenExistingProjectAction(handler));
+}
+
+void AddSaveCurrentProjectAction(QMenu *menu, ProjectHandler &handler)
+{
+  menu->addAction(GetSaveCurrentProjectAction(handler));
 }
 
 void AddSaveProjectAsAction(QMenu *menu, ProjectHandler &handler)

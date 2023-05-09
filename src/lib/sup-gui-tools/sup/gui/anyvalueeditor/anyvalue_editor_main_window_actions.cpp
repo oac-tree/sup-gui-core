@@ -40,12 +40,12 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *ma
 
 void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 {
-  m_import_action = new QAction("Open", this);
+  m_import_action = new QAction("Import", this);
   m_import_action->setShortcuts(QKeySequence::Open);
   connect(m_import_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnImportFromFileRequest);
 
-  m_export_action = new QAction("Save", this);
+  m_export_action = new QAction("Export", this);
   m_export_action->setShortcuts(QKeySequence::Save);
   connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnExportToFileRequest);

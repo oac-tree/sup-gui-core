@@ -25,8 +25,7 @@
 class QAction;
 class QMenu;
 
-//! Contains utility functions to create actions and populate menus with
-//! (create new, open, save, save as) requests.
+//! Contains utility functions to populate menus with (create new, open, save, save as) requests.
 
 namespace sup::gui
 {
@@ -34,21 +33,11 @@ namespace sup::gui
 class ProjectHandler;
 
 /**
- * @brief Returns an action to trigger "close current project" request.
- * Action's ownership will belong to project handler.
- */
-QAction* GetNewProjectAction(ProjectHandler& handler);
-
-/**
  * @brief Add to the menu an action to trigger "close current project" request.
+ * @param menu The menu to populate with entries.
+ * @param handler Project handler to use for actual job.
  */
 void AddNewProjectAction(QMenu* menu, ProjectHandler& handler);
-
-/**
- * @brief Returns an action to trigger "open existing project" request.
- * Action's ownership will belong to project handler.
- */
-QAction* GetOpenExistingProjectAction(ProjectHandler& handler);
 
 /**
  * @brief Add to the menu an action to trigger "close current project" request.
@@ -56,31 +45,23 @@ QAction* GetOpenExistingProjectAction(ProjectHandler& handler);
 void AddOpenExistingProjectAction(QMenu* menu, ProjectHandler& handler);
 
 /**
- * @brief Returns an action to trigger "save current project" request.
- * Action's ownership will belong to project handler.
- */
-QAction* GetSaveCurrentProjectAction(ProjectHandler& handler);
-
-/**
  * @brief Add to the menu an action to trigger "save current project" request.
+ * @param menu The menu to populate with entries.
+ * @param handler Project handler to use for actual job.
  */
 void AddSaveCurrentProjectAction(QMenu* menu, ProjectHandler& handler);
 
 /**
- * @brief Returns an action to trigger "save project as" request.
- * Action's ownership will belong to project handler.
- */
-QAction* GetSaveProjectAsAction(ProjectHandler& handler);
-
-/**
  * @brief Add to the menu an action to trigger "save current project" request.
+ * @param menu The menu to populate with entries.
+ * @param handler Project handler to use for actual job.
  */
 void AddSaveProjectAsAction(QMenu* menu, ProjectHandler& handler);
 
 /**
  * @brief Add to the menu entries to open recent projects.
  * @param menu The menu to populate with entries.
- * @param handler Project handler to use to do actual opening.
+ * @param handler Project handler to use for actual job.
  */
 void AddRecentProjectActions(QMenu* menu, ProjectHandler& handler);
 
