@@ -95,7 +95,7 @@ void ProjectHandler::ClearRecentProjectsList()
 
 QStringList ProjectHandler::GetRecentProjectList() const
 {
-  return m_recent_project_settings->GetRecentProjects();
+  return m_recent_project_settings->GetRecentProjectList();
 }
 
 void ProjectHandler::InitProjectManager()
@@ -140,7 +140,7 @@ void ProjectHandler::UpdateCurrentProjectName()
 
 void ProjectHandler::UpdateRecentProjectNames()
 {
-  m_recent_project_settings->AddToRecentProjects(
+  m_recent_project_settings->AddToRecentProjectList(
       QString::fromStdString(m_project_manager->CurrentProjectDir()));
 }
 

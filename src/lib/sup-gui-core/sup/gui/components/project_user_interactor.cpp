@@ -122,7 +122,7 @@ std::string ProjectUserInteractor::SummonSelectDialog() const
 
   if (!dirname.isEmpty())
   {
-    m_settings->UpdateWorkdirFromSelection(dirname);
+    m_settings->UpdateCurrentWorkdir(dirname);
   }
 
   return dirname.toStdString();

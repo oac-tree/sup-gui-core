@@ -38,11 +38,11 @@ public:
 
   QString GetCurrentWorkdir() const;
 
-  void UpdateWorkdirFromSelection(const QString& dirname);
+  void UpdateCurrentWorkdir(const QString& project_dir_name);
 
-  QStringList GetRecentProjects();
+  QStringList GetRecentProjectList();
 
-  void AddToRecentProjects(const QString& dirname);
+  void AddToRecentProjectList(const QString& project_dir_name);
 
   void ClearRecentProjectsList();
 
