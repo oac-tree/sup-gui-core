@@ -77,6 +77,13 @@ QAction* GetSaveProjectAsAction(ProjectHandler& handler);
  */
 void AddSaveProjectAsAction(QMenu* menu, ProjectHandler& handler);
 
+/**
+ * @brief Add to the menu entries to open recent projects.
+ * @param menu The menu to populate with entries.
+ * @param handler Project handler to use to do actual opening.
+ */
+void AddRecentProjectActions(QMenu* menu, ProjectHandler& handler);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_

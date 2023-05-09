@@ -21,6 +21,8 @@
 
 #include "project_handler.h"
 
+#include <mvvm/widgets/widget_utils.h>
+
 #include <QAction>
 #include <QMenu>
 
@@ -84,6 +86,31 @@ QAction *GetSaveProjectAsAction(ProjectHandler &handler)
 void AddSaveProjectAsAction(QMenu *menu, ProjectHandler &handler)
 {
   menu->addAction(GetSaveProjectAsAction(handler));
+}
+
+void AddRecentProjectActions(QMenu *menu, ProjectHandler &handler)
+{
+  auto recent_projects = handler.GetRecentProjectList();
+  menu->clear();
+  menu->setEnabled(!recent_projects.isEmpty());
+
+  for (const auto &project_dir : recent_projects)
+  {
+    auto trimmed_project_dir = mvvm::utils::WithTildeHomePath(project_dir);
+    auto action = menu->addAction(trimmed_project_dir);
+    action->setData(QVariant::fromValue(project_dir));
+    auto on_project_selected = [&handler, project_dir]()
+    { handler.OpenExistingProject(project_dir); };
+    QObject::connect(action, &QAction::triggered, on_project_selected);
+  }
+
+  if (!recent_projects.empty())
+  {
+    menu->addSeparator();
+    auto action = menu->addAction("Clear Menu");
+    QAction::connect(action, &QAction::triggered, &handler,
+                     &sup::gui::ProjectHandler::ClearRecentProjectsList);
+  }
 }
 
 }  // namespace sup::gui
