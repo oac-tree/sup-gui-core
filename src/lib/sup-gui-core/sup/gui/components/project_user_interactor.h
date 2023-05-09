@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_USER_INTERACTOR_H_
-#define SUP_GUI_COMPONENTS_USER_INTERACTOR_H_
+#ifndef SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
+#define SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
 
 #include <string>
+#include <QStringList>
 
 class QWidget;
 
@@ -35,12 +36,11 @@ namespace sup::gui
 class RecentProjectSettings;
 
 //! Provide save/discard/cancel and similar dialogs on user request.
-//! Intended to work in pair with ProjectManagerDecorator.
 
-class UserInteractor
+class ProjectUserInteractor
 {
 public:
-  UserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent);
+  ProjectUserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent);
 
   std::string OnSelectDirRequest();
 
@@ -53,8 +53,11 @@ private:
 
   sup::gui::RecentProjectSettings* m_settings{nullptr};
   QWidget* m_parent{nullptr};
+
+  QString m_current_workdir;
+  QStringList m_recent_projects;
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_USER_INTERACTOR_H_
+#endif  // SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_

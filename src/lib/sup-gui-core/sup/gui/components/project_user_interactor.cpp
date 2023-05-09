@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : Graphical User Interface for SUP Sequencer
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : Integrated development environment for Sequencer procedures
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "user_interactor.h"
+#include "project_user_interactor.h"
 
 #include "recent_project_settings.h"
 
@@ -45,7 +45,7 @@ std::map<QMessageBox::StandardButton, mvvm::SaveChangesAnswer> answer_map()
 namespace sup::gui
 {
 
-UserInteractor::UserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent)
+ProjectUserInteractor::ProjectUserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent)
     : m_settings(settings), m_parent(parent)
 {
 }
@@ -53,7 +53,7 @@ UserInteractor::UserInteractor(sup::gui::RecentProjectSettings* settings, QWidge
 //! Returns directory on disk selected by the user via QFileDialog.
 //! Checks if selected directory can be the project directory.
 
-std::string UserInteractor::OnSelectDirRequest()
+std::string ProjectUserInteractor::OnSelectDirRequest()
 {
   auto dirname = SummonSelectDialog();
 
@@ -75,7 +75,7 @@ std::string UserInteractor::OnSelectDirRequest()
 
 //! Returns new directory on disk created by the user via QFileDialog.
 
-std::string UserInteractor::OnCreateDirRequest()
+std::string ProjectUserInteractor::OnCreateDirRequest()
 
 {
   auto dirname = SummonSelectDialog();
@@ -98,7 +98,7 @@ std::string UserInteractor::OnCreateDirRequest()
 
 //! Returns save/cancel/discard changes choice provided by the user.
 
-mvvm::SaveChangesAnswer UserInteractor::OnSaveChangesRequest()
+mvvm::SaveChangesAnswer ProjectUserInteractor::OnSaveChangesRequest()
 {
   static auto translate = answer_map();
 
@@ -114,7 +114,7 @@ mvvm::SaveChangesAnswer UserInteractor::OnSaveChangesRequest()
 //! Summon dialog to select directory on disk. If selection is not empty,
 //! save parent directory for later re-use.
 
-std::string UserInteractor::SummonSelectDialog() const
+std::string ProjectUserInteractor::SummonSelectDialog() const
 {
   QString dirname = QFileDialog::getExistingDirectory(
       m_parent, "Select directory", m_settings->GetCurrentWorkdir(),

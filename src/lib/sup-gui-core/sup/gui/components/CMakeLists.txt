@@ -4,6 +4,8 @@ target_sources(${library_name} PRIVATE
   message_handler_decorator.cpp
   message_handler_decorator.h
   message_handler_interface.h
+  project_user_interactor.cpp
+  project_user_interactor.h
   project_handler.cpp
   project_handler.h
   project_handler_utils.cpp
@@ -12,6 +14,4 @@ target_sources(${library_name} PRIVATE
   recent_project_settings.h
   standard_message_handlers.cpp
   standard_message_handlers.h
-  user_interactor.cpp
-  user_interactor.h
 )
