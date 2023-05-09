@@ -35,7 +35,6 @@ namespace sup::gui
 {
 
 class ProjectUserInteractor;
-class RecentProjectSettings;
 
 //! Main class to coordinate all activity on the user's request to create a new project,
 //! open the existing one, or choose one of the recent projects on disk.
