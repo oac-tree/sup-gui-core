@@ -64,7 +64,6 @@ private:
   void UpdateCurrentProjectName();
   void UpdateRecentProjectNames();
 
-  std::unique_ptr<sup::gui::RecentProjectSettings> m_recent_project_settings;
   std::unique_ptr<ProjectUserInteractor> m_user_interactor;
   std::unique_ptr<mvvm::ProjectManagerInterface> m_project_manager;
   mvvm::SessionModelInterface* m_model{nullptr};

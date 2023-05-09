@@ -21,6 +21,7 @@
 #define SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
 
 #include <QStringList>
+#include <memory>
 #include <string>
 
 class QWidget;
@@ -40,7 +41,8 @@ class RecentProjectSettings;
 class ProjectUserInteractor
 {
 public:
-  ProjectUserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent);
+  ProjectUserInteractor(QWidget* parent);
+  ~ProjectUserInteractor();
 
   std::string OnSelectDirRequest();
 
@@ -57,7 +59,7 @@ public:
 private:
   std::string SummonSelectDialog() const;
 
-  sup::gui::RecentProjectSettings* m_settings{nullptr};
+  std::unique_ptr<sup::gui::RecentProjectSettings> m_settings;
   QWidget* m_parent{nullptr};
 };
 

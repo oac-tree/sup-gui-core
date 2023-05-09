@@ -20,7 +20,6 @@
 #include "project_handler.h"
 
 #include "project_user_interactor.h"
-#include "recent_project_settings.h"
 
 #include <mvvm/factories/project_manager_factory.h>
 #include <mvvm/project/project_types.h>
@@ -33,9 +32,7 @@ namespace sup::gui
 
 ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* parent)
     : QObject(parent)
-    , m_recent_project_settings(std::make_unique<sup::gui::RecentProjectSettings>())
-    , m_user_interactor(
-          std::make_unique<ProjectUserInteractor>(m_recent_project_settings.get(), parent))
+    , m_user_interactor(std::make_unique<ProjectUserInteractor>(parent))
     , m_model(model)
 {
   InitProjectManager();

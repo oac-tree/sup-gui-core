@@ -45,11 +45,12 @@ std::map<QMessageBox::StandardButton, mvvm::SaveChangesAnswer> answer_map()
 namespace sup::gui
 {
 
-ProjectUserInteractor::ProjectUserInteractor(sup::gui::RecentProjectSettings* settings,
-                                             QWidget* parent)
-    : m_settings(settings), m_parent(parent)
+ProjectUserInteractor::ProjectUserInteractor(QWidget* parent)
+    : m_settings(std::make_unique<sup::gui::RecentProjectSettings>()), m_parent(parent)
 {
 }
+
+ProjectUserInteractor::~ProjectUserInteractor() = default;
 
 //! Returns directory on disk selected by the user via QFileDialog.
 //! Checks if selected directory can be the project directory.
