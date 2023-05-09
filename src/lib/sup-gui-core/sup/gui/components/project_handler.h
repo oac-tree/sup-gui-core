@@ -64,7 +64,10 @@ private:
   void UpdateCurrentProjectName();
   void UpdateRecentProjectNames();
 
+  //!< knows how to interact with the user
   std::unique_ptr<ProjectUserInteractor> m_user_interactor;
+
+  //!< performs actual model saving
   std::unique_ptr<mvvm::ProjectManagerInterface> m_project_manager;
   mvvm::SessionModelInterface* m_model{nullptr};
 };

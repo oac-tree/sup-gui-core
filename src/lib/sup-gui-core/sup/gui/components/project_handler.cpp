@@ -41,8 +41,8 @@ ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* pare
 
 ProjectHandler::~ProjectHandler() = default;
 
-//! Returns 'true' if current project can be closed.
-//! Internally will perform check for unsaved data, and proceed via save/discard/cancel dialog.
+//! Closes curent project, returns true in the case of success. Internally will perform check for
+//! unsaved data, and proceed via save/discard/cancel dialog.
 
 bool ProjectHandler::CloseCurrentProject() const
 {
