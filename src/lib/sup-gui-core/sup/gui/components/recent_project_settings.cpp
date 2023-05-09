@@ -67,15 +67,7 @@ void RecentProjectSettings::UpdateCurrentWorkdir(const QString& project_dir_name
 //! Returns list of recent projects, validates if projects still exists on disk.
 QStringList RecentProjectSettings::GetRecentProjectList()
 {
-  QStringList updated_list;
-  for (const auto& file_name : m_recent_projects)
-  {
-    if (mvvm::utils::IsExists(file_name.toStdString()))
-    {
-      updated_list.append(file_name);
-    }
-  }
-  m_recent_projects = updated_list;
+  ValidateIfProjectsExist();
   return m_recent_projects;
 }
 
@@ -98,6 +90,8 @@ void RecentProjectSettings::ClearRecentProjectsList()
 //! Write all settings to file.
 void RecentProjectSettings::WriteSettings()
 {
+  ValidateIfProjectsExist();
+
   QSettings settings;
   settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
   settings.setValue(kRecentProjectsSettingName, m_recent_projects);
@@ -106,9 +100,26 @@ void RecentProjectSettings::WriteSettings()
 //! Reads all settings from file.
 void RecentProjectSettings::ReadSettings()
 {
+  ValidateIfProjectsExist();
+
   QSettings settings;
   m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
   m_recent_projects = settings.value(kRecentProjectsSettingName).toStringList();
+}
+
+//! Validates if projects exist, and update the list to show only existing projects.
+
+void RecentProjectSettings::ValidateIfProjectsExist()
+{
+  QStringList updated_list;
+  for (const auto& file_name : m_recent_projects)
+  {
+    if (mvvm::utils::IsExists(file_name.toStdString()))
+    {
+      updated_list.append(file_name);
+    }
+  }
+  m_recent_projects = updated_list;
 }
 
 }  // namespace sup::gui

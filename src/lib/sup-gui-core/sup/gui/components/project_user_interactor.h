@@ -20,8 +20,8 @@
 #ifndef SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
 #define SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
 
-#include <string>
 #include <QStringList>
+#include <string>
 
 class QWidget;
 
@@ -48,14 +48,17 @@ public:
 
   mvvm::SaveChangesAnswer OnSaveChangesRequest();
 
+  QStringList GetRecentProjectList();
+
+  void AddToRecentProjectList(const QString& project_dir_name);
+
+  void ClearRecentProjectsList();
+
 private:
   std::string SummonSelectDialog() const;
 
   sup::gui::RecentProjectSettings* m_settings{nullptr};
   QWidget* m_parent{nullptr};
-
-  QString m_current_workdir;
-  QStringList m_recent_projects;
 };
 
 }  // namespace sup::gui

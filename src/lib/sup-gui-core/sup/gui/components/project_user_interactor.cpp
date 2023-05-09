@@ -45,7 +45,8 @@ std::map<QMessageBox::StandardButton, mvvm::SaveChangesAnswer> answer_map()
 namespace sup::gui
 {
 
-ProjectUserInteractor::ProjectUserInteractor(sup::gui::RecentProjectSettings* settings, QWidget* parent)
+ProjectUserInteractor::ProjectUserInteractor(sup::gui::RecentProjectSettings* settings,
+                                             QWidget* parent)
     : m_settings(settings), m_parent(parent)
 {
 }
@@ -109,6 +110,25 @@ mvvm::SaveChangesAnswer ProjectUserInteractor::OnSaveChangesRequest()
   msgBox.setDefaultButton(QMessageBox::Save);
   auto ret = static_cast<QMessageBox::StandardButton>(msgBox.exec());
   return translate[ret];
+}
+
+//! Returns list of recent projects, validates if projects still exists on disk.
+
+QStringList ProjectUserInteractor::GetRecentProjectList()
+{
+  return m_settings->GetRecentProjectList();
+}
+
+//! Adds directory to the list of recent projects.
+
+void ProjectUserInteractor::AddToRecentProjectList(const QString& project_dir_name)
+{
+  return m_settings->AddToRecentProjectList(project_dir_name);
+}
+
+void ProjectUserInteractor::ClearRecentProjectsList()
+{
+  return m_settings->ClearRecentProjectsList();
 }
 
 //! Summon dialog to select directory on disk. If selection is not empty,

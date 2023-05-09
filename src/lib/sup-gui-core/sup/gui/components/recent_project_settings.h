@@ -49,6 +49,7 @@ public:
 private:
   void WriteSettings();
   void ReadSettings();
+  void ValidateIfProjectsExist();
 
   QString m_current_workdir;
   QStringList m_recent_projects;
