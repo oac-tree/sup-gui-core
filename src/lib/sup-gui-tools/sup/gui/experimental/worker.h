@@ -18,10 +18,12 @@ class ITask;
  * is complete, the worker will allow to take the task back.
  *
  * @note Worker provide an access to future watcher, and it's up to the user to subscibe to
- * necessary signals. It's also user's responsibility to delete the Worker after.
+ * necessary signals. It's also user's responsibility to manage time-of-life of the Worker.
  *
  * @note Please note, that the QFuture(void) is used here only to wait for result is completed.
- * The result is supposed to be on board of
+ * The result itself is stored on board of the task.
+ *
+ * @note No inheritance on Qt classes. Class is not expected to be derived from.
  */
 
 class Worker

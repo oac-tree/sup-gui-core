@@ -13,8 +13,8 @@ class Worker;
 class ITask;
 
 /**
- * @brief The WorkerManager class manages creation and running of the workers. It also provide a way
- * to be notified
+ * @brief The WorkerManager class manages creation and running of the workers. It also allows to
+ * subscribe to notifications
  *
  * @note It is not intended
  */
@@ -30,8 +30,11 @@ public:
 
   int GetWorkerCount() const;
 
+  std::unique_ptr<ITask> TakeResult(Worker* worker);
+
 signals:
-  void StatusChanged(Worker*);
+  void WorkerStarted(Worker*);
+  void WorkerFinished(Worker*);
 
 private:
   std::vector<std::unique_ptr<Worker>> m_workers;
