@@ -66,9 +66,7 @@ public:
 TEST_F(WorkerManagerTest, WorkerInitialState)
 {
   Worker worker(std::make_unique<MockTask>());
-  auto watcher = worker.GetFutureWatcher();
-  EXPECT_TRUE(watcher->isStarted());
-  EXPECT_FALSE(watcher->isRunning());
+  EXPECT_EQ(worker.GetStatus(), Worker::kIdle);
 }
 
 TEST_F(WorkerManagerTest, WorkerRun)
@@ -82,10 +80,6 @@ TEST_F(WorkerManagerTest, WorkerRun)
   auto task_ptr = task.get();
 
   Worker worker(std::move(task));
-  auto watcher = worker.GetFutureWatcher();
-
-  QSignalSpy spy_started(watcher, &QFutureWatcher<void>::started);
-  QSignalSpy spy_finished(watcher, &QFutureWatcher<void>::finished);
 
   EXPECT_CALL(mock_task, Run()).Times(1);
 
@@ -94,36 +88,47 @@ TEST_F(WorkerManagerTest, WorkerRun)
 
   QApplication::processEvents();
 
-  QTest::qWait(50);
-
-  watcher->waitForFinished();
-
-  EXPECT_EQ(spy_started.count(), 1);
-  EXPECT_EQ(spy_finished.count(), 1);
-
-  EXPECT_FALSE(watcher->isRunning());
-  auto result = worker.MoveResult();
+  EXPECT_EQ(worker.GetStatus(), Worker::kCompleted);
+  auto result = worker.WaitForResult();
 
   EXPECT_EQ(result.get(), task_ptr);
 }
 
-// TEST_F(WorkerManagerTest, WorkerManagerStart)
-//{
-//   qRegisterMetaType<Worker*>("Worker*");
+TEST_F(WorkerManagerTest, WorkerManagerStart)
+{
+  qRegisterMetaType<Worker*>("Worker*");
 
-//  QStringListModel model;
-//  auto task = std::make_unique<AddLineTask>("text", model);
-//  auto task_ptr = task.get();
+  // creating a model and task to modify this model
+  QStringListModel model;
+  auto task = std::make_unique<AddLineTask>("text", model);
+  auto task_ptr = task.get();
 
-//  WorkerManager manager;
-//  QSignalSpy spy_worker_started(&manager, &WorkerManager::WorkerStarted);
-//  QSignalSpy spy_worker_finished(&manager, &WorkerManager::WorkerStarted);
+  EXPECT_EQ(model.rowCount(QModelIndex()), 0);
 
-//  manager.Start(std::move(task));
+  // create a manager for given task and start the worker
+  WorkerManager manager;
+  QSignalSpy spy_worker(&manager, &WorkerManager::WorkerStatusChanged);
 
-//  EXPECT_EQ(manager.GetWorkerCount(), 1);
-//  QTest::qWait(50);
+  auto worker = manager.Start(std::move(task));
 
-//  EXPECT_EQ(spy_worker_started.count(), 1);
-//  EXPECT_EQ(spy_worker_finished.count(), 1);
-//}
+  EXPECT_EQ(manager.GetWorkerCount(), 1);
+  QTest::qWait(50);
+
+  // at the end of work
+  EXPECT_EQ(spy_worker.count(), 2);
+  EXPECT_EQ(worker->GetStatus(), Worker::kCompleted);
+
+  // taking the result
+  auto result = manager.TakeResult(worker);
+  EXPECT_EQ(result.get(), task_ptr);
+  EXPECT_EQ(manager.GetWorkerCount(), 0);
+
+  // model is still empty since this is how we have designed our task
+  EXPECT_EQ(model.rowCount(QModelIndex()), 0);
+
+  // finalizing the task
+  result->Finalize();
+
+  // the model should be populated
+  EXPECT_EQ(model.rowCount(QModelIndex()), 1);
+}

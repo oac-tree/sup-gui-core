@@ -13,10 +13,9 @@ class Worker;
 class ITask;
 
 /**
- * @brief The WorkerManager class manages creation and running of the workers. It also allows to
- * subscribe to notifications
+ * @brief The WorkerManager class manages the running of tasks.
  *
- * @note It is not intended
+ * @note Internally it creates a collection of workers
  */
 
 class WorkerManager : public QObject
@@ -26,15 +25,17 @@ class WorkerManager : public QObject
 public:
   ~WorkerManager() override;
 
-  void Start(std::unique_ptr<ITask> task);
+  Worker* Start(std::unique_ptr<ITask> task);
 
   int GetWorkerCount() const;
 
+  /**
+   * @brief Takes the result corresponding to a given worker. Removes worker from a queue.
+   */
   std::unique_ptr<ITask> TakeResult(Worker* worker);
 
 signals:
-  void WorkerStarted(Worker*);
-  void WorkerFinished(Worker*);
+  void WorkerStatusChanged(Worker*, int status);
 
 private:
   std::vector<std::unique_ptr<Worker>> m_workers;

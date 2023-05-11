@@ -6,7 +6,8 @@
 #define EXPERIMENTAL_WORKER_H
 
 #include <QFuture>
-#include <QFutureWatcher>
+#include <QObject>
+#include <atomic>
 #include <memory>
 
 class ITask;
@@ -16,41 +17,51 @@ class ITask;
  *
  * @note The worker is initialised with the task and takes ownership of it. It is expected
  * that the task is self contained and can run in a thread safely with no data race. When the task
- * is complete, the worker will allow to take the task back.
- *
- * @note Worker provide an access to future watcher, and it's up to the user to subscibe to
- * necessary signals. It's also user's responsibility to manage time-of-life of the Worker.
- *
+ * is complete, the worker allows to take the task back.
+ * *
  * @note Please note, that the QFuture(void) is used here only to wait for result is completed.
  * The result itself is stored on board of the task.
  *
- * @note No inheritance on Qt classes. Class is not expected to be derived from.
+ * @note Worker has signals that has to be connected via queued connection. Worker is supposed to be
+ * used via WorkerManager.
+ *
+ * @note Current design doesn't use QFutureWatcher machinery to report the progress. I understood
+ * that it has some pecularities in Qt5, since QPromise was introduced in Qt6 only.
  */
 
-class Worker
+class Worker : public QObject
 {
+  Q_OBJECT
+
 public:
-  using watcher_t = QFutureWatcher<void>;
-  using future_t = QFuture<void>;
+  enum Status
+  {
+    kIdle,
+    kStarted,
+    kCompleted,
+    kFailed
+  };
 
   explicit Worker(std::unique_ptr<ITask> task);
-  ~Worker() = default;
+  ~Worker();
 
   /**
    * @brief Runs a task in a thread.
    */
   void Run();
 
-  std::unique_ptr<ITask> MoveResult();
-
   std::unique_ptr<ITask> WaitForResult();
 
-  watcher_t* GetFutureWatcher();
+  Status GetStatus() const;
+  void SetStatus(Status value);
+
+signals:
+  void StatusChanged(int);
 
 private:
-  future_t m_future;
-  std::unique_ptr<watcher_t> m_future_watcher;
+  QFuture<void> m_future;
   std::unique_ptr<ITask> m_task;
+  std::atomic<Status> m_status;
 };
 
 #endif  // EXPERIMENTAL_WORKER_H
