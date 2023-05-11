@@ -86,7 +86,7 @@ TEST_F(WorkerManagerTest, WorkerRun)
   // triggering expectation
   worker.Run();
 
-  QApplication::processEvents();
+  QTest::qWait(50);
 
   EXPECT_EQ(worker.GetStatus(), Worker::kCompleted);
   auto result = worker.WaitForResult();
