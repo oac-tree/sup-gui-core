@@ -22,8 +22,8 @@ class ITask;
  * @note Please note, that the QFuture(void) is used here only to wait for result is completed.
  * The result itself is stored on board of the task.
  *
- * @note Worker has signals that has to be connected via queued connection. Worker is supposed to be
- * used via WorkerManager.
+ * @note Worker has signals that has to be connected via queued connection vith the GUI thread.
+ * Worker is supposed to be used via WorkerManager.
  *
  * @note Current design doesn't use QFutureWatcher machinery to report the progress. I understood
  * that it has some pecularities in Qt5, since QPromise was introduced in Qt6 only.

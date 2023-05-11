@@ -1,5 +1,4 @@
 target_sources(${library_name} PRIVATE
-  task.cpp
   task.h
   worker.cpp
   worker.h

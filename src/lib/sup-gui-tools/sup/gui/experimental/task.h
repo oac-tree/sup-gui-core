@@ -23,7 +23,7 @@ public:
   virtual ~ITask() = default;
 
   /**
-   * @brief Runs main calculations.
+   * @brief Runs main calculations. Expected to be called from non-GUI thread.
    */
   virtual void Run() = 0;
 
