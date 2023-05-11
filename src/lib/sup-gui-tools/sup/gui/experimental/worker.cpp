@@ -7,7 +7,7 @@
 #include "task.h"
 
 #include <QtConcurrent>
-#include <stdexcept>
+#include <iostream>
 
 Worker::Worker(std::unique_ptr<ITask> task)
     : m_future_watcher(std::make_unique<watcher_t>()), m_task(std::move(task))
@@ -16,19 +16,22 @@ Worker::Worker(std::unique_ptr<ITask> task)
 
 void Worker::Run()
 {
-  if (m_future_watcher->isStarted())
+  if (m_future_watcher->isRunning())
   {
     throw std::runtime_error("Computation was started already");
   }
 
-  auto worker_func = [this]() { m_task->Run(); };
+  auto worker_func = [this]()
+  {
+    m_task->Run();
+  };
 
   m_future_watcher->setFuture(QtConcurrent::run(worker_func));
 }
 
 std::unique_ptr<ITask> Worker::MoveResult()
 {
-  if (!m_future_watcher->isFinished())
+  if (!m_future_watcher->future().isFinished())
   {
     throw std::runtime_error("Data is not yet ready");
   }

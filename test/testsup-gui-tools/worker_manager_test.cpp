@@ -7,10 +7,17 @@
 #include "sup/gui/experimental/task.h"
 #include "sup/gui/experimental/worker.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <QFutureWatcher>
+#include <QSignalSpy>
 #include <QString>
 #include <QStringListModel>
+#include <QTest>
+#include <thread>
+
+using ::testing::_;
 
 /**
  * @brief The AddLineTask represent a task to add a string line to a model.
@@ -34,17 +41,69 @@ private:
   QStringListModel& m_model;  //!<
 };
 
+//! To test ITask with gmock framework.
+class MockTask : public ITask
+{
+public:
+  MOCK_METHOD(void, Run, ());
+};
+
+//! Decorator for ITask. Used to wrap MockTask and pass it inside Worker.
+class TaskDecorator : public ITask
+{
+public:
+  TaskDecorator(ITask* component) : m_component(component) {}
+  void Run() override { m_component->Run(); }
+  ITask* m_component;
+};
+
 class WorkerManagerTest : public ::testing::Test
 {
 public:
+  using msec = std::chrono::milliseconds;
 };
 
-TEST_F(WorkerManagerTest, Run)
+TEST_F(WorkerManagerTest, WorkerInitialState)
 {
-  QStringListModel model;
-
-  auto task = std::make_unique<AddLineTask>("text", model);
-
-  WorkerManager manager;
-  manager.Start(std::move(task));
+  Worker worker(std::make_unique<MockTask>());
+  auto watcher = worker.GetFutureWatcher();
+  EXPECT_TRUE(watcher->isStarted());
+  EXPECT_FALSE(watcher->isRunning());
 }
+
+TEST_F(WorkerManagerTest, WorkerRun)
+{
+  // creating mocking task to control Run method call
+  MockTask mock_task;
+
+  // Wrapping mock task inside decorator to pass inside the Worker.
+  // This we need because it is not possible to use gmock framework if mock_task lives the scope.
+  auto task = std::make_unique<TaskDecorator>(&mock_task);
+  auto task_ptr = task.get();
+
+  Worker worker(std::move(task));
+  auto watcher = worker.GetFutureWatcher();
+
+  EXPECT_CALL(mock_task, Run()).Times(1);
+
+  // triggering expectation
+  worker.Run();
+
+  //  QTest::qWait(50);
+  std::this_thread::sleep_for(msec(200));
+
+  EXPECT_FALSE(watcher->isRunning());
+  auto result = worker.MoveResult();
+
+  EXPECT_EQ(result.get(), task_ptr);
+}
+
+// TEST_F(WorkerManagerTest, Run)
+//{
+//   QStringListModel model;
+
+//  auto task = std::make_unique<AddLineTask>("text", model);
+
+//  WorkerManager manager;
+//  manager.Start(std::move(task));
+//}
