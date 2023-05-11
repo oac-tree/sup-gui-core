@@ -5,6 +5,7 @@
 #ifndef EXPERIMENTAL_WORKER_H
 #define EXPERIMENTAL_WORKER_H
 
+#include <QFuture>
 #include <QFutureWatcher>
 #include <memory>
 
@@ -29,7 +30,8 @@ class ITask;
 class Worker
 {
 public:
-    using watcher_t = QFutureWatcher<void>;
+  using watcher_t = QFutureWatcher<void>;
+  using future_t = QFuture<void>;
 
   explicit Worker(std::unique_ptr<ITask> task);
   ~Worker() = default;
@@ -46,6 +48,7 @@ public:
   watcher_t* GetFutureWatcher();
 
 private:
+  future_t m_future;
   std::unique_ptr<watcher_t> m_future_watcher;
   std::unique_ptr<ITask> m_task;
 };

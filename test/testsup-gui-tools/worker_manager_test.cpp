@@ -84,13 +84,22 @@ TEST_F(WorkerManagerTest, WorkerRun)
   Worker worker(std::move(task));
   auto watcher = worker.GetFutureWatcher();
 
+  QSignalSpy spy_started(watcher, &QFutureWatcher<void>::started);
+  QSignalSpy spy_finished(watcher, &QFutureWatcher<void>::finished);
+
   EXPECT_CALL(mock_task, Run()).Times(1);
 
   // triggering expectation
   worker.Run();
 
-  //  QTest::qWait(50);
-  std::this_thread::sleep_for(msec(200));
+  QApplication::processEvents();
+
+  QTest::qWait(50);
+
+  watcher->waitForFinished();
+
+  EXPECT_EQ(spy_started.count(), 1);
+  EXPECT_EQ(spy_finished.count(), 1);
 
   EXPECT_FALSE(watcher->isRunning());
   auto result = worker.MoveResult();
@@ -98,12 +107,23 @@ TEST_F(WorkerManagerTest, WorkerRun)
   EXPECT_EQ(result.get(), task_ptr);
 }
 
-// TEST_F(WorkerManagerTest, Run)
+// TEST_F(WorkerManagerTest, WorkerManagerStart)
 //{
-//   QStringListModel model;
+//   qRegisterMetaType<Worker*>("Worker*");
 
+//  QStringListModel model;
 //  auto task = std::make_unique<AddLineTask>("text", model);
+//  auto task_ptr = task.get();
 
 //  WorkerManager manager;
+//  QSignalSpy spy_worker_started(&manager, &WorkerManager::WorkerStarted);
+//  QSignalSpy spy_worker_finished(&manager, &WorkerManager::WorkerStarted);
+
 //  manager.Start(std::move(task));
+
+//  EXPECT_EQ(manager.GetWorkerCount(), 1);
+//  QTest::qWait(50);
+
+//  EXPECT_EQ(spy_worker_started.count(), 1);
+//  EXPECT_EQ(spy_worker_finished.count(), 1);
 //}
