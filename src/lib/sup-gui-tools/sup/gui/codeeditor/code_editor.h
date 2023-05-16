@@ -20,7 +20,8 @@
 #ifndef SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
 #define SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
 
-#include <QPlainTextEdit>
+#include <QTextEdit>
+//#include <QPlainTextEdit>
 #include <memory>
 
 namespace sup::gui
@@ -28,7 +29,7 @@ namespace sup::gui
 
 //! A light-weighted code editor with syntax highlight and code folding.
 
-class CodeEditor : public QPlainTextEdit
+class CodeEditor : public QTextEdit
 {
   Q_OBJECT
 

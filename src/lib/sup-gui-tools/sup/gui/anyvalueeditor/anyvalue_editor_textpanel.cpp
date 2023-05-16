@@ -19,7 +19,7 @@
 
 #include "anyvalue_editor_textpanel.h"
 
-#include "highlighter/qsourcehighliter.h"
+#include <sup/gui/codeeditor/code_editor.h>
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
@@ -31,9 +31,6 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include <definition.h>
-#include <syntaxhighlighter.h>
-#include <theme.h>
 
 #include <QDebug>
 #include <QScrollBar>
@@ -44,30 +41,13 @@ namespace sup::gui
 {
 
 AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, QWidget *parent)
-    : QWidget(parent), m_text_edit(new QTextEdit), m_model(model)
+    : QWidget(parent), m_text_edit(new CodeEditor), m_model(model)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
   layout->addWidget(m_text_edit);
-
-  QFont textFont("Monospace");
-  m_text_edit->setFont(textFont);
-  m_text_edit->setLineWrapMode(QTextEdit::NoWrap);
-
-  //  auto highlighter = new QSourceHighlite::QSourceHighliter(m_text_edit->document());
-  //  highlighter->setCurrentLanguage(QSourceHighlite::QSourceHighliter::CodeJSON);
-
-  auto highlighter = new KSyntaxHighlighting::SyntaxHighlighter(m_text_edit);
-
-  highlighter->setTheme(
-      (m_text_edit->palette().color(QPalette::Base).lightness() < 128)
-          ? m_repository.defaultTheme(KSyntaxHighlighting::Repository::DarkTheme)
-          : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
-
-  const auto def = m_repository.definitionForFileName("aaa.json");
-  highlighter->setDefinition(def);
 
   auto on_model_changed = [this]() { UpdateJson(); };
   m_model_changed_controller =
