@@ -31,6 +31,10 @@
 
 #include <sup/dto/anyvalue.h>
 
+#include <definition.h>
+#include <syntaxhighlighter.h>
+#include <theme.h>
+
 #include <QDebug>
 #include <QScrollBar>
 #include <QTextEdit>
@@ -52,8 +56,18 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, 
   m_text_edit->setFont(textFont);
   m_text_edit->setLineWrapMode(QTextEdit::NoWrap);
 
-  auto highlighter = new QSourceHighlite::QSourceHighliter(m_text_edit->document());
-  highlighter->setCurrentLanguage(QSourceHighlite::QSourceHighliter::CodeJSON);
+  //  auto highlighter = new QSourceHighlite::QSourceHighliter(m_text_edit->document());
+  //  highlighter->setCurrentLanguage(QSourceHighlite::QSourceHighliter::CodeJSON);
+
+  auto highlighter = new KSyntaxHighlighting::SyntaxHighlighter(m_text_edit);
+
+  highlighter->setTheme(
+      (m_text_edit->palette().color(QPalette::Base).lightness() < 128)
+          ? m_repository.defaultTheme(KSyntaxHighlighting::Repository::DarkTheme)
+          : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
+
+  const auto def = m_repository.definitionForFileName("aaa.json");
+  highlighter->setDefinition(def);
 
   auto on_model_changed = [this]() { UpdateJson(); };
   m_model_changed_controller =

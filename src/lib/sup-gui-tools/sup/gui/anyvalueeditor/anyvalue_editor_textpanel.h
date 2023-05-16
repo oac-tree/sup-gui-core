@@ -21,6 +21,7 @@
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_TEXTPANEL_H_
 
 #include <QWidget>
+#include <repository.h>
 
 class QTextEdit;
 
@@ -52,6 +53,7 @@ private:
   mvvm::ApplicationModel* m_model{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
   int m_cached_scrollbar_value{0};
+  KSyntaxHighlighting::Repository m_repository;
 };
 
 }  // namespace sup::gui

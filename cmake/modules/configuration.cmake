@@ -83,6 +83,7 @@ message(STATUS " Core library: ${QtWidgets_location}")
 find_package(Threads)
 
 find_package(sup-mvvm REQUIRED)
+find_package(sup-gui-extra REQUIRED)
 find_package(sup-dto REQUIRED)
 
 # -----------------------------------------------------------------------------
