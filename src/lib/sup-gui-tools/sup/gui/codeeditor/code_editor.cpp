@@ -90,9 +90,16 @@ CodeEditor::CodeEditor(QWidget* parent)
     : QPlainTextEdit(parent), p_impl(std::make_unique<CodeEditorImpl>(this))
 {
   setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+
+  setLineWrapMode(QPlainTextEdit::NoWrap);
   p_impl->SetDefaultTheme();
+
+  connect(this, &QPlainTextEdit::blockCountChanged, this, &CodeEditor::updateSidebarGeometry);
+  connect(this, &QPlainTextEdit::updateRequest, this, &CodeEditor::updateSidebarArea);
+  connect(this, &QPlainTextEdit::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine);
+
   updateSidebarGeometry();
-//  highlightCurrentLine();
+  //  highlightCurrentLine();
 }
 
 CodeEditor::~CodeEditor() = default;
@@ -103,6 +110,12 @@ void CodeEditor::SetText(const QString& text)
 
   const auto def = p_impl->m_repository.definitionForFileName("aaa.json");
   p_impl->m_highlighter->setDefinition(def);
+}
+
+void CodeEditor::resizeEvent(QResizeEvent* event)
+{
+  QPlainTextEdit::resizeEvent(event);
+  updateSidebarGeometry();
 }
 
 int CodeEditor::sidebarWidth() const

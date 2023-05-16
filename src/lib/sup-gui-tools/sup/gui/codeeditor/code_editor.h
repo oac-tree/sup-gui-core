@@ -38,10 +38,13 @@ class CodeEditor : public QPlainTextEdit
   Q_OBJECT
 
 public:
-  explicit CodeEditor(QWidget* parent = nullptr);
+  explicit CodeEditor(QWidget *parent = nullptr);
   ~CodeEditor() override;
 
-  void SetText(const QString& text);
+  void SetText(const QString &text);
+
+protected:
+  void resizeEvent(QResizeEvent *event) override;
 
 private:
   friend class CodeEditorSidebar;
@@ -56,8 +59,6 @@ private:
   bool isFoldable(const QTextBlock &block) const;
   bool isFolded(const QTextBlock &block) const;
   void toggleFold(const QTextBlock &block);
-
-
 
   struct CodeEditorImpl;
   std::unique_ptr<CodeEditorImpl> p_impl;
