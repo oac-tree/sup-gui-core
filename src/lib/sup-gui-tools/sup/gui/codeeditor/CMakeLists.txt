@@ -1,6 +1,8 @@
 target_sources(${library_name} PRIVATE
   code_editor.cpp
   code_editor.h
+  code_editor_sidebar.cpp
+  code_editor_sidebar.h
 )
 
 install(FILES
