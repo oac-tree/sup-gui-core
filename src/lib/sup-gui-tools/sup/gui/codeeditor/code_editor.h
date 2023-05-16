@@ -44,6 +44,21 @@ public:
   void SetText(const QString& text);
 
 private:
+  friend class CodeEditorSidebar;
+
+  int sidebarWidth() const;
+  void sidebarPaintEvent(QPaintEvent *event);
+  void updateSidebarGeometry();
+  void updateSidebarArea(const QRect &rect, int dy);
+  void highlightCurrentLine();
+
+  QTextBlock blockAtPosition(int y) const;
+  bool isFoldable(const QTextBlock &block) const;
+  bool isFolded(const QTextBlock &block) const;
+  void toggleFold(const QTextBlock &block);
+
+
+
   struct CodeEditorImpl;
   std::unique_ptr<CodeEditorImpl> p_impl;
 };

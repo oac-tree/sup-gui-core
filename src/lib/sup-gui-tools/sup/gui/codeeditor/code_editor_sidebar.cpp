@@ -21,32 +21,34 @@
 
 #include "code_editor.h"
 
+#include <QTextBlock>
+
 namespace sup::gui
 {
 CodeEditorSidebar::CodeEditorSidebar(CodeEditor *editor) : QWidget(editor), m_code_editor(editor) {}
 
 QSize CodeEditorSidebar::sizeHint() const
 {
-//  return QSize(m_code_editor->sidebarWidth(), 0);
-    return {};
+  return QSize(m_code_editor->sidebarWidth(), 0);
 }
 
 void CodeEditorSidebar::paintEvent(QPaintEvent *event)
 {
-//  m_code_editor->sidebarPaintEvent(event);
+  m_code_editor->sidebarPaintEvent(event);
 }
 
 void CodeEditorSidebar::mouseReleaseEvent(QMouseEvent *event)
 {
-//  if (event->pos().x() >= width() - m_code_editor->fontMetrics().lineSpacing()) {
-//      auto block = m_code_editor->blockAtPosition(event->pos().y());
-//      if (!block.isValid() || !m_code_editor->isFoldable(block)) {
-//          return;
-//      }
-//      m_code_editor->toggleFold(block);
-//  }
-//  QWidget::mouseReleaseEvent(event);
-
+  if (event->pos().x() >= width() - m_code_editor->fontMetrics().lineSpacing())
+  {
+    auto block = m_code_editor->blockAtPosition(event->pos().y());
+    if (!block.isValid() || !m_code_editor->isFoldable(block))
+    {
+      return;
+    }
+    m_code_editor->toggleFold(block);
+  }
+  QWidget::mouseReleaseEvent(event);
 }
 
 }  // namespace sup::gui
