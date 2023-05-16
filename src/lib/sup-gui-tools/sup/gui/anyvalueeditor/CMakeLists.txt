@@ -16,8 +16,6 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_treepanel.h
 )
 
-add_subdirectory(highlighter)
-
 install(FILES
   anyvalue_editor.h
   anyvalue_editor_context.h
