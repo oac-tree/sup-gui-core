@@ -64,7 +64,7 @@ void AnyValueEditorTextPanel::UpdateJson()
     {
       auto any_value = sup::gui::CreateAnyValue(*item);
       auto str = sup::gui::AnyValueToJSONString(any_value, true);
-      m_text_edit->SetText(QString::fromStdString(str));
+      m_text_edit->SetText(QString::fromStdString(str), "JSON");
       RestoreScrollBarPosition();
     }
     catch (const std::exception &ex)

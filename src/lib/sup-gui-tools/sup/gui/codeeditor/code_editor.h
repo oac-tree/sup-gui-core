@@ -41,7 +41,15 @@ public:
   explicit CodeEditor(QWidget *parent = nullptr);
   ~CodeEditor() override;
 
-  void SetText(const QString &text);
+  /**
+   * @brief Set editor content. Previous content will be cleared up.
+   */
+  void SetText(const QString &text, const QString &definition_name = {});
+
+  /**
+   * @brief Set language definition for given name (JSON, XML)
+   */
+  void SetDefinition(const QString &definition_name);
 
 protected:
   void resizeEvent(QResizeEvent *event) override;

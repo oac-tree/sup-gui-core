@@ -104,11 +104,18 @@ CodeEditor::CodeEditor(QWidget* parent)
 
 CodeEditor::~CodeEditor() = default;
 
-void CodeEditor::SetText(const QString& text)
+void CodeEditor::SetText(const QString& text, const QString& definition_name)
 {
   setPlainText(text);
+  if (!definition_name.isEmpty())
+  {
+    SetDefinition(definition_name);
+  }
+}
 
-  const auto def = p_impl->m_repository.definitionForFileName("aaa.json");
+void CodeEditor::SetDefinition(const QString& definition_name)
+{
+  const auto def = p_impl->m_repository.definitionForName(definition_name);
   p_impl->m_highlighter->setDefinition(def);
 }
 
