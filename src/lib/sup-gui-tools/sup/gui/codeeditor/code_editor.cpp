@@ -19,6 +19,8 @@
 
 #include "code_editor.h"
 
+#include "code_editor_sidebar.h"
+
 #include <definition.h>
 #include <repository.h>
 #include <syntaxhighlighter.h>
@@ -30,15 +32,21 @@
 namespace sup::gui
 {
 
+/**
+ * @brief The CodeEditorImpl class contains implementation details of CodeEditor class.
+ * Invented to hide syntax-highlighter internals from users of CodeEditor class.
+ *
+ */
 struct CodeEditor::CodeEditorImpl
 {
   KSyntaxHighlighting::Repository m_repository;
   KSyntaxHighlighting::SyntaxHighlighter* m_highlighter{nullptr};
-  QTextEdit* m_self{nullptr};
+  QPlainTextEdit* m_self{nullptr};
 
-  CodeEditorImpl(QTextEdit* self) : m_self(self)
+  CodeEditorImpl(QPlainTextEdit* self) : m_self(self)
+
   {
-    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(m_self);
+    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(m_self->document());
     qDebug() << m_highlighter;
   }
 
@@ -77,15 +85,21 @@ struct CodeEditor::CodeEditorImpl
 };
 
 CodeEditor::CodeEditor(QWidget* parent)
-    : QTextEdit(parent), p_impl(std::make_unique<CodeEditorImpl>(this))
+    : QPlainTextEdit(parent), p_impl(std::make_unique<CodeEditorImpl>(this))
 {
   setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+}
+
+CodeEditor::~CodeEditor() = default;
+
+void CodeEditor::SetText(const QString& text)
+{
+  setPlainText(text);
+
   p_impl->SetDefaultTheme();
 
   const auto def = p_impl->m_repository.definitionForFileName("aaa.json");
   p_impl->m_highlighter->setDefinition(def);
 }
-
-CodeEditor::~CodeEditor() = default;
 
 }  // namespace sup::gui

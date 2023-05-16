@@ -20,7 +20,6 @@
 #include "anyvalue_editor_textpanel.h"
 
 #include <sup/gui/codeeditor/code_editor.h>
-
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_utils.h>
@@ -30,7 +29,6 @@
 #include <mvvm/project/model_has_changed_controller.h>
 
 #include <sup/dto/anyvalue.h>
-
 
 #include <QDebug>
 #include <QScrollBar>
@@ -66,7 +64,7 @@ void AnyValueEditorTextPanel::UpdateJson()
     {
       auto any_value = sup::gui::CreateAnyValue(*item);
       auto str = sup::gui::AnyValueToJSONString(any_value, true);
-      m_text_edit->setText(QString::fromStdString(str));
+      m_text_edit->SetText(QString::fromStdString(str));
       RestoreScrollBarPosition();
     }
     catch (const std::exception &ex)

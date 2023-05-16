@@ -20,22 +20,28 @@
 #ifndef SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
 #define SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
 
-#include <QTextEdit>
-//#include <QPlainTextEdit>
+#include <QPlainTextEdit>
 #include <memory>
 
 namespace sup::gui
 {
 
-//! A light-weighted code editor with syntax highlight and code folding.
+/**
+ * @brief The CodeEditor class is a light-weighted code editor with syntax highlighting and code
+ * folding.
+ *
+ * @note Rely on KDE syntax highlighter https://github.com/KDE/syntax-highlighting
+ */
 
-class CodeEditor : public QTextEdit
+class CodeEditor : public QPlainTextEdit
 {
   Q_OBJECT
 
 public:
   explicit CodeEditor(QWidget* parent = nullptr);
   ~CodeEditor() override;
+
+  void SetText(const QString& text);
 
 private:
   struct CodeEditorImpl;
