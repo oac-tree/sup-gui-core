@@ -61,7 +61,6 @@ private:
   void sidebarPaintEvent(QPaintEvent *event);
   void updateSidebarGeometry();
   void updateSidebarArea(const QRect &rect, int dy);
-  void highlightCurrentLine();
 
   QTextBlock blockAtPosition(int y) const;
   bool isFoldable(const QTextBlock &block) const;

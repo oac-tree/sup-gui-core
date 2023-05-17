@@ -32,6 +32,7 @@ class CodeEditor;
 class CodeEditorSidebar : public QWidget
 {
   Q_OBJECT
+
 public:
   explicit CodeEditorSidebar(CodeEditor *editor);
 

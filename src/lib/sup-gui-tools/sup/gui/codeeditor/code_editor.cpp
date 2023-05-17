@@ -45,11 +45,12 @@ struct CodeEditor::CodeEditorImpl
   CodeEditorSidebar* m_sideBar;
   CodeEditor* m_self{nullptr};
 
-  CodeEditorImpl(CodeEditor* self) : m_sideBar(new CodeEditorSidebar(self)), m_self(self)
+  explicit CodeEditorImpl(CodeEditor* self)
+      : m_highlighter(new KSyntaxHighlighting::SyntaxHighlighter(self->document()))
+      , m_sideBar(new CodeEditorSidebar(self))
+      , m_self(self)
 
   {
-    m_highlighter = new KSyntaxHighlighting::SyntaxHighlighter(m_self->document());
-    qDebug() << m_highlighter;
   }
 
   /**
@@ -73,7 +74,7 @@ struct CodeEditor::CodeEditorImpl
 
     m_highlighter->setTheme(theme);
     m_highlighter->rehighlight();
-    //    highlightCurrentLine();
+    highlightCurrentLine();
   }
 
   /**
@@ -83,6 +84,20 @@ struct CodeEditor::CodeEditorImpl
   {
     SetTheme(IsDarkMode() ? m_repository.defaultTheme(KSyntaxHighlighting::Repository::DarkTheme)
                           : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
+  }
+
+  void highlightCurrentLine()
+  {
+    QTextEdit::ExtraSelection selection;
+    selection.format.setBackground(
+        QColor(m_highlighter->theme().editorColor(KSyntaxHighlighting::Theme::CurrentLine)));
+    selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+    selection.cursor = m_self->textCursor();
+    selection.cursor.clearSelection();
+
+    QList<QTextEdit::ExtraSelection> extraSelections;
+    extraSelections.append(selection);
+    m_self->setExtraSelections(extraSelections);
   }
 };
 
@@ -96,21 +111,24 @@ CodeEditor::CodeEditor(QWidget* parent)
 
   connect(this, &QPlainTextEdit::blockCountChanged, this, &CodeEditor::updateSidebarGeometry);
   connect(this, &QPlainTextEdit::updateRequest, this, &CodeEditor::updateSidebarArea);
-  connect(this, &QPlainTextEdit::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine);
+  connect(this, &QPlainTextEdit::cursorPositionChanged, this,
+          [this]() { p_impl->highlightCurrentLine(); });
 
   updateSidebarGeometry();
-  //  highlightCurrentLine();
+  p_impl->highlightCurrentLine();
 }
 
 CodeEditor::~CodeEditor() = default;
 
 void CodeEditor::SetText(const QString& text, const QString& definition_name)
 {
-  setPlainText(text);
+  clear();
+
   if (!definition_name.isEmpty())
   {
     SetDefinition(definition_name);
   }
+  setPlainText(text);
 }
 
 void CodeEditor::SetDefinition(const QString& definition_name)
@@ -214,20 +232,6 @@ void CodeEditor::updateSidebarArea(const QRect& rect, int dy)
   {
     p_impl->m_sideBar->update(0, rect.y(), p_impl->m_sideBar->width(), rect.height());
   }
-}
-
-void CodeEditor::highlightCurrentLine()
-{
-  QTextEdit::ExtraSelection selection;
-  selection.format.setBackground(
-      QColor(p_impl->m_highlighter->theme().editorColor(KSyntaxHighlighting::Theme::CurrentLine)));
-  selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-  selection.cursor = textCursor();
-  selection.cursor.clearSelection();
-
-  QList<QTextEdit::ExtraSelection> extraSelections;
-  extraSelections.append(selection);
-  setExtraSelections(extraSelections);
 }
 
 QTextBlock CodeEditor::blockAtPosition(int y) const
