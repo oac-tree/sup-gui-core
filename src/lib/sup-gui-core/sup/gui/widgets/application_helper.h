@@ -57,6 +57,12 @@ void SetWindowStyle(const QString &app_style, int font_size, bool verbose = fals
  */
 void SetupHighDpiScaling(bool scale_from_environment = false);
 
+/**
+ * @brief Gets the current system user name.
+ * @return The current system user name, or empty string if the user name cannot be retrieved.
+*/
+QString GetUserName();
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_WIDGETS_APPLICATION_HELPER_H_

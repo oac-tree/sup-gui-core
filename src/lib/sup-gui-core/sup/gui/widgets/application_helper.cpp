@@ -23,6 +23,7 @@
 
 #include <QApplication>
 #include <QLocale>
+#include <QProcess>
 #include <QStyleFactory>
 #include <iostream>
 
@@ -78,6 +79,27 @@ void SetWindowStyle(const QString &app_style, int font_size, bool verbose)
 void SetupHighDpiScaling(bool scale_from_environment)
 {
   mvvm::utils::SetupHighDpiScaling(scale_from_environment);
+}
+
+QString GetUserName()
+{
+#ifdef Q_OS_UNIX
+  QProcess process;
+  process.start("whoami", QStringList(), QIODevice::ReadOnly);
+  if (process.waitForFinished(500) && process.exitStatus() == QProcess::NormalExit)
+  {
+    return QString(process.readAllStandardOutput()).trimmed();
+  }
+  else
+  {
+    process.kill();
+    return "";
+  }
+// #elif Q_OS_WIN
+// TODO: implement with Win32 API "GetUserName"?
+#else
+  return "";
+#endif
 }
 
 }  // namespace sup::gui
