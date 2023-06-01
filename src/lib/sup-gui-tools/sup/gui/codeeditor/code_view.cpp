@@ -23,7 +23,6 @@
 
 #include <sup/gui/codeeditor/code_editor.h>
 
-#include <QAction>
 #include <QFile>
 #include <QFileDialog>
 #include <QScrollBar>
@@ -31,7 +30,6 @@
 #include <QTextStream>
 #include <QToolBar>
 #include <QVBoxLayout>
-#include <fstream>
 
 namespace
 {
@@ -44,6 +42,11 @@ QString SuggestFileName(sup::gui::CodeView::LanguageDefinition language)
   return language == sup::gui::CodeView::kXML ? "untitled.xml" : "untitled.json";
 }
 
+QString LanguageName(sup::gui::CodeView::LanguageDefinition language)
+{
+  return language == sup::gui::CodeView::kXML ? "XML" : "JSON";
+}
+
 }  // namespace
 
 namespace sup::gui
@@ -51,13 +54,15 @@ namespace sup::gui
 CodeView::CodeView(LanguageDefinition language, QWidget *parent)
     : QWidget(parent), m_text_edit(new CodeEditor), m_language(language)
 {
+  setWindowTitle(LanguageName(language) + " View");
+
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
   layout->addWidget(m_text_edit);
 
-  m_text_edit->SetDefinition(language == kXML ? "XML" : "JSON");
+  m_text_edit->SetDefinition(LanguageName(language));
   m_text_edit->setReadOnly(true);
 
   ReadSettings();
@@ -111,9 +116,12 @@ void CodeView::OnExportToFileRequest()
   {
     auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
     m_current_workdir = QString::fromStdString(parent_path);
-    std::ofstream file_out(file_name.toStdString());
-    file_out << m_text_edit->toPlainText().toStdString();
-    file_out.close();
+    QFile file(file_name);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+      QTextStream out(&file);
+      out << m_text_edit->toPlainText();
+    }
   }
 }
 
