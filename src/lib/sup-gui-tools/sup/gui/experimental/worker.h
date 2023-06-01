@@ -5,10 +5,10 @@
 #ifndef EXPERIMENTAL_WORKER_H
 #define EXPERIMENTAL_WORKER_H
 
-#include <QFuture>
 #include <QObject>
 #include <atomic>
 #include <memory>
+#include <future>
 
 class ITask;
 
@@ -59,7 +59,7 @@ signals:
   void StatusChanged(int);
 
 private:
-  QFuture<void> m_future;
+  std::future<void> m_future;
   std::unique_ptr<ITask> m_task;
   std::atomic<Status> m_status;
 };

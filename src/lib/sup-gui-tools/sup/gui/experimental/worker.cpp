@@ -6,8 +6,6 @@
 
 #include "task.h"
 
-#include <QtConcurrent>
-
 Worker::Worker(std::unique_ptr<ITask> task) : m_task(std::move(task)), m_status(kIdle) {}
 
 Worker::~Worker() = default;
@@ -28,12 +26,12 @@ void Worker::Run()
     }
   };
 
-  m_future = QtConcurrent::run(worker_func);
+  m_future = std::async(std::launch::async, worker_func);
 }
 
 std::unique_ptr<ITask> Worker::WaitForResult()
 {
-  m_future.waitForFinished();
+  m_future.wait();
   return std::move(m_task);
 }
 
