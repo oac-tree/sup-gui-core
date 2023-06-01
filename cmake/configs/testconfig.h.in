@@ -29,7 +29,7 @@ namespace sup::gui::TestConfig {
 
 inline std::string CMakeSourceDir() { return "@CMAKE_SOURCE_DIR@"; }
 inline std::string CMakeBinaryDir() { return "@CMAKE_BINARY_DIR@"; }
-inline std::string TestOutputDir() { return "@TEST_OUTPUT_DIRECTORY@"; }
+inline std::string TestOutputDir() { return "@SUP_GUI_CORE_TESTOUTPUT_DIR@"; }
 
 }
 
