@@ -38,12 +38,18 @@ namespace
 
 const QString kGroupName("CodeView");
 const QString kWorkdirSettingName = kGroupName + "/" + "workdir";
+
+QString SuggestFileName(sup::gui::CodeView::LanguageDefinition language)
+{
+  return language == sup::gui::CodeView::kXML ? "untitled.xml" : "untitled.json";
+}
+
 }  // namespace
 
 namespace sup::gui
 {
 CodeView::CodeView(LanguageDefinition language, QWidget *parent)
-    : QWidget(parent), m_text_edit(new CodeEditor)
+    : QWidget(parent), m_text_edit(new CodeEditor), m_language(language)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -54,7 +60,6 @@ CodeView::CodeView(LanguageDefinition language, QWidget *parent)
   m_text_edit->SetDefinition(language == kXML ? "XML" : "JSON");
   m_text_edit->setReadOnly(true);
 
-  SetupActions();
   ReadSettings();
 }
 
@@ -99,7 +104,8 @@ void CodeView::ClearText()
 void CodeView::OnExportToFileRequest()
 {
   auto file_name = QFileDialog::getSaveFileName(
-      this, "Save File", m_current_workdir + "/untitled.xml", tr("Files (*.xml *.XML)"));
+      this, "Save File", m_current_workdir + "/" + SuggestFileName(m_language),
+      tr("XML files (*.xml *.XML);;JSON files (*.json)"));
 
   if (!file_name.isEmpty())
   {
@@ -121,31 +127,6 @@ void CodeView::WriteSettings()
 {
   QSettings settings;
   settings.setValue(kWorkdirSettingName, m_current_workdir);
-}
-
-void CodeView::SetupActions()
-{
-  auto export_to_file_action = new QAction("&Export XML", this);
-  //  export_to_file_action->setIcon(styleutils::GetIcon("file-export-outline"));
-  export_to_file_action->setToolTip("Export procedure to XML file");
-
-  auto on_export_to_file = [this]()
-  {
-    auto file_name = QFileDialog::getSaveFileName(
-        this, "Save File", m_current_workdir + "/untitled.xml", tr("Files (*.xml *.XML)"));
-
-    if (!file_name.isEmpty())
-    {
-      auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-      m_current_workdir = QString::fromStdString(parent_path);
-      std::ofstream file_out(file_name.toStdString());
-      file_out << m_text_edit->toPlainText().toStdString();
-      file_out.close();
-    }
-  };
-
-  connect(export_to_file_action, &QAction::triggered, this, on_export_to_file);
-  addAction(export_to_file_action);
 }
 
 void CodeView::SaveScrollBarPosition()

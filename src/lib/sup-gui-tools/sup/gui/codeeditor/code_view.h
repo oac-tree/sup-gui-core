@@ -69,13 +69,13 @@ private:
 
   void ReadSettings();
   void WriteSettings();
-  void SetupActions();
   void SaveScrollBarPosition();
   void RestoreScrollBarPosition();
 
   CodeEditor* m_text_edit{nullptr};
   QString m_current_workdir;
   ScrollBarPosition m_cached_scrollbar_pos;
+  LanguageDefinition m_language;
 };
 
 }  // namespace sup::gui
