@@ -53,9 +53,12 @@ private:
   void ReadSettings();
   void WriteSettings();
   void SetupActions();
+  void SaveScrollBarPosition();
+  void RestoreScrollBarPosition();
 
   CodeEditor* m_text_edit{nullptr};
   QString m_current_workdir;
+  int m_cached_scrollbar_value{0};
 };
 
 }  // namespace sup::gui

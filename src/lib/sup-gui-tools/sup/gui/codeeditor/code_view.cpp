@@ -82,11 +82,12 @@ void CodeView::SetFile(const QString &file_name)
 
 void CodeView::SetContent(const QString &content)
 {
-  const int old_scrollbar_value = m_text_edit->verticalScrollBar()->value();
-  m_text_edit->clear();
+  SaveScrollBarPosition();
 
+  m_text_edit->clear();
   m_text_edit->SetText(content, "XML");
-  m_text_edit->verticalScrollBar()->setValue(old_scrollbar_value);
+
+  RestoreScrollBarPosition();
 }
 
 void CodeView::ClearText()
@@ -129,6 +130,23 @@ void CodeView::SetupActions()
 
   connect(export_to_file_action, &QAction::triggered, this, on_export_to_file);
   addAction(export_to_file_action);
+}
+
+void CodeView::SaveScrollBarPosition()
+{
+  const int current_scrollbar_value = m_text_edit->verticalScrollBar()->value();
+  if (current_scrollbar_value > 0)
+  {
+    // We save scroll bar position only if current position is not zero.
+    // This is a simple way to ignore moments, when text editor was cleared because of
+    // inconsistency in the model.
+    m_cached_scrollbar_value = current_scrollbar_value;
+  }
+}
+
+void CodeView::RestoreScrollBarPosition()
+{
+  m_text_edit->verticalScrollBar()->setValue(m_cached_scrollbar_value);
 }
 
 }  // namespace sup::gui
