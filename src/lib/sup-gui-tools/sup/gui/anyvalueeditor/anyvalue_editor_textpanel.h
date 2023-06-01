@@ -33,7 +33,7 @@ class ModelHasChangedController;
 namespace sup::gui
 {
 
-class CodeEditor;
+class CodeView;
 
 //! Collapsible panel on the right of AnyValueEditor with JSON representation of AnyValue.
 
@@ -47,13 +47,10 @@ public:
 
 private:
   void UpdateJson();
-  void SaveScrollBarPosition();
-  void RestoreScrollBarPosition();
 
-  CodeEditor* m_text_edit{nullptr};
+  CodeView* m_json_view{nullptr};
   mvvm::ApplicationModel* m_model{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
-  int m_cached_scrollbar_value{0};
 };
 
 }  // namespace sup::gui

@@ -28,7 +28,6 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QSettings>
-#include <QTextEdit>
 #include <QTextStream>
 #include <QToolBar>
 #include <QVBoxLayout>
@@ -43,15 +42,17 @@ const QString kWorkdirSettingName = kGroupName + "/" + "workdir";
 
 namespace sup::gui
 {
-CodeView::CodeView(QWidget *parent) : QWidget(parent), m_text_edit(new CodeEditor)
+CodeView::CodeView(LanguageDefinition language, QWidget *parent)
+    : QWidget(parent), m_text_edit(new CodeEditor)
 {
-  setWindowTitle("XML");
-
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
   layout->addWidget(m_text_edit);
+
+  m_text_edit->SetDefinition(language == kXML ? "XML" : "JSON");
+  m_text_edit->setReadOnly(true);
 
   SetupActions();
   ReadSettings();
@@ -85,7 +86,7 @@ void CodeView::SetContent(const QString &content)
   SaveScrollBarPosition();
 
   m_text_edit->clear();
-  m_text_edit->SetText(content, "XML");
+  m_text_edit->SetText(content);
 
   RestoreScrollBarPosition();
 }
@@ -93,6 +94,21 @@ void CodeView::SetContent(const QString &content)
 void CodeView::ClearText()
 {
   m_text_edit->clear();
+}
+
+void CodeView::OnExportToFileRequest()
+{
+  auto file_name = QFileDialog::getSaveFileName(
+      this, "Save File", m_current_workdir + "/untitled.xml", tr("Files (*.xml *.XML)"));
+
+  if (!file_name.isEmpty())
+  {
+    auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
+    m_current_workdir = QString::fromStdString(parent_path);
+    std::ofstream file_out(file_name.toStdString());
+    file_out << m_text_edit->toPlainText().toStdString();
+    file_out.close();
+  }
 }
 
 void CodeView::ReadSettings()

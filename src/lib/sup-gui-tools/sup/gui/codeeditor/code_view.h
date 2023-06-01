@@ -40,7 +40,16 @@ class CodeView : public QWidget
   Q_OBJECT
 
 public:
-  explicit CodeView(QWidget* parent = nullptr);
+  /**
+   * @brief Supported language definitions.
+   */
+  enum LanguageDefinition
+  {
+    kXML,
+    kJSON
+  };
+
+  explicit CodeView(LanguageDefinition language = kXML, QWidget* parent = nullptr);
   ~CodeView() override;
 
   void SetFile(const QString& file_name);
@@ -48,6 +57,8 @@ public:
   void SetContent(const QString& content);
 
   void ClearText();
+
+  void OnExportToFileRequest();
 
 private:
   struct ScrollBarPosition
