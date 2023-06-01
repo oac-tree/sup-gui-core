@@ -50,6 +50,12 @@ public:
   void ClearText();
 
 private:
+  struct ScrollBarPosition
+  {
+    int vertical{0};
+    int horizontal{0};
+  };
+
   void ReadSettings();
   void WriteSettings();
   void SetupActions();
@@ -58,7 +64,7 @@ private:
 
   CodeEditor* m_text_edit{nullptr};
   QString m_current_workdir;
-  int m_cached_scrollbar_value{0};
+  ScrollBarPosition m_cached_scrollbar_pos;
 };
 
 }  // namespace sup::gui

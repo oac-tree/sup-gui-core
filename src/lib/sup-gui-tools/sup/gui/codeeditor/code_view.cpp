@@ -134,19 +134,25 @@ void CodeView::SetupActions()
 
 void CodeView::SaveScrollBarPosition()
 {
-  const int current_scrollbar_value = m_text_edit->verticalScrollBar()->value();
-  if (current_scrollbar_value > 0)
+  // We save scroll bar position only if current position is not zero.
+  // This is a simple way to ignore moments, when text editor was cleared because of
+  // inconsistency in the model.
+
+  if (const int pos = m_text_edit->verticalScrollBar()->value(); pos > 0)
   {
-    // We save scroll bar position only if current position is not zero.
-    // This is a simple way to ignore moments, when text editor was cleared because of
-    // inconsistency in the model.
-    m_cached_scrollbar_value = current_scrollbar_value;
+    m_cached_scrollbar_pos.vertical = pos;
+  }
+
+  if (const int pos = m_text_edit->horizontalScrollBar()->value(); pos > 0)
+  {
+    m_cached_scrollbar_pos.horizontal = pos;
   }
 }
 
 void CodeView::RestoreScrollBarPosition()
 {
-  m_text_edit->verticalScrollBar()->setValue(m_cached_scrollbar_value);
+  m_text_edit->verticalScrollBar()->setValue(m_cached_scrollbar_pos.vertical);
+  m_text_edit->horizontalScrollBar()->setValue(m_cached_scrollbar_pos.horizontal);
 }
 
 }  // namespace sup::gui
