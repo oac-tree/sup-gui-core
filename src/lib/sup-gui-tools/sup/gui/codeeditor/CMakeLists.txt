@@ -9,5 +9,6 @@ target_sources(${library_name} PRIVATE
 
 install(FILES
   code_editor.h
+  code_view.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/codeeditor
 )
