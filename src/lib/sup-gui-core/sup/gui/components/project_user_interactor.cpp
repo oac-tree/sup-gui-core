@@ -29,6 +29,8 @@
 #include <QMessageBox>
 #include <map>
 
+#include <iostream>
+
 namespace
 {
 //! Map of standard Qt answers to what ProjectManager expects.
@@ -132,13 +134,20 @@ void ProjectUserInteractor::ClearRecentProjectsList()
   return m_settings->ClearRecentProjectsList();
 }
 
+void ProjectUserInteractor::SetDontUseNativeDialog(bool value)
+{
+  m_dont_use_native_dialogs = value;
+}
+
 //! Summon dialog to select directory on disk. If selection is not empty,
 //! save parent directory for later re-use.
 
-std::string ProjectUserInteractor::SummonSelectDialog(const QString &title) const
+std::string ProjectUserInteractor::SummonSelectDialog(const QString& title) const
 {
+  std::cout << "AAAA " << m_dont_use_native_dialogs << std::endl;
   QFileDialog dialog(m_parent, title, m_settings->GetCurrentWorkdir());
   dialog.setFileMode(QFileDialog::Directory);
+  dialog.setOption(QFileDialog::DontUseNativeDialog, m_dont_use_native_dialogs);
   dialog.setOption(QFileDialog::DontResolveSymlinks);
   dialog.setOption(QFileDialog::ShowDirsOnly);
   QStringList file_names = dialog.exec() ? dialog.selectedFiles() : QStringList();

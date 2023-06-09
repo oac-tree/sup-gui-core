@@ -95,6 +95,11 @@ QStringList ProjectHandler::GetRecentProjectList() const
   return m_user_interactor->GetRecentProjectList();
 }
 
+void ProjectHandler::SetDontUseNativeDialog(bool value)
+{
+  m_user_interactor->SetDontUseNativeDialog(value);
+}
+
 void ProjectHandler::InitProjectManager()
 {
   auto modified_callback = [this]() { UpdateCurrentProjectName(); };

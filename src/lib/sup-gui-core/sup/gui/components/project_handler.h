@@ -57,6 +57,14 @@ public:
 
   QStringList GetRecentProjectList() const;
 
+  /**
+   * @brief Sets the flag responsible for using system native file/directory selection dialogs.
+   *
+   * @details When true, will use Qt own dialog. When false (default case) will use system native
+   * dialogs, if the system has them.
+   */
+  void SetDontUseNativeDialog(bool value);
+
 private:
   void InitProjectManager();
   void UpdateNames();
