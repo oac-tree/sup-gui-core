@@ -144,7 +144,6 @@ void ProjectUserInteractor::SetDontUseNativeDialog(bool value)
 
 std::string ProjectUserInteractor::SummonSelectDialog(const QString& title) const
 {
-  std::cout << "AAAA " << m_dont_use_native_dialogs << std::endl;
   QFileDialog dialog(m_parent, title, m_settings->GetCurrentWorkdir());
   dialog.setFileMode(QFileDialog::Directory);
   dialog.setOption(QFileDialog::DontUseNativeDialog, m_dont_use_native_dialogs);
