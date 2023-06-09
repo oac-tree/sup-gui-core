@@ -57,7 +57,7 @@ public:
   void ClearRecentProjectsList();
 
 private:
-  std::string SummonSelectDialog() const;
+  std::string SummonSelectDialog(const QString& title) const;
 
   std::unique_ptr<sup::gui::RecentProjectSettings> m_settings;
   QWidget* m_parent{nullptr};

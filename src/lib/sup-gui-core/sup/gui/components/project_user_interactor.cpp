@@ -57,7 +57,7 @@ ProjectUserInteractor::~ProjectUserInteractor() = default;
 
 std::string ProjectUserInteractor::OnSelectDirRequest()
 {
-  auto dirname = SummonSelectDialog();
+  auto dirname = SummonSelectDialog("Select project directory");
 
   if (dirname.empty())  // no valid selection
   {
@@ -80,7 +80,7 @@ std::string ProjectUserInteractor::OnSelectDirRequest()
 std::string ProjectUserInteractor::OnCreateDirRequest()
 
 {
-  auto dirname = SummonSelectDialog();
+  auto dirname = SummonSelectDialog("Create new directory");
 
   if (dirname.empty())  // no valid selection
   {
@@ -135,11 +135,15 @@ void ProjectUserInteractor::ClearRecentProjectsList()
 //! Summon dialog to select directory on disk. If selection is not empty,
 //! save parent directory for later re-use.
 
-std::string ProjectUserInteractor::SummonSelectDialog() const
+std::string ProjectUserInteractor::SummonSelectDialog(const QString &title) const
 {
-  QString dirname = QFileDialog::getExistingDirectory(
-      m_parent, "Select directory", m_settings->GetCurrentWorkdir(),
-      QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly);
+  QFileDialog dialog(m_parent, title, m_settings->GetCurrentWorkdir());
+  dialog.setFileMode(QFileDialog::Directory);
+  dialog.setOption(QFileDialog::DontResolveSymlinks);
+  dialog.setOption(QFileDialog::ShowDirsOnly);
+  QStringList file_names = dialog.exec() ? dialog.selectedFiles() : QStringList();
+
+  QString dirname = file_names.empty() ? QString() : file_names.at(0);
 
   if (!dirname.isEmpty())
   {
