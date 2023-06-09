@@ -59,17 +59,17 @@ public:
   /**
    * @brief Sets the flag responsible for using system native file/directory selection dialogs.
    *
-   * @details When true, will use Qt own dialog. When false (default case) will use system native
-   * dialogs, if the system has them.
+   * @details When true, will use system native dialogs, if the system has one (default). When
+   * false, will use Qt's own dialog.
    */
-  void SetDontUseNativeDialog(bool value);
+  void SetUseNativeDialog(bool value);
 
 private:
   std::string SummonSelectDialog(const QString& title) const;
 
   std::unique_ptr<sup::gui::RecentProjectSettings> m_settings;
   QWidget* m_parent{nullptr};
-  bool m_dont_use_native_dialogs{false};  //<! use native dialogs, when false
+  bool m_use_native_dialogs{true};
 };
 
 }  // namespace sup::gui

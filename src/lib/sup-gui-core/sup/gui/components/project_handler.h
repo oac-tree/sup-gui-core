@@ -60,10 +60,10 @@ public:
   /**
    * @brief Sets the flag responsible for using system native file/directory selection dialogs.
    *
-   * @details When true, will use Qt own dialog. When false (default case) will use system native
-   * dialogs, if the system has them.
+   * @details When true, will use system native dialogs, if the system has one (default). When
+   * false, will use Qt's own dialog.
    */
-  void SetDontUseNativeDialog(bool value);
+  void SetUseNativeDialog(bool value);
 
 private:
   void InitProjectManager();

@@ -95,9 +95,9 @@ QStringList ProjectHandler::GetRecentProjectList() const
   return m_user_interactor->GetRecentProjectList();
 }
 
-void ProjectHandler::SetDontUseNativeDialog(bool value)
+void ProjectHandler::SetUseNativeDialog(bool value)
 {
-  m_user_interactor->SetDontUseNativeDialog(value);
+  m_user_interactor->SetUseNativeDialog(value);
 }
 
 void ProjectHandler::InitProjectManager()
