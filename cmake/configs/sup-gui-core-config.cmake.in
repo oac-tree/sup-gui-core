@@ -7,7 +7,7 @@ include(CMakeFindDependencyMacro)
 
 find_dependency(sup-dto)
 find_dependency(sup-mvvm)
-find_package(sup-gui-extra)
+find_dependency(sup-gui-extra)
 
 if(TARGET sup-gui-core::core OR TARGET sup-gui-core::tools)
 else()
