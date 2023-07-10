@@ -52,7 +52,7 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
 
   { // from int
     sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type};
-    anyvalue = 42;
+    anyvalue.ConvertFrom(42);
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
@@ -62,7 +62,7 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
 
   { // from uint
     sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger32Type};
-    anyvalue = 42;
+    anyvalue.ConvertFrom(42);
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
