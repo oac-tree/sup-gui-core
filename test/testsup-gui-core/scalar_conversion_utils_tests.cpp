@@ -36,32 +36,40 @@ class ScalarConversionUtilsTests : public ::testing::Test
 {
 };
 
-//! Testing SetDataFromScalar method: setting AnyValueItem's data from AnyValue containing a
-//! boolean.
+//! Testing SetDataFromScalar method.
 
-TEST_F(ScalarConversionUtilsTests, SetDataFromScalarBool)
+TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
 {
-  sup::dto::AnyValue anyvalue{sup::dto::BooleanType};
-  anyvalue = true;
-  AnyValueScalarItem item;
-  SetDataFromScalar(anyvalue, item);
-  EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBoolVariantName);
-  EXPECT_TRUE(item.Data<bool>());
-  EXPECT_EQ(item.GetTotalItemCount(), 0);
-}
+  { // from bool
+    sup::dto::AnyValue anyvalue{sup::dto::BooleanType};
+    anyvalue = true;
+    AnyValueScalarItem item;
+    SetDataFromScalar(anyvalue, item);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBoolVariantName);
+    EXPECT_TRUE(item.Data<bool>());
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
+  }
 
-//! Testing SetDataFromScalar method: setting AnyValueItem's data from AnyValue containing an
-//! integer.
+  { // from int
+    sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type};
+    anyvalue = 42;
+    AnyValueScalarItem item;
+    SetDataFromScalar(anyvalue, item);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
+    EXPECT_EQ(item.Data<int>(), 42);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
+  }
 
-TEST_F(ScalarConversionUtilsTests, SetDataFromScalarInt)
-{
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type};
-  anyvalue = 42;
-  AnyValueScalarItem item;
-  SetDataFromScalar(anyvalue, item);
-  EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
-  EXPECT_EQ(item.Data<int>(), 42);
-  EXPECT_EQ(item.GetTotalItemCount(), 0);
+  { // from uint
+    sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger32Type};
+    anyvalue = 42;
+    AnyValueScalarItem item;
+    SetDataFromScalar(anyvalue, item);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
+    EXPECT_EQ(item.Data<int>(), 42);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
+  }
+
 }
 
 //! Testing GetAnyValueFromScalar method. Creating scalar AnyValue from scalar-like AnyValueItem
@@ -86,6 +94,16 @@ TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalar)
 
     auto any_value = GetAnyValueFromScalar(item);
     EXPECT_EQ(any_value.GetType(), sup::dto::SignedInteger32Type);
+    EXPECT_EQ(any_value, 42);
+  }
+
+  {  // uint32
+    AnyValueScalarItem item;
+    item.SetAnyTypeName(sup::dto::kUInt32TypeName);
+    item.SetData(42);
+
+    auto any_value = GetAnyValueFromScalar(item);
+    EXPECT_EQ(any_value.GetType(), sup::dto::UnsignedInteger32Type);
     EXPECT_EQ(any_value, 42);
   }
 

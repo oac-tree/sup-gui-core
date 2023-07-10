@@ -37,7 +37,7 @@ namespace sup::gui
 template <typename T>
 void AssignToAnyValueScalar(const AnyValueItem &item, sup::dto::AnyValue &any_value)
 {
-  any_value = item.Data<T>();
+  any_value.ConvertFrom(item.Data<T>());
 }
 
 template <typename T>
