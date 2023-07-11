@@ -100,7 +100,6 @@ void AnyValueItemBuilder::ArrayEpilog(const anyvalue_t *anyvalue)
 void AnyValueItemBuilder::ScalarProlog(const anyvalue_t *anyvalue)
 {
   auto scalar = std::make_unique<AnyValueScalarItem>();
-  scalar->SetAnyTypeName(anyvalue->GetTypeName());
   SetDataFromScalar(*anyvalue, *scalar);
 
   AddItem(std::move(scalar));

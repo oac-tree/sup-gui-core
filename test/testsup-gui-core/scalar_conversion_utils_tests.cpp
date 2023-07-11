@@ -40,36 +40,59 @@ class ScalarConversionUtilsTests : public ::testing::Test
 
 TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
 {
-  { // from bool
+  {  // from bool
     sup::dto::AnyValue anyvalue{sup::dto::BooleanType};
     anyvalue = true;
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBoolVariantName);
+    EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_TRUE(item.Data<bool>());
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
-  { // from int
+  {  // from int
     sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type};
     anyvalue.ConvertFrom(42);
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
+    EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
-  { // from uint
+  {  // from uint
     sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger32Type};
     anyvalue.ConvertFrom(42);
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
+    EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
+  {  // changing uint to bool
+    sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger32Type};
+    anyvalue.ConvertFrom(42);
+
+    AnyValueScalarItem item;
+    SetDataFromScalar(anyvalue, item);
+    EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
+    EXPECT_EQ(item.Data<int>(), 42);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
+
+    sup::dto::AnyValue new_anyvalue{sup::dto::BooleanType};
+    new_anyvalue = true;
+    SetDataFromScalar(new_anyvalue, item);
+    EXPECT_NE(item.GetAnyTypeName(), anyvalue.GetTypeName());
+    EXPECT_EQ(item.GetAnyTypeName(), new_anyvalue.GetTypeName());
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBoolVariantName);
+    EXPECT_EQ(item.Data<bool>(), true);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
+  }
 }
 
 //! Testing GetAnyValueFromScalar method. Creating scalar AnyValue from scalar-like AnyValueItem

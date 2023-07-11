@@ -88,6 +88,11 @@ void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
       {TypeCode::String, SetDataFromScalarT<std::string>}};
 
   auto iter = conversion_map.find(value.GetTypeCode());
+  if (item.GetAnyTypeName() != value.GetTypeName())
+  {
+    item.SetData(variant_t());  // it resets data on board and allow to change variant type
+    item.SetAnyTypeName(value.GetTypeName());
+  }
   if (iter == conversion_map.end())
   {
     throw std::runtime_error("Not a known scalar type code");

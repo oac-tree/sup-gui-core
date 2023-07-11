@@ -29,11 +29,20 @@ namespace sup::gui
 
 class AnyValueItem;
 
-//! Sets the data of AnyValueItem using scalar AnyValue.
-//! Will throw if AnyValue is not a scalar.
+/**
+ * @brief Sets the data of AnyValueItem using scalar AnyValue.
+ *
+ * @param value The value to use.
+ * @param item The item to update the data.
+ *
+ * @details Will throw if AnyValue is not a scalar. It is possible to change the type of the scalar.
+ * AnyTypeName and underlying variant on board of AnyValueItem will be updated accordingly.
+ */
 void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item);
 
-//! Returns scalar AnyValue from AnyValueItem containing a scalar.
+/**
+ * @brief Returns scalar AnyValue from AnyValueItem containing a scalar.
+ */
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem& item);
 
 }  // namespace sup::gui
