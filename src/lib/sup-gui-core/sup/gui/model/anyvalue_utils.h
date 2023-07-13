@@ -38,10 +38,12 @@ std::string AnyTypeToJSONString(const anyvalue_t& value);
 //! Returns JSON string representing the values of an AnyValue.
 std::string ValuesToJSONString(const anyvalue_t& value);
 
-sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename);
+sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
+                                        const anytype_registry_t* registry = nullptr);
 
 //! Returns AnyType from its JSON representation.
-sup::dto::AnyType AnyTypeFromJSONString(const std::string& str);
+sup::dto::AnyType AnyTypeFromJSONString(const std::string& str,
+                                        const anytype_registry_t* registry = nullptr);
 
 //! Returns AnyValue from AnyType and JSON representation of its value.
 sup::dto::AnyValue AnyValueFromJSONString(const sup::dto::AnyType& anytype,

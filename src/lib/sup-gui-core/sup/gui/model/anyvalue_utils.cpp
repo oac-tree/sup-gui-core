@@ -45,17 +45,18 @@ std::string ValuesToJSONString(const anyvalue_t &value)
   return sup::dto::ValuesToJSONString(value);
 }
 
-sup::dto::AnyValue AnyValueFromJSONFile(const std::string &filename)
+sup::dto::AnyValue AnyValueFromJSONFile(const std::string &filename,
+                                        const anytype_registry_t *registry)
 {
   sup::dto::JSONAnyValueParser parser;
-  parser.ParseFile(filename);
+  parser.ParseFile(filename, registry);
   return parser.MoveAnyValue();
 }
 
-sup::dto::AnyType AnyTypeFromJSONString(const std::string &str)
+sup::dto::AnyType AnyTypeFromJSONString(const std::string &str, const anytype_registry_t *registry)
 {
   sup::dto::JSONAnyTypeParser parser;
-  if (!parser.ParseString(str))
+  if (!parser.ParseString(str, registry))
   {
     throw RuntimeException("Can't parse Json type from string '" + str + "'");
   }
