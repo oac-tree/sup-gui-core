@@ -1,3 +1,11 @@
+Changes for 1.1.0:
+
+- COA Release v1.9, August 2023
+- Implement code viewer with syntax highlight
+- Implement machinery for project saving
+- Prototype of universal worker and manager for multi-threading task execution
+- Adjustment for sup::dto v1.1 API change
+
 Changes for 1.0.0:
 
 - Implement AnyValueItem model
