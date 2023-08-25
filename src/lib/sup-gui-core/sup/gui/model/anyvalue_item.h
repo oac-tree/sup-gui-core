@@ -33,7 +33,7 @@ public:
   using CompoundItem::CompoundItem;
   explicit AnyValueItem(const std::string& item_type);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   virtual void SetAnyTypeName(const std::string& type_name);
 
@@ -58,7 +58,7 @@ public:
   using AnyValueItem::AnyValueItem;
   AnyValueEmptyItem();
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 };
 
 //! The item to represent AnyValue scalar.
@@ -71,7 +71,7 @@ public:
   using AnyValueItem::AnyValueItem;
   AnyValueScalarItem();
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   void SetAnyTypeName(const std::string& type_name) override;
 
@@ -88,7 +88,7 @@ public:
   using AnyValueItem::AnyValueItem;
   AnyValueStructItem();
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   bool IsStruct() const override;
 
@@ -108,7 +108,7 @@ public:
   using AnyValueItem::AnyValueItem;
   AnyValueArrayItem();
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   bool IsArray() const override;
 
