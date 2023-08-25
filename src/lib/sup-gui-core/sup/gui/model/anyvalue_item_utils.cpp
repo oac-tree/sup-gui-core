@@ -41,7 +41,11 @@ void UpdateAnyValueItemScalarData(const AnyValueItem &source, AnyValueItem &targ
     throw std::logic_error("Item types do not match");
   }
 
-  target.SetData(source.Data());
+  const auto source_data{source.Data()};
+  if (target.Data() != source_data)
+  {
+    target.SetData(source_data);
+  }
 }
 
 void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
@@ -115,8 +119,8 @@ bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &sca
 
 std::vector<std::string> GetAnyValueItemTypes()
 {
-  return {AnyValueEmptyItem::Type, AnyValueScalarItem::Type,
-          AnyValueStructItem::Type, AnyValueArrayItem::Type};
+  return {AnyValueEmptyItem::Type, AnyValueScalarItem::Type, AnyValueStructItem::Type,
+          AnyValueArrayItem::Type};
 }
 
 mvvm::TagInfo CreateAnyValueTag(std::string name, int min, int max)
