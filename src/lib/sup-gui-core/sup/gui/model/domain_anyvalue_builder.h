@@ -37,7 +37,7 @@ public:
   explicit DomainAnyValueBuilder(const AnyValueItem& item);
   ~DomainAnyValueBuilder();
 
-  sup::dto::AnyValue GetAnyValue() const;
+  sup::dto::AnyValue GetAnyValue();
 
 private:
   struct DomainAnyValueBuilderImpl;

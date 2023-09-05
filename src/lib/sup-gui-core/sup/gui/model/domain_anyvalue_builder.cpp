@@ -196,7 +196,7 @@ DomainAnyValueBuilder::DomainAnyValueBuilder(const AnyValueItem& item)
 
 DomainAnyValueBuilder::~DomainAnyValueBuilder() = default;
 
-sup::dto::AnyValue DomainAnyValueBuilder::GetAnyValue() const
+sup::dto::AnyValue DomainAnyValueBuilder::GetAnyValue()
 {
   return p_impl->m_builder.MoveAnyValue();
 }
