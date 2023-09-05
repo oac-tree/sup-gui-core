@@ -97,12 +97,12 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
 
 bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &scalar_type)
 {
-  if (array.GetChildren().size() == 0)
+  if (array.GetChildren().empty())
   {
     return true;
   }
 
-  if (auto scalar = array.GetItem<AnyValueScalarItem>(""); scalar)
+  if (auto scalar = array.GetItem<AnyValueScalarItem>(mvvm::TagIndex::First()); scalar)
   {
     if (scalar->GetAnyTypeName() == scalar_type)
     {
