@@ -22,17 +22,22 @@
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 
+#include <mvvm/model/application_model.h>
+
 #include <sup/dto/anytype.h>
+#include <testutils/mock_model_listener.h>
 
 #include <gtest/gtest.h>
 
 #include <stdexcept>
 
 using namespace sup::gui;
+using ::testing::_;
 
 class AnyValueItemUtilsTests : public ::testing::Test
 {
 public:
+  using mock_listener_t = ::testing::StrictMock<testutils::MockModelListener>;
 };
 
 //! Testing UpdateAnyValueItemScalarData method.
@@ -99,6 +104,49 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromScalar)
   EXPECT_EQ(target.Data<int>(), 42);
 }
 
+//! Testing signaling while updating the data with UpdateAnyValueItemData method.
+
+TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromScalar)
+{
+  mvvm::ApplicationModel model;
+  auto source = model.InsertItem<AnyValueScalarItem>();
+  source->SetAnyTypeName(sup::dto::kInt32TypeName);
+  source->SetData(42);
+
+  auto target = model.InsertItem<AnyValueScalarItem>();
+  target->SetAnyTypeName(sup::dto::kInt32TypeName);
+  target->SetData(0);
+  EXPECT_EQ(target->Data<int>(), 0);
+
+  mock_listener_t listener(&model);
+
+  EXPECT_CALL(listener, OnEvent(_)).Times(1);
+
+  EXPECT_NO_THROW(UpdateAnyValueItemData(*source, *target));
+  EXPECT_EQ(target->Data<int>(), 42);
+}
+
+//! Testing signaling while updating the data with UpdateAnyValueItemData method using the same data.
+
+TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromSameScalar)
+{
+  mvvm::ApplicationModel model;
+  auto source = model.InsertItem<AnyValueScalarItem>();
+  source->SetAnyTypeName(sup::dto::kInt32TypeName);
+  source->SetData(42);
+
+  auto target = model.InsertItem<AnyValueScalarItem>();
+  target->SetAnyTypeName(sup::dto::kInt32TypeName);
+  target->SetData(42);
+
+  mock_listener_t listener(&model);
+
+  EXPECT_CALL(listener, OnEvent(_)).Times(0);
+
+  EXPECT_NO_THROW(UpdateAnyValueItemData(*source, *target));
+  EXPECT_EQ(target->Data<int>(), 42);
+}
+
 //! Testing UpdateAnyValueItemData method.
 //! Attempt to update structure from the source with different layout.
 
@@ -113,7 +161,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromDifferentStructs)
 }
 
 //! Testing UpdateAnyValueItemData method.
-//! Updating one structure from another srtucture. Both structuers have the same layout (single
+//! Updating one structure from another structure. Both structuers have the same layout (single
 //! field with the same scalar).
 
 TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromStructWithSingleField)
