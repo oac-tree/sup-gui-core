@@ -22,12 +22,14 @@
 
 //! Forward declaration of AnyValue related types.
 
+#include <sup/dto/basic_scalar_types.h>
+
 namespace sup::dto
 {
 class AnyValue;
 class AnyType;
 class AnyTypeRegistry;
-enum class TypeCode;
+enum class TypeCode : sup::dto::uint32;
 }  // namespace sup::dto
 
 using anyvalue_t = sup::dto::AnyValue;
