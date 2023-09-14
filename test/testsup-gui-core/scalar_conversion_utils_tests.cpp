@@ -57,7 +57,7 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kLongIntVariantName);
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
@@ -68,7 +68,7 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kLongIntVariantName);
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
@@ -80,7 +80,7 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kIntVariantName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kLongIntVariantName);
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
 
