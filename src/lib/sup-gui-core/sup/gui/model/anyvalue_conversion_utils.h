@@ -46,7 +46,7 @@ sup::dto::TypeCode GetTypeCode(const std::string& name);
 
 //! Returns variant carrying type corresponding to AnyValue type name. The value of the variant will
 //! be default initialized. See implementation for more explanations.
-variant_t GetVariantForAnyValueTypeName(const std::string& type_name);
+mvvm::variant_t GetVariantForAnyValueTypeName(const std::string& type_name);
 
 //! Returns true if given name corresponds to a scalar.
 bool IsScalarTypeName(const std::string& name);

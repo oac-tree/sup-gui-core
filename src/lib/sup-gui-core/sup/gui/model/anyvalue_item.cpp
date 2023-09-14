@@ -141,7 +141,7 @@ bool AnyValueStructItem::IsStruct() const
 
 AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_name,
                                                        const std::string& field_type,
-                                                       const variant_t& value)
+                                                       const mvvm::variant_t &value)
 {
   auto child = InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
   child->SetAnyTypeName(field_type);

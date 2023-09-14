@@ -71,26 +71,26 @@ std::string GetName(sup::dto::TypeCode code)
 }
 
 template <typename T>
-variant_t ScalarToItemT()
+mvvm::variant_t ScalarToItemT()
 {
   T val{};
-  return variant_t(val);  // construct variant from given type
+  return mvvm::variant_t(val);  // construct variant from given type
 }
 
 template <>
-variant_t ScalarToItemT<sup::dto::int64>()
+mvvm::variant_t ScalarToItemT<sup::dto::int64>()
 {
   return {0};  // returns variant based on `int` instead
 }
 
 template <>
-variant_t ScalarToItemT<sup::dto::uint64>()
+mvvm::variant_t ScalarToItemT<sup::dto::uint64>()
 {
   return {0};  // returns variant based on `int` instead
 }
 
 template <>
-variant_t ScalarToItemT<sup::dto::uint32>()
+mvvm::variant_t ScalarToItemT<sup::dto::uint32>()
 {
   return {0};  // returns variant based on `int` instead
 }
@@ -124,7 +124,7 @@ sup::dto::TypeCode GetTypeCode(const std::string& name)
   return iter->first;
 }
 
-variant_t GetVariantForAnyValueTypeName(const std::string& type_name)
+mvvm::variant_t GetVariantForAnyValueTypeName(const std::string& type_name)
 {
   // The variant is intended for editing in cells of Qt trees and tables.
   // The concret type stored in it might be different from the AnyType as given by `type_name`.
@@ -132,7 +132,7 @@ variant_t GetVariantForAnyValueTypeName(const std::string& type_name)
   // limits will be provided by cell editors.
 
   using sup::dto::TypeCode;
-  using function_t = std::function<variant_t()>;
+  using function_t = std::function<mvvm::variant_t()>;
   static std::map<TypeCode, function_t> conversion_map{
       {TypeCode::Bool, ScalarToItemT<sup::dto::boolean>},
       {TypeCode::Char8, ScalarToItemT<sup::dto::char8>},

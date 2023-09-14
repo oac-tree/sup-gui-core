@@ -93,7 +93,7 @@ public:
   bool IsStruct() const override;
 
   AnyValueScalarItem* AddScalarField(const std::string& field_name, const std::string& field_type,
-                                     const variant_t& value);
+                                     const mvvm::variant_t& value);
 
   std::vector<AnyValueItem*> GetChildren() const override;
 };
