@@ -61,29 +61,28 @@ TEST_F(AnyValueConversionUtilsTest, GetVariantForAnyTypeName)
 {
   EXPECT_TRUE(
       std::holds_alternative<bool>(GetVariantForAnyValueTypeName(sup::dto::kBooleanTypeName)));
-
-  // FIXME How to edit char8 in UI widgets?
-  //  EXPECT_TRUE(std::holds_alternative<char>(GetVariantForAnyValueTypeName(kChar8TypeName)));
-
-  // We use `int64` to edit all integers in the UI. It is assumed, that allowed minimum, and maximum
-  // of values will be handled on the level of cell editors.
-  EXPECT_TRUE(std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt8TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt8TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt16TypeName)));
   EXPECT_TRUE(
-      std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt16TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt32TypeName)));
+      std::holds_alternative<mvvm::char8>(GetVariantForAnyValueTypeName(sup::dto::kChar8TypeName)));
   EXPECT_TRUE(
-      std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt32TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt64TypeName)));
+      std::holds_alternative<mvvm::int8>(GetVariantForAnyValueTypeName(sup::dto::kInt8TypeName)));
   EXPECT_TRUE(
-      std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt64TypeName)));
-
-  // We use `double` to edit float values in UI.
+      std::holds_alternative<mvvm::uint8>(GetVariantForAnyValueTypeName(sup::dto::kUInt8TypeName)));
   EXPECT_TRUE(
-      std::holds_alternative<double>(GetVariantForAnyValueTypeName(sup::dto::kFloat32TypeName)));
+      std::holds_alternative<mvvm::int16>(GetVariantForAnyValueTypeName(sup::dto::kInt16TypeName)));
+  EXPECT_TRUE(std::holds_alternative<mvvm::uint16>(
+      GetVariantForAnyValueTypeName(sup::dto::kUInt16TypeName)));
   EXPECT_TRUE(
-      std::holds_alternative<double>(GetVariantForAnyValueTypeName(sup::dto::kFloat64TypeName)));
+      std::holds_alternative<mvvm::int32>(GetVariantForAnyValueTypeName(sup::dto::kInt32TypeName)));
+  EXPECT_TRUE(std::holds_alternative<mvvm::uint32>(
+      GetVariantForAnyValueTypeName(sup::dto::kUInt32TypeName)));
+  EXPECT_TRUE(
+      std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt64TypeName)));
+  EXPECT_TRUE(std::holds_alternative<mvvm::uint64>(
+      GetVariantForAnyValueTypeName(sup::dto::kUInt64TypeName)));
+  EXPECT_TRUE(std::holds_alternative<mvvm::float32>(
+      GetVariantForAnyValueTypeName(sup::dto::kFloat32TypeName)));
+  EXPECT_TRUE(std::holds_alternative<mvvm::float64>(
+      GetVariantForAnyValueTypeName(sup::dto::kFloat64TypeName)));
 
   EXPECT_TRUE(std::holds_alternative<std::string>(
       GetVariantForAnyValueTypeName(sup::dto::kStringTypeName)));
@@ -91,22 +90,19 @@ TEST_F(AnyValueConversionUtilsTest, GetVariantForAnyTypeName)
 
 TEST_F(AnyValueConversionUtilsTest, DefaultVariantValuesConstructedFromAnyTypeName)
 {
-  EXPECT_EQ(std::get<bool>(GetVariantForAnyValueTypeName(sup::dto::kBooleanTypeName)), false);
-
-  // We use `int64` to edit all integers in the UI. It is assumed, that allowed minimum, and maximum
-  // of values will be handled on the level of cell editors.
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt8TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt8TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt16TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt16TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt32TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt32TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::boolean>(GetVariantForAnyValueTypeName(sup::dto::kBooleanTypeName)),
+            false);
+  EXPECT_EQ(std::get<mvvm::char8>(GetVariantForAnyValueTypeName(sup::dto::kChar8TypeName)), false);
+  EXPECT_EQ(std::get<mvvm::int8>(GetVariantForAnyValueTypeName(sup::dto::kInt8TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::uint8>(GetVariantForAnyValueTypeName(sup::dto::kUInt8TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::int16>(GetVariantForAnyValueTypeName(sup::dto::kInt16TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::uint16>(GetVariantForAnyValueTypeName(sup::dto::kUInt16TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::int32>(GetVariantForAnyValueTypeName(sup::dto::kInt32TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::uint32>(GetVariantForAnyValueTypeName(sup::dto::kUInt32TypeName)), 0);
   EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt64TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kUInt64TypeName)), 0);
-
-  // We use `double` to edit float values in UI.
-  EXPECT_EQ(std::get<double>(GetVariantForAnyValueTypeName(sup::dto::kFloat32TypeName)), 0);
-  EXPECT_EQ(std::get<double>(GetVariantForAnyValueTypeName(sup::dto::kFloat64TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::uint64>(GetVariantForAnyValueTypeName(sup::dto::kUInt64TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::float32>(GetVariantForAnyValueTypeName(sup::dto::kFloat32TypeName)), 0);
+  EXPECT_EQ(std::get<mvvm::float64>(GetVariantForAnyValueTypeName(sup::dto::kFloat64TypeName)), 0);
 
   EXPECT_TRUE(std::holds_alternative<std::string>(
       GetVariantForAnyValueTypeName(sup::dto::kStringTypeName)));

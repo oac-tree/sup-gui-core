@@ -57,7 +57,7 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kInt64TypeName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kInt32TypeName);
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
@@ -68,8 +68,8 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kInt64TypeName);
-    EXPECT_EQ(item.Data<int>(), 42);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kUInt32TypeName);
+    EXPECT_EQ(item.Data<mvvm::uint32>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
@@ -80,8 +80,8 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kInt64TypeName);
-    EXPECT_EQ(item.Data<int>(), 42);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kUInt32TypeName);
+    EXPECT_EQ(item.Data<mvvm::uint32>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 0);
 
     sup::dto::AnyValue new_anyvalue{sup::dto::BooleanType};
@@ -123,11 +123,11 @@ TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalar)
   {  // uint32
     AnyValueScalarItem item;
     item.SetAnyTypeName(sup::dto::kUInt32TypeName);
-    item.SetData(42);
+    item.SetData(42U);
 
     auto any_value = GetAnyValueFromScalar(item);
     EXPECT_EQ(any_value.GetType(), sup::dto::UnsignedInteger32Type);
-    EXPECT_EQ(any_value, 42);
+    EXPECT_EQ(any_value, 42U);
   }
 
   {  // double

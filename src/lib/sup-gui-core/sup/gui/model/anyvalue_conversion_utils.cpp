@@ -77,24 +77,6 @@ mvvm::variant_t ScalarToItemT()
   return mvvm::variant_t(val);  // construct variant from given type
 }
 
-template <>
-mvvm::variant_t ScalarToItemT<sup::dto::int64>()
-{
-  return {0};  // returns variant based on `int` instead
-}
-
-template <>
-mvvm::variant_t ScalarToItemT<sup::dto::uint64>()
-{
-  return {0};  // returns variant based on `int` instead
-}
-
-template <>
-mvvm::variant_t ScalarToItemT<sup::dto::uint32>()
-{
-  return {0};  // returns variant based on `int` instead
-}
-
 }  // namespace
 
 namespace sup::gui

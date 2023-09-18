@@ -47,27 +47,6 @@ void SetDataFromScalarT(const sup::dto::AnyValue &anyvalue, AnyValueItem &item)
   item.SetData(val);
 }
 
-template <>
-void SetDataFromScalarT<sup::dto::int64>(const sup::dto::AnyValue &anyvalue, AnyValueItem &item)
-{
-  auto val = anyvalue.As<sup::dto::int64>();
-  item.SetData(static_cast<int>(val));
-}
-
-template <>
-void SetDataFromScalarT<sup::dto::uint32>(const sup::dto::AnyValue &anyvalue, AnyValueItem &item)
-{
-  auto val = anyvalue.As<sup::dto::uint32>();
-  item.SetData(static_cast<int>(val));
-}
-
-template <>
-void SetDataFromScalarT<sup::dto::uint64>(const sup::dto::AnyValue &anyvalue, AnyValueItem &item)
-{
-  auto val = anyvalue.As<sup::dto::uint64>();
-  item.SetData(static_cast<int>(val));
-}
-
 void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
 {
   using sup::dto::TypeCode;
@@ -107,21 +86,21 @@ sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
 
   //! Correspondance of AnyValue type code to PVXS value function to assign scalars.
   const static std::map<sup::dto::TypeCode, anyvalue_function_t> kAssignToAnyValueScalarMap = {
-      {sup::dto::TypeCode::Bool, AssignToAnyValueScalar<bool>},
-      {sup::dto::TypeCode::Char8, AssignToAnyValueScalar<int>},  // is it Ok?
-      {sup::dto::TypeCode::Int8, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::UInt8, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::Int16, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::UInt16, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::Int32, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::UInt32, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::Int64, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::UInt64, AssignToAnyValueScalar<int>},
-      {sup::dto::TypeCode::Float32, AssignToAnyValueScalar<double>},
-      {sup::dto::TypeCode::Float64, AssignToAnyValueScalar<double>},
+      {sup::dto::TypeCode::Bool, AssignToAnyValueScalar<mvvm::boolean>},
+      {sup::dto::TypeCode::Char8, AssignToAnyValueScalar<mvvm::char8>},
+      {sup::dto::TypeCode::Int8, AssignToAnyValueScalar<mvvm::int8>},
+      {sup::dto::TypeCode::UInt8, AssignToAnyValueScalar<mvvm::uint8>},
+      {sup::dto::TypeCode::Int16, AssignToAnyValueScalar<mvvm::int16>},
+      {sup::dto::TypeCode::UInt16, AssignToAnyValueScalar<mvvm::uint16>},
+      {sup::dto::TypeCode::Int32, AssignToAnyValueScalar<mvvm::int32>},
+      {sup::dto::TypeCode::UInt32, AssignToAnyValueScalar<mvvm::uint32>},
+      {sup::dto::TypeCode::Int64, AssignToAnyValueScalar<mvvm::int64>},
+      {sup::dto::TypeCode::UInt64, AssignToAnyValueScalar<mvvm::uint64>},
+      {sup::dto::TypeCode::Float32, AssignToAnyValueScalar<mvvm::float32>},
+      {sup::dto::TypeCode::Float64, AssignToAnyValueScalar<mvvm::float64>},
       {sup::dto::TypeCode::String, AssignToAnyValueScalar<std::string>}};
 
-  ::sup::dto::TypeCode type_code = GetTypeCode(item.GetAnyTypeName());
+  const ::sup::dto::TypeCode type_code = GetTypeCode(item.GetAnyTypeName());
   auto iter = kAssignToAnyValueScalarMap.find(type_code);
   if (iter == kAssignToAnyValueScalarMap.end())
   {
