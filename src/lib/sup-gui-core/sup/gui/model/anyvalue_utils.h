@@ -45,6 +45,10 @@ sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
 sup::dto::AnyType AnyTypeFromJSONString(const std::string& str,
                                         const anytype_registry_t* registry = nullptr);
 
+//! Returns AnyValue from its JSON representation.
+sup::dto::AnyValue AnyValueFromJSONString(const std::string& str,
+                                          const anytype_registry_t* registry = nullptr);
+
 //! Returns AnyValue from AnyType and JSON representation of its value.
 sup::dto::AnyValue AnyValueFromJSONString(const sup::dto::AnyType& anytype,
                                           const std::string& value_str);
