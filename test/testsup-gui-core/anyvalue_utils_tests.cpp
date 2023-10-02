@@ -84,7 +84,7 @@ TEST_F(AnyValueUtilsTest, AnyValueFromTypeAndJSONValue)
 
 //! Validating method AnyValueFromJSONString.
 
-TEST_F(AnyValueUtilsTest, AnyValueFromJSONString)
+TEST_F(AnyValueUtilsTest, AnyValueFromTypeAndJSONValueString)
 {
   {  // scalar
     sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
@@ -98,5 +98,21 @@ TEST_F(AnyValueUtilsTest, AnyValueFromJSONString)
     std::string json_type(R"RAW({"type":"int32"})RAW");
     std::string json_value("abc");
     EXPECT_THROW(AnyValueFromJSONString(json_type, json_value), RuntimeException);
+  }
+}
+
+//! Validating method AnyValueFromJSONString.
+
+TEST_F(AnyValueUtilsTest, AnyValueFromJSONString)
+{
+  {  // scalar
+    sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
+    std::string json_value(R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"int32"}},{"instance":42}])RAW");
+    EXPECT_EQ(AnyValueFromJSONString(json_value), expected_anyvalue);
+  }
+
+  {  // malformed scalar
+    std::string json_value(R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"int32"}},{"instance":"abc"}])RAW");
+    EXPECT_THROW(AnyValueFromJSONString(json_value), RuntimeException);
   }
 }
