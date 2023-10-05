@@ -42,18 +42,21 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<AnyValueScalarItem>();
   item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
   AnyValueViewModel viewmodel(&model);
   EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.columnCount(), 3);
 
   auto item_displayname_index = viewmodel.index(0, 0);
   auto item_value_index = viewmodel.index(0, 1);
+  auto item_type_index = viewmodel.index(0, 2);
 
   auto views = viewmodel.FindViews(item);
-  EXPECT_EQ(views.size(), 2);
+  EXPECT_EQ(views.size(), 3);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
+  EXPECT_EQ(viewmodel.indexFromItem(views[2]), item_type_index);
 
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_displayname_index), item);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
@@ -61,6 +64,19 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             std::string("scalar"));
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole).toInt(), 0);
+
+  // it should be possible to change scalar display name
+  EXPECT_TRUE(viewmodel.setData(item_displayname_index, QString("abc"), Qt::EditRole));
+  EXPECT_EQ(item->GetDisplayName(), std::string("abc"));
+
+  // it should be possible to change scalar value
+  mvvm::int8 new_value(42);
+  EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
+  EXPECT_EQ(item->Data<mvvm::int8>(), 42);
+
+  // it is not possible to change scalar type name
+  EXPECT_FALSE(viewmodel.setData(item_type_index, QString("scalar"), Qt::EditRole));
+  EXPECT_EQ(item->GetAnyTypeName(), std::string("int8"));
 }
 
 //! Testing how an empty struct item looks in a view model.
@@ -72,13 +88,14 @@ TEST_F(AnyValueViewModelTest, EmptyStructItem)
 
   AnyValueViewModel viewmodel(&model);
   EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.columnCount(), 3);
 
   auto item_displayname_index = viewmodel.index(0, 0);
   auto item_value_index = viewmodel.index(0, 1);
+  auto item_type_index = viewmodel.index(0, 2);
 
   auto views = viewmodel.FindViews(item);
-  EXPECT_EQ(views.size(), 2);
+  EXPECT_EQ(views.size(), 3);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
 
@@ -88,6 +105,23 @@ TEST_F(AnyValueViewModelTest, EmptyStructItem)
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             std::string("struct"));
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole), QVariant());
+
+  // it should be possible to change struct display name
+  EXPECT_TRUE(viewmodel.setData(item_displayname_index, QString("abc"), Qt::EditRole));
+  EXPECT_EQ(item->GetDisplayName(), std::string("abc"));
+
+  // Corner case: changing structure "value" (content of the second column) programmatically. This
+  // doesn't have much sense, since the structure has empty variant_t{} as a value in a second
+  // column. Empty variant doesn't have it's own editor, so it is not possible to type anything in.
+  // However, the value can be changed programmatically. Leaving it under test to trace possible
+  // changes in the future.
+  mvvm::int8 new_value(42);
+  EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
+  EXPECT_EQ(item->Data<mvvm::int8>(), 42);
+
+  // it is possible to change srtuct type name
+  EXPECT_TRUE(viewmodel.setData(item_type_index, QString("my-struct"), Qt::EditRole));
+  EXPECT_EQ(item->GetAnyTypeName(), std::string("my-struct"));
 }
 
 //! Testing how a struct with single scalar field looks in a view model.
@@ -102,13 +136,13 @@ TEST_F(AnyValueViewModelTest, StructWithScalarItem)
 
   auto struct_index = viewmodel.index(0, 0);
   EXPECT_EQ(viewmodel.rowCount(struct_index), 1);
-  EXPECT_EQ(viewmodel.columnCount(struct_index), 2);
+  EXPECT_EQ(viewmodel.columnCount(struct_index), 3);
 
   auto scalar_displayname_index = viewmodel.index(0, 0, struct_index);
   auto scalar_value_index = viewmodel.index(0, 1, struct_index);
 
   auto views = viewmodel.FindViews(scalar_item);
-  EXPECT_EQ(views.size(), 2);
+  EXPECT_EQ(views.size(), 3);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), scalar_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), scalar_value_index);
 

@@ -27,13 +27,15 @@
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
+#include <iostream>
+
 namespace sup::gui
 {
 
 class RowStrategy : public mvvm::RowStrategyInterface
 {
 public:
-  QStringList GetHorizontalHeaderLabels() const override { return {"Name", "Value"}; }
+  QStringList GetHorizontalHeaderLabels() const override { return {"Name", "Value", "Type"}; }
 
   std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override
   {
@@ -46,6 +48,15 @@ public:
 
     result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(item));
     result.emplace_back(mvvm::CreateDataViewItem(item));
+
+    if (auto scalar = dynamic_cast<AnyValueScalarItem*>(item))
+    {
+      result.emplace_back(mvvm::CreateLabelViewItem(item, scalar->GetAnyTypeName()));
+    }
+    else
+    {
+      result.emplace_back(mvvm::CreateDataViewItem(item, AnyValueItem::kAnyTypeNameRole));
+    }
 
     return result;
   }

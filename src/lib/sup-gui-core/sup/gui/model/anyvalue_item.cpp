@@ -125,6 +125,7 @@ bool AnyValueScalarItem::IsScalar() const
 AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
 {
   SetDisplayName(kStructTypeName);
+  SetAnyTypeName("");
   SetToolTip(kStructTypeName);
   RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
 }
