@@ -19,6 +19,7 @@
 
 #include "sup/gui/viewmodel/anyvalue_viewmodel.h"
 
+#include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
@@ -103,7 +104,7 @@ TEST_F(AnyValueViewModelTest, EmptyStructItem)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
-            std::string("struct"));
+            kStructTypeName);
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole), QVariant());
 
   // it should be possible to change struct display name
@@ -152,4 +153,49 @@ TEST_F(AnyValueViewModelTest, StructWithScalarItem)
   EXPECT_EQ(viewmodel.data(scalar_displayname_index, Qt::DisplayRole).toString().toStdString(),
             std::string("scalar"));
   EXPECT_EQ(viewmodel.data(scalar_value_index, Qt::DisplayRole).toInt(), 42);
+}
+
+//! Testing how an empty array item looks in a view model.
+
+TEST_F(AnyValueViewModelTest, EmptyArrayItem)
+{
+  mvvm::ApplicationModel model;
+  auto item = model.InsertItem<AnyValueArrayItem>();
+
+  AnyValueViewModel viewmodel(&model);
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 3);
+
+  auto item_displayname_index = viewmodel.index(0, 0);
+  auto item_value_index = viewmodel.index(0, 1);
+  auto item_type_index = viewmodel.index(0, 2);
+
+  auto views = viewmodel.FindViews(item);
+  EXPECT_EQ(views.size(), 3);
+  EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
+  EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
+
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_displayname_index), item);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
+
+  EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
+            kArrayTypeName);
+  EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole), QVariant());
+
+  // it should be possible to change struct display name
+  EXPECT_TRUE(viewmodel.setData(item_displayname_index, QString("abc"), Qt::EditRole));
+  EXPECT_EQ(item->GetDisplayName(), std::string("abc"));
+
+  // Corner case: changing array "value" (content of the second column) programmatically. This
+  // doesn't have much sense, since the array has empty variant_t{} as a value in a second
+  // column. Empty variant doesn't have it's own editor, so it is not possible to type anything in.
+  // However, the value can be changed programmatically. Leaving it under test to trace possible
+  // changes in the future.
+  mvvm::int8 new_value(42);
+  EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
+  EXPECT_EQ(item->Data<mvvm::int8>(), 42);
+
+  // it is possible to change srtuct type name
+  EXPECT_TRUE(viewmodel.setData(item_type_index, QString("my-struct"), Qt::EditRole));
+  EXPECT_EQ(item->GetAnyTypeName(), std::string("my-struct"));
 }
