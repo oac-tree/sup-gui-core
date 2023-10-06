@@ -33,8 +33,8 @@
 
 namespace
 {
-const QString kGroupName("AnyValueEditor/");
-const QString kHeaderStateSettingName = kGroupName + "header_state";
+const QString kGroupName("AnyValueEditor");
+const QString kHeaderStateSettingName = kGroupName + "/" + "header_state";
 
 }  // namespace
 
@@ -58,23 +58,14 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
                                | QAbstractItemView::EditKeyPressed
                                | QAbstractItemView::DoubleClicked);
   m_tree_view->setAlternatingRowColors(true);
+  m_custom_header->setStretchLastSection(true);
 
   m_component_provider->SetApplicationModel(model);
   m_tree_view->expandAll();
 
-  auto viewmodel = m_component_provider->GetViewModel();
-  auto on_rows_inserted = [this, viewmodel](const QModelIndex &parent, int first, int last)
-  {
-    // On first insertion into an empty view, restore size of columns, as they have been
-    // adjusted by the user before.
-    if (viewmodel->rowCount() == 1)
-    {
-      m_custom_header->RestoreFavoriteState();
-    }
-  };
-  connect(viewmodel, &mvvm::ViewModel::rowsInserted, this, on_rows_inserted);
-
   ReadSettings();
+
+  AdjustTreeAppearance();
 }
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
@@ -100,6 +91,18 @@ void AnyValueEditorTreePanel::WriteSettings()
 {
   QSettings settings;
   settings.setValue(kHeaderStateSettingName, m_custom_header->GetFavoriteState());
+}
+
+void AnyValueEditorTreePanel::AdjustTreeAppearance()
+{
+  if (m_custom_header->HasFavoriteState())
+  {
+    m_custom_header->RestoreFavoriteState();
+  }
+  else
+  {
+    m_tree_view->resizeColumnToContents(0);
+  }
 }
 
 }  // namespace sup::gui

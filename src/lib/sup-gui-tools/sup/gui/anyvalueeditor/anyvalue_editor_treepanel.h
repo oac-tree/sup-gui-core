@@ -48,11 +48,10 @@ public:
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
-  //  void AdjustColumnWidth();
-
 private:
   void ReadSettings();
   void WriteSettings();
+  void AdjustTreeAppearance();
 
   QTreeView* m_tree_view{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
