@@ -34,6 +34,17 @@ using namespace sup::gui;
 
 class AnyValueViewModelTest : public ::testing::Test
 {
+public:
+  /**
+   * @brief Test function to report if display name of the given item is editable
+   */
+  bool HasEditableDisplayName(const mvvm::SessionItem& item)
+  {
+    AnyValueViewModel viewmodel(item.GetModel());
+    auto indexes = viewmodel.GetIndexOfSessionItem(&item);
+    // trying to set display name to first column
+    return viewmodel.setData(indexes.at(0), QVariant::fromValue(QString("aaa")), Qt::EditRole);
+  }
 };
 
 //! Testing how a single scalar item looks in a view model.
@@ -198,4 +209,71 @@ TEST_F(AnyValueViewModelTest, EmptyArrayItem)
   // it is possible to change srtuct type name
   EXPECT_TRUE(viewmodel.setData(item_type_index, QString("my-struct"), Qt::EditRole));
   EXPECT_EQ(item->GetAnyTypeName(), std::string("my-struct"));
+}
+
+TEST_F(AnyValueViewModelTest, EditableDisplayName)
+{
+  // cases when display name is editable
+
+  {  // display name of an struct is editable
+    mvvm::ApplicationModel model;
+    auto item = model.InsertItem<AnyValueArrayItem>();
+    EXPECT_TRUE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of an array is editable
+    mvvm::ApplicationModel model;
+    auto item = model.InsertItem<AnyValueStructItem>();
+    EXPECT_TRUE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of a scalar is editable
+    mvvm::ApplicationModel model;
+    auto item = model.InsertItem<AnyValueStructItem>();
+    EXPECT_TRUE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of a scalar field in a struct is editable
+    mvvm::ApplicationModel model;
+    auto struct_item = model.InsertItem<AnyValueStructItem>();
+    auto item = model.InsertItem<AnyValueScalarItem>(struct_item);
+    EXPECT_TRUE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of a struct field in a struct is editable
+    mvvm::ApplicationModel model;
+    auto struct_item = model.InsertItem<AnyValueStructItem>();
+    auto item = model.InsertItem<AnyValueStructItem>(struct_item);
+    EXPECT_TRUE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of an array field in a struct is editable
+    mvvm::ApplicationModel model;
+    auto struct_item = model.InsertItem<AnyValueStructItem>();
+    auto item = model.InsertItem<AnyValueArrayItem>(struct_item);
+    EXPECT_TRUE(HasEditableDisplayName(*item));
+  }
+
+  // cases when display name is not editable
+
+  {  // display name of an scalar field in array is not editable
+    mvvm::ApplicationModel model;
+    auto array_item = model.InsertItem<AnyValueArrayItem>();
+    auto item = model.InsertItem<AnyValueScalarItem>(array_item);
+    EXPECT_FALSE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of an array field in array is not editable
+    mvvm::ApplicationModel model;
+    auto array_item = model.InsertItem<AnyValueArrayItem>();
+    auto item = model.InsertItem<AnyValueArrayItem>(array_item);
+    EXPECT_FALSE(HasEditableDisplayName(*item));
+  }
+
+  {  // display name of an struct field in array is not editable
+    mvvm::ApplicationModel model;
+    auto array_item = model.InsertItem<AnyValueArrayItem>();
+    auto item = model.InsertItem<AnyValueStructItem>(array_item);
+    EXPECT_FALSE(HasEditableDisplayName(*item));
+  }
 }

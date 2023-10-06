@@ -29,6 +29,36 @@
 
 #include <iostream>
 
+namespace
+{
+
+/**
+ * @brief Returns true if given item should have editable display name.
+ *
+ * @details The name of array elements should be read only.
+ */
+bool HasEditableDisplayName(const sup::gui::AnyValueItem &item)
+{
+  auto item_parent = dynamic_cast<const sup::gui::AnyValueItem *>(item.GetParent());
+  if (item_parent && item_parent->IsArray())
+  {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * @brief Returns true if given item should have editable type name.
+ *
+ * @details Structs and arrays should have editable type names.
+ */
+bool HasEditableTypeName(const sup::gui::AnyValueItem &item)
+{
+  return item.IsArray() || item.IsStruct();
+}
+
+}  // namespace
+
 namespace sup::gui
 {
 
@@ -39,23 +69,35 @@ public:
 
   std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override
   {
-    std::vector<std::unique_ptr<mvvm::ViewItem>> result;
-
-    if (!item)
+    auto anyvalue_item = dynamic_cast<AnyValueItem *>(item);
+    if (!anyvalue_item)
     {
-      return result;
+      return {};
     }
 
-    result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(item));
-    result.emplace_back(mvvm::CreateDataViewItem(item));
+    std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
-    if (auto scalar = dynamic_cast<AnyValueScalarItem*>(item))
+    // first column
+    if (HasEditableDisplayName(*anyvalue_item))
     {
-      result.emplace_back(mvvm::CreateLabelViewItem(item, scalar->GetAnyTypeName()));
+      result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(item));
     }
     else
     {
+      result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+    }
+
+    // second column
+    result.emplace_back(mvvm::CreateDataViewItem(item));
+
+    // third column
+    if (HasEditableTypeName(*anyvalue_item))
+    {
       result.emplace_back(mvvm::CreateDataViewItem(item, AnyValueItem::kAnyTypeNameRole));
+    }
+    else
+    {
+      result.emplace_back(mvvm::CreateLabelViewItem(item, anyvalue_item->GetAnyTypeName()));
     }
 
     return result;
