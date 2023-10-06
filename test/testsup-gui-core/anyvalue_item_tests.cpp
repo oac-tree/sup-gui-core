@@ -86,6 +86,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetDisplayName(), kStructTypeName);
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
+    EXPECT_TRUE(item.HasData(kAnyTypeNameRole)); // default name "" is there to allow editing
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kStructTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
@@ -100,7 +101,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetAnyTypeName(), std::string());
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
+    EXPECT_TRUE(item.HasData(kAnyTypeNameRole));  // default name "" is there to allow editing
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), kArrayTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));

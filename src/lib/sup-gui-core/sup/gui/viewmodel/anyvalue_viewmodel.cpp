@@ -40,11 +40,7 @@ namespace
 bool HasEditableDisplayName(const sup::gui::AnyValueItem &item)
 {
   auto item_parent = dynamic_cast<const sup::gui::AnyValueItem *>(item.GetParent());
-  if (item_parent && item_parent->IsArray())
-  {
-    return false;
-  }
-  return true;
+  return !(item_parent && item_parent->IsArray());
 }
 
 /**
@@ -80,24 +76,25 @@ public:
     // first column
     if (HasEditableDisplayName(*anyvalue_item))
     {
-      result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(item));
+      result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(anyvalue_item));
     }
     else
     {
-      result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+      result.emplace_back(mvvm::CreateDisplayNameViewItem(anyvalue_item));
     }
 
     // second column
-    result.emplace_back(mvvm::CreateDataViewItem(item));
+    result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
 
     // third column
     if (HasEditableTypeName(*anyvalue_item))
     {
-      result.emplace_back(mvvm::CreateDataViewItem(item, AnyValueItem::kAnyTypeNameRole));
+      result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item, AnyValueItem::kAnyTypeNameRole));
     }
     else
     {
-      result.emplace_back(mvvm::CreateLabelViewItem(item, anyvalue_item->GetAnyTypeName()));
+      result.emplace_back(
+          mvvm::CreateLabelViewItem(anyvalue_item, anyvalue_item->GetAnyTypeName()));
     }
 
     return result;

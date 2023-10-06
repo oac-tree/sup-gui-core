@@ -206,9 +206,9 @@ TEST_F(AnyValueViewModelTest, EmptyArrayItem)
   EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
 
-  // it is possible to change srtuct type name
-  EXPECT_TRUE(viewmodel.setData(item_type_index, QString("my-struct"), Qt::EditRole));
-  EXPECT_EQ(item->GetAnyTypeName(), std::string("my-struct"));
+  // it is possible to change array type name
+  EXPECT_TRUE(viewmodel.setData(item_type_index, QString("my-array"), Qt::EditRole));
+  EXPECT_EQ(item->GetAnyTypeName(), std::string("my-array"));
 }
 
 TEST_F(AnyValueViewModelTest, EditableDisplayName)

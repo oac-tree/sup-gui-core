@@ -164,6 +164,7 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
 {
   SetDisplayName(kArrayTypeName);
+  SetAnyTypeName("");
   SetToolTip(kArrayTypeName);
   RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
 }
