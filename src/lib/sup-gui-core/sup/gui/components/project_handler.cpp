@@ -23,6 +23,7 @@
 
 #include <mvvm/factories/project_manager_factory.h>
 #include <mvvm/project/project_types.h>
+#include <mvvm/project/project_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QMainWindow>
@@ -127,14 +128,14 @@ void ProjectHandler::UpdateNames()
 
 void ProjectHandler::UpdateCurrentProjectName()
 {
-  const auto current_project_dir = QString::fromStdString(m_project_manager->CurrentProjectDir());
+  const auto current_project_dir = m_project_manager->CurrentProjectDir();
   const auto is_modified = m_project_manager->IsModified();
 
   // set main window title
   auto title = mvvm::utils::ProjectWindowTitle(current_project_dir, is_modified);
   if (auto main_window = mvvm::utils::FindMainWindow(); main_window)
   {
-    main_window->setWindowTitle(title);
+    main_window->setWindowTitle(QString::fromStdString(title));
   }
 }
 

@@ -64,7 +64,7 @@ std::string ProjectUserInteractor::OnSelectDirRequest()
     return {};
   }
 
-  if (!mvvm::ProjectUtils::IsPossibleProjectDir(dirname))
+  if (!mvvm::utils::IsPossibleProjectDir(dirname))
   {
     QMessageBox msgBox;
     msgBox.setText("Selected directory doesn't look like a project directory, choose another one");
