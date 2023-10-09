@@ -61,7 +61,7 @@ namespace sup::gui
 class RowStrategy : public mvvm::RowStrategyInterface
 {
 public:
-  QStringList GetHorizontalHeaderLabels() const override { return {"Name", "Value", "Type"}; }
+  QStringList GetHorizontalHeaderLabels() const override { return {"Name", "Value", "TypeName"}; }
 
   std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override
   {
