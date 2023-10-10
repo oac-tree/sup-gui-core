@@ -22,6 +22,7 @@
 #include "anyvalue_item.h"
 #include "anyvalue_item_builder.h"
 #include "domain_anyvalue_builder.h"
+#include "scalar_conversion_utils.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anytype_registry.h>
@@ -160,6 +161,24 @@ std::unique_ptr<AnyValueItem> CreateItem(const sup::dto::AnyValue& any_value)
   AnyValueItemBuilder builder;
   sup::dto::SerializeAnyValue(any_value, builder);
   return std::move(builder.MoveAnyValueItem());
+}
+
+void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item)
+{
+  auto variant = GetVariantFromScalar(value);
+
+  if (item.GetAnyTypeName() != value.GetTypeName())
+  {
+    item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
+    item.SetAnyTypeName(value.GetTypeName());
+  }
+
+  item.SetData(variant);
+}
+
+sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem& item)
+{
+  return GetAnyValueFromScalar(item.Data());
 }
 
 }  // namespace sup::gui

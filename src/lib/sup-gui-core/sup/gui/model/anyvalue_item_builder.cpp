@@ -19,8 +19,8 @@
 
 #include "anyvalue_item_builder.h"
 
+#include "anyvalue_conversion_utils.h"
 #include "anyvalue_item.h"
-#include "scalar_conversion_utils.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
@@ -43,9 +43,7 @@ void AnyValueItemBuilder::EmptyProlog(const anyvalue_t *anyvalue)
   AddItem(std::make_unique<AnyValueEmptyItem>());
 }
 
-void AnyValueItemBuilder::EmptyEpilog(const anyvalue_t *anyvalue)
-{
-}
+void AnyValueItemBuilder::EmptyEpilog(const anyvalue_t *anyvalue) {}
 
 void AnyValueItemBuilder::StructProlog(const anyvalue_t *anyvalue)
 {
@@ -54,13 +52,9 @@ void AnyValueItemBuilder::StructProlog(const anyvalue_t *anyvalue)
   AddItem(std::move(struct_item));
 }
 
-void AnyValueItemBuilder::StructMemberSeparator()
-{
-}
+void AnyValueItemBuilder::StructMemberSeparator() {}
 
-void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue)
-{
-}
+void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue) {}
 
 //! Append new child with the display name corresponding to `member_name`.
 //! Update
@@ -105,9 +99,7 @@ void AnyValueItemBuilder::ScalarProlog(const anyvalue_t *anyvalue)
   AddItem(std::move(scalar));
 }
 
-void AnyValueItemBuilder::ScalarEpilog(const anyvalue_t *anyvalue)
-{
-}
+void AnyValueItemBuilder::ScalarEpilog(const anyvalue_t *anyvalue) {}
 
 void AnyValueItemBuilder::AddItem(std::unique_ptr<AnyValueItem> item)
 {

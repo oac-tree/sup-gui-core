@@ -20,7 +20,8 @@
 #include "scalar_conversion_utils.h"
 
 #include "anyvalue_conversion_utils.h"
-#include "anyvalue_item.h"
+
+#include <sup/gui/core/exceptions.h>
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
@@ -28,7 +29,6 @@
 
 #include <functional>
 #include <map>
-#include <stdexcept>
 
 namespace sup::gui
 {
@@ -43,51 +43,37 @@ void AssignToAnyValueScalar(const mvvm::variant_t &variant, sup::dto::AnyValue &
 }
 
 template <typename T>
-mvvm::variant_t SetDataFromScalarT(const sup::dto::AnyValue &anyvalue)
+mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue &anyvalue)
 {
   T val = anyvalue.As<T>();
   return {val};
-}
-
-void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
-{
-  auto variant = GetVariantFromScalar(value);
-
-  if (item.GetAnyTypeName() != value.GetTypeName())
-  {
-    item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
-    item.SetAnyTypeName(value.GetTypeName());
-  }
-
-  item.SetData(variant);
 }
 
 mvvm::variant_t GetVariantFromScalar(const anyvalue_t &value)
 {
   using sup::dto::TypeCode;
   using function_t = std::function<mvvm::variant_t(const sup::dto::AnyValue &anyvalue)>;
-  static std::map<TypeCode, function_t> conversion_map{
-      {TypeCode::Bool, SetDataFromScalarT<sup::dto::boolean>},
-      {TypeCode::Char8, SetDataFromScalarT<sup::dto::char8>},
-      {TypeCode::Int8, SetDataFromScalarT<sup::dto::int8>},
-      {TypeCode::UInt8, SetDataFromScalarT<sup::dto::uint8>},
-      {TypeCode::Int16, SetDataFromScalarT<sup::dto::int16>},
-      {TypeCode::UInt16, SetDataFromScalarT<sup::dto::uint16>},
-      {TypeCode::Int32, SetDataFromScalarT<sup::dto::int32>},
-      {TypeCode::UInt32, SetDataFromScalarT<sup::dto::uint32>},
-      {TypeCode::Int64, SetDataFromScalarT<sup::dto::int64>},
-      {TypeCode::UInt64, SetDataFromScalarT<sup::dto::uint64>},
-      {TypeCode::Float32, SetDataFromScalarT<sup::dto::float32>},
-      {TypeCode::Float64, SetDataFromScalarT<sup::dto::float64>},
-      {TypeCode::String, SetDataFromScalarT<std::string>}};
+  static const std::map<TypeCode, function_t> kConversionMap{
+      {TypeCode::Bool, GetVariantFromScalarT<sup::dto::boolean>},
+      {TypeCode::Char8, GetVariantFromScalarT<sup::dto::char8>},
+      {TypeCode::Int8, GetVariantFromScalarT<sup::dto::int8>},
+      {TypeCode::UInt8, GetVariantFromScalarT<sup::dto::uint8>},
+      {TypeCode::Int16, GetVariantFromScalarT<sup::dto::int16>},
+      {TypeCode::UInt16, GetVariantFromScalarT<sup::dto::uint16>},
+      {TypeCode::Int32, GetVariantFromScalarT<sup::dto::int32>},
+      {TypeCode::UInt32, GetVariantFromScalarT<sup::dto::uint32>},
+      {TypeCode::Int64, GetVariantFromScalarT<sup::dto::int64>},
+      {TypeCode::UInt64, GetVariantFromScalarT<sup::dto::uint64>},
+      {TypeCode::Float32, GetVariantFromScalarT<sup::dto::float32>},
+      {TypeCode::Float64, GetVariantFromScalarT<sup::dto::float64>},
+      {TypeCode::String, GetVariantFromScalarT<std::string>}};
 
-  auto iter = conversion_map.find(value.GetTypeCode());
+  auto iter = kConversionMap.find(value.GetTypeCode());
+  if (iter == kConversionMap.end())
+  {
+    throw RuntimeException("Not a known scalar type code");
+  }
   return iter->second(value);
-}
-
-sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
-{
-  return GetAnyValueFromScalar(item.Data());
 }
 
 dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
@@ -96,7 +82,7 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
       std::function<void(const mvvm::variant_t &variant, sup::dto::AnyValue &anyvalue)>;
 
   //! Correspondance of AnyValue type code to PVXS value function to assign scalars.
-  const static std::map<sup::dto::TypeCode, anyvalue_function_t> kAssignToAnyValueScalarMap = {
+  static const std::map<sup::dto::TypeCode, anyvalue_function_t> kConversionMap = {
       {sup::dto::TypeCode::Bool, AssignToAnyValueScalar<mvvm::boolean>},
       {sup::dto::TypeCode::Char8, AssignToAnyValueScalar<mvvm::char8>},
       {sup::dto::TypeCode::Int8, AssignToAnyValueScalar<mvvm::int8>},
@@ -113,10 +99,10 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
 
   const ::sup::dto::TypeCode type_code = GetTypeCode(mvvm::utils::TypeName(variant));
 
-  auto iter = kAssignToAnyValueScalarMap.find(type_code);
-  if (iter == kAssignToAnyValueScalarMap.end())
+  auto iter = kConversionMap.find(type_code);
+  if (iter == kConversionMap.end())
   {
-    throw std::runtime_error("Not a known scalar type code");
+    throw RuntimeException("Not a known scalar type code");
   }
 
   sup::dto::AnyValue result((::sup::dto::AnyType(type_code)));
