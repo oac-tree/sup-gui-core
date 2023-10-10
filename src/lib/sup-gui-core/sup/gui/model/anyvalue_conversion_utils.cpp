@@ -40,6 +40,16 @@
 namespace
 {
 
+std::vector<std::string> CreateScalarTypeNames()
+{
+  const auto scalar_definitions = sup::dto::ScalarTypeDefinitions();
+  std::vector<std::string> result;
+  auto on_element = [](const auto& pair) { return pair.second; };
+  std::transform(scalar_definitions.begin(), scalar_definitions.end(), std::back_inserter(result),
+                 on_element);
+  return result;
+}
+
 const std::map<sup::dto::TypeCode, std::string> kTypeCodeNameMap = {
     {sup::dto::TypeCode::Empty, sup::dto::kEmptyTypeName},
     {sup::dto::TypeCode::Struct, sup::gui::kStructTypeName},
@@ -58,24 +68,10 @@ const std::map<sup::dto::TypeCode, std::string> kTypeCodeNameMap = {
     {sup::dto::TypeCode::Float64, sup::dto::kFloat64TypeName},
     {sup::dto::TypeCode::String, sup::dto::kStringTypeName}};
 
-const std::vector<sup::dto::TypeCode> kScalars = {
-    sup::dto::TypeCode::Bool,   sup::dto::TypeCode::Char8,   sup::dto::TypeCode::Int8,
-    sup::dto::TypeCode::UInt8,  sup::dto::TypeCode::Int16,   sup::dto::TypeCode::UInt16,
-    sup::dto::TypeCode::Int32,  sup::dto::TypeCode::UInt32,  sup::dto::TypeCode::Int64,
-    sup::dto::TypeCode::UInt64, sup::dto::TypeCode::Float32, sup::dto::TypeCode::Float64,
-    sup::dto::TypeCode::String};
-
 std::string GetName(sup::dto::TypeCode code)
 {
   auto iter = kTypeCodeNameMap.find(code);
   return iter == kTypeCodeNameMap.end() ? std::string() : iter->second;
-}
-
-template <typename T>
-mvvm::variant_t ScalarToItemT()
-{
-  T val{};
-  return mvvm::variant_t(val);  // construct variant from given type
 }
 
 }  // namespace
@@ -90,10 +86,8 @@ std::vector<std::string> GetMainTypeNames()
 
 std::vector<std::string> GetScalarTypeNames()
 {
-  std::vector<std::string> result;
-  auto on_code = [](auto code) { return GetName(code); };
-  std::transform(kScalars.begin(), kScalars.end(), std::back_inserter(result), on_code);
-  return result;
+  static const auto names = CreateScalarTypeNames();
+  return names;
 }
 
 sup::dto::TypeCode GetTypeCode(const std::string& name)
