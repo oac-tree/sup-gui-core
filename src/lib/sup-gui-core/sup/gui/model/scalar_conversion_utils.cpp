@@ -33,24 +33,26 @@
 namespace sup::gui
 {
 
-//! Assigns scalar value from PVXS value to pre-created AnyValue value.
+/**
+ * @brief Assigns scalar value from variant_t to pre-created AnyValue value.
+ */
 template <typename T>
-void AssignToAnyValueScalar(const AnyValueItem &item, sup::dto::AnyValue &any_value)
+void AssignToAnyValueScalar(const mvvm::variant_t &variant, sup::dto::AnyValue &any_value)
 {
-  any_value.ConvertFrom(item.Data<T>());
+  any_value.ConvertFrom(std::get<T>(variant));
 }
 
 template <typename T>
-void SetDataFromScalarT(const sup::dto::AnyValue &anyvalue, AnyValueItem &item)
+mvvm::variant_t SetDataFromScalarT(const sup::dto::AnyValue &anyvalue)
 {
   T val = anyvalue.As<T>();
-  item.SetData(val);
+  return {val};
 }
 
 void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
 {
   using sup::dto::TypeCode;
-  using function_t = std::function<void(const sup::dto::AnyValue &anyvalue, AnyValueItem &item)>;
+  using function_t = std::function<mvvm::variant_t(const sup::dto::AnyValue &anyvalue)>;
   static std::map<TypeCode, function_t> conversion_map{
       {TypeCode::Bool, SetDataFromScalarT<sup::dto::boolean>},
       {TypeCode::Char8, SetDataFromScalarT<sup::dto::char8>},
@@ -76,13 +78,14 @@ void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
   {
     throw std::runtime_error("Not a known scalar type code");
   }
-  return iter->second(value, item);
+  auto variant = iter->second(value);
+  item.SetData(variant);
 }
 
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
 {
   using anyvalue_function_t =
-      std::function<void(const AnyValueItem &item, sup::dto::AnyValue &anyvalue)>;
+      std::function<void(const mvvm::variant_t &variant, sup::dto::AnyValue &anyvalue)>;
 
   //! Correspondance of AnyValue type code to PVXS value function to assign scalars.
   const static std::map<sup::dto::TypeCode, anyvalue_function_t> kAssignToAnyValueScalarMap = {
@@ -109,7 +112,7 @@ sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
 
   sup::dto::AnyValue result((::sup::dto::AnyType(type_code)));
   auto assign_function = iter->second;
-  assign_function(item, result);
+  assign_function(item.Data(), result);
 
   return result;
 }
