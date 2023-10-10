@@ -33,6 +33,17 @@ using namespace sup::gui;
 
 class ScalarConversionUtilsTests : public ::testing::Test
 {
+public:
+  //! Helper function to test if we can correctly create default constructed variant from type name.
+  template <typename T>
+  bool IsValidVariantForName(const std::string& type_name)
+  {
+    T default_value{};
+    auto variant = GetVariantFromScalarTypeName(type_name);
+    bool is_valid_type = std::holds_alternative<T>(variant);
+    bool is_valid_value = std::get<T>(variant) == default_value;
+    return is_valid_type && is_valid_value;
+  }
 };
 
 TEST_F(ScalarConversionUtilsTests, SetVariantFromScalar)
@@ -249,4 +260,23 @@ TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalarVariant)
     EXPECT_EQ(any_value.GetType(), sup::dto::StringType);
     EXPECT_EQ(any_value.As<std::string>(), value);
   }
+}
+
+//! Checking function to get variant_t from sup::dto type names.
+
+TEST_F(ScalarConversionUtilsTests, GetVariantFromScalarTypeName)
+{
+  EXPECT_TRUE(IsValidVariantForName<bool>(sup::dto::kBooleanTypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::char8>(sup::dto::kChar8TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::int8>(sup::dto::kInt8TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::uint8>(sup::dto::kUInt8TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::int16>(sup::dto::kInt16TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::uint16>(sup::dto::kUInt16TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::int32>(sup::dto::kInt32TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::uint32>(sup::dto::kUInt32TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::int64>(sup::dto::kInt64TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::uint64>(sup::dto::kUInt64TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::float32>(sup::dto::kFloat32TypeName));
+  EXPECT_TRUE(IsValidVariantForName<mvvm::float64>(sup::dto::kFloat64TypeName));
+  EXPECT_TRUE(IsValidVariantForName<std::string>(sup::dto::kStringTypeName));
 }

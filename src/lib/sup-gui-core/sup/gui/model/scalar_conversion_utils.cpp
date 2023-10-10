@@ -30,7 +30,7 @@
 #include <functional>
 #include <map>
 
-namespace sup::gui
+namespace
 {
 
 /**
@@ -42,6 +42,9 @@ void AssignToAnyValueScalar(const mvvm::variant_t &variant, sup::dto::AnyValue &
   any_value.ConvertFrom(std::get<T>(variant));
 }
 
+/**
+ * @brief Creates variant from scalar-like AnyValue.
+ */
 template <typename T>
 mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue &anyvalue)
 {
@@ -49,25 +52,31 @@ mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue &anyvalue)
   return {val};
 }
 
+using sup::dto::TypeCode;
+using function_t = std::function<mvvm::variant_t(const sup::dto::AnyValue &anyvalue)>;
+
+const std::map<TypeCode, function_t> kConversionMap{
+    {TypeCode::Bool, GetVariantFromScalarT<sup::dto::boolean>},
+    {TypeCode::Char8, GetVariantFromScalarT<sup::dto::char8>},
+    {TypeCode::Int8, GetVariantFromScalarT<sup::dto::int8>},
+    {TypeCode::UInt8, GetVariantFromScalarT<sup::dto::uint8>},
+    {TypeCode::Int16, GetVariantFromScalarT<sup::dto::int16>},
+    {TypeCode::UInt16, GetVariantFromScalarT<sup::dto::uint16>},
+    {TypeCode::Int32, GetVariantFromScalarT<sup::dto::int32>},
+    {TypeCode::UInt32, GetVariantFromScalarT<sup::dto::uint32>},
+    {TypeCode::Int64, GetVariantFromScalarT<sup::dto::int64>},
+    {TypeCode::UInt64, GetVariantFromScalarT<sup::dto::uint64>},
+    {TypeCode::Float32, GetVariantFromScalarT<sup::dto::float32>},
+    {TypeCode::Float64, GetVariantFromScalarT<sup::dto::float64>},
+    {TypeCode::String, GetVariantFromScalarT<std::string>}};
+
+}  // namespace
+
+namespace sup::gui
+{
+
 mvvm::variant_t GetVariantFromScalar(const anyvalue_t &value)
 {
-  using sup::dto::TypeCode;
-  using function_t = std::function<mvvm::variant_t(const sup::dto::AnyValue &anyvalue)>;
-  static const std::map<TypeCode, function_t> kConversionMap{
-      {TypeCode::Bool, GetVariantFromScalarT<sup::dto::boolean>},
-      {TypeCode::Char8, GetVariantFromScalarT<sup::dto::char8>},
-      {TypeCode::Int8, GetVariantFromScalarT<sup::dto::int8>},
-      {TypeCode::UInt8, GetVariantFromScalarT<sup::dto::uint8>},
-      {TypeCode::Int16, GetVariantFromScalarT<sup::dto::int16>},
-      {TypeCode::UInt16, GetVariantFromScalarT<sup::dto::uint16>},
-      {TypeCode::Int32, GetVariantFromScalarT<sup::dto::int32>},
-      {TypeCode::UInt32, GetVariantFromScalarT<sup::dto::uint32>},
-      {TypeCode::Int64, GetVariantFromScalarT<sup::dto::int64>},
-      {TypeCode::UInt64, GetVariantFromScalarT<sup::dto::uint64>},
-      {TypeCode::Float32, GetVariantFromScalarT<sup::dto::float32>},
-      {TypeCode::Float64, GetVariantFromScalarT<sup::dto::float64>},
-      {TypeCode::String, GetVariantFromScalarT<std::string>}};
-
   auto iter = kConversionMap.find(value.GetTypeCode());
   if (iter == kConversionMap.end())
   {
@@ -110,6 +119,12 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
   assign_function(variant, result);
 
   return result;
+}
+
+mvvm::variant_t GetVariantFromScalarTypeName(const std::string &type_name)
+{
+  sup::dto::AnyValue anyvalue(sup::dto::AnyType(GetTypeCode(type_name)));
+  return GetVariantFromScalar(anyvalue);
 }
 
 }  // namespace sup::gui

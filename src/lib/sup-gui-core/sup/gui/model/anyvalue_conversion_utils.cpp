@@ -107,38 +107,6 @@ sup::dto::TypeCode GetTypeCode(const std::string& name)
   return iter->first;
 }
 
-mvvm::variant_t GetVariantForAnyValueTypeName(const std::string& type_name)
-{
-  // The variant is intended for editing in cells of Qt trees and tables.
-  // The concret type stored in it might be different from the AnyType as given by `type_name`.
-  // For example, we are going to use `int` to edit `uint8` in GUI widgets. Necessary
-  // limits will be provided by cell editors.
-
-  using sup::dto::TypeCode;
-  using function_t = std::function<mvvm::variant_t()>;
-  static std::map<TypeCode, function_t> conversion_map{
-      {TypeCode::Bool, ScalarToItemT<sup::dto::boolean>},
-      {TypeCode::Char8, ScalarToItemT<sup::dto::char8>},
-      {TypeCode::Int8, ScalarToItemT<sup::dto::int8>},
-      {TypeCode::UInt8, ScalarToItemT<sup::dto::uint8>},
-      {TypeCode::Int16, ScalarToItemT<sup::dto::int16>},
-      {TypeCode::UInt16, ScalarToItemT<sup::dto::uint16>},
-      {TypeCode::Int32, ScalarToItemT<sup::dto::int32>},
-      {TypeCode::UInt32, ScalarToItemT<sup::dto::uint32>},
-      {TypeCode::Int64, ScalarToItemT<sup::dto::int64>},
-      {TypeCode::UInt64, ScalarToItemT<sup::dto::uint64>},
-      {TypeCode::Float32, ScalarToItemT<sup::dto::float32>},
-      {TypeCode::Float64, ScalarToItemT<sup::dto::float64>},
-      {TypeCode::String, ScalarToItemT<std::string>}};
-
-  auto iter = conversion_map.find(GetTypeCode(type_name));
-  if (iter == conversion_map.end())
-  {
-    throw std::runtime_error("Not a known scalar type code");
-  }
-  return iter->second();
-}
-
 bool IsScalarTypeName(const std::string& name)
 {
   static const std::vector<std::string> expected_names = GetScalarTypeNames();

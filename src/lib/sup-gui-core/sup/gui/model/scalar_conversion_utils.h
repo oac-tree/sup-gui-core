@@ -40,6 +40,12 @@ mvvm::variant_t GetVariantFromScalar(const anyvalue_t& value);
  */
 sup::dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t& variant);
 
+/**
+ * @brief Returns scalar-like variant corresponding to a given AnyValue type name. The value
+ * of the variant will be default initialized.
+ */
+mvvm::variant_t GetVariantFromScalarTypeName(const std::string& type_name);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_MODEL_SCALAR_CONVERSION_UTILS_H_

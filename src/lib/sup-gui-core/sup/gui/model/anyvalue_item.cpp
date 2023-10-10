@@ -19,6 +19,7 @@
 
 #include "anyvalue_item.h"
 
+#include "scalar_conversion_utils.h"
 #include "anyvalue_conversion_utils.h"
 #include "anyvalue_item_utils.h"
 
@@ -110,7 +111,7 @@ void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
   AnyValueItem::SetAnyTypeName(type_name);
   // setting default value for given type
-  SetData(GetVariantForAnyValueTypeName(type_name));
+  SetData(GetVariantFromScalarTypeName(type_name));
 }
 
 bool AnyValueScalarItem::IsScalar() const

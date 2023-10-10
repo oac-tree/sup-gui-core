@@ -19,6 +19,7 @@
 
 #include "sup/gui/model/anyvalue_conversion_utils.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/scalar_conversion_utils.h>
 
@@ -57,59 +58,6 @@ TEST_F(AnyValueConversionUtilsTest, GetTypeCode)
   EXPECT_EQ(GetTypeCode(sup::dto::kStringTypeName), TypeCode::String);
 
   EXPECT_THROW(GetTypeCode("non-existing"), std::runtime_error);
-}
-
-//! Checking function to get variant_t from sup::dto type names.
-
-TEST_F(AnyValueConversionUtilsTest, GetVariantForAnyTypeName)
-{
-  EXPECT_TRUE(
-      std::holds_alternative<bool>(GetVariantForAnyValueTypeName(sup::dto::kBooleanTypeName)));
-  EXPECT_TRUE(
-      std::holds_alternative<mvvm::char8>(GetVariantForAnyValueTypeName(sup::dto::kChar8TypeName)));
-  EXPECT_TRUE(
-      std::holds_alternative<mvvm::int8>(GetVariantForAnyValueTypeName(sup::dto::kInt8TypeName)));
-  EXPECT_TRUE(
-      std::holds_alternative<mvvm::uint8>(GetVariantForAnyValueTypeName(sup::dto::kUInt8TypeName)));
-  EXPECT_TRUE(
-      std::holds_alternative<mvvm::int16>(GetVariantForAnyValueTypeName(sup::dto::kInt16TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::uint16>(
-      GetVariantForAnyValueTypeName(sup::dto::kUInt16TypeName)));
-  EXPECT_TRUE(
-      std::holds_alternative<mvvm::int32>(GetVariantForAnyValueTypeName(sup::dto::kInt32TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::uint32>(
-      GetVariantForAnyValueTypeName(sup::dto::kUInt32TypeName)));
-  EXPECT_TRUE(
-      std::holds_alternative<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt64TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::uint64>(
-      GetVariantForAnyValueTypeName(sup::dto::kUInt64TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::float32>(
-      GetVariantForAnyValueTypeName(sup::dto::kFloat32TypeName)));
-  EXPECT_TRUE(std::holds_alternative<mvvm::float64>(
-      GetVariantForAnyValueTypeName(sup::dto::kFloat64TypeName)));
-
-  EXPECT_TRUE(std::holds_alternative<std::string>(
-      GetVariantForAnyValueTypeName(sup::dto::kStringTypeName)));
-}
-
-TEST_F(AnyValueConversionUtilsTest, DefaultVariantValuesConstructedFromAnyTypeName)
-{
-  EXPECT_EQ(std::get<mvvm::boolean>(GetVariantForAnyValueTypeName(sup::dto::kBooleanTypeName)),
-            false);
-  EXPECT_EQ(std::get<mvvm::char8>(GetVariantForAnyValueTypeName(sup::dto::kChar8TypeName)), false);
-  EXPECT_EQ(std::get<mvvm::int8>(GetVariantForAnyValueTypeName(sup::dto::kInt8TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::uint8>(GetVariantForAnyValueTypeName(sup::dto::kUInt8TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int16>(GetVariantForAnyValueTypeName(sup::dto::kInt16TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::uint16>(GetVariantForAnyValueTypeName(sup::dto::kUInt16TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int32>(GetVariantForAnyValueTypeName(sup::dto::kInt32TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::uint32>(GetVariantForAnyValueTypeName(sup::dto::kUInt32TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::int64>(GetVariantForAnyValueTypeName(sup::dto::kInt64TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::uint64>(GetVariantForAnyValueTypeName(sup::dto::kUInt64TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::float32>(GetVariantForAnyValueTypeName(sup::dto::kFloat32TypeName)), 0);
-  EXPECT_EQ(std::get<mvvm::float64>(GetVariantForAnyValueTypeName(sup::dto::kFloat64TypeName)), 0);
-
-  EXPECT_TRUE(std::holds_alternative<std::string>(
-      GetVariantForAnyValueTypeName(sup::dto::kStringTypeName)));
 }
 
 //! Testing IsScalarTypeName utility function.
@@ -264,6 +212,6 @@ TEST_F(AnyValueConversionUtilsTest, GetAnyValueFromScalar)
 
   {  // attempt to construct a scalar from the struct
     AnyValueStructItem item;
-    EXPECT_THROW(GetAnyValueFromScalar(item), std::runtime_error);
+    EXPECT_THROW(GetAnyValueFromScalar(item), RuntimeException);
   }
 }
