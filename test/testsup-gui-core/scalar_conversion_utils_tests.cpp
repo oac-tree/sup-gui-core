@@ -95,6 +95,126 @@ TEST_F(ScalarConversionUtilsTests, SetDataFromScalar)
   }
 }
 
+TEST_F(ScalarConversionUtilsTests, SetVariantFromScalar)
+{
+  {  // from bool
+    sup::dto::boolean value{true};
+    sup::dto::AnyValue anyvalue{sup::dto::BooleanType};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Bool);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from char8
+    sup::dto::char8 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::Character8Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Char8);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from int8
+    sup::dto::int8 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::SignedInteger8Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Int8);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from uint8
+    sup::dto::uint8 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger8Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::UInt8);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from int16
+    sup::dto::int16 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::SignedInteger16Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Int16);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from uint16
+    sup::dto::uint16 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger16Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::UInt16);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from int32
+    sup::dto::int32 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Int32);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from uint32
+    sup::dto::uint32 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger32Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::UInt32);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from int64
+    sup::dto::int64 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::SignedInteger64Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Int64);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from uint64
+    sup::dto::uint64 value{42};
+    sup::dto::AnyValue anyvalue{sup::dto::UnsignedInteger64Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::UInt64);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from float32
+    sup::dto::float32 value{42.1};
+    sup::dto::AnyValue anyvalue{sup::dto::Float32Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Float32);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from float64
+    sup::dto::float64 value{42.1};
+    sup::dto::AnyValue anyvalue{sup::dto::Float64Type};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::Float64);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+
+  {  // from string
+    std::string value{"abc"};
+    sup::dto::AnyValue anyvalue{sup::dto::StringType};
+    anyvalue = value;
+    auto variant = GetVariantFromScalar(anyvalue);
+    EXPECT_EQ(GetTypeCode(variant), mvvm::TypeCode::String);
+    EXPECT_EQ(variant, mvvm::variant_t(value));
+  }
+}
+
 //! Testing GetAnyValueFromScalar method. Creating scalar AnyValue from scalar-like AnyValueItem
 //! containing various scalars.
 

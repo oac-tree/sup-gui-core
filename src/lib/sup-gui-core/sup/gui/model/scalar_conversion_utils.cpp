@@ -51,6 +51,19 @@ mvvm::variant_t SetDataFromScalarT(const sup::dto::AnyValue &anyvalue)
 
 void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
 {
+  auto variant = GetVariantFromScalar(value);
+
+  if (item.GetAnyTypeName() != value.GetTypeName())
+  {
+    item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
+    item.SetAnyTypeName(value.GetTypeName());
+  }
+
+  item.SetData(variant);
+}
+
+mvvm::variant_t GetVariantFromScalar(const anyvalue_t &value)
+{
   using sup::dto::TypeCode;
   using function_t = std::function<mvvm::variant_t(const sup::dto::AnyValue &anyvalue)>;
   static std::map<TypeCode, function_t> conversion_map{
@@ -69,17 +82,7 @@ void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
       {TypeCode::String, SetDataFromScalarT<std::string>}};
 
   auto iter = conversion_map.find(value.GetTypeCode());
-  if (item.GetAnyTypeName() != value.GetTypeName())
-  {
-    item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
-    item.SetAnyTypeName(value.GetTypeName());
-  }
-  if (iter == conversion_map.end())
-  {
-    throw std::runtime_error("Not a known scalar type code");
-  }
-  auto variant = iter->second(value);
-  item.SetData(variant);
+  return iter->second(value);
 }
 
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)

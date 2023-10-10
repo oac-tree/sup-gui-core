@@ -20,7 +20,8 @@
 #ifndef SUP_GUI_MODEL_SCALAR_CONVERSION_UTILS_H_
 #define SUP_GUI_MODEL_SCALAR_CONVERSION_UTILS_H_
 
-//! Utility functions to convert scalar AnyValue to AnyValueItem and back.
+//! @file
+//! Utility functions to convert scalar AnyValue to variant_t and back.
 
 #include <sup/gui/core/dto_types_fwd.h>
 
@@ -41,6 +42,11 @@ class AnyValueItem;
  * AnyTypeName and underlying variant on board of AnyValueItem will be updated accordingly.
  */
 void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item);
+
+/**
+ * @brief Return scalar-like variant from AnyValue rpresenting a scalar.
+ */
+mvvm::variant_t GetVariantFromScalar(const anyvalue_t& value);
 
 /**
  * @brief Returns scalar AnyValue from AnyValueItem containing a scalar.
