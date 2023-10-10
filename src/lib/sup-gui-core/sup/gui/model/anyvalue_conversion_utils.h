@@ -20,6 +20,9 @@
 #ifndef SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
 #define SUP_GUI_MODEL_ANYVALUE_CONVERSION_UTILS_H_
 
+//! @file
+//! Helper functions to convert between AnyValue and AnyValueItem.
+
 #include <sup/gui/core/dto_types_fwd.h>
 
 #include <mvvm/core/variant.h>
@@ -42,18 +45,26 @@ std::vector<std::string> GetMainTypeNames();
 std::vector<std::string> GetScalarTypeNames();
 
 //! Returns any_value type code from the name.
-sup::dto::TypeCode GetTypeCode(const std::string& name);
+sup::dto::TypeCode GetScalarTypeCode(const std::string& name);
 
-//! Returns true if given name corresponds to a scalar.
+/**
+ * @brief Returns true if given name corresponds to a scalar.
+ */
 bool IsScalarTypeName(const std::string& name);
 
-//! Returns true if given name corresponds to a struct.
+/**
+ * @brief Returns true if given name corresponds to a struct.
+ */
 bool IsStructTypeName(const std::string& name);
 
-//! Creates AnyValue from given item.
+/**
+ * @brief Creates AnyValue from given item.
+ */
 sup::dto::AnyValue CreateAnyValue(const AnyValueItem& item);
 
-//! Creates AnyValueItem from given AnyValue.
+/**
+ * @brief Creates AnyValueItem from given AnyValue.
+ */
 std::unique_ptr<AnyValueItem> CreateItem(const sup::dto::AnyValue& any_value);
 
 /**

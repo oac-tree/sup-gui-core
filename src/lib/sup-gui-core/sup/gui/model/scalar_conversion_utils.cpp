@@ -106,7 +106,7 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
       {sup::dto::TypeCode::Float64, AssignToAnyValueScalar<mvvm::float64>},
       {sup::dto::TypeCode::String, AssignToAnyValueScalar<std::string>}};
 
-  const ::sup::dto::TypeCode type_code = GetTypeCode(mvvm::utils::TypeName(variant));
+  const ::sup::dto::TypeCode type_code = GetScalarTypeCode(mvvm::utils::TypeName(variant));
 
   auto iter = kConversionMap.find(type_code);
   if (iter == kConversionMap.end())
@@ -123,7 +123,7 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
 
 mvvm::variant_t GetVariantFromScalarTypeName(const std::string &type_name)
 {
-  sup::dto::AnyValue anyvalue(sup::dto::AnyType(GetTypeCode(type_name)));
+  sup::dto::AnyValue anyvalue(sup::dto::AnyType(GetScalarTypeCode(type_name)));
   return GetVariantFromScalar(anyvalue);
 }
 

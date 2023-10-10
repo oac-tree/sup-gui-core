@@ -24,56 +24,44 @@
 #include "domain_anyvalue_builder.h"
 #include "scalar_conversion_utils.h"
 
+#include <sup/gui/core/exceptions.h>
+
 #include <sup/dto/anytype.h>
-#include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/basic_scalar_types.h>
 
 #include <algorithm>
-#include <fstream>
-#include <functional>
 #include <map>
-#include <sstream>
-#include <stdexcept>
 
 namespace
 {
 
+/**
+ * @brief Constructs vector of scalar type names.
+ */
 std::vector<std::string> CreateScalarTypeNames()
 {
-  const auto scalar_definitions = sup::dto::ScalarTypeDefinitions();
   std::vector<std::string> result;
+
+  static const auto scalar_definitions = sup::dto::ScalarTypeDefinitions();
   auto on_element = [](const auto& pair) { return pair.second; };
   std::transform(scalar_definitions.begin(), scalar_definitions.end(), std::back_inserter(result),
                  on_element);
   return result;
 }
 
-const std::map<sup::dto::TypeCode, std::string> kTypeCodeNameMap = {
-    {sup::dto::TypeCode::Empty, sup::dto::kEmptyTypeName},
-    {sup::dto::TypeCode::Struct, sup::gui::kStructTypeName},
-    {sup::dto::TypeCode::Array, sup::gui::kArrayTypeName},
-    {sup::dto::TypeCode::Bool, sup::dto::kBooleanTypeName},
-    {sup::dto::TypeCode::Char8, sup::dto::kChar8TypeName},
-    {sup::dto::TypeCode::Int8, sup::dto::kInt8TypeName},
-    {sup::dto::TypeCode::UInt8, sup::dto::kUInt8TypeName},
-    {sup::dto::TypeCode::Int16, sup::dto::kInt16TypeName},
-    {sup::dto::TypeCode::UInt16, sup::dto::kUInt16TypeName},
-    {sup::dto::TypeCode::Int32, sup::dto::kInt32TypeName},
-    {sup::dto::TypeCode::UInt32, sup::dto::kUInt32TypeName},
-    {sup::dto::TypeCode::Int64, sup::dto::kInt64TypeName},
-    {sup::dto::TypeCode::UInt64, sup::dto::kUInt64TypeName},
-    {sup::dto::TypeCode::Float32, sup::dto::kFloat32TypeName},
-    {sup::dto::TypeCode::Float64, sup::dto::kFloat64TypeName},
-    {sup::dto::TypeCode::String, sup::dto::kStringTypeName}};
-
-std::string GetName(sup::dto::TypeCode code)
+/**
+ * @brief Constructs a map to convert scalar type code to name.
+ */
+std::map<sup::dto::TypeCode, std::string> CreateScalarTypeCodeNameMap()
 {
-  auto iter = kTypeCodeNameMap.find(code);
-  return iter == kTypeCodeNameMap.end() ? std::string() : iter->second;
-}
+  std::map<sup::dto::TypeCode, std::string> result;
 
+  static const auto scalar_definitions = sup::dto::ScalarTypeDefinitions();
+  auto on_element = [&result](const auto& pair) { return result.insert(pair); };
+  std::for_each(scalar_definitions.begin(), scalar_definitions.end(), on_element);
+  return result;
+}
 }  // namespace
 
 namespace sup::gui
@@ -90,13 +78,15 @@ std::vector<std::string> GetScalarTypeNames()
   return names;
 }
 
-sup::dto::TypeCode GetTypeCode(const std::string& name)
+sup::dto::TypeCode GetScalarTypeCode(const std::string& name)
 {
-  auto iter = std::find_if(kTypeCodeNameMap.begin(), kTypeCodeNameMap.end(),
+  static const auto typecode_map = CreateScalarTypeCodeNameMap();
+
+  auto iter = std::find_if(typecode_map.begin(), typecode_map.end(),
                            [name](auto item) { return item.second == name; });
-  if (iter == kTypeCodeNameMap.end())
+  if (iter == typecode_map.end())
   {
-    throw std::runtime_error("Error in TypeCode");
+    throw RuntimeException("Error in TypeCode");
   }
   return iter->first;
 }
