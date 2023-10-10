@@ -24,6 +24,8 @@
 
 #include <sup/gui/core/dto_types_fwd.h>
 
+#include <mvvm/core/variant.h>
+
 namespace sup::gui
 {
 
@@ -44,6 +46,11 @@ void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item);
  * @brief Returns scalar AnyValue from AnyValueItem containing a scalar.
  */
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem& item);
+
+/**
+ * @brief Returns scalar AnyValue from variant_t containing a scalar.
+ */
+sup::dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t& variant);
 
 }  // namespace sup::gui
 

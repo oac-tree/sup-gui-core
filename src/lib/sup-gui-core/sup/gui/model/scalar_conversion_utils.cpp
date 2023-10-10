@@ -84,6 +84,11 @@ void SetDataFromScalar(const anyvalue_t &value, AnyValueItem &item)
 
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
 {
+  return GetAnyValueFromScalar(item.Data());
+}
+
+dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
+{
   using anyvalue_function_t =
       std::function<void(const mvvm::variant_t &variant, sup::dto::AnyValue &anyvalue)>;
 
@@ -103,7 +108,8 @@ sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
       {sup::dto::TypeCode::Float64, AssignToAnyValueScalar<mvvm::float64>},
       {sup::dto::TypeCode::String, AssignToAnyValueScalar<std::string>}};
 
-  const ::sup::dto::TypeCode type_code = GetTypeCode(item.GetAnyTypeName());
+  const ::sup::dto::TypeCode type_code = GetTypeCode(mvvm::utils::TypeName(variant));
+
   auto iter = kAssignToAnyValueScalarMap.find(type_code);
   if (iter == kAssignToAnyValueScalarMap.end())
   {
@@ -112,7 +118,7 @@ sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem &item)
 
   sup::dto::AnyValue result((::sup::dto::AnyType(type_code)));
   auto assign_function = iter->second;
-  assign_function(item.Data(), result);
+  assign_function(variant, result);
 
   return result;
 }

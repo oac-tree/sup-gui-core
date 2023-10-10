@@ -145,3 +145,99 @@ TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalar)
     EXPECT_THROW(GetAnyValueFromScalar(item), std::runtime_error);
   }
 }
+
+//! Testing GetAnyValueFromScalar method. Creating scalar AnyValue from scalar-like variants.
+
+TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalarVariant)
+{
+  {  // boolean
+    mvvm::boolean value{true};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::BooleanType);
+    EXPECT_EQ(any_value, true);
+  }
+
+  {  // char8
+    mvvm::char8 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::Character8Type);
+    EXPECT_EQ(any_value.As<mvvm::char8>(), value);
+  }
+
+  {  // int8
+    mvvm::int8 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::SignedInteger8Type);
+    EXPECT_EQ(any_value.As<mvvm::int8>(), value);
+  }
+
+  {  // uint8
+    mvvm::uint8 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::UnsignedInteger8Type);
+    EXPECT_EQ(any_value.As<mvvm::uint8>(), value);
+  }
+
+  {  // int16
+    mvvm::int16 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::SignedInteger16Type);
+    EXPECT_EQ(any_value.As<mvvm::int16>(), value);
+  }
+
+  {  // uint16
+    mvvm::uint16 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::UnsignedInteger16Type);
+    EXPECT_EQ(any_value.As<mvvm::uint16>(), value);
+  }
+
+  {  // int32
+    mvvm::int32 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::SignedInteger32Type);
+    EXPECT_EQ(any_value.As<mvvm::int32>(), value);
+  }
+
+  {  // uint32
+    mvvm::uint32 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::UnsignedInteger32Type);
+    EXPECT_EQ(any_value.As<mvvm::uint32>(), value);
+  }
+
+  {  // int64
+    mvvm::int64 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::SignedInteger64Type);
+    EXPECT_EQ(any_value.As<mvvm::int64>(), value);
+  }
+
+  {  // uint64
+    mvvm::uint64 value{42};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::UnsignedInteger64Type);
+    EXPECT_EQ(any_value.As<mvvm::uint64>(), value);
+  }
+
+  {  // float32
+    mvvm::float32 value{42.1};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::Float32Type);
+    EXPECT_EQ(any_value.As<mvvm::float32>(), value);
+  }
+
+  {  // float64
+    mvvm::float64 value{42.1};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::Float64Type);
+    EXPECT_EQ(any_value.As<mvvm::float64>(), value);
+  }
+
+  {  // string
+    std::string value{"abc"};
+    auto any_value = GetAnyValueFromScalar(value);
+    EXPECT_EQ(any_value.GetType(), sup::dto::StringType);
+    EXPECT_EQ(any_value.As<std::string>(), value);
+  }
+}
