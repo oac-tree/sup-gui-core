@@ -45,20 +45,24 @@ signals:
   void ToggleTextPanelVisibilityRequest();
   void ImportFromFileRequest();
   void ExportToFileRequest();
+  void MakeJSONPrettyRequest(bool);
 
 private:
   void InsertStrech();
   std::unique_ptr<QMenu> CreateAddAnyValueMenu();
+  std::unique_ptr<QMenu> CreateSettingsMenu();
 
   QToolButton* m_add_anyvalue_button{nullptr};
   QToolButton* m_remove_button{nullptr};
-  QToolButton* m_hide_pannel_button{nullptr};
   QToolButton* m_export_button{nullptr};
+  QToolButton* m_hide_pannel_button{nullptr};
+  QToolButton* m_details_button{nullptr};
 
   AnyValueEditorActions* m_actions{nullptr};
 
   std::unique_ptr<QMenu> m_create_anyvalue_menu;
   std::unique_ptr<QMenu> m_add_field_menu;
+  std::unique_ptr<QMenu> m_settings_menu;
 };
 
 }  // namespace sup::gui

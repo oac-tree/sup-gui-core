@@ -48,10 +48,12 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActions *actions, QWi
     : QToolBar(parent)
     , m_add_anyvalue_button(new QToolButton)
     , m_remove_button(new QToolButton)
-    , m_hide_pannel_button(new QToolButton)
     , m_export_button(new QToolButton)
+    , m_hide_pannel_button(new QToolButton)
+    , m_details_button(new QToolButton)
     , m_actions(actions)
     , m_create_anyvalue_menu(CreateAddAnyValueMenu())
+    , m_settings_menu(CreateSettingsMenu())
 {
   setIconSize(sup::gui::utils::ToolBarIconSize());
 
@@ -74,7 +76,13 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActions *actions, QWi
           &AnyValueEditorActions::OnRemoveSelected);
   addWidget(m_remove_button);
 
-  InsertStrech();
+  m_export_button->setText("Export");
+  m_export_button->setIcon(GetIcon("file-export-outline"));
+  m_export_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  m_export_button->setToolTip("Export AnyValue to JSON file");
+  connect(m_export_button, &QToolButton::clicked, this,
+          &AnyValueEditorToolBar::ExportToFileRequest);
+  addWidget(m_export_button);
 
   m_hide_pannel_button->setText("JSON");
   m_hide_pannel_button->setIcon(GetIcon("code-json"));
@@ -84,13 +92,15 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActions *actions, QWi
           &AnyValueEditorToolBar::ToggleTextPanelVisibilityRequest);
   addWidget(m_hide_pannel_button);
 
-  m_export_button->setText("Export");
-  m_export_button->setIcon(GetIcon("file-export-outline"));
-  m_export_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-  m_export_button->setToolTip("Export AnyValue to JSON file");
-  connect(m_export_button, &QToolButton::clicked, this,
-          &AnyValueEditorToolBar::ExportToFileRequest);
-  addWidget(m_export_button);
+  InsertStrech();
+
+  m_details_button->setText("Other");
+  m_details_button->setIcon(GetIcon("dots-vertical"));
+  m_details_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  m_details_button->setToolTip("More settings");
+  m_details_button->setMenu(m_settings_menu.get());
+  m_details_button->setPopupMode(QToolButton::InstantPopup);
+  addWidget(m_details_button);
 }
 
 AnyValueEditorToolBar::~AnyValueEditorToolBar() = default;
@@ -131,6 +141,20 @@ std::unique_ptr<QMenu> AnyValueEditorToolBar::CreateAddAnyValueMenu()
 
   auto action = result->addAction("Import from file");
   connect(action, &QAction::triggered, this, &AnyValueEditorToolBar::ImportFromFileRequest);
+
+  return result;
+}
+
+std::unique_ptr<QMenu> AnyValueEditorToolBar::CreateSettingsMenu()
+{
+  auto result = std::make_unique<QMenu>();
+  result->setToolTipsVisible(true);
+
+  auto action = result->addAction("Make JSON pretty");
+  action->setToolTip("Switch between compact/pretty JSON");
+  action->setCheckable(true);
+  action->setChecked(true);
+  connect(action, &QAction::toggled, this, &AnyValueEditorToolBar::MakeJSONPrettyRequest);
 
   return result;
 }

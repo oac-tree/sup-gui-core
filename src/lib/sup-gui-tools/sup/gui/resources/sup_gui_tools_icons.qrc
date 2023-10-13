@@ -1,12 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>icons</file>
-        <file>icons/dock-right.svg</file>
         <file>icons/beaker-remove-outline.svg</file>
         <file>icons/code-json.svg</file>
-        <file>icons/plus-circle-multiple-outline.svg</file>
-        <file>icons/plus-circle-outline.svg</file>
+        <file>icons/dock-right.svg</file>
+        <file>icons/dots-horizontal.svg</file>
+        <file>icons/dots-vertical.svg</file>
         <file>icons/file-export-outline.svg</file>
         <file>icons/iter_logo.png</file>
+        <file>icons/menu.svg</file>
+        <file>icons/plus-circle-multiple-outline.svg</file>
+        <file>icons/plus-circle-outline.svg</file>
     </qresource>
 </RCC>
