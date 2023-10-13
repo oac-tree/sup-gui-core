@@ -28,6 +28,7 @@ namespace mvvm
 {
 class ApplicationModel;
 class ItemViewComponentProvider;
+class SessionItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -47,6 +48,8 @@ public:
   ~AnyValueEditorTreePanel() override;
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
+
+  void SetSelected(mvvm::SessionItem* item);
 
   QTreeView* GetTreeView();
 

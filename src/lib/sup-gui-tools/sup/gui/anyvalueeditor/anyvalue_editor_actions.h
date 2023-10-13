@@ -70,6 +70,9 @@ public:
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
+signals:
+  void SelectItemRequest(mvvm::SessionItem* item);
+
 private:
   mvvm::SessionItem* GetParent() const;
   void SendMessage(const std::string& text, const std::string& informative = {},

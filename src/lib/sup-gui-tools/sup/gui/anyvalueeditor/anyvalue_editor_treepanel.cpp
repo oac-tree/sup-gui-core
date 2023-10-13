@@ -81,6 +81,16 @@ AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
   return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
 }
 
+void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
+{
+  m_component_provider->SetSelectedItem(item);
+  auto index_of_inserted = m_component_provider->GetViewModel()->GetIndexOfSessionItem(item);
+  if (!index_of_inserted.empty())
+  {
+    m_tree_view->setExpanded(index_of_inserted.front(), true);
+  }
+}
+
 QTreeView *AnyValueEditorTreePanel::GetTreeView()
 {
   return m_tree_view;

@@ -37,8 +37,12 @@
 #include <testutils/mock_callback_listener.h>
 #include <testutils/test_utils.h>
 
+#include <QSignalSpy>
+
 using namespace sup::gui;
 using ::testing::_;
+
+Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 class AnyValueEditorActionsTest : public testutils::FolderBasedTest
 {
@@ -136,6 +140,8 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToEmptyModel)
   // creating action for the context, when nothing is selected by the user
   auto actions = CreateActions(nullptr);
 
+  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActions::SelectItemRequest);
+
   EXPECT_EQ(actions->GetSelectedItem(), nullptr);
 
   // expecting no warnings
@@ -149,6 +155,12 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToEmptyModel)
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueStructItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kStructTypeName);
+
+  EXPECT_EQ(spy_selection_request.count(), 1);
+  auto arguments = spy_selection_request.takeFirst();
+  EXPECT_EQ(arguments.size(), 1);
+  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
+  EXPECT_EQ(selected_item, inserted_item);
 };
 
 //! Attempt to add a structure to a non-empty model when nothing is selected.

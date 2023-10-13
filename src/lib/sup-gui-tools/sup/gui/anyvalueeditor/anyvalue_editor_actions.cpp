@@ -164,7 +164,8 @@ void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item)
       {
         item->SetDisplayName(name.value());
       }
-      m_model->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
+      auto result = m_model->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
+      emit SelectItemRequest(result);
     }
     catch (const std::exception& ex)
     {

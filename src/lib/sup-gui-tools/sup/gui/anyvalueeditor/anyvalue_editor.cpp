@@ -180,6 +180,9 @@ void AnyValueEditor::SetupConnections()
 
   connect(m_tool_bar, &AnyValueEditorToolBar::MakeJSONPrettyRequest, this,
           [this](auto pretty_flag) {m_text_edit->SetJSONPretty(pretty_flag); });
+
+  connect(m_actions, &AnyValueEditorActions::SelectItemRequest, m_tree_panel,
+          &AnyValueEditorTreePanel::SetSelected);
 }
 
 //! Creates a context with all callbacks necessary for AnyValueEditorActions to function.
