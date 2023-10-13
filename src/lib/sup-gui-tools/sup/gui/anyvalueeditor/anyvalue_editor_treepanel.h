@@ -48,6 +48,8 @@ public:
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
+  QTreeView* GetTreeView();
+
 private:
   void ReadSettings();
   void WriteSettings();

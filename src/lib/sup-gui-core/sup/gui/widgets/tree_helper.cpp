@@ -89,6 +89,7 @@ void SummonCollapseExpandMenu(const QPoint &point, QTreeView &tree_view)
 
 std::function<void(const QPoint &)> CreateOnCustomMenuCallback(QTreeView &tree_view)
 {
+  tree_view.setContextMenuPolicy(Qt::CustomContextMenu);
   auto result = [&tree_view](const QPoint &point) { SummonCollapseExpandMenu(point, tree_view); };
   return result;
 }

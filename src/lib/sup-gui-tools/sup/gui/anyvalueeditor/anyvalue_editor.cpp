@@ -24,19 +24,21 @@
 #include "anyvalue_editor_toolbar.h"
 #include "anyvalue_editor_treepanel.h"
 
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
 
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
+#include <QTreeView>
 
 namespace
 {
@@ -175,6 +177,9 @@ void AnyValueEditor::SetupConnections()
 
   connect(m_tool_bar, &AnyValueEditorToolBar::ExportToFileRequest, this,
           &AnyValueEditor::OnExportToFileRequest);
+
+  connect(m_tool_bar, &AnyValueEditorToolBar::MakeJSONPrettyRequest, this,
+          [this](auto pretty_flag) {m_text_edit->SetJSONPretty(pretty_flag); });
 }
 
 //! Creates a context with all callbacks necessary for AnyValueEditorActions to function.
@@ -207,13 +212,8 @@ void AnyValueEditor::UpdateCurrentWorkdir(const QString &file_name)
 
 void AnyValueEditor::ImportAnyValueFromFile(const QString &file_name)
 {
-  // FIXME expandAll will not work if uncomment. Check this after the refactoring of
-  // ViewModelController
-
-  //  m_component_provider->SetApplicationModel(nullptr);
   m_actions->OnImportFromFileRequest(file_name.toStdString());
-  //  m_component_provider->SetApplicationModel(m_model.get());
-  //  m_tree_view->expandAll();
+  m_tree_panel->GetTreeView()->expandAll();
 }
 
 }  // namespace sup::gui

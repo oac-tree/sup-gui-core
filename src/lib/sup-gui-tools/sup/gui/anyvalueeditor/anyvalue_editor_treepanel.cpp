@@ -22,6 +22,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 #include <sup/gui/widgets/custom_header_view.h>
+#include <sup/gui/widgets/tree_helper.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/viewmodel/viewmodel.h>
@@ -59,6 +60,8 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
                                | QAbstractItemView::DoubleClicked);
   m_tree_view->setAlternatingRowColors(true);
   m_custom_header->setStretchLastSection(true);
+  connect(m_tree_view, &QTreeView::customContextMenuRequested, this,
+          sup::gui::CreateOnCustomMenuCallback(*m_tree_view));
 
   m_component_provider->SetApplicationModel(model);
   m_tree_view->expandAll();
@@ -76,6 +79,11 @@ AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
 AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 {
   return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
+}
+
+QTreeView *AnyValueEditorTreePanel::GetTreeView()
+{
+  return m_tree_view;
 }
 
 void AnyValueEditorTreePanel::ReadSettings()

@@ -45,12 +45,15 @@ public:
   explicit AnyValueEditorTextPanel(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
   ~AnyValueEditorTextPanel() override;
 
+  void SetJSONPretty(bool value);
+
 private:
   void UpdateJson();
 
   CodeView* m_json_view{nullptr};
   mvvm::ApplicationModel* m_model{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
+  bool m_pretty_json{true};
 };
 
 }  // namespace sup::gui

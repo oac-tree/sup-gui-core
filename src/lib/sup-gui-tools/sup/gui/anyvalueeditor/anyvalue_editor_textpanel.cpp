@@ -19,15 +19,16 @@
 
 #include "anyvalue_editor_textpanel.h"
 
+#include <sup/gui/codeeditor/code_view.h>
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_utils.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/project/model_has_changed_controller.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/codeeditor/code_view.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_utils.h>
 
 #include <QVBoxLayout>
 
@@ -48,6 +49,15 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, 
       std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_changed);
 }
 
+void AnyValueEditorTextPanel::SetJSONPretty(bool value)
+{
+  if (m_pretty_json != value)
+  {
+    m_pretty_json = value;
+    UpdateJson();
+  }
+}
+
 AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
 
 void AnyValueEditorTextPanel::UpdateJson()
@@ -60,7 +70,7 @@ void AnyValueEditorTextPanel::UpdateJson()
       // model change. If model is inconsistent, CreateAnyValue method will fail.
 
       auto any_value = sup::gui::CreateAnyValue(*item);
-      auto str = sup::gui::AnyValueToJSONString(any_value, true);
+      auto str = sup::gui::AnyValueToJSONString(any_value, m_pretty_json);
       m_json_view->SetContent(QString::fromStdString(str));
     }
     catch (const std::exception &ex)
