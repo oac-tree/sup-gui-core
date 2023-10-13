@@ -9,4 +9,6 @@ target_sources(${library_name} PRIVATE
   custom_header_view.h
   style_utils.cpp
   style_utils.h
+  tree_helper.cpp
+  tree_helper.h
   )
