@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : Graphical User Interface for SUP and PSPS
+ * Project       : Graphical User Interface for SUP Sequencer
  *
- * Description   : Common libraries and tools for Operation Application GUIs
+ * Description   : Integrated development environment for Sequencer procedures
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -17,21 +17,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/anyvalueeditor/custom_metatypes.h>
+#include "custom_metatypes.h"
 
-#include <gtest/gtest.h>
+#include <mvvm/model/sessionitem.h>
 
-#include <QApplication>
-
-int main(int argc, char** argv)
+namespace sup::gui
 {
-  ::testing::InitGoogleTest(&argc, argv);
 
-  sup::gui::RegisterCustomMetaTypes();
-
-  QApplication app(argc, argv);
-  Q_UNUSED(app)
-
-  // run all google tests
-  return RUN_ALL_TESTS();
+void RegisterCustomMetaTypes()
+{
+  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
 }
+
+}  // namespace sup::gui

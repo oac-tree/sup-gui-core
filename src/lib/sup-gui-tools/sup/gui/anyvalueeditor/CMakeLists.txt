@@ -14,6 +14,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_toolbar.h
   anyvalue_editor_treepanel.cpp
   anyvalue_editor_treepanel.h
+  custom_metatypes.cpp
+  custom_metatypes.h
 )
 
 install(FILES

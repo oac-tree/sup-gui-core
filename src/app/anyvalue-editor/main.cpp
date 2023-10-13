@@ -22,6 +22,7 @@
 
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/application_helper.h>
+#include <sup/gui/anyvalueeditor/custom_metatypes.h>
 
 #include <QApplication>
 
@@ -34,6 +35,8 @@ int main(int argc, char** argv)
   auto options = anyvalueeditor::ParseOptions(argc, argv);
 
   sup::gui::SetupHighDpiScaling(options.scale);
+
+  sup::gui::RegisterCustomMetaTypes();
 
   QApplication app(argc, argv);
 
