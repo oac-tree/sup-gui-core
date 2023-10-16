@@ -24,6 +24,7 @@ namespace sup::gui
 
 CustomHeaderView::CustomHeaderView(QWidget *parent) : QHeaderView(Qt::Horizontal, parent)
 {
+  setDefaultAlignment(Qt::AlignLeft);
   connect(this, &QHeaderView::sectionResized, this, &CustomHeaderView::OnSectionResize);
 }
 
