@@ -3,6 +3,10 @@
 target_sources(${library_name} PRIVATE
   about_application_dialog.cpp
   about_application_dialog.h
+  app_action_manager.cpp
+  app_action_manager.h
+  app_actions.cpp
+  app_actions.h
   application_helper.cpp
   application_helper.h
   custom_header_view.cpp
