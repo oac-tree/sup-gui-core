@@ -44,10 +44,10 @@ using ::testing::_;
 
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
-class AnyValueEditorActionsTest : public testutils::FolderBasedTest
+class AnyValueEditorActionHandlerTest : public testutils::FolderBasedTest
 {
 public:
-  AnyValueEditorActionsTest() : testutils::FolderBasedTest("test_AnyValueEditorAction")
+  AnyValueEditorActionHandlerTest() : testutils::FolderBasedTest("test_AnyValueEditorAction")
   {
     m_model.RegisterItem<sup::gui::AnyValueStructItem>();
     m_model.RegisterItem<sup::gui::AnyValueArrayItem>();
@@ -63,9 +63,10 @@ public:
   }
 
   //! Creates AnyValueEditorActions for testing.
-  std::unique_ptr<AnyValueEditorActions> CreateActions(sup::gui::AnyValueItem* selection)
+  std::unique_ptr<AnyValueEditorActionHandler> CreateActions(sup::gui::AnyValueItem* selection)
   {
-    return std::make_unique<AnyValueEditorActions>(CreateContext(selection), &m_model, nullptr);
+    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), &m_model,
+                                                         nullptr);
   }
 
   mvvm::ApplicationModel m_model;
@@ -74,7 +75,7 @@ public:
 
 //! Testing initial state of AnyValueEditorActions object.
 
-TEST_F(AnyValueEditorActionsTest, InitialState)
+TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 {
   auto actions = CreateActions(nullptr);
   EXPECT_EQ(actions->GetTopItem(), nullptr);
@@ -83,7 +84,7 @@ TEST_F(AnyValueEditorActionsTest, InitialState)
 
 //! Testing AnyValueEditorActions::SetInitialValue method.
 
-TEST_F(AnyValueEditorActionsTest, SetInitialValue)
+TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
 {
   AnyValueScalarItem item;
   item.SetAnyTypeName(sup::dto::kInt32TypeName);
@@ -108,7 +109,7 @@ TEST_F(AnyValueEditorActionsTest, SetInitialValue)
 //! Testing AnyValueEditorActions::SetInitialValue method while trying to set the second initial
 //! value.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToSetInitialValueTwice)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 {
   AnyValueScalarItem item;
   item.SetAnyTypeName(sup::dto::kInt32TypeName);
@@ -135,12 +136,12 @@ TEST_F(AnyValueEditorActionsTest, AttemptToSetInitialValueTwice)
 
 //! Adding structure to an empty model.
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToEmptyModel)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
   auto actions = CreateActions(nullptr);
 
-  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActions::SelectItemRequest);
+  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   EXPECT_EQ(actions->GetSelectedItem(), nullptr);
 
@@ -165,7 +166,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToEmptyModel)
 
 //! Attempt to add a structure to a non-empty model when nothing is selected.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddToNonEmptyModel)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
 {
   // non-empty model
   m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -185,7 +186,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddToNonEmptyModel)
 
 //! Adding structure as a field to another structure (which is marked as selected).
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToAnotherStruct)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
@@ -212,7 +213,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueStructToAnotherStruct)
 
 //! Attempt to add a structure as a field to a scalar.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddStructToScalar)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
@@ -236,7 +237,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddStructToScalar)
 
 //! Adding a scalar to an empty model.
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToEmptyModel)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
   auto actions = CreateActions(nullptr);
@@ -263,7 +264,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToEmptyModel)
 
 //! Adding scalar as a field to another structure (which is marked as selected).
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToStruct)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
@@ -289,7 +290,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToStruct)
 
 //! Adding a scalar as an array element (which is marked as selected).
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToArray)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
 
@@ -315,7 +316,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueScalarToArray)
 
 //! Attempt to add scalar as a field to another scalar.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddScalarToScalar)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
@@ -335,7 +336,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddScalarToScalar)
 
 //! Attempt to add second top level scalar to the model.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddSecondTopLevelScalar)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
 {
   m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
@@ -354,7 +355,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddSecondTopLevelScalar)
 
 //! Attempt to add a scalar as an array element when array is contasining diffierent scalar types.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddScalarToArrayWhenTypeMismath)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
   m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent)->SetAnyTypeName(
@@ -389,7 +390,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddScalarToArrayWhenTypeMismath)
 
 //! Adding a scalar to an empty model.
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueArrayToEmptyModel)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
   auto actions = CreateActions(nullptr);
@@ -415,7 +416,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueArrayToEmptyModel)
 
 //! Adding array as a field to another structure (which is marked as selected).
 
-TEST_F(AnyValueEditorActionsTest, OnAddAnyValueArrayToStruct)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
@@ -440,7 +441,7 @@ TEST_F(AnyValueEditorActionsTest, OnAddAnyValueArrayToStruct)
 
 //! Attempt to add array as a field to a scalar.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddArrayToScalar)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
@@ -460,7 +461,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddArrayToScalar)
 
 //! Attempt to add second top level array to the model.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToAddSecondTopLevelArray)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 {
   m_model.InsertItem<sup::gui::AnyValueArrayItem>();
 
@@ -483,7 +484,7 @@ TEST_F(AnyValueEditorActionsTest, AttemptToAddSecondTopLevelArray)
 
 //! Remove item when nothing is selected.
 
-TEST_F(AnyValueEditorActionsTest, RemoveItemWhenNothingIsSelected)
+TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 {
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
@@ -498,7 +499,7 @@ TEST_F(AnyValueEditorActionsTest, RemoveItemWhenNothingIsSelected)
 
 //! Remove selected item.
 
-TEST_F(AnyValueEditorActionsTest, RemoveSelectedItem)
+TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 {
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
@@ -518,7 +519,7 @@ TEST_F(AnyValueEditorActionsTest, RemoveSelectedItem)
 
 //! Validates import of JSON from file.
 
-TEST_F(AnyValueEditorActionsTest, ImportFromFile)
+TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
 {
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
@@ -552,7 +553,7 @@ TEST_F(AnyValueEditorActionsTest, ImportFromFile)
 //! Validates import of JSON from file, where imported value goes as a field to selected
 //! structure.
 
-TEST_F(AnyValueEditorActionsTest, ImportFromFileToStructField)
+TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
 {
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
@@ -584,7 +585,7 @@ TEST_F(AnyValueEditorActionsTest, ImportFromFileToStructField)
 
 //! Validates export of top level item to JSON file.
 
-TEST_F(AnyValueEditorActionsTest, ExportToFile)
+TEST_F(AnyValueEditorActionHandlerTest, ExportToFile)
 {
   // preparing scalar
   auto scalar = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
@@ -614,7 +615,7 @@ TEST_F(AnyValueEditorActionsTest, ExportToFile)
 
 //! Attempt to export to JSON file from epmpty model.
 
-TEST_F(AnyValueEditorActionsTest, AttemptToExportEmptyModelToFile)
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToExportEmptyModelToFile)
 {
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalarExportResultsV2.xml");

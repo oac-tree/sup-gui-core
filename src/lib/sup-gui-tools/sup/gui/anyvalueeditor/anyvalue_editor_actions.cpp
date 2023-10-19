@@ -37,23 +37,23 @@
 namespace sup::gui
 {
 
-AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorContext context,
+AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
                                              mvvm::ApplicationModel* model, QObject* parent)
     : QObject(parent), m_model(model), m_context(std::move(context))
 {
 }
 
-void AnyValueEditorActions::OnAddAnyValueStruct()
+void AnyValueEditorActionHandler::OnAddAnyValueStruct()
 {
   AddAnyValueItem(std::make_unique<AnyValueStructItem>());
 }
 
-void AnyValueEditorActions::OnAddAnyValueArray()
+void AnyValueEditorActionHandler::OnAddAnyValueArray()
 {
   AddAnyValueItem(std::make_unique<AnyValueArrayItem>());
 }
 
-void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
+void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_type)
 {
   if (auto array_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(m_model); array_item)
   {
@@ -70,7 +70,7 @@ void AnyValueEditorActions::OnAddAnyValueScalar(const std::string& scalar_type)
   AddAnyValueItem(std::move(item));
 }
 
-void AnyValueEditorActions::OnRemoveSelected()
+void AnyValueEditorActionHandler::OnRemoveSelected()
 {
   if (auto selected = m_context.get_selected_callback(); selected)
   {
@@ -78,7 +78,7 @@ void AnyValueEditorActions::OnRemoveSelected()
   }
 }
 
-void AnyValueEditorActions::OnImportFromFileRequest(const std::string& file_name)
+void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& file_name)
 {
   if (!GetSelectedItem() && GetTopItem())
   {
@@ -90,7 +90,7 @@ void AnyValueEditorActions::OnImportFromFileRequest(const std::string& file_name
   m_model->InsertItem(sup::gui::CreateItem(anyvalue), GetParent(), mvvm::TagIndex::Append());
 }
 
-void AnyValueEditorActions::OnExportToFileRequest(const std::string& file_name)
+void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_name)
 {
   if (!GetTopItem())
   {
@@ -113,7 +113,7 @@ void AnyValueEditorActions::OnExportToFileRequest(const std::string& file_name)
 //! Set initial value. The given value will be cloned inside the editor's model and used as
 //! a starting point for editing.
 
-void AnyValueEditorActions::SetInitialValue(const AnyValueItem& item)
+void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 {
   if (auto item = GetTopItem(); item)
   {
@@ -125,30 +125,30 @@ void AnyValueEditorActions::SetInitialValue(const AnyValueItem& item)
                       mvvm::TagIndex::Append());
 }
 
-AnyValueItem* AnyValueEditorActions::GetTopItem()
+AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 {
   return mvvm::utils::GetTopItem<AnyValueItem>(m_model);
 }
 
-AnyValueItem* AnyValueEditorActions::GetSelectedItem() const
+AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 {
   return m_context.get_selected_callback ? m_context.get_selected_callback() : nullptr;
 }
 
 //! Returns parent item to use for insertion.
-mvvm::SessionItem* AnyValueEditorActions::GetParent() const
+mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
 {
   return GetSelectedItem() ? GetSelectedItem() : m_model->GetRootItem();
 }
 
-void AnyValueEditorActions::SendMessage(const std::string& text, const std::string& informative,
+void AnyValueEditorActionHandler::SendMessage(const std::string& text, const std::string& informative,
                                         const std::string& details)
 {
   auto message = sup::gui::CreateInvalidOperationMessage(text, informative, details);
   m_context.send_message_callback(message);
 }
 
-void AnyValueEditorActions::AddAnyValueItem(std::unique_ptr<AnyValueItem> item)
+void AnyValueEditorActionHandler::AddAnyValueItem(std::unique_ptr<AnyValueItem> item)
 {
   if (!GetSelectedItem() && GetTopItem())
   {

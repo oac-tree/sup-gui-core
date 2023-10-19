@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTION_HANDLER_H_
+#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTION_HANDLER_H_
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
 
@@ -36,21 +36,23 @@ namespace sup::gui
 
 class AnyValueItem;
 
-//! The AnyValueEditorActions class implements actions for AnyValueEditor that can be triggered from
-//! its main toolbar.
-//!
-//! It allows to add to the model AnyValueItems representing scalars, structs, and arrays. Depending
-//! on passed parameters, items can be added either as top-level items, or as a field to already
-//! existing items. The class rely on callbacks to query currently selected item and to report an
-//! error if the action is not possible.
+/**
+ * @brief The AnyValueEditorActionHandler class implements logic to manipulate AnyValue's from the
+ * toolbar.
+ *
+ * It allows to add to the model AnyValueItems representing scalars, structs, and arrays. Depending
+ * on passed parameters, items can be added either as top-level items, or as a field to already
+ * existing items. The class rely on callbacks to query currently selected item and to report an
+ * error if the action is not possible.
+ */
 
-class AnyValueEditorActions : public QObject
+class AnyValueEditorActionHandler : public QObject
 {
   Q_OBJECT
 
 public:
-  AnyValueEditorActions(AnyValueEditorContext context, mvvm::ApplicationModel* model,
-                        QObject* parent);
+  AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::ApplicationModel* model,
+                              QObject* parent);
 
   void OnAddAnyValueStruct();
 
@@ -86,4 +88,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTION_HANDLER_H_

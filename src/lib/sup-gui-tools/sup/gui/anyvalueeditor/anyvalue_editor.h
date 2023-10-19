@@ -40,7 +40,7 @@ namespace sup::gui
 
 class AnyValueItem;
 class AnyValueEditorToolBar;
-class AnyValueEditorActions;
+class AnyValueEditorActionHandler;
 class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
 
@@ -70,7 +70,7 @@ private:
   void UpdateCurrentWorkdir(const QString& file_name);
 
   std::unique_ptr<mvvm::ApplicationModel> m_model;
-  AnyValueEditorActions* m_actions{nullptr};
+  AnyValueEditorActionHandler* m_actions{nullptr};
   AnyValueEditorToolBar* m_tool_bar{nullptr};
   AnyValueEditorTextPanel* m_text_edit{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};

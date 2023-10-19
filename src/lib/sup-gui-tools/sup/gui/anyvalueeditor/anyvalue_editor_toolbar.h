@@ -29,7 +29,7 @@ class QMenu;
 namespace sup::gui
 {
 
-class AnyValueEditorActions;
+class AnyValueEditorActionHandler;
 
 //! A toolbar on top of AnyValueEditor.
 
@@ -38,7 +38,7 @@ class AnyValueEditorToolBar : public QToolBar
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorToolBar(AnyValueEditorActions* actions, QWidget* parent = nullptr);
+  explicit AnyValueEditorToolBar(AnyValueEditorActionHandler* actions, QWidget* parent = nullptr);
   ~AnyValueEditorToolBar() override;
 
 signals:
@@ -58,7 +58,7 @@ private:
   QToolButton* m_hide_pannel_button{nullptr};
   QToolButton* m_details_button{nullptr};
 
-  AnyValueEditorActions* m_actions{nullptr};
+  AnyValueEditorActionHandler* m_actions{nullptr};
 
   std::unique_ptr<QMenu> m_create_anyvalue_menu;
   std::unique_ptr<QMenu> m_add_field_menu;

@@ -44,7 +44,7 @@ QIcon GetIcon(const QString &icon_name)
 
 namespace sup::gui
 {
-AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActions *actions, QWidget *parent)
+AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *actions, QWidget *parent)
     : QToolBar(parent)
     , m_add_anyvalue_button(new QToolButton)
     , m_remove_button(new QToolButton)
@@ -73,7 +73,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActions *actions, QWi
   m_remove_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_remove_button->setToolTip("Remove selected item and all it's children");
   connect(m_remove_button, &QToolButton::clicked, actions,
-          &AnyValueEditorActions::OnRemoveSelected);
+          &AnyValueEditorActionHandler::OnRemoveSelected);
   addWidget(m_remove_button);
 
   m_export_button->setText("Export");

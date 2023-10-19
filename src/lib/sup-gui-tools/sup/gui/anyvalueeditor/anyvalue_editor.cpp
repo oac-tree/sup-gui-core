@@ -56,7 +56,7 @@ namespace sup::gui
 AnyValueEditor::AnyValueEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_actions(new AnyValueEditorActions(CreateActionContext(), m_model.get(), this))
+      , m_actions(new AnyValueEditorActionHandler(CreateActionContext(), m_model.get(), this))
     , m_tool_bar(new AnyValueEditorToolBar(m_actions))
     , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
     , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
@@ -180,8 +180,8 @@ void AnyValueEditor::SetupConnections()
 
   connect(m_tool_bar, &AnyValueEditorToolBar::MakeJSONPrettyRequest, this,
           [this](auto pretty_flag) {m_text_edit->SetJSONPretty(pretty_flag); });
-
-  connect(m_actions, &AnyValueEditorActions::SelectItemRequest, m_tree_panel,
+  
+  connect(m_actions, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
           &AnyValueEditorTreePanel::SetSelected);
 }
 
