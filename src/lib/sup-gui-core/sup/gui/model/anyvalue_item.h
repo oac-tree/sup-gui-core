@@ -30,8 +30,6 @@ namespace sup::gui
 class AnyValueItem : public mvvm::CompoundItem
 {
 public:
-  static inline const int kAnyTypeNameRole = 10;
-
   using CompoundItem::CompoundItem;
   explicit AnyValueItem(const std::string& item_type);
 

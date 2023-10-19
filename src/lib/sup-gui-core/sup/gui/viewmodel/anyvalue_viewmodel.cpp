@@ -20,6 +20,7 @@
 #include "anyvalue_viewmodel.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
@@ -89,7 +90,7 @@ public:
     // third column
     if (HasEditableTypeName(*anyvalue_item))
     {
-      result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item, AnyValueItem::kAnyTypeNameRole));
+      result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item, constants::kAnyTypeNameRole));
     }
     else
     {

@@ -29,7 +29,6 @@ namespace sup::gui
 {
 
 static inline const std::string kChildren = "kChildren";
-static inline const int kAnyTypeNameRole = 10;  // role to store type name
 
 // ----------------------------------------------------------------------------
 // AnyValueItem
@@ -48,12 +47,13 @@ std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone(bool make_unique_id) cons
 
 void AnyValueItem::SetAnyTypeName(const std::string& type_name)
 {
-  SetData(type_name, kAnyTypeNameRole);
+  SetData(type_name, constants::kAnyTypeNameRole);
 }
 
 std::string AnyValueItem::GetAnyTypeName() const
 {
-  return HasData(kAnyTypeNameRole) ? Data<std::string>(kAnyTypeNameRole) : std::string();
+  return HasData(constants::kAnyTypeNameRole) ? Data<std::string>(constants::kAnyTypeNameRole)
+                                              : std::string();
 }
 
 bool AnyValueItem::IsScalar() const

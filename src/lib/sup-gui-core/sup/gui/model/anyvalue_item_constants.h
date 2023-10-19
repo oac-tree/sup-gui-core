@@ -30,6 +30,8 @@ const std::string kArrayTypeName = "array";
 const std::string kScalarTypeName = "scalar";
 const std::string kEmptyTypeName = "empty";
 
-}  // namespace sup::gui
+const int kAnyTypeNameRole = 10;
+
+}  // namespace sup::gui::constants
 
 #endif  // SUP_GUI_MODEL_ANYVALUE_ITEM_CONSTANTS_H_
