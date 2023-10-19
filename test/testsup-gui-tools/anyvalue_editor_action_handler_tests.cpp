@@ -44,6 +44,8 @@ using ::testing::_;
 
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
+//! Tests for AnyValueEditorActionHandler.
+
 class AnyValueEditorActionHandlerTest : public testutils::FolderBasedTest
 {
 public:
@@ -401,7 +403,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
-  // adding AnyValueItem struct as a field. The type matches what is already in the array.
+  // adding AnyValueItem scalar as a field. The type matches what is already in the array.
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
