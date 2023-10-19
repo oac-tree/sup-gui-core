@@ -21,6 +21,7 @@
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/model/application_model.h>
 
@@ -115,7 +116,7 @@ TEST_F(AnyValueViewModelTest, EmptyStructItem)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
-            kStructTypeName);
+            constants::kStructTypeName);
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole), QVariant());
 
   // it should be possible to change struct display name
@@ -190,7 +191,7 @@ TEST_F(AnyValueViewModelTest, EmptyArrayItem)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
-            kArrayTypeName);
+            constants::kArrayTypeName);
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole), QVariant());
 
   // it should be possible to change struct display name

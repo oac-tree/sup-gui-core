@@ -21,6 +21,7 @@
 
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/scalar_conversion_utils.h>
 
 #include <sup/dto/anytype.h>
@@ -52,7 +53,7 @@ TEST_F(AnyValueConversionUtilsTest, GetTypeCode)
   EXPECT_EQ(GetScalarTypeCode(sup::dto::kFloat32TypeName), TypeCode::Float32);
   EXPECT_EQ(GetScalarTypeCode(sup::dto::kFloat64TypeName), TypeCode::Float64);
   EXPECT_EQ(GetScalarTypeCode(sup::dto::kStringTypeName), TypeCode::String);
-  EXPECT_THROW(GetScalarTypeCode(kStructTypeName), RuntimeException);
+  EXPECT_THROW(GetScalarTypeCode(constants::kStructTypeName), RuntimeException);
 }
 
 //! Testing IsScalarTypeName utility function.
@@ -61,9 +62,9 @@ TEST_F(AnyValueConversionUtilsTest, IsScalarTypeName)
 {
   EXPECT_FALSE(IsScalarTypeName(std::string("")));
 
-  EXPECT_FALSE(IsScalarTypeName(kStructTypeName));
-  EXPECT_FALSE(IsScalarTypeName(kArrayTypeName));
-  EXPECT_FALSE(IsScalarTypeName(kScalarTypeName));
+  EXPECT_FALSE(IsScalarTypeName(constants::kStructTypeName));
+  EXPECT_FALSE(IsScalarTypeName(constants::kArrayTypeName));
+  EXPECT_FALSE(IsScalarTypeName(constants::kScalarTypeName));
 
   EXPECT_TRUE(IsScalarTypeName(sup::dto::kInt8TypeName));
   EXPECT_TRUE(IsScalarTypeName(sup::dto::kUInt8TypeName));
@@ -84,9 +85,9 @@ TEST_F(AnyValueConversionUtilsTest, IsStructTypeName)
 {
   EXPECT_FALSE(IsStructTypeName(std::string("")));
 
-  EXPECT_TRUE(IsStructTypeName(kStructTypeName));
-  EXPECT_FALSE(IsStructTypeName(kArrayTypeName));
-  EXPECT_FALSE(IsStructTypeName(kScalarTypeName));
+  EXPECT_TRUE(IsStructTypeName(constants::kStructTypeName));
+  EXPECT_FALSE(IsStructTypeName(constants::kArrayTypeName));
+  EXPECT_FALSE(IsStructTypeName(constants::kScalarTypeName));
 
   EXPECT_FALSE(IsStructTypeName(sup::dto::kInt8TypeName));
   EXPECT_FALSE(IsStructTypeName(sup::dto::kUInt8TypeName));

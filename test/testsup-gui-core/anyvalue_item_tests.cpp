@@ -19,8 +19,9 @@
 
 #include "sup/gui/model/anyvalue_item.h"
 
+#include <sup/gui/model/anyvalue_item_constants.h>
+
 #include <sup/dto/anytype.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
 
 #include <gtest/gtest.h>
 #include <testutils/test_utils.h>
@@ -62,6 +63,21 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetChildrenCount(), 0);
   }
 
+  {  // AnyValueEmptyItem
+    const AnyValueEmptyItem item;
+    EXPECT_FALSE(item.IsScalar());
+    EXPECT_FALSE(item.IsStruct());
+    EXPECT_FALSE(item.IsArray());
+    EXPECT_TRUE(item.GetAnyTypeName().empty());
+    EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
+    EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
+    EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
+    EXPECT_TRUE(item.GetChildren().empty());
+    EXPECT_EQ(item.GetDisplayName(), constants::kEmptyTypeName);
+    EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
+    EXPECT_EQ(item.GetChildrenCount(), 0);
+  }
+
   {  // AnyValueScalarItem
     const AnyValueScalarItem item;
     EXPECT_TRUE(item.IsScalar());
@@ -72,7 +88,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
     EXPECT_FALSE(item.HasData(kAnyTypeNameRole));
     EXPECT_TRUE(item.GetChildren().empty());
-    EXPECT_EQ(item.GetDisplayName(), kScalarTypeName);
+    EXPECT_EQ(item.GetDisplayName(), constants::kScalarTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
   }
@@ -83,12 +99,12 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_TRUE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
     EXPECT_EQ(item.GetAnyTypeName(), std::string());
-    EXPECT_EQ(item.GetDisplayName(), kStructTypeName);
+    EXPECT_EQ(item.GetDisplayName(), constants::kStructTypeName);
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_TRUE(item.HasData(kAnyTypeNameRole)); // default name "" is there to allow editing
+    EXPECT_TRUE(item.HasData(kAnyTypeNameRole));  // default name "" is there to allow editing
     EXPECT_TRUE(item.GetChildren().empty());
-    EXPECT_EQ(item.GetDisplayName(), kStructTypeName);
+    EXPECT_EQ(item.GetDisplayName(), constants::kStructTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
   }
@@ -103,7 +119,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(item.HasData(kAnyTypeNameRole));  // default name "" is there to allow editing
     EXPECT_TRUE(item.GetChildren().empty());
-    EXPECT_EQ(item.GetDisplayName(), kArrayTypeName);
+    EXPECT_EQ(item.GetDisplayName(), constants::kArrayTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
   }

@@ -9,6 +9,7 @@ target_sources(${library_name} PRIVATE
   anyvalue_item_utils.h
   anyvalue_item.cpp
   anyvalue_item.h
+  anyvalue_item_constants.h
   anyvalue_utils.cpp
   anyvalue_utils.h
   domain_anyvalue_builder.cpp

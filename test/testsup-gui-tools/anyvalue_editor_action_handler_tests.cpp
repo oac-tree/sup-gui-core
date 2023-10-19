@@ -21,8 +21,8 @@
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
 #include <sup/gui/anyvalueeditor/anyvalue_editor_helper.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/application_model.h>
@@ -155,7 +155,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueEmptyItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kEmptyTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kEmptyTypeName);
 
   EXPECT_EQ(spy_selection_request.count(), 1);
   auto arguments = spy_selection_request.takeFirst();
@@ -189,7 +189,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueStructItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kStructTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kStructTypeName);
 
   EXPECT_EQ(spy_selection_request.count(), 1);
   auto arguments = spy_selection_request.takeFirst();
@@ -283,7 +283,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kScalarTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 
   // expecting warning callback further down
@@ -436,7 +436,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kArrayTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kArrayTypeName);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
@@ -573,7 +573,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::kScalarTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 
@@ -612,7 +612,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
   ASSERT_EQ(structure->GetChildren().size(), 1);
   auto inserted_item = dynamic_cast<sup::gui::AnyValueScalarItem*>(structure->GetChildren().at(0));
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::kScalarTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 };

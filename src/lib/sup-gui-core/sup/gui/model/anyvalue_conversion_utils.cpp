@@ -21,6 +21,7 @@
 
 #include "anyvalue_item.h"
 #include "anyvalue_item_builder.h"
+#include "anyvalue_item_constants.h"
 #include "domain_anyvalue_builder.h"
 #include "scalar_conversion_utils.h"
 
@@ -69,7 +70,7 @@ namespace sup::gui
 
 std::vector<std::string> GetMainTypeNames()
 {
-  return {kStructTypeName, kArrayTypeName, kScalarTypeName};
+  return {constants::kStructTypeName, constants::kArrayTypeName, constants::kScalarTypeName};
 }
 
 std::vector<std::string> GetScalarTypeNames()
@@ -99,7 +100,7 @@ bool IsScalarTypeName(const std::string& name)
 
 bool IsStructTypeName(const std::string& name)
 {
-  return name == kStructTypeName;
+  return name == constants::kStructTypeName;
 }
 
 sup::dto::AnyValue CreateAnyValue(const AnyValueItem& item)

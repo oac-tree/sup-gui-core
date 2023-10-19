@@ -19,9 +19,9 @@
 
 #include "anyvalue_item.h"
 
-#include "scalar_conversion_utils.h"
-#include "anyvalue_conversion_utils.h"
+#include "anyvalue_item_constants.h"
 #include "anyvalue_item_utils.h"
+#include "scalar_conversion_utils.h"
 
 #include <sup/gui/core/exceptions.h>
 
@@ -87,8 +87,8 @@ int AnyValueItem::GetChildrenCount() const
 
 AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type)
 {
-  SetDisplayName(kEmptyTypeName);
-  SetToolTip(kEmptyTypeName);
+  SetDisplayName(constants::kEmptyTypeName);
+  SetToolTip(constants::kEmptyTypeName);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone(bool make_unique_id) const
@@ -102,8 +102,8 @@ std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone(bool make_unique_id)
 
 AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(Type)
 {
-  SetDisplayName(kScalarTypeName);
-  SetToolTip(kScalarTypeName);
+  SetDisplayName(constants::kScalarTypeName);
+  SetToolTip(constants::kScalarTypeName);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone(bool make_unique_id) const
@@ -129,9 +129,9 @@ bool AnyValueScalarItem::IsScalar() const
 
 AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
 {
-  SetDisplayName(kStructTypeName);
+  SetDisplayName(constants::kStructTypeName);
   SetAnyTypeName("");
-  SetToolTip(kStructTypeName);
+  SetToolTip(constants::kStructTypeName);
   RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
 }
 
@@ -147,7 +147,7 @@ bool AnyValueStructItem::IsStruct() const
 
 AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_name,
                                                        const std::string& field_type,
-                                                       const mvvm::variant_t &value)
+                                                       const mvvm::variant_t& value)
 {
   auto child = InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
   child->SetAnyTypeName(field_type);
@@ -168,9 +168,9 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 
 AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
 {
-  SetDisplayName(kArrayTypeName);
+  SetDisplayName(constants::kArrayTypeName);
   SetAnyTypeName("");
-  SetToolTip(kArrayTypeName);
+  SetToolTip(constants::kArrayTypeName);
   RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
 }
 
