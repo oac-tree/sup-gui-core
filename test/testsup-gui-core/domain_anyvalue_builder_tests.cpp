@@ -164,6 +164,16 @@ TEST_F(DomainAnyValueBuilderTest, FromTwoNestedStructs)
   EXPECT_EQ(any_value, expected_anyvalue);
 }
 
+//! Construction of empty scalar array.
+
+TEST_F(DomainAnyValueBuilderTest, FromEmptyScalarArray)
+{
+  AnyValueArrayItem item;
+  item.SetAnyTypeName("array_name");
+
+  EXPECT_THROW(CreateAnyValue(item), sup::dto::ParseException);
+}
+
 //! Construction of scalar array with the name and two elements.
 
 TEST_F(DomainAnyValueBuilderTest, FromScalarArray)
