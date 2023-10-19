@@ -51,7 +51,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *action
     , m_export_button(new QToolButton)
     , m_hide_pannel_button(new QToolButton)
     , m_details_button(new QToolButton)
-    , m_actions(actions)
+    , m_action_handler(actions)
     , m_create_anyvalue_menu(CreateAddAnyValueMenu())
     , m_settings_menu(CreateSettingsMenu())
 {
@@ -118,20 +118,28 @@ std::unique_ptr<QMenu> AnyValueEditorToolBar::CreateAddAnyValueMenu()
   result->setToolTipsVisible(true);
 
   {  // struct
+    auto action = result->addAction("empty");
+    connect(action, &QAction::triggered, this,
+            [this]() { m_action_handler->OnAddEmptyAnyValue(); });
+  }
+
+  {  // struct
     auto action = result->addAction("struct");
-    connect(action, &QAction::triggered, this, [this]() { m_actions->OnAddAnyValueStruct(); });
+    connect(action, &QAction::triggered, this,
+            [this]() { m_action_handler->OnAddAnyValueStruct(); });
   }
 
   {  // array
     auto action = result->addAction("array");
-    connect(action, &QAction::triggered, this, [this]() { m_actions->OnAddAnyValueArray(); });
+    connect(action, &QAction::triggered, this,
+            [this]() { m_action_handler->OnAddAnyValueArray(); });
   }
 
   {
     auto scalar_menu = result->addMenu("scalar");
     for (const auto &name : sup::gui::GetScalarTypeNames())
     {
-      auto on_action = [name, this]() { m_actions->OnAddAnyValueScalar(name); };
+      auto on_action = [name, this]() { m_action_handler->OnAddAnyValueScalar(name); };
       auto action = scalar_menu->addAction(QString::fromStdString(name));
       connect(action, &QAction::triggered, this, on_action);
     }

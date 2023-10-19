@@ -39,6 +39,7 @@ class AnyValueItem;
 const std::string kStructTypeName = "struct";
 const std::string kArrayTypeName = "array";
 const std::string kScalarTypeName = "scalar";
+const std::string kEmptyTypeName = "empty";
 
 std::vector<std::string> GetMainTypeNames();
 

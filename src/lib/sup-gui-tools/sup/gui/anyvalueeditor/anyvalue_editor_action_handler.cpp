@@ -43,6 +43,11 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
 {
 }
 
+void AnyValueEditorActionHandler::OnAddEmptyAnyValue()
+{
+  AddAnyValueItem(std::make_unique<AnyValueEmptyItem>());
+}
+
 void AnyValueEditorActionHandler::OnAddAnyValueStruct()
 {
   AddAnyValueItem(std::make_unique<AnyValueStructItem>());

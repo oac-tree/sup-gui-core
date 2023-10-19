@@ -131,6 +131,40 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 }
 
 // -------------------------------------------------------------------------------------------------
+// Adding empty
+// -------------------------------------------------------------------------------------------------
+
+//! Adding empty AnyValue to empty model
+
+TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
+{
+  // creating action for the context, when nothing is selected by the user
+  auto actions = CreateActions(nullptr);
+
+  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+
+  EXPECT_EQ(actions->GetSelectedItem(), nullptr);
+
+  // expecting no warnings
+  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+
+  // adding empty AnyValueItem as top level item
+  actions->OnAddEmptyAnyValue();
+
+  // validating that model got top level item of the correct type
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueEmptyItem>(&m_model);
+  ASSERT_NE(inserted_item, nullptr);
+  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kEmptyTypeName);
+
+  EXPECT_EQ(spy_selection_request.count(), 1);
+  auto arguments = spy_selection_request.takeFirst();
+  EXPECT_EQ(arguments.size(), 1);
+  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
+  EXPECT_EQ(selected_item, inserted_item);
+};
+
+// -------------------------------------------------------------------------------------------------
 // Adding structures
 // -------------------------------------------------------------------------------------------------
 

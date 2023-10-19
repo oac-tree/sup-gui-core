@@ -85,7 +85,11 @@ int AnyValueItem::GetChildrenCount() const
 // AnyValueEmptyItem
 // ----------------------------------------------------------------------------
 
-AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type) {}
+AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type)
+{
+  SetDisplayName(kEmptyTypeName);
+  SetToolTip(kEmptyTypeName);
+}
 
 std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone(bool make_unique_id) const
 {

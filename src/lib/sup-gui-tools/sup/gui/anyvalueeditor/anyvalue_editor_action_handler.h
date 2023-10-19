@@ -54,6 +54,9 @@ public:
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::ApplicationModel* model,
                               QObject* parent);
 
+
+  void OnAddEmptyAnyValue();
+
   void OnAddAnyValueStruct();
 
   void OnAddAnyValueArray();
