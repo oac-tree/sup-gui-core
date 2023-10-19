@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "anyvalue_editor_actions.h"
+#include "anyvalue_editor_action_handler.h"
 
 #include "anyvalue_editor_helper.h"
 

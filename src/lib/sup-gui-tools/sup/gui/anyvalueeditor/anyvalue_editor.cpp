@@ -19,7 +19,7 @@
 
 #include "anyvalue_editor.h"
 
-#include "anyvalue_editor_actions.h"
+#include "anyvalue_editor_action_handler.h"
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_toolbar.h"
 #include "anyvalue_editor_treepanel.h"

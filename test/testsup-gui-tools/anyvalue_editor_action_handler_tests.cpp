@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/anyvalueeditor/anyvalue_editor_actions.h"
-#include "sup/gui/anyvalueeditor/anyvalue_editor_helper.h"
+#include "sup/gui/anyvalueeditor/anyvalue_editor_action_handler.h"
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
+#include <sup/gui/anyvalueeditor/anyvalue_editor_helper.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_utils.h>
