@@ -61,7 +61,7 @@ void AnyValueEditorActionHandler::OnAddAnyValueArray()
 void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_type)
 {
 
-  if (auto array_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(m_model); array_item)
+  if (auto array_item = dynamic_cast<sup::gui::AnyValueArrayItem*>(GetSelectedItem()); array_item)
   {
     if (!sup::gui::IsSuitableScalarType(*array_item, scalar_type))
     {

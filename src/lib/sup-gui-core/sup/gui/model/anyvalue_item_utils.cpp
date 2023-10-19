@@ -102,15 +102,8 @@ bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &sca
     return true;
   }
 
-  if (auto scalar = array.GetItem<AnyValueScalarItem>(mvvm::TagIndex::First()); scalar)
-  {
-    if (scalar->GetAnyTypeName() == scalar_type)
-    {
-      return true;
-    }
-  }
-
-  return false;
+  auto first_child = array.GetChildren().at(0);
+  return first_child->GetAnyTypeName() == scalar_type;
 }
 
 std::vector<std::string> GetAnyValueItemTypes()
