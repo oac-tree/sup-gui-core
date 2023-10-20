@@ -31,7 +31,7 @@ namespace
 {
 const QString kPreferredCodacStyle = "Adwaita";
 
-void SetWindowStyle(const QString &app_style, bool verbose)
+void SetWindowStyleIntern(const QString &app_style, bool verbose)
 {
   if (!app_style.isEmpty())
   {
@@ -77,14 +77,14 @@ void InitCoreApplication(const QString &app_name, const QString &version)
 
 void SetWindowStyle(const QString &app_style, int font_size, bool verbose)
 {
-  SetWindowStyle(app_style, verbose);
   mvvm::utils::SetApplicationFontSize(font_size);
+  SetWindowStyleIntern(app_style, verbose);
 }
 
 void SetWindowStyle(const QString &app_style, const QFont &font, bool verbose)
 {
-  SetWindowStyle(app_style, verbose);
   QApplication::setFont(font);
+  SetWindowStyleIntern(app_style, verbose);
 }
 
 void SetupHighDpiScaling(bool scale_from_environment)
