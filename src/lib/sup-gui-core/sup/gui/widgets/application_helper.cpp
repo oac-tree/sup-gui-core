@@ -30,7 +30,30 @@
 namespace
 {
 const QString kPreferredCodacStyle = "Adwaita";
+
+void SetWindowStyle(const QString &app_style, bool verbose)
+{
+  if (!app_style.isEmpty())
+  {
+    QApplication::setStyle(QStyleFactory::create(app_style));
+  }
+  else
+  {
+    if (sup::gui::IsOnCodac())
+    {
+      // If no special request from the user, and we are on CODAC, use Adwaita style
+      // which provide tolerable gnome-like UI
+      QApplication::setStyle(QStyleFactory::create(kPreferredCodacStyle));
+    }
+  }
+
+  if (verbose)
+  {
+    std::cout << mvvm::utils::GetDesktopInfo();
+  }
 }
+
+}  // namespace
 
 namespace sup::gui
 {
@@ -54,26 +77,14 @@ void InitCoreApplication(const QString &app_name, const QString &version)
 
 void SetWindowStyle(const QString &app_style, int font_size, bool verbose)
 {
-  if (!app_style.isEmpty())
-  {
-    QApplication::setStyle(QStyleFactory::create(app_style));
-  }
-  else
-  {
-    if (IsOnCodac())
-    {
-      // If no special request from the user, and we are on CODAC, use Adwaita style
-      // which provide tolerable gnome-like UI
-      QApplication::setStyle(QStyleFactory::create(kPreferredCodacStyle));
-    }
-  }
-
+  SetWindowStyle(app_style, verbose);
   mvvm::utils::SetApplicationFontSize(font_size);
+}
 
-  if (verbose)
-  {
-    std::cout << mvvm::utils::GetDesktopInfo();
-  }
+void SetWindowStyle(const QString &app_style, const QFont &font, bool verbose)
+{
+  SetWindowStyle(app_style, verbose);
+  QApplication::setFont(font);
 }
 
 void SetupHighDpiScaling(bool scale_from_environment)
