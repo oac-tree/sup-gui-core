@@ -64,7 +64,6 @@ TEST_F(AppActionManagerTest, ActionManagerSetMenuBar)
 
   manager.SetMenuBar(&menubar);
   EXPECT_EQ(manager.GetMenuBar(), &menubar);
-  EXPECT_THROW(manager.SetMenuBar(&menubar), LogicErrorException);
 }
 
 TEST_F(AppActionManagerTest, ActionManagerAddMenu)
@@ -93,6 +92,24 @@ TEST_F(AppActionManagerTest, ActionManagerAddMenu)
   // We can get access to the menu via container. Menu was created, it has no actions yet.
   EXPECT_TRUE(container->GetMenu());
   EXPECT_EQ(container->GetActionCount(), 0);
+}
+
+TEST_F(AppActionManagerTest, AddMenuBarSecondTime)
+{
+  ActionManager manager;
+  QMenuBar menubar;
+
+  EXPECT_EQ(menubar.actions().size(), 0);
+
+  manager.SetMenuBar(&menubar);
+
+  // creating container with the menu
+  auto container = manager.AddMenu("File");
+  EXPECT_EQ(manager.GetContainerCount(), 1);
+  EXPECT_EQ(manager.GetContainer("File"), container);
+
+  manager.SetMenuBar(&menubar);
+  EXPECT_EQ(manager.GetContainerCount(), 0);
 }
 
 TEST_F(AppActionManagerTest, ActionManagerRegisterAction)

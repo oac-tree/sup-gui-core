@@ -62,7 +62,7 @@ void ActionManager::SetMenuBar(QMenuBar *menubar)
 {
   if (m_menubar)
   {
-    throw LogicErrorException("Manu bar was already initialised.");
+    m_action_storage.clear();
   }
 
   m_menubar = menubar;
