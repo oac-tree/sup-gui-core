@@ -61,4 +61,4 @@ QMenu *AppGetMenu(const std::string &menu_name)
   return container ? container->GetMenu() : nullptr;
 }
 
-}  // namespace sequencergui
+}  // namespace sup::gui

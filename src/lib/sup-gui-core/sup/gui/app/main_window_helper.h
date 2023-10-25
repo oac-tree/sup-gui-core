@@ -38,7 +38,7 @@ bool ShouldResetSettingsAndRestart();
 /**
  * @brief Summons dialog to change system font.
  */
-void SummonChangeSystemFontDialog();
+bool SummonChangeSystemFontDialog();
 
 }  // namespace sup::gui
 

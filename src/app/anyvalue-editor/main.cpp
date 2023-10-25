@@ -22,9 +22,13 @@
 
 #include <sup/gui/anyvalueeditor/custom_metatypes.h>
 #include <sup/gui/app/application_helper.h>
+#include <sup/gui/app/main_window_helper.h>
 #include <sup/gui/core/version.h>
 
+#include <mvvm/widgets/widget_utils.h>
+
 #include <QApplication>
+#include <QSettings>
 
 int main(int argc, char** argv)
 {
@@ -40,11 +44,27 @@ int main(int argc, char** argv)
 
   QApplication app(argc, argv);
 
+  const auto default_font = app.font();
+
   sup::gui::SetupApplication(options.system_font_psize, options.style, options.info);
 
-  anyvalueeditor::AnyValueEditorMainWindow win;
+  int exit_code{0};
+  std::unique_ptr<anyvalueeditor::AnyValueEditorMainWindow> win;
 
-  win.show();
+  do
+  {
+    if (exit_code == sup::gui::CleanSettingsAndRestart)
+    {
+      QSettings settings;
+      settings.clear();
+      mvvm::utils::SetApplicationFont(default_font);
+    }
 
-  return app.exec();
+    win = std::make_unique<anyvalueeditor::AnyValueEditorMainWindow>();
+    win->show();
+
+    exit_code = app.exec();
+  } while (exit_code != sup::gui::NormalExit);
+
+  return exit_code;
 }

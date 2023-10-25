@@ -53,7 +53,7 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
   connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnExportToFileRequest);
 
-  m_system_font_action = new QAction("System font", this);
+  m_system_font_action = new QAction("System font (restart required)", this);
   m_system_font_action->setStatusTip("Summon font settings dialog");
   connect(m_system_font_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnChangeSystemFont);
@@ -83,7 +83,7 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
   auto file_menu = sup::gui::AppAddMenu(sup::gui::constants::kFileMenu)->GetMenu();
 
   file_menu->addAction(m_import_action);
-  file_menu->addAction(m_export_action);  
+  file_menu->addAction(m_export_action);
 
   file_menu->addSeparator();
   auto preferences_menu = file_menu->addMenu("Preferences");
@@ -101,7 +101,10 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
 
 void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 {
-  //  SummonChangeSystemFontDialog();
+  if (sup::gui::SummonChangeSystemFontDialog())
+  {
+    emit RestartApplicationRequest(sup::gui::Restart);
+  }
 }
 
 void AnyValueEditorMainWindowActions::OnResetSettings()
