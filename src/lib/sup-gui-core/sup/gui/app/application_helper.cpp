@@ -30,11 +30,37 @@
 
 namespace
 {
-
 const QString kAppFontSettingName = "MainWindow/font";
 const QString kPreferredCodacStyle = "Adwaita";
+}  // namespace
 
-void SetWindowStyleIntern(const QString &app_style, bool verbose)
+namespace sup::gui
+{
+
+void InitCoreApplication(const QString &app_name, const QString &version)
+{
+  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+  QCoreApplication::setApplicationName(app_name);
+  QCoreApplication::setApplicationVersion(version);
+  QCoreApplication::setOrganizationName("coa");
+}
+
+void SetupHighDpiScaling(bool scale_from_environment)
+{
+  mvvm::utils::SetupHighDpiScaling(scale_from_environment);
+}
+
+void SetupApplication(int font_size_hint, const QString &app_style, bool verbose)
+{
+  SetApplicationFont(font_size_hint);
+  SetWindowStyle(app_style);
+  if (verbose)
+  {
+    std::cout << mvvm::utils::GetDesktopInfo();
+  }
+}
+
+void SetWindowStyle(const QString &app_style)
 {
   if (!app_style.isEmpty())
   {
@@ -49,17 +75,23 @@ void SetWindowStyleIntern(const QString &app_style, bool verbose)
       QApplication::setStyle(QStyleFactory::create(kPreferredCodacStyle));
     }
   }
-
-  if (verbose)
-  {
-    std::cout << mvvm::utils::GetDesktopInfo();
-  }
 }
 
-}  // namespace
-
-namespace sup::gui
+void SetApplicationFont(int font_size_hint)
 {
+  if (font_size_hint > 0)
+  {
+    mvvm::utils::SetApplicationFontSize(font_size_hint);
+  }
+  else
+  {
+    auto font = GetAppFontFromSettings();
+    if (font.has_value())
+    {
+      QApplication::setFont(font.value());
+    }
+  }
+}
 
 bool IsOnCodac()
 {
@@ -68,31 +100,6 @@ bool IsOnCodac()
 #else
   return false;
 #endif
-}
-
-void InitCoreApplication(const QString &app_name, const QString &version)
-{
-  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
-  QCoreApplication::setApplicationName(app_name);
-  QCoreApplication::setApplicationVersion(version);
-  QCoreApplication::setOrganizationName("coa");
-}
-
-void SetWindowStyle(const QString &app_style, int font_size, bool verbose)
-{
-  mvvm::utils::SetApplicationFontSize(font_size);
-  SetWindowStyleIntern(app_style, verbose);
-}
-
-void SetWindowStyle(const QString &app_style, const QFont &font, bool verbose)
-{
-  QApplication::setFont(font);
-  SetWindowStyleIntern(app_style, verbose);
-}
-
-void SetupHighDpiScaling(bool scale_from_environment)
-{
-  mvvm::utils::SetupHighDpiScaling(scale_from_environment);
 }
 
 QString GetUserName()
