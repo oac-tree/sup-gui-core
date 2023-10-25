@@ -43,11 +43,20 @@ signals:
 private:
   void CreateActions(QMainWindow* mainwindow);
   void SetupMenus(QMenuBar* menubar);
+
+  void OnChangeSystemFont();
+  void OnResetSettings();
   void OnAbout();
 
   QAction* m_import_action{nullptr};
   QAction* m_export_action{nullptr};
+
+  QAction* m_system_font_action{nullptr};
+  QAction* m_settings_dialog_action{nullptr};
+  QAction* m_reset_settings_action{nullptr};
+
   QAction* m_exit_action{nullptr};
+
   QAction* m_about_action{nullptr};
 };
 

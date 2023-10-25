@@ -19,6 +19,8 @@
 
 #include "anyvalue_editor_main_window_actions.h"
 
+#include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 
@@ -50,6 +52,19 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
   connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnExportToFileRequest);
 
+  m_system_font_action = new QAction("System font", this);
+  m_system_font_action->setStatusTip("Summon font settings dialog");
+  connect(m_system_font_action, &QAction::triggered, this,
+          &AnyValueEditorMainWindowActions::OnChangeSystemFont);
+
+  m_reset_settings_action = new QAction("Reset settings to defaults", this);
+  m_reset_settings_action->setStatusTip(
+      "Reset persistent application settings on disk to their defaults");
+  m_reset_settings_action->setToolTip(
+      "Reset persistent application settings on disk to their defaults");
+  connect(m_reset_settings_action, &QAction::triggered, this,
+          &AnyValueEditorMainWindowActions::OnResetSettings);
+
   m_exit_action = new QAction("E&xit Application", this);
   m_exit_action->setShortcuts(QKeySequence::Quit);
   m_exit_action->setStatusTip("Exit the application");
@@ -62,16 +77,25 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 
 void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
 {
-  auto file_menu = menubar->addMenu("&File");
+  sup::gui::AppRegisterMenuBar(menubar);
+
+  auto file_menu = sup::gui::AppAddMenu(sup::gui::constants::kFileMenu)->GetMenu();
 
   file_menu->addAction(m_import_action);
   file_menu->addAction(m_export_action);
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
 
-  auto help_menu = menubar->addMenu("&Help");
+  auto help_menu = sup::gui::AppAddMenu(sup::gui::constants::kHelpMenu)->GetMenu();
   help_menu->addAction(m_about_action);
 }
+
+void AnyValueEditorMainWindowActions::OnChangeSystemFont()
+{
+//  SummonChangeSystemFontDialog();
+}
+
+void AnyValueEditorMainWindowActions::OnResetSettings() {}
 
 void AnyValueEditorMainWindowActions::OnAbout()
 {

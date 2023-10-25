@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/app_actions.h"
+#include "sup/gui/app/app_action_helper.h"
 
 #include <sup/gui/app/app_action_manager.h>
 
@@ -29,11 +29,11 @@
 
 using namespace sup::gui;
 
-class AppActionsTest : public ::testing::Test
+class AppActionHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(AppActionsTest, ActionManagerAddMenu)
+TEST_F(AppActionHelperTest, ActionManagerAddMenu)
 {
   QMenuBar menubar;
 

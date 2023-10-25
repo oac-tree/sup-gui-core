@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_actions.h"
+#include "app_action_helper.h"
 
 #include "app_action_manager.h"
 
