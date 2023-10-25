@@ -21,6 +21,7 @@
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
+#include <sup/gui/app/main_window_helper.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 
@@ -82,7 +83,15 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
   auto file_menu = sup::gui::AppAddMenu(sup::gui::constants::kFileMenu)->GetMenu();
 
   file_menu->addAction(m_import_action);
-  file_menu->addAction(m_export_action);
+  file_menu->addAction(m_export_action);  
+
+  file_menu->addSeparator();
+  auto preferences_menu = file_menu->addMenu("Preferences");
+  preferences_menu->setToolTipsVisible(true);
+  preferences_menu->addAction(m_system_font_action);
+  preferences_menu->addSeparator();
+  preferences_menu->addAction(m_reset_settings_action);
+
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
 
@@ -95,7 +104,13 @@ void AnyValueEditorMainWindowActions::OnChangeSystemFont()
   //  SummonChangeSystemFontDialog();
 }
 
-void AnyValueEditorMainWindowActions::OnResetSettings() {}
+void AnyValueEditorMainWindowActions::OnResetSettings()
+{
+  if (sup::gui::ShouldResetSettingsAndRestart())
+  {
+    emit RestartApplicationRequest(sup::gui::CleanSettingsAndRestart);
+  }
+}
 
 void AnyValueEditorMainWindowActions::OnAbout()
 {

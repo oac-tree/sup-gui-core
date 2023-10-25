@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <memory>
+#include <sup/gui/app/main_window_types.h>
 
 class QCloseEvent;
 
@@ -53,6 +54,8 @@ private:
   void InitComponents();
   void ReadSettings();
   void WriteSettings();
+  bool CanCloseApplication();
+  void OnRestartRequest(sup::gui::AppExitCode  exit_code);
 
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditor* m_anyvalue_editor{nullptr};

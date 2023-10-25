@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_
 
+#include <sup/gui/app/main_window_types.h>
+
 #include <QObject>
 
 class QMainWindow;
@@ -39,6 +41,7 @@ public:
 signals:
   void OnImportFromFileRequest();
   void OnExportToFileRequest();
+  void RestartApplicationRequest(sup::gui::AppExitCode);
 
 private:
   void CreateActions(QMainWindow* mainwindow);
@@ -52,7 +55,6 @@ private:
   QAction* m_export_action{nullptr};
 
   QAction* m_system_font_action{nullptr};
-  QAction* m_settings_dialog_action{nullptr};
   QAction* m_reset_settings_action{nullptr};
 
   QAction* m_exit_action{nullptr};

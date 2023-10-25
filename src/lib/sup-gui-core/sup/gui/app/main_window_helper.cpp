@@ -48,8 +48,10 @@ bool ShouldResetSettingsAndRestart()
 
 void SummonChangeSystemFontDialog()
 {
-  bool ok;
+  bool ok{false};
+
   QFont font = QFontDialog::getFont(&ok, QApplication::font(), nullptr);
+
   if (ok)
   {
     // the user clicked OK and font is set to the font the user selected

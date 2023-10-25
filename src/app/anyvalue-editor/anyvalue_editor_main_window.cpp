@@ -22,6 +22,7 @@
 #include <sup/gui/anyvalueeditor/anyvalue_editor.h>
 #include <sup/gui/anyvalueeditor/anyvalue_editor_main_window_actions.h>
 
+#include <QCloseEvent>
 #include <QCoreApplication>
 #include <QMenuBar>
 #include <QSettings>
@@ -53,8 +54,12 @@ AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;
 
 void AnyValueEditorMainWindow::closeEvent(QCloseEvent* event)
 {
-  WriteSettings();
-  QMainWindow::closeEvent(event);
+  if (CanCloseApplication())
+  {
+    QMainWindow::closeEvent(event);
+    return;
+  }
+  event->ignore();
 }
 
 void AnyValueEditorMainWindow::InitApplication()
@@ -66,6 +71,8 @@ void AnyValueEditorMainWindow::InitApplication()
 void AnyValueEditorMainWindow::InitComponents()
 {
   m_action_manager = new AnyValueEditorMainWindowActions(this);
+  connect(m_action_manager, &AnyValueEditorMainWindowActions::RestartApplicationRequest, this,
+          &AnyValueEditorMainWindow::OnRestartRequest);
 
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
   setCentralWidget(m_anyvalue_editor);
@@ -88,6 +95,22 @@ void AnyValueEditorMainWindow::WriteSettings()
   QSettings settings;
   settings.setValue(GetWindowSizeSettingName(), size());
   settings.setValue(GetWindowPosSettingName(), pos());
+}
+
+bool AnyValueEditorMainWindow::CanCloseApplication()
+{
+  WriteSettings();
+
+  // here will be logic for unsaved project
+  return true;
+}
+
+void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
+{
+  if (CanCloseApplication())
+  {
+    QCoreApplication::exit(exit_code);
+  }
 }
 
 }  // namespace anyvalueeditor
