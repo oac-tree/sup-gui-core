@@ -24,11 +24,14 @@
 #include <QApplication>
 #include <QLocale>
 #include <QProcess>
+#include <QSettings>
 #include <QStyleFactory>
 #include <iostream>
 
 namespace
 {
+
+const QString kAppFontSettingName = "MainWindow/font";
 const QString kPreferredCodacStyle = "Adwaita";
 
 void SetWindowStyleIntern(const QString &app_style, bool verbose)
@@ -95,22 +98,39 @@ void SetupHighDpiScaling(bool scale_from_environment)
 QString GetUserName()
 {
 #ifdef Q_OS_UNIX
+  const int wait_msec{500};
   QProcess process;
   process.start("whoami", QStringList(), QIODevice::ReadOnly);
-  if (process.waitForFinished(500) && process.exitStatus() == QProcess::NormalExit)
+  if (process.waitForFinished(wait_msec) && process.exitStatus() == QProcess::NormalExit)
   {
     return QString(process.readAllStandardOutput()).trimmed();
   }
-  else
-  {
-    process.kill();
-    return "";
-  }
+  process.kill();
+  return {};
+
 // #elif Q_OS_WIN
 // TODO: implement with Win32 API "GetUserName"?
 #else
-  return "";
+  return {};
 #endif
+}
+
+std::optional<QFont> GetAppFontFromSettings()
+{
+  const QSettings settings;
+
+  if (settings.contains(kAppFontSettingName))
+  {
+    return settings.value(kAppFontSettingName).value<QFont>();
+  }
+
+  return {};
+}
+
+void SaveAppFontInSettings(const QFont &font)
+{
+  QSettings settings;
+  settings.setValue(kAppFontSettingName, font);
 }
 
 }  // namespace sup::gui

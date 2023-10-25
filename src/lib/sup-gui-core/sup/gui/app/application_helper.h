@@ -20,10 +20,12 @@
 #ifndef SUP_GUI_APP_APPLICATION_HELPER_H_
 #define SUP_GUI_APP_APPLICATION_HELPER_H_
 
+//! @file
 //! Helper functions to start application.
 
 #include <QFont>
 #include <QString>
+#include <optional>
 
 namespace sup::gui
 {
@@ -71,6 +73,20 @@ void SetupHighDpiScaling(bool scale_from_environment = false);
  * @return The current system user name, or empty string if the user name cannot be retrieved.
  */
 QString GetUserName();
+
+/**
+ * @brief Return application font stored in settings.
+ *
+ * The method should be called after InitCoreApplication.
+ */
+std::optional<QFont> GetAppFontFromSettings();
+
+/**
+ * @brief Saves application font in settings
+ *
+ * The method should be called after InitCoreApplication.
+ */
+void SaveAppFontInSettings(const QFont &font);
 
 }  // namespace sup::gui
 

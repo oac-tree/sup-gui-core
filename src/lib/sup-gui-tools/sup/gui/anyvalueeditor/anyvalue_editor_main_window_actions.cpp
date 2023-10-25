@@ -92,7 +92,7 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
 
 void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 {
-//  SummonChangeSystemFontDialog();
+  //  SummonChangeSystemFontDialog();
 }
 
 void AnyValueEditorMainWindowActions::OnResetSettings() {}

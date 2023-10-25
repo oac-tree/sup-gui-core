@@ -26,6 +26,18 @@
 namespace sup::gui
 {
 
+/**
+ * @brief Opens message box with the question if we should reset application settings and restart
+ *
+ * @return Truth if reset and restart was requested, false otherwise.
+ */
+bool ShouldResetSettingsAndRestart();
+
+/**
+ * @brief Summons dialog to change system font.
+ */
+void SummonChangeSystemFontDialog();
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
