@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/widgets/app_actions.h"
+#include "sup/gui/app/app_actions.h"
 
-#include <sup/gui/widgets/app_action_manager.h>
+#include <sup/gui/app/app_action_manager.h>
 
 #include <gtest/gtest.h>
 

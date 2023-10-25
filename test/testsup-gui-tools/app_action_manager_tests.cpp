@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/widgets/app_action_manager.h"
+#include "sup/gui/app/app_action_manager.h"
 
 #include <sup/gui/core/exceptions.h>
 
