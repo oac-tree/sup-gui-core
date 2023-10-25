@@ -20,9 +20,9 @@
 #include "anyvalue_editor_main_window.h"
 #include "command_line_options.h"
 
-#include <sup/gui/core/version.h>
-#include <sup/gui/widgets/application_helper.h>
 #include <sup/gui/anyvalueeditor/custom_metatypes.h>
+#include <sup/gui/app/application_helper.h>
+#include <sup/gui/core/version.h>
 
 #include <QApplication>
 

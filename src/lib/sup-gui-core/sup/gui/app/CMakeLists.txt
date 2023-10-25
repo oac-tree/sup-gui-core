@@ -1,6 +1,8 @@
 # Collection of helper functions and classes related to the whole application.
 
 target_sources(${library_name} PRIVATE
+  application_helper.cpp
+  application_helper.h
   app_action_manager.cpp
   app_action_manager.h
   app_action_helper.cpp

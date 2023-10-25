@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_APPLICATION_HELPER_H_
-#define SUP_GUI_WIDGETS_APPLICATION_HELPER_H_
+#ifndef SUP_GUI_APP_APPLICATION_HELPER_H_
+#define SUP_GUI_APP_APPLICATION_HELPER_H_
 
 //! Helper functions to start application.
 
@@ -74,4 +74,4 @@ QString GetUserName();
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_APPLICATION_HELPER_H_
+#endif  // SUP_GUI_APP_APPLICATION_HELPER_H_
