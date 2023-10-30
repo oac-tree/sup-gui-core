@@ -1,3 +1,14 @@
+Changes for 1.2.0:
+
+- COA Release v2.0, October 2023
+- Provide font settings dialog and reset settings machinery
+- Provide possibility to export non-pretty JSON
+- Provide collapse/expand menu for a tree, provide item highlight on insert
+- Add type column and allow editing of struct/array type names
+- Provide correct min/max limits while editing integer scalars
+- Allow insertion of empty AnyValue
+- Implement action manager for easy menubar's action registration
+
 Changes for 1.1.0:
 
 - COA Release v1.9, August 2023
