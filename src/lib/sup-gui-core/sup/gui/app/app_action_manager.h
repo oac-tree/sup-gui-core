@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_APP_ACTION_MANAGER_H
-#define SUP_GUI_WIDGETS_APP_ACTION_MANAGER_H
+#ifndef SUP_GUI_APP_APP_ACTION_MANAGER_H_
+#define SUP_GUI_APP_APP_ACTION_MANAGER_H_
 
 #include <QString>
 #include <QVector>
@@ -152,4 +152,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_APP_ACTION_MANAGER_H
+#endif  // SUP_GUI_APP_APP_ACTION_MANAGER_H_

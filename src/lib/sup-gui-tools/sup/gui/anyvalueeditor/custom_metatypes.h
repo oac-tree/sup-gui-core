@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H
-#define SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H
+#ifndef SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H_
+#define SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H_
 
 //! Registration of custom types in Qt meta type system to provide support in signal/slot and
 //! QVariant.
@@ -32,4 +32,4 @@ void RegisterCustomMetaTypes();
 
 }  // namespace sequencergui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H
+#endif  // SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H_

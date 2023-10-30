@@ -2,8 +2,8 @@
 // Prototype of worker/task machinery.
 // ----------------------------------------------------------------------------
 
-#ifndef EXPERIMENTAL_WORKER_H
-#define EXPERIMENTAL_WORKER_H
+#ifndef SUP_GUI_EXPERIMENTAL_WORKER_H_
+#define SUP_GUI_EXPERIMENTAL_WORKER_H_
 
 #include <QObject>
 #include <atomic>
@@ -64,4 +64,4 @@ private:
   std::atomic<Status> m_status;
 };
 
-#endif  // EXPERIMENTAL_WORKER_H
+#endif  // SUP_GUI_EXPERIMENTAL_WORKER_H_

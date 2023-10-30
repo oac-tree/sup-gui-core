@@ -2,8 +2,8 @@
 // Prototype of worker/task machinery.
 // ----------------------------------------------------------------------------
 
-#ifndef EXPERIMENTAL_TASK_H
-#define EXPERIMENTAL_TASK_H
+#ifndef SUP_GUI_EXPERIMENTAL_TASK_H_
+#define SUP_GUI_EXPERIMENTAL_TASK_H_
 
 /**
  * @brief The ITask class represents a task to do.
@@ -34,4 +34,4 @@ public:
   virtual void Finalize(){};
 };
 
-#endif  // EXPERIMENTAL_TASK_H
+#endif  // SUP_GUI_EXPERIMENTAL_TASK_H_

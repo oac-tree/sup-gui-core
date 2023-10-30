@@ -2,8 +2,8 @@
 // Prototype of worker/task machinery.
 // ----------------------------------------------------------------------------
 
-#ifndef EXPERIMENTAL_WORKER_MANAGER_H
-#define EXPERIMENTAL_WORKER_MANAGER_H
+#ifndef SUP_GUI_EXPERIMENTAL_WORKER_MANAGER_H_
+#define SUP_GUI_EXPERIMENTAL_WORKER_MANAGER_H_
 
 #include <QObject>
 #include <map>
@@ -41,4 +41,4 @@ private:
   std::vector<std::unique_ptr<Worker>> m_workers;
 };
 
-#endif  // EXPERIMENTAL_WORKER_MANAGER_H
+#endif  // SUP_GUI_EXPERIMENTAL_WORKER_MANAGER_H_

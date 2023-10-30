@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SEQUENCERGUI_MAINWINDOW_COMMAND_LINE_OPTIONS_H_
-#define SEQUENCERGUI_MAINWINDOW_COMMAND_LINE_OPTIONS_H_
+#ifndef ANYVALUE_EDITOR_COMMAND_LINE_OPTIONS_H_
+#define ANYVALUE_EDITOR_COMMAND_LINE_OPTIONS_H_
 
 //! Command line options.
 
@@ -47,4 +47,4 @@ Options ParseOptions(int argc, char** argv);
 
 }  // namespace sequencergui
 
-#endif  // SEQUENCERGUI_MAINWINDOW_COMMAND_LINE_OPTIONS_H_
+#endif  // ANYVALUE_EDITOR_COMMAND_LINE_OPTIONS_H_

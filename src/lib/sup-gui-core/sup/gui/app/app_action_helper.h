@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_APP_ACTIONS_H
-#define SUP_GUI_WIDGETS_APP_ACTIONS_H
+#ifndef SUP_GUI_APP_APP_ACTION_HELPER_H_
+#define SUP_GUI_APP_APP_ACTION_HELPER_H_
 
 //! @file
 //! Collection of helper method to register global actions.
@@ -78,4 +78,4 @@ QMenu* AppGetMenu(const std::string& menu_name);
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_APP_ACTIONS_H
+#endif  // SUP_GUI_APP_APP_ACTION_HELPER_H_

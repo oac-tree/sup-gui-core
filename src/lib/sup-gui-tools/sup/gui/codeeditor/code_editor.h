@@ -73,4 +73,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_CODEEDITOR_CODEEDITOR_H_
+#endif  // SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
