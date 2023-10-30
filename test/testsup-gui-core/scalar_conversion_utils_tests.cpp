@@ -31,7 +31,7 @@
 
 using namespace sup::gui;
 
-class ScalarConversionUtilsTests : public ::testing::Test
+class ScalarConversionUtilsTest : public ::testing::Test
 {
 public:
   //! Helper function to test if we can correctly create default constructed variant from type name.
@@ -46,7 +46,7 @@ public:
   }
 };
 
-TEST_F(ScalarConversionUtilsTests, SetVariantFromScalar)
+TEST_F(ScalarConversionUtilsTest, SetVariantFromScalar)
 {
   {  // from bool
     sup::dto::boolean value{true};
@@ -168,7 +168,7 @@ TEST_F(ScalarConversionUtilsTests, SetVariantFromScalar)
 
 //! Testing GetAnyValueFromScalar method. Creating scalar AnyValue from scalar-like variants.
 
-TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalarVariant)
+TEST_F(ScalarConversionUtilsTest, GetAnyValueFromScalarVariant)
 {
   {  // boolean
     mvvm::boolean value{true};
@@ -264,7 +264,7 @@ TEST_F(ScalarConversionUtilsTests, GetAnyValueFromScalarVariant)
 
 //! Checking function to get variant_t from sup::dto type names.
 
-TEST_F(ScalarConversionUtilsTests, GetVariantFromScalarTypeName)
+TEST_F(ScalarConversionUtilsTest, GetVariantFromScalarTypeName)
 {
   EXPECT_TRUE(IsValidVariantForName<bool>(sup::dto::kBooleanTypeName));
   EXPECT_TRUE(IsValidVariantForName<mvvm::char8>(sup::dto::kChar8TypeName));

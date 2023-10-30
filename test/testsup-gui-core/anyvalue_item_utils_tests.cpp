@@ -34,7 +34,7 @@
 using namespace sup::gui;
 using ::testing::_;
 
-class AnyValueItemUtilsTests : public ::testing::Test
+class AnyValueItemUtilsTest : public ::testing::Test
 {
 public:
   using mock_listener_t = ::testing::StrictMock<testutils::MockModelListener>;
@@ -42,7 +42,7 @@ public:
 
 //! Testing UpdateAnyValueItemScalarData method.
 
-TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemScalarData)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemScalarData)
 {
   {  // empty items
     AnyValueEmptyItem source;
@@ -79,7 +79,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemScalarData)
 //! Testing UpdateAnyValueItemData method.
 //! Updating one empty item from another. Nothing wrong is expected.
 
-TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromEmptyItem)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromEmptyItem)
 {
   AnyValueEmptyItem source;
   AnyValueEmptyItem target;
@@ -89,7 +89,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromEmptyItem)
 //! Testing UpdateAnyValueItemData method.
 //! Updating one scalar item from another scalar item. The value of the target should change.
 
-TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromScalar)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromScalar)
 {
   AnyValueScalarItem source;
   source.SetAnyTypeName(sup::dto::kInt32TypeName);
@@ -106,7 +106,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromScalar)
 
 //! Testing signaling while updating the data with UpdateAnyValueItemData method.
 
-TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromScalar)
+TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 {
   mvvm::ApplicationModel model;
   auto source = model.InsertItem<AnyValueScalarItem>();
@@ -129,7 +129,7 @@ TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 //! Testing signaling while updating the data with UpdateAnyValueItemData method using the same
 //! data.
 
-TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromSameScalar)
+TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScalar)
 {
   mvvm::ApplicationModel model;
   auto source = model.InsertItem<AnyValueScalarItem>();
@@ -151,7 +151,7 @@ TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromSameSca
 //! Testing UpdateAnyValueItemData method.
 //! Attempt to update structure from the source with different layout.
 
-TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromDifferentStructs)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
 {
   AnyValueStructItem source;
   source.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
@@ -165,7 +165,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromDifferentStructs)
 //! Updating one structure from another structure. Both structuers have the same layout (single
 //! field with the same scalar).
 
-TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromStructWithSingleField)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithSingleField)
 {
   AnyValueStructItem source;
   source.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
@@ -177,7 +177,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromStructWithSingleField)
   EXPECT_EQ(scalar1->Data<int>(), 42);
 }
 
-TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromStructWithNestedField)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithNestedField)
 {
   AnyValueStructItem source;
   auto source_inner_struct = source.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
@@ -197,7 +197,7 @@ TEST_F(AnyValueItemUtilsTests, UpdateAnyValueItemDataFromStructWithNestedField)
   EXPECT_EQ(target_scalar1->Data<bool>(), true);
 }
 
-TEST_F(AnyValueItemUtilsTests, IsSuitableScalarType)
+TEST_F(AnyValueItemUtilsTest, IsSuitableScalarType)
 {
   {  // empty array
     AnyValueArrayItem item;
@@ -222,7 +222,7 @@ TEST_F(AnyValueItemUtilsTests, IsSuitableScalarType)
   }
 }
 
-TEST_F(AnyValueItemUtilsTests, GetAnyValueItemTypes)
+TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypes)
 {
   const auto types = GetAnyValueItemTypes();
 
@@ -236,7 +236,7 @@ TEST_F(AnyValueItemUtilsTests, GetAnyValueItemTypes)
   EXPECT_EQ(std::find(types.begin(), types.end(), AnyValueItem::Type), types.end());
 }
 
-TEST_F(AnyValueItemUtilsTests, CreateAnyValueTag)
+TEST_F(AnyValueItemUtilsTest, CreateAnyValueTag)
 {
   auto tag = CreateAnyValueTag("tag");
 

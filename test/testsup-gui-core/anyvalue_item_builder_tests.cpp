@@ -33,10 +33,10 @@
 
 using namespace sup::gui;
 
-class AnyValueItemBuilderTests : public testutils::FolderBasedTest
+class AnyValueItemBuilderTest : public testutils::FolderBasedTest
 {
 public:
-  AnyValueItemBuilderTests() : FolderBasedTest("test_AnyValueItemBuilder") {}
+  AnyValueItemBuilderTest() : FolderBasedTest("test_AnyValueItemBuilder") {}
 
   std::unique_ptr<AnyValueItem> GetAnyValueItem(const sup::dto::AnyValue& value)
   {
@@ -54,7 +54,7 @@ public:
 
 //! Building AnyValueItem from AnyValue containing a scalar.
 
-TEST_F(AnyValueItemBuilderTests, FromEmptyAnyValue)
+TEST_F(AnyValueItemBuilderTest, FromEmptyAnyValue)
 {
   sup::dto::AnyValue anyvalue;
   WriteJson(anyvalue, "Empty.json");
@@ -70,7 +70,7 @@ TEST_F(AnyValueItemBuilderTests, FromEmptyAnyValue)
 
 //! Building AnyValueItem from AnyValue containing a scalar.
 
-TEST_F(AnyValueItemBuilderTests, FromScalar)
+TEST_F(AnyValueItemBuilderTest, FromScalar)
 {
   {  // bool
     sup::dto::AnyValue anyvalue{sup::dto::BooleanType, true};
@@ -105,7 +105,7 @@ TEST_F(AnyValueItemBuilderTests, FromScalar)
 
 //! Building AnyValueItem from AnyValue with an empty struct.
 
-TEST_F(AnyValueItemBuilderTests, FromEmptyStruct)
+TEST_F(AnyValueItemBuilderTest, FromEmptyStruct)
 {
   sup::dto::AnyValue anyvalue = ::sup::dto::EmptyStruct();
   WriteJson(anyvalue, "EmptyStruct.json");
@@ -123,7 +123,7 @@ TEST_F(AnyValueItemBuilderTests, FromEmptyStruct)
 
 //! Building AnyValueItem from AnyValue with an empty struct.
 
-TEST_F(AnyValueItemBuilderTests, FromEmptyNamedStruct)
+TEST_F(AnyValueItemBuilderTest, FromEmptyNamedStruct)
 {
   sup::dto::AnyValue anyvalue = ::sup::dto::EmptyStruct("mystruct");
   WriteJson(anyvalue, "EmptyNamedStruct.json");
@@ -141,7 +141,7 @@ TEST_F(AnyValueItemBuilderTests, FromEmptyNamedStruct)
 
 //! Building AnyValueItem from AnyValue with a struct containing a single scalar.
 
-TEST_F(AnyValueItemBuilderTests, FromStructWithSingleScalar)
+TEST_F(AnyValueItemBuilderTest, FromStructWithSingleScalar)
 {
   sup::dto::AnyValue anyvalue = {{{"signed", {sup::dto::SignedInteger32Type, 42}}}};
   WriteJson(anyvalue, "StructWithSingleScalar.json");
@@ -169,7 +169,7 @@ TEST_F(AnyValueItemBuilderTests, FromStructWithSingleScalar)
 
 //! Building AnyValueItem from AnyValue with a struct containing  two named scalars.
 
-TEST_F(AnyValueItemBuilderTests, FromStructWithTwoScalars)
+TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
 {
   sup::dto::AnyValue anyvalue = {
       {{"signed", {sup::dto::SignedInteger32Type, 42}}, {"bool", {sup::dto::BooleanType, true}}}};
@@ -206,7 +206,7 @@ TEST_F(AnyValueItemBuilderTests, FromStructWithTwoScalars)
 
 //! Building AnyValueItem from AnyValue containing a structure with nested structure.
 
-TEST_F(AnyValueItemBuilderTests, FromNestedStruct)
+TEST_F(AnyValueItemBuilderTest, FromNestedStruct)
 {
   sup::dto::AnyValue two_scalars = {
       {{"signed", {sup::dto::SignedInteger8Type, 1}}, {"bool", {sup::dto::BooleanType, true}}}};
@@ -240,7 +240,7 @@ TEST_F(AnyValueItemBuilderTests, FromNestedStruct)
 
 //! Building AnyValueItem from AnyValue containing a structure with two nested structures.
 
-TEST_F(AnyValueItemBuilderTests, FromTwoNestedStruct)
+TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
 {
   const std::string nested_name = "nested_struct";
   sup::dto::AnyValue two_scalars = {{{"signed", {sup::dto::SignedInteger8Type, 1}},
@@ -294,7 +294,7 @@ TEST_F(AnyValueItemBuilderTests, FromTwoNestedStruct)
 
 //! Building AnyValueItem from AnyValue containing an array of integers.
 
-TEST_F(AnyValueItemBuilderTests, FromArrayOfIntegers)
+TEST_F(AnyValueItemBuilderTest, FromArrayOfIntegers)
 {
   sup::dto::AnyValue anyvalue =
       sup::dto::ArrayValue({{sup::dto::SignedInteger64Type, 1}, 2}, "my_array_t");
@@ -325,7 +325,7 @@ TEST_F(AnyValueItemBuilderTests, FromArrayOfIntegers)
 
 //! Building AnyValueItem from AnyValue structure containing an array of integers.
 
-TEST_F(AnyValueItemBuilderTests, StructWithArrayOfIntegers)
+TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
 {
   sup::dto::AnyValue array =
       sup::dto::ArrayValue({{sup::dto::SignedInteger64Type, 1}, 2}, "my_array");
@@ -363,7 +363,7 @@ TEST_F(AnyValueItemBuilderTests, StructWithArrayOfIntegers)
 
 //! Building AnyValueItem from AnyValue array containing two structures.
 
-TEST_F(AnyValueItemBuilderTests, ArrayWithTwoStructureElements)
+TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
 {
   sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
                                  {"second", {sup::dto::UnsignedInteger8Type, 44}}},
