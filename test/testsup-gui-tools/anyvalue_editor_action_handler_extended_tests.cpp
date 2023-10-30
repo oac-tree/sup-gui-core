@@ -49,7 +49,8 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 class AnyValueEditorActionHandlerExtendedTest : public testutils::FolderBasedTest
 {
 public:
-  AnyValueEditorActionHandlerExtendedTest() : testutils::FolderBasedTest("test_AnyValueEditorAction")
+  AnyValueEditorActionHandlerExtendedTest()
+      : testutils::FolderBasedTest("test_AnyValueEditorAction")
   {
     m_model.RegisterItem<sup::gui::AnyValueStructItem>();
     m_model.RegisterItem<sup::gui::AnyValueArrayItem>();
@@ -74,7 +75,6 @@ public:
   mvvm::ApplicationModel m_model;
   testutils::MockCallbackListener<sup::gui::MessageEvent> m_warning_listener;
 };
-
 
 TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
 {

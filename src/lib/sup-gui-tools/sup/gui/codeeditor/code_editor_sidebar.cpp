@@ -23,7 +23,6 @@
 
 #include <QTextBlock>
 
-
 namespace sup::gui
 {
 CodeEditorSidebar::CodeEditorSidebar(CodeEditor *editor) : QWidget(editor), m_code_editor(editor) {}

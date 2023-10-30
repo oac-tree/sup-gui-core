@@ -30,6 +30,6 @@ namespace sup::gui
 
 void RegisterCustomMetaTypes();
 
-}  // namespace sequencergui
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_ANYVALUEEDITOR_CUSTOM_METATYPES_H_

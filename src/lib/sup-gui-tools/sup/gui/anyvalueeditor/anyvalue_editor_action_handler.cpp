@@ -38,7 +38,8 @@ namespace sup::gui
 {
 
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
-                                             mvvm::ApplicationModel* model, QObject* parent)
+                                                         mvvm::ApplicationModel* model,
+                                                         QObject* parent)
     : QObject(parent), m_model(model), m_context(std::move(context))
 {
 }
@@ -60,7 +61,6 @@ void AnyValueEditorActionHandler::OnAddAnyValueArray()
 
 void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_type)
 {
-
   if (auto array_item = dynamic_cast<sup::gui::AnyValueArrayItem*>(GetSelectedItem()); array_item)
   {
     if (!sup::gui::IsSuitableScalarType(*array_item, scalar_type))
@@ -147,8 +147,9 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
   return GetSelectedItem() ? GetSelectedItem() : m_model->GetRootItem();
 }
 
-void AnyValueEditorActionHandler::SendMessage(const std::string& text, const std::string& informative,
-                                        const std::string& details)
+void AnyValueEditorActionHandler::SendMessage(const std::string& text,
+                                              const std::string& informative,
+                                              const std::string& details)
 {
   auto message = sup::gui::CreateInvalidOperationMessage(text, informative, details);
   m_context.send_message_callback(message);

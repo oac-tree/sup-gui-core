@@ -19,9 +19,9 @@
 
 #include "code_view.h"
 
-#include <mvvm/utils/file_utils.h>
-
 #include <sup/gui/codeeditor/code_editor.h>
+
+#include <mvvm/utils/file_utils.h>
 
 #include <QFile>
 #include <QFileDialog>

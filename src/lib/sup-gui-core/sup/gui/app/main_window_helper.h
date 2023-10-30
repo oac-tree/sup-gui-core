@@ -26,8 +26,6 @@
 namespace sup::gui
 {
 
-
-
 /**
  * @brief Opens message box with the question if we should reset application settings and restart
  *

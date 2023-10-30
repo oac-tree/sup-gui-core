@@ -63,7 +63,8 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string &str, const anytype_re
   return parser.MoveAnyType();
 }
 
-sup::dto::AnyValue AnyValueFromJSONString(const std::string &str, const anytype_registry_t *registry)
+sup::dto::AnyValue AnyValueFromJSONString(const std::string &str,
+                                          const anytype_registry_t *registry)
 {
   sup::dto::JSONAnyValueParser parser;
   if (!parser.ParseString(str, registry))

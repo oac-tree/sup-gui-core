@@ -25,9 +25,9 @@
 #include <mvvm/model/application_model.h>
 
 #include <sup/dto/anytype.h>
-#include <testutils/mock_model_listener.h>
 
 #include <gtest/gtest.h>
+#include <testutils/mock_model_listener.h>
 
 #include <stdexcept>
 
@@ -126,7 +126,8 @@ TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromScalar)
   EXPECT_EQ(target->Data<int>(), 42);
 }
 
-//! Testing signaling while updating the data with UpdateAnyValueItemData method using the same data.
+//! Testing signaling while updating the data with UpdateAnyValueItemData method using the same
+//! data.
 
 TEST_F(AnyValueItemUtilsTests, SignalingWhileUpdatingAnyValueItemDataFromSameScalar)
 {
@@ -238,7 +239,7 @@ TEST_F(AnyValueItemUtilsTests, GetAnyValueItemTypes)
 TEST_F(AnyValueItemUtilsTests, CreateAnyValueTag)
 {
   auto tag = CreateAnyValueTag("tag");
- 
+
   EXPECT_TRUE(tag.IsValidType(AnyValueEmptyItem::Type));
   EXPECT_TRUE(tag.IsValidType(AnyValueScalarItem::Type));
   EXPECT_TRUE(tag.IsValidType(AnyValueStructItem::Type));

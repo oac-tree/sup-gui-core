@@ -22,8 +22,8 @@
 
 #include <QObject>
 #include <atomic>
-#include <memory>
 #include <future>
+#include <memory>
 
 class ITask;
 
