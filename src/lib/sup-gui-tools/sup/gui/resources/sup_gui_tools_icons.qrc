@@ -11,5 +11,7 @@
         <file>icons/menu.svg</file>
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
+        <file>icons/checkbox-blank-circle-outline.svg</file>
+        <file>icons/checkbox-marked-circle-outline.svg</file>
     </qresource>
 </RCC>
