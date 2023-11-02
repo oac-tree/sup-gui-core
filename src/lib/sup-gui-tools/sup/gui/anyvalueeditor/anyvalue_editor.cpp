@@ -27,6 +27,7 @@
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/widgets/item_stack_widget.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
@@ -62,13 +63,15 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
     , m_tool_bar(new AnyValueEditorToolBar(m_action_handler))
     , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
     , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
+    , m_left_panel(CreateLeftPanel())
+    , m_right_panel(CreateRightPanel())
     , m_splitter(new QSplitter)
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_tool_bar);
 
-  m_splitter->addWidget(m_tree_panel);
-  m_splitter->addWidget(m_text_edit);
+  m_splitter->addWidget(m_left_panel);
+  m_splitter->addWidget(m_right_panel);
   m_splitter->setCollapsible(0, false);
   m_splitter->setCollapsible(1, false);
 
@@ -112,7 +115,8 @@ void AnyValueEditor::OnImportFromFileRequest()
 void AnyValueEditor::OnExportToFileRequest()
 {
   auto file_name = QFileDialog::getSaveFileName(
-      this, "Save File", m_current_workdir + "/untitled.json", tr("Images (*.json *.JSON)"));
+      this, "Save File", m_current_workdir + "/untitlthanksgiving 2023ed.json",
+      tr("Images (*.json *.JSON)"));
 
   if (!file_name.isEmpty())
   {
@@ -176,15 +180,25 @@ void AnyValueEditor::SetupConnections()
 
   connect(m_tool_bar, &AnyValueEditorToolBar::ImportFromFileRequest, this,
           &AnyValueEditor::OnImportFromFileRequest);
-
   connect(m_tool_bar, &AnyValueEditorToolBar::ExportToFileRequest, this,
           &AnyValueEditor::OnExportToFileRequest);
-
   connect(m_tool_bar, &AnyValueEditorToolBar::MakeJSONPrettyRequest, this,
           [this](auto pretty_flag) { m_text_edit->SetJSONPretty(pretty_flag); });
-
   connect(m_action_handler, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
           &AnyValueEditorTreePanel::SetSelected);
+
+  connect(m_actions, &AnyValueEditorActions::AddEmptyAnyValueRequest, m_action_handler,
+          &AnyValueEditorActionHandler::OnAddEmptyAnyValue);
+  connect(m_actions, &AnyValueEditorActions::AddAnyValueStructRequest, m_action_handler,
+          &AnyValueEditorActionHandler::OnAddAnyValueStruct);
+  connect(m_actions, &AnyValueEditorActions::AddAnyValueArrayRequest, m_action_handler,
+          &AnyValueEditorActionHandler::OnAddAnyValueArray);
+  connect(m_actions, &AnyValueEditorActions::AddAnyValueScalarRequest, this,
+          [this](auto str) { m_action_handler->OnAddAnyValueScalar(str.toStdString()); });
+  connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,
+          &AnyValueEditor::OnImportFromFileRequest);
+  connect(m_actions, &AnyValueEditorActions::RemoveSelectedRequest, m_action_handler,
+          &AnyValueEditorActionHandler::OnRemoveSelected);
 }
 
 //! Creates a context with all callbacks necessary for AnyValueEditorActions to function.
@@ -215,12 +229,16 @@ void AnyValueEditor::UpdateCurrentWorkdir(const QString &file_name)
 
 QWidget *AnyValueEditor::CreateLeftPanel()
 {
-  return nullptr;
+  auto result = new ItemStackWidget;
+  result->AddWidget(m_tree_panel, m_actions->GetActions());
+  return result;
 }
 
 QWidget *AnyValueEditor::CreateRightPanel()
 {
-  return nullptr;
+  auto result = new ItemStackWidget;
+  result->AddWidget(m_text_edit);
+  return result;
 }
 
 //! Imports AnyValue from JSON file.

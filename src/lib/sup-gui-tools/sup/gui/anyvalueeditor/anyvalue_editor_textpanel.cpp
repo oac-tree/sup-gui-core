@@ -47,6 +47,8 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, 
   auto on_model_changed = [this]() { UpdateJson(); };
   m_model_changed_controller =
       std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_changed);
+
+  SetupActions();
 }
 
 void AnyValueEditorTextPanel::SetJSONPretty(bool value)
@@ -56,6 +58,11 @@ void AnyValueEditorTextPanel::SetJSONPretty(bool value)
     m_pretty_json = value;
     UpdateJson();
   }
+}
+
+void AnyValueEditorTextPanel::SetupActions()
+{
+
 }
 
 AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;

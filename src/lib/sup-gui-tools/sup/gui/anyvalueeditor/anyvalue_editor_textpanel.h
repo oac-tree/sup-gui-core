@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QTextEdit;
+class QWidgetAction;
 
 namespace mvvm
 {
@@ -48,6 +49,7 @@ public:
   void SetJSONPretty(bool value);
 
 private:
+  void SetupActions();
   void UpdateJson();
 
   CodeView* m_json_view{nullptr};
