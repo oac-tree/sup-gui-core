@@ -95,6 +95,9 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
 
+  // will be populated from other widgets
+  sup::gui::AppAddMenu(sup::gui::constants::kViewMenu);
+
   auto help_menu = sup::gui::AppAddMenu(sup::gui::constants::kHelpMenu)->GetMenu();
   help_menu->addAction(m_about_action);
 }

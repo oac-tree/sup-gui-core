@@ -32,8 +32,10 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
+#include <sup/gui/app/app_action_helper.h>
 
 #include <sup/dto/anyvalue.h>
+#include <sup/gui/widgets/style_utils.h>
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -85,7 +87,7 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   m_model->RegisterItem<sup::gui::AnyValueScalarItem>();
 
   SetupConnections();
-
+  SetupWidgetActions();
   ReadSettings();
 }
 
@@ -155,7 +157,7 @@ void AnyValueEditor::ReadSettings()
   }
 
   m_text_panel_is_visible = settings.value(kIsVisiblePanelSettingName, true).toBool();
-  m_text_edit->setVisible(m_text_panel_is_visible);
+  m_right_panel->setVisible(m_text_panel_is_visible);
 }
 
 void AnyValueEditor::WriteSettings()
@@ -173,7 +175,7 @@ void AnyValueEditor::SetupConnections()
   auto on_panel = [this]()
   {
     m_text_panel_is_visible = !m_text_panel_is_visible;
-    m_text_edit->setVisible(m_text_panel_is_visible);
+    m_right_panel->setVisible(m_text_panel_is_visible);
   };
   connect(m_tool_bar, &AnyValueEditorToolBar::ToggleTextPanelVisibilityRequest, this, on_panel);
 
@@ -200,6 +202,22 @@ void AnyValueEditor::SetupConnections()
           &AnyValueEditorActionHandler::OnRemoveSelected);
   connect(m_text_edit, &AnyValueEditorTextPanel::ExportToFileRequest, this,
           &AnyValueEditor::OnExportToFileRequest);
+}
+
+void AnyValueEditor::SetupWidgetActions()
+{
+  m_show_right_sidebar = new QAction("Show/hide Right Sidebar", this);
+  m_show_right_sidebar->setShortcut(QKeySequence(QString("Ctrl+Shift+0")));
+  m_show_right_sidebar->setStatusTip("Show/hide Right Sidebar");
+  m_show_right_sidebar->setIcon(utils::GetIcon("dock-right"));
+  connect(m_show_right_sidebar, &QAction::triggered, this,
+          [this](auto)
+          {
+            m_text_panel_is_visible = !m_text_panel_is_visible;
+            m_right_panel->setVisible(m_text_panel_is_visible);
+          });
+
+  sup::gui::AppRegisterAction(sup::gui::constants::kViewMenu, m_show_right_sidebar);
 }
 
 //! Creates a context with all callbacks necessary for AnyValueEditorActions to function.

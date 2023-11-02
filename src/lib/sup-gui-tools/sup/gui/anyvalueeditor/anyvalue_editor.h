@@ -66,12 +66,15 @@ private:
   void ReadSettings();
   void WriteSettings();
   void SetupConnections();
+  void SetupWidgetActions();
   void ImportAnyValueFromFile(const QString& file_name);
   AnyValueEditorContext CreateActionContext() const;
   void UpdateCurrentWorkdir(const QString& file_name);
 
   QWidget* CreateLeftPanel();
   QWidget* CreateRightPanel();
+
+  QAction* m_show_right_sidebar{nullptr};
 
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   AnyValueEditorActions* m_actions{nullptr};
