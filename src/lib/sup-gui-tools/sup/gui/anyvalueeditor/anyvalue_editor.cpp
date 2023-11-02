@@ -73,7 +73,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   m_splitter->addWidget(m_left_panel);
   m_splitter->addWidget(m_right_panel);
   m_splitter->setCollapsible(0, false);
-  m_splitter->setCollapsible(1, false);
 
   layout->addWidget(m_splitter);
 
