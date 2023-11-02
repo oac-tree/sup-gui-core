@@ -43,6 +43,7 @@ class AnyValueEditorToolBar;
 class AnyValueEditorActionHandler;
 class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
+class AnyValueEditorActions;
 
 class AnyValueEditor : public QWidget
 {
@@ -69,8 +70,15 @@ private:
   AnyValueEditorContext CreateActionContext() const;
   void UpdateCurrentWorkdir(const QString& file_name);
 
+  QWidget* CreateLeftPanel();
+  QWidget* CreateRightPanel();
+
+  QWidget* m_left_panel{nullptr};
+  QWidget* m_right_panel{nullptr};
+
   std::unique_ptr<mvvm::ApplicationModel> m_model;
-  AnyValueEditorActionHandler* m_actions{nullptr};
+  AnyValueEditorActions* m_actions{nullptr};
+  AnyValueEditorActionHandler* m_action_handler{nullptr};
   AnyValueEditorToolBar* m_tool_bar{nullptr};
   AnyValueEditorTextPanel* m_text_edit{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};

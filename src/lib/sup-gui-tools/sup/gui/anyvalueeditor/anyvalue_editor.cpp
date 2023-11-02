@@ -20,6 +20,7 @@
 #include "anyvalue_editor.h"
 
 #include "anyvalue_editor_action_handler.h"
+#include "anyvalue_editor_actions.h"
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_toolbar.h"
 #include "anyvalue_editor_treepanel.h"
@@ -56,8 +57,9 @@ namespace sup::gui
 AnyValueEditor::AnyValueEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_actions(new AnyValueEditorActionHandler(CreateActionContext(), m_model.get(), this))
-    , m_tool_bar(new AnyValueEditorToolBar(m_actions))
+    , m_actions(new AnyValueEditorActions(this))
+    , m_action_handler(new AnyValueEditorActionHandler(CreateActionContext(), m_model.get(), this))
+    , m_tool_bar(new AnyValueEditorToolBar(m_action_handler))
     , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
     , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
     , m_splitter(new QSplitter)
@@ -114,7 +116,7 @@ void AnyValueEditor::OnExportToFileRequest()
 
   if (!file_name.isEmpty())
   {
-    m_actions->OnExportToFileRequest(file_name.toStdString());
+    m_action_handler->OnExportToFileRequest(file_name.toStdString());
     UpdateCurrentWorkdir(file_name);
   }
 }
@@ -131,12 +133,12 @@ sup::gui::AnyValueItem *AnyValueEditor::GetSelectedItem() const
 
 void AnyValueEditor::SetInitialValue(const AnyValueItem &item)
 {
-  m_actions->SetInitialValue(item);
+  m_action_handler->SetInitialValue(item);
 }
 
 AnyValueItem *AnyValueEditor::GetTopItem()
 {
-  return m_actions->GetTopItem();
+  return m_action_handler->GetTopItem();
 }
 
 void AnyValueEditor::ReadSettings()
@@ -181,7 +183,7 @@ void AnyValueEditor::SetupConnections()
   connect(m_tool_bar, &AnyValueEditorToolBar::MakeJSONPrettyRequest, this,
           [this](auto pretty_flag) { m_text_edit->SetJSONPretty(pretty_flag); });
 
-  connect(m_actions, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
+  connect(m_action_handler, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
           &AnyValueEditorTreePanel::SetSelected);
 }
 
@@ -211,11 +213,21 @@ void AnyValueEditor::UpdateCurrentWorkdir(const QString &file_name)
   m_current_workdir = QString::fromStdString(parent_path);
 }
 
+QWidget *AnyValueEditor::CreateLeftPanel()
+{
+  return nullptr;
+}
+
+QWidget *AnyValueEditor::CreateRightPanel()
+{
+  return nullptr;
+}
+
 //! Imports AnyValue from JSON file.
 
 void AnyValueEditor::ImportAnyValueFromFile(const QString &file_name)
 {
-  m_actions->OnImportFromFileRequest(file_name.toStdString());
+  m_action_handler->OnImportFromFileRequest(file_name.toStdString());
   m_tree_panel->GetTreeView()->expandAll();
 }
 
