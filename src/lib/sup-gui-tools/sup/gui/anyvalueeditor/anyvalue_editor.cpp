@@ -115,8 +115,7 @@ void AnyValueEditor::OnImportFromFileRequest()
 void AnyValueEditor::OnExportToFileRequest()
 {
   auto file_name = QFileDialog::getSaveFileName(
-      this, "Save File", m_current_workdir + "/untitlthanksgiving 2023ed.json",
-      tr("Images (*.json *.JSON)"));
+      this, "Save File", m_current_workdir + "/untitled.json", tr("Images (*.json *.JSON)"));
 
   if (!file_name.isEmpty())
   {
@@ -199,6 +198,8 @@ void AnyValueEditor::SetupConnections()
           &AnyValueEditor::OnImportFromFileRequest);
   connect(m_actions, &AnyValueEditorActions::RemoveSelectedRequest, m_action_handler,
           &AnyValueEditorActionHandler::OnRemoveSelected);
+  connect(m_text_edit, &AnyValueEditorTextPanel::ExportToFileRequest, this,
+          &AnyValueEditor::OnExportToFileRequest);
 }
 
 //! Creates a context with all callbacks necessary for AnyValueEditorActions to function.
@@ -237,7 +238,7 @@ QWidget *AnyValueEditor::CreateLeftPanel()
 QWidget *AnyValueEditor::CreateRightPanel()
 {
   auto result = new ItemStackWidget;
-  result->AddWidget(m_text_edit);
+  result->AddWidget(m_text_edit, m_text_edit->actions());
   return result;
 }
 

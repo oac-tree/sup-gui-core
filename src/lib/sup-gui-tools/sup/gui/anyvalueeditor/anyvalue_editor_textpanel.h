@@ -24,6 +24,7 @@
 
 class QTextEdit;
 class QWidgetAction;
+class QToolButton;
 
 namespace mvvm
 {
@@ -48,9 +49,16 @@ public:
 
   void SetJSONPretty(bool value);
 
+signals:
+  void ExportToFileRequest();
+
 private:
   void SetupActions();
   void UpdateJson();
+
+  QWidgetAction* m_export_action{nullptr};
+  QToolButton* m_pretty_button{nullptr};
+  QWidgetAction* m_pretty_action{nullptr};
 
   CodeView* m_json_view{nullptr};
   mvvm::ApplicationModel* m_model{nullptr};

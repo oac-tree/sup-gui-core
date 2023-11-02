@@ -48,6 +48,8 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
     , m_custom_header(new sup::gui::CustomHeaderView(this))
     , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
 {
+  setWindowTitle("AnyValue tree");
+
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);

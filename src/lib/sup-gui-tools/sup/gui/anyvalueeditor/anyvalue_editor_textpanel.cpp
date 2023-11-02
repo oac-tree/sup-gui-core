@@ -23,6 +23,7 @@
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_utils.h>
+#include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
@@ -30,7 +31,10 @@
 
 #include <sup/dto/anyvalue.h>
 
+#include <QCheckBox>
+#include <QToolButton>
 #include <QVBoxLayout>
+#include <QWidgetAction>
 
 namespace sup::gui
 {
@@ -38,6 +42,8 @@ namespace sup::gui
 AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, QWidget *parent)
     : QWidget(parent), m_json_view(new CodeView(CodeView::kJSON)), m_model(model)
 {
+  setWindowTitle("JSON view");
+
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
@@ -56,13 +62,40 @@ void AnyValueEditorTextPanel::SetJSONPretty(bool value)
   if (m_pretty_json != value)
   {
     m_pretty_json = value;
+    m_pretty_button->setIcon(m_pretty_json ? utils::GetIcon("checkbox-marked-circle-outline")
+                                           : utils::GetIcon("checkbox-blank-circle-outline"));
     UpdateJson();
   }
 }
 
 void AnyValueEditorTextPanel::SetupActions()
 {
+  {
+    m_pretty_button = new QToolButton;
+    m_pretty_button->setText("Pretty");
+    m_pretty_button->setIcon(utils::GetIcon("checkbox-marked-circle-outline"));
+    m_pretty_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    m_pretty_button->setToolTip("Make JSON pretty");
 
+    auto on_action = [this]() { SetJSONPretty(!m_pretty_json); };
+    connect(m_pretty_button, &QToolButton::clicked, this, on_action);
+
+    m_pretty_action = new QWidgetAction(this);
+    m_pretty_action->setDefaultWidget(m_pretty_button);
+    addAction(m_pretty_action);
+  }
+
+  {
+    auto button = new QToolButton;
+    button->setText("Export");
+    button->setIcon(utils::GetIcon("file-export-outline"));
+    button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    button->setToolTip("Export AnyValue to JSON file");
+    connect(button, &QToolButton::clicked, this, &AnyValueEditorTextPanel::ExportToFileRequest);
+    m_export_action = new QWidgetAction(this);
+    m_export_action->setDefaultWidget(button);
+    addAction(m_export_action);
+  }
 }
 
 AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
