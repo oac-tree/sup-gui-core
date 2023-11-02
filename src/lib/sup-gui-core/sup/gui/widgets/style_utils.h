@@ -27,11 +27,23 @@ class QIcon;
 namespace sup::gui::utils
 {
 
-//! Size of tolbar icons.
+/**
+ * @brief Size of mainw tolbar icons.
+ */
 QSize ToolBarIconSize();
 
-//! Size of tolbar icons.
+/**
+ * @briefSize of narrow tolbar icons.
+ */
 QSize NarrowToolBarIconSize();
+
+/**
+ * @brief Returns an icon for a given icon name.
+ *
+ * If the name doesn't contain an extension, will assume an existence of svg in the resource folder.
+ */
+QIcon GetIcon(const QString& icon_name);
+
 }  // namespace sup::gui::utils
 
 #endif  // SUP_GUI_WIDGETS_STYLE_UTILS_H_

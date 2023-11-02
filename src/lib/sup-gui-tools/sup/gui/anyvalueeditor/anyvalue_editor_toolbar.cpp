@@ -29,19 +29,6 @@
 #include <QPushButton>
 #include <QToolButton>
 
-namespace
-{
-
-//! Returns icon from name. For the moment expects that png version of icon is available in the
-//! resource folder.
-QIcon GetIcon(const QString &icon_name)
-{
-  const QString icon_extension("svg");
-  return QIcon(QString(":/icons/%1.%2").arg(icon_name, icon_extension));
-}
-
-}  // namespace
-
 namespace sup::gui
 {
 AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *actions, QWidget *parent)
@@ -55,10 +42,10 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *action
     , m_create_anyvalue_menu(CreateAddAnyValueMenu())
     , m_settings_menu(CreateSettingsMenu())
 {
-  setIconSize(sup::gui::utils::ToolBarIconSize());
+  setIconSize(utils::ToolBarIconSize());
 
   m_add_anyvalue_button->setText("Add");
-  m_add_anyvalue_button->setIcon(GetIcon("plus-circle-outline"));
+  m_add_anyvalue_button->setIcon(utils::GetIcon("plus-circle-outline"));
   m_add_anyvalue_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_add_anyvalue_button->setToolTip(
       "Add new AnyValue to the view. If the view already\n"
@@ -69,7 +56,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *action
   addWidget(m_add_anyvalue_button);
 
   m_remove_button->setText("Remove");
-  m_remove_button->setIcon(GetIcon("beaker-remove-outline"));
+  m_remove_button->setIcon(utils::GetIcon("beaker-remove-outline"));
   m_remove_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_remove_button->setToolTip("Remove selected item and all it's children");
   connect(m_remove_button, &QToolButton::clicked, actions,
@@ -77,7 +64,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *action
   addWidget(m_remove_button);
 
   m_export_button->setText("Export");
-  m_export_button->setIcon(GetIcon("file-export-outline"));
+  m_export_button->setIcon(utils::GetIcon("file-export-outline"));
   m_export_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_export_button->setToolTip("Export AnyValue to JSON file");
   connect(m_export_button, &QToolButton::clicked, this,
@@ -85,7 +72,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *action
   addWidget(m_export_button);
 
   m_hide_pannel_button->setText("JSON");
-  m_hide_pannel_button->setIcon(GetIcon("code-json"));
+  m_hide_pannel_button->setIcon(utils::GetIcon("code-json"));
   m_hide_pannel_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_hide_pannel_button->setToolTip("Hide/show the panel with JSON presentation");
   connect(m_hide_pannel_button, &QToolButton::clicked, this,
@@ -95,7 +82,7 @@ AnyValueEditorToolBar::AnyValueEditorToolBar(AnyValueEditorActionHandler *action
   InsertStrech();
 
   m_details_button->setText("Other");
-  m_details_button->setIcon(GetIcon("dots-vertical"));
+  m_details_button->setIcon(utils::GetIcon("dots-vertical"));
   m_details_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
   m_details_button->setToolTip("More settings");
   m_details_button->setMenu(m_settings_menu.get());

@@ -25,6 +25,11 @@
 #include <QSize>
 #include <cmath>
 
+namespace
+{
+const QString DefaultIconExtension("svg");
+}  // namespace
+
 namespace sup::gui::utils
 {
 
@@ -38,6 +43,14 @@ QSize NarrowToolBarIconSize()
 {
   const int width = std::round(mvvm::utils::UnitSize(1.75));
   return {width, width};
+}
+
+QIcon GetIcon(const QString &icon_name)
+{
+  const QString resource_name = icon_name.contains(".")
+                                    ? QString(":/icons/%1").arg(icon_name)
+                                    : QString(":/icons/%1.%2").arg(icon_name, DefaultIconExtension);
+  return QIcon(resource_name);
 }
 
 }  // namespace sup::gui::utils
