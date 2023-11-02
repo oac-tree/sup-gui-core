@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
-#define ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#ifndef SUP_GUI_ANYVALUEEDITOR_MAIN_WINDOW_H_
+#define SUP_GUI_ANYVALUEEDITOR_MAIN_WINDOW_H_
+
+#include <sup/gui/app/main_window_types.h>
 
 #include <QMainWindow>
 #include <memory>
-#include <sup/gui/app/main_window_types.h>
 
 class QCloseEvent;
 
@@ -55,7 +56,7 @@ private:
   void ReadSettings();
   void WriteSettings();
   bool CanCloseApplication();
-  void OnRestartRequest(sup::gui::AppExitCode  exit_code);
+  void OnRestartRequest(sup::gui::AppExitCode exit_code);
 
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditor* m_anyvalue_editor{nullptr};
@@ -63,4 +64,4 @@ private:
 
 }  // namespace anyvalueeditor
 
-#endif  // ANYVALUE_EDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_H_
+#endif  // SUP_GUI_ANYVALUEEDITOR_MAIN_WINDOW_H_

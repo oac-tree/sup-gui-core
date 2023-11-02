@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_context.h
   anyvalue_editor_helper.cpp
   anyvalue_editor_helper.h
+  anyvalue_editor_main_window.cpp
+  anyvalue_editor_main_window.h
   anyvalue_editor_main_window_actions.cpp
   anyvalue_editor_main_window_actions.h
   anyvalue_editor_textpanel.cpp
@@ -14,6 +16,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_toolbar.h
   anyvalue_editor_treepanel.cpp
   anyvalue_editor_treepanel.h
+  command_line_options.cpp
+  command_line_options.h
   custom_metatypes.cpp
   custom_metatypes.h
 )
