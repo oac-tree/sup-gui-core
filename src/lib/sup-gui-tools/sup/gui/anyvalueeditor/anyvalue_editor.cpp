@@ -22,7 +22,6 @@
 #include "anyvalue_editor_action_handler.h"
 #include "anyvalue_editor_actions.h"
 #include "anyvalue_editor_textpanel.h"
-#include "anyvalue_editor_toolbar.h"
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
@@ -42,6 +41,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
+#include <QAction>
 #include <QTreeView>
 
 namespace
@@ -62,7 +62,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_actions(new AnyValueEditorActions(this))
     , m_action_handler(new AnyValueEditorActionHandler(CreateActionContext(), m_model.get(), this))
-    , m_tool_bar(new AnyValueEditorToolBar(m_action_handler))
     , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
     , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
     , m_left_panel(CreateLeftPanel())
@@ -70,7 +69,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
     , m_splitter(new QSplitter)
 {
   auto layout = new QVBoxLayout(this);
-  layout->addWidget(m_tool_bar);
 
   m_splitter->addWidget(m_left_panel);
   m_splitter->addWidget(m_right_panel);
@@ -172,22 +170,11 @@ void AnyValueEditor::WriteSettings()
 
 void AnyValueEditor::SetupConnections()
 {
-  auto on_panel = [this]()
-  {
-    m_text_panel_is_visible = !m_text_panel_is_visible;
-    m_right_panel->setVisible(m_text_panel_is_visible);
-  };
-  connect(m_tool_bar, &AnyValueEditorToolBar::ToggleTextPanelVisibilityRequest, this, on_panel);
-
-  connect(m_tool_bar, &AnyValueEditorToolBar::ImportFromFileRequest, this,
-          &AnyValueEditor::OnImportFromFileRequest);
-  connect(m_tool_bar, &AnyValueEditorToolBar::ExportToFileRequest, this,
-          &AnyValueEditor::OnExportToFileRequest);
-  connect(m_tool_bar, &AnyValueEditorToolBar::MakeJSONPrettyRequest, this,
-          [this](auto pretty_flag) { m_text_edit->SetJSONPretty(pretty_flag); });
+  // selection request from action handler
   connect(m_action_handler, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
           &AnyValueEditorTreePanel::SetSelected);
 
+  // main editing request from AnyValueEditorActions
   connect(m_actions, &AnyValueEditorActions::AddEmptyAnyValueRequest, m_action_handler,
           &AnyValueEditorActionHandler::OnAddEmptyAnyValue);
   connect(m_actions, &AnyValueEditorActions::AddAnyValueStructRequest, m_action_handler,
@@ -200,6 +187,8 @@ void AnyValueEditor::SetupConnections()
           &AnyValueEditor::OnImportFromFileRequest);
   connect(m_actions, &AnyValueEditorActions::RemoveSelectedRequest, m_action_handler,
           &AnyValueEditorActionHandler::OnRemoveSelected);
+
+  // export request from text panel
   connect(m_text_edit, &AnyValueEditorTextPanel::ExportToFileRequest, this,
           &AnyValueEditor::OnExportToFileRequest);
 }

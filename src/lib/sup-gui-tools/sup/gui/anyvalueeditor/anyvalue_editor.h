@@ -27,19 +27,16 @@
 #include <memory>
 
 class QSplitter;
-class QTreeView;
 
 namespace mvvm
 {
 class ApplicationModel;
-class ItemViewComponentProvider;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
 class AnyValueItem;
-class AnyValueEditorToolBar;
 class AnyValueEditorActionHandler;
 class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
@@ -79,7 +76,6 @@ private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorActionHandler* m_action_handler{nullptr};
-  AnyValueEditorToolBar* m_tool_bar{nullptr};
   AnyValueEditorTextPanel* m_text_edit{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
   QWidget* m_left_panel{nullptr};
