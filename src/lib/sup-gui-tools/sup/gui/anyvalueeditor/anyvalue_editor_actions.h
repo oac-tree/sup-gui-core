@@ -21,6 +21,11 @@
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
 
 #include <QObject>
+#include <memory>
+
+class QAction;
+class QMenu;
+class QWidgetAction;
 
 namespace sup::gui
 {
@@ -36,6 +41,26 @@ class AnyValueEditorActions : public QObject
 public:
   explicit AnyValueEditorActions(QObject* parent = nullptr);
   ~AnyValueEditorActions() override;
+
+  QList<QAction*> GetActions() const;
+
+signals:
+  void AddEmptyAnyValueRequest();
+  void AddAnyValueStructRequest();
+  void AddAnyValueArrayRequest();
+  void AddAnyValueScalarRequest(const QString& type_name);
+  void ImportFromFileRequest();
+  void RemoveSelectedRequest();
+
+private:
+  void SetupActions();
+
+  std::unique_ptr<QMenu> CreateAddAnyValueMenu();
+
+  std::unique_ptr<QMenu> m_create_anyvalue_menu;
+
+  QWidgetAction* m_add_anyvalue_action{nullptr};
+  QWidgetAction* m_remove_selected_action{nullptr};
 };
 
 }  // namespace sup::gui
