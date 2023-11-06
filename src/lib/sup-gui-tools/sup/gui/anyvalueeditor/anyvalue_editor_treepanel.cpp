@@ -83,8 +83,9 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
 
   m_proxy_model->setSourceModel(m_component_provider->GetViewModel());
   m_proxy_model->setFilterKeyColumn(0);
-  m_tree_view->setModel(m_proxy_model);
-  m_tree_view->setSortingEnabled(true);
+  m_proxy_model->setRecursiveFilteringEnabled(true);
+//  m_tree_view->setModel(m_proxy_model);
+//  m_tree_view->setSortingEnabled(true);
 
   auto on_text = [this]()
   {
