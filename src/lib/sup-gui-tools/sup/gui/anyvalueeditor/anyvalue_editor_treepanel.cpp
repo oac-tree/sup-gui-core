@@ -28,6 +28,7 @@
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/widgets/item_view_component_provider.h>
 
+#include <QLineEdit>
 #include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -45,6 +46,7 @@ namespace sup::gui
 AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, QWidget *parent)
     : QWidget(parent)
     , m_tree_view(new QTreeView)
+    , m_line_edit(new QLineEdit)
     , m_custom_header(new sup::gui::CustomHeaderView(this))
     , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
 {
@@ -54,7 +56,11 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
+  m_line_edit->setClearButtonEnabled(true);
+  m_line_edit->setPlaceholderText("Filter pattern");
+
   layout->addWidget(m_tree_view);
+  layout->addWidget(m_line_edit);
 
   m_tree_view->setHeader(m_custom_header);
   m_tree_view->setEditTriggers(QAbstractItemView::SelectedClicked

@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QTreeView;
+class QLineEdit;
 
 namespace mvvm
 {
@@ -59,6 +60,7 @@ private:
   void AdjustTreeAppearance();
 
   QTreeView* m_tree_view{nullptr};
+  QLineEdit* m_line_edit{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };
