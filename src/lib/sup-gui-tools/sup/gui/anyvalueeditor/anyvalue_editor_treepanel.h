@@ -24,6 +24,7 @@
 
 class QTreeView;
 class QLineEdit;
+class QSortFilterProxyModel;
 
 namespace mvvm
 {
@@ -63,6 +64,7 @@ private:
   QLineEdit* m_line_edit{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
+  QSortFilterProxyModel* m_proxy_model{nullptr};
 };
 
 }  // namespace sup::gui

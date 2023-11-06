@@ -29,7 +29,9 @@
 #include <mvvm/widgets/item_view_component_provider.h>
 
 #include <QLineEdit>
+#include <QRegularExpression>
 #include <QSettings>
+#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -49,6 +51,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
     , m_line_edit(new QLineEdit)
     , m_custom_header(new sup::gui::CustomHeaderView(this))
     , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
+    , m_proxy_model(new QSortFilterProxyModel(this))
 {
   setWindowTitle("AnyValue tree");
 
@@ -77,6 +80,18 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   ReadSettings();
 
   AdjustTreeAppearance();
+
+  m_proxy_model->setSourceModel(m_component_provider->GetViewModel());
+  m_proxy_model->setFilterKeyColumn(0);
+  m_tree_view->setModel(m_proxy_model);
+  m_tree_view->setSortingEnabled(true);
+
+  auto on_text = [this]()
+  {
+    const QRegularExpression regexp("(" + m_line_edit->text() + ")");
+    m_proxy_model->setFilterRegularExpression(regexp);
+  };
+  connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
 }
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
