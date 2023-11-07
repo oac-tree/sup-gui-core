@@ -20,6 +20,7 @@
 #include "anyvalue_editor_textpanel.h"
 
 #include <sup/gui/codeeditor/code_view.h>
+#include <sup/gui/components/visibility_agent_base.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_utils.h>
@@ -50,11 +51,16 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, 
 
   layout->addWidget(m_json_view);
 
-  auto on_model_changed = [this]() { UpdateJson(); };
-  m_model_changed_controller =
-      std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_changed);
-
   SetupActions();
+
+  auto on_subscribe = [this]() { SetupController(); };
+  auto on_unsubscribe = [this]()
+  {
+    m_model_changed_controller.reset();
+    m_json_view->ClearText();
+  };
+  // will be deleted as a child of QObject
+  m_visibility_agent = new sup::gui::VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
 }
 
 void AnyValueEditorTextPanel::SetJSONPretty(bool value)
@@ -122,6 +128,14 @@ void AnyValueEditorTextPanel::UpdateJson()
   {
     m_json_view->ClearText();
   }
+}
+
+void AnyValueEditorTextPanel::SetupController()
+{
+  auto on_model_changed = [this]() { UpdateJson(); };
+  m_model_changed_controller =
+      std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_changed);
+  UpdateJson();
 }
 
 }  // namespace sup::gui

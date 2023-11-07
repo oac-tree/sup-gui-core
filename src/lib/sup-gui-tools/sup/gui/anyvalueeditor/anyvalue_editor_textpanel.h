@@ -36,6 +36,7 @@ namespace sup::gui
 {
 
 class CodeView;
+class VisibilityAgentBase;
 
 //! Collapsible panel on the right of AnyValueEditor with JSON representation of AnyValue.
 
@@ -55,6 +56,7 @@ signals:
 private:
   void SetupActions();
   void UpdateJson();
+  void SetupController();
 
   QWidgetAction* m_export_action{nullptr};
   QToolButton* m_pretty_button{nullptr};
@@ -64,6 +66,7 @@ private:
   mvvm::ApplicationModel* m_model{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
   bool m_pretty_json{true};
+  sup::gui::VisibilityAgentBase* m_visibility_agent{nullptr};
 };
 
 }  // namespace sup::gui
