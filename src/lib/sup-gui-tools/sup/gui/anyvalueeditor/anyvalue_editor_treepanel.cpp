@@ -20,6 +20,7 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/viewmodel/anyvalue_filtered_viewmodel.h>
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 #include <sup/gui/widgets/custom_header_view.h>
 #include <sup/gui/widgets/tree_helper.h>
@@ -51,7 +52,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
     , m_line_edit(new QLineEdit)
     , m_custom_header(new sup::gui::CustomHeaderView(this))
     , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
-    , m_proxy_model(new QSortFilterProxyModel(this))
+    , m_proxy_model(new AnyValueFilteredViewModel(this))
 {
   setWindowTitle("AnyValue tree");
 
@@ -84,14 +85,9 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   m_proxy_model->setSourceModel(m_component_provider->GetViewModel());
   m_proxy_model->setFilterKeyColumn(0);
   m_proxy_model->setRecursiveFilteringEnabled(true);
-//  m_tree_view->setModel(m_proxy_model);
-//  m_tree_view->setSortingEnabled(true);
+  m_tree_view->setModel(m_proxy_model);
 
-  auto on_text = [this]()
-  {
-    const QRegularExpression regexp("(" + m_line_edit->text() + ")");
-    m_proxy_model->setFilterRegularExpression(regexp);
-  };
+  auto on_text = [this]() { m_proxy_model->SetPattern(m_line_edit->text()); };
   connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
 }
 

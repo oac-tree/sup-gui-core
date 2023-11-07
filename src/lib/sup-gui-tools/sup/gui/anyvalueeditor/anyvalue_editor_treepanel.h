@@ -24,7 +24,6 @@
 
 class QTreeView;
 class QLineEdit;
-class QSortFilterProxyModel;
 
 namespace mvvm
 {
@@ -38,6 +37,7 @@ namespace sup::gui
 
 class AnyValueItem;
 class CustomHeaderView;
+class AnyValueFilteredViewModel;
 
 //! A panel with a tree on the left side of AnyValueEditor.
 
@@ -64,7 +64,7 @@ private:
   QLineEdit* m_line_edit{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
-  QSortFilterProxyModel* m_proxy_model{nullptr};
+  AnyValueFilteredViewModel* m_proxy_model{nullptr};
 };
 
 }  // namespace sup::gui
