@@ -38,6 +38,8 @@ class AnyValueViewModel : public mvvm::ViewModel
 
 public:
   explicit AnyValueViewModel(mvvm::SessionModelInterface* model, QObject* parent = nullptr);
+
+  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 };
 
 }  // namespace sup::gui

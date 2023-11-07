@@ -62,7 +62,11 @@ namespace sup::gui
 class RowStrategy : public mvvm::RowStrategyInterface
 {
 public:
-  QStringList GetHorizontalHeaderLabels() const override { return {"Name", "Value", "TypeName"}; }
+  QStringList GetHorizontalHeaderLabels() const override
+  {
+    const static QStringList result{"Name", "Value", "TypeName"};
+    return result;
+  }
 
   std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override
   {
@@ -107,6 +111,12 @@ AnyValueViewModel::AnyValueViewModel(mvvm::SessionModelInterface *model, QObject
 {
   SetController(
       mvvm::factory::CreateController<mvvm::AllChildrenStrategy, RowStrategy>(model, this));
+}
+
+int AnyValueViewModel::columnCount(const QModelIndex &parent) const
+{
+  // always fixed number of columns: Name, Value, TypeName
+  return 3;
 }
 
 }  // namespace sup::gui
