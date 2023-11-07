@@ -278,3 +278,28 @@ TEST_F(AnyValueViewModelTest, EditableDisplayName)
     EXPECT_FALSE(HasEditableDisplayName(*item));
   }
 }
+
+//! Testing how a boolean scalar item looks in a view model.
+//! There shouldn't be a CheckRole in the first column (real-life bug).
+
+TEST_F(AnyValueViewModelTest, BooleanScalarItem)
+{
+  mvvm::ApplicationModel model;
+  auto item = model.InsertItem<AnyValueScalarItem>();
+  item->SetAnyTypeName(sup::dto::kBooleanTypeName);
+  item->SetData(true);
+
+  AnyValueViewModel viewmodel(&model);
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 3);
+
+  auto item_displayname_index = viewmodel.index(0, 0);
+  auto item_value_index = viewmodel.index(0, 1);
+  auto item_type_index = viewmodel.index(0, 2);
+
+  EXPECT_FALSE(viewmodel.data(item_displayname_index, Qt::CheckStateRole).isValid());
+  EXPECT_TRUE(viewmodel.data(item_value_index, Qt::CheckStateRole).isValid());
+  EXPECT_FALSE(viewmodel.data(item_type_index, Qt::CheckStateRole).isValid());
+
+  EXPECT_EQ(viewmodel.data(item_value_index, Qt::CheckStateRole).toInt(), Qt::Checked);
+}
