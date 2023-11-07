@@ -24,24 +24,24 @@
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_treepanel.h"
 
+#include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/widgets/item_stack_widget.h>
+#include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
-#include <sup/gui/app/app_action_helper.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/gui/widgets/style_utils.h>
 
+#include <QAction>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
-#include <QAction>
 #include <QTreeView>
 
 namespace
@@ -86,6 +86,10 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   SetupConnections();
   SetupWidgetActions();
   ReadSettings();
+
+  ImportAnyValueFromFile(
+      "/home/pospelov/development/iter/projects/sup-gui-core/sup-gui-core/test/resources/"
+      "anyvalue-editor/system_configs_pretty.json");
 }
 
 AnyValueEditor::~AnyValueEditor()

@@ -4,14 +4,16 @@ target_sources(${library_name} PRIVATE
   message_handler_decorator.cpp
   message_handler_decorator.h
   message_handler_interface.h
-  project_user_interactor.cpp
-  project_user_interactor.h
   project_handler.cpp
   project_handler.h
   project_handler_utils.cpp
   project_handler_utils.h
+  project_user_interactor.cpp
+  project_user_interactor.h
   recent_project_settings.cpp
   recent_project_settings.h
   standard_message_handlers.cpp
   standard_message_handlers.h
+  visibility_agent_base.cpp
+  visibility_agent_base.h
 )
