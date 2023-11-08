@@ -86,10 +86,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   SetupConnections();
   SetupWidgetActions();
   ReadSettings();
-
-  ImportAnyValueFromFile(
-      "/home/pospelov/development/iter/projects/sup-gui-core/sup-gui-core/test/resources/"
-      "anyvalue-editor/system_configs_pretty.json");
 }
 
 AnyValueEditor::~AnyValueEditor()
