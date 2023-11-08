@@ -104,7 +104,7 @@ public:
 
 private:
   std::unique_ptr<AnyValueViewModel> m_view_model;
-  std::unique_ptr<AnyValueFilteredViewModel> m_proxy_model{nullptr};
+  std::unique_ptr<AnyValueFilteredViewModel> m_proxy_model;
   std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
   QTreeView* m_tree_view{nullptr};
 };
