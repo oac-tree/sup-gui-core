@@ -28,10 +28,7 @@ class QLineEdit;
 namespace mvvm
 {
 class ApplicationModel;
-class ItemViewComponentProvider;
 class SessionItem;
-class ViewModelDelegate;
-//class ItemSelectionModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -39,8 +36,7 @@ namespace sup::gui
 
 class AnyValueItem;
 class CustomHeaderView;
-class AnyValueViewModel;
-class AnyValueFilteredViewModel;
+class TreeViewComponentProvider;
 
 //! A panel with a tree on the left side of AnyValueEditor.
 
@@ -66,11 +62,7 @@ private:
   QTreeView* m_tree_view{nullptr};
   QLineEdit* m_line_edit{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
-//  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
-  std::unique_ptr<AnyValueViewModel> m_viewmodel;
-  std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
-//  std::unique_ptr<mvvm::ItemSelectionModel> m_selection_model;
-  AnyValueFilteredViewModel* m_proxy_model{nullptr};
+  std::unique_ptr<TreeViewComponentProvider> m_component_provider;
 };
 
 }  // namespace sup::gui

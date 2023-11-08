@@ -42,11 +42,8 @@ TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ApplicationModel *mod
   m_proxy_model->setSourceModel(m_view_model.get());
   m_proxy_model->setRecursiveFilteringEnabled(true);
 
-  view->setModel(m_proxy_model.get());
+  m_tree_view->setModel(m_proxy_model.get());
   m_tree_view->setItemDelegate(m_delegate.get());
-
-  view->setModel(m_view_model.get());
-  view->setItemDelegate(m_delegate.get());
 }
 
 TreeViewComponentProvider::~TreeViewComponentProvider() = default;
@@ -76,10 +73,9 @@ std::vector<const mvvm::SessionItem *> TreeViewComponentProvider::GetSelectedIte
   }
 
   return mvvm::utils::UniqueWithOrder(result);
-
 }
 
-void TreeViewComponentProvider::SetSelected(const mvvm::SessionItem *item)
+void TreeViewComponentProvider::SetSelectedItem(const mvvm::SessionItem *item)
 {
   SetSelectedItems({item});
 }
@@ -112,7 +108,8 @@ const mvvm::ViewModel *TreeViewComponentProvider::GetViewModel() const
   return m_view_model.get();
 }
 
-const mvvm::SessionItem *TreeViewComponentProvider::GetItemFromViewIndex(const QModelIndex &index) const
+const mvvm::SessionItem *TreeViewComponentProvider::GetItemFromViewIndex(
+    const QModelIndex &index) const
 {
   auto source_index = m_proxy_model ? m_proxy_model->mapToSource(index) : index;
   return GetViewModel()->GetSessionItemFromIndex(source_index);

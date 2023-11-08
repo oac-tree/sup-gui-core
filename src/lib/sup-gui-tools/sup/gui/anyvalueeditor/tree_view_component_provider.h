@@ -49,8 +49,7 @@ class AnyValueItem;
  * @brief The TreeViewComponentProvider class provides QAbstractItemView with custom components:
  * viemodel, delegate and selection model.
  *
- * @details Provider owns components but doesn't own a view. The viewmodel allows filtering
- * capabilities.
+ * @details Provider owns components but doesn't own a view. The viewmodel allows filtering.
  */
 
 class TreeViewComponentProvider : public QObject
@@ -66,11 +65,11 @@ public:
   const mvvm::SessionItem* GetSelectedItem() const;
   std::vector<const mvvm::SessionItem*> GetSelectedItems() const;
 
-  void SetSelected(const mvvm::SessionItem* item);
+  void SetSelectedItem(const mvvm::SessionItem* item);
   void SetSelectedItems(const std::vector<const mvvm::SessionItem*>& items);
 
-private:
   QItemSelectionModel* GetSelectionModel() const;
+
   const mvvm::ViewModel* GetViewModel() const;
 
   /**
@@ -91,6 +90,7 @@ private:
    */
   QList<QModelIndex> GetViewIndices(const mvvm::SessionItem* item) const;
 
+private:
   std::unique_ptr<AnyValueViewModel> m_view_model;
   std::unique_ptr<AnyValueFilteredViewModel> m_proxy_model{nullptr};
   std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
