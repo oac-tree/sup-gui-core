@@ -108,6 +108,11 @@ const mvvm::ViewModel *TreeViewComponentProvider::GetViewModel() const
   return m_view_model.get();
 }
 
+const QAbstractProxyModel *TreeViewComponentProvider::GetProxyModel() const
+{
+  return m_proxy_model.get();
+}
+
 const mvvm::SessionItem *TreeViewComponentProvider::GetItemFromViewIndex(
     const QModelIndex &index) const
 {

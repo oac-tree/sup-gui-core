@@ -28,6 +28,7 @@
 class QTreeView;
 class QItemSelectionModel;
 class QModelIndex;
+class QAbstractProxyModel;
 
 namespace mvvm
 {
@@ -68,9 +69,20 @@ public:
   void SetSelectedItem(const mvvm::SessionItem* item);
   void SetSelectedItems(const std::vector<const mvvm::SessionItem*>& items);
 
+  /**
+   * @brief Returns view selection model.
+   */
   QItemSelectionModel* GetSelectionModel() const;
 
+  /**
+   * @brief Returns view model.
+   */
   const mvvm::ViewModel* GetViewModel() const;
+
+  /**
+   * @brief Returns underlying proxy model.
+   */
+  const QAbstractProxyModel* GetProxyModel() const;
 
   /**
    * @brief Returns item from view index.
