@@ -25,8 +25,10 @@
 #include <sup/gui/widgets/custom_header_view.h>
 #include <sup/gui/widgets/tree_helper.h>
 
+#include <mvvm/delegates/viewmodel_delegate.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/widgets/item_selection_model.h>
 #include <mvvm/widgets/item_view_component_provider.h>
 
 #include <QLineEdit>
@@ -51,7 +53,8 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
     , m_custom_header(new sup::gui::CustomHeaderView(this))
-    , m_component_provider(mvvm::CreateProvider<sup::gui::AnyValueViewModel>(m_tree_view))
+    , m_viewmodel(std::make_unique<AnyValueViewModel>(model))
+    , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
     , m_proxy_model(new AnyValueFilteredViewModel(this))
 {
   setWindowTitle("AnyValue tree");
@@ -75,17 +78,16 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, 
   connect(m_tree_view, &QTreeView::customContextMenuRequested, this,
           sup::gui::CreateOnCustomMenuCallback(*m_tree_view));
 
-  m_component_provider->SetApplicationModel(model);
+  m_proxy_model->setSourceModel(m_viewmodel.get());
+  m_proxy_model->setRecursiveFilteringEnabled(true);
+
+  m_tree_view->setModel(m_proxy_model);
+  m_tree_view->setItemDelegate(m_delegate.get());
   m_tree_view->expandAll();
 
   ReadSettings();
 
   AdjustTreeAppearance();
-
-  m_proxy_model->setSourceModel(m_component_provider->GetViewModel());
-  m_proxy_model->setFilterKeyColumn(0);
-  m_proxy_model->setRecursiveFilteringEnabled(true);
-  m_tree_view->setModel(m_proxy_model);
 
   auto on_text = [this]() { m_proxy_model->SetPattern(m_line_edit->text()); };
   connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
@@ -98,13 +100,33 @@ AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
 
 AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 {
-  return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
+  auto selected = m_tree_view->selectionModel()->selectedIndexes();
+  if (!selected.empty())
+  {
+    auto index = selected.first();
+    auto source_index = m_proxy_model->mapToSource(index);
+    auto item = m_viewmodel->GetSessionItemFromIndex(source_index);
+    return dynamic_cast<AnyValueItem *>(item);
+  }
+
+  return nullptr;
+
+//  auto item = const_cast<mvvm::SessionItem *>(m_selection_model->GetSelectedItem());
+//  return dynamic_cast<AnyValueItem *>(item);
+  //  return m_component_provider->GetSelected<sup::gui::AnyValueItem>();
 }
 
 void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
 {
-  m_component_provider->SetSelectedItem(item);
-  auto index_of_inserted = m_component_provider->GetViewModel()->GetIndexOfSessionItem(item);
+  //  m_component_provider->SetSelectedItem(item);
+  //  auto index_of_inserted = m_component_provider->GetViewModel()->GetIndexOfSessionItem(item);
+  //  if (!index_of_inserted.empty())
+  //  {
+  //    m_tree_view->setExpanded(index_of_inserted.front(), true);
+  //  }
+
+//  m_selection_model->SetSelectedItem(item);
+  auto index_of_inserted = m_viewmodel->GetIndexOfSessionItem(item);
   if (!index_of_inserted.empty())
   {
     m_tree_view->setExpanded(index_of_inserted.front(), true);
