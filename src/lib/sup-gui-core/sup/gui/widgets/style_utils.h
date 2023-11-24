@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QIcon;
+class QTreeView;
 
 namespace sup::gui::utils
 {
@@ -33,7 +34,7 @@ namespace sup::gui::utils
 QSize ToolBarIconSize();
 
 /**
- * @briefSize of narrow tolbar icons.
+ * @brief Size of narrow tolbar icons.
  */
 QSize NarrowToolBarIconSize();
 
@@ -43,6 +44,16 @@ QSize NarrowToolBarIconSize();
  * If the name doesn't contain an extension, will assume an existence of svg in the resource folder.
  */
 QIcon GetIcon(const QString& icon_name);
+
+//! Sets style for the tree to better look on CODAC systems.
+
+/**
+ * @brief Sest visual style of the tree to the "breeze"-like style, if necessary.
+ *
+ * On CODAC system's the default desktop style is "fusion". The tree has a flat look,  without
+ * appealing lines connecting expand/collapse markers. Call to this method will try to fix this.
+ */
+void BeautifyTreeStyle(QTreeView* tree);
 
 }  // namespace sup::gui::utils
 

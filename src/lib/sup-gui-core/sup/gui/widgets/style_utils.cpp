@@ -21,13 +21,49 @@
 
 #include <mvvm/widgets/widget_utils.h>
 
+#include <QApplication>
 #include <QIcon>
 #include <QSize>
+#include <QTreeView>
 #include <cmath>
 
 namespace
 {
 const QString DefaultIconExtension("svg");
+
+/**
+ * @brief Generate style string for the tree with vertical lines connecting parent and children.
+ */
+QString CreatePopertyTreeStyleString()
+{
+  QString result = R"(
+  QTreeView::branch:has-siblings:!adjoins-item {
+      border-image: url(:/icons/vline.png) 0;
+  }
+
+  QTreeView::branch:has-siblings:adjoins-item {
+      border-image: url(:/icons/branch-more.png) 0;
+  }
+
+  QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+      border-image: url(:/icons/branch-end.png) 0;
+  }
+
+  QTreeView::branch:has-children:!has-siblings:closed,
+  QTreeView::branch:closed:has-children:has-siblings {
+          padding:2px 2px 2px 2px;border-image: none;
+          image: url(:/icons/chevron-right.png);
+  }
+
+  QTreeView::branch:open:has-children:!has-siblings,
+  QTreeView::branch:open:has-children:has-siblings  {
+          padding:2px 2px 2px 2px;border-image: none;
+          image: url(:/icons/chevron-down.png);
+  })";
+
+  return result;
+}
+
 }  // namespace
 
 namespace sup::gui::utils
@@ -51,6 +87,14 @@ QIcon GetIcon(const QString &icon_name)
                                     ? QString(":/icons/%1").arg(icon_name)
                                     : QString(":/icons/%1.%2").arg(icon_name, DefaultIconExtension);
   return QIcon(resource_name);
+}
+
+void BeautifyTreeStyle(QTreeView *tree)
+{
+  if (QApplication::style()->objectName() == QString("fusion"))
+  {
+    tree->setStyleSheet(CreatePopertyTreeStyleString());
+  }
 }
 
 }  // namespace sup::gui::utils
