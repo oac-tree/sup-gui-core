@@ -45,8 +45,6 @@ QSize NarrowToolBarIconSize();
  */
 QIcon GetIcon(const QString& icon_name);
 
-//! Sets style for the tree to better look on CODAC systems.
-
 /**
  * @brief Sest visual style of the tree to the "breeze"-like style, if necessary.
  *
