@@ -15,5 +15,8 @@
         <file>icons/checkbox-marked-circle-outline.svg</file>
         <file>icons/chevron-right.svg</file>
         <file>icons/chevron-down.svg</file>
+        <file>icons/branch-more.svg</file>
+        <file>icons/branch-end.svg</file>
+        <file>icons/vline.svg</file>
     </qresource>
 </RCC>

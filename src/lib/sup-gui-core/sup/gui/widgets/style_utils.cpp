@@ -38,27 +38,27 @@ QString CreatePopertyTreeStyleString()
 {
   QString result = R"(
   QTreeView::branch:has-siblings:!adjoins-item {
-      border-image: url(:/icons/vline.png) 0;
+      border-image: url(:/icons/vline.svg) 0;
   }
 
   QTreeView::branch:has-siblings:adjoins-item {
-      border-image: url(:/icons/branch-more.png) 0;
+      border-image: url(:/icons/branch-more.svg) 0;
   }
 
   QTreeView::branch:!has-children:!has-siblings:adjoins-item {
-      border-image: url(:/icons/branch-end.png) 0;
+      border-image: url(:/icons/branch-end.svg) 0;
   }
 
   QTreeView::branch:has-children:!has-siblings:closed,
   QTreeView::branch:closed:has-children:has-siblings {
           padding:2px 2px 2px 2px;border-image: none;
-          image: url(:/icons/chevron-right.png);
+          image: url(:/icons/chevron-right.svg);
   }
 
   QTreeView::branch:open:has-children:!has-siblings,
   QTreeView::branch:open:has-children:has-siblings  {
           padding:2px 2px 2px 2px;border-image: none;
-          image: url(:/icons/chevron-down.png);
+          image: url(:/icons/chevron-down.svg);
   })";
 
   return result;
