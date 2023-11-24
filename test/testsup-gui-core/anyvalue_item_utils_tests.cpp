@@ -23,11 +23,11 @@
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/test/mock_model_listener.h>
 
 #include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
-#include <testutils/mock_model_listener.h>
 
 #include <stdexcept>
 
@@ -37,7 +37,7 @@ using ::testing::_;
 class AnyValueItemUtilsTest : public ::testing::Test
 {
 public:
-  using mock_listener_t = ::testing::StrictMock<testutils::MockModelListener>;
+  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 };
 
 //! Testing UpdateAnyValueItemScalarData method.

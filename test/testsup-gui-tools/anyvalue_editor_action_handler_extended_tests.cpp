@@ -27,6 +27,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/test/mock_callback_listener.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anytype.h>
@@ -34,7 +35,6 @@
 
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>
-#include <testutils/mock_callback_listener.h>
 #include <testutils/test_utils.h>
 
 #include <QSignalSpy>
@@ -73,7 +73,7 @@ public:
   }
 
   mvvm::ApplicationModel m_model;
-  testutils::MockCallbackListener<sup::gui::MessageEvent> m_warning_listener;
+  mvvm::test::MockCallbackListener<sup::gui::MessageEvent> m_warning_listener;
 };
 
 TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
