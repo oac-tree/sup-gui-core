@@ -3,6 +3,12 @@
 target_sources(${library_name} PRIVATE
   about_application_dialog.cpp
   about_application_dialog.h
+  collapsible_list_view.cpp
+  collapsible_list_view.h
+  collapsible_toolbar.cpp
+  collapsible_toolbar.h
+  collapsible_widget.cpp
+  collapsible_widget.h
   custom_header_view.cpp
   custom_header_view.h
   item_stack_widget.cpp

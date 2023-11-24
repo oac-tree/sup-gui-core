@@ -13,5 +13,7 @@
         <file>icons/plus-circle-outline.svg</file>
         <file>icons/checkbox-blank-circle-outline.svg</file>
         <file>icons/checkbox-marked-circle-outline.svg</file>
+        <file>icons/chevron-right.svg</file>
+        <file>icons/chevron-down.svg</file>
     </qresource>
 </RCC>
