@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : Operational Applications UI Foundation
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : The model-view-viewmodel library of generic UI components
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Gennady Pospelov (IO)
  *

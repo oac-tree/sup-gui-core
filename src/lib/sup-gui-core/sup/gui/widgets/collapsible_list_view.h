@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : Operational Applications UI Foundation
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : The model-view-viewmodel library of generic UI components
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
-#define MVVM_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
+#ifndef SUP_GUI_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
+#define SUP_GUI_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
 
 #include <QWidget>
 
@@ -52,4 +52,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
+#endif  // SUP_GUI_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
