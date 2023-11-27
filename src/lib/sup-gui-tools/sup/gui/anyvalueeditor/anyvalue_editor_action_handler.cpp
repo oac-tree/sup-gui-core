@@ -78,7 +78,7 @@ void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_
 
 void AnyValueEditorActionHandler::OnRemoveSelected()
 {
-  if (auto selected = m_context.get_selected_callback(); selected)
+  if (auto selected = GetSelectedItem(); selected)
   {
     m_model->RemoveItem(selected);
   }
@@ -113,6 +113,28 @@ void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_
   {
     SendMessage("Can't generate valid JSON presentation from current item", "Exception was thrown",
                 ex.what());
+  }
+}
+
+void AnyValueEditorActionHandler::OnMoveUpRequest()
+{
+  if (auto item = GetSelectedItem(); item)
+  {
+    if (mvvm::utils::MoveUp(*item))
+    {
+      emit SelectItemRequest(item);
+    }
+  }
+}
+
+void AnyValueEditorActionHandler::OnMoveDownRequest()
+{
+  if (auto item = GetSelectedItem(); item)
+  {
+    if (mvvm::utils::MoveDown(*item))
+    {
+      emit SelectItemRequest(item);
+    }
   }
 }
 
@@ -176,7 +198,7 @@ void AnyValueEditorActionHandler::AddAnyValueItem(std::unique_ptr<AnyValueItem> 
     }
     catch (const std::exception& ex)
     {
-      SendMessage("Can't add item `' to current selection", "", ex.what());
+      SendMessage("Can't add item to current selection", "", ex.what());
     }
   }
 }

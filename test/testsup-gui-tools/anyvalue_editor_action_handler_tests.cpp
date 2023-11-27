@@ -159,11 +159,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kEmptyTypeName);
 
-  EXPECT_EQ(spy_selection_request.count(), 1);
-  auto arguments = spy_selection_request.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(selected_item, inserted_item);
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -193,11 +189,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kStructTypeName);
 
-  EXPECT_EQ(spy_selection_request.count(), 1);
-  auto arguments = spy_selection_request.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(selected_item, inserted_item);
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
 };
 
 //! Attempt to add a structure to a non-empty model when nothing is selected.
@@ -667,4 +659,37 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToExportEmptyModelToFile)
   // model empty as it was, file wasn't created
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_FALSE(mvvm::utils::IsExists(file_path));
+};
+
+//-------------------------------------------------------------------------------------------------
+// Move Up/Down
+//-------------------------------------------------------------------------------------------------
+
+TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+
+  // creating an action for the context, when field1 is selected
+  auto actions = CreateActions(field1);
+
+  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+
+  // moving selected item up
+  actions->OnMoveUpRequest();
+
+  // validating that parent got new child
+  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), field1);
+
+  // moving selected item up second time doesn't change anything
+  actions->OnMoveUpRequest();
+
+  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+  EXPECT_EQ(spy_selection_request.count(), 0);
 };

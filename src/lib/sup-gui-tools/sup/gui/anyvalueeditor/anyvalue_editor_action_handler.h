@@ -68,6 +68,10 @@ public:
 
   void OnExportToFileRequest(const std::string& file_name);
 
+  void OnMoveUpRequest();
+
+  void OnMoveDownRequest();
+
   void SetInitialValue(const AnyValueItem& item);
 
   AnyValueItem* GetTopItem();
