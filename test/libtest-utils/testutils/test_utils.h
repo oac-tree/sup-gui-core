@@ -22,6 +22,7 @@
 
 //! Collection of utility functions for various unit tests.
 
+#include <QSignalSpy>
 #include <algorithm>
 #include <memory>
 #include <thread>
@@ -82,6 +83,23 @@ template <typename DesiredT, typename ItemT>
 bool CanCast(const ItemT* item)
 {
   return dynamic_cast<const DesiredT*>(item) != nullptr;
+}
+
+/**
+ * @brief Helper function that retrieves an object from QSignalSpy arguments.
+ */
+template <typename T>
+T* GetSendItem(QSignalSpy& signal_spy)
+{
+  if (signal_spy.count() == 1)
+  {
+    auto arguments = signal_spy.takeFirst();
+    if (arguments.size() == 1)
+    {
+      return arguments.at(0).value<T*>();
+    }
+  }
+  return nullptr;
 }
 
 }  // namespace testutils
