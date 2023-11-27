@@ -1,7 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>icons</file>
+        <file>icons/arrow-down-thin-circle-outline.svg</file>
+        <file>icons/arrow-up-thin-circle-outline.svg</file>
         <file>icons/beaker-remove-outline.svg</file>
+        <file>icons/branch-end.svg</file>
+        <file>icons/branch-more.svg</file>
+        <file>icons/checkbox-blank-circle-outline.svg</file>
+        <file>icons/checkbox-marked-circle-outline.svg</file>
+        <file>icons/chevron-down.svg</file>
+        <file>icons/chevron-right.svg</file>
         <file>icons/code-json.svg</file>
         <file>icons/dock-right.svg</file>
         <file>icons/dots-horizontal.svg</file>
@@ -11,12 +19,6 @@
         <file>icons/menu.svg</file>
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
-        <file>icons/checkbox-blank-circle-outline.svg</file>
-        <file>icons/checkbox-marked-circle-outline.svg</file>
-        <file>icons/chevron-right.svg</file>
-        <file>icons/chevron-down.svg</file>
-        <file>icons/branch-more.svg</file>
-        <file>icons/branch-end.svg</file>
         <file>icons/vline.svg</file>
     </qresource>
 </RCC>

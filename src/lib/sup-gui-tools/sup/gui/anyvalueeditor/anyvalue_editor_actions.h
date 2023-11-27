@@ -51,6 +51,8 @@ signals:
   void AddAnyValueScalarRequest(const QString& type_name);
   void ImportFromFileRequest();
   void RemoveSelectedRequest();
+  void MoveUpRequest();
+  void MoveDownRequest();
 
 private:
   void SetupActions();
@@ -61,6 +63,8 @@ private:
 
   QWidgetAction* m_add_anyvalue_action{nullptr};
   QWidgetAction* m_remove_selected_action{nullptr};
+  QWidgetAction* m_move_up_action{nullptr};
+  QWidgetAction* m_move_down_action{nullptr};
 };
 
 }  // namespace sup::gui

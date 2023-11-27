@@ -39,7 +39,7 @@ AnyValueEditorActions::~AnyValueEditorActions() = default;
 
 QList<QAction *> AnyValueEditorActions::GetActions() const
 {
-  return {m_add_anyvalue_action, m_remove_selected_action};
+  return {m_add_anyvalue_action, m_remove_selected_action, m_move_up_action, m_move_down_action};
 }
 
 void AnyValueEditorActions::SetupActions()
@@ -50,7 +50,7 @@ void AnyValueEditorActions::SetupActions()
   {  // add button
     auto button = new QToolButton;
     button->setText("Add");
-    button->setIcon(utils::GetIcon("plus-circle-outline"));
+    button->setIcon(utils::GetIcon("plus-circle-outline.svg"));
     button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     button->setToolTip(
         "Add new AnyValue to the view. If the view already\n"
@@ -65,12 +65,34 @@ void AnyValueEditorActions::SetupActions()
   {  // remove button
     auto button = new QToolButton;
     button->setText("Remove");
-    button->setIcon(utils::GetIcon("beaker-remove-outline"));
+    button->setIcon(utils::GetIcon("beaker-remove-outline.svg"));
     button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     button->setToolTip("Remove selected item and all it's children");
     connect(button, &QToolButton::clicked, this, &AnyValueEditorActions::RemoveSelectedRequest);
     m_remove_selected_action = new QWidgetAction(this);
     m_remove_selected_action->setDefaultWidget(button);
+  }
+
+  {  // MoveUp button
+    auto button = new QToolButton;
+    button->setText("Move Up");
+    button->setIcon(utils::GetIcon("arrow-up-thin-circle-outline.svg"));
+    button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    button->setToolTip("Move currently selected field up (works within the same parent)");
+    connect(button, &QToolButton::clicked, this, &AnyValueEditorActions::MoveUpRequest);
+    m_move_up_action = new QWidgetAction(this);
+    m_move_up_action->setDefaultWidget(button);
+  }
+
+  {  // MoveDown button
+    auto button = new QToolButton;
+    button->setText("Move Down");
+    button->setIcon(utils::GetIcon("arrow-down-thin-circle-outline.svg"));
+    button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    button->setToolTip("Move currently selected field down (works within the same parent)");
+    connect(button, &QToolButton::clicked, this, &AnyValueEditorActions::MoveDownRequest);
+    m_move_down_action = new QWidgetAction(this);
+    m_move_down_action->setDefaultWidget(button);
   }
 }
 
