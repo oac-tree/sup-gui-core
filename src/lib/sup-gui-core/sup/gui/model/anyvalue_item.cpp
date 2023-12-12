@@ -25,6 +25,24 @@
 
 #include <sup/gui/core/exceptions.h>
 
+#include <mvvm/model/item_factory.h>
+
+namespace
+{
+
+bool RegisterAnyValueItems()
+{
+  mvvm::RegisterGlobalItem<sup::gui::AnyValueEmptyItem>();
+  mvvm::RegisterGlobalItem<sup::gui::AnyValueScalarItem>();
+  mvvm::RegisterGlobalItem<sup::gui::AnyValueStructItem>();
+  mvvm::RegisterGlobalItem<sup::gui::AnyValueArrayItem>();
+  return true;
+}
+
+static bool anyvalue_items_registered_flag = RegisterAnyValueItems();
+
+}  // namespace
+
 namespace sup::gui
 {
 

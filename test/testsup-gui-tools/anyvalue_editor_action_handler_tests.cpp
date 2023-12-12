@@ -51,9 +51,6 @@ class AnyValueEditorActionHandlerTest : public testutils::FolderBasedTest
 public:
   AnyValueEditorActionHandlerTest() : testutils::FolderBasedTest("test_AnyValueEditorAction")
   {
-    m_model.RegisterItem<sup::gui::AnyValueStructItem>();
-    m_model.RegisterItem<sup::gui::AnyValueArrayItem>();
-    m_model.RegisterItem<sup::gui::AnyValueScalarItem>();
   }
 
   //! Creates context necessary for AnyValueEditActions to function.

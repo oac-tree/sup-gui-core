@@ -79,10 +79,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  m_model->RegisterItem<sup::gui::AnyValueStructItem>();
-  m_model->RegisterItem<sup::gui::AnyValueArrayItem>();
-  m_model->RegisterItem<sup::gui::AnyValueScalarItem>();
-
   SetupConnections();
   SetupWidgetActions();
   ReadSettings();
