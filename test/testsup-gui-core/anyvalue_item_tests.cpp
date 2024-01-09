@@ -132,6 +132,7 @@ TEST_F(AnyValueItemTest, SetAnyTypeName)
     EXPECT_TRUE(item.IsScalar());
     EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kInt8TypeName);
     EXPECT_EQ(item.Data<mvvm::int8>(), 0);
+    EXPECT_EQ(item.GetToolTip(), sup::dto::kInt8TypeName);
     EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
     EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(item.HasData(constants::kAnyTypeNameRole));

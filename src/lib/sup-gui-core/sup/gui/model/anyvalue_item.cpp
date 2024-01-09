@@ -134,6 +134,7 @@ void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
   AnyValueItem::SetAnyTypeName(type_name);
   // setting default value for given type
   SetData(GetVariantFromScalarTypeName(type_name));
+  SetToolTip(type_name);
 }
 
 bool AnyValueScalarItem::IsScalar() const
