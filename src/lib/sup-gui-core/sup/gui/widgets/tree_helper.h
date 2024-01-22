@@ -27,6 +27,7 @@
 class QMenu;
 class QTreeView;
 class QPoint;
+class QHeaderView;
 
 namespace sup::gui
 {
@@ -49,6 +50,22 @@ void SummonCollapseExpandMenu(const QPoint& point, QTreeView& tree_view);
  * from collapse/expand menu.
  */
 std::function<void(const QPoint& point)> CreateOnCustomMenuCallback(QTreeView& tree_view);
+
+/**
+ * @brief Adjusts column width so they occupy whole horizontal space available for the tree.
+ *
+ * @param tree The tree to ajust
+ * @param stretch_factors Relative stretch factors
+ */
+void AdjustWidthOfColumns(QHeaderView* header, std::vector<int> stretch_factors);
+
+/**
+ * @brief Adjusts column width so they occupy whole horizontal space available for the tree.
+ *
+ * @param tree The tree to ajust
+ * @param stretch_factors Relative stretch factors
+ */
+void AdjustWidthOfColumns(QTreeView& tree, std::vector<int> stretch_factors);
 
 }  // namespace sup::gui
 
