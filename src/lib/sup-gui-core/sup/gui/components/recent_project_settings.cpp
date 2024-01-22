@@ -28,16 +28,22 @@ namespace
 {
 const int kMaxRecentProjects = 10;
 
-const QString kGroupName("RecentProjectSettings/");
-const QString kCurrentWorkdirSettingName = kGroupName + "workdir";
-const QString kRecentProjectsSettingName = kGroupName + "recent_projects";
+QString GetCurrentWorkdirSettingName(const QString& group_name)
+{
+  return group_name + "/" + "workdir";
+}
+
+QString GetRecentProjectsSettingName(const QString& group_name)
+{
+  return group_name + "/" + "recent_projects";
+}
 
 }  // namespace
 
 namespace sup::gui
 {
 
-RecentProjectSettings::RecentProjectSettings()
+RecentProjectSettings::RecentProjectSettings(const QString& group_name) : m_group_name(group_name)
 {
   ReadSettings();
 }
@@ -93,8 +99,8 @@ void RecentProjectSettings::WriteSettings()
   ValidateIfProjectsExist();
 
   QSettings settings;
-  settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
-  settings.setValue(kRecentProjectsSettingName, m_recent_projects);
+  settings.setValue(GetCurrentWorkdirSettingName(m_group_name), m_current_workdir);
+  settings.setValue(GetRecentProjectsSettingName(m_group_name), m_recent_projects);
 }
 
 //! Reads all settings from file.
@@ -103,8 +109,9 @@ void RecentProjectSettings::ReadSettings()
   ValidateIfProjectsExist();
 
   QSettings settings;
-  m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
-  m_recent_projects = settings.value(kRecentProjectsSettingName).toStringList();
+  m_current_workdir =
+      settings.value(GetCurrentWorkdirSettingName(m_group_name), QDir::homePath()).toString();
+  m_recent_projects = settings.value(GetRecentProjectsSettingName(m_group_name)).toStringList();
 }
 
 //! Validates if projects exist, and update the list to show only existing projects.

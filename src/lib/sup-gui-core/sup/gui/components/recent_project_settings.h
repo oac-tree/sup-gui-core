@@ -33,7 +33,7 @@ namespace sup::gui
 class RecentProjectSettings
 {
 public:
-  RecentProjectSettings();
+  RecentProjectSettings(const QString& group_name = "RecentProjectSettings");
   ~RecentProjectSettings();
 
   QString GetCurrentWorkdir() const;
@@ -53,6 +53,7 @@ private:
 
   QString m_current_workdir;
   QStringList m_recent_projects;
+  QString m_group_name;
 };
 
 }  // namespace sup::gui
