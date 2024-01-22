@@ -31,12 +31,13 @@ class QAction;
 namespace sup::gui
 {
 
-//! Instrument tool bar with possibility to collapse/expand attached widget.
-//! Toolbar buttons are shown only when expanded.
-//! Looks like this: > LABEL BUTTON BUTTON BUTTON
-
-//! This toolbar is intended to function in splitters together with CollapsibleWidgets.
-
+/**
+ * @brief The CollapsibleToolBar class is a narrow toolbar with the possibility to collapse/expand
+ * attached widget.
+ *
+ * @details Toolbar buttons are shown only when expanded. Looks like this: > LABEL BUTTON BUTTON
+ * BUTTON. This toolbar is intended to function in a splitter as a part of CollapsibleListView.
+ */
 class CollapsibleToolBar : public QFrame
 {
   Q_OBJECT
@@ -44,21 +45,39 @@ class CollapsibleToolBar : public QFrame
 public:
   explicit CollapsibleToolBar(QWidget* parent = nullptr);
 
+  /**
+   * @brief Sets text net to collapse/expand icons.
+   *
+   * @param text Label text.
+   * @param text_tooltip Label tooltip.
+   */
   void SetText(const QString& text, const QString& text_tooltip = {});
 
+  /**
+   * @brief Sets the widget which will be collapsed/expanded.
+   */
   void SetControlledWidget(QWidget* widget);
 
+  /**
+   * @brief Adds widget
+   */
   void AddWidget(QWidget* widget);
-  void AddWidgets(const QList<QWidget*>& widgets);
 
-  void AddAction(QAction* action);
-  void AddActions(const QList<QAction*> actions);
+  void AddActions(const QList<QAction*>& actions);
 
   QToolBar* GetToolBar();
 
 private:
+  /**
+   * @brief Updates toolbar appearance depending on collapse/expand status.
+   */
   void UpdateToolBar();
+
+  /**
+   * @brief Updates collapse/expand icon.
+   */
   void UpdateIcon();
+
   void InsertStrech();
 
   QToolBar* m_tool_bar{nullptr};
@@ -69,6 +88,6 @@ private:
   QList<QAction*> m_toolbar_actions;
 };
 
-}  // namespace mvvm
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_WIDGETS_COLLAPSIBLE_TOOLBAR_H_

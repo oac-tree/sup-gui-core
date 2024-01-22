@@ -40,8 +40,6 @@ CollapsibleListView::CollapsibleListView(QWidget *parent)
   layout->addWidget(m_splitter);
 }
 
-//! Adds widget to the splitter.
-//! Widget is added as it is, without collapsible bar and menus.
 void CollapsibleListView::AddWidget(QWidget *content)
 {
   m_splitter->addWidget(content);
@@ -58,11 +56,7 @@ CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
   collapsible_widget->AddToSplitter(m_splitter);
 
   // To show user actions in a tool bar.
-  for (auto action : actions)
-  {
-    collapsible_widget->GetToolBar()->AddAction(action);
-  }
-
+  collapsible_widget->GetToolBar()->AddActions(actions);
   return collapsible_widget->GetToolBar();
 }
 

@@ -29,10 +29,14 @@ namespace sup::gui
 
 class CollapsibleToolBar;
 
-//! Vertical widget with column of panels displayed one under another.
-//! Each panel contains user widget and can be collapsed/expanded. When expanded,
-//! the place occupied by the panel can be changed by draging a splitter.
-
+/**
+ * @brief The CollapsibleListView class represent a column of collapsible panels displayed one under
+ * another.
+ *
+ * @details Each panel contains user widget and can be collapsed/expanded. When expanded, the place
+ * occupied by the panel can be changed by draging a splitter. Each panel can contain a list of
+ * actions associated with the widget. When panel is collapsed, actions are hidden.
+ */
 class CollapsibleListView : public QWidget
 {
   Q_OBJECT
@@ -40,16 +44,32 @@ class CollapsibleListView : public QWidget
 public:
   explicit CollapsibleListView(QWidget* parent = nullptr);
 
+  /**
+   * @brief Adds widget to the splitter.
+   *
+   * @param Widget is added as it is, without collapsible bar and menus.
+   */
   void AddWidget(QWidget* content);
 
+  /**
+   * @brief Adds widget as collapsible panel.
+   *
+   * @param content User widget to show inside collapsible panel.
+   * @param actions Associated widget actions.
+   *
+   * @return A collapsible tool bar which was created for handle panel collapse.
+   */
   CollapsibleToolBar* AddCollapsibleWidget(QWidget* content, const QList<QAction*>& actions);
 
+  /**
+   * @brief Returns internal splitter which is the basis of the whole thing.
+   */
   QSplitter* GetSplitter() const;
 
 private:
   QSplitter* m_splitter{nullptr};
 };
 
-}  // namespace mvvm
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_

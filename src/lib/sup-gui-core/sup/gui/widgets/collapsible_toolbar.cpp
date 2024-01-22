@@ -65,16 +65,12 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget *parent)
   UpdateToolBar();
 }
 
-//! Set text next to collapse/expand icon.
-
 void CollapsibleToolBar::SetText(const QString &text, const QString &text_tooltip)
 {
   mvvm::utils::ScaleLabelFont(m_label, 0.9);
   m_label->setText(text);
   m_label->setToolTip(text_tooltip);
 }
-
-//! Sets the widget which will be collapsed/expanded.
 
 void CollapsibleToolBar::SetControlledWidget(QWidget *widget)
 {
@@ -89,25 +85,12 @@ void CollapsibleToolBar::AddWidget(QWidget *widget)
   m_toolbar_actions.append(action);  // to hide/show elements later
 }
 
-void CollapsibleToolBar::AddWidgets(const QList<QWidget *> &widgets)
-{
-  for (auto widget : widgets)
-  {
-    AddWidget(widget);
-  }
-}
-
-void CollapsibleToolBar::AddAction(QAction *action)
-{
-  m_tool_bar->addAction(action);
-  m_toolbar_actions.append(action);
-}
-
-void CollapsibleToolBar::AddActions(const QList<QAction *> actions)
+void CollapsibleToolBar::AddActions(const QList<QAction *> &actions)
 {
   for (auto action : actions)
   {
-    AddAction(action);
+    m_tool_bar->addAction(action);
+    m_toolbar_actions.append(action);
   }
 }
 
@@ -115,8 +98,6 @@ QToolBar *CollapsibleToolBar::GetToolBar()
 {
   return m_tool_bar;
 }
-
-//! Updates toolbar appearance depending on collapsed/expaned status
 
 void CollapsibleToolBar::UpdateToolBar()
 {
@@ -134,8 +115,6 @@ void CollapsibleToolBar::UpdateToolBar()
     action->setVisible(m_expanded);
   }
 }
-
-//! Updates collapse/expand icon.
 
 void CollapsibleToolBar::UpdateIcon()
 {
@@ -158,4 +137,4 @@ void CollapsibleToolBar::InsertStrech()
   m_tool_bar->addWidget(empty);
 }
 
-}  // namespace mvvm
+}  // namespace sup::gui
