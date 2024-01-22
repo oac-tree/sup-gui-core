@@ -52,9 +52,6 @@ void PanelToolBar::AddDotsMenu()
   addWidget(m_dots_button);
 }
 
-//! Insert element after the label, or last insert element.
-//! Push button representing dots and spacer will always stay at the right.
-
 QAction *PanelToolBar::InsertElement(QWidget *widget)
 {
   return insertWidget(m_spacer_action, widget);
@@ -73,8 +70,6 @@ void PanelToolBar::SetDotsMenu(QMenu *dots_menu)
   m_dots_button->setMenu(dots_menu);
   m_dots_button->setPopupMode(QToolButton::InstantPopup);
 }
-
-//! Appends separator to the last guest element, but before 3-dots menu.
 
 QAction *PanelToolBar::AppendSeparator()
 {

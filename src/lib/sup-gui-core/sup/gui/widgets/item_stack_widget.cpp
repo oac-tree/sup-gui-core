@@ -85,8 +85,6 @@ void ItemStackWidget::SetCurrentWidget(QWidget *widget)
   SetCurrentIndex(m_stacked_widget->indexOf(widget));
 }
 
-//! Add entry to corner menu to switch to this widget.
-
 void ItemStackWidget::AddMenuEntry(QWidget *widget)
 {
   int index = m_stacked_widget->count() - 1;
@@ -113,10 +111,6 @@ void ItemStackWidget::AddGuestActions(const QList<QAction *> &actions, bool is_a
   m_toolbar_data.append({hide_actions, is_always_visible});
   UpdateControlElementsVisibility();
 }
-
-//! Updates visibility of guest toolbars.
-//! It will be visible for current widget in the stack, and hidded for others (unless
-//! is_always_visible flag is present);
 
 void ItemStackWidget::UpdateControlElementsVisibility()
 {
