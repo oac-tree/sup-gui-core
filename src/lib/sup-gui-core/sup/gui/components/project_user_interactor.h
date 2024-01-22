@@ -41,7 +41,7 @@ class RecentProjectSettings;
 class ProjectUserInteractor
 {
 public:
-  ProjectUserInteractor(QWidget* parent);
+  explicit ProjectUserInteractor(QWidget* parent);
   ~ProjectUserInteractor();
 
   std::string OnSelectDirRequest();
