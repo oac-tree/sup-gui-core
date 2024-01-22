@@ -53,13 +53,16 @@ RecentProjectSettings::~RecentProjectSettings()
   WriteSettings();
 }
 
-//! Returns current workdir.
 QString RecentProjectSettings::GetCurrentWorkdir() const
 {
   return m_current_workdir;
 }
 
-//! Updates current working directory.
+void RecentProjectSettings::SetCurrentWorkdir(const QString& dir_name)
+{
+  m_current_workdir = dir_name;
+}
+
 void RecentProjectSettings::UpdateCurrentWorkdir(const QString& project_dir_name)
 {
   if (!project_dir_name.isEmpty())
@@ -70,14 +73,12 @@ void RecentProjectSettings::UpdateCurrentWorkdir(const QString& project_dir_name
   }
 }
 
-//! Returns list of recent projects, validates if projects still exists on disk.
 QStringList RecentProjectSettings::GetRecentProjectList()
 {
   ValidateIfProjectsExist();
   return m_recent_projects;
 }
 
-//! Adds directory to the list of recent projects.
 void RecentProjectSettings::AddToRecentProjectList(const QString& project_dir_name)
 {
   m_recent_projects.removeAll(project_dir_name);
@@ -93,7 +94,6 @@ void RecentProjectSettings::ClearRecentProjectsList()
   m_recent_projects.clear();
 }
 
-//! Write all settings to file.
 void RecentProjectSettings::WriteSettings()
 {
   ValidateIfProjectsExist();
@@ -103,7 +103,6 @@ void RecentProjectSettings::WriteSettings()
   settings.setValue(GetRecentProjectsSettingName(m_group_name), m_recent_projects);
 }
 
-//! Reads all settings from file.
 void RecentProjectSettings::ReadSettings()
 {
   ValidateIfProjectsExist();
@@ -113,8 +112,6 @@ void RecentProjectSettings::ReadSettings()
       settings.value(GetCurrentWorkdirSettingName(m_group_name), QDir::homePath()).toString();
   m_recent_projects = settings.value(GetRecentProjectsSettingName(m_group_name)).toStringList();
 }
-
-//! Validates if projects exist, and update the list to show only existing projects.
 
 void RecentProjectSettings::ValidateIfProjectsExist()
 {
