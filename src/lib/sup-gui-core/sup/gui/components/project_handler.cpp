@@ -42,9 +42,6 @@ ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* pare
 
 ProjectHandler::~ProjectHandler() = default;
 
-//! Closes curent project, returns true in the case of success. Internally will perform check for
-//! unsaved data, and proceed via save/discard/cancel dialog.
-
 bool ProjectHandler::CloseCurrentProject() const
 {
   return m_project_manager->CloseCurrentProject();
@@ -73,9 +70,6 @@ void ProjectHandler::SaveCurrentProject()
     UpdateNames();
   }
 }
-
-//! Performs saving of the project under different name. The name will be asked at the later stage
-//! via corresponding dialog.
 
 void ProjectHandler::SaveProjectAs()
 {
@@ -116,15 +110,11 @@ void ProjectHandler::InitProjectManager()
   m_project_manager = CreateProjectManager(project_context, user_context);
 }
 
-//! Performs internal updates related to project name change.
-
 void ProjectHandler::UpdateNames()
 {
   UpdateCurrentProjectName();
   UpdateRecentProjectNames();
 }
-
-//! Updates the name of the current project on main window.
 
 void ProjectHandler::UpdateCurrentProjectName()
 {
@@ -138,8 +128,6 @@ void ProjectHandler::UpdateCurrentProjectName()
     main_window->setWindowTitle(QString::fromStdString(title));
   }
 }
-
-//! Update recent project list in settings.
 
 void ProjectHandler::UpdateRecentProjectNames()
 {
