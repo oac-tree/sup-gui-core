@@ -104,8 +104,13 @@ bool AnyValueEditorMainWindow::CanCloseApplication()
 {
   WriteSettings();
 
-  // here will be logic for unsaved project
-  return true;
+  if (m_action_manager->CloseCurrentProject())
+  {
+    WriteSettings();
+    return true;
+  }
+
+  return false;
 }
 
 void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)

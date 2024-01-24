@@ -23,9 +23,9 @@
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/main_window_helper.h>
 #include <sup/gui/components/project_handler.h>
+#include <sup/gui/components/project_handler_utils.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
-#include <sup/gui/components/project_handler_utils.h>
 
 #include <mvvm/widgets/widget_utils.h>
 
@@ -42,6 +42,11 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionMo
 {
   CreateActions(mainwindow);
   SetupMenus(mainwindow->menuBar());
+}
+
+bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
+{
+  return m_project_handler->CloseCurrentProject();
 }
 
 void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)

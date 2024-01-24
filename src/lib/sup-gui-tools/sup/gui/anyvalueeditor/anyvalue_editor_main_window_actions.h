@@ -50,6 +50,8 @@ public:
   explicit AnyValueEditorMainWindowActions(mvvm::SessionModelInterface* model,
                                            QMainWindow* mainwindow = nullptr);
 
+  bool CloseCurrentProject() const;
+
 signals:
   void OnImportFromFileRequest();
   void OnExportToFileRequest();
