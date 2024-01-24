@@ -41,7 +41,7 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionMo
     : QObject(mainwindow), m_project_handler(new sup::gui::ProjectHandler(model, mainwindow))
 {
   CreateActions(mainwindow);
-  SetupMenus(mainwindow->menuBar());
+  SetupMenus();
 }
 
 bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
@@ -84,11 +84,9 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
   connect(m_about_action, &QAction::triggered, this, &AnyValueEditorMainWindowActions::OnAbout);
 }
 
-void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
+void AnyValueEditorMainWindowActions::SetupMenus()
 {
-  sup::gui::AppRegisterMenuBar(menubar);
-
-  auto file_menu = sup::gui::AppAddMenu(sup::gui::constants::kFileMenu)->GetMenu();
+  auto file_menu = sup::gui::AppGetMenu(sup::gui::constants::kFileMenu);
 
   sup::gui::AddNewProjectAction(file_menu, *m_project_handler);
   sup::gui::AddOpenExistingProjectAction(file_menu, *m_project_handler);
@@ -117,11 +115,7 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
 
-  // will be populated from other widgets
-  sup::gui::AppAddMenu(sup::gui::constants::kViewMenu);
-
-  auto help_menu = sup::gui::AppAddMenu(sup::gui::constants::kHelpMenu)->GetMenu();
-  help_menu->addAction(m_about_action);
+  sup::gui::AppRegisterAction(sup::gui::constants::kHelpMenu, m_about_action);
 }
 
 void AnyValueEditorMainWindowActions::OnChangeSystemFont()

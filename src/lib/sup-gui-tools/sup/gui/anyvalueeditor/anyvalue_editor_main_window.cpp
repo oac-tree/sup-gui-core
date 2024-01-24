@@ -21,6 +21,7 @@
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor.h>
 #include <sup/gui/anyvalueeditor/anyvalue_editor_main_window_actions.h>
+#include <sup/gui/app/app_action_helper.h>
 
 #include <mvvm/model/application_model.h>
 
@@ -72,6 +73,9 @@ void AnyValueEditorMainWindow::InitApplication()
 
 void AnyValueEditorMainWindow::InitComponents()
 {
+  sup::gui::AppAddMenus(menuBar(), {sup::gui::constants::kFileMenu, sup::gui::constants::kViewMenu,
+                                    sup::gui::constants::kHelpMenu});
+
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
 
   m_action_manager = new AnyValueEditorMainWindowActions(m_anyvalue_editor->GetModel(), this);

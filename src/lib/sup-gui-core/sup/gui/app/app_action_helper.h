@@ -76,6 +76,14 @@ bool AppRegisterActions(const std::string& menu_name, const QList<QAction*>& act
  */
 QMenu* AppGetMenu(const std::string& menu_name);
 
+/**
+ * @brief Registers main menubar and create top level menus.
+ *
+ * @param menubar Main main window menubar.
+ * @param names Vector of top level menus.
+ */
+void AppAddMenus(QMenuBar* menubar, const std::vector<std::string>& names);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_APP_APP_ACTION_HELPER_H_
