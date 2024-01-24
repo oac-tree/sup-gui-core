@@ -139,6 +139,11 @@ AnyValueItem *AnyValueEditor::GetTopItem()
   return m_action_handler->GetTopItem();
 }
 
+mvvm::ApplicationModel *AnyValueEditor::GetModel() const
+{
+  return m_model.get();
+}
+
 void AnyValueEditor::ReadSettings()
 {
   const QSettings settings;

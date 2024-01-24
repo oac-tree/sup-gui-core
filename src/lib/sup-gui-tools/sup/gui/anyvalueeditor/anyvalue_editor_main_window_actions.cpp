@@ -22,6 +22,7 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/main_window_helper.h>
+#include <sup/gui/components/project_handler.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 
@@ -34,8 +35,9 @@
 namespace anyvalueeditor
 {
 
-AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *mainwindow)
-    : QObject(mainwindow)
+AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionModelInterface *model,
+                                                                 QMainWindow *mainwindow)
+    : QObject(mainwindow), m_project_handler(new sup::gui::ProjectHandler(model, mainwindow))
 {
   CreateActions(mainwindow);
   SetupMenus(mainwindow->menuBar());

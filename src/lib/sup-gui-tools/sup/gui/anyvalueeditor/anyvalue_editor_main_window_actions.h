@@ -28,6 +28,16 @@ class QMainWindow;
 class QMenuBar;
 class QAction;
 
+namespace mvvm
+{
+class SessionModelInterface;
+}
+
+namespace sup::gui
+{
+class ProjectHandler;
+}
+
 namespace anyvalueeditor
 {
 
@@ -36,7 +46,8 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
+  explicit AnyValueEditorMainWindowActions(mvvm::SessionModelInterface* model,
+                                           QMainWindow* mainwindow = nullptr);
 
 signals:
   void OnImportFromFileRequest();
@@ -53,13 +64,12 @@ private:
 
   QAction* m_import_action{nullptr};
   QAction* m_export_action{nullptr};
-
   QAction* m_system_font_action{nullptr};
   QAction* m_reset_settings_action{nullptr};
-
   QAction* m_exit_action{nullptr};
-
   QAction* m_about_action{nullptr};
+
+  sup::gui::ProjectHandler* m_project_handler{nullptr};
 };
 
 }  // namespace anyvalueeditor

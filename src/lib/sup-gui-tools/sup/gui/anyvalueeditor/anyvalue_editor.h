@@ -59,6 +59,8 @@ public:
 
   AnyValueItem* GetTopItem();
 
+  mvvm::ApplicationModel* GetModel() const;
+
 private:
   void ReadSettings();
   void WriteSettings();
