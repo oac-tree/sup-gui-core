@@ -27,6 +27,7 @@
 class QMainWindow;
 class QMenuBar;
 class QAction;
+class QMenu;
 
 namespace mvvm
 {
@@ -68,6 +69,8 @@ private:
   QAction* m_reset_settings_action{nullptr};
   QAction* m_exit_action{nullptr};
   QAction* m_about_action{nullptr};
+
+  QMenu* m_recent_project_menu{nullptr};
 
   sup::gui::ProjectHandler* m_project_handler{nullptr};
 };

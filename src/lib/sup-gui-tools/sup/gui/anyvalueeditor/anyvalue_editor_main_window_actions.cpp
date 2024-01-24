@@ -25,6 +25,7 @@
 #include <sup/gui/components/project_handler.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
+#include <sup/gui/components/project_handler_utils.h>
 
 #include <mvvm/widgets/widget_utils.h>
 
@@ -83,6 +84,20 @@ void AnyValueEditorMainWindowActions::SetupMenus(QMenuBar *menubar)
   sup::gui::AppRegisterMenuBar(menubar);
 
   auto file_menu = sup::gui::AppAddMenu(sup::gui::constants::kFileMenu)->GetMenu();
+
+  sup::gui::AddNewProjectAction(file_menu, *m_project_handler);
+  sup::gui::AddOpenExistingProjectAction(file_menu, *m_project_handler);
+
+  m_recent_project_menu = file_menu->addMenu("Recent Projects");
+  auto about_to_show_menu = [this]()
+  { sup::gui::AddRecentProjectActions(m_recent_project_menu, *m_project_handler); };
+  connect(file_menu, &QMenu::aboutToShow, this, about_to_show_menu);
+
+  file_menu->addSeparator();
+  sup::gui::AddSaveCurrentProjectAction(file_menu, *m_project_handler);
+  sup::gui::AddSaveProjectAsAction(file_menu, *m_project_handler);
+
+  file_menu->addSeparator();
 
   file_menu->addAction(m_import_action);
   file_menu->addAction(m_export_action);
