@@ -57,7 +57,7 @@ AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;
 
 void AnyValueEditorMainWindow::closeEvent(QCloseEvent* event)
 {
-  if (CanCloseApplication())
+  if (PrepareForShutdown())
   {
     QMainWindow::closeEvent(event);
     return;
@@ -104,7 +104,7 @@ void AnyValueEditorMainWindow::WriteSettings()
   settings.setValue(GetWindowPosSettingName(), pos());
 }
 
-bool AnyValueEditorMainWindow::CanCloseApplication()
+bool AnyValueEditorMainWindow::PrepareForShutdown()
 {
   WriteSettings();
 
@@ -119,7 +119,7 @@ bool AnyValueEditorMainWindow::CanCloseApplication()
 
 void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 {
-  if (CanCloseApplication())
+  if (PrepareForShutdown())
   {
     QCoreApplication::exit(exit_code);
   }

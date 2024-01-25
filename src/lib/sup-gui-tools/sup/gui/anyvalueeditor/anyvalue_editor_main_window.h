@@ -55,7 +55,16 @@ private:
   void InitComponents();
   void ReadSettings();
   void WriteSettings();
-  bool CanCloseApplication();
+
+  /**
+   * @brief Prepare for application shutdown.
+   *
+   * @return True if application is ready to be closed.
+   *
+   * @details This perform saving of unsaved projects, writing persistent application settings and
+   * stopping possible running jobs.
+   */
+  bool PrepareForShutdown();
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
