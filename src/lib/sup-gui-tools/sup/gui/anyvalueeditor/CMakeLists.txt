@@ -20,6 +20,7 @@ target_sources(${library_name} PRIVATE
   command_line_options.h
   custom_metatypes.cpp
   custom_metatypes.h
+  run_application.h
   tree_view_component_provider.cpp
   tree_view_component_provider.h
 )
