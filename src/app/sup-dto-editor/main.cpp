@@ -20,15 +20,15 @@
 #include <sup/gui/anyvalueeditor/custom_metatypes.h>
 #include <sup/gui/anyvalueeditor/run_application.h>
 #include <sup/gui/app/application_helper.h>
-#include <sup/gui/configeditor/config_editor_main_window.h>
+#include <sup/gui/dtoeditor/dto_editor_main_window.h>
 #include <sup/gui/core/version.h>
 
 int main(int argc, char** argv)
 {
   auto version = QString::fromStdString(sup::gui::ProjectVersion());
-  sup::gui::InitCoreApplication("sup-config-editor", version);
+  sup::gui::InitCoreApplication("sup-dto-editor", version);
 
   sup::gui::RegisterCustomMetaTypes();
 
-  return anyvalueeditor::RunApplication<configeditor::ConfigEditorMainWindow>(argc, argv);
+  return anyvalueeditor::RunApplication<dtoeditor::DtoEditorMainWindow>(argc, argv);
 }

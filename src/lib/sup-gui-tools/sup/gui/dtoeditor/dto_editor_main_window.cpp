@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "config_editor_main_window.h"
+#include "dto_editor_main_window.h"
 
 #include <sup/gui/app/app_action_helper.h>
 
@@ -42,17 +42,17 @@ QString GetWindowPosSettingName()
 
 }  // namespace
 
-namespace configeditor
+namespace dtoeditor
 {
 
-ConfigEditorMainWindow::ConfigEditorMainWindow()
+DtoEditorMainWindow::DtoEditorMainWindow()
 {
   InitApplication();
 }
 
-ConfigEditorMainWindow::~ConfigEditorMainWindow() = default;
+DtoEditorMainWindow::~DtoEditorMainWindow() = default;
 
-void ConfigEditorMainWindow::closeEvent(QCloseEvent* event)
+void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
 {
   if (PrepareForShutdown())
   {
@@ -62,13 +62,13 @@ void ConfigEditorMainWindow::closeEvent(QCloseEvent* event)
   event->ignore();
 }
 
-void ConfigEditorMainWindow::InitApplication()
+void DtoEditorMainWindow::InitApplication()
 {
   ReadSettings();
   InitComponents();
 }
 
-void ConfigEditorMainWindow::InitComponents()
+void DtoEditorMainWindow::InitComponents()
 {
   sup::gui::AppAddMenus(menuBar(), {sup::gui::constants::kFileMenu, sup::gui::constants::kViewMenu,
                                     sup::gui::constants::kHelpMenu});
@@ -76,17 +76,17 @@ void ConfigEditorMainWindow::InitComponents()
   setCentralWidget(new QWidget);
 }
 
-void ConfigEditorMainWindow::ReadSettings() {}
+void DtoEditorMainWindow::ReadSettings() {}
 
-void ConfigEditorMainWindow::WriteSettings() {}
+void DtoEditorMainWindow::WriteSettings() {}
 
-bool ConfigEditorMainWindow::PrepareForShutdown()
+bool DtoEditorMainWindow::PrepareForShutdown()
 {
   WriteSettings();
   return true;
 }
 
-void ConfigEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
+void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 {
   if (PrepareForShutdown())
   {
@@ -94,4 +94,4 @@ void ConfigEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
   }
 }
 
-}  // namespace configeditor
+}  // namespace dtoeditor

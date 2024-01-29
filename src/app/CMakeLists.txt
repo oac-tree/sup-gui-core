@@ -1,3 +1,3 @@
 add_subdirectory(anyvalue-editor)
-add_subdirectory(sup-config-editor)
+add_subdirectory(sup-dto-editor)
 

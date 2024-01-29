@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_CONFIGEDITOR_MAIN_WINDOW_H_
-#define SUP_GUI_CONFIGEDITOR_MAIN_WINDOW_H_
+#ifndef SUP_GUI_DTOEDITOR_MAIN_WINDOW_H_
+#define SUP_GUI_DTOEDITOR_MAIN_WINDOW_H_
 
 #include <sup/gui/app/main_window_types.h>
 
@@ -26,7 +26,7 @@
 
 class QCloseEvent;
 
-namespace configeditor
+namespace dtoeditor
 {
 
 /**
@@ -34,13 +34,13 @@ namespace configeditor
  * application.
  */
 
-class ConfigEditorMainWindow : public QMainWindow
+class DtoEditorMainWindow : public QMainWindow
 {
   Q_OBJECT
 
 public:
-  ConfigEditorMainWindow();
-  ~ConfigEditorMainWindow() override;
+  DtoEditorMainWindow();
+  ~DtoEditorMainWindow() override;
 
 protected:
   void closeEvent(QCloseEvent* event) override;
@@ -63,6 +63,6 @@ private:
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 };
 
-}  // namespace configeditor
+}  // namespace dtoeditor
 
-#endif  // SUP_GUI_CONFIGEDITOR_MAIN_WINDOW_H_
+#endif  // SUP_GUI_DTOEDITOR_MAIN_WINDOW_H_

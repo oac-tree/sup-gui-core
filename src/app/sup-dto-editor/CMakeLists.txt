@@ -1,4 +1,4 @@
-set(executable_name sup-config-editor)
+set(executable_name sup-dto-editor)
 
 add_executable(${executable_name} main.cpp)
 
