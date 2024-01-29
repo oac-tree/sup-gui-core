@@ -60,7 +60,8 @@ public:
   }
 
   //! Creates AnyValueEditorActions for testing.
-  std::unique_ptr<AnyValueEditorActionHandler> CreateActions(sup::gui::AnyValueItem* selection)
+  std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
+      sup::gui::AnyValueItem* selection)
   {
     return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), &m_model,
                                                          nullptr);
@@ -76,7 +77,7 @@ public:
 
 TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 {
-  auto actions = CreateActions(nullptr);
+  auto actions = CreateActionHandler(nullptr);
   EXPECT_EQ(actions->GetTopItem(), nullptr);
   EXPECT_EQ(actions->GetSelectedItem(), nullptr);
   EXPECT_EQ(GetAnyValueItemContainer(), actions->GetAnyValueItemContainer());
@@ -93,12 +94,12 @@ TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
-  auto actions = CreateActions(nullptr);
-  actions->SetInitialValue(item);
-  ASSERT_NE(actions->GetTopItem(), nullptr);
+  auto handler = CreateActionHandler(nullptr);
+  handler->SetInitialValue(item);
+  ASSERT_NE(handler->GetTopItem(), nullptr);
 
   // validating
-  auto copied_item = dynamic_cast<AnyValueScalarItem*>(actions->GetTopItem());
+  auto copied_item = dynamic_cast<AnyValueScalarItem*>(handler->GetTopItem());
   ASSERT_NE(copied_item, nullptr);
   EXPECT_NE(copied_item, &item);
   EXPECT_EQ(copied_item->GetAnyTypeName(), item.GetAnyTypeName());
@@ -115,19 +116,19 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
   item.SetAnyTypeName(sup::dto::kInt32TypeName);
   item.SetData(42);
 
-  auto actions = CreateActions(nullptr);
-  actions->SetInitialValue(item);
-  ASSERT_NE(actions->GetTopItem(), nullptr);
-  EXPECT_EQ(actions->GetTopItem()->GetIdentifier(), item.GetIdentifier());
-  auto prev_top = actions->GetTopItem();
+  auto handler = CreateActionHandler(nullptr);
+  handler->SetInitialValue(item);
+  ASSERT_NE(handler->GetTopItem(), nullptr);
+  EXPECT_EQ(handler->GetTopItem()->GetIdentifier(), item.GetIdentifier());
+  auto prev_top = handler->GetTopItem();
 
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   AnyValueScalarItem item2;
-  actions->SetInitialValue(item2);
+  handler->SetInitialValue(item2);
 
   // expect oner warning, and still old top anyvalue
-  EXPECT_EQ(actions->GetTopItem(), prev_top);
+  EXPECT_EQ(handler->GetTopItem(), prev_top);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -138,18 +139,18 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 
 TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 {
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
-  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_EQ(actions->GetSelectedItem(), nullptr);
+  EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding empty AnyValueItem as top level item
-  actions->OnAddEmptyAnyValue();
+  handler->OnAddEmptyAnyValue();
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -169,17 +170,17 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  auto handler = CreateActionHandler(nullptr);
 
-  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_EQ(actions->GetSelectedItem(), nullptr);
+  EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem struct as top level item
-  actions->OnAddAnyValueStruct();
+  handler->OnAddAnyValueStruct();
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -198,13 +199,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
   // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  auto handler = CreateActionHandler(nullptr);
 
   // expecting warning
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // attempt to add another top level item
-  actions->OnAddAnyValueStruct();
+  handler->OnAddAnyValueStruct();
 
   // validating that there is still one item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -217,14 +218,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
   // creating action for the context, when parent is selected
-  auto actions = CreateActions(parent);
-  EXPECT_EQ(actions->GetSelectedItem(), parent);
+  auto handler = CreateActionHandler(parent);
+  EXPECT_EQ(handler->GetSelectedItem(), parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  actions->OnAddAnyValueStruct();
+  handler->OnAddAnyValueStruct();
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -244,13 +245,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
   // creating action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  auto handler = CreateActionHandler(parent);
 
   // expecting error callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // adding AnyValueItem struct as a field to
-  actions->OnAddAnyValueStruct();
+  handler->OnAddAnyValueStruct();
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -265,11 +266,11 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
 
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
 {
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
   // adding AnyValueItem struct as top level item
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -282,7 +283,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // the amount of items should stay the same
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -294,14 +295,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-  // creating an action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -320,14 +321,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
 
-  // creating an action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -346,14 +347,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
-  // creating action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -366,14 +367,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
 {
   m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
   // expecting warning callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // attempt to add second top level scalar
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // checking that model still have a single item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -387,14 +388,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
   m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent)->SetAnyTypeName(
       sup::dto::kInt32TypeName);
 
-  // creating action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -404,7 +405,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // attempt to add mismatching type
-  actions->OnAddAnyValueScalar(sup::dto::kInt16TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt16TypeName);
 
   // array still has two element
   EXPECT_EQ(parent->GetChildren().size(), 2);
@@ -418,11 +419,11 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
 
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 {
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
   // adding AnyValueItem struct as top level item
-  actions->OnAddAnyValueArray();
+  handler->OnAddAnyValueArray();
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -434,7 +435,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // attempt to add second top-level item
-  actions->OnAddAnyValueArray();
+  handler->OnAddAnyValueArray();
 
   // the amount of items should stay the same
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -446,14 +447,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-  // creating action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  actions->OnAddAnyValueArray();
+  handler->OnAddAnyValueArray();
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -471,14 +472,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
-  // creating action for the context, when parent is selected
-  auto actions = CreateActions(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
   // expecting error callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // adding AnyValueItem struct as a field to
-  actions->OnAddAnyValueArray();
+  handler->OnAddAnyValueArray();
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -491,14 +492,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 {
   m_model.InsertItem<sup::gui::AnyValueArrayItem>();
 
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
   // expecting warning callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   // attempt to add second top level array
-  actions->OnAddAnyValueArray();
+  handler->OnAddAnyValueArray();
 
   // checking that model still have a single item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -514,10 +515,10 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 {
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
-  EXPECT_NO_FATAL_FAILURE(actions->OnRemoveSelected());
+  EXPECT_NO_FATAL_FAILURE(handler->OnRemoveSelected());
 
   // validating that still has an item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -530,10 +531,10 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 
-  // creating action for the context, pretending item is selected
-  auto actions = CreateActions(struct_item);
+  // creating action handler for the context, pretending item is selected
+  auto handler = CreateActionHandler(struct_item);
 
-  actions->OnRemoveSelected();
+  handler->OnRemoveSelected();
 
   // validating that there is no item anymore
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 0);
@@ -553,13 +554,13 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   auto json_content = AnyValueToJSONString(anyvalue);
   testutils::CreateTextFile(file_path, json_content);
 
-  // creating action for the context, when nothing is selected by the user
-  auto actions = CreateActions(nullptr);
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler(nullptr);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
-  actions->OnImportFromFileRequest(file_path);
+  handler->OnImportFromFileRequest(file_path);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -572,7 +573,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   // attempt to import again
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
-  actions->OnImportFromFileRequest(file_path);
+  handler->OnImportFromFileRequest(file_path);
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
@@ -587,17 +588,16 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
   auto json_content = AnyValueToJSONString(anyvalue);
   testutils::CreateTextFile(file_path, json_content);
 
-  // creating a
   auto structure = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 
-  // creating action for the context, making structure selected
-  auto actions = CreateActions(structure);
+  // creating action handler for the context, making structure selected
+  auto handler = CreateActionHandler(structure);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
-  actions->OnImportFromFileRequest(file_path);
+  handler->OnImportFromFileRequest(file_path);
 
   // testing new child of the structure
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -621,13 +621,13 @@ TEST_F(AnyValueEditorActionHandlerTest, ExportToFile)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalarExportResults.xml");
 
-  // creating action when nothing is selected
-  auto actions = CreateActions(nullptr);
+  // creating action handler when nothing is selected
+  auto handler = CreateActionHandler(nullptr);
 
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // exporting file
-  actions->OnExportToFileRequest(file_path);
+  handler->OnExportToFileRequest(file_path);
 
   // model should be the same
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -647,7 +647,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToExportEmptyModelToFile)
   const auto file_path = GetFilePath("AnyValueScalarExportResultsV2.xml");
 
   // creating action when nothing is selected
-  auto actions = CreateActions(nullptr);
+  auto actions = CreateActionHandler(nullptr);
 
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
@@ -669,16 +669,16 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
-  // creating an action for the context, when field1 is selected
-  auto actions = CreateActions(field1);
+  // creating action handler for the context, when field1 is selected
+  auto handler = CreateActionHandler(field1);
 
-  QSignalSpy spy_selection_request(actions.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // moving selected item up
-  actions->OnMoveUpRequest();
+  handler->OnMoveUpRequest();
 
   // validating that parent got new child
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
@@ -686,7 +686,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), field1);
 
   // moving selected item up second time doesn't change anything
-  actions->OnMoveUpRequest();
+  handler->OnMoveUpRequest();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
   EXPECT_EQ(spy_selection_request.count(), 0);
