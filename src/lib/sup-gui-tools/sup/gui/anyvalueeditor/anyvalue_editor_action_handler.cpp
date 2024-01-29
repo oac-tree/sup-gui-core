@@ -38,15 +38,6 @@ namespace sup::gui
 {
 
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
-                                                         mvvm::ApplicationModel* model,
-                                                         QObject* parent)
-    : QObject(parent)
-    , m_container(model->GetRootItem())
-    , m_context(std::move(context))
-{
-}
-
-AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
                                                          mvvm::SessionItem* container,
                                                          QObject* parent)
     : QObject(parent), m_container(container), m_context(std::move(context))

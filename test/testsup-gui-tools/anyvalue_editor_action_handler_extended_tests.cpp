@@ -63,10 +63,11 @@ public:
   }
 
   //! Creates AnyValueEditorActions for testing.
-  std::unique_ptr<AnyValueEditorActionHandler> CreateActions(sup::gui::AnyValueItem* selection)
+  std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
+      sup::gui::AnyValueItem* selection)
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), &m_model,
-                                                         nullptr);
+    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection),
+                                                         m_model.GetRootItem(), nullptr);
   }
 
   mvvm::ApplicationModel m_model;
@@ -79,14 +80,14 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
 
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>(array_item);
 
-  // creating action for the context, when struct is selected
-  auto actions = CreateActions(struct_item);
+  // creating action handler for the context, when struct is selected
+  auto handler = CreateActionHandler(struct_item);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
 
   // adding AnyValueItem struct as a field.
-  actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   EXPECT_EQ(struct_item->GetChildren().size(), 1);
 };

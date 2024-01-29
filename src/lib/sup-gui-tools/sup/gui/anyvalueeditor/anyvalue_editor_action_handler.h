@@ -55,9 +55,6 @@ class AnyValueEditorActionHandler : public QObject
   Q_OBJECT
 
 public:
-  AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::ApplicationModel* model,
-                              QObject* parent);
-
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container,
                               QObject* parent);
 

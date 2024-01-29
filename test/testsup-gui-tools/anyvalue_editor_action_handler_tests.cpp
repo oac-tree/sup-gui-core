@@ -63,8 +63,8 @@ public:
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
       sup::gui::AnyValueItem* selection)
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), &m_model,
-                                                         nullptr);
+    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection),
+                                                         m_model.GetRootItem(), nullptr);
   }
 
   mvvm::SessionItem* GetAnyValueItemContainer() { return m_model.GetRootItem(); }
