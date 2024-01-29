@@ -26,8 +26,15 @@
 
 class QCloseEvent;
 
+namespace mvvm
+{
+class MainVerticalBarWidget;
+}
+
 namespace sup::gui
 {
+
+class DtoComposerView;
 
 /**
  * @brief The AnyValueEditorMainWindow class represents a main window of sup-config-editor
@@ -61,6 +68,9 @@ private:
    */
   bool PrepareForShutdown();
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
+
+  mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
+  DtoComposerView* m_composer_view{nullptr};
 };
 
 }  // namespace sup::gui

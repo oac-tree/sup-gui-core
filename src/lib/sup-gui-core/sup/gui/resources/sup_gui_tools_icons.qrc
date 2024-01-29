@@ -20,5 +20,6 @@
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
         <file>icons/vline.svg</file>
+        <file>icons/graph-outline-light.svg</file>
     </qresource>
 </RCC>

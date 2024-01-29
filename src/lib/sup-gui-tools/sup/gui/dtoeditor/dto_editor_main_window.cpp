@@ -19,7 +19,13 @@
 
 #include "dto_editor_main_window.h"
 
+#include "dto_composer_view.h"
+
 #include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/widgets/style_utils.h>
+
+#include <mvvm/widgets/main_vertical_bar_widget.h>
+#include <mvvm/widgets/widget_utils.h>
 
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -28,18 +34,9 @@
 
 namespace
 {
-const QString kMainWindowGroupName("MainWindow");
-
-QString GetWindowSizeSettingName()
-{
-  return kMainWindowGroupName + "/" + "size";
-}
-
-QString GetWindowPosSettingName()
-{
-  return kMainWindowGroupName + "/" + "position";
-}
-
+const QString kGroupName = "MainWindow";
+const QString kWindowSizeSettingName = kGroupName + "/" + "size";
+const QString kWindowPosSettingName = kGroupName + "/" + "position";
 }  // namespace
 
 namespace sup::gui
@@ -70,15 +67,36 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  sup::gui::AppAddMenus(menuBar(), {sup::gui::constants::kFileMenu, sup::gui::constants::kViewMenu,
-                                    sup::gui::constants::kHelpMenu});
+  AppAddMenus(menuBar(), {constants::kFileMenu, constants::kViewMenu, constants::kHelpMenu});
 
-  setCentralWidget(new QWidget);
+  m_tab_widget = new mvvm::MainVerticalBarWidget;
+  m_tab_widget->SetBaseColor("#008a65");
+
+  m_composer_view = new DtoComposerView;
+  m_tab_widget->AddWidget(m_composer_view, "Compose", utils::GetIcon("graph-outline-light.svg"));
+
+  m_tab_widget->AddSpacer();
+  m_tab_widget->SetCurrentIndex(0);
+
+  setCentralWidget(m_tab_widget);
 }
 
-void DtoEditorMainWindow::ReadSettings() {}
+void DtoEditorMainWindow::ReadSettings()
+{
+  const QSettings settings;
+  const auto default_size = QSize(mvvm::utils::UnitSize(80), mvvm::utils::UnitSize(60));
+  resize(settings.value(kWindowSizeSettingName, default_size).toSize());
 
-void DtoEditorMainWindow::WriteSettings() {}
+  const auto default_pos = QPoint(mvvm::utils::UnitSize(20), mvvm::utils::UnitSize(40));
+  move(settings.value(kWindowPosSettingName, default_pos).toPoint());
+}
+
+void DtoEditorMainWindow::WriteSettings()
+{
+  QSettings settings;
+  settings.setValue(kWindowSizeSettingName, size());
+  settings.setValue(kWindowPosSettingName, pos());
+}
 
 bool DtoEditorMainWindow::PrepareForShutdown()
 {
@@ -94,4 +112,4 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
   }
 }
 
-}  // namespace dtoeditor
+}  // namespace sup::gui
