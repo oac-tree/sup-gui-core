@@ -35,7 +35,7 @@
 #include <string>
 #include <vector>
 
-namespace anyvalueeditor
+namespace sup::gui
 {
 
 /**
@@ -46,7 +46,7 @@ namespace anyvalueeditor
 template <typename MainWindowT>
 int RunApplication(int argc, char** argv)
 {
-  auto options = anyvalueeditor::ParseOptions(argc, argv);
+  auto options = ParseOptions(argc, argv);
   sup::gui::SetupHighDpiScaling(options.scale);
 
   QApplication app(argc, argv);
@@ -75,7 +75,6 @@ int RunApplication(int argc, char** argv)
 
   return exit_code;
 }
-
 
 }  // namespace sup::gui
 

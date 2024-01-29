@@ -36,11 +36,8 @@ class SessionModelInterface;
 
 namespace sup::gui
 {
-class ProjectHandler;
-}
 
-namespace anyvalueeditor
-{
+class ProjectHandler;
 
 class AnyValueEditorMainWindowActions : public QObject
 {
@@ -77,6 +74,6 @@ private:
   sup::gui::ProjectHandler* m_project_handler{nullptr};
 };
 
-}  // namespace anyvalueeditor
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_MAIN_WINDOW_ACTIONS_H_

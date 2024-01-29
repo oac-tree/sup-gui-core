@@ -30,5 +30,5 @@ int main(int argc, char** argv)
 
   sup::gui::RegisterCustomMetaTypes();
 
-  return anyvalueeditor::RunApplication<anyvalueeditor::AnyValueEditorMainWindow>(argc, argv);
+  return sup::gui::RunApplication<sup::gui::AnyValueEditorMainWindow>(argc, argv);
 }

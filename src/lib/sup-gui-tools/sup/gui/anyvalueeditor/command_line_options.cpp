@@ -23,8 +23,9 @@
 #include <QCommandLineParser>
 #include <QCoreApplication>
 
-namespace anyvalueeditor
+namespace sup::gui
 {
+
 Options ParseOptions(int argc, char** argv)
 {
   // Parser requires an application to be created upfront.
@@ -70,4 +71,5 @@ Options ParseOptions(int argc, char** argv)
 
   return result;
 }
-}  // namespace sequencergui
+
+}  // namespace sup::gui

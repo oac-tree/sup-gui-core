@@ -29,12 +29,8 @@ class QCloseEvent;
 
 namespace sup::gui
 {
+
 class AnyValueEditor;
-}
-
-namespace anyvalueeditor
-{
-
 class AnyValueEditorMainWindowActions;
 
 //! The main window of this application.
@@ -71,6 +67,6 @@ private:
   sup::gui::AnyValueEditor* m_anyvalue_editor{nullptr};
 };
 
-}  // namespace anyvalueeditor
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_ANYVALUEEDITOR_MAIN_WINDOW_H_

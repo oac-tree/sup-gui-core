@@ -46,7 +46,7 @@ QString GetWindowPosSettingName()
 
 }  // namespace
 
-namespace anyvalueeditor
+namespace sup::gui
 {
 AnyValueEditorMainWindow::AnyValueEditorMainWindow()
 {
@@ -73,8 +73,8 @@ void AnyValueEditorMainWindow::InitApplication()
 
 void AnyValueEditorMainWindow::InitComponents()
 {
-  sup::gui::AppAddMenus(menuBar(), {sup::gui::constants::kFileMenu, sup::gui::constants::kViewMenu,
-                                    sup::gui::constants::kHelpMenu});
+  AppAddMenus(menuBar(), {constants::kFileMenu, constants::kViewMenu,
+                                    constants::kHelpMenu});
 
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
 

@@ -24,7 +24,7 @@
 
 #include <QString>
 
-namespace anyvalueeditor
+namespace sup::gui
 {
 
 struct Options
@@ -45,6 +45,6 @@ struct Options
 //! Parse command line options.
 Options ParseOptions(int argc, char** argv);
 
-}  // namespace sequencergui
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_ANYVALUEEDITOR_COMMAND_LINE_OPTIONS_H_

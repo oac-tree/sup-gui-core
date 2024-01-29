@@ -26,7 +26,7 @@
 
 class QCloseEvent;
 
-namespace dtoeditor
+namespace sup::gui
 {
 
 /**
@@ -63,6 +63,6 @@ private:
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 };
 
-}  // namespace dtoeditor
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_DTOEDITOR_MAIN_WINDOW_H_

@@ -33,7 +33,7 @@
 #include <QMainWindow>
 #include <QMenuBar>
 
-namespace anyvalueeditor
+namespace sup::gui
 {
 
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionModelInterface *model,
@@ -86,19 +86,19 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 
 void AnyValueEditorMainWindowActions::SetupMenus()
 {
-  auto file_menu = sup::gui::AppGetMenu(sup::gui::constants::kFileMenu);
+  auto file_menu = AppGetMenu(constants::kFileMenu);
 
-  sup::gui::AddNewProjectAction(file_menu, *m_project_handler);
-  sup::gui::AddOpenExistingProjectAction(file_menu, *m_project_handler);
+  AddNewProjectAction(file_menu, *m_project_handler);
+  AddOpenExistingProjectAction(file_menu, *m_project_handler);
 
   m_recent_project_menu = file_menu->addMenu("Recent Projects");
   auto about_to_show_menu = [this]()
-  { sup::gui::AddRecentProjectActions(m_recent_project_menu, *m_project_handler); };
+  { AddRecentProjectActions(m_recent_project_menu, *m_project_handler); };
   connect(file_menu, &QMenu::aboutToShow, this, about_to_show_menu);
 
   file_menu->addSeparator();
-  sup::gui::AddSaveCurrentProjectAction(file_menu, *m_project_handler);
-  sup::gui::AddSaveProjectAsAction(file_menu, *m_project_handler);
+  AddSaveCurrentProjectAction(file_menu, *m_project_handler);
+  AddSaveProjectAsAction(file_menu, *m_project_handler);
 
   file_menu->addSeparator();
 
@@ -115,30 +115,30 @@ void AnyValueEditorMainWindowActions::SetupMenus()
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
 
-  sup::gui::AppRegisterAction(sup::gui::constants::kHelpMenu, m_about_action);
+  AppRegisterAction(constants::kHelpMenu, m_about_action);
 }
 
 void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 {
-  if (sup::gui::SummonChangeSystemFontDialog())
+  if (SummonChangeSystemFontDialog())
   {
-    emit RestartApplicationRequest(sup::gui::Restart);
+    emit RestartApplicationRequest(Restart);
   }
 }
 
 void AnyValueEditorMainWindowActions::OnResetSettings()
 {
-  if (sup::gui::ShouldResetSettingsAndRestart())
+  if (ShouldResetSettingsAndRestart())
   {
-    emit RestartApplicationRequest(sup::gui::CleanSettingsAndRestart);
+    emit RestartApplicationRequest(CleanSettingsAndRestart);
   }
 }
 
 void AnyValueEditorMainWindowActions::OnAbout()
 {
-  sup::gui::AboutApplicationDialog::ShowDialog(mvvm::utils::FindMainWindow(), "AnyValue Editor",
-                                               "AnyValue structure and value editor",
-                                               QString::fromStdString(sup::gui::ProjectVersion()));
+  AboutApplicationDialog::ShowDialog(mvvm::utils::FindMainWindow(), "AnyValue Editor",
+                                     "AnyValue structure and value editor",
+                                     QString::fromStdString(ProjectVersion()));
 }
 
-}  // namespace anyvalueeditor
+}  // namespace sup::gui

@@ -42,7 +42,7 @@ QString GetWindowPosSettingName()
 
 }  // namespace
 
-namespace dtoeditor
+namespace sup::gui
 {
 
 DtoEditorMainWindow::DtoEditorMainWindow()
