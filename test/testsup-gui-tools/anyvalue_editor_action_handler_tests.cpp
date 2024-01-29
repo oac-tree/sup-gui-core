@@ -49,9 +49,7 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 class AnyValueEditorActionHandlerTest : public testutils::FolderBasedTest
 {
 public:
-  AnyValueEditorActionHandlerTest() : testutils::FolderBasedTest("test_AnyValueEditorAction")
-  {
-  }
+  AnyValueEditorActionHandlerTest() : testutils::FolderBasedTest("test_AnyValueEditorAction") {}
 
   //! Creates context necessary for AnyValueEditActions to function.
   AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)
@@ -68,6 +66,8 @@ public:
                                                          nullptr);
   }
 
+  mvvm::SessionItem* GetAnyValueItemContainer() { return m_model.GetRootItem(); }
+
   mvvm::ApplicationModel m_model;
   mvvm::test::MockCallbackListener<sup::gui::MessageEvent> m_warning_listener;
 };
@@ -79,6 +79,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
   auto actions = CreateActions(nullptr);
   EXPECT_EQ(actions->GetTopItem(), nullptr);
   EXPECT_EQ(actions->GetSelectedItem(), nullptr);
+  EXPECT_EQ(GetAnyValueItemContainer(), actions->GetAnyValueItemContainer());
 }
 
 //! Testing AnyValueEditorActions::SetInitialValue method.
@@ -151,7 +152,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   actions->OnAddEmptyAnyValue();
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueEmptyItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kEmptyTypeName);
@@ -181,7 +182,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   actions->OnAddAnyValueStruct();
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueStructItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kStructTypeName);
@@ -206,7 +207,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   actions->OnAddAnyValueStruct();
 
   // validating that there is still one item
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //! Adding structure as a field to another structure (which is marked as selected).
@@ -226,7 +227,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   actions->OnAddAnyValueStruct();
 
   // validating that parent got new child
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -252,7 +253,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   actions->OnAddAnyValueStruct();
 
   // validating that nothing can changed in the model
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 0);
 };
 
@@ -271,7 +272,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kScalarTypeName);
@@ -284,7 +285,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // the amount of items should stay the same
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //! Adding scalar as a field to another structure (which is marked as selected).
@@ -303,7 +304,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -329,7 +330,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -355,7 +356,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that nothing can changed in the model
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 0);
 };
 
@@ -375,7 +376,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // checking that model still have a single item
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //! Attempt to add a scalar as an array element when array is contasining diffierent scalar types.
@@ -396,7 +397,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
   actions->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   // expecting error callback
@@ -424,7 +425,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   actions->OnAddAnyValueArray();
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kArrayTypeName);
@@ -436,7 +437,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   actions->OnAddAnyValueArray();
 
   // the amount of items should stay the same
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //! Adding array as a field to another structure (which is marked as selected).
@@ -455,7 +456,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
   actions->OnAddAnyValueArray();
 
   // validating that parent got new child
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -480,7 +481,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
   actions->OnAddAnyValueArray();
 
   // validating that nothing can changed in the model
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 0);
 };
 
@@ -500,7 +501,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   actions->OnAddAnyValueArray();
 
   // checking that model still have a single item
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -519,7 +520,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
   EXPECT_NO_FATAL_FAILURE(actions->OnRemoveSelected());
 
   // validating that still has an item
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //! Remove selected item.
@@ -527,7 +528,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 {
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 
   // creating action for the context, pretending item is selected
   auto actions = CreateActions(struct_item);
@@ -535,7 +536,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
   actions->OnRemoveSelected();
 
   // validating that there is no item anymore
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 0);
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -561,7 +562,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   actions->OnImportFromFileRequest(file_path);
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
@@ -572,7 +573,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
 
   actions->OnImportFromFileRequest(file_path);
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
 //! Validates import of JSON from file, where imported value goes as a field to selected
@@ -588,7 +589,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
 
   // creating a
   auto structure = m_model.InsertItem<sup::gui::AnyValueStructItem>();
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 
   // creating action for the context, making structure selected
   auto actions = CreateActions(structure);
@@ -599,7 +600,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
   actions->OnImportFromFileRequest(file_path);
 
   // testing new child of the structure
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(structure->GetChildren().size(), 1);
   auto inserted_item = dynamic_cast<sup::gui::AnyValueScalarItem*>(structure->GetChildren().at(0));
   ASSERT_NE(inserted_item, nullptr);
@@ -629,7 +630,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ExportToFile)
   actions->OnExportToFileRequest(file_path);
 
   // model should be the same
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 
   // reading our exported file for the validation
   auto exported_value = sup::gui::AnyValueFromJSONFile(file_path);
@@ -654,7 +655,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToExportEmptyModelToFile)
   actions->OnExportToFileRequest(file_path);
 
   // model empty as it was, file wasn't created
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 0);
   EXPECT_FALSE(mvvm::utils::IsExists(file_path));
 };
 

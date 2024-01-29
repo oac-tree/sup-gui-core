@@ -42,8 +42,12 @@ class AnyValueItem;
  *
  * @details It allows to add to the model AnyValueItems representing scalars, structs, and arrays.
  * The class rely on callbacks to query currently selected item and to report an error if the action
- * is not possible. Depending on current selection, items can be added either as top-level items, or
- * as a field to already existing items.
+ * is not possible. Depending on current selection, AnyValueItem can be added either as top-level
+ * item, or as a field to already existing items.
+ *
+ * @details Given implementation reflects needs of AnyValueEditor where we edit a single top level
+ * AnyValueItem at a time. Thus, it is assumed that there is only signle top level AnyValueItem and
+ * it is located in own container.
  */
 
 class AnyValueEditorActionHandler : public QObject
@@ -52,6 +56,9 @@ class AnyValueEditorActionHandler : public QObject
 
 public:
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::ApplicationModel* model,
+                              QObject* parent);
+
+  AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container,
                               QObject* parent);
 
   void OnAddEmptyAnyValue();
@@ -72,11 +79,24 @@ public:
 
   void OnMoveDownRequest();
 
+  /**
+   * @brief Sets initial value.
+   *
+   * @param item The value to set.
+   *
+   * @details The given value will be cloned inside the editor's model and used as a starting point
+   * for editing.
+   */
   void SetInitialValue(const AnyValueItem& item);
 
   AnyValueItem* GetTopItem();
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
+
+  /**
+   * @brief Returns container used to store top level AnyValueItem.
+   */
+  mvvm::SessionItem* GetAnyValueItemContainer() const;
 
 signals:
   void SelectItemRequest(mvvm::SessionItem* item);
@@ -97,8 +117,8 @@ private:
 
   void AddAnyValueItem(std::unique_ptr<AnyValueItem> item);
 
-  mvvm::ApplicationModel* m_model{nullptr};
   AnyValueEditorContext m_context;
+  mvvm::SessionItem* m_container{nullptr};
 };
 
 }  // namespace sup::gui

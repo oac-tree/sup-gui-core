@@ -40,7 +40,16 @@ namespace sup::gui
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
                                                          mvvm::ApplicationModel* model,
                                                          QObject* parent)
-    : QObject(parent), m_model(model), m_context(std::move(context))
+    : QObject(parent)
+    , m_container(model->GetRootItem())
+    , m_context(std::move(context))
+{
+}
+
+AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
+                                                         mvvm::SessionItem* container,
+                                                         QObject* parent)
+    : QObject(parent), m_container(container), m_context(std::move(context))
 {
 }
 
@@ -138,9 +147,6 @@ void AnyValueEditorActionHandler::OnMoveDownRequest()
   }
 }
 
-//! Set initial value. The given value will be cloned inside the editor's model and used as
-//! a starting point for editing.
-
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 {
   if (auto item = GetTopItem(); item)
@@ -149,8 +155,8 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
     return;
   }
 
-  GetModel()->InsertItem(mvvm::utils::CloneItem(item), GetModel()->GetRootItem(),
-                      mvvm::TagIndex::Append());
+  GetModel()->InsertItem(mvvm::utils::CloneItem(item), GetAnyValueItemContainer(),
+                         mvvm::TagIndex::Append());
 }
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
@@ -163,14 +169,19 @@ AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
   return m_context.get_selected_callback ? m_context.get_selected_callback() : nullptr;
 }
 
-mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
+mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
 {
-  return GetSelectedItem() ? GetSelectedItem() : GetModel()->GetRootItem();
+  return m_container;
 }
 
-mvvm::SessionModelInterface *AnyValueEditorActionHandler::GetModel() const
+mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
 {
-  return m_model;
+  return GetSelectedItem() ? GetSelectedItem() : GetAnyValueItemContainer();
+}
+
+mvvm::SessionModelInterface* AnyValueEditorActionHandler::GetModel() const
+{
+  return m_container->GetModel();
 }
 
 void AnyValueEditorActionHandler::SendMessage(const std::string& text,
