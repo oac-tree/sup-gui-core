@@ -26,8 +26,6 @@
 #include <QWidget>
 #include <memory>
 
-class QSplitter;
-
 namespace mvvm
 {
 class ApplicationModel;
@@ -36,11 +34,7 @@ class ApplicationModel;
 namespace sup::gui
 {
 
-class AnyValueItem;
-class AnyValueEditorActionHandler;
-class AnyValueEditorTextPanel;
-class AnyValueEditorTreePanel;
-class AnyValueEditorActions;
+class AnyValueEditorWidget;
 
 class AnyValueEditor : public QWidget
 {
@@ -50,42 +44,18 @@ public:
   explicit AnyValueEditor(QWidget* parent = nullptr);
   ~AnyValueEditor() override;
 
-  void OnImportFromFileRequest();
-  void OnExportToFileRequest();
-
-  sup::gui::AnyValueItem* GetSelectedItem() const;
-
   void SetInitialValue(const sup::gui::AnyValueItem& item);
 
   AnyValueItem* GetTopItem();
 
   mvvm::ApplicationModel* GetModel() const;
 
+  void OnImportFromFileRequest();
+  void OnExportToFileRequest();
+
 private:
-  void ReadSettings();
-  void WriteSettings();
-  void SetupConnections();
-  void SetupWidgetActions();
-  void ImportAnyValueFromFile(const QString& file_name);
-  AnyValueEditorContext CreateActionContext() const;
-  void UpdateCurrentWorkdir(const QString& file_name);
-
-  QWidget* CreateLeftPanel();
-  QWidget* CreateRightPanel();
-
-  QAction* m_show_right_sidebar{nullptr};
-
   std::unique_ptr<mvvm::ApplicationModel> m_model;
-  AnyValueEditorActions* m_actions{nullptr};
-  AnyValueEditorActionHandler* m_action_handler{nullptr};
-  AnyValueEditorTextPanel* m_text_edit{nullptr};
-  AnyValueEditorTreePanel* m_tree_panel{nullptr};
-  QWidget* m_left_panel{nullptr};
-  QWidget* m_right_panel{nullptr};
-  QSplitter* m_splitter{nullptr};
-
-  QString m_current_workdir;  //! directory used during import/export operations
-  bool m_text_panel_is_visible{true};
+  AnyValueEditorWidget* m_editor_widget{nullptr};
 };
 
 }  // namespace sup::gui

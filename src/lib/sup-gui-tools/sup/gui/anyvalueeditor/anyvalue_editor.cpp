@@ -19,40 +19,11 @@
 
 #include "anyvalue_editor.h"
 
-#include "anyvalue_editor_action_handler.h"
-#include "anyvalue_editor_actions.h"
-#include "anyvalue_editor_textpanel.h"
-#include "anyvalue_editor_treepanel.h"
-
-#include <sup/gui/app/app_action_helper.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/widgets/item_stack_widget.h>
-#include <sup/gui/widgets/style_utils.h>
+#include "anyvalue_editor_widget.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/project/model_has_changed_controller.h>
-#include <mvvm/utils/file_utils.h>
 
-#include <sup/dto/anyvalue.h>
-
-#include <QAction>
-#include <QFileDialog>
-#include <QHBoxLayout>
-#include <QMessageBox>
-#include <QSettings>
-#include <QSplitter>
-#include <QTreeView>
-
-namespace
-{
-
-const QString kGroupName("AnyValueEditor/");
-const QString kCurrentWorkdirSettingName = kGroupName + "workdir";
-const QString kSplitterSettingName = kGroupName + "splitter";
-const QString kIsVisiblePanelSettingName = kGroupName + "json_panel";
-
-}  // namespace
+#include <QVBoxLayout>
 
 namespace sup::gui
 {
@@ -60,206 +31,40 @@ namespace sup::gui
 AnyValueEditor::AnyValueEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_actions(new AnyValueEditorActions(this))
-    , m_action_handler(
-          new AnyValueEditorActionHandler(CreateActionContext(), m_model->GetRootItem(), this))
-    , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
-    , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
-    , m_left_panel(CreateLeftPanel())
-    , m_right_panel(CreateRightPanel())
-    , m_splitter(new QSplitter)
+    , m_editor_widget(new AnyValueEditorWidget)
 {
   auto layout = new QVBoxLayout(this);
-
-  m_splitter->addWidget(m_left_panel);
-  m_splitter->addWidget(m_right_panel);
-  m_splitter->setCollapsible(0, false);
-
-  layout->addWidget(m_splitter);
-
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  SetupConnections();
-  SetupWidgetActions();
-  ReadSettings();
+  layout->addWidget(m_editor_widget);
 }
-
-AnyValueEditor::~AnyValueEditor()
-{
-  WriteSettings();
-}
-
-//! Imports AnyValue from JSON file.
-
-void AnyValueEditor::OnImportFromFileRequest()
-{
-  QFileDialog dialog(this, "Select JSON file to load", m_current_workdir);
-  dialog.setFileMode(QFileDialog::ExistingFile);
-  dialog.setNameFilter("All JSON files (*.json *.JSON)");
-  //  dialog.setOption(QFileDialog::DontUseNativeDialog);
-  QStringList selected_files = dialog.exec() ? dialog.selectedFiles() : QStringList();
-  auto file_name = selected_files.empty() ? QString() : selected_files.at(0);
-
-  if (!file_name.isEmpty())
-  {
-    ImportAnyValueFromFile(file_name);
-    UpdateCurrentWorkdir(file_name);
-  }
-}
-
-void AnyValueEditor::OnExportToFileRequest()
-{
-  auto file_name = QFileDialog::getSaveFileName(
-      this, "Save File", m_current_workdir + "/untitled.json", tr("Images (*.json *.JSON)"));
-
-  if (!file_name.isEmpty())
-  {
-    m_action_handler->OnExportToFileRequest(file_name.toStdString());
-    UpdateCurrentWorkdir(file_name);
-  }
-}
-
-//! Returns AnyValueItem selected by the user in item tree.
-
-sup::gui::AnyValueItem *AnyValueEditor::GetSelectedItem() const
-{
-  return m_tree_panel->GetSelectedItem();
-}
-
-//! Sets initial value. The given value will be cloned inside the editor's model and used as
-//! a starting point for editing.
 
 void AnyValueEditor::SetInitialValue(const AnyValueItem &item)
 {
-  m_action_handler->SetInitialValue(item);
+  m_editor_widget->SetInitialValue(item);
 }
 
 AnyValueItem *AnyValueEditor::GetTopItem()
 {
-  return m_action_handler->GetTopItem();
+  return m_editor_widget->GetTopItem();
 }
 
 mvvm::ApplicationModel *AnyValueEditor::GetModel() const
 {
-  return m_model.get();
+  return m_editor_widget->GetModel();
 }
 
-void AnyValueEditor::ReadSettings()
+void AnyValueEditor::OnImportFromFileRequest()
 {
-  const QSettings settings;
-  m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
-
-  if (settings.contains(kSplitterSettingName))
-  {
-    m_splitter->restoreState(settings.value(kSplitterSettingName).toByteArray());
-  }
-
-  m_text_panel_is_visible = settings.value(kIsVisiblePanelSettingName, true).toBool();
-  m_right_panel->setVisible(m_text_panel_is_visible);
+  m_editor_widget->OnImportFromFileRequest();
 }
 
-void AnyValueEditor::WriteSettings()
+void AnyValueEditor::OnExportToFileRequest()
 {
-  QSettings settings;
-  settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
-  settings.setValue(kSplitterSettingName, m_splitter->saveState());
-  settings.setValue(kIsVisiblePanelSettingName, m_text_panel_is_visible);
+  m_editor_widget->OnExportToFileRequest();
 }
 
-//! Set up all connections.
-
-void AnyValueEditor::SetupConnections()
-{
-  // selection request from action handler
-  connect(m_action_handler, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
-          &AnyValueEditorTreePanel::SetSelected);
-
-  // main editing request from AnyValueEditorActions
-  connect(m_actions, &AnyValueEditorActions::AddEmptyAnyValueRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnAddEmptyAnyValue);
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueStructRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnAddAnyValueStruct);
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueArrayRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnAddAnyValueArray);
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueScalarRequest, this,
-          [this](auto str) { m_action_handler->OnAddAnyValueScalar(str.toStdString()); });
-  connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,
-          &AnyValueEditor::OnImportFromFileRequest);
-  connect(m_actions, &AnyValueEditorActions::RemoveSelectedRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnRemoveSelected);
-  connect(m_actions, &AnyValueEditorActions::MoveUpRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnMoveUpRequest);
-  connect(m_actions, &AnyValueEditorActions::MoveDownRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnMoveDownRequest);
-
-  // export request from text panel
-  connect(m_text_edit, &AnyValueEditorTextPanel::ExportToFileRequest, this,
-          &AnyValueEditor::OnExportToFileRequest);
-}
-
-void AnyValueEditor::SetupWidgetActions()
-{
-  m_show_right_sidebar = new QAction("Show/hide Right Sidebar", this);
-  m_show_right_sidebar->setShortcut(QKeySequence(QString("Ctrl+Shift+0")));
-  m_show_right_sidebar->setStatusTip("Show/hide Right Sidebar");
-  m_show_right_sidebar->setIcon(utils::GetIcon("dock-right"));
-  connect(m_show_right_sidebar, &QAction::triggered, this,
-          [this](auto)
-          {
-            m_text_panel_is_visible = !m_text_panel_is_visible;
-            m_right_panel->setVisible(m_text_panel_is_visible);
-          });
-
-  sup::gui::AppRegisterAction(sup::gui::constants::kViewMenu, m_show_right_sidebar);
-}
-
-//! Creates a context with all callbacks necessary for AnyValueEditorActions to function.
-
-AnyValueEditorContext AnyValueEditor::CreateActionContext() const
-{
-  auto get_selected_callback = [this]() { return GetSelectedItem(); };
-
-  auto notify_warning_callback = [this](const sup::gui::MessageEvent &event)
-  {
-    QMessageBox msg_box;
-    msg_box.setText(QString::fromStdString(event.text));
-    msg_box.setInformativeText(QString::fromStdString(event.informative));
-    msg_box.setDetailedText(QString::fromStdString(event.detailed));
-    msg_box.setIcon(msg_box.Warning);
-    msg_box.exec();
-  };
-
-  return {get_selected_callback, notify_warning_callback};
-}
-
-//! Updates cached value for last working directory for later saving in widget's persistent settings
-void AnyValueEditor::UpdateCurrentWorkdir(const QString &file_name)
-{
-  auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-  m_current_workdir = QString::fromStdString(parent_path);
-}
-
-QWidget *AnyValueEditor::CreateLeftPanel()
-{
-  auto result = new ItemStackWidget;
-  result->AddWidget(m_tree_panel, m_actions->GetActions());
-  return result;
-}
-
-QWidget *AnyValueEditor::CreateRightPanel()
-{
-  auto result = new ItemStackWidget;
-  result->AddWidget(m_text_edit, m_text_edit->actions());
-  return result;
-}
-
-//! Imports AnyValue from JSON file.
-
-void AnyValueEditor::ImportAnyValueFromFile(const QString &file_name)
-{
-  m_action_handler->OnImportFromFileRequest(file_name.toStdString());
-  m_tree_panel->GetTreeView()->expandAll();
-}
+AnyValueEditor::~AnyValueEditor() = default;
 
 }  // namespace sup::gui

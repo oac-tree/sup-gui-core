@@ -16,6 +16,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_textpanel.h
   anyvalue_editor_treepanel.cpp
   anyvalue_editor_treepanel.h
+  anyvalue_editor_widget.cpp
+  anyvalue_editor_widget.h
   command_line_options.cpp
   command_line_options.h
   custom_metatypes.cpp
