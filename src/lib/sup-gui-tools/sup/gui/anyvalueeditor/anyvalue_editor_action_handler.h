@@ -40,10 +40,10 @@ class AnyValueItem;
  * @brief The AnyValueEditorActionHandler class implements logic to manipulate AnyValue's from the
  * toolbar.
  *
- * It allows to add to the model AnyValueItems representing scalars, structs, and arrays. Depending
- * on passed parameters, items can be added either as top-level items, or as a field to already
- * existing items. The class rely on callbacks to query currently selected item and to report an
- * error if the action is not possible.
+ * @details It allows to add to the model AnyValueItems representing scalars, structs, and arrays.
+ * The class rely on callbacks to query currently selected item and to report an error if the action
+ * is not possible. Depending on current selection, items can be added either as top-level items, or
+ * as a field to already existing items.
  */
 
 class AnyValueEditorActionHandler : public QObject
@@ -82,7 +82,16 @@ signals:
   void SelectItemRequest(mvvm::SessionItem* item);
 
 private:
+  /**
+   * @brief Returns parent to use while inserting an item
+   */
   mvvm::SessionItem* GetParent() const;
+
+  /**
+   * @brief Returns the model.
+   */
+  mvvm::SessionModelInterface* GetModel() const;
+
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 

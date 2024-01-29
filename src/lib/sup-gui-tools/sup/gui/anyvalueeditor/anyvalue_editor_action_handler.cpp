@@ -80,7 +80,7 @@ void AnyValueEditorActionHandler::OnRemoveSelected()
 {
   if (auto selected = GetSelectedItem(); selected)
   {
-    m_model->RemoveItem(selected);
+    GetModel()->RemoveItem(selected);
   }
 }
 
@@ -93,7 +93,7 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
   }
 
   auto anyvalue = sup::gui::AnyValueFromJSONFile(file_name);
-  m_model->InsertItem(sup::gui::CreateItem(anyvalue), GetParent(), mvvm::TagIndex::Append());
+  GetModel()->InsertItem(sup::gui::CreateItem(anyvalue), GetParent(), mvvm::TagIndex::Append());
 }
 
 void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_name)
@@ -149,13 +149,13 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
     return;
   }
 
-  m_model->InsertItem(mvvm::utils::CloneItem(item), m_model->GetRootItem(),
+  GetModel()->InsertItem(mvvm::utils::CloneItem(item), GetModel()->GetRootItem(),
                       mvvm::TagIndex::Append());
 }
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 {
-  return mvvm::utils::GetTopItem<AnyValueItem>(m_model);
+  return mvvm::utils::GetTopItem<AnyValueItem>(GetModel());
 }
 
 AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
@@ -163,10 +163,14 @@ AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
   return m_context.get_selected_callback ? m_context.get_selected_callback() : nullptr;
 }
 
-//! Returns parent item to use for insertion.
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
 {
-  return GetSelectedItem() ? GetSelectedItem() : m_model->GetRootItem();
+  return GetSelectedItem() ? GetSelectedItem() : GetModel()->GetRootItem();
+}
+
+mvvm::SessionModelInterface *AnyValueEditorActionHandler::GetModel() const
+{
+  return m_model;
 }
 
 void AnyValueEditorActionHandler::SendMessage(const std::string& text,
@@ -193,7 +197,7 @@ void AnyValueEditorActionHandler::AddAnyValueItem(std::unique_ptr<AnyValueItem> 
       {
         item->SetDisplayName(name.value());
       }
-      auto result = m_model->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
+      auto result = GetModel()->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
       emit SelectItemRequest(result);
     }
     catch (const std::exception& ex)
