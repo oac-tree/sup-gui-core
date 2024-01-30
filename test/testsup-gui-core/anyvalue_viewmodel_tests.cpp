@@ -24,6 +24,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/container_item.h>
 
 #include <sup/dto/anytype.h>
 
@@ -302,4 +303,39 @@ TEST_F(AnyValueViewModelTest, BooleanScalarItem)
   EXPECT_FALSE(viewmodel.data(item_type_index, Qt::CheckStateRole).isValid());
 
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::CheckStateRole).toInt(), Qt::Checked);
+}
+
+//! ViewModel is pointed in initially empty model. Then we insert container with AnyValueItem in the
+//! container. ViewModel should recognize AnyValueItem when proper root item set (real-life bug).
+
+TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
+{
+  mvvm::ApplicationModel model;
+
+  AnyValueViewModel viewmodel(&model);
+
+  // failing on the next line
+  auto container = model.InsertItem<mvvm::ContainerItem>();
+
+  auto item = model.InsertItem<AnyValueScalarItem>(container, mvvm::TagIndex::Append());
+  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  EXPECT_EQ(item->Data<mvvm::int8>(), 0);
+
+  EXPECT_EQ(viewmodel.rowCount(), 0);
+  EXPECT_EQ(viewmodel.columnCount(), 3);
+
+  viewmodel.SetRootSessionItem(container);
+
+  EXPECT_EQ(viewmodel.rowCount(), 3);
+  EXPECT_EQ(viewmodel.columnCount(), 3);
+
+  auto item_displayname_index = viewmodel.index(0, 0);
+  auto item_value_index = viewmodel.index(0, 1);
+  auto item_type_index = viewmodel.index(0, 2);
+
+  EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
+            constants::kScalarTypeName);
+  EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole).toInt(), 0);
+  EXPECT_EQ(viewmodel.data(item_type_index, Qt::DisplayRole).toString().toStdString(),
+            sup::dto::kInt8TypeName);
 }
