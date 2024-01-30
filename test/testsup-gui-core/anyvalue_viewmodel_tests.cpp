@@ -314,7 +314,6 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
 
   AnyValueViewModel viewmodel(&model);
 
-  // failing on the next line
   auto container = model.InsertItem<mvvm::ContainerItem>();
 
   auto item = model.InsertItem<AnyValueScalarItem>(container, mvvm::TagIndex::Append());
@@ -326,7 +325,7 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
 
   viewmodel.SetRootSessionItem(container);
 
-  EXPECT_EQ(viewmodel.rowCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(), 1);
   EXPECT_EQ(viewmodel.columnCount(), 3);
 
   auto item_displayname_index = viewmodel.index(0, 0);

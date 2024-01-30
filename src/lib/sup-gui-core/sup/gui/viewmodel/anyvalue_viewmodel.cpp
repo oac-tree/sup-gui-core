@@ -19,10 +19,10 @@
 
 #include "anyvalue_viewmodel.h"
 
+#include "custom_children_strategies.h"
 #include "custom_row_strategies.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
 
 namespace sup::gui
 {
@@ -31,7 +31,7 @@ AnyValueViewModel::AnyValueViewModel(mvvm::SessionModelInterface *model, QObject
     : ViewModel(parent)
 {
   SetController(
-      mvvm::factory::CreateController<mvvm::AllChildrenStrategy, AnyValueRowStrategy>(model, this));
+      mvvm::factory::CreateController<AnyValueChildrenStrategy, AnyValueRowStrategy>(model, this));
 }
 
 int AnyValueViewModel::columnCount(const QModelIndex &parent) const
