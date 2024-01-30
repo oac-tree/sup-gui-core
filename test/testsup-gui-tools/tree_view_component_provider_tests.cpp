@@ -94,39 +94,44 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
 //! Testing how tree view looks for a single scalar. The difference with previous test is that
 //! AnyValueItem is located in its own container.
 
-// TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
-// {
-//   TreeViewComponentProvider provider(&m_model, &m_tree);
+TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
+{
+  TreeViewComponentProvider provider(&m_model, &m_tree);
 
-//   // single scalar in a model
-//   auto container = m_model.InsertItem<mvvm::ContainerItem>();
-//   auto item = m_model.InsertItem<AnyValueScalarItem>(container, mvvm::TagIndex::Append());
-//   item->SetAnyTypeName(sup::dto::kInt8TypeName);
-//   item->SetData(mvvm::int8{42});
+  // single scalar in a model
+  auto container = m_model.InsertItem<mvvm::ContainerItem>();
+  auto item = m_model.InsertItem<AnyValueScalarItem>(container, mvvm::TagIndex::Append());
+  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetData(mvvm::int8{42});
 
-//   // to test tree view we will be looking at proxy model.
-//   auto proxymodel = provider.GetProxyModel();
+  // to test tree view we will be looking at proxy model.
+  auto proxymodel = provider.GetProxyModel();
 
-//   // no item is selected
-//   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
+  EXPECT_EQ(proxymodel->rowCount(), 0);
+  EXPECT_EQ(proxymodel->columnCount(), 3);
 
-//   // check if we can get back to item using visible indices
-//   auto item_displayname_index = proxymodel->index(0, 0);
-//   auto item_value_index = proxymodel->index(0, 1);
-//   auto item_type_index = proxymodel->index(0, 2);
-//   EXPECT_EQ(provider.GetItemFromViewIndex(item_displayname_index), item);
-//   EXPECT_EQ(provider.GetItemFromViewIndex(item_value_index), item);
+  provider.SetItem(container);
 
-//   // check that proxymodel sees correct data
-//   EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
-//             std::string("scalar"));
-//   EXPECT_EQ(proxymodel->data(item_value_index, Qt::DisplayRole).toInt(), 42);
+  EXPECT_EQ(proxymodel->rowCount(), 1);
+  EXPECT_EQ(proxymodel->columnCount(), 3);
 
-//   // making item selected
-//   provider.SetSelectedItem(item);
-//   EXPECT_EQ(provider.GetSelectedItem(), item);
-//   EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem*>({item}));
-// }
+  // check if we can get back to item using visible indices
+  auto item_displayname_index = proxymodel->index(0, 0);
+  auto item_value_index = proxymodel->index(0, 1);
+  auto item_type_index = proxymodel->index(0, 2);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_displayname_index), item);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_value_index), item);
+
+  // check that proxymodel sees correct data
+  EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
+            std::string("scalar"));
+  EXPECT_EQ(proxymodel->data(item_value_index, Qt::DisplayRole).toInt(), 42);
+
+  // making item selected
+  provider.SetSelectedItem(item);
+  EXPECT_EQ(provider.GetSelectedItem(), item);
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem*>({item}));
+}
 
 //! Testing how struct looks like with two children, one filtered out
 
