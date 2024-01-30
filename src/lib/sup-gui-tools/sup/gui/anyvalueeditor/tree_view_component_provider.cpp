@@ -46,6 +46,11 @@ TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ApplicationModel *mod
   m_tree_view->setItemDelegate(m_delegate.get());
 }
 
+void TreeViewComponentProvider::SetItem(mvvm::SessionItem *item)
+{
+  m_view_model->SetRootSessionItem(item);
+}
+
 TreeViewComponentProvider::~TreeViewComponentProvider() = default;
 
 void TreeViewComponentProvider::SetFilterPattern(const QString &pattern)

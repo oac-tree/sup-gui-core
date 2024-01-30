@@ -75,7 +75,7 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
-            std::string("scalar"));
+            constants::kScalarTypeName);
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole).toInt(), 0);
 
   // it should be possible to change scalar display name

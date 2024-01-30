@@ -50,7 +50,9 @@ class AnyValueItem;
  * @brief The TreeViewComponentProvider class provides QAbstractItemView with custom components:
  * viemodel, delegate and selection model.
  *
- * @details Provider owns components but doesn't own a view. The viewmodel allows filtering.
+ * @details Provider owns components but doesn't own a view. This provider is oriented for
+ * AnyValueItem editing. Internally it uses AnyValueViewModel to have 3-column AnyValue tree and
+ * special AnyValueFilteredViewModel to allow filtering.
  */
 
 class TreeViewComponentProvider : public QObject
@@ -60,6 +62,11 @@ class TreeViewComponentProvider : public QObject
 public:
   explicit TreeViewComponentProvider(mvvm::ApplicationModel* model, QTreeView* view);
   ~TreeViewComponentProvider() override;
+
+  /**
+   * @brief Set an item to be a new invisible root item for view model.
+   */
+  void SetItem(mvvm::SessionItem* item);
 
   void SetFilterPattern(const QString& pattern);
 

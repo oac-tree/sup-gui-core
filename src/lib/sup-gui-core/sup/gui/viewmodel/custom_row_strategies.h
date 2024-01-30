@@ -17,27 +17,27 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "anyvalue_viewmodel.h"
+#ifndef SUP_GUI_VIEWMODEL_CUSTOM_ROW_STRATEGIES_H_
+#define SUP_GUI_VIEWMODEL_CUSTOM_ROW_STRATEGIES_H_
 
-#include "custom_row_strategies.h"
-
-#include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
+#include <mvvm/interfaces/row_strategy_interface.h>
 
 namespace sup::gui
 {
 
-AnyValueViewModel::AnyValueViewModel(mvvm::SessionModelInterface *model, QObject *parent)
-    : ViewModel(parent)
-{
-  SetController(
-      mvvm::factory::CreateController<mvvm::AllChildrenStrategy, AnyValueRowStrategy>(model, this));
-}
+/**
+ * @brief The AnyValueRowStrategy class is a strategy to generate row of items representing
+ * AnyValueItem tree.
+ */
 
-int AnyValueViewModel::columnCount(const QModelIndex &parent) const
+class AnyValueRowStrategy : public mvvm::RowStrategyInterface
 {
-  // always fixed number of columns: Name, Value, TypeName
-  return 3;
-}
+public:
+  QStringList GetHorizontalHeaderLabels() const override;
+
+  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override;
+};
 
 }  // namespace sup::gui
+
+#endif  // SUP_GUI_VIEWMODEL_CUSTOM_ROW_STRATEGIES_H_
