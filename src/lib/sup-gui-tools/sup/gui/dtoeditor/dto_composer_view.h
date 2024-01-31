@@ -21,16 +21,21 @@
 #define SUP_GUI_DTOEDITOR_DTO_COMPOSER_VIEW_H_
 
 #include <QWidget>
+#include <map>
+#include <memory>
 
 class QTabWidget;
 
 namespace mvvm
 {
 class ApplicationModel;
+class SessionItem;
 }
 
 namespace sup::gui
 {
+
+class DtoComposerTabController;
 
 /**
  * @brief The DtoComposerView class represents a main view to assemble AnyValue.
@@ -44,9 +49,13 @@ class DtoComposerView : public QWidget
 public:
   explicit DtoComposerView(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
 
+  void AddAnyValue();
+
 private:
-  QTabWidget* m_tab_widget{nullptr};
   mvvm::ApplicationModel* m_model{nullptr};
+
+  QTabWidget* m_tab_widget{nullptr};
+  std::unique_ptr<DtoComposerTabController> m_tab_controller;
 };
 
 }  // namespace sup::gui

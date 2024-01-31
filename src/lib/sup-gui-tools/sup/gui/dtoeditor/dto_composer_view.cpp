@@ -19,6 +19,13 @@
 
 #include "dto_composer_view.h"
 
+#include "dto_composer_tab_controller.h"
+
+#include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
+
+#include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/container_item.h>
+
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -26,7 +33,10 @@ namespace sup::gui
 {
 
 DtoComposerView::DtoComposerView(mvvm::ApplicationModel *model, QWidget *parent)
-    : QWidget(parent), m_model(model), m_tab_widget(new QTabWidget)
+    : QWidget(parent)
+    , m_model(model)
+    , m_tab_widget(new QTabWidget)
+    , m_tab_controller(std::make_unique<DtoComposerTabController>(model, m_tab_widget))
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
@@ -34,9 +44,17 @@ DtoComposerView::DtoComposerView(mvvm::ApplicationModel *model, QWidget *parent)
 
   layout->addWidget(m_tab_widget);
 
-  m_tab_widget->addTab(new QWidget, "AnyValue");
+  m_tab_widget->setMovable(true);
+  m_tab_widget->setTabsClosable(true);
 
   m_tab_widget->setTabPosition(QTabWidget::South);
+
+  AddAnyValue();
+}
+
+void DtoComposerView::AddAnyValue()
+{
+  m_model->InsertItem<mvvm::ContainerItem>();
 }
 
 }  // namespace sup::gui
