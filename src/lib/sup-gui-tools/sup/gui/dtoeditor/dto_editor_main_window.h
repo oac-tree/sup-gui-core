@@ -53,6 +53,11 @@ protected:
   void closeEvent(QCloseEvent* event) override;
 
 private:
+  /**
+   * @brief Populates model with empty container to hold first AnyValueItem.
+   */
+  void PopulateModel();
+
   void InitApplication();
   void InitComponents();
   void ReadSettings();

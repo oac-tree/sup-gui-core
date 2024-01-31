@@ -25,6 +25,7 @@
 #include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/container_item.h>
 #include <mvvm/widgets/main_vertical_bar_widget.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -45,6 +46,7 @@ namespace sup::gui
 
 DtoEditorMainWindow::DtoEditorMainWindow() : m_model(std::make_unique<mvvm::ApplicationModel>())
 {
+  PopulateModel();
   InitApplication();
 }
 
@@ -58,6 +60,13 @@ void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
     return;
   }
   event->ignore();
+}
+
+void DtoEditorMainWindow::PopulateModel()
+{
+  // Adding empty container for first AnyValueItem. Item itself will be created from
+  // SupDtoComposerView.
+  m_model->InsertItem<mvvm::ContainerItem>();
 }
 
 void DtoEditorMainWindow::InitApplication()

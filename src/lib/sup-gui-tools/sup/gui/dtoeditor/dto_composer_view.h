@@ -49,8 +49,6 @@ class DtoComposerView : public QWidget
 public:
   explicit DtoComposerView(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
 
-  void AddAnyValue();
-
 private:
   mvvm::SessionModelInterface* m_model{nullptr};
 

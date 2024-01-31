@@ -47,13 +47,6 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
   m_tab_widget->setTabsClosable(true);
 
   m_tab_widget->setTabPosition(QTabWidget::South);
-
-  AddAnyValue();
-}
-
-void DtoComposerView::AddAnyValue()
-{
-  m_model->InsertItem<mvvm::ContainerItem>();
 }
 
 }  // namespace sup::gui

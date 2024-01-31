@@ -44,6 +44,11 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
 {
 }
 
+void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem *container)
+{
+  m_container = container;
+}
+
 AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
 
 void AnyValueEditorActionHandler::OnAddEmptyAnyValue()
