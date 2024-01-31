@@ -54,7 +54,7 @@ class AnyValueEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorWidget(QWidget* parent = nullptr);
+  explicit AnyValueEditorWidget(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
   ~AnyValueEditorWidget() override;
 
   /**
@@ -71,8 +71,6 @@ public:
 
   AnyValueItem* GetTopItem();
 
-  mvvm::ApplicationModel* GetModel() const;
-
 private:
   void ReadSettings();
   void WriteSettings();
@@ -87,7 +85,7 @@ private:
 
   QAction* m_show_right_sidebar{nullptr};
 
-  std::unique_ptr<mvvm::ApplicationModel> m_model;
+  mvvm::ApplicationModel* m_model{nullptr};
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorActionHandler* m_action_handler{nullptr};
   AnyValueEditorTextPanel* m_text_edit{nullptr};

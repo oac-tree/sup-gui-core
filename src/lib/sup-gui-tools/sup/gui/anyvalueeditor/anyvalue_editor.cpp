@@ -31,7 +31,7 @@ namespace sup::gui
 AnyValueEditor::AnyValueEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_editor_widget(new AnyValueEditorWidget)
+    , m_editor_widget(new AnyValueEditorWidget(m_model.get()))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -52,7 +52,7 @@ AnyValueItem *AnyValueEditor::GetTopItem()
 
 mvvm::ApplicationModel *AnyValueEditor::GetModel() const
 {
-  return m_editor_widget->GetModel();
+  return m_model.get();
 }
 
 void AnyValueEditor::OnImportFromFileRequest()

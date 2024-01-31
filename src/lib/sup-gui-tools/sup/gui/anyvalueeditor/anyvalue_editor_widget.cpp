@@ -57,14 +57,14 @@ const QString kIsVisiblePanelSettingName = kGroupName + "json_panel";
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent)
+AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ApplicationModel *model, QWidget *parent)
     : QWidget(parent)
-    , m_model(std::make_unique<mvvm::ApplicationModel>())
+    , m_model(model)
     , m_actions(new AnyValueEditorActions(this))
     , m_action_handler(
           new AnyValueEditorActionHandler(CreateActionContext(), m_model->GetRootItem(), this))
-    , m_text_edit(new AnyValueEditorTextPanel(m_model.get()))
-    , m_tree_panel(new AnyValueEditorTreePanel(m_model.get()))
+    , m_text_edit(new AnyValueEditorTextPanel(m_model))
+    , m_tree_panel(new AnyValueEditorTreePanel(m_model))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
     , m_splitter(new QSplitter)
@@ -143,11 +143,6 @@ void AnyValueEditorWidget::SetInitialValue(const AnyValueItem &item)
 AnyValueItem *AnyValueEditorWidget::GetTopItem()
 {
   return m_action_handler->GetTopItem();
-}
-
-mvvm::ApplicationModel *AnyValueEditorWidget::GetModel() const
-{
-  return m_model.get();
 }
 
 void AnyValueEditorWidget::ReadSettings()
