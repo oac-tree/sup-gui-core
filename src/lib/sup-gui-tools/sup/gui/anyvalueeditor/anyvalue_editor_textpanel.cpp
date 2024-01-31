@@ -28,6 +28,7 @@
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/project/model_has_changed_controller.h>
+#include <mvvm/standarditems/container_item.h>
 
 #include <sup/dto/anyvalue.h>
 
@@ -39,7 +40,8 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *model, QWidget *parent)
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *model,
+                                                 QWidget *parent)
     : QWidget(parent), m_json_view(new CodeView(CodeView::kJSON)), m_model(model)
 {
   setWindowTitle("JSON view");
@@ -60,6 +62,11 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *mo
   };
   // will be deleted as a child of QObject
   m_visibility_agent = new sup::gui::VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
+}
+
+void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
+{
+  m_container = container;
 }
 
 void AnyValueEditorTextPanel::SetJSONPretty(bool value)
@@ -107,7 +114,12 @@ AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
 
 void AnyValueEditorTextPanel::UpdateJson()
 {
-  if (auto item = mvvm::utils::GetTopItem<sup::gui::AnyValueItem>(m_model); item)
+  if (!m_container || m_container->GetTotalItemCount() == 0)
+  {
+    return;
+  }
+
+  if (auto item = m_container->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0)); item)
   {
     try
     {

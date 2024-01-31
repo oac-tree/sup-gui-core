@@ -90,7 +90,7 @@ private:
   mvvm::SessionModelInterface* m_model{nullptr};
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorActionHandler* m_action_handler{nullptr};
-  AnyValueEditorTextPanel* m_text_edit{nullptr};
+  AnyValueEditorTextPanel* m_text_panel{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
   QWidget* m_left_panel{nullptr};
   QWidget* m_right_panel{nullptr};

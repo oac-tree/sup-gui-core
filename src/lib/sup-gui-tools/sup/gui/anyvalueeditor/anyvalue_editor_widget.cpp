@@ -62,7 +62,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(mvvm::SessionModelInterface *model, Q
     , m_actions(new AnyValueEditorActions(this))
     , m_action_handler(
           new AnyValueEditorActionHandler(CreateActionContext(), m_model->GetRootItem(), this))
-    , m_text_edit(new AnyValueEditorTextPanel(m_model))
+    , m_text_panel(new AnyValueEditorTextPanel(m_model))
     , m_tree_panel(new AnyValueEditorTreePanel(m_model))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
@@ -93,6 +93,7 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container
 {
   m_action_handler->SetAnyValueItemContainer(container);
   m_tree_panel->SetAnyValueItemContainer(container);
+  m_text_panel->SetAnyValueItemContainer(container);
 }
 
 //! Imports AnyValue from JSON file.
@@ -194,7 +195,7 @@ void AnyValueEditorWidget::SetupConnections()
           &AnyValueEditorActionHandler::OnMoveDownRequest);
 
   // export request from text panel
-  connect(m_text_edit, &AnyValueEditorTextPanel::ExportToFileRequest, this,
+  connect(m_text_panel, &AnyValueEditorTextPanel::ExportToFileRequest, this,
           &AnyValueEditorWidget::OnExportToFileRequest);
 }
 
@@ -250,7 +251,7 @@ QWidget *AnyValueEditorWidget::CreateLeftPanel()
 QWidget *AnyValueEditorWidget::CreateRightPanel()
 {
   auto result = new ItemStackWidget;
-  result->AddWidget(m_text_edit, m_text_edit->actions());
+  result->AddWidget(m_text_panel, m_text_panel->actions());
   return result;
 }
 

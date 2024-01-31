@@ -30,6 +30,7 @@ namespace mvvm
 {
 class SessionModelInterface;
 class ModelHasChangedController;
+class SessionItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -48,6 +49,11 @@ public:
   explicit AnyValueEditorTextPanel(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
   ~AnyValueEditorTextPanel() override;
 
+  /**
+   * @brief Sets the container with AnyValueItem.
+   */
+  void SetAnyValueItemContainer(mvvm::SessionItem* container);
+
   void SetJSONPretty(bool value);
 
 signals:
@@ -64,6 +70,7 @@ private:
 
   CodeView* m_json_view{nullptr};
   mvvm::SessionModelInterface* m_model{nullptr};
+  mvvm::SessionItem* m_container{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
   bool m_pretty_json{true};
   sup::gui::VisibilityAgentBase* m_visibility_agent{nullptr};
