@@ -54,7 +54,8 @@ DtoComposerTabController::DtoComposerTabController(mvvm::SessionModelInterface *
 
 AnyValueEditorWidget *DtoComposerTabController::GetWidgetForItem(const mvvm::SessionItem *container)
 {
-  return m_widget_map[container];
+  auto iter = m_widget_map.find(container);
+  return iter == m_widget_map.end() ? nullptr : iter->second;
 }
 
 void DtoComposerTabController::InitTabs()
@@ -71,6 +72,7 @@ void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent
 {
   auto [parent, tag_index] = event;
 
+  // we are interested only in root item with containers
   if (parent == m_model->GetRootItem())
   {
     auto container = parent->GetItem(tag_index);
@@ -80,6 +82,23 @@ void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent
 
 void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent &event)
 {
+  auto [parent, tag_index] = event;
+  // we are interested only in root item with containers
+  if (parent == m_model->GetRootItem())
+  {
+    auto container = parent->GetItem(tag_index);
+    if (auto widget = GetWidgetForItem(container); widget)
+    {
+      m_tab_widget->removeTab(tag_index.index);
+      delete widget;
+
+      m_widget_map.erase(container);
+    }
+    else
+    {
+      throw RuntimeException("DtoComposerTabController: can't find widget for container");
+    }
+  }
 }
 
 void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem *container,
