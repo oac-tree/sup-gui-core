@@ -24,6 +24,7 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/widgets/style_utils.h>
 
+#include <mvvm/model/application_model.h>
 #include <mvvm/widgets/main_vertical_bar_widget.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -42,7 +43,7 @@ const QString kWindowPosSettingName = kGroupName + "/" + "position";
 namespace sup::gui
 {
 
-DtoEditorMainWindow::DtoEditorMainWindow()
+DtoEditorMainWindow::DtoEditorMainWindow() : m_model(std::make_unique<mvvm::ApplicationModel>())
 {
   InitApplication();
 }
@@ -72,7 +73,7 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
 
-  m_composer_view = new DtoComposerView;
+  m_composer_view = new DtoComposerView(m_model.get());
   m_tab_widget->AddWidget(m_composer_view, "Compose", utils::GetIcon("graph-outline-light.svg"));
 
   m_tab_widget->AddSpacer();

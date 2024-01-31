@@ -24,6 +24,11 @@
 
 class QTabWidget;
 
+namespace mvvm
+{
+class ApplicationModel;
+}
+
 namespace sup::gui
 {
 
@@ -32,17 +37,16 @@ namespace sup::gui
  *
  * @details It contains tabs with multiple instances of AnyValueEditor, belongs to MainWindow.
  */
-
 class DtoComposerView : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(QWidget* parent = nullptr);
-
+  explicit DtoComposerView(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
 
 private:
   QTabWidget* m_tab_widget{nullptr};
+  mvvm::ApplicationModel* m_model{nullptr};
 };
 
 }  // namespace sup::gui

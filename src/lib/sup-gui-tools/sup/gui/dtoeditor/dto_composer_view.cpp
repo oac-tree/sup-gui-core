@@ -25,7 +25,8 @@
 namespace sup::gui
 {
 
-DtoComposerView::DtoComposerView(QWidget *parent) : QWidget(parent), m_tab_widget(new QTabWidget)
+DtoComposerView::DtoComposerView(mvvm::ApplicationModel *model, QWidget *parent)
+    : QWidget(parent), m_model(model), m_tab_widget(new QTabWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);

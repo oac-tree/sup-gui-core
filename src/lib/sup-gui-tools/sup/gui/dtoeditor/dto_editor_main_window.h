@@ -23,13 +23,15 @@
 #include <sup/gui/app/main_window_types.h>
 
 #include <QMainWindow>
+#include <memory>
 
 class QCloseEvent;
 
 namespace mvvm
 {
 class MainVerticalBarWidget;
-}
+class ApplicationModel;
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -37,10 +39,8 @@ namespace sup::gui
 class DtoComposerView;
 
 /**
- * @brief The AnyValueEditorMainWindow class represents a main window of sup-config-editor
- * application.
+ * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
  */
-
 class DtoEditorMainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -68,6 +68,8 @@ private:
    */
   bool PrepareForShutdown();
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
+
+  std::unique_ptr<mvvm::ApplicationModel> m_model;
 
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoComposerView* m_composer_view{nullptr};
