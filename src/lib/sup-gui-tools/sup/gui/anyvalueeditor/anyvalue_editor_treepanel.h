@@ -27,7 +27,7 @@ class QLineEdit;
 
 namespace mvvm
 {
-class ApplicationModel;
+class SessionModelInterface;
 class SessionItem;
 }  // namespace mvvm
 
@@ -47,7 +47,7 @@ class AnyValueEditorTreePanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTreePanel(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
+  explicit AnyValueEditorTreePanel(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
   ~AnyValueEditorTreePanel() override;
 
   /**

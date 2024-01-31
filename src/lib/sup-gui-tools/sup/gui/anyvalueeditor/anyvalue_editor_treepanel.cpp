@@ -25,16 +25,8 @@
 #include <sup/gui/widgets/custom_header_view.h>
 #include <sup/gui/widgets/tree_helper.h>
 
-#include <mvvm/delegates/viewmodel_delegate.h>
-#include <mvvm/model/application_model.h>
-#include <mvvm/viewmodel/viewmodel.h>
-#include <mvvm/widgets/item_selection_model.h>
-#include <mvvm/widgets/item_view_component_provider.h>
-
 #include <QLineEdit>
-#include <QRegularExpression>
 #include <QSettings>
-#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -48,7 +40,7 @@ const QString kHeaderStateSettingName = kGroupName + "/" + "header_state";
 namespace sup::gui
 {
 
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ApplicationModel *model, QWidget *parent)
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *model, QWidget *parent)
     : QWidget(parent)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)

@@ -28,7 +28,7 @@ class QTabWidget;
 
 namespace mvvm
 {
-class ApplicationModel;
+class SessionModelInterface;
 class SessionItem;
 }
 
@@ -47,12 +47,12 @@ class DtoComposerView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
+  explicit DtoComposerView(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
 
   void AddAnyValue();
 
 private:
-  mvvm::ApplicationModel* m_model{nullptr};
+  mvvm::SessionModelInterface* m_model{nullptr};
 
   QTabWidget* m_tab_widget{nullptr};
   std::unique_ptr<DtoComposerTabController> m_tab_controller;

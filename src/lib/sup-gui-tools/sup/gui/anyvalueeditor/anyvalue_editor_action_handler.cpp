@@ -26,7 +26,7 @@
 #include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/widgets/widget_utils.h>
@@ -43,6 +43,8 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
     : QObject(parent), m_container(container), m_context(std::move(context))
 {
 }
+
+AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
 
 void AnyValueEditorActionHandler::OnAddEmptyAnyValue()
 {

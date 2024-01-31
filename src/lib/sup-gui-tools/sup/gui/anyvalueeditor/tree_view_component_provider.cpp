@@ -23,7 +23,6 @@
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
 #include <mvvm/delegates/viewmodel_delegate.h>
-#include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 
 #include <QItemSelectionModel>
@@ -33,7 +32,7 @@
 namespace sup::gui
 {
 
-TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ApplicationModel *model, QTreeView *view)
+TreeViewComponentProvider::TreeViewComponentProvider(mvvm::SessionModelInterface *model, QTreeView *view)
     : m_view_model(std::make_unique<AnyValueViewModel>(model))
     , m_proxy_model(std::make_unique<AnyValueFilteredViewModel>())
     , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())

@@ -23,7 +23,6 @@
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
 
-#include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
 
 #include <QTabWidget>
@@ -32,7 +31,7 @@
 namespace sup::gui
 {
 
-DtoComposerView::DtoComposerView(mvvm::ApplicationModel *model, QWidget *parent)
+DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_tab_widget(new QTabWidget)

@@ -30,7 +30,6 @@
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/style_utils.h>
 
-#include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -57,7 +56,7 @@ const QString kIsVisiblePanelSettingName = kGroupName + "json_panel";
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ApplicationModel *model, QWidget *parent)
+AnyValueEditorWidget::AnyValueEditorWidget(mvvm::SessionModelInterface *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_actions(new AnyValueEditorActions(this))

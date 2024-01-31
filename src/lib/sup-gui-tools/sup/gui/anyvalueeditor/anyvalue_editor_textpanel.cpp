@@ -26,7 +26,6 @@
 #include <sup/gui/model/anyvalue_utils.h>
 #include <sup/gui/widgets/style_utils.h>
 
-#include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/project/model_has_changed_controller.h>
 
@@ -40,7 +39,7 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ApplicationModel *model, QWidget *parent)
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *model, QWidget *parent)
     : QWidget(parent), m_json_view(new CodeView(CodeView::kJSON)), m_model(model)
 {
   setWindowTitle("JSON view");

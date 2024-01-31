@@ -28,7 +28,7 @@ class QToolButton;
 
 namespace mvvm
 {
-class ApplicationModel;
+class SessionModelInterface;
 class ModelHasChangedController;
 }  // namespace mvvm
 
@@ -45,7 +45,7 @@ class AnyValueEditorTextPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTextPanel(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
+  explicit AnyValueEditorTextPanel(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
   ~AnyValueEditorTextPanel() override;
 
   void SetJSONPretty(bool value);
@@ -63,7 +63,7 @@ private:
   QWidgetAction* m_pretty_action{nullptr};
 
   CodeView* m_json_view{nullptr};
-  mvvm::ApplicationModel* m_model{nullptr};
+  mvvm::SessionModelInterface* m_model{nullptr};
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
   bool m_pretty_json{true};
   sup::gui::VisibilityAgentBase* m_visibility_agent{nullptr};

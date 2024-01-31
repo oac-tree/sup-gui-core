@@ -22,14 +22,14 @@
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
 
-#include <mvvm/model/application_model.h>
-
 #include <QObject>
+#include <memory>
 
 namespace mvvm
 {
 class SessionItem;
-}
+class SessionModelInterface;
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -57,6 +57,7 @@ class AnyValueEditorActionHandler : public QObject
 public:
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container,
                               QObject* parent);
+  ~AnyValueEditorActionHandler();
 
   void OnAddEmptyAnyValue();
 

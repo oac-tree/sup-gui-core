@@ -23,7 +23,6 @@
 #include <sup/gui/core/exceptions.h>
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/signals/model_listener.h>
 
@@ -104,8 +103,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
 void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem *container,
                                                               int index)
 {
-  auto widget =
-      std::make_unique<AnyValueEditorWidget>(dynamic_cast<mvvm::ApplicationModel *>(m_model));
+  auto widget = std::make_unique<AnyValueEditorWidget>(m_model);
 
   widget->SetAnyValueItemContainer(container);
   m_widget_map.insert({container, widget.get()});

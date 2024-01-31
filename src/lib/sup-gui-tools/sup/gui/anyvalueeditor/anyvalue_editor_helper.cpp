@@ -21,8 +21,6 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 
-#include <mvvm/model/application_model.h>
-
 #include <map>
 
 namespace
