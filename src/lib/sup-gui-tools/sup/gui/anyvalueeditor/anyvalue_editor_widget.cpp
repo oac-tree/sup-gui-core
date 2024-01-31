@@ -90,6 +90,11 @@ AnyValueEditorWidget::~AnyValueEditorWidget()
   WriteSettings();
 }
 
+void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container)
+{
+  m_tree_panel->SetAnyValueItemContainer(container);
+}
+
 //! Imports AnyValue from JSON file.
 
 void AnyValueEditorWidget::OnImportFromFileRequest()

@@ -31,6 +31,7 @@ class QSplitter;
 namespace mvvm
 {
 class ApplicationModel;
+class SessionItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -42,6 +43,12 @@ class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
 class AnyValueEditorActions;
 
+/**
+ * @brief The AnyValueEditorWidget class is a main widget of AnyValueEditor.
+ *
+ * @details It contains a toolbar, a tree for AnyValueItem editing, and optional panel with JSON
+ * representation.
+ */
 class AnyValueEditorWidget : public QWidget
 {
   Q_OBJECT
@@ -49,6 +56,11 @@ class AnyValueEditorWidget : public QWidget
 public:
   explicit AnyValueEditorWidget(QWidget* parent = nullptr);
   ~AnyValueEditorWidget() override;
+
+  /**
+   * @brief Sets the container with AnyValueItem.
+   */
+  void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
   void OnImportFromFileRequest();
   void OnExportToFileRequest();

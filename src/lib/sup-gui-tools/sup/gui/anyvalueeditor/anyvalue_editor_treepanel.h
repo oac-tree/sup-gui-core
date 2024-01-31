@@ -38,8 +38,10 @@ class AnyValueItem;
 class CustomHeaderView;
 class TreeViewComponentProvider;
 
-//! A panel with a tree on the left side of AnyValueEditor.
-
+/**
+ * @brief The AnyValueEditorTreePanel class represents a panel with a tree and filtering field on
+ * the left side of AnyValueEditorWidget.
+ */
 class AnyValueEditorTreePanel : public QWidget
 {
   Q_OBJECT
@@ -47,6 +49,11 @@ class AnyValueEditorTreePanel : public QWidget
 public:
   explicit AnyValueEditorTreePanel(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
   ~AnyValueEditorTreePanel() override;
+
+  /**
+   * @brief Sets the container with AnyValueItem.
+   */
+  void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
   sup::gui::AnyValueItem* GetSelectedItem() const;
 

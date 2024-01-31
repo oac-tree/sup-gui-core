@@ -91,6 +91,11 @@ AnyValueEditorTreePanel::~AnyValueEditorTreePanel()
   WriteSettings();
 }
 
+void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
+{
+  m_component_provider->SetItem(container);
+}
+
 AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 {
   auto item = const_cast<mvvm::SessionItem *>(m_component_provider->GetSelectedItem());
