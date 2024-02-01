@@ -22,15 +22,17 @@
 
 #include <QObject>
 
+class QAction;
+
 namespace sup::gui
 {
 
 /**
  * @brief The DtoComposerActions class contains collection of main actions of DtoComposerView.
  *
- * @details Actions are related to multiple AnyValueItem editing and can populate main application
- * menubar, tabs context menu, etc. The class only creates actions and provides signaling when they
- * are triggered. The logic is handled by DtoComposerActionHandler.
+ * @details Actions are related to multiple AnyValueItem editing and can populate the main
+ * application menubar, tabs context menu, etc. The class only creates actions and provides
+ * signaling when they are triggered. The logic is handled by DtoComposerActionHandler.
  */
 class DtoComposerActions : public QObject
 {
@@ -38,6 +40,16 @@ class DtoComposerActions : public QObject
 
 public:
   explicit DtoComposerActions(QObject* parent = nullptr);
+
+  QList<QAction*> GetActions() const;
+
+signals:
+  void RemoveCurrentTabRequest();
+  void AddNewTabRequest();
+
+private:
+  QAction* m_remove_current_tab_action{nullptr};
+  QAction* m_add_new_tab_action{nullptr};
 };
 
 }  // namespace sup::gui

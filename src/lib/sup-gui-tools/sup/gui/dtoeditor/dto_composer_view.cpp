@@ -24,6 +24,7 @@
 #include "dto_composer_tab_controller.h"
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
+#include <sup/gui/app/app_action_helper.h>
 
 #include <mvvm/standarditems/container_item.h>
 
@@ -51,6 +52,9 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
   m_tab_widget->setTabsClosable(true);
 
   m_tab_widget->setTabPosition(QTabWidget::South);
+
+  // Actions for main window's tools menu
+  sup::gui::AppRegisterActions(sup::gui::constants::kToolsMenu, m_actions->GetActions());
 }
 
 }  // namespace sup::gui

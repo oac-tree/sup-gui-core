@@ -29,8 +29,8 @@ namespace sup::gui
  * @brief The DtoComposerActionHandler class provides a logic to handle main actions of
  * DtoComposerView.
  *
- * @details Actions are related to multiple AnyValueItem editing and can populate main application
- * menubar, tabs context menu, etc.
+ * @details Actions are related to multiple AnyValueItem editing and can populate the main
+ * application menubar, tabs context menu, etc.
  */
 class DtoComposerActionHandler : public QObject
 {
