@@ -83,7 +83,7 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget->SetBaseColor("#008a65");
 
   m_composer_view = new DtoComposerView(m_model.get());
-  m_tab_widget->AddWidget(m_composer_view, "Compose", utils::GetIcon("graph-outline-light.svg"));
+  m_tab_widget->AddWidget(m_composer_view, "Compose", utils::GetIcon("file-tree-outline-light.svg"));
 
   m_tab_widget->AddSpacer();
   m_tab_widget->SetCurrentIndex(0);
