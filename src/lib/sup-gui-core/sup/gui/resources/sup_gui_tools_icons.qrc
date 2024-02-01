@@ -23,5 +23,11 @@
         <file>icons/graph-outline-light.svg</file>
         <file>icons/file-tree-outline.svg</file>
         <file>icons/file-tree-outline-light.svg</file>
+        <file>icons/compare.svg</file>
+        <file>icons/compare-light.svg</file>
+        <file>icons/application-brackets-outline.svg</file>
+        <file>icons/application-brackets-outline-light.svg</file>
+        <file>icons/animation-outline.svg</file>
+        <file>icons/animation-outline-light.svg</file>
     </qresource>
 </RCC>

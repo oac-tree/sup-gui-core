@@ -84,6 +84,8 @@ void DtoEditorMainWindow::InitComponents()
 
   m_composer_view = new DtoComposerView(m_model.get());
   m_tab_widget->AddWidget(m_composer_view, "Compose", utils::GetIcon("file-tree-outline-light.svg"));
+  m_tab_widget->AddWidget(new QWidget, "Compare", utils::GetIcon("application-brackets-outline-light.svg"));
+  m_tab_widget->AddWidget(new QWidget, "Bulk Edit", utils::GetIcon("animation-outline-light.svg"));
 
   m_tab_widget->AddSpacer();
   m_tab_widget->SetCurrentIndex(0);
