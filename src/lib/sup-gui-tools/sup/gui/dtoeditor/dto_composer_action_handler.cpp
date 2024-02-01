@@ -19,9 +19,32 @@
 
 #include "dto_composer_action_handler.h"
 
+#include <sup/gui/core/exceptions.h>
+
+#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/standarditems/container_item.h>
+
 namespace sup::gui
 {
 
-DtoComposerActionHandler::DtoComposerActionHandler(QObject *parent) : QObject(parent) {}
+DtoComposerActionHandler::DtoComposerActionHandler(mvvm::SessionModelInterface *model,
+                                                   QObject *parent)
+    : QObject(parent), m_model(model)
+{
+  if (!m_model)
+  {
+    throw RuntimeException("DtoComposerActionHandler: model is not initialised");
+  }
+}
+
+void DtoComposerActionHandler::OnRemoveContainer(int container_index)
+{
+  m_model->TakeItem(m_model->GetRootItem(), mvvm::TagIndex::Default(container_index));
+}
+
+void DtoComposerActionHandler::OnAddNewContainer()
+{
+  m_model->InsertItem<mvvm::ContainerItem>();
+}
 
 }  // namespace sup::gui

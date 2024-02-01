@@ -23,10 +23,7 @@
 #include "dto_composer_actions.h"
 #include "dto_composer_tab_controller.h"
 
-#include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
 #include <sup/gui/app/app_action_helper.h>
-
-#include <mvvm/standarditems/container_item.h>
 
 #include <QTabWidget>
 #include <QVBoxLayout>
@@ -40,7 +37,7 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
     , m_tab_widget(new QTabWidget)
     , m_tab_controller(std::make_unique<DtoComposerTabController>(model, m_tab_widget))
     , m_actions(new DtoComposerActions(this))
-    , m_action_handler(new DtoComposerActionHandler(this))
+    , m_action_handler(new DtoComposerActionHandler(m_model, this))
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
@@ -55,6 +52,21 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
 
   // Actions for main window's tools menu
   sup::gui::AppRegisterActions(sup::gui::constants::kToolsMenu, m_actions->GetActions());
+
+  SetupConnections();
+}
+
+void DtoComposerView::SetupConnections()
+{
+  // The request to remove a tab will remove AnyValueItem container. This in turn will be noticed by
+  // DtoComposerTabController which will remove the tab itself.
+  connect(m_actions, &DtoComposerActions::RemoveCurrentTabRequest, m_action_handler,
+          [this]() { m_action_handler->OnRemoveContainer(m_tab_widget->currentIndex()); });
+
+  // The request to add a new tab will add a new AnyValueItem container. This in turn will be
+  // noticed by DtoComposerTabController which will add actual tab.
+  connect(m_actions, &DtoComposerActions::AddNewTabRequest, m_action_handler,
+          &DtoComposerActionHandler::OnAddNewContainer);
 }
 
 }  // namespace sup::gui

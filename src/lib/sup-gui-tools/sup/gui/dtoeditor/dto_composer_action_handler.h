@@ -22,6 +22,11 @@
 
 #include <QObject>
 
+namespace mvvm
+{
+class SessionModelInterface;
+}
+
 namespace sup::gui
 {
 
@@ -37,7 +42,20 @@ class DtoComposerActionHandler : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoComposerActionHandler(QObject* parent = nullptr);
+  explicit DtoComposerActionHandler(mvvm::SessionModelInterface* model, QObject* parent = nullptr);
+
+  /**
+   * @brief Remove container with given index.
+   */
+  void OnRemoveContainer(int container_index);
+
+  /**
+   * @brief Adds new container for AnyValueItem editing.
+   */
+  void OnAddNewContainer();
+
+private:
+  mvvm::SessionModelInterface* m_model{nullptr};
 };
 
 }  // namespace sup::gui

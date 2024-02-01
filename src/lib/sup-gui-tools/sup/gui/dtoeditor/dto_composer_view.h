@@ -52,6 +52,8 @@ public:
   explicit DtoComposerView(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
 
 private:
+  void SetupConnections();
+
   mvvm::SessionModelInterface* m_model{nullptr};
 
   QTabWidget* m_tab_widget{nullptr};
