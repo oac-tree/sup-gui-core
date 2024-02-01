@@ -19,6 +19,8 @@
 
 #include "dto_composer_view.h"
 
+#include "dto_composer_action_handler.h"
+#include "dto_composer_actions.h"
 #include "dto_composer_tab_controller.h"
 
 #include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
@@ -36,6 +38,8 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
     , m_model(model)
     , m_tab_widget(new QTabWidget)
     , m_tab_controller(std::make_unique<DtoComposerTabController>(model, m_tab_widget))
+    , m_actions(new DtoComposerActions(this))
+    , m_action_handler(new DtoComposerActionHandler(this))
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);

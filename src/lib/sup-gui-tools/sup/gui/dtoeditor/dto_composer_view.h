@@ -36,6 +36,8 @@ namespace sup::gui
 {
 
 class DtoComposerTabController;
+class DtoComposerActions;
+class DtoComposerActionHandler;
 
 /**
  * @brief The DtoComposerView class represents a main view to assemble AnyValue.
@@ -54,6 +56,8 @@ private:
 
   QTabWidget* m_tab_widget{nullptr};
   std::unique_ptr<DtoComposerTabController> m_tab_controller;
+  DtoComposerActions* m_actions{nullptr};
+  DtoComposerActionHandler* m_action_handler;
 };
 
 }  // namespace sup::gui
