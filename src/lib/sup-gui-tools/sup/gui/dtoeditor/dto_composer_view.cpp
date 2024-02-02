@@ -25,6 +25,7 @@
 
 #include <sup/gui/app/app_action_helper.h>
 
+#include <QTabBar>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -67,6 +68,9 @@ void DtoComposerView::SetupConnections()
   // noticed by DtoComposerTabController which will add actual tab.
   connect(m_actions, &DtoComposerActions::AddNewTabRequest, m_action_handler,
           &DtoComposerActionHandler::OnAddNewContainer);
+
+  connect(m_tab_widget->tabBar(), &QTabBar::tabCloseRequested, m_action_handler,
+          &DtoComposerActionHandler::OnRemoveContainer);
 }
 
 }  // namespace sup::gui
