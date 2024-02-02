@@ -26,6 +26,8 @@
 #include <sup/gui/app/app_action_helper.h>
 
 #include <QTabBar>
+#include <QMenu>
+#include <QDebug>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -50,6 +52,9 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
   m_tab_widget->setTabsClosable(true);
 
   m_tab_widget->setTabPosition(QTabWidget::South);
+  m_tab_widget->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(m_tab_widget->tabBar(), &QTabBar::customContextMenuRequested, this,
+          &DtoComposerView::SummonContextMenu);
 
   // Actions for main window's tools menu
   sup::gui::AppRegisterActions(sup::gui::constants::kToolsMenu, m_actions->GetActions());
@@ -71,6 +76,21 @@ void DtoComposerView::SetupConnections()
 
   connect(m_tab_widget->tabBar(), &QTabBar::tabCloseRequested, m_action_handler,
           &DtoComposerActionHandler::OnRemoveContainer);
+}
+
+void DtoComposerView::SummonContextMenu(const QPoint &point)
+{
+  qDebug() << "AAA";
+  QMenu menu;
+  menu.setToolTipsVisible(true);
+
+  auto action = menu.addAction("Attribute is enabled flag");
+  action->setToolTip("Attribute with enabled flag set will be propagated to domain.");
+  // action->setChecked(item->IsPresent());
+  // auto on_unset = [item]() { item->SetPresentFlag(!item->IsPresent()); };
+  // connect(action, &QAction::triggered, this, on_unset);
+
+  menu.exec(m_tab_widget->tabBar()->mapToGlobal(point));
 }
 
 }  // namespace sup::gui

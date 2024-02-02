@@ -53,6 +53,7 @@ public:
 
 private:
   void SetupConnections();
+  void SummonContextMenu(const QPoint& point);
 
   mvvm::SessionModelInterface* m_model{nullptr};
 

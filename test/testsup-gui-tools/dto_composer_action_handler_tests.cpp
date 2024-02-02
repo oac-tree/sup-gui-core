@@ -19,8 +19,12 @@
 
 #include "sup/gui/dtoeditor/dto_composer_action_handler.h"
 
+#include <sup/gui/model/anyvalue_item.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
+
+#include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
 
@@ -51,4 +55,23 @@ TEST_F(DtoComposerActionHandlerTest, OnRemoveContainer)
   action_handler.OnRemoveContainer(1);
   EXPECT_EQ(m_model.GetRootItem()->GetAllItems(),
             std::vector<mvvm::SessionItem*>({container0, container2}));
+}
+
+TEST_F(DtoComposerActionHandlerTest, OnDuplicateContainer)
+{
+  auto container0 = m_model.InsertItem<mvvm::ContainerItem>();
+  auto container1 = m_model.InsertItem<mvvm::ContainerItem>();
+
+  auto scalar_item = container0->InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
+  scalar_item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  scalar_item->SetData(mvvm::int8{42});
+
+  DtoComposerActionHandler action_handler(&m_model);
+  action_handler.OnDuplicateContainer(0);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 3);
+
+  auto container2 = m_model.GetRootItem()->GetItem(mvvm::TagIndex::Default(1));
+  auto copied_scalar = container2->GetItem<AnyValueScalarItem>(mvvm::TagIndex::Default(0));
+  EXPECT_EQ(copied_scalar->Data<mvvm::int8>(), 42);
 }

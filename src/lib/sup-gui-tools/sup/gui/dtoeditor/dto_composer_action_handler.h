@@ -54,6 +54,12 @@ public:
    */
   void OnAddNewContainer();
 
+  /**
+   * @brief Duplicate container.
+   */
+  void OnDuplicateContainer(int container_index);
+
+
 private:
   mvvm::SessionModelInterface* m_model{nullptr};
 };

@@ -22,6 +22,7 @@
 #include <sup/gui/core/exceptions.h>
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 
 namespace sup::gui
@@ -45,6 +46,16 @@ void DtoComposerActionHandler::OnRemoveContainer(int container_index)
 void DtoComposerActionHandler::OnAddNewContainer()
 {
   m_model->InsertItem<mvvm::ContainerItem>();
+}
+
+void DtoComposerActionHandler::OnDuplicateContainer(int container_index)
+{
+  auto container_to_copy =
+      m_model->GetRootItem()->GetItem(mvvm::TagIndex::Default(container_index));
+
+  // copy container right after the given index
+  mvvm::utils::CopyItem(container_to_copy, m_model, m_model->GetRootItem(),
+                        container_to_copy->GetTagIndex().Next());
 }
 
 }  // namespace sup::gui
