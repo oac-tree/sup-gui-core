@@ -25,9 +25,8 @@
 
 #include <sup/gui/app/app_action_helper.h>
 
-#include <QTabBar>
 #include <QMenu>
-#include <QDebug>
+#include <QTabBar>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -64,31 +63,35 @@ DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *pa
 
 void DtoComposerView::SetupConnections()
 {
-  // The request to remove a tab will remove AnyValueItem container. This in turn will be noticed by
-  // DtoComposerTabController which will remove the tab itself.
-  connect(m_actions, &DtoComposerActions::RemoveCurrentTabRequest, m_action_handler,
-          [this]() { m_action_handler->OnRemoveContainer(m_tab_widget->currentIndex()); });
+  // Connecting DtoComposerActions requests (add/duplicate/remove tabs) with
+  // DtoComposerActionHandler. Please note, that we do not add/remove tabs manually. The
+  // DtoComposerActionHandler will add/remove underlying container on every add/remove tab request.
+  // This in turn will be noticed by DtoComposerActionController, which will do actual tab insertion
+  // and remove.
 
-  // The request to add a new tab will add a new AnyValueItem container. This in turn will be
-  // noticed by DtoComposerTabController which will add actual tab.
+  // the request to add a new tab
   connect(m_actions, &DtoComposerActions::AddNewTabRequest, m_action_handler,
           &DtoComposerActionHandler::OnAddNewContainer);
 
+  // the request to duplicate existing tab
+  connect(m_actions, &DtoComposerActions::DuplicateCurrentTabRequest, m_action_handler,
+          [this]() { m_action_handler->OnDuplicateContainer(m_tab_widget->currentIndex()); });
+
+  // the request to remove current tab
+  connect(m_actions, &DtoComposerActions::RemoveCurrentTabRequest, m_action_handler,
+          [this]() { m_action_handler->OnRemoveContainer(m_tab_widget->currentIndex()); });
+
+  // close button on tab corner
   connect(m_tab_widget->tabBar(), &QTabBar::tabCloseRequested, m_action_handler,
           &DtoComposerActionHandler::OnRemoveContainer);
 }
 
 void DtoComposerView::SummonContextMenu(const QPoint &point)
 {
-  qDebug() << "AAA";
   QMenu menu;
   menu.setToolTipsVisible(true);
 
-  auto action = menu.addAction("Attribute is enabled flag");
-  action->setToolTip("Attribute with enabled flag set will be propagated to domain.");
-  // action->setChecked(item->IsPresent());
-  // auto on_unset = [item]() { item->SetPresentFlag(!item->IsPresent()); };
-  // connect(action, &QAction::triggered, this, on_unset);
+  menu.addActions(m_actions->GetActions());
 
   menu.exec(m_tab_widget->tabBar()->mapToGlobal(point));
 }

@@ -44,12 +44,14 @@ public:
   QList<QAction*> GetActions() const;
 
 signals:
-  void RemoveCurrentTabRequest();
   void AddNewTabRequest();
+  void DuplicateCurrentTabRequest();
+  void RemoveCurrentTabRequest();
 
 private:
-  QAction* m_remove_current_tab_action{nullptr};
   QAction* m_add_new_tab_action{nullptr};
+  QAction* m_add_duplicate_tab_action{nullptr};
+  QAction* m_remove_current_tab_action{nullptr};
 };
 
 }  // namespace sup::gui

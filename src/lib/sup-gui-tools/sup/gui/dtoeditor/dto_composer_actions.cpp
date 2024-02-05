@@ -26,17 +26,22 @@ namespace sup::gui
 
 DtoComposerActions::DtoComposerActions(QObject *parent) : QObject(parent)
 {
-  m_remove_current_tab_action = new QAction("Remove current tab", this);
-  connect(m_remove_current_tab_action, &QAction::triggered, this,
-          &DtoComposerActions::RemoveCurrentTabRequest);
-
   m_add_new_tab_action = new QAction("Add new tab", this);
   connect(m_add_new_tab_action, &QAction::triggered, this, &DtoComposerActions::AddNewTabRequest);
+
+  m_add_duplicate_tab_action = new QAction("Duplicate selected tab", this);
+  connect(m_add_duplicate_tab_action, &QAction::triggered, this,
+          &DtoComposerActions::DuplicateCurrentTabRequest);
+
+  m_remove_current_tab_action = new QAction("Remove selected tab", this);
+  connect(m_remove_current_tab_action, &QAction::triggered, this,
+          &DtoComposerActions::RemoveCurrentTabRequest);
 }
 
 QList<QAction *> DtoComposerActions::GetActions() const
 {
-  return QList<QAction *>({m_add_new_tab_action, m_remove_current_tab_action});
+  return QList<QAction *>(
+      {m_add_new_tab_action, m_add_duplicate_tab_action, m_remove_current_tab_action});
 }
 
 }  // namespace sup::gui
