@@ -37,8 +37,6 @@
 #include <testutils/folder_based_test.h>
 #include <testutils/test_utils.h>
 
-#include <QSignalSpy>
-
 using namespace sup::gui;
 using ::testing::_;
 

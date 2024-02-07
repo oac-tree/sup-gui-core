@@ -609,6 +609,27 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 };
 
+//! Validates import of JSON from file, on attempt to import into a scalar.
+
+TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToScalar)
+{
+  // preparing file with content for further import
+  const auto file_path = GetFilePath("AnyValueScalar.xml");
+  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
+  auto json_content = AnyValueToJSONString(anyvalue);
+  testutils::CreateTextFile(file_path, json_content);
+
+  auto scalar_item = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+
+  // creating action handler for the context, making structure selected
+  auto handler = CreateActionHandler(scalar_item);
+
+  // expecting error callbacks
+  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+
+  handler->OnImportFromFileRequest(file_path);
+};
+
 //! Validates export of top level item to JSON file.
 
 TEST_F(AnyValueEditorActionHandlerTest, ExportToFile)
