@@ -29,6 +29,7 @@
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/model/validate_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <sup/dto/anyvalue.h>
@@ -44,7 +45,7 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
 {
 }
 
-void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem *container)
+void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* container)
 {
   m_container = container;
 }
@@ -100,7 +101,14 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
   }
 
   auto anyvalue = sup::gui::AnyValueFromJSONFile(file_name);
-  GetModel()->InsertItem(sup::gui::CreateItem(anyvalue), GetParent(), mvvm::TagIndex::Append());
+  auto item = sup::gui::CreateItem(anyvalue);
+  if (auto query = mvvm::utils::CanInsertItem(item.get(), GetParent(), mvvm::TagIndex::Append());
+      !query.first)
+  {
+    SendMessage(query.second);
+    return;
+  }
+  GetModel()->InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
 }
 
 void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_name)
