@@ -33,25 +33,45 @@ namespace sup::gui
 class AnyValueItem;
 class AnyValueArrayItem;
 
-//! Update the data stored in \it target from the data of \it source.
-//! It is assumed that both items represent scalars, and the scalar types are the same.
+/**
+ * @brief Updates the data stored in leaves of a target from the data stored in leaves of a source.
+ *
+ * @details It is assumed that both items represent scalars, and the scalar types are the same.
+ */
 void UpdateAnyValueItemScalarData(const AnyValueItem& source, AnyValueItem& target);
 
-//! Update the data stored in leaves of \it target from the data stored in leaves of \it source.
-//! The layout of two items should be the same.
+/**
+ * @brief Updates the data stored in leaves of a target from the data stored in leaves of a source.
+ */
 void UpdateAnyValueItemData(const AnyValueItem& source, AnyValueItem& target);
 
-//! Returns true if given \it scalar_type is suitable for the array.
-//! If array is empty, will always return true. If array is not empty, \it scalar_type should
-//! coincide with what is already in the array.
+/**
+ * @brief Returns true if the given scalar type is suitable for the array.
+ *
+ * @param array The array to explore.
+ * @param scalar_type Possible type of the scalar to add to the array.
+ * @return True if the scalar type is compatible with the array content.
+ *
+ * @details If the array is empty, will always return true. If the array is not empty, scalar_type
+ * should coincide with what is already in the array.
+ */
 bool IsSuitableScalarType(const AnyValueArrayItem& array, const std::string& scalar_type);
 
-//! Return a list of valid AnyValueItem type strings
-
+/**
+ * @brief Returns a list of all existing AnyValueItem type names.
+ */
 std::vector<std::string> GetAnyValueItemTypes();
 
-//! Create a TagInfo for a AnyValueItem (of any valid kind)
-
+/**
+ * @brief Creates a TagInfo for a AnyValueItem (of any valid kind).
+ *
+ * @param name The tag name.
+ *
+ * @param min Minimum allowed number of items.
+ * @param max Maximum allowed number of items.
+ *
+ * @return TagInfo object containing necessary information.
+ */
 mvvm::TagInfo CreateAnyValueTag(std::string name, int min = 0, int max = -1);
 
 }  // namespace sup::gui

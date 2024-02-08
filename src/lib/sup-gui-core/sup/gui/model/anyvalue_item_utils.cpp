@@ -114,7 +114,7 @@ std::vector<std::string> GetAnyValueItemTypes()
 
 mvvm::TagInfo CreateAnyValueTag(std::string name, int min, int max)
 {
-  return mvvm::TagInfo(std::move(name), min, max, GetAnyValueItemTypes());
+  return {std::move(name), min, max, GetAnyValueItemTypes()};
 }
 
 }  // namespace sup::gui
