@@ -42,7 +42,10 @@ namespace sup::gui
 
 AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *model,
                                                  QWidget *parent)
-    : QWidget(parent), m_json_view(new CodeView(CodeView::kJSON)), m_model(model)
+    : QWidget(parent)
+    , m_json_view(new CodeView(CodeView::kJSON))
+    , m_model(model)
+    , m_container(m_model->GetRootItem())
 {
   setWindowTitle("JSON view");
 
@@ -114,12 +117,7 @@ AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
 
 void AnyValueEditorTextPanel::UpdateJson()
 {
-  if (!m_container || m_container->GetTotalItemCount() == 0)
-  {
-    return;
-  }
-
-  if (auto item = m_container->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0)); item)
+  if (auto item = GetAnyValueItem(); item)
   {
     try
     {
@@ -147,6 +145,16 @@ void AnyValueEditorTextPanel::SetupController()
   m_model_changed_controller =
       std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_changed);
   UpdateJson();
+}
+
+AnyValueItem *AnyValueEditorTextPanel::GetAnyValueItem()
+{
+  if (!m_container || m_container->GetTotalItemCount() == 0)
+  {
+    return nullptr;
+  }
+
+  return m_container->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0));
 }
 
 }  // namespace sup::gui

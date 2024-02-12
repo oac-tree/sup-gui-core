@@ -38,6 +38,7 @@ namespace sup::gui
 
 class CodeView;
 class VisibilityAgentBase;
+class AnyValueItem;
 
 //! Collapsible panel on the right of AnyValueEditor with JSON representation of AnyValue.
 
@@ -63,6 +64,7 @@ private:
   void SetupActions();
   void UpdateJson();
   void SetupController();
+  AnyValueItem* GetAnyValueItem();
 
   QWidgetAction* m_export_action{nullptr};
   QToolButton* m_pretty_button{nullptr};
