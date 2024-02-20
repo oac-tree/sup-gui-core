@@ -63,10 +63,10 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
-    EXPECT_TRUE(item.GetAnyTypeName().empty());
+    EXPECT_EQ(item.GetAnyTypeName(), constants::kEmptyTypeName);
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_FALSE(item.HasData(constants::kAnyTypeNameRole));
+    EXPECT_TRUE(item.HasData(constants::kAnyTypeNameRole));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), constants::kEmptyTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));

@@ -106,6 +106,7 @@ int AnyValueItem::GetChildrenCount() const
 AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type)
 {
   SetDisplayName(constants::kEmptyTypeName);
+  SetAnyTypeName(constants::kEmptyTypeName);
   SetToolTip(constants::kEmptyTypeName);
 }
 
