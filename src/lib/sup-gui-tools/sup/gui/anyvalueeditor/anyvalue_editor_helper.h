@@ -37,6 +37,7 @@ class AnyValueItem;
 
 const std::string kFieldNamePrefix = "field";
 const std::string kElementNamePrefix = "element";
+const std::string kAnyValueDefaultDisplayName = "value";
 
 /**
  * @brief Suggests appropriate display name for a child.

@@ -20,6 +20,7 @@
 #include "anyvalue_editor_helper.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <map>
 
@@ -49,7 +50,12 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, A
     return GetElementPrefix(*anyvalue_item) + std::to_string(anyvalue_item->GetChildrenCount());
   }
 
-  return {};  // no good suggestions otherwise
+  if (child.GetType() == AnyValueScalarItem::Type || child.GetType() == AnyValueEmptyItem::Type)
+  {
+    return kAnyValueDefaultDisplayName;
+  }
+
+  return {}; // no good suggestions
 }
 
 }  // namespace sup::gui

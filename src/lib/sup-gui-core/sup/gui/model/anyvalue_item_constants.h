@@ -29,7 +29,6 @@ const std::string kStructTypeName = "struct";
 const std::string kArrayTypeName = "array";
 const std::string kScalarTypeName = "scalar";
 const std::string kEmptyTypeName = "empty";
-const std::string kAnyValueDefaultDisplayName = "value";
 
 const int kAnyTypeNameRole = 10;
 
