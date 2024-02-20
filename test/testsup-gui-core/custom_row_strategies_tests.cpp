@@ -48,17 +48,17 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
 
   ASSERT_EQ(view_items.size(), 3);
 
-  EXPECT_EQ(view_items.at(0)->data(Qt::DisplayRole).toString().toStdString(),
+  EXPECT_EQ(view_items.at(0)->Data(Qt::DisplayRole).toString().toStdString(),
             constants::kScalarTypeName);
-  EXPECT_EQ(view_items.at(0)->data(Qt::EditRole).toString().toStdString(),
+  EXPECT_EQ(view_items.at(0)->Data(Qt::EditRole).toString().toStdString(),
             constants::kScalarTypeName);
 
-  EXPECT_EQ(view_items.at(1)->data(Qt::DisplayRole).toInt(), 0);
-  EXPECT_EQ(view_items.at(1)->data(Qt::EditRole).toInt(), 0);
+  EXPECT_EQ(view_items.at(1)->Data(Qt::DisplayRole).toInt(), 0);
+  EXPECT_EQ(view_items.at(1)->Data(Qt::EditRole).toInt(), 0);
 
-  EXPECT_EQ(view_items.at(2)->data(Qt::DisplayRole).toString().toStdString(),
+  EXPECT_EQ(view_items.at(2)->Data(Qt::DisplayRole).toString().toStdString(),
             sup::dto::kInt8TypeName);
-  EXPECT_FALSE(view_items.at(2)->data(Qt::EditRole).isValid());
+  EXPECT_FALSE(view_items.at(2)->Data(Qt::EditRole).isValid());
 
   // more tests in AnyValueViewModelTest
 }
