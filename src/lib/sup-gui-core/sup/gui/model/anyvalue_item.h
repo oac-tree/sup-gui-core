@@ -25,8 +25,12 @@
 namespace sup::gui
 {
 
-//! Base class for all AnyValueItems
-
+/**
+ * @brief The AnyValueItem class is a base for all AnyValueItems.
+ *
+ * It's a counterpart of sup::dto::AnyValue in the GUI world. It is intended to show structured
+ * data in Qt's trees and tables.
+ */
 class AnyValueItem : public mvvm::CompoundItem
 {
 public:
@@ -48,8 +52,9 @@ public:
   int GetChildrenCount() const;
 };
 
-//! The item to represent AnyValue empty item.
-
+/**
+ * @brief The AnyValueEmptyItem represents empty AnyValue.
+ */
 class AnyValueEmptyItem : public AnyValueItem
 {
 public:
@@ -61,8 +66,9 @@ public:
   std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 };
 
-//! The item to represent AnyValue scalar.
-
+/**
+ * @brief The AnyValueScalarItem class represents AnyValue scalar.
+ */
 class AnyValueScalarItem : public AnyValueItem
 {
 public:
@@ -78,8 +84,9 @@ public:
   bool IsScalar() const override;
 };
 
-//! The item to represent AnyValue struct.
-
+/**
+ * @brief The AnyValueStructItem class represents AnyValue structure.
+ */
 class AnyValueStructItem : public AnyValueItem
 {
 public:
@@ -98,8 +105,9 @@ public:
   std::vector<AnyValueItem*> GetChildren() const override;
 };
 
-//! The item to represent AnyValue array.
-
+/**
+ * @brief The AnyValueArrayItem class represents an AnyValue array.
+ */
 class AnyValueArrayItem : public AnyValueItem
 {
 public:
