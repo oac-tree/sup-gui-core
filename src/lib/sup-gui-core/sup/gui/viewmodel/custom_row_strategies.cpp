@@ -25,6 +25,8 @@
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
+#include <QColor>
+
 namespace
 {
 
@@ -90,7 +92,13 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRow(
   }
   else
   {
-    result.emplace_back(mvvm::CreateLabelViewItem(anyvalue_item, anyvalue_item->GetAnyTypeName()));
+    // We want type names for all scalars to be non-editable and be shown in gray to stress that
+    // they are not editable. Since type name is not a separate SessionItem, but extra role on board
+    // of AnyValueItem, we have have to proceed with more complex approach:
+    auto view_item = mvvm::CreateFixedDataViewItem(anyvalue_item);
+    view_item->SetData(QColor(Qt::gray), Qt::ForegroundRole);
+    view_item->SetData(QString::fromStdString(anyvalue_item->GetAnyTypeName()), Qt::DisplayRole);
+    result.emplace_back(std::move(view_item));
   }
 
   return result;

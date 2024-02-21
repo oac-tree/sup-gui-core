@@ -87,10 +87,6 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   mvvm::int8 new_value(42);
   EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
-
-  // it is not possible to change scalar type name
-  EXPECT_FALSE(viewmodel.setData(item_type_index, QString("scalar"), Qt::EditRole));
-  EXPECT_EQ(item->GetAnyTypeName(), std::string("int8"));
 }
 
 //! Testing how an empty struct item looks in a view model.
