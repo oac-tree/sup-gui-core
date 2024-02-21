@@ -186,7 +186,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueStructItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kStructTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), kAnyValueDefaultDisplayName);
 
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
 };
@@ -429,7 +429,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::constants::kArrayTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), kAnyValueDefaultDisplayName);
 
   // expecting no callbacks
   EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);

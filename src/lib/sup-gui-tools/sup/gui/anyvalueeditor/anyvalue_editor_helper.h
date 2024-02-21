@@ -42,7 +42,7 @@ const std::string kAnyValueDefaultDisplayName = "value";
 /**
  * @brief Suggests appropriate display name for a child.
  * @param parent A parent where a child will be inserted.
- * @param child Future child of a parent
+ * @param child Future child of a parent.
  */
 std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child);
 

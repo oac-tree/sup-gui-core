@@ -50,12 +50,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, A
     return GetElementPrefix(*anyvalue_item) + std::to_string(anyvalue_item->GetChildrenCount());
   }
 
-  if (child.GetType() == AnyValueScalarItem::Type || child.GetType() == AnyValueEmptyItem::Type)
-  {
-    return kAnyValueDefaultDisplayName;
-  }
-
-  return {}; // no good suggestions
+  return kAnyValueDefaultDisplayName;
 }
 
 }  // namespace sup::gui
