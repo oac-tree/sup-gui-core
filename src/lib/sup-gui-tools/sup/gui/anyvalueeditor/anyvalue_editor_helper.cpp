@@ -53,4 +53,20 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, A
   return kAnyValueDefaultDisplayName;
 }
 
+std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,
+                                                   AnyValueItem& child)
+{
+  if (child.IsStruct())
+  {
+    return constants::kStructTypeName;
+  }
+
+  if (child.IsArray())
+  {
+    return constants::kArrayTypeName;
+  }
+
+  return {};  // scalars has type name already
+}
+
 }  // namespace sup::gui

@@ -41,10 +41,24 @@ const std::string kAnyValueDefaultDisplayName = "value";
 
 /**
  * @brief Suggests appropriate display name for a child.
+ *
+ * Method is used in the context of AnyValue editor action handler when an item is inserted in the
+ * tree.
+ *
  * @param parent A parent where a child will be inserted.
  * @param child Future child of a parent.
+ * @return Optional string.
  */
 std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child);
+
+/**
+ * @brief Suggests type name for a child.
+ *
+ * @param parent A parent where a child will be inserted.
+ * @param child Future child of a parent.
+ * @return Optional string.
+ */
+std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent, AnyValueItem& child);
 
 }  // namespace sup::gui
 

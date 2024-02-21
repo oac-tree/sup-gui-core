@@ -214,6 +214,12 @@ void AnyValueEditorActionHandler::AddAnyValueItem(std::unique_ptr<AnyValueItem> 
       {
         item->SetDisplayName(name.value());
       }
+
+      if (auto name = SuggestEditableTypeName(*parent, *item); name.has_value())
+      {
+        item->SetAnyTypeName(name.value());
+      }
+
       auto result = GetModel()->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
       emit SelectItemRequest(result);
     }
