@@ -25,6 +25,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
+#include <mvvm/viewmodelbase/viewitem.h>
 
 #include <sup/dto/anytype.h>
 
@@ -84,9 +85,34 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(item->GetDisplayName(), std::string("abc"));
 
   // it should be possible to change scalar value
-  mvvm::int8 new_value(42);
+  const mvvm::int8 new_value(42);
   EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
+
+  // ------------------------------------------------------------------------------------------
+  // The story below is about an attempt to change scalar TypeName by clicking in a 3rd column of a
+  // viewmodel. The third column is special since we handle it with experimental
+  // FixedDataPresentationItem. It allows showing the data not connected with the original item.
+  // Here, the third column is a custom gray-colored text label coinciding with TypeName.
+  // ------------------------------------------------------------------------------------------
+
+  // It is not possible to change scalar type name via viewmodel. Thanks to
+  // FixedDataPresentationItem, it reports read only flags and will ignore all user attempts to
+  // interact with a cell.
+  Qt::ItemFlags expected_flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+  EXPECT_EQ(viewmodel.flags(item_type_index), expected_flags);
+  EXPECT_EQ(views[2]->Flags(), expected_flags);
+
+  // However, the implementation still allows to change the label programmatically (since
+  // programmatic change bypasses Flags business).
+  EXPECT_TRUE(item->IsEditable());
+  EXPECT_TRUE(viewmodel.setData(item_type_index, QString("scalar"), Qt::EditRole));
+
+  // the model will see the data changed to a new value
+  EXPECT_EQ(viewmodel.data(item_type_index, Qt::EditRole), QString("scalar"));
+
+  // This doesn't get propagated to SessionItem, which still has original type name.
+  EXPECT_EQ(item->GetAnyTypeName(), std::string("int8"));
 }
 
 //! Testing how an empty struct item looks in a view model.
