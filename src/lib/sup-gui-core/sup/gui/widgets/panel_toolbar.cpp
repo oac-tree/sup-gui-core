@@ -29,6 +29,7 @@ namespace sup::gui
 
 PanelToolBar::PanelToolBar(QWidget *parent) : QToolBar(parent), m_label(new QLabel)
 {
+  setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   setIconSize(sup::gui::utils::ToolBarIconSize());
   //  setStyleSheet("QToolButton:!hover {background-color:#eff6fc} QToolBar {background: #eff6fc}");
 
