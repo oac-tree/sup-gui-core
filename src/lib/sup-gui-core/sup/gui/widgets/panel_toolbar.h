@@ -89,6 +89,7 @@ private:
   void InsertStrech();
 
   QLabel* m_label{nullptr};
+  QAction* m_label_action{nullptr};
   QAction* m_spacer_action{nullptr};
   QToolButton* m_dots_button{nullptr};
 };

@@ -33,13 +33,15 @@ PanelToolBar::PanelToolBar(QWidget *parent) : QToolBar(parent), m_label(new QLab
   setIconSize(sup::gui::utils::ToolBarIconSize());
   //  setStyleSheet("QToolButton:!hover {background-color:#eff6fc} QToolBar {background: #eff6fc}");
 
-  addWidget(m_label);
+  m_label_action = addWidget(m_label);
+  m_label_action->setVisible(false);
 
   AddDotsMenu();
 }
 
 void PanelToolBar::setText(const QString &text)
 {
+  m_label_action->setVisible(true);
   m_label->setText(text);
 }
 
