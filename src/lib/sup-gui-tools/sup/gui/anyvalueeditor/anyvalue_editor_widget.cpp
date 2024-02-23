@@ -25,19 +25,17 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/app/app_action_helper.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/style_utils.h>
 
-#include <mvvm/project/model_has_changed_controller.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
 
 #include <QAction>
 #include <QFileDialog>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
@@ -96,8 +94,6 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container
   m_text_panel->SetAnyValueItemContainer(container);
 }
 
-//! Imports AnyValue from JSON file.
-
 void AnyValueEditorWidget::OnImportFromFileRequest()
 {
   QFileDialog dialog(this, "Select JSON file to load", m_current_workdir);
@@ -126,15 +122,10 @@ void AnyValueEditorWidget::OnExportToFileRequest()
   }
 }
 
-//! Returns AnyValueItem selected by the user in item tree.
-
 sup::gui::AnyValueItem *AnyValueEditorWidget::GetSelectedItem() const
 {
   return m_tree_panel->GetSelectedItem();
 }
-
-//! Sets initial value. The given value will be cloned inside the editor's model and used as
-//! a starting point for editing.
 
 void AnyValueEditorWidget::SetInitialValue(const AnyValueItem &item)
 {
@@ -215,8 +206,6 @@ void AnyValueEditorWidget::SetupWidgetActions()
   sup::gui::AppRegisterAction(sup::gui::constants::kViewMenu, m_show_right_sidebar);
 }
 
-//! Creates a context with all callbacks necessary for AnyValueEditorActions to function.
-
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
 {
   auto get_selected_callback = [this]() { return GetSelectedItem(); };
@@ -254,8 +243,6 @@ QWidget *AnyValueEditorWidget::CreateRightPanel()
   result->AddWidget(m_text_panel, m_text_panel->actions());
   return result;
 }
-
-//! Imports AnyValue from JSON file.
 
 void AnyValueEditorWidget::ImportAnyValueFromFile(const QString &file_name)
 {

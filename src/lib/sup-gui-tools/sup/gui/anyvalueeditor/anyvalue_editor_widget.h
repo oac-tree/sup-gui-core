@@ -61,16 +61,38 @@ public:
 
   /**
    * @brief Sets the container with AnyValueItem.
+   *
+   * This editor is build around the idea, that there is only a single AnyValueItem in a container.
+   * It can be either root item of the model, mvvm::ContainerItem or any other conteiner-like item.
    */
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
+  /**
+   * @brief Provides import of AnyValue from JSON file.
+   */
   void OnImportFromFileRequest();
+
+  /**
+   * @brief Exports top-level AnyValue to JSON file.
+   */
   void OnExportToFileRequest();
 
+  /**
+   * @brief Returns AnyValueItem selected by the user in item tree.
+   */
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
+  /**
+   * @brief Sets initial value.
+   *
+   * The given value will be cloned inside the editor's model and used as a starting point for
+   * editing.
+   */
   void SetInitialValue(const sup::gui::AnyValueItem& item);
 
+  /**
+   * @brief Returns top AnyValueItem, which is our result.
+   */
   AnyValueItem* GetTopItem();
 
 private:
@@ -78,8 +100,20 @@ private:
   void WriteSettings();
   void SetupConnections();
   void SetupWidgetActions();
+
+  /**
+   * @brief Imports AnyValue from JSON file.
+   */
   void ImportAnyValueFromFile(const QString& file_name);
+
+  /**
+   * @brief Creates a context with all callbacks necessary for AnyValueEditorActions to function.
+   */
   AnyValueEditorContext CreateActionContext() const;
+
+  /**
+   * @brief Updates current working dir to use next time for input.
+   */
   void UpdateCurrentWorkdir(const QString& file_name);
 
   QWidget* CreateLeftPanel();
