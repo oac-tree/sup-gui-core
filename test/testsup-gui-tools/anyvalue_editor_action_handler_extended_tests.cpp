@@ -89,3 +89,31 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
 
   EXPECT_EQ(struct_item->GetChildren().size(), 1);
 };
+
+//! Validating that editor removes all hidden/disabled flags from initial item.
+
+TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
+{
+  AnyValueScalarItem item;
+  item.SetAnyTypeName(sup::dto::kInt32TypeName);
+  item.SetData(42);
+  item.SetEnabled(false);
+  item.SetEditable(false);
+
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+
+  auto handler = CreateActionHandler(nullptr);
+  handler->SetInitialValue(item);
+  ASSERT_NE(handler->GetTopItem(), nullptr);
+
+  // validating
+  auto copied_item = dynamic_cast<AnyValueScalarItem*>(handler->GetTopItem());
+  ASSERT_NE(copied_item, nullptr);
+  EXPECT_NE(copied_item, &item);
+  EXPECT_EQ(copied_item->GetAnyTypeName(), item.GetAnyTypeName());
+  EXPECT_EQ(copied_item->Data<int>(), item.Data<int>());
+  EXPECT_EQ(copied_item->GetIdentifier(), item.GetIdentifier());
+  EXPECT_TRUE(copied_item->IsEditable());
+  EXPECT_TRUE(copied_item->IsEnabled());
+}

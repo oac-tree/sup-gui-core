@@ -161,7 +161,13 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
     return;
   }
 
-  GetModel()->InsertItem(mvvm::utils::CloneItem(item), GetAnyValueItemContainer(),
+  auto cloned_item = mvvm::utils::CloneItem(item);
+
+  // if original item was marked as disabled, we should remove it from clone
+  cloned_item->SetEnabled(true);
+  cloned_item->SetEditable(true);
+
+  GetModel()->InsertItem(std::move(cloned_item), GetAnyValueItemContainer(),
                          mvvm::TagIndex::Append());
 }
 
