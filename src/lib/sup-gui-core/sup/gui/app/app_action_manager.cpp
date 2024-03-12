@@ -60,12 +60,25 @@ QMenuBar *ActionManager::GetMenuBar()
 
 void ActionManager::SetMenuBar(QMenuBar *menubar)
 {
-  if (m_menubar)
+  if (!menubar)
   {
-    m_action_storage.clear();
+    throw RuntimeException("Attempt to set uninitialized menubar");
   }
 
-  m_menubar = menubar;
+  if (!m_menubar)
+  {
+    // registering menubar
+    m_menubar = menubar;
+    return;
+  }
+
+  if (m_menubar == menubar)
+  {
+    // nothing to do, same menubar
+    return;
+  }
+
+  throw RuntimeException("There can be only one application minibar");
 }
 
 IActionContainer *ActionManager::AddMenu(const std::string &menu_name)

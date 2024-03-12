@@ -108,8 +108,8 @@ TEST_F(AppActionManagerTest, AddMenuBarSecondTime)
   EXPECT_EQ(manager.GetContainerCount(), 1);
   EXPECT_EQ(manager.GetContainer("File"), container);
 
-  manager.SetMenuBar(&menubar);
-  EXPECT_EQ(manager.GetContainerCount(), 0);
+  EXPECT_NO_THROW(manager.SetMenuBar(&menubar));
+  EXPECT_EQ(manager.GetContainerCount(), 1);
 }
 
 TEST_F(AppActionManagerTest, ActionManagerRegisterAction)
