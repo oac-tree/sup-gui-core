@@ -61,7 +61,7 @@ QMenu *AppGetMenu(const std::string &menu_name)
   return container ? container->GetMenu() : nullptr;
 }
 
-void AppAddMenus(QMenuBar *menubar, const std::vector<std::string> &names)
+void AppRegisterMainMenuBar(QMenuBar *menubar, const std::vector<std::string> &names)
 {
   AppRegisterMenuBar(menubar);
   for (const auto &name : names)

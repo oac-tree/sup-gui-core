@@ -73,7 +73,7 @@ void AnyValueEditorMainWindow::InitApplication()
 
 void AnyValueEditorMainWindow::InitComponents()
 {
-  AppAddMenus(menuBar(), {constants::kFileMenu, constants::kViewMenu,
+  AppRegisterMainMenuBar(menuBar(), {constants::kFileMenu, constants::kViewMenu,
                                     constants::kHelpMenu});
 
   m_anyvalue_editor = new sup::gui::AnyValueEditor;

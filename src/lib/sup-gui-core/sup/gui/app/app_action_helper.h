@@ -83,7 +83,7 @@ QMenu* AppGetMenu(const std::string& menu_name);
  * @param menubar Main main window menubar.
  * @param names Vector of top level menus.
  */
-void AppAddMenus(QMenuBar* menubar, const std::vector<std::string>& names);
+void AppRegisterMainMenuBar(QMenuBar* menubar, const std::vector<std::string>& names);
 
 }  // namespace sup::gui
 

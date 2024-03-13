@@ -77,7 +77,7 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  AppAddMenus(menuBar(), {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
+  AppRegisterMainMenuBar(menuBar(), {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
                           constants::kViewMenu, constants::kHelpMenu});
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
