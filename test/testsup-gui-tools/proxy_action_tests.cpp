@@ -32,8 +32,7 @@ class ProxyActionTest : public ::testing::Test
 TEST_F(ProxyActionTest, InitialState)
 {
   ProxyAction action;
-  // action.setEnabled(false);
-  // EXPECT_FALSE(action.isEnabled());
+  EXPECT_FALSE(action.isEnabled());
 }
 
 //! Validating how SetAction propagates properties of real action to the proxy.
@@ -108,4 +107,32 @@ TEST_F(ProxyActionTest, TriggerRealAction)
   // real action should be triggered too
   EXPECT_EQ(spy_real_action.count(), 1);
   EXPECT_EQ(spy_proxy_action.count(), 0);
+}
+
+//! Check how enabled disabled status is propagated to the proxy object.
+
+TEST_F(ProxyActionTest, SetEnabled)
+{
+  const QString expected_name("abc");
+
+  QAction real_action(expected_name);
+
+  ProxyAction proxy_action;
+
+  proxy_action.SetAction(&real_action);
+  EXPECT_EQ(proxy_action.text(), expected_name);
+
+  // initial status
+  EXPECT_TRUE(real_action.isEnabled());
+  EXPECT_TRUE(proxy_action.isEnabled());
+
+  // disabling real action should lead to proxy disabling
+  real_action.setEnabled(false);
+  EXPECT_FALSE(real_action.isEnabled());
+  EXPECT_FALSE(proxy_action.isEnabled());
+
+  // enabling real action should lead to proxy enabling
+  real_action.setEnabled(true);
+  EXPECT_TRUE(real_action.isEnabled());
+  EXPECT_TRUE(proxy_action.isEnabled());
 }
