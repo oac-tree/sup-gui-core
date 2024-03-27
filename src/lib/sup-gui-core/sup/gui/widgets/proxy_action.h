@@ -58,14 +58,9 @@ public:
 
 private:
   /**
-   * @brief Disconnects given action so we are not its proxy.
-   */
-  void MakeDisconnected(QAction* action);
-
-  /**
    * @brief Connects given action so we become its proxy.
    */
-  void MakeConnected(QAction* action);
+  void SetConnected(bool value);
 
   /**
    * @brief Updates this action appearance from underlying action appearance.

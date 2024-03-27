@@ -44,41 +44,47 @@ void ProxyAction::SetAction(QAction *action)
     return;
   }
 
-  if (m_action)
-  {
-    MakeDisconnected(m_action);
-  }
+  SetConnected(false);
 
   m_action = action;
 
-  if (m_action)
+  Update();
+  SetConnected(true);
+}
+
+void ProxyAction::SetConnected(bool value)
+{
+  if (!m_action)
   {
-    Update();
-    MakeConnected(m_action);
+    return;
+  }
+
+  if (value)
+  {
+    connect(this, &ProxyAction::triggered, m_action, &QAction::triggered, Qt::UniqueConnection);
+    connect(m_action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
   }
   else
   {
-    setText(kDefaultName);
+    disconnect(this, &ProxyAction::triggered, m_action, &QAction::triggered);
+    disconnect(m_action, &QAction::changed, this, &ProxyAction::Update);
   }
-}
-
-void ProxyAction::MakeDisconnected(QAction *action)
-{
-  disconnect(this, &ProxyAction::triggered, action, &QAction::triggered);
-  disconnect(action, &QAction::changed, this, &ProxyAction::Update);
-}
-
-void ProxyAction::MakeConnected(QAction *action)
-{
-  connect(this, &ProxyAction::triggered, action, &QAction::triggered, Qt::UniqueConnection);
-  connect(action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
 }
 
 void ProxyAction::Update()
 {
-  setText(m_action->text());
-  setToolTip(m_action->toolTip());
-  setEnabled(m_action->isEnabled());
+  if (m_action)
+  {
+    setText(m_action->text());
+    setToolTip(m_action->toolTip());
+    setEnabled(m_action->isEnabled());
+  }
+  else
+  {
+    setText(kDefaultName);
+    setToolTip("");
+    setEnabled(false);
+  }
 }
 
 }  // namespace sup::gui
