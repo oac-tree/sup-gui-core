@@ -29,7 +29,6 @@ namespace sup::gui
 
 ProxyAction::ProxyAction(QObject *parent) : QAction(kDefaultName, parent)
 {
-  setEnabled(false);
 }
 
 QAction *ProxyAction::GetAction() const
@@ -50,6 +49,11 @@ void ProxyAction::SetAction(QAction *action)
 
   Update();
   SetConnected(true);
+}
+
+void ProxyAction::SetTrackEnabled(bool value)
+{
+  m_track_enabled = value;
 }
 
 void ProxyAction::SetConnected(bool value)
@@ -77,13 +81,15 @@ void ProxyAction::Update()
   {
     setText(m_action->text());
     setToolTip(m_action->toolTip());
-    setEnabled(m_action->isEnabled());
+    if (m_track_enabled)
+    {
+      setEnabled(m_action->isEnabled());
+    }
   }
   else
   {
     setText(kDefaultName);
     setToolTip("");
-    setEnabled(false);
   }
 }
 

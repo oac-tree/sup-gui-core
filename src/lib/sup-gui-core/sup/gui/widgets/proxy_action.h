@@ -21,6 +21,7 @@
 #define SUP_GUI_WIDGETS_PROXY_ACTION_H_
 
 #include <QAction>
+#include <vector>
 
 namespace sup::gui
 {
@@ -56,6 +57,8 @@ public:
    */
   void SetAction(QAction* action);
 
+  void SetTrackEnabled(bool value);
+
 private:
   /**
    * @brief Connects given action so we become its proxy.
@@ -68,6 +71,7 @@ private:
   void Update();
 
   QAction* m_action{nullptr};
+  bool m_track_enabled{true};
 };
 
 }  // namespace sup::gui
