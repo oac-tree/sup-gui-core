@@ -81,6 +81,7 @@ void ProxyAction::Update()
   {
     setText(m_action->text());
     setToolTip(m_action->toolTip());
+    setIcon(m_action->icon());
     if (m_track_enabled)
     {
       setEnabled(m_action->isEnabled());
