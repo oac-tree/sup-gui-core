@@ -36,15 +36,42 @@ namespace sup::gui
  * context menu. In the context menu, we want to provide context-dependent enable/disable
  * appearance, while in a toolbar, for aesthetics reasons, we want an action to be shown as always
  * enabled. In this case ProxyAction will go to a toolbar.
+ *
+ * Inspired by https://testcase.me/2023/02/proxy-action/
  */
 class ProxyAction : public QAction
 {
   Q_OBJECT
 
 public:
-  explicit ProxyAction(QAction* action, QObject* parent = nullptr);
+  explicit ProxyAction(QObject* parent = nullptr);
+
+  /**
+   * @brief Returns real action.
+   */
+  QAction* GetAction() const;
+
+  /**
+   * @brief Sets real action.
+   */
+  void SetAction(QAction* action);
 
 private:
+  /**
+   * @brief Disconnects given action so we are not its proxy.
+   */
+  void MakeDisconnected(QAction* action);
+
+  /**
+   * @brief Connects given action so we become its proxy.
+   */
+  void MakeConnected(QAction* action);
+
+  /**
+   * @brief Updates this action appearance from underlying action appearance.
+   */
+  void Update();
+
   QAction* m_action{nullptr};
 };
 

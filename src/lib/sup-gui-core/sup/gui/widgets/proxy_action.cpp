@@ -19,9 +19,66 @@
 
 #include "proxy_action.h"
 
+namespace
+{
+const QString kDefaultName = "Proxy";
+}
+
 namespace sup::gui
 {
 
-ProxyAction::ProxyAction(QAction *action, QObject *parent) : QAction(parent), m_action(action) {}
+ProxyAction::ProxyAction(QObject *parent) : QAction(kDefaultName, parent)
+{
+  setEnabled(false);
+}
+
+QAction *ProxyAction::GetAction() const
+{
+  return m_action;
+}
+
+void ProxyAction::SetAction(QAction *action)
+{
+  if (action == m_action)
+  {
+    return;
+  }
+
+  if (m_action)
+  {
+    MakeDisconnected(m_action);
+  }
+
+  m_action = action;
+
+  if (m_action)
+  {
+    Update();
+    MakeConnected(m_action);
+  }
+  else
+  {
+    setText(kDefaultName);
+  }
+}
+
+void ProxyAction::MakeDisconnected(QAction *action)
+{
+  disconnect(this, &ProxyAction::triggered, action, &QAction::triggered);
+  disconnect(action, &QAction::changed, this, &ProxyAction::Update);
+}
+
+void ProxyAction::MakeConnected(QAction *action)
+{
+  connect(this, &ProxyAction::triggered, action, &QAction::triggered, Qt::UniqueConnection);
+  connect(action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
+}
+
+void ProxyAction::Update()
+{
+  setText(m_action->text());
+  setToolTip(m_action->toolTip());
+  setEnabled(m_action->isEnabled());
+}
 
 }  // namespace sup::gui

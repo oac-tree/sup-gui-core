@@ -21,6 +21,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QSignalSpy>
+
 using namespace sup::gui;
 
 class ProxyActionTest : public ::testing::Test
@@ -29,5 +31,81 @@ class ProxyActionTest : public ::testing::Test
 
 TEST_F(ProxyActionTest, InitialState)
 {
-  ProxyAction action(nullptr);
+  ProxyAction action;
+  // action.setEnabled(false);
+  // EXPECT_FALSE(action.isEnabled());
+}
+
+//! Validating how SetAction propagates properties of real action to the proxy.
+
+TEST_F(ProxyActionTest, SetAction)
+{
+  const QString expected_name("abc");
+  const QString expected_tooltip("tooltip");
+
+  QAction real_action(expected_name);
+  real_action.setToolTip(expected_tooltip);
+
+  ProxyAction proxy_action;
+  proxy_action.SetAction(&real_action);
+
+  EXPECT_EQ(proxy_action.GetAction(), &real_action);
+  EXPECT_EQ(proxy_action.text(), expected_name);
+  EXPECT_EQ(proxy_action.toolTip(), expected_tooltip);
+  EXPECT_TRUE(proxy_action.isEnabled());
+}
+
+//! Validating how triggering proxy propagates to real action.
+
+TEST_F(ProxyActionTest, TriggerProxy)
+{
+  const QString expected_name("abc");
+  const QString expected_tooltip("tooltip");
+
+  QAction real_action(expected_name);
+
+  ProxyAction proxy_action;
+  QSignalSpy spy_real_action(&real_action, &ProxyAction::triggered);
+
+  proxy_action.SetAction(&real_action);
+  EXPECT_EQ(proxy_action.text(), expected_name);
+
+  // triggering proxy
+  proxy_action.trigger();
+
+  // real action should be triggered too
+  EXPECT_EQ(spy_real_action.count(), 1);
+
+  // resetting proxy
+  proxy_action.SetAction(nullptr);
+  EXPECT_EQ(proxy_action.text(), QString("Proxy"));  // defined in proxy_action.cpp
+
+  // triggering proxy
+  proxy_action.trigger();
+
+  // real action wasn't triggered anymore
+  EXPECT_EQ(spy_real_action.count(), 1);
+}
+
+//! Triggering real action shouldn't be propagated to the proxy.
+
+TEST_F(ProxyActionTest, TriggerRealAction)
+{
+  const QString expected_name("abc");
+
+  QAction real_action(expected_name);
+
+  ProxyAction proxy_action;
+  QSignalSpy spy_real_action(&real_action, &ProxyAction::triggered);
+  QSignalSpy spy_proxy_action(&proxy_action, &ProxyAction::triggered);
+
+  proxy_action.SetAction(&real_action);
+  EXPECT_EQ(proxy_action.text(), expected_name);
+
+  // triggering real action
+  real_action.trigger();
+
+  // real action should be triggered too
+  EXPECT_EQ(spy_real_action.count(), 1);
+  EXPECT_EQ(spy_proxy_action.count(), 0);
 }
