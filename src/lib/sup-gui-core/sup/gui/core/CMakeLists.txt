@@ -4,4 +4,5 @@ target_sources(${library_name} PRIVATE
   dto_types_fwd.h
   version.cpp
   version.h
+  flags.h
 )
