@@ -39,7 +39,12 @@ class ActionMenu : public QWidgetAction
   Q_OBJECT
 
 public:
-  explicit ActionMenu(QObject* parent = nullptr);
+  explicit ActionMenu(QObject *parent = nullptr);
+  ActionMenu(const QString &text, QObject *parent);
+  ActionMenu(const QIcon &icon, const QString &text, QObject *parent);
+
+protected:
+  QWidget *createWidget(QWidget *parent) override;
 };
 
 }  // namespace sup::gui
