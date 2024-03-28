@@ -119,7 +119,7 @@ TEST_F(ProxyActionTest, SetEnabled)
 
   ProxyAction proxy_action;
 
-  proxy_action.SetAction(&real_action);
+  proxy_action.SetAction(&real_action, ProxyAction::Options::SyncEnabledStatus);
   EXPECT_EQ(proxy_action.text(), expected_name);
 
   // initial status
@@ -146,9 +146,8 @@ TEST_F(ProxyActionTest, DoNotTrackEnabled)
   QAction real_action(expected_name);
 
   ProxyAction proxy_action;
-  proxy_action.SetTrackEnabled(false);
 
-  proxy_action.SetAction(&real_action);
+  proxy_action.SetAction(&real_action, ProxyAction::Options::None);
   EXPECT_EQ(proxy_action.text(), expected_name);
 
   // initial status

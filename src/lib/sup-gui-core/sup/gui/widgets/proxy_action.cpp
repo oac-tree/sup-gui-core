@@ -34,7 +34,7 @@ QAction *ProxyAction::GetAction() const
   return m_action;
 }
 
-void ProxyAction::SetAction(QAction *action, Options proxy_options)
+void ProxyAction::SetAction(QAction *action, flags_t proxy_options)
 {
   if (action == m_action)
   {
@@ -44,7 +44,7 @@ void ProxyAction::SetAction(QAction *action, Options proxy_options)
   SetConnected(false);
 
   m_action = action;
-  m_proxy_otpions = proxy_options;
+  m_proxy_options = proxy_options;
 
   Update();
   SetConnected(true);
@@ -75,7 +75,7 @@ void ProxyAction::Update()
     setText(m_action->text());
     setToolTip(m_action->toolTip());
     setIcon(m_action->icon());
-    if (m_proxy_otpions.testFlag(SyncEnabledStatus))
+    if (m_proxy_options.HasFlag(Options::SyncEnabledStatus))
     {
       setEnabled(m_action->isEnabled());
     }
