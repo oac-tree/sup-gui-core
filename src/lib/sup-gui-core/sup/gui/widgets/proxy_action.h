@@ -45,6 +45,13 @@ class ProxyAction : public QAction
   Q_OBJECT
 
 public:
+  enum Option
+  {
+    NoOptions = 0x0,
+    SyncEnabledStatus = 0x1  //!< follow enabled status of underlying action
+  };
+  Q_DECLARE_FLAGS(Options, Option)
+
   explicit ProxyAction(QObject* parent = nullptr);
 
   /**
@@ -53,15 +60,13 @@ public:
   QAction* GetAction() const;
 
   /**
-   * @brief Sets real action.
+   * @brief Sets underlying real action.
    */
-  void SetAction(QAction* action);
-
-  void SetTrackEnabled(bool value);
+  void SetAction(QAction* action, Options proxy_options = NoOptions);
 
 private:
   /**
-   * @brief Connects given action so we become its proxy.
+   * @brief Establishes connections with the underlying real action, or make it disconnected.
    */
   void SetConnected(bool value);
 
@@ -71,9 +76,11 @@ private:
   void Update();
 
   QAction* m_action{nullptr};
-  bool m_track_enabled{true};
+  Options m_proxy_otpions;
 };
 
 }  // namespace sup::gui
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(sup::gui::ProxyAction::Options)
 
 #endif  // SUP_GUI_WIDGETS_PROXY_ACTION_H_

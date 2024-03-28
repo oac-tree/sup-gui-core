@@ -27,16 +27,14 @@ const QString kDefaultName = "Proxy";
 namespace sup::gui
 {
 
-ProxyAction::ProxyAction(QObject *parent) : QAction(kDefaultName, parent)
-{
-}
+ProxyAction::ProxyAction(QObject *parent) : QAction(kDefaultName, parent) {}
 
 QAction *ProxyAction::GetAction() const
 {
   return m_action;
 }
 
-void ProxyAction::SetAction(QAction *action)
+void ProxyAction::SetAction(QAction *action, Options proxy_options)
 {
   if (action == m_action)
   {
@@ -46,16 +44,11 @@ void ProxyAction::SetAction(QAction *action)
   SetConnected(false);
 
   m_action = action;
+  m_proxy_otpions = proxy_options;
 
   Update();
   SetConnected(true);
 }
-
-void ProxyAction::SetTrackEnabled(bool value)
-{
-  m_track_enabled = value;
-}
-
 void ProxyAction::SetConnected(bool value)
 {
   if (!m_action)
@@ -82,7 +75,7 @@ void ProxyAction::Update()
     setText(m_action->text());
     setToolTip(m_action->toolTip());
     setIcon(m_action->icon());
-    if (m_track_enabled)
+    if (m_proxy_otpions.testFlag(SyncEnabledStatus))
     {
       setEnabled(m_action->isEnabled());
     }
