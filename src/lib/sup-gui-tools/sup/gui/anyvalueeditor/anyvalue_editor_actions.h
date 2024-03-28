@@ -25,15 +25,15 @@
 
 class QAction;
 class QMenu;
-class QWidgetAction;
 
 namespace sup::gui
 {
 
+class ActionMenu;
+
 /**
  * @brief The AnyValueEditorActions class contains collection of actions to edit AnyValue tree.
  */
-
 class AnyValueEditorActions : public QObject
 {
   Q_OBJECT
@@ -61,10 +61,10 @@ private:
 
   std::unique_ptr<QMenu> m_create_anyvalue_menu;
 
-  QWidgetAction* m_add_anyvalue_action{nullptr};
-  QWidgetAction* m_remove_selected_action{nullptr};
-  QWidgetAction* m_move_up_action{nullptr};
-  QWidgetAction* m_move_down_action{nullptr};
+  ActionMenu* m_add_anyvalue_action{nullptr};
+  QAction* m_remove_selected_action{nullptr};
+  QAction* m_move_up_action{nullptr};
+  QAction* m_move_down_action{nullptr};
 };
 
 }  // namespace sup::gui
