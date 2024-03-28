@@ -23,7 +23,7 @@
 #include <QWidget>
 
 class QTextEdit;
-class QWidgetAction;
+class QAction;
 class QToolButton;
 
 namespace mvvm
@@ -66,9 +66,8 @@ private:
   void SetupController();
   AnyValueItem* GetAnyValueItem();
 
-  QWidgetAction* m_export_action{nullptr};
-  QToolButton* m_pretty_button{nullptr};
-  QWidgetAction* m_pretty_action{nullptr};
+  QAction* m_export_action{nullptr};
+  QAction* m_pretty_action{nullptr};
 
   CodeView* m_json_view{nullptr};
   mvvm::SessionModelInterface* m_model{nullptr};
