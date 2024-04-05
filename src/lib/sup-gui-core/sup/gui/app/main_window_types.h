@@ -29,7 +29,6 @@ namespace sup::gui
 /**
  * @brief The AppExitCode enum defines exit codes of the application.
  */
-
 enum AppExitCode
 {
   NormalExit,

@@ -141,7 +141,20 @@ public:
 
   IActionContainer* GetContainer(const std::string& menu_name);
 
+  /**
+   * @brief Returns the number of registered main containers.
+   *
+   *
+   */
   size_t GetContainerCount() const;
+
+  /**
+   * @brief Resets all information about registered menus and main menubar.
+   *
+   * This is method can be called when application is going to be restarted. Newly started
+   * application will register it's own menubar.
+   */
+  void Reset();
 
 private:
   void ValidateMenuBar();

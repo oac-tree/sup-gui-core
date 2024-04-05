@@ -119,6 +119,12 @@ size_t ActionManager::GetContainerCount() const
   return m_action_storage.size();
 }
 
+void ActionManager::Reset()
+{
+  m_action_storage.clear();
+  m_menubar = nullptr;
+}
+
 void ActionManager::ValidateMenuBar()
 {
   if (!m_menubar)
