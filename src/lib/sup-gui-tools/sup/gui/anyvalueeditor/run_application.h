@@ -31,9 +31,6 @@
 
 #include <QApplication>
 #include <QSettings>
-#include <functional>
-#include <string>
-#include <vector>
 
 namespace sup::gui
 {
