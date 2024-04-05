@@ -22,6 +22,7 @@
 #include <sup/gui/anyvalueeditor/anyvalue_editor.h>
 #include <sup/gui/anyvalueeditor/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/application_helper.h>
 
 #include <mvvm/model/application_model.h>
 
@@ -121,6 +122,7 @@ void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 {
   if (PrepareForShutdown())
   {
+    ShutdownApplication();
     QCoreApplication::exit(exit_code);
   }
 }

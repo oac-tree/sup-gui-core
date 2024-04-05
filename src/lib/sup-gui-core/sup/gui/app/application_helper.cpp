@@ -19,6 +19,9 @@
 
 #include "application_helper.h"
 
+#include "app_action_manager.h"
+#include "app_action_helper.h"
+
 #include <mvvm/widgets/app_utils.h>
 
 #include <QApplication>
@@ -58,6 +61,12 @@ void SetupApplication(int font_size_hint, const QString &app_style, bool verbose
   {
     std::cout << mvvm::utils::GetDesktopInfo();
   }
+}
+
+void ShutdownApplication()
+{
+  // asking global ActionManager to forget about all registered toolbars
+  GetGlobalActionManager().Reset();
 }
 
 void SetWindowStyle(const QString &app_style)

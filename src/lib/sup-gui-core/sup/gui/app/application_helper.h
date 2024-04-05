@@ -58,6 +58,14 @@ void SetupHighDpiScaling(bool scale_from_environment = false);
 void SetupApplication(int font_size_hint, const QString &app_style, bool verbose = false);
 
 /**
+ * @brief Cleanup globally registered menus, actions, and exit application.
+ *
+ * This method should be called on application exit, when it is expected that it will be restarted
+ * after in the same event loop.
+ */
+void ShutdownApplication();
+
+/**
  * @brief Sets main GUI style of the application and main font size.
  *
  * @param app_style The name of the GUI style from Qt's style factory.

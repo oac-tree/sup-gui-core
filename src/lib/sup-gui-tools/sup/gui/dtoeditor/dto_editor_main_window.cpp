@@ -21,13 +21,14 @@
 
 #include "dto_composer_view.h"
 
-#include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/application_helper.h>
 #include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/widgets/main_vertical_bar_widget.h>
 #include <mvvm/widgets/widget_utils.h>
+#include <sup/gui/app/app_action_helper.h>
 
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -56,6 +57,7 @@ void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
 {
   if (PrepareForShutdown())
   {
+    ShutdownApplication();
     QMainWindow::closeEvent(event);
     return;
   }
