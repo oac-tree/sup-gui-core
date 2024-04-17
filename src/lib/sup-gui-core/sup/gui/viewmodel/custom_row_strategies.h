@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_VIEWMODEL_CUSTOM_ROW_STRATEGIES_H_
 #define SUP_GUI_VIEWMODEL_CUSTOM_ROW_STRATEGIES_H_
 
-#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/viewmodel/abstract_row_strategy.h>
 
 namespace sup::gui
 {
@@ -29,13 +29,13 @@ namespace sup::gui
  * @brief The AnyValueRowStrategy class is a strategy to generate row of items representing
  * AnyValueItem tree.
  */
-
-class AnyValueRowStrategy : public mvvm::RowStrategyInterface
+class AnyValueRowStrategy : public mvvm::AbstractRowStrategy
 {
 public:
   QStringList GetHorizontalHeaderLabels() const override;
 
-  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override;
+private:
+  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem *item) override;
 };
 
 }  // namespace sup::gui

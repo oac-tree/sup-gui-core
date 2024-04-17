@@ -61,7 +61,7 @@ QStringList AnyValueRowStrategy::GetHorizontalHeaderLabels() const
   return result;
 }
 
-std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRow(
+std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowImpl(
     mvvm::SessionItem *item)
 {
   auto anyvalue_item = dynamic_cast<AnyValueItem *>(item);
