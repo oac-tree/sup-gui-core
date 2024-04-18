@@ -23,7 +23,6 @@
 #include <sup/gui/app/main_window_types.h>
 
 #include <QMainWindow>
-#include <memory>
 
 class QCloseEvent;
 

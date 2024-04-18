@@ -74,8 +74,8 @@ void AnyValueEditorMainWindow::InitApplication()
 
 void AnyValueEditorMainWindow::InitComponents()
 {
-  AppRegisterMainMenuBar(menuBar(), {constants::kFileMenu, constants::kViewMenu,
-                                    constants::kHelpMenu});
+  AppRegisterMainMenuBar(menuBar(),
+                         {constants::kFileMenu, constants::kViewMenu, constants::kHelpMenu});
 
   m_anyvalue_editor = new sup::gui::AnyValueEditor;
 
@@ -127,4 +127,4 @@ void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
   }
 }
 
-}  // namespace anyvalueeditor
+}  // namespace sup::gui
