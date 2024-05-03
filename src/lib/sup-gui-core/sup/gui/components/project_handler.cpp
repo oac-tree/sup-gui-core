@@ -22,7 +22,7 @@
 #include "project_user_interactor.h"
 
 #include <mvvm/factories/project_manager_factory.h>
-#include <mvvm/project/project_types.h>
+#include <mvvm/project/project_context.h>
 #include <mvvm/project/project_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -118,7 +118,7 @@ void ProjectHandler::UpdateNames()
 
 void ProjectHandler::UpdateCurrentProjectName()
 {
-  const auto current_project_dir = m_project_manager->CurrentProjectDir();
+  const auto current_project_dir = m_project_manager->CurrentProjectPath();
   const auto is_modified = m_project_manager->IsModified();
 
   // set main window title
@@ -132,7 +132,7 @@ void ProjectHandler::UpdateCurrentProjectName()
 void ProjectHandler::UpdateRecentProjectNames()
 {
   m_user_interactor->AddToRecentProjectList(
-      QString::fromStdString(m_project_manager->CurrentProjectDir()));
+      QString::fromStdString(m_project_manager->CurrentProjectPath()));
 }
 
 }  // namespace sup::gui

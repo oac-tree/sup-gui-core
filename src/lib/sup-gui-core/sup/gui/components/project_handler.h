@@ -27,7 +27,7 @@ class QWidget;
 
 namespace mvvm
 {
-class ProjectManagerInterface;
+class IProjectManager;
 class SessionModelInterface;
 }  // namespace mvvm
 
@@ -132,7 +132,7 @@ private:
   std::unique_ptr<ProjectUserInteractor> m_user_interactor;
 
   //!< performs actual model saving
-  std::unique_ptr<mvvm::ProjectManagerInterface> m_project_manager;
+  std::unique_ptr<mvvm::IProjectManager> m_project_manager;
   mvvm::SessionModelInterface* m_model{nullptr};
 };
 
