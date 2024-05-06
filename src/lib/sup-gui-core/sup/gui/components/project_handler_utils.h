@@ -20,8 +20,6 @@
 #ifndef SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
 #define SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
 
-#include <memory>
-
 class QAction;
 class QMenu;
 
