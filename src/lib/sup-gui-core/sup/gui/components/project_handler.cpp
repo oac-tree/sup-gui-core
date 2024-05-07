@@ -22,6 +22,7 @@
 #include "project_user_interactor.h"
 
 #include <mvvm/factories/project_manager_factory.h>
+#include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_utils.h>
 #include <mvvm/widgets/widget_utils.h>
@@ -101,13 +102,16 @@ void ProjectHandler::InitProjectManager()
   auto models_callback = [this]() { return std::vector<mvvm::SessionModelInterface*>({m_model}); };
   mvvm::ProjectContext project_context{modified_callback, models_callback};
 
+  auto project_factory_func = [project_context]()
+  { return mvvm::utils::CreateUntitledFolderBasedProject(project_context); };
+
   auto select_dir_callback = [this]() { return m_user_interactor->OnSelectDirRequest(); };
   auto create_dir_callback = [this]() { return m_user_interactor->OnCreateDirRequest(); };
   auto answer_callback = [this]() { return m_user_interactor->OnSaveChangesRequest(); };
   mvvm::UserInteractionContext user_context{select_dir_callback, create_dir_callback,
                                             answer_callback};
 
-  m_project_manager = CreateProjectManager(project_context, user_context);
+  m_project_manager = CreateProjectManager(project_factory_func, user_context);
 }
 
 void ProjectHandler::UpdateNames()
