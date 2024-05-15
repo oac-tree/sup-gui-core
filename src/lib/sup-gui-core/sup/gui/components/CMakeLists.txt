@@ -1,4 +1,5 @@
 target_sources(${library_name} PRIVATE
+  i_project_user_interactor.h
   message_event.cpp
   message_event.h
   message_handler_decorator.cpp
