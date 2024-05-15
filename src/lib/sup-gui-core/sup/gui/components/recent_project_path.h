@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
-#define SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
+#ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_PATH_H_
+#define SUP_GUI_COMPONENTS_RECENT_PROJECT_PATH_H_
 
 #include <QStringList>
 
@@ -89,12 +89,13 @@ public:
    */
   void ClearRecentProjectsList();
 
-private:
+protected:
   /**
    * @brief Validates if projects exist, and update the list to show only existing projects.
    */
   void ValidateIfProjectsExist();
 
+private:
   QString m_current_workdir;
   QStringList m_recent_projects;
   int m_max_recent_project_count;
@@ -102,4 +103,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
+#endif  // SUP_GUI_COMPONENTS_RECENT_PROJECT_PATH_H_

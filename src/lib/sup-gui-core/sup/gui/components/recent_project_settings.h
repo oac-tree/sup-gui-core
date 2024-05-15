@@ -20,58 +20,20 @@
 #ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
 #define SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
 
-#include <QStringList>
+#include <sup/gui/components/recent_project_path.h>
 
 namespace sup::gui
 {
 
 /**
- * @brief Collection of settings to save the last directory selected by the user, and list of recent
- * projects.
+ * @brief Collection of settings for persistence save the last directory selected by the user, and
+ * list of recent projects.
  */
-
-class RecentProjectSettings
+class RecentProjectSettings : public RecentProjectPath
 {
 public:
-  RecentProjectSettings(const QString& group_name = "RecentProjectSettings");
-  ~RecentProjectSettings();
-
-  /**
-   * @brief Returns current working directory.
-   */
-  QString GetCurrentWorkdir() const;
-
-  /**
-   * @brief Sets current working directory to a given value (full path).
-   */
-  void SetCurrentWorkdir(const QString& dir_name);
-
-  /**
-   * @brief Updates current working directory from the project directory.
-   *
-   * @param project_dir_name The directory of the project where we save results (full path).
-   *
-   * @details Our current convention is that the directory of the project is created in current
-   * working directory.
-   */
-  void UpdateCurrentWorkdir(const QString& project_dir_name);
-
-  /**
-   * @brief Returns list of recent projects.
-   *
-   * @details The method also validates that projects still exists on disk.
-   */
-  QStringList GetRecentProjectList();
-
-  /**
-   * @brief Adds given project dir name (full path) to the list of recent projects.
-   */
-  void AddToRecentProjectList(const QString& project_dir_name);
-
-  /**
-   * @brief Clears the list of recent projects.
-   */
-  void ClearRecentProjectsList();
+  explicit RecentProjectSettings(const QString& group_name = "RecentProjectSettings");
+  ~RecentProjectSettings() override;
 
 private:
   /**
@@ -84,13 +46,6 @@ private:
    */
   void ReadSettings();
 
-  /**
-   * @brief Validates if projects exist, and update the list to show only existing projects.
-   */
-  void ValidateIfProjectsExist();
-
-  QString m_current_workdir;
-  QStringList m_recent_projects;
   QString m_group_name;  //!< the name of the group for persistent settings
 };
 
