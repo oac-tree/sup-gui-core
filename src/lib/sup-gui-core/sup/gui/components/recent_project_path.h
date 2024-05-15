@@ -26,18 +26,27 @@ namespace sup::gui
 {
 
 /**
- * @brief Collection of settings to save the last directory selected by the user, and list of recent
- * projects.
+ * @brief The RecentProjectPath class is intended to store the last path selected by the user and a
+ * list of recent projects.
+ *
+ * The paths can be either the path to existing files or path to the directory. The class is
+ * also responsible for validating the presence of files on disk.
  */
-
-class RecentProjectSettings
+class RecentProjectPath
 {
 public:
-  RecentProjectSettings(const QString& group_name = "RecentProjectSettings");
-  ~RecentProjectSettings();
+  /**
+   * @brief Main c-tor.
+   *
+   * @param max_project_count The maximum number of project paths to store.
+   */
+  explicit RecentProjectPath(int max_project_count);
+  virtual ~RecentProjectPath() = default;
 
   /**
    * @brief Returns current working directory.
+   *
+   * Working directory is the parent directory of last opened project.
    */
   QString GetCurrentWorkdir() const;
 
@@ -47,26 +56,33 @@ public:
   void SetCurrentWorkdir(const QString& dir_name);
 
   /**
-   * @brief Updates current working directory from the project directory.
+   * @brief Updates the current working directory from the project path.
    *
-   * @param project_dir_name The directory of the project where we save results (full path).
+   * If the project path is a path to a file, then the working directory will be the directory where
+   * the file is located. If the project path is a path to a folder, then, similarly, the working
+   * directory is the parent dir.
    *
-   * @details Our current convention is that the directory of the project is created in current
-   * working directory.
+   * @param project_path The path to the project where we save results (full path).
    */
-  void UpdateCurrentWorkdir(const QString& project_dir_name);
+  void UpdateCurrentWorkdir(const QString& project_path);
 
   /**
    * @brief Returns list of recent projects.
    *
-   * @details The method also validates that projects still exists on disk.
+   * The method also validates that projects still exist on disk and vlears the list if necessary
+   * (so it is non-const).
    */
   QStringList GetRecentProjectList();
 
   /**
-   * @brief Adds given project dir name (full path) to the list of recent projects.
+   * @brief Sets the recent project list to the current value.
    */
-  void AddToRecentProjectList(const QString& project_dir_name);
+  void SetRecentProjectList(const QStringList& recent_project_list);
+
+  /**
+   * @brief Adds given project path to the list of recent projects.
+   */
+  void AddToRecentProjectList(const QString& project_path);
 
   /**
    * @brief Clears the list of recent projects.
@@ -75,23 +91,13 @@ public:
 
 private:
   /**
-   * @brief Writes settings to disk.
-   */
-  void WriteSettings();
-
-  /**
-   * @brief Reads settings from disk.
-   */
-  void ReadSettings();
-
-  /**
    * @brief Validates if projects exist, and update the list to show only existing projects.
    */
   void ValidateIfProjectsExist();
 
   QString m_current_workdir;
   QStringList m_recent_projects;
-  QString m_group_name;  //!< the name of the group for persistent settings
+  int m_max_recent_project_count;
 };
 
 }  // namespace sup::gui

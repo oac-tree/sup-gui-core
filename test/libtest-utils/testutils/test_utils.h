@@ -25,7 +25,6 @@
 #include <QSignalSpy>
 #include <algorithm>
 #include <memory>
-#include <thread>
 #include <vector>
 
 //! Various common utils for unit tests.

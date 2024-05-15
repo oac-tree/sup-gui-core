@@ -33,7 +33,6 @@ using namespace sup::gui;
 
 class AnyValueConversionUtilsTest : public ::testing::Test
 {
-public:
 };
 
 TEST_F(AnyValueConversionUtilsTest, GetTypeCode)

@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   project_handler_utils.h
   project_user_interactor.cpp
   project_user_interactor.h
+  recent_project_path.cpp
+  recent_project_path.h
   recent_project_settings.cpp
   recent_project_settings.h
   standard_message_handlers.cpp
