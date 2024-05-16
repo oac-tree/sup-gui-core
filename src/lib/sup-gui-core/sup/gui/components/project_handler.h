@@ -40,7 +40,6 @@ class ProjectUserInteractor;
  * @brief The ProjectHandler class coordinates all the activity on the user's request to
  * create a new project, open the existing one, or choose one of the recent projects on disk.
  */
-
 class ProjectHandler : public QObject
 {
   Q_OBJECT
@@ -55,9 +54,9 @@ public:
    * @return True in the case of success.
    *
    * @details Internally performs check for unsaved data, and proceeds via save/discard/cancel
-   * dialog. Returns true if project was successfully saved, and false otherwise. The later normally
-   * means that the user has changed his mind in the course of this operation, canceled dialog, and
-   * the project has remained in unsaved state.
+   * dialog. Returns true if the project was successfully saved, and false otherwise. The later
+   * normally means that the user has changed his mind in the course of this operation, canceled the
+   * dialog, and the project has remained in an unsaved state.
    */
   bool CloseCurrentProject() const;
 
@@ -72,8 +71,8 @@ public:
    * @param dirname The full path to the project directory.
    * @return Returns true in the case of success.
    *
-   * @details If provided name is empty, will call directory selector dialog using callback
-   * provided. If current project is in unsaved state, it will perform 'save-before-closing'
+   * @details If the provided name is empty, will call the directory selector dialog using callback
+   * provided. If the current project is in an unsaved state, it will perform 'save-before-closing'
    * procedure before proceeding further.
    */
   void OpenExistingProject(const QString& dirname = {});

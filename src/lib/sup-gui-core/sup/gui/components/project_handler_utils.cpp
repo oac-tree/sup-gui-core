@@ -30,59 +30,65 @@ namespace
 {
 
 /**
- * @brief Returns an action to trigger "close current project" request.
- * Action's ownership will belong to project handler.
+ * @brief Creates an action to trigger "create new project" request.
  */
-QAction *GetNewProjectAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateNewProjectAction(sup::gui::ProjectHandler &handler)
 {
-  auto result = new QAction("&New Project", &handler);
+  auto result = std::make_unique<QAction>("&New Project");
   result->setShortcuts(QKeySequence::New);
   result->setStatusTip("Create a new project");
-  QObject::connect(result, &QAction::triggered, &handler,
+  QObject::connect(result.get(), &QAction::triggered, &handler,
                    &sup::gui::ProjectHandler::CreateNewProject);
   return result;
 }
 
 /**
- * @brief Returns an action to trigger "open existing project" request.
- * Action's ownership will belong to project handler.
+ * @brief Creates an action to trigger "open existing project" request.
  */
-QAction *GetOpenExistingProjectAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateOpenExistingProjectAction(sup::gui::ProjectHandler &handler)
 {
-  auto result = new QAction("&Open Project", &handler);
+  auto result = std::make_unique<QAction>("&Open Project");
   result->setShortcuts(QKeySequence::Open);
   result->setStatusTip("Open an existing project");
-  QObject::connect(result, &QAction::triggered, &handler,
+  QObject::connect(result.get(), &QAction::triggered, &handler,
                    [&handler]() { handler.OpenExistingProject({}); });
   return result;
 }
 
 /**
- * @brief Returns an action to trigger "save current project" request.
- * Action's ownership will belong to project handler.
+ * @brief Creates an action to trigger "save current project" request.
  */
-QAction *GetSaveCurrentProjectAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateSaveCurrentProjectAction(sup::gui::ProjectHandler &handler)
 {
-  auto result = new QAction("&Save Project", &handler);
+  auto result = std::make_unique<QAction>("&Save Project");
   result->setShortcuts(QKeySequence::Save);
   result->setStatusTip("Save project");
   result->setShortcutContext(Qt::ApplicationShortcut);
-  QObject::connect(result, &QAction::triggered, &handler,
+  QObject::connect(result.get(), &QAction::triggered, &handler,
                    &sup::gui::ProjectHandler::SaveCurrentProject);
   return result;
 }
 
 /**
- * @brief Returns an action to trigger "save project as" request.
- * Action's ownership will belong to project handler.
+ * @brief Creates an action to trigger "save project as" request.
  */
-QAction *GetSaveProjectAsAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateSaveProjectAsAction(sup::gui::ProjectHandler &handler)
 {
-  auto result = new QAction("Save &As...", &handler);
+  auto result = std::make_unique<QAction>("Save &As...");
   result->setShortcuts(QKeySequence::SaveAs);
   result->setStatusTip("Save project under different name");
-  QObject::connect(result, &QAction::triggered, &handler, &sup::gui::ProjectHandler::SaveProjectAs);
+  QObject::connect(result.get(), &QAction::triggered, &handler,
+                   &sup::gui::ProjectHandler::SaveProjectAs);
   return result;
+}
+
+/**
+ * @brief Adds action to the menu, transfer ownership.
+ */
+void AddAction(QMenu *menu, std::unique_ptr<QAction> action)
+{
+  action->setParent(menu); // transfer ownerhip
+  menu->addAction(action.release());
 }
 
 }  // namespace
@@ -92,22 +98,22 @@ namespace sup::gui
 
 void AddNewProjectAction(QMenu *menu, ProjectHandler &handler)
 {
-  menu->addAction(GetNewProjectAction(handler));
+  AddAction(menu, CreateNewProjectAction(handler));
 }
 
 void AddOpenExistingProjectAction(QMenu *menu, ProjectHandler &handler)
 {
-  menu->addAction(GetOpenExistingProjectAction(handler));
+  AddAction(menu, CreateOpenExistingProjectAction(handler));
 }
 
 void AddSaveCurrentProjectAction(QMenu *menu, ProjectHandler &handler)
 {
-  menu->addAction(GetSaveCurrentProjectAction(handler));
+  AddAction(menu, CreateSaveCurrentProjectAction(handler));
 }
 
 void AddSaveProjectAsAction(QMenu *menu, ProjectHandler &handler)
 {
-  menu->addAction(GetSaveProjectAsAction(handler));
+  AddAction(menu, CreateSaveProjectAsAction(handler));
 }
 
 void AddRecentProjectActions(QMenu *menu, ProjectHandler &handler)

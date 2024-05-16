@@ -20,10 +20,11 @@
 #ifndef SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
 #define SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
 
+//! @file
+//! Contains utility functions to populate menus with (create new, open, save, save as) requests.
+
 class QAction;
 class QMenu;
-
-//! Contains utility functions to populate menus with (create new, open, save, save as) requests.
 
 namespace sup::gui
 {
@@ -31,7 +32,8 @@ namespace sup::gui
 class ProjectHandler;
 
 /**
- * @brief Add to the menu an action to trigger "close current project" request.
+ * @brief Add to the menu an action to trigger "create new project" request.
+ *
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
@@ -44,6 +46,7 @@ void AddOpenExistingProjectAction(QMenu* menu, ProjectHandler& handler);
 
 /**
  * @brief Add to the menu an action to trigger "save current project" request.
+ *
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
@@ -51,6 +54,7 @@ void AddSaveCurrentProjectAction(QMenu* menu, ProjectHandler& handler);
 
 /**
  * @brief Add to the menu an action to trigger "save current project" request.
+
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
@@ -58,6 +62,7 @@ void AddSaveProjectAsAction(QMenu* menu, ProjectHandler& handler);
 
 /**
  * @brief Add to the menu entries to open recent projects.
+ *
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
