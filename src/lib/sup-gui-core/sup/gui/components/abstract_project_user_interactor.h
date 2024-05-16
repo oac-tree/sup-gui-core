@@ -54,9 +54,9 @@ public:
    */
   void SetCurrentWorkdir(const std::string& path);
 
-  std::string GetNewProjectPath(mvvm::ProjectType project_type) const override;
+  std::string GetNewProjectPath() const override;
 
-  std::string GetExistingProjectPath(mvvm::ProjectType project_type) const override;
+  std::string GetExistingProjectPath() const override;
 
   mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() const override;
 

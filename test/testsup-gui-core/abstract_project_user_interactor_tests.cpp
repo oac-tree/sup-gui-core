@@ -68,7 +68,7 @@ TEST_F(AbstractProjectUserInteractorTest, GetNewProjectPath)
   // setting mock method to return path1 as user choice
   ON_CALL(mock_interactor, GetNewProjectPathImpl()).WillByDefault(::testing::Return(path1));
 
-  EXPECT_EQ(mock_interactor.GetNewProjectPath(mvvm::ProjectType::kFileBased), path1);
+  EXPECT_EQ(mock_interactor.GetNewProjectPath(), path1);
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 
   // setting mock method to return empty path as user choice
@@ -87,7 +87,7 @@ TEST_F(AbstractProjectUserInteractorTest, GetExistingProjectPath)
   // setting mock method to return path1 as user choice
   ON_CALL(mock_interactor, GetExistingProjectPathImpl()).WillByDefault(::testing::Return(path1));
 
-  EXPECT_EQ(mock_interactor.GetExistingProjectPath(mvvm::ProjectType::kFileBased), path1);
+  EXPECT_EQ(mock_interactor.GetExistingProjectPath(), path1);
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 
   // setting mock method to return empty path as user choice

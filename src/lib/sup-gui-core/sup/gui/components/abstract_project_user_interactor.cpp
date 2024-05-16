@@ -53,18 +53,15 @@ void AbstractProjectUserInteractor::SetCurrentWorkdir(const std::string &path)
   m_current_workdir = path;
 }
 
-std::string AbstractProjectUserInteractor::GetNewProjectPath(mvvm::ProjectType project_type) const
+std::string AbstractProjectUserInteractor::GetNewProjectPath() const
 {
-  (void)project_type;
   auto result = GetNewProjectPathImpl();
   UpdateCurrentWorkdir(result);
   return result;
 }
 
-std::string AbstractProjectUserInteractor::GetExistingProjectPath(
-    mvvm::ProjectType project_type) const
+std::string AbstractProjectUserInteractor::GetExistingProjectPath() const
 {
-  (void)project_type;
   auto result = GetExistingProjectPathImpl();
   UpdateCurrentWorkdir(result);
   return result;
@@ -96,10 +93,8 @@ bool AbstractProjectUserInteractor::GetUseNativeDialogFlag() const
 mvvm::UserInteractionContext AbstractProjectUserInteractor::CreateContext() const
 {
   mvvm::UserInteractionContext result;
-  result.m_select_dir_callback = [this]()
-  { return GetExistingProjectPath(mvvm::ProjectType::kFileBased); };
-  result.m_create_dir_callback = [this]()
-  { return GetNewProjectPath(mvvm::ProjectType::kFileBased); };
+  result.m_select_dir_callback = [this]() { return GetExistingProjectPath(); };
+  result.m_create_dir_callback = [this]() { return GetNewProjectPath(); };
   result.m_answer_callback = [this]() { return OnSaveCurrentChangesRequest(); };
   return result;
 }

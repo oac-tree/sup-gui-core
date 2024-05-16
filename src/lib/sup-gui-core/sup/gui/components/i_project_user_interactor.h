@@ -42,22 +42,20 @@ public:
   /**
    * @brief Returns a path to a new project to create.
    *
-   * Depending on the project type, it can be either an empty folder on disk, or a new file name.
+   * Depending on the implementation, it can be either an empty folder on disk, or a new file name.
    *
-   * @param project_type The type of the project.
    * @return Full project path.
    */
-  virtual std::string GetNewProjectPath(mvvm::ProjectType project_type) const = 0;
+  virtual std::string GetNewProjectPath() const = 0;
 
   /**
    * @brief Returns a path to existing project.
    *
-   * Depending on the project type, it can be either an existing folder on disk, or existing file.
+   * Depending on the implementation, it can be either an existing folder on disk, or existing file.
    *
-   * @param project_type The type of the project.
    * @return Full project path.
    */
-  virtual std::string GetExistingProjectPath(mvvm::ProjectType project_type) const = 0;
+  virtual std::string GetExistingProjectPath() const = 0;
 
   /**
    * @brief Returns save/cancel/discard changes choise provided by the user.
