@@ -25,8 +25,9 @@
 
 using namespace sup::gui;
 
-#include <QDebug>
-
+/**
+ * @brief The RecentProjectPathTest class tests RecentProjectPath.
+ */
 class RecentProjectPathTest : public testutils::FolderBasedTest
 {
 public:

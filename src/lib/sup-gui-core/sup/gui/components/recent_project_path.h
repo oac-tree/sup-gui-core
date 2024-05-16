@@ -51,7 +51,7 @@ public:
   QString GetCurrentWorkdir() const;
 
   /**
-   * @brief Sets current working directory to a given value (full path).
+   * @brief Sets the current working directory to a given value (full path).
    */
   void SetCurrentWorkdir(const QString& dir_name);
 

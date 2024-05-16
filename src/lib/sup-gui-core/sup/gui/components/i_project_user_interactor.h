@@ -62,7 +62,7 @@ public:
   /**
    * @brief Returns save/cancel/discard changes choise provided by the user.
    */
-  virtual mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() = 0;
+  virtual mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() const = 0;
 };
 
 }  // namespace sup::gui
