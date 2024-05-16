@@ -19,7 +19,26 @@
 
 #include "abstract_project_user_interactor.h"
 
+#include <mvvm/project/project_context.h>
 #include <mvvm/utils/file_utils.h>
+
+#include <QMessageBox>
+#include <map>
+
+namespace
+{
+/**
+ * @brief Creates a map to convert standard Qt answers to what ProjectManager expects.
+ */
+std::map<QMessageBox::StandardButton, mvvm::SaveChangesAnswer> CreateMapOfAnswers()
+{
+  std::map<QMessageBox::StandardButton, mvvm::SaveChangesAnswer> result = {
+      {QMessageBox::Save, mvvm::SaveChangesAnswer::kSave},
+      {QMessageBox::Discard, mvvm::SaveChangesAnswer::kDiscard},
+      {QMessageBox::Cancel, mvvm::SaveChangesAnswer::kCancel}};
+  return result;
+}
+}  // namespace
 
 namespace sup::gui
 {
@@ -48,6 +67,40 @@ std::string AbstractProjectUserInteractor::GetExistingProjectPath(
   (void)project_type;
   auto result = GetExistingProjectPathImpl();
   UpdateCurrentWorkdir(result);
+  return result;
+}
+
+mvvm::SaveChangesAnswer AbstractProjectUserInteractor::OnSaveCurrentChangesRequest() const
+{
+  static auto translate_map = CreateMapOfAnswers();
+
+  QMessageBox msgBox;
+  msgBox.setText("The project has been modified.");
+  msgBox.setInformativeText("Do you want to save your changes?");
+  msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+  msgBox.setDefaultButton(QMessageBox::Save);
+  auto ret = static_cast<QMessageBox::StandardButton>(msgBox.exec());
+  return translate_map[ret];
+}
+
+void AbstractProjectUserInteractor::SetUseNativeDialog(bool value)
+{
+  m_use_native_dialogs = value;
+}
+
+bool AbstractProjectUserInteractor::GetUseNativeDialogFlag() const
+{
+  return m_use_native_dialogs;
+}
+
+mvvm::UserInteractionContext AbstractProjectUserInteractor::CreateContext() const
+{
+  mvvm::UserInteractionContext result;
+  result.m_select_dir_callback = [this]()
+  { return GetExistingProjectPath(mvvm::ProjectType::kFileBased); };
+  result.m_create_dir_callback = [this]()
+  { return GetNewProjectPath(mvvm::ProjectType::kFileBased); };
+  result.m_answer_callback = [this]() { return OnSaveCurrentChangesRequest(); };
   return result;
 }
 

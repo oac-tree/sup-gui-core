@@ -22,6 +22,11 @@
 
 #include <sup/gui/components/i_project_user_interactor.h>
 
+namespace mvvm
+{
+struct UserInteractionContext;
+}
+
 namespace sup::gui
 {
 
@@ -53,6 +58,26 @@ public:
 
   std::string GetExistingProjectPath(mvvm::ProjectType project_type) const override;
 
+  mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() const override;
+
+  /**
+   * @brief Sets the flag responsible for using system native file/directory selection dialogs.
+   *
+   * When true, will use system native dialogs, if the system has one (default). When false, will
+   * use Qt's own dialog.
+   */
+  void SetUseNativeDialog(bool value);
+
+  /**
+   * @brief Returns the value if native dialog flag.
+   */
+  bool GetUseNativeDialogFlag() const;
+
+  /**
+   * @brief Creates interaction context with callbacks for use outside of this class.
+   */
+  mvvm::UserInteractionContext CreateContext() const;
+
 protected:
   /**
    * @brief Updates the current working directory from the project path.
@@ -79,6 +104,10 @@ private:
   //!< The parent directory, from where the user opened the project last time. Made mutable since is
   //!< updated from const methods.
   mutable std::string m_current_workdir;
+
+  //!< Configures the usage of native system file dialog, when true. Alternatively, will use Qt's
+  //!< own dialogs.
+  bool m_use_native_dialogs{true};
 };
 
 }  // namespace sup::gui
