@@ -58,7 +58,7 @@ public:
   virtual std::string GetExistingProjectPath() const = 0;
 
   /**
-   * @brief Returns save/cancel/discard changes choise provided by the user.
+   * @brief Returns save/cancel/discard changes choice provided by the user.
    */
   virtual mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() const = 0;
 };
