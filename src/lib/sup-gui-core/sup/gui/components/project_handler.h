@@ -35,6 +35,7 @@ namespace sup::gui
 {
 
 class ProjectUserInteractor;
+class RecentProjectSettings;
 
 /**
  * @brief The ProjectHandler class coordinates all the activity on the user's request to
@@ -137,6 +138,10 @@ private:
 
   //!< performs actual model saving
   std::unique_ptr<mvvm::IProjectManager> m_project_manager;
+
+  //!< tracks recent projects
+  std::unique_ptr<sup::gui::RecentProjectSettings> m_recent_projects;
+
   mvvm::SessionModelInterface* m_model{nullptr};
 };
 

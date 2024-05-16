@@ -20,6 +20,7 @@
 #include "project_handler.h"
 
 #include "project_user_interactor.h"
+#include "recent_project_settings.h"
 
 #include <mvvm/factories/project_manager_factory.h>
 #include <mvvm/project/i_project.h>
@@ -35,6 +36,7 @@ namespace sup::gui
 ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* parent)
     : QObject(parent)
     , m_user_interactor(std::make_unique<ProjectUserInteractor>(parent))
+    , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_model(model)
 {
   InitProjectManager();
@@ -82,13 +84,13 @@ void ProjectHandler::SaveProjectAs()
 
 void ProjectHandler::ClearRecentProjectsList()
 {
-  m_user_interactor->ClearRecentProjectsList();
+  m_recent_projects->ClearRecentProjectsList();
   UpdateNames();
 }
 
 QStringList ProjectHandler::GetRecentProjectList() const
 {
-  return m_user_interactor->GetRecentProjectList();
+  return m_recent_projects->GetRecentProjectList();
 }
 
 void ProjectHandler::SetUseNativeDialog(bool value)
@@ -135,7 +137,7 @@ void ProjectHandler::UpdateCurrentProjectName()
 
 void ProjectHandler::UpdateRecentProjectNames()
 {
-  m_user_interactor->AddToRecentProjectList(
+  m_recent_projects->AddToRecentProjectList(
       QString::fromStdString(m_project_manager->CurrentProjectPath()));
 }
 

@@ -113,25 +113,6 @@ mvvm::SaveChangesAnswer ProjectUserInteractor::OnSaveChangesRequest()
   return translate[ret];
 }
 
-//! Returns list of recent projects, validates if projects still exists on disk.
-
-QStringList ProjectUserInteractor::GetRecentProjectList()
-{
-  return m_settings->GetRecentProjectList();
-}
-
-//! Adds directory to the list of recent projects.
-
-void ProjectUserInteractor::AddToRecentProjectList(const QString& project_dir_name)
-{
-  return m_settings->AddToRecentProjectList(project_dir_name);
-}
-
-void ProjectUserInteractor::ClearRecentProjectsList()
-{
-  return m_settings->ClearRecentProjectsList();
-}
-
 void ProjectUserInteractor::SetUseNativeDialog(bool value)
 {
   m_use_native_dialogs = value;

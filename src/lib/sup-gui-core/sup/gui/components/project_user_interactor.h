@@ -36,11 +36,18 @@ namespace sup::gui
 
 class RecentProjectSettings;
 
-//! Provide save/discard/cancel and similar dialogs on user request.
-
+/**
+ * @brief The ProjectUserInteractor class provides save/discard/cancel and similar dialogs on user
+ * request.
+ */
 class ProjectUserInteractor
 {
 public:
+  /**
+   * @brief Main c-tor.
+   *
+   * @param parent The widget which will be used to center modal dialogs.
+   */
   explicit ProjectUserInteractor(QWidget* parent);
   ~ProjectUserInteractor();
 
@@ -49,12 +56,6 @@ public:
   std::string OnCreateDirRequest();
 
   mvvm::SaveChangesAnswer OnSaveChangesRequest();
-
-  QStringList GetRecentProjectList();
-
-  void AddToRecentProjectList(const QString& project_dir_name);
-
-  void ClearRecentProjectsList();
 
   /**
    * @brief Sets the flag responsible for using system native file/directory selection dialogs.
