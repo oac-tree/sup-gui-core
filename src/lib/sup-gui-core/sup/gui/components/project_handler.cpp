@@ -56,9 +56,9 @@ void ProjectHandler::CreateNewProject()
   }
 }
 
-void ProjectHandler::OpenExistingProject(const QString& dirname)
+void ProjectHandler::OpenExistingProject(const QString& path)
 {
-  if (m_project_manager->OpenExistingProject(dirname.toStdString()))
+  if (m_project_manager->OpenExistingProject(path.toStdString()))
   {
     UpdateNames();
   }

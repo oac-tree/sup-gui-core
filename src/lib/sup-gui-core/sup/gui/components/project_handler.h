@@ -51,12 +51,12 @@ public:
   /**
    * @brief Closes current project.
    *
-   * @return True in the case of success.
+   * Internally performs check for unsaved data, and proceeds via save/discard/cancel dialog.
+   * Returns true if the project was successfully saved, and false otherwise. The later normally
+   * means that the user has changed his mind in the course of this operation, canceled the dialog,
+   * and the project has remained in an unsaved state.
    *
-   * @details Internally performs check for unsaved data, and proceeds via save/discard/cancel
-   * dialog. Returns true if the project was successfully saved, and false otherwise. The later
-   * normally means that the user has changed his mind in the course of this operation, canceled the
-   * dialog, and the project has remained in an unsaved state.
+   * @return True in the case of success.
    */
   bool CloseCurrentProject() const;
 
@@ -68,26 +68,31 @@ public:
   /**
    * @brief Opens existing project.
    *
-   * @param dirname The full path to the project directory.
-   * @return Returns true in the case of success.
-   *
-   * @details If the provided name is empty, will call the directory selector dialog using callback
+   * If the provided name is empty, will call the path selector dialog using callback
    * provided. If the current project is in an unsaved state, it will perform 'save-before-closing'
    * procedure before proceeding further.
+   *
+   * @param path The full path to the project.
+   * @return Returns true in the case of success.
+   *
+   * @details The path meaning depends on the type of the project. For file-based projects, it is a
+   * full path to a project file, for the folder-based project, it is a full path to the project
+   * directory.
    */
-  void OpenExistingProject(const QString& dirname = {});
+  void OpenExistingProject(const QString& path);
 
   /**
    * @brief Saves current project.
-   * @return True in the case of success.
    *
-   * @details The project should have a project directory defined to succeed. If it is not the case,
-   * it will launch the procedure of directory selection.
+   * The project should have a project path defined to succeed. If it is not the case, it will
+   * launch the procedure of path selection.
+   *
+   * @return True in the case of success.
    */
   void SaveCurrentProject();
 
   /**
-   * @brief Summon dialog to select new project directory and save project to it.
+   * @brief Summon dialog to select new project path and save project to it.
    */
   void SaveProjectAs();
 
@@ -104,8 +109,8 @@ public:
   /**
    * @brief Sets the flag responsible for using system native file/directory selection dialogs.
    *
-   * @details When true, will use system native dialogs, if the system has one (default). When
-   * false, will use Qt's own dialog.
+   * When true, will use system native dialogs, if the system has one (default). When false, will
+   * use Qt's own dialog.
    */
   void SetUseNativeDialog(bool value);
 
