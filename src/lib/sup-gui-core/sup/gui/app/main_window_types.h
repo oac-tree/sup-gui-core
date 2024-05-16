@@ -20,9 +20,6 @@
 #ifndef SUP_GUI_APP_MAIN_WINDOW_TYPES_H_
 #define SUP_GUI_APP_MAIN_WINDOW_TYPES_H_
 
-#include <QDialog>
-#include <QLabel>
-
 namespace sup::gui
 {
 
