@@ -35,7 +35,7 @@ namespace sup::gui
 
 ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* parent)
     : QObject(parent)
-    , m_user_interactor(std::make_unique<ProjectUserInteractor>(parent))
+    , m_user_interactor(std::make_unique<FolderBasedUserInteractor>(parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_model(model)
 {
@@ -107,11 +107,7 @@ void ProjectHandler::InitProjectManager()
   auto project_factory_func = [project_context]()
   { return mvvm::utils::CreateUntitledFolderBasedProject(project_context); };
 
-  auto select_dir_callback = [this]() { return m_user_interactor->OnSelectDirRequest(); };
-  auto create_dir_callback = [this]() { return m_user_interactor->OnCreateDirRequest(); };
-  auto answer_callback = [this]() { return m_user_interactor->OnSaveChangesRequest(); };
-  mvvm::UserInteractionContext user_context{select_dir_callback, create_dir_callback,
-                                            answer_callback};
+  auto user_context = m_user_interactor->CreateContext();
 
   m_project_manager = CreateProjectManager(project_factory_func, user_context);
 }

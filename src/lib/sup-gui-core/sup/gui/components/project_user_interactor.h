@@ -20,16 +20,12 @@
 #ifndef SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
 #define SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
 
+#include <sup/gui/components/abstract_project_user_interactor.h>
+
 #include <QStringList>
-#include <memory>
 #include <string>
 
 class QWidget;
-
-namespace mvvm
-{
-enum class SaveChangesAnswer;
-}
 
 namespace sup::gui
 {
@@ -37,10 +33,10 @@ namespace sup::gui
 class RecentProjectSettings;
 
 /**
- * @brief The ProjectUserInteractor class provides save/discard/cancel and similar dialogs on user
- * request.
+ * @brief The FolderBasedUserInteractor class is intended for folder-based projects and it provides
+ * save/discard/cancel and similar dialogs on user request.
  */
-class ProjectUserInteractor
+class FolderBasedUserInteractor : public AbstractProjectUserInteractor
 {
 public:
   /**
@@ -48,27 +44,15 @@ public:
    *
    * @param parent The widget which will be used to center modal dialogs.
    */
-  explicit ProjectUserInteractor(QWidget* parent);
-  ~ProjectUserInteractor();
-
-  std::string OnSelectDirRequest();
-
-  std::string OnCreateDirRequest();
-
-  mvvm::SaveChangesAnswer OnSaveChangesRequest();
-
-  /**
-   * @brief Sets the flag responsible for using system native file/directory selection dialogs.
-   *
-   * @details When true, will use system native dialogs, if the system has one (default). When
-   * false, will use Qt's own dialog.
-   */
-  void SetUseNativeDialog(bool value);
+  explicit FolderBasedUserInteractor(QWidget* parent);
 
 private:
+  std::string GetNewProjectPathImpl() const override;
+
+  std::string GetExistingProjectPathImpl() const override;
+
   std::string SummonSelectDialog(const QString& title) const;
 
-  std::unique_ptr<sup::gui::RecentProjectSettings> m_settings;
   QWidget* m_parent{nullptr};
   bool m_use_native_dialogs{true};
 };
