@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   project_handler_utils.h
   folder_based_user_interactor.cpp
   folder_based_user_interactor.h
+  file_based_user_interactor.cpp
+  file_based_user_interactor.h
   recent_project_path.cpp
   recent_project_path.h
   recent_project_settings.cpp
