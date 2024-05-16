@@ -19,7 +19,7 @@
 
 #include "project_handler.h"
 
-#include "project_user_interactor.h"
+#include "folder_based_user_interactor.h"
 #include "recent_project_settings.h"
 
 #include <mvvm/factories/project_manager_factory.h>

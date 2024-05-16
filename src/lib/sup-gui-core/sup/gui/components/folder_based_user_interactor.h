@@ -17,20 +17,18 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
-#define SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
+#ifndef SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
+#define SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
 
 #include <sup/gui/components/abstract_project_user_interactor.h>
 
-#include <QStringList>
+#include <QString>
 #include <string>
 
 class QWidget;
 
 namespace sup::gui
 {
-
-class RecentProjectSettings;
 
 /**
  * @brief The FolderBasedUserInteractor class is intended for folder-based projects and it provides
@@ -54,9 +52,8 @@ private:
   std::string SummonSelectDialog(const QString& title) const;
 
   QWidget* m_parent{nullptr};
-  bool m_use_native_dialogs{true};
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_PROJECT_USER_INTERACTOR_H_
+#endif  // SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_

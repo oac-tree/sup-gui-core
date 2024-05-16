@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "project_user_interactor.h"
+#include "folder_based_user_interactor.h"
 
 #include <mvvm/project/project_types.h>
 #include <mvvm/project/project_utils.h>
@@ -75,7 +75,7 @@ std::string FolderBasedUserInteractor::SummonSelectDialog(const QString& title) 
 {
   QFileDialog dialog(m_parent, title, QString::fromStdString(GetCurrentWorkdir()));
   dialog.setFileMode(QFileDialog::Directory);
-  dialog.setOption(QFileDialog::DontUseNativeDialog, !m_use_native_dialogs);
+  dialog.setOption(QFileDialog::DontUseNativeDialog, !GetUseNativeDialogFlag());
   dialog.setOption(QFileDialog::DontResolveSymlinks);
   dialog.setOption(QFileDialog::ShowDirsOnly);
   QStringList file_names = dialog.exec() ? dialog.selectedFiles() : QStringList();
