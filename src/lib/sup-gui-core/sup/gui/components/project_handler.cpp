@@ -136,8 +136,8 @@ void ProjectHandler::UpdateRecentProjectNames()
 std::unique_ptr<mvvm::IProject> ProjectHandler::CreateProject()
 {
   mvvm::ProjectContext project_context;
-  project_context.m_modified_callback = [this]() { UpdateCurrentProjectName(); };
-  project_context.m_models_callback = [this]() { return m_models; };
+  project_context.modified_callback = [this]() { UpdateCurrentProjectName(); };
+  project_context.models_callback = [this]() { return m_models; };
   return mvvm::utils::CreateUntitledProject(m_project_type, project_context);
 }
 

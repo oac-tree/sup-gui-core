@@ -93,9 +93,9 @@ bool AbstractProjectUserInteractor::GetUseNativeDialogFlag() const
 mvvm::UserInteractionContext AbstractProjectUserInteractor::CreateContext() const
 {
   mvvm::UserInteractionContext result;
-  result.m_select_dir_callback = [this]() { return GetExistingProjectPath(); };
-  result.m_create_dir_callback = [this]() { return GetNewProjectPath(); };
-  result.m_answer_callback = [this]() { return OnSaveCurrentChangesRequest(); };
+  result.existing_path_callback = [this]() { return GetExistingProjectPath(); };
+  result.new_path_callback = [this]() { return GetNewProjectPath(); };
+  result.answer_callback = [this]() { return OnSaveCurrentChangesRequest(); };
   return result;
 }
 
