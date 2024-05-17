@@ -39,14 +39,26 @@ class RecentProjectSettings;
 
 /**
  * @brief The ProjectHandler class coordinates all the activity on the user's request to
- * create a new project, open the existing one, or choose one of the recent projects on disk.
+ * create a new project, save it, open the existing one, or choose one of the recent projects on
+ * disk.
+ *
+ * It is initialized with the list of models that will be used while saving and loading the
+ * document. The same models will be listened to track if the document was modified since the last
+ * save.
+ *
  */
 class ProjectHandler : public QObject
 {
   Q_OBJECT
 
 public:
-  explicit ProjectHandler(mvvm::SessionModelInterface* model, QWidget* parent);
+  /**
+   * @brief Main c-tor.
+   *
+   * @param models Collection of models which participate in save/load activity.
+   * @param parent Parent widget.
+   */
+  explicit ProjectHandler(const std::vector<mvvm::SessionModelInterface*>& models, QWidget* parent);
   ~ProjectHandler() override;
 
   /**
@@ -142,7 +154,7 @@ private:
   //!< tracks recent projects
   std::unique_ptr<sup::gui::RecentProjectSettings> m_recent_projects;
 
-  mvvm::SessionModelInterface* m_model{nullptr};
+  std::vector<mvvm::SessionModelInterface*> m_models;
 };
 
 }  // namespace sup::gui

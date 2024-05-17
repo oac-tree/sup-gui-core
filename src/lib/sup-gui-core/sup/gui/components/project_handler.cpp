@@ -33,11 +33,12 @@
 namespace sup::gui
 {
 
-ProjectHandler::ProjectHandler(mvvm::SessionModelInterface* model, QWidget* parent)
+ProjectHandler::ProjectHandler(const std::vector<mvvm::SessionModelInterface*>& models,
+                               QWidget* parent)
     : QObject(parent)
     , m_user_interactor(std::make_unique<FolderBasedUserInteractor>(parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
-    , m_model(model)
+    , m_models(models)
 {
   InitProjectManager();
   UpdateNames();
@@ -101,7 +102,7 @@ void ProjectHandler::SetUseNativeDialog(bool value)
 void ProjectHandler::InitProjectManager()
 {
   auto modified_callback = [this]() { UpdateCurrentProjectName(); };
-  auto models_callback = [this]() { return std::vector<mvvm::SessionModelInterface*>({m_model}); };
+  auto models_callback = [this]() { return m_models; };
   mvvm::ProjectContext project_context{modified_callback, models_callback};
 
   auto project_factory_func = [project_context]()
