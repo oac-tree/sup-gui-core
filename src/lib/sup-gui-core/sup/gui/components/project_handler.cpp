@@ -19,6 +19,7 @@
 
 #include "project_handler.h"
 
+#include "file_based_user_interactor.h"
 #include "folder_based_user_interactor.h"
 #include "recent_project_settings.h"
 
@@ -30,6 +31,21 @@
 
 #include <QMainWindow>
 
+namespace
+{
+
+std::unique_ptr<sup::gui::AbstractProjectUserInteractor> CreateUserInteractor(
+    mvvm::ProjectType project_type, QWidget* parent)
+{
+  if (project_type == mvvm::ProjectType::kFolderBased)
+  {
+    return std::make_unique<sup::gui::FolderBasedUserInteractor>(parent);
+  }
+  return std::make_unique<sup::gui::FileBasedUserInteractor>(parent);
+}
+
+}  // namespace
+
 namespace sup::gui
 {
 
@@ -38,7 +54,7 @@ ProjectHandler::ProjectHandler(mvvm::ProjectType project_type,
                                QWidget* parent)
     : QObject(parent)
     , m_project_type(project_type)
-    , m_user_interactor(std::make_unique<FolderBasedUserInteractor>(parent))
+    , m_user_interactor(CreateUserInteractor(project_type, parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_models(models)
 {

@@ -37,7 +37,7 @@ class SessionModelInterface;
 namespace sup::gui
 {
 
-class FolderBasedUserInteractor;
+class AbstractProjectUserInteractor;
 class RecentProjectSettings;
 
 /**
@@ -158,7 +158,7 @@ private:
   mvvm::ProjectType m_project_type;
 
   //!< knows how to interact with the user
-  std::unique_ptr<FolderBasedUserInteractor> m_user_interactor;
+  std::unique_ptr<AbstractProjectUserInteractor> m_user_interactor;
 
   //!< performs actual model saving
   std::unique_ptr<mvvm::IProjectManager> m_project_manager;
