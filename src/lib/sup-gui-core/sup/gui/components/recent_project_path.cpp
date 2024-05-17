@@ -41,7 +41,7 @@ void RecentProjectPath::SetCurrentWorkdir(const QString& dir_name)
   m_current_workdir = dir_name;
 }
 
-void RecentProjectPath::UpdateCurrentWorkdir(const QString& project_path)
+void RecentProjectPath::UpdateWorkdirFromPath(const QString& project_path)
 {
   if (!project_path.isEmpty())
   {

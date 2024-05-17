@@ -20,6 +20,7 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_HELPER_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_HELPER_H_
 
+//! @file
 //! Helper functions for AnyValueEditor.
 
 #include <optional>
@@ -27,12 +28,12 @@
 
 namespace mvvm
 {
-class ApplicationModel;
 class SessionItem;
 }  // namespace mvvm
 
 namespace sup::gui
 {
+
 class AnyValueItem;
 
 const std::string kFieldNamePrefix = "field";

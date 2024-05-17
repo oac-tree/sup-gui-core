@@ -100,11 +100,11 @@ TEST_F(RecentProjectPathTest, UpdateCurrentWorkdir)
   auto path = GetFilePath("a5.txt");
 
   // working dir for file is its parent directory
-  projects.UpdateCurrentWorkdir(QString::fromStdString(path));
+  projects.UpdateWorkdirFromPath(QString::fromStdString(path));
   EXPECT_EQ(projects.GetCurrentWorkdir(), QString::fromStdString(GetTestHomeDir()));
 
   // working dir for dir is its   parent directory
-  projects.UpdateCurrentWorkdir(QString::fromStdString(GetTestHomeDir()));
+  projects.UpdateWorkdirFromPath(QString::fromStdString(GetTestHomeDir()));
   EXPECT_EQ(projects.GetCurrentWorkdir(),
             QString::fromStdString(testutils::GetTestSuiteOutputDir()));
 }

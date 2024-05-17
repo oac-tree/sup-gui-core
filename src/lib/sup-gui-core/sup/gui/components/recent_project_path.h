@@ -64,7 +64,7 @@ public:
    *
    * @param project_path The path to the project where we save results (full path).
    */
-  void UpdateCurrentWorkdir(const QString& project_path);
+  void UpdateWorkdirFromPath(const QString& project_path);
 
   /**
    * @brief Returns list of recent projects.
