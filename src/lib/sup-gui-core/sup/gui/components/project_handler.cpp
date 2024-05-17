@@ -33,9 +33,11 @@
 namespace sup::gui
 {
 
-ProjectHandler::ProjectHandler(const std::vector<mvvm::SessionModelInterface*>& models,
+ProjectHandler::ProjectHandler(mvvm::ProjectType project_type,
+                               const std::vector<mvvm::SessionModelInterface*>& models,
                                QWidget* parent)
     : QObject(parent)
+    , m_project_type(project_type)
     , m_user_interactor(std::make_unique<FolderBasedUserInteractor>(parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_models(models)
@@ -101,15 +103,8 @@ void ProjectHandler::SetUseNativeDialog(bool value)
 
 void ProjectHandler::InitProjectManager()
 {
-  auto modified_callback = [this]() { UpdateCurrentProjectName(); };
-  auto models_callback = [this]() { return m_models; };
-  mvvm::ProjectContext project_context{modified_callback, models_callback};
-
-  auto project_factory_func = [project_context]()
-  { return mvvm::utils::CreateUntitledProject(mvvm::ProjectType::kFolderBased, project_context); };
-
+  auto project_factory_func = [this]() { return CreateProject(); };
   auto user_context = m_user_interactor->CreateContext();
-
   m_project_manager = CreateProjectManager(project_factory_func, user_context);
 }
 
@@ -141,9 +136,9 @@ void ProjectHandler::UpdateRecentProjectNames()
 std::unique_ptr<mvvm::IProject> ProjectHandler::CreateProject()
 {
   mvvm::ProjectContext project_context;
-  project_context.m_modified_callback  = [this]() { UpdateCurrentProjectName(); };
-  project_context.m_models_callback  = [this]() { return m_models; };
-  return mvvm::utils::CreateUntitledProject(mvvm::ProjectType::kFolderBased, project_context);
+  project_context.m_modified_callback = [this]() { UpdateCurrentProjectName(); };
+  project_context.m_models_callback = [this]() { return m_models; };
+  return mvvm::utils::CreateUntitledProject(m_project_type, project_context);
 }
 
 }  // namespace sup::gui

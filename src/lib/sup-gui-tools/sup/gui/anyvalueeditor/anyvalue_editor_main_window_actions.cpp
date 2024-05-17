@@ -38,7 +38,9 @@ namespace sup::gui
 
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionModelInterface *model,
                                                                  QMainWindow *mainwindow)
-    : QObject(mainwindow), m_project_handler(new sup::gui::ProjectHandler({model}, mainwindow))
+    : QObject(mainwindow)
+    , m_project_handler(
+          new sup::gui::ProjectHandler(mvvm::ProjectType::kFileBased, {model}, mainwindow))
 {
   CreateActions(mainwindow);
   SetupMenus();

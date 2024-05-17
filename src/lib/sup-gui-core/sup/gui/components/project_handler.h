@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_COMPONENTS_PROJECT_HANDLER_H_
 #define SUP_GUI_COMPONENTS_PROJECT_HANDLER_H_
 
+#include <mvvm/project/project_types.h>
+
 #include <QObject>
 #include <memory>
 
@@ -59,7 +61,8 @@ public:
    * @param models Collection of models which participate in save/load activity.
    * @param parent Parent widget.
    */
-  explicit ProjectHandler(const std::vector<mvvm::SessionModelInterface*>& models, QWidget* parent);
+  explicit ProjectHandler(mvvm::ProjectType project_type,
+                          const std::vector<mvvm::SessionModelInterface*>& models, QWidget* parent);
   ~ProjectHandler() override;
 
   /**
@@ -150,6 +153,9 @@ private:
    * @brief Creates new project.
    */
   std::unique_ptr<mvvm::IProject> CreateProject();
+
+  //!< fixed type of projects which this handler generates
+  mvvm::ProjectType m_project_type;
 
   //!< knows how to interact with the user
   std::unique_ptr<FolderBasedUserInteractor> m_user_interactor;
