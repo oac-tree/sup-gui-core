@@ -30,7 +30,7 @@ std::string FileBasedUserInteractor::GetNewProjectPathImpl() const
 {
   auto workdir = QString::fromStdString(GetCurrentWorkdir());
   auto file_name =
-      QFileDialog::getOpenFileName(m_parent, "Open file", workdir, "Files (*.xml *.XML");
+      QFileDialog::getSaveFileName(m_parent, "Save File", workdir, "XML files (*.xml *.XML)");
 
   return file_name.toStdString();
 }
@@ -39,7 +39,7 @@ std::string FileBasedUserInteractor::GetExistingProjectPathImpl() const
 {
   auto workdir = QString::fromStdString(GetCurrentWorkdir());
   auto file_name =
-      QFileDialog::getSaveFileName(m_parent, "Save File", workdir, "XML files (*.xml *.XML)");
+      QFileDialog::getOpenFileName(m_parent, "Open file", workdir, "Files (*.xml *.XML");
 
   return file_name.toStdString();
 }
