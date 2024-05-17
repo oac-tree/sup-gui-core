@@ -27,6 +27,7 @@ class QWidget;
 
 namespace mvvm
 {
+class IProject;
 class IProjectManager;
 class SessionModelInterface;
 }  // namespace mvvm
@@ -144,6 +145,11 @@ private:
    * @brief Updates recent project list in settings.
    */
   void UpdateRecentProjectNames();
+
+  /**
+   * @brief Creates new project.
+   */
+  std::unique_ptr<mvvm::IProject> CreateProject();
 
   //!< knows how to interact with the user
   std::unique_ptr<FolderBasedUserInteractor> m_user_interactor;

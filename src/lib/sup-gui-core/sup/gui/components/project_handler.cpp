@@ -106,7 +106,7 @@ void ProjectHandler::InitProjectManager()
   mvvm::ProjectContext project_context{modified_callback, models_callback};
 
   auto project_factory_func = [project_context]()
-  { return mvvm::utils::CreateUntitledFolderBasedProject(project_context); };
+  { return mvvm::utils::CreateUntitledProject(mvvm::ProjectType::kFolderBased, project_context); };
 
   auto user_context = m_user_interactor->CreateContext();
 
@@ -136,6 +136,14 @@ void ProjectHandler::UpdateRecentProjectNames()
 {
   m_recent_projects->AddToRecentProjectList(
       QString::fromStdString(m_project_manager->CurrentProjectPath()));
+}
+
+std::unique_ptr<mvvm::IProject> ProjectHandler::CreateProject()
+{
+  mvvm::ProjectContext project_context;
+  project_context.m_modified_callback  = [this]() { UpdateCurrentProjectName(); };
+  project_context.m_models_callback  = [this]() { return m_models; };
+  return mvvm::utils::CreateUntitledProject(mvvm::ProjectType::kFolderBased, project_context);
 }
 
 }  // namespace sup::gui
