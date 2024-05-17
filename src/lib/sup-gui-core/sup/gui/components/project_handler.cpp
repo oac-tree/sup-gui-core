@@ -60,9 +60,15 @@ ProjectHandler::ProjectHandler(mvvm::ProjectType project_type,
 {
   InitProjectManager();
   UpdateNames();
+
+  m_user_interactor->SetCurrentWorkdir(m_recent_projects->GetCurrentWorkdir().toStdString());
 }
 
-ProjectHandler::~ProjectHandler() = default;
+ProjectHandler::~ProjectHandler()
+{
+  m_recent_projects->SetCurrentWorkdir(
+      QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
+}
 
 bool ProjectHandler::CloseCurrentProject() const
 {
