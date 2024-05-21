@@ -23,9 +23,9 @@
 #include "folder_based_user_interactor.h"
 #include "recent_project_settings.h"
 
-#include <mvvm/factories/project_manager_factory.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
+#include <mvvm/project/project_manager_factory.h>
 #include <mvvm/project/project_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
