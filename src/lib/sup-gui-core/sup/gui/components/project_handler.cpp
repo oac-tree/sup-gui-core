@@ -29,6 +29,7 @@
 #include <mvvm/project/project_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
+#include <QDebug>
 #include <QMainWindow>
 
 namespace
@@ -49,11 +50,12 @@ std::unique_ptr<sup::gui::AbstractProjectUserInteractor> CreateUserInteractor(
 namespace sup::gui
 {
 
-ProjectHandler::ProjectHandler(mvvm::ProjectType project_type,
+ProjectHandler::ProjectHandler(mvvm::ProjectType project_type, const QString& application_type,
                                const std::vector<mvvm::SessionModelInterface*>& models,
                                QWidget* parent)
     : QObject(parent)
     , m_project_type(project_type)
+    , m_application_type(application_type)
     , m_user_interactor(CreateUserInteractor(project_type, parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_models(models)
@@ -160,6 +162,7 @@ std::unique_ptr<mvvm::IProject> ProjectHandler::CreateProject()
   mvvm::ProjectContext project_context;
   project_context.modified_callback = [this]() { UpdateCurrentProjectName(); };
   project_context.models_callback = [this]() { return m_models; };
+  project_context.application_type = m_application_type.toStdString();
   return mvvm::utils::CreateUntitledProject(m_project_type, project_context);
 }
 

@@ -33,14 +33,19 @@
 #include <QMainWindow>
 #include <QMenuBar>
 
+namespace
+{
+const QString kAnyValueEditorApplicationType = "AnyValueEditor";
+}
+
 namespace sup::gui
 {
 
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionModelInterface *model,
                                                                  QMainWindow *mainwindow)
     : QObject(mainwindow)
-    , m_project_handler(
-          new sup::gui::ProjectHandler(mvvm::ProjectType::kFileBased, {model}, mainwindow))
+    , m_project_handler(new sup::gui::ProjectHandler(
+          mvvm::ProjectType::kFileBased, kAnyValueEditorApplicationType, {model}, mainwindow))
 {
   CreateActions(mainwindow);
   SetupMenus();

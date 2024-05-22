@@ -49,6 +49,10 @@ class RecentProjectSettings;
  * document. The same models will be listened to track if the document was modified since the last
  * save.
  *
+ * ProjectHandler allows to specify application type during construction. This name will be used
+ * during document save as an attribute of a root XML element, and will be validated on document
+ * load. Documents that have different application types will not be loaded into the models of the
+ * current application.
  */
 class ProjectHandler : public QObject
 {
@@ -58,10 +62,12 @@ public:
   /**
    * @brief Main c-tor.
    *
+   * @param project_type The type of the document (folder or single XML file).
+   * @param application_type The type of the application.
    * @param models Collection of models which participate in save/load activity.
    * @param parent Parent widget.
    */
-  explicit ProjectHandler(mvvm::ProjectType project_type,
+  explicit ProjectHandler(mvvm::ProjectType project_type, const QString& application_type,
                           const std::vector<mvvm::SessionModelInterface*>& models, QWidget* parent);
   ~ProjectHandler() override;
 
@@ -157,6 +163,9 @@ private:
   //!< fixed type of projects which this handler generates
   mvvm::ProjectType m_project_type;
 
+  //!< application type to store in the document
+  QString m_application_type;
+
   //!< knows how to interact with the user
   std::unique_ptr<AbstractProjectUserInteractor> m_user_interactor;
 
@@ -166,6 +175,7 @@ private:
   //!< tracks recent projects
   std::unique_ptr<sup::gui::RecentProjectSettings> m_recent_projects;
 
+  //!< models intended for serialization
   std::vector<mvvm::SessionModelInterface*> m_models;
 };
 
