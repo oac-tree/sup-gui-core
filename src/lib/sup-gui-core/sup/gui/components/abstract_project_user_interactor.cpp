@@ -46,6 +46,12 @@ std::map<QMessageBox::StandardButton, mvvm::SaveChangesAnswer> CreateMapOfAnswer
 namespace sup::gui
 {
 
+AbstractProjectUserInteractor::AbstractProjectUserInteractor(const QString &application_type,
+                                                             QWidget *parent)
+    : m_application_type(application_type), m_parent(parent)
+{
+}
+
 std::string AbstractProjectUserInteractor::GetCurrentWorkdir() const
 {
   return m_current_workdir;
@@ -120,6 +126,16 @@ void AbstractProjectUserInteractor::UpdateCurrentWorkdir(const std::string &path
     // updating mutable variable from const method
     m_current_workdir = mvvm::utils::GetParentPath(path);
   }
+}
+
+QString AbstractProjectUserInteractor::GetApplicationType() const
+{
+  return m_application_type;
+}
+
+QWidget *AbstractProjectUserInteractor::GetParent() const
+{
+  return m_parent;
 }
 
 }  // namespace sup::gui

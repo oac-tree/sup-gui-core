@@ -22,6 +22,10 @@
 
 #include <sup/gui/components/i_project_user_interactor.h>
 
+#include <QString>
+
+class QWidget;
+
 namespace mvvm
 {
 struct UserInteractionContext;
@@ -40,7 +44,7 @@ namespace sup::gui
 class AbstractProjectUserInteractor : public IProjectUserInteractor
 {
 public:
-  AbstractProjectUserInteractor() = default;
+  explicit AbstractProjectUserInteractor(const QString& application_type, QWidget* parent);
 
   /**
    * @brief Returns current working directory.
@@ -92,6 +96,16 @@ protected:
    */
   void UpdateCurrentWorkdir(const std::string& path) const;
 
+  /**
+   * @brief Returns application type.
+   */
+  QString GetApplicationType() const;
+
+  /**
+   * @brief Returns parent widget/
+   */
+  QWidget* GetParent() const;
+
 private:
   /**
    * @brief Provides actual implementation to get new project path.
@@ -110,6 +124,12 @@ private:
   //!< Configures the usage of native system file dialog, when true. Alternatively, will use Qt's
   //!< own dialogs.
   bool m_use_native_dialogs{true};
+
+  //!< the type of the application
+  QString m_application_type;
+
+  //!< parent to use for modal dialog centering
+  QWidget* m_parent{nullptr};
 };
 
 }  // namespace sup::gui

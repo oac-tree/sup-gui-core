@@ -40,16 +40,15 @@ public:
   /**
    * @brief Main c-tor.
    *
+   * @param application_type The type of application to inform the userm if necessary.
    * @param parent The widget which will be used to center modal dialogs.
    */
-  explicit FileBasedUserInteractor(QWidget* parent);
+  explicit FileBasedUserInteractor(const QString& application_type, QWidget* parent);
 
 private:
   std::string GetNewProjectPathImpl() const override;
 
   std::string GetExistingProjectPathImpl() const override;
-
-  QWidget* m_parent{nullptr};
 };
 
 }  // namespace sup::gui

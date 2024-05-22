@@ -36,13 +36,13 @@ namespace
 {
 
 std::unique_ptr<sup::gui::AbstractProjectUserInteractor> CreateUserInteractor(
-    mvvm::ProjectType project_type, QWidget* parent)
+    mvvm::ProjectType project_type, const QString& application_type, QWidget* parent)
 {
   if (project_type == mvvm::ProjectType::kFolderBased)
   {
-    return std::make_unique<sup::gui::FolderBasedUserInteractor>(parent);
+    return std::make_unique<sup::gui::FolderBasedUserInteractor>(application_type, parent);
   }
-  return std::make_unique<sup::gui::FileBasedUserInteractor>(parent);
+  return std::make_unique<sup::gui::FileBasedUserInteractor>(application_type, parent);
 }
 
 }  // namespace
@@ -56,7 +56,7 @@ ProjectHandler::ProjectHandler(mvvm::ProjectType project_type, const QString& ap
     : QObject(parent)
     , m_project_type(project_type)
     , m_application_type(application_type)
-    , m_user_interactor(CreateUserInteractor(project_type, parent))
+    , m_user_interactor(CreateUserInteractor(project_type, application_type, parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_models(models)
 {

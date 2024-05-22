@@ -29,7 +29,11 @@
 namespace sup::gui
 {
 
-FolderBasedUserInteractor::FolderBasedUserInteractor(QWidget* parent) : m_parent(parent) {}
+FolderBasedUserInteractor::FolderBasedUserInteractor(const QString& application_type,
+                                                     QWidget* parent)
+    : AbstractProjectUserInteractor(application_type, parent)
+{
+}
 
 std::string FolderBasedUserInteractor::GetNewProjectPathImpl() const
 {
@@ -73,7 +77,7 @@ std::string FolderBasedUserInteractor::GetExistingProjectPathImpl() const
 
 std::string FolderBasedUserInteractor::SummonSelectDialog(const QString& title) const
 {
-  QFileDialog dialog(m_parent, title, QString::fromStdString(GetCurrentWorkdir()));
+  QFileDialog dialog(GetParent(), title, QString::fromStdString(GetCurrentWorkdir()));
   dialog.setFileMode(QFileDialog::Directory);
   dialog.setOption(QFileDialog::DontUseNativeDialog, !GetUseNativeDialogFlag());
   dialog.setOption(QFileDialog::DontResolveSymlinks);

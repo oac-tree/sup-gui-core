@@ -21,16 +21,31 @@
 
 #include <QFileDialog>
 
+namespace
+{
+
+QString GetFilter(const QString& application_type)
+{
+  return application_type.isEmpty()
+             ? QString("XML files (*.xml *.XML)")
+             : QString("XML files for %1 (*.xml *.XML)").arg(application_type);
+}
+
+}  // namespace
+
 namespace sup::gui
 {
 
-FileBasedUserInteractor::FileBasedUserInteractor(QWidget* parent) : m_parent(parent) {}
+FileBasedUserInteractor::FileBasedUserInteractor(const QString& application_type, QWidget* parent)
+    : AbstractProjectUserInteractor(application_type, parent)
+{
+}
 
 std::string FileBasedUserInteractor::GetNewProjectPathImpl() const
 {
   auto workdir = QString::fromStdString(GetCurrentWorkdir());
-  auto file_name =
-      QFileDialog::getSaveFileName(m_parent, "Save File", workdir, "XML files (*.xml *.XML)");
+  auto file_name = QFileDialog::getSaveFileName(GetParent(), "Save File", workdir,
+                                                GetFilter(GetApplicationType()));
 
   return file_name.toStdString();
 }
@@ -38,8 +53,8 @@ std::string FileBasedUserInteractor::GetNewProjectPathImpl() const
 std::string FileBasedUserInteractor::GetExistingProjectPathImpl() const
 {
   auto workdir = QString::fromStdString(GetCurrentWorkdir());
-  auto file_name =
-      QFileDialog::getOpenFileName(m_parent, "Open file", workdir, "Files (*.xml *.XML");
+  auto file_name = QFileDialog::getOpenFileName(GetParent(), "Open file", workdir,
+                                                GetFilter(GetApplicationType()));
 
   return file_name.toStdString();
 }

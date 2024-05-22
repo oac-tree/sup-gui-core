@@ -40,9 +40,10 @@ public:
   /**
    * @brief Main c-tor.
    *
+   * @param application_type The type of application to inform the userm if necessary.
    * @param parent The widget which will be used to center modal dialogs.
    */
-  explicit FolderBasedUserInteractor(QWidget* parent);
+  explicit FolderBasedUserInteractor(const QString& application_type, QWidget* parent);
 
 private:
   std::string GetNewProjectPathImpl() const override;
@@ -50,8 +51,6 @@ private:
   std::string GetExistingProjectPathImpl() const override;
 
   std::string SummonSelectDialog(const QString& title) const;
-
-  QWidget* m_parent{nullptr};
 };
 
 }  // namespace sup::gui

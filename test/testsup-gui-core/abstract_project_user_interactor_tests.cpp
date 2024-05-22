@@ -43,7 +43,7 @@ public:
   class MockInteractor : public AbstractProjectUserInteractor
   {
   public:
-    MockInteractor() : AbstractProjectUserInteractor(){};
+    MockInteractor() : AbstractProjectUserInteractor("MockInteractor", nullptr){};
 
     MOCK_METHOD(mvvm::SaveChangesAnswer, OnSaveCurrentChangesRequest, (), (const));
 
