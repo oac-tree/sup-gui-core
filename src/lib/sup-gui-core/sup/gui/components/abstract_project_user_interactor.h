@@ -60,6 +60,8 @@ public:
 
   mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() const override;
 
+  void SendMessage(const std::string& message) const override;
+
   /**
    * @brief Sets the flag responsible for using system native file/directory selection dialogs.
    *

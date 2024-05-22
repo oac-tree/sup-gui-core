@@ -54,7 +54,7 @@ public:
 
 TEST_F(AbstractProjectUserInteractorTest, InitialState)
 {
-  MockInteractor mock_interactor;
+  const MockInteractor mock_interactor;
   EXPECT_TRUE(mock_interactor.GetCurrentWorkdir().empty());
 }
 
@@ -63,7 +63,7 @@ TEST_F(AbstractProjectUserInteractorTest, GetNewProjectPath)
   // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a1.txt");
 
-  MockInteractor mock_interactor;
+  const MockInteractor mock_interactor;
 
   // setting mock method to return path1 as user choice
   ON_CALL(mock_interactor, GetNewProjectPathImpl()).WillByDefault(::testing::Return(path1));
@@ -82,7 +82,7 @@ TEST_F(AbstractProjectUserInteractorTest, GetExistingProjectPath)
   // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a2.txt");
 
-  MockInteractor mock_interactor;
+  const MockInteractor mock_interactor;
 
   // setting mock method to return path1 as user choice
   ON_CALL(mock_interactor, GetExistingProjectPathImpl()).WillByDefault(::testing::Return(path1));

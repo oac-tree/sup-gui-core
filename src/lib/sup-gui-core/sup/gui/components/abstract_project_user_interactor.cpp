@@ -19,6 +19,9 @@
 
 #include "abstract_project_user_interactor.h"
 
+#include "message_event.h"
+#include "message_helper.h"
+
 #include <mvvm/project/project_context.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -80,6 +83,15 @@ mvvm::SaveChangesAnswer AbstractProjectUserInteractor::OnSaveCurrentChangesReque
   return translate_map[ret];
 }
 
+void AbstractProjectUserInteractor::SendMessage(const std::string &message) const
+{
+  MessageEvent event;
+  event.title = "Can't open the file";
+  event.text = "Exception was caught while trying to open the file";
+  event.informative = message;
+  SendWarningMessage(event);
+}
+
 void AbstractProjectUserInteractor::SetUseNativeDialog(bool value)
 {
   m_use_native_dialogs = value;
@@ -96,6 +108,8 @@ mvvm::UserInteractionContext AbstractProjectUserInteractor::CreateContext() cons
   result.existing_path_callback = [this]() { return GetExistingProjectPath(); };
   result.new_path_callback = [this]() { return GetNewProjectPath(); };
   result.answer_callback = [this]() { return OnSaveCurrentChangesRequest(); };
+  result.message_callback = [this](const std::string &text) { SendMessage(text); };
+
   return result;
 }
 

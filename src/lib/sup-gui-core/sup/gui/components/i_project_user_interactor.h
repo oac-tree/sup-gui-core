@@ -27,6 +27,8 @@
 namespace sup::gui
 {
 
+struct MessageEvent;
+
 /**
  * @brief The IProjectUserInteractor class defines an interface for the interaction with the user
  * while saving/loading projects.
@@ -61,6 +63,11 @@ public:
    * @brief Returns save/cancel/discard changes choice provided by the user.
    */
   virtual mvvm::SaveChangesAnswer OnSaveCurrentChangesRequest() const = 0;
+
+  /**
+   * @brief Sends message to the user.
+   */
+  virtual void SendMessage(const std::string& message) const = 0;
 };
 
 }  // namespace sup::gui

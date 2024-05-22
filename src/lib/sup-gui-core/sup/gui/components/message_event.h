@@ -25,8 +25,10 @@
 namespace sup::gui
 {
 
-//! A MessageEvent is a simple  aggregate to send messages to the user as a reaction to his
-//! interactions with UI elements.
+/**
+ * @brief The MessageEvent struct is a simple aggregate to send messages to the user as a reaction
+ * to his interactions with UI elements.
+ */
 struct MessageEvent
 {
   //!< A message title (i.e. the title of message dialog).
