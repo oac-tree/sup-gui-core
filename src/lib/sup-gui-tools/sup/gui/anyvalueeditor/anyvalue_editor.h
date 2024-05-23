@@ -29,6 +29,9 @@
 namespace mvvm
 {
 class ApplicationModel;
+class SessionModelInterface;
+template <typename T>
+class ModelListener;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -41,6 +44,8 @@ class AnyValueEditor : public QWidget
   Q_OBJECT
 
 public:
+  using listener_t = mvvm::ModelListener<mvvm::SessionModelInterface>;
+
   explicit AnyValueEditor(QWidget* parent = nullptr);
   ~AnyValueEditor() override;
 
@@ -52,9 +57,11 @@ public:
 
   void OnImportFromFileRequest();
   void OnExportToFileRequest();
+  vodid OnProjectLoad();
 
 private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;
+  std::unique_ptr<listener_t> m_listener;
   AnyValueEditorWidget* m_editor_widget{nullptr};
 };
 
