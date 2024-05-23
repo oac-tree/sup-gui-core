@@ -49,6 +49,9 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionMo
 {
   CreateActions(mainwindow);
   SetupMenus();
+
+  connect(m_project_handler, &ProjectHandler::ProjectLoaded, this,
+          &AnyValueEditorMainWindowActions::ProjectLoaded);
 }
 
 bool AnyValueEditorMainWindowActions::CloseCurrentProject() const

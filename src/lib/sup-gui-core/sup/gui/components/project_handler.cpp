@@ -90,6 +90,7 @@ void ProjectHandler::OpenExistingProject(const QString& path)
   if (m_project_manager->OpenExistingProject(path.toStdString()))
   {
     UpdateNames();
+    emit ProjectLoaded();
   }
 }
 

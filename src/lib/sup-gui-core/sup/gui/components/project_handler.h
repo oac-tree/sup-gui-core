@@ -137,6 +137,9 @@ public:
    */
   void SetUseNativeDialog(bool value);
 
+signals:
+  void ProjectLoaded();
+
 private:
   void InitProjectManager();
 

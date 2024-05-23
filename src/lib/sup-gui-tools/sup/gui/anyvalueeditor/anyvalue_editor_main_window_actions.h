@@ -53,6 +53,7 @@ signals:
   void OnImportFromFileRequest();
   void OnExportToFileRequest();
   void RestartApplicationRequest(sup::gui::AppExitCode);
+  void ProjectLoaded();
 
 private:
   void CreateActions(QMainWindow* mainwindow);
