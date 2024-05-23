@@ -27,7 +27,7 @@
 #include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/project/model_has_changed_controller.h>
+#include <mvvm/signals/model_listener.h>
 #include <mvvm/standarditems/container_item.h>
 
 #include <sup/dto/anyvalue.h>
@@ -45,6 +45,7 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *mo
     : QWidget(parent)
     , m_json_view(new CodeView(CodeView::kJSON))
     , m_model(model)
+    , m_listener(std::make_unique<listener_t>(m_model))
     , m_container(m_model->GetRootItem())
 {
   setWindowTitle("JSON view");
@@ -57,10 +58,10 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *mo
 
   SetupActions();
 
-  auto on_subscribe = [this]() { SetupController(); };
+  auto on_subscribe = [this]() { SetupListener(); };
   auto on_unsubscribe = [this]()
   {
-    m_model_changed_controller.reset();
+    m_listener.reset();
     m_json_view->ClearText();
   };
   // will be deleted as a child of QObject
@@ -70,6 +71,7 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *mo
 void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
 {
   m_container = container;
+  UpdateJson();
 }
 
 void AnyValueEditorTextPanel::SetJSONPretty(bool value)
@@ -128,11 +130,17 @@ void AnyValueEditorTextPanel::UpdateJson()
   }
 }
 
-void AnyValueEditorTextPanel::SetupController()
+void AnyValueEditorTextPanel::SetupListener()
 {
-  auto on_model_changed = [this]() { UpdateJson(); };
-  m_model_changed_controller =
-      std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_changed);
+  m_listener = std::make_unique<listener_t>(m_model);
+
+  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>([this](auto)
+                                                      { SetAnyValueItemContainer(nullptr); });
+
+  m_listener->Connect<mvvm::DataChangedEvent>([this](auto) { UpdateJson(); });
+  m_listener->Connect<mvvm::ItemInsertedEvent>([this](auto) { UpdateJson(); });
+  m_listener->Connect<mvvm::ItemRemovedEvent>([this](auto) { UpdateJson(); });
+
   UpdateJson();
 }
 

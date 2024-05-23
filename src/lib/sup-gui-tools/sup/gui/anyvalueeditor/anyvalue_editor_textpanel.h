@@ -29,7 +29,8 @@ class QToolButton;
 namespace mvvm
 {
 class SessionModelInterface;
-class ModelHasChangedController;
+template <typename T>
+class ModelListener;
 class SessionItem;
 }  // namespace mvvm
 
@@ -47,6 +48,8 @@ class AnyValueEditorTextPanel : public QWidget
   Q_OBJECT
 
 public:
+  using listener_t = mvvm::ModelListener<mvvm::SessionModelInterface>;
+
   explicit AnyValueEditorTextPanel(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
   ~AnyValueEditorTextPanel() override;
 
@@ -63,7 +66,7 @@ signals:
 private:
   void SetupActions();
   void UpdateJson();
-  void SetupController();
+  void SetupListener();
   AnyValueItem* GetAnyValueItem();
 
   QAction* m_export_action{nullptr};
@@ -72,7 +75,7 @@ private:
   CodeView* m_json_view{nullptr};
   mvvm::SessionModelInterface* m_model{nullptr};
   mvvm::SessionItem* m_container{nullptr};
-  std::unique_ptr<mvvm::ModelHasChangedController> m_model_changed_controller;
+  std::unique_ptr<listener_t> m_listener;
   bool m_pretty_json{true};
   sup::gui::VisibilityAgentBase* m_visibility_agent{nullptr};
 };
