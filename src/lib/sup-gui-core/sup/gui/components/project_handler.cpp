@@ -72,9 +72,14 @@ ProjectHandler::~ProjectHandler()
       QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
 }
 
-bool ProjectHandler::CloseCurrentProject() const
+bool ProjectHandler::CloseCurrentProject()
 {
-  return m_project_manager->CloseCurrentProject();
+  auto result = m_project_manager->CloseCurrentProject();
+  if (result)
+  {
+    UpdateNames();
+  }
+  return result;
 }
 
 void ProjectHandler::CreateNewProject()

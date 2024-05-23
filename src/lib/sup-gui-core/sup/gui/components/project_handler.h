@@ -81,7 +81,7 @@ public:
    *
    * @return True in the case of success.
    */
-  bool CloseCurrentProject() const;
+  bool CloseCurrentProject();
 
   /**
    * @brief Creates new project.
