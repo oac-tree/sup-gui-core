@@ -87,6 +87,7 @@ void ProjectHandler::CreateNewProject()
   if (m_project_manager->CreateNewProject({}))
   {
     UpdateNames();
+    emit ProjectLoaded();
   }
 }
 
