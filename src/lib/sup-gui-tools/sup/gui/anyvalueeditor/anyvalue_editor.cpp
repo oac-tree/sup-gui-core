@@ -22,7 +22,6 @@
 #include "anyvalue_editor_widget.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/signals/model_listener.h>
 
 #include <QVBoxLayout>
 
@@ -32,7 +31,6 @@ namespace sup::gui
 AnyValueEditor::AnyValueEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_listener(std::make_unique<listener_t>(m_model.get()))
     , m_editor_widget(new AnyValueEditorWidget(m_model.get()))
 {
   auto layout = new QVBoxLayout(this);
@@ -40,8 +38,6 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   layout->setSpacing(0);
 
   layout->addWidget(m_editor_widget);
-
-  m_listener->Connect<mvvm::ModelResetEvent>([this](auto) { OnProjectLoad(); });
 }
 
 void AnyValueEditor::SetInitialValue(const AnyValueItem &item)

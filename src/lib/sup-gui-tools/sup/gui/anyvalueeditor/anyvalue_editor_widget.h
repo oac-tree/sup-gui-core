@@ -26,7 +26,6 @@
 
 #include <QString>
 #include <QWidget>
-#include <memory>
 
 class QSplitter;
 

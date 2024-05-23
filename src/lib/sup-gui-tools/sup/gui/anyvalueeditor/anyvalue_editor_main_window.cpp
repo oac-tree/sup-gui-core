@@ -89,6 +89,8 @@ void AnyValueEditorMainWindow::InitComponents()
           m_anyvalue_editor, &sup::gui::AnyValueEditor::OnImportFromFileRequest);
   connect(m_action_manager, &AnyValueEditorMainWindowActions::OnExportToFileRequest,
           m_anyvalue_editor, &sup::gui::AnyValueEditor::OnExportToFileRequest);
+  connect(m_action_manager, &AnyValueEditorMainWindowActions::ProjectLoaded, m_anyvalue_editor,
+          &sup::gui::AnyValueEditor::OnProjectLoad);
 }
 
 void AnyValueEditorMainWindow::ReadSettings()
