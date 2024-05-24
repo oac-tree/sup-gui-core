@@ -62,18 +62,25 @@ TEST_F(AbstractProjectUserInteractorTest, GetNewProjectPath)
 {
   // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a1.txt");
+  const std::string empty_path;
 
   const MockInteractor mock_interactor;
 
   // setting mock method to return path1 as user choice
   ON_CALL(mock_interactor, GetNewProjectPathImpl()).WillByDefault(::testing::Return(path1));
 
+  EXPECT_CALL(mock_interactor, GetNewProjectPathImpl());
+
   EXPECT_EQ(mock_interactor.GetNewProjectPath(), path1);
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 
   // setting mock method to return empty path as user choice
-  ON_CALL(mock_interactor, GetNewProjectPathImpl()).WillByDefault(::testing::Return(path1));
-  // path should return as before
+  ON_CALL(mock_interactor, GetNewProjectPathImpl()).WillByDefault(::testing::Return(empty_path));
+  EXPECT_CALL(mock_interactor, GetNewProjectPathImpl());
+
+  // user interactor remembers last workdir from meaningful paths, so empty path shouldn't change
+  // workdir
+  EXPECT_EQ(mock_interactor.GetNewProjectPath(), empty_path);
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 }
 
@@ -82,16 +89,25 @@ TEST_F(AbstractProjectUserInteractorTest, GetExistingProjectPath)
   // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a2.txt");
 
+  const std::string empty_path;
+
   const MockInteractor mock_interactor;
 
   // setting mock method to return path1 as user choice
   ON_CALL(mock_interactor, GetExistingProjectPathImpl()).WillByDefault(::testing::Return(path1));
 
+  EXPECT_CALL(mock_interactor, GetExistingProjectPathImpl());
+
   EXPECT_EQ(mock_interactor.GetExistingProjectPath(), path1);
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 
   // setting mock method to return empty path as user choice
-  ON_CALL(mock_interactor, GetExistingProjectPathImpl()).WillByDefault(::testing::Return(path1));
-  // path should return as before
+  ON_CALL(mock_interactor, GetExistingProjectPathImpl())
+      .WillByDefault(::testing::Return(empty_path));
+  EXPECT_CALL(mock_interactor, GetNewProjectPathImpl());
+
+  // user interactor remembers last workdir from meaningful paths, so empty path shouldn't change
+  // workdir
+  EXPECT_EQ(mock_interactor.GetNewProjectPath(), empty_path);
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 }
