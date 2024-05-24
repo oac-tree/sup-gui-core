@@ -27,12 +27,12 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/test/mock_callback_listener.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>
 #include <testutils/test_utils.h>
@@ -57,7 +57,7 @@ public:
   {
     // callback returns given item, pretending it is user's selection
     auto get_selected_callback = [item]() { return item; };
-    return {get_selected_callback, m_warning_listener.CreateCallback()};
+    return {get_selected_callback, m_warning_listener.AsStdFunction()};
   }
 
   //! Creates AnyValueEditorActions for testing.
@@ -69,7 +69,7 @@ public:
   }
 
   mvvm::ApplicationModel m_model;
-  mvvm::test::MockCallbackListener<sup::gui::MessageEvent> m_warning_listener;
+  testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
 };
 
 TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
@@ -82,7 +82,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
   auto handler = CreateActionHandler(struct_item);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field.
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -101,7 +101,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
   item.SetEditable(false);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   auto handler = CreateActionHandler(nullptr);
   handler->SetInitialValue(item);

@@ -27,12 +27,12 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/test/mock_callback_listener.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>
 #include <testutils/test_utils.h>
@@ -56,7 +56,7 @@ public:
   {
     // callback returns given item, pretending it is user's selection
     auto get_selected_callback = [item]() { return item; };
-    return {get_selected_callback, m_warning_listener.CreateCallback()};
+    return {get_selected_callback, m_warning_listener.AsStdFunction()};
   }
 
   //! Creates AnyValueEditorActions for testing.
@@ -70,7 +70,7 @@ public:
   mvvm::SessionItem* GetAnyValueItemContainer() { return m_model.GetRootItem(); }
 
   mvvm::ApplicationModel m_model;
-  mvvm::test::MockCallbackListener<sup::gui::MessageEvent> m_warning_listener;
+  testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
 };
 
 //! Testing initial state of AnyValueEditorActions object.
@@ -92,7 +92,7 @@ TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
   item.SetData(42);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   auto handler = CreateActionHandler(nullptr);
   handler->SetInitialValue(item);
@@ -122,7 +122,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
   EXPECT_EQ(handler->GetTopItem()->GetIdentifier(), item.GetIdentifier());
   auto prev_top = handler->GetTopItem();
 
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   AnyValueScalarItem item2;
   handler->SetInitialValue(item2);
@@ -147,7 +147,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding empty AnyValueItem as top level item
   handler->OnAddEmptyAnyValue();
@@ -177,7 +177,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as top level item
   handler->OnAddAnyValueStruct();
@@ -203,7 +203,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   auto handler = CreateActionHandler(nullptr);
 
   // expecting warning
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add another top level item
   handler->OnAddAnyValueStruct();
@@ -223,7 +223,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   EXPECT_EQ(handler->GetSelectedItem(), parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnAddAnyValueStruct();
@@ -249,7 +249,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   auto handler = CreateActionHandler(parent);
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding AnyValueItem struct as a field to
   handler->OnAddAnyValueStruct();
@@ -281,7 +281,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 
   // expecting warning callback further down
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -300,7 +300,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -326,7 +326,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -352,7 +352,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -372,7 +372,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   auto handler = CreateActionHandler(nullptr);
 
   // expecting warning callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add second top level scalar
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -393,7 +393,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
   auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
   handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
@@ -403,7 +403,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   // expecting error callback
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add mismatching type
   handler->OnAddAnyValueScalar(sup::dto::kInt16TypeName);
@@ -434,7 +434,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kArrayTypeName);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add second top-level item
   handler->OnAddAnyValueArray();
@@ -453,7 +453,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
   auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnAddAnyValueArray();
@@ -478,7 +478,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
   auto handler = CreateActionHandler(parent);
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding AnyValueItem struct as a field to
   handler->OnAddAnyValueArray();
@@ -498,7 +498,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   auto handler = CreateActionHandler(nullptr);
 
   // expecting warning callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add second top level array
   handler->OnAddAnyValueArray();
@@ -560,7 +560,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   auto handler = CreateActionHandler(nullptr);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   handler->OnImportFromFileRequest(file_path);
 
@@ -573,7 +573,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 
   // attempt to import again
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   handler->OnImportFromFileRequest(file_path);
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -597,7 +597,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
   auto handler = CreateActionHandler(structure);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   handler->OnImportFromFileRequest(file_path);
 
@@ -627,7 +627,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToScalar)
   auto handler = CreateActionHandler(scalar_item);
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   handler->OnImportFromFileRequest(file_path);
 };
@@ -647,7 +647,7 @@ TEST_F(AnyValueEditorActionHandlerTest, ExportToFile)
   // creating action handler when nothing is selected
   auto handler = CreateActionHandler(nullptr);
 
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // exporting file
   handler->OnExportToFileRequest(file_path);
@@ -672,7 +672,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToExportEmptyModelToFile)
   // creating action when nothing is selected
   auto actions = CreateActionHandler(nullptr);
 
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // exporting file
   actions->OnExportToFileRequest(file_path);
@@ -698,7 +698,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, OnCallback(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // moving selected item up
   handler->OnMoveUpRequest();
