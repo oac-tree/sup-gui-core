@@ -46,7 +46,6 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *mo
     , m_json_view(new CodeView(CodeView::kJSON))
     , m_model(model)
     , m_listener(std::make_unique<listener_t>(m_model))
-    , m_container(m_model->GetRootItem())
 {
   setWindowTitle("JSON view");
 

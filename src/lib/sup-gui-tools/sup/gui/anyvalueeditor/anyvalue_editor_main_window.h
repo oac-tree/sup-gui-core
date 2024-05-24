@@ -50,6 +50,7 @@ private:
   void InitComponents();
   void ReadSettings();
   void WriteSettings();
+  void OnProjectLoad();
 
   /**
    * @brief Prepare for application shutdown.

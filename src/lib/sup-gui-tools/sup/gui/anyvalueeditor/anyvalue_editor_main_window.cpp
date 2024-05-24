@@ -52,6 +52,7 @@ namespace sup::gui
 AnyValueEditorMainWindow::AnyValueEditorMainWindow()
 {
   InitApplication();
+  OnProjectLoad();
 }
 
 AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;
@@ -89,8 +90,8 @@ void AnyValueEditorMainWindow::InitComponents()
           m_anyvalue_editor, &sup::gui::AnyValueEditor::OnImportFromFileRequest);
   connect(m_action_manager, &AnyValueEditorMainWindowActions::OnExportToFileRequest,
           m_anyvalue_editor, &sup::gui::AnyValueEditor::OnExportToFileRequest);
-  connect(m_action_manager, &AnyValueEditorMainWindowActions::ProjectLoaded, m_anyvalue_editor,
-          &sup::gui::AnyValueEditor::OnProjectLoad);
+  connect(m_action_manager, &AnyValueEditorMainWindowActions::ProjectLoaded, this,
+          &AnyValueEditorMainWindow::OnProjectLoad);
 }
 
 void AnyValueEditorMainWindow::ReadSettings()
@@ -105,6 +106,11 @@ void AnyValueEditorMainWindow::WriteSettings()
   QSettings settings;
   settings.setValue(GetWindowSizeSettingName(), size());
   settings.setValue(GetWindowPosSettingName(), pos());
+}
+
+void AnyValueEditorMainWindow::OnProjectLoad()
+{
+  m_anyvalue_editor->OnProjectLoad();
 }
 
 bool AnyValueEditorMainWindow::PrepareForShutdown()
