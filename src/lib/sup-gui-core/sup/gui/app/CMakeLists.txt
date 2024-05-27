@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   app_command.h
   app_context.cpp
   app_context.h
+  app_command_manager.cpp
+  app_command_manager.h
   application_helper.cpp
   application_helper.h
   main_window_helper.cpp
