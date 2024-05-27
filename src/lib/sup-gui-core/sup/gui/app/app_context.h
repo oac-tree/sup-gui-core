@@ -48,15 +48,18 @@ public:
   /**
    * @brief Returns context name.
    */
-  QString GetContext() const;
+  QString GetContextName() const;
 
   /**
    * @brief Returns focus widget.
    */
   QWidget* GetFocusWidget() const;
 
+  bool operator==(const AppContext& other) const;
+  bool operator!=(const AppContext& other) const;
+
 private:
-  QString m_context;
+  QString m_context_name;
   QWidget* m_focus_widget{nullptr};
 };
 

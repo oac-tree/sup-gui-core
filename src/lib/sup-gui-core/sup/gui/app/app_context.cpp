@@ -23,18 +23,28 @@ namespace sup::gui
 {
 
 AppContext::AppContext(const QString &context, QWidget *focus_widget)
-    : m_context(context), m_focus_widget(focus_widget)
+    : m_context_name(context), m_focus_widget(focus_widget)
 {
 }
 
-QString AppContext::GetContext() const
+QString AppContext::GetContextName() const
 {
-  return m_context;
+  return m_context_name;
 }
 
 QWidget *AppContext::GetFocusWidget() const
 {
   return m_focus_widget;
+}
+
+bool AppContext::operator==(const AppContext &other) const
+{
+  return m_context_name == other.m_context_name && m_focus_widget == other.m_focus_widget;
+}
+
+bool AppContext::operator!=(const AppContext &other) const
+{
+  return !(*this == other);
 }
 
 }  // namespace sup::gui

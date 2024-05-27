@@ -34,6 +34,24 @@ TEST_F(AppContextTest, MenuActionContainer)
   QWidget widget;
 
   AppContext context("Editor.Copy", &widget);
-  EXPECT_EQ(context.GetContext(), QString("Editor.Copy"));
+  EXPECT_EQ(context.GetContextName(), QString("Editor.Copy"));
   EXPECT_EQ(context.GetFocusWidget(), &widget);
+}
+
+TEST_F(AppContextTest, EqualityOperators)
+{
+  QWidget widget1;
+  QWidget widget2;
+
+  AppContext context1("Editor.Copy", &widget1);
+  EXPECT_TRUE(context1 == context1);
+  EXPECT_FALSE(context1 != context1);
+
+  AppContext context2("Editor.Paste", &widget1);
+  EXPECT_FALSE(context1 == context2);
+  EXPECT_TRUE(context1 != context2);
+
+  AppContext context3("Editor.Copy", &widget2);
+  EXPECT_FALSE(context1 == context3);
+  EXPECT_TRUE(context1 != context3);
 }
