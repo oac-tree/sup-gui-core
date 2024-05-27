@@ -83,6 +83,7 @@ void ProxyAction::Update()
   else
   {
     setText(kDefaultName);
+    setEnabled(false);
     setToolTip("");
   }
 }

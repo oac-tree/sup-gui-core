@@ -31,6 +31,7 @@ AppCommand::AppCommand(const QString &text, const QKeySequence &key, QObject *pa
 {
   m_proxy_action->setText(text);
   m_proxy_action->setShortcut(key);
+  m_proxy_action->setEnabled(false);
 }
 
 AppCommand::~AppCommand() = default;
@@ -42,13 +43,16 @@ ProxyAction *AppCommand::GetProxyAction()
 
 void AppCommand::SetCurrentContext(const AppContext &current_context)
 {
-  for (auto [action, context] : m_action_to_context)
+  for (const auto &[action, context] : m_action_to_context)
   {
     if (current_context == context)
     {
-      m_proxy_action->SetAction(action);
+      m_proxy_action->SetAction(action, ProxyAction::Options::SyncEnabledStatus);
+      return;
     }
   }
+
+  m_proxy_action->SetAction(nullptr);
 }
 
 void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
