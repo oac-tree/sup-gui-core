@@ -17,7 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/app_context.h"
+#include "sup/gui/app/app_command.h"
+
+#include <sup/gui/widgets/proxy_action.h>
 
 #include <gtest/gtest.h>
 
@@ -25,33 +27,19 @@
 
 using namespace sup::gui;
 
-class AppContextTest : public ::testing::Test
+class AppCommandTest : public ::testing::Test
 {
 };
 
-TEST_F(AppContextTest, MenuActionContainer)
+TEST_F(AppCommandTest, InitialState)
 {
-  QWidget widget;
+  QKeySequence key("Ctrl+V");
 
-  AppContext context("Editor.Copy", &widget);
-  EXPECT_EQ(context.GetContextName(), QString("Editor.Copy"));
-  EXPECT_EQ(context.GetFocusWidget(), &widget);
-}
+  const QString expected_text("Paste");
+  AppCommand command(expected_text, key);
 
-TEST_F(AppContextTest, EqualityOperators)
-{
-  QWidget widget1;
-  QWidget widget2;
-
-  const AppContext context1("Editor.Copy", &widget1);
-  EXPECT_TRUE(context1 == context1);
-  EXPECT_FALSE(context1 != context1);
-
-  const AppContext context2("Editor.Paste", &widget1);
-  EXPECT_FALSE(context1 == context2);
-  EXPECT_TRUE(context1 != context2);
-
-  const AppContext context3("Editor.Copy", &widget2);
-  EXPECT_FALSE(context1 == context3);
-  EXPECT_TRUE(context1 != context3);
+  // there is underlying proxy action, but it is unconnected
+  ASSERT_NE(command.GetProxyAction(), nullptr);
+  EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
+  EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
 }

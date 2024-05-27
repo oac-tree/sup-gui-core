@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   app_action_helper.h
   app_action_manager.cpp
   app_action_manager.h
+  app_command.cpp
+  app_command.h
   app_context.cpp
   app_context.h
   application_helper.cpp
