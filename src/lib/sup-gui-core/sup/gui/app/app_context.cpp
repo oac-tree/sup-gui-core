@@ -22,6 +22,8 @@
 namespace sup::gui
 {
 
+AppContext::AppContext() = default;
+
 AppContext::AppContext(const QString &context, QWidget *focus_widget)
     : m_context_name(context), m_focus_widget(focus_widget)
 {

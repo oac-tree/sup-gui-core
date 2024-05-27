@@ -37,6 +37,8 @@ namespace sup::gui
 class AppContext
 {
 public:
+  AppContext();
+
   /**
    * @brief Main constructor.
    *
