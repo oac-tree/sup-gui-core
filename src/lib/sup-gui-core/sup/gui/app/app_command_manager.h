@@ -31,6 +31,9 @@ class AppCommand;
 /**
  * @brief The AppCommandManager class holds a collection of commands that can be triggered either
  * via shortcuts or menus in the global taskbar.
+ *
+ * A command represents a proxy action that can be connected with other actions depending on the
+ * current context.
  */
 class AppCommandManager : public QObject
 {
@@ -40,7 +43,29 @@ public:
   explicit AppCommandManager(QObject* parent);
   ~AppCommandManager() override;
 
+  /**
+   * @brief Registers a new command for a given context.
+   *
+   * Context is a name of a certain activity, e.g. "Copy", or "Undo". If the context doesn't exist,
+   * the command will be created and stored in the manager. If context_name was already used, return
+   * registered command to the user.
+   *
+   * @param context_name The name of the context.
+   * @param command_text The text which will appear in the menu.
+   *
+   * @return Registered command.
+   */
   AppCommand* RegisterCommand(const QString& context_name, const QString& command_text);
+
+  /**
+   * @brief Returns a command registered for a given context name.
+   */
+  AppCommand* GetCommand(const QString& context_name);
+
+  /**
+   * @brief Returns number of registered commands.
+   */
+  int GetCommandCount() const;
 
 private:
   std::map<QString, AppCommand*> m_commands;
