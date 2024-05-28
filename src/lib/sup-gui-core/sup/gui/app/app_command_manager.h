@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
-#define SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
+#ifndef SUP_GUI_APP_APP_COMMAND_MANAGER_H_
+#define SUP_GUI_APP_APP_COMMAND_MANAGER_H_
 
 #include <QObject>
 #include <map>
@@ -96,4 +96,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
+#endif  // SUP_GUI_APP_APP_COMMAND_MANAGER_H_
