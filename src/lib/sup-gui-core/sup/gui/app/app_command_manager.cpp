@@ -21,6 +21,8 @@
 
 #include "app_command.h"
 
+#include <QAction>
+
 namespace sup::gui
 {
 
@@ -33,11 +35,22 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &context_name,
 {
   if (auto command = GetCommand(context_name); command)
   {
+    // existing command
     return command;
   }
 
   auto command = new AppCommand(command_text, this);  // ownership belongs to the manager
   m_commands.insert({context_name, command});
+  return command;
+}
+
+AppCommand *AppCommandManager::RegisterAction(const QString &context_name, QWidget *widget,
+                                              QAction *action)
+{
+  auto command = RegisterCommand(context_name, action->text());
+  Q_ASSERT(command);
+
+  command->AddOverrideAction(AppContext{context_name, widget}, action);
   return command;
 }
 

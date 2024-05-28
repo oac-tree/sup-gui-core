@@ -65,4 +65,9 @@ void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
   m_action_to_context[action] = context;
 }
 
+void AppCommand::SetKeySequence(const QKeySequence &shortcut)
+{
+  m_proxy_action->setShortcut(shortcut);
+}
+
 }  // namespace sup::gui

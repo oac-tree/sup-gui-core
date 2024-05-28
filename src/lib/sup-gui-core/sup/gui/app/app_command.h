@@ -69,6 +69,11 @@ public:
    */
   void AddOverrideAction(const AppContext& context, QAction* action);
 
+  /**
+   * @brief Sets shortcut sequence.
+   */
+  void SetKeySequence(const QKeySequence& shortcut);
+
 private:
   ProxyAction* m_proxy_action{nullptr};
   std::map<QAction*, AppContext> m_action_to_context;

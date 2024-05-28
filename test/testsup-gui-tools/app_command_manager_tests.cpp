@@ -61,3 +61,22 @@ TEST_F(AppCommandManagerTest, RegisterCommand)
   // Paste command wasn't yet registered
   EXPECT_EQ(manager.GetCommand("Paste"), nullptr);
 }
+
+TEST_F(AppCommandManagerTest, RegisterAction)
+{
+  const QKeySequence key("Ctrl+V");
+  const QString command_text("Paste");
+  const QString context_name("Editor.Paste");
+
+  QAction paste_action1(command_text);
+  QWidget widget1;
+  QAction paste_action2(command_text);
+  QWidget widget2;
+
+  AppCommandManager manager(nullptr);
+
+  auto command1 = manager.RegisterAction(context_name, &widget1, &paste_action1);
+  command1->SetKeySequence(key);
+  auto command2 = manager.RegisterAction(context_name, &widget2, &paste_action2);
+  EXPECT_EQ(command1, command2);
+}

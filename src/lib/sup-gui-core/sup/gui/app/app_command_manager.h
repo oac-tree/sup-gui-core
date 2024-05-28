@@ -23,6 +23,8 @@
 #include <QObject>
 #include <map>
 
+class QAction;
+
 namespace sup::gui
 {
 
@@ -56,6 +58,20 @@ public:
    * @return Registered command.
    */
   AppCommand* RegisterCommand(const QString& context_name, const QString& command_text);
+
+  /**
+   * @brief Registers an action for a given context and widget.
+   *
+   * Internally creates a command, if necessary, and adds an action to the list of command actions.
+   * The action will be associated with the given context and widget. Action ownership remains on
+   * the user side.
+   *
+   * @param context_name The name of the context.
+   * @param widget The focus widget where action should be active.
+   * @param action An action to register.
+   * @return The command that will trigger the action.
+   */
+  AppCommand* RegisterAction(const QString& context_name, QWidget* widget, QAction* action);
 
   /**
    * @brief Returns a command registered for a given context name.
