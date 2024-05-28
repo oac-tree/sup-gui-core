@@ -64,6 +64,8 @@ public:
    */
   void SetCurrentContext(const AppContext& current_context);
 
+  void SetCurrentContextWidget(const QWidget* widget);
+
   /**
    * @brief Append action to the map of actions.
    */
