@@ -65,4 +65,12 @@ int AppCommandManager::GetCommandCount() const
   return static_cast<int>(m_commands.size());
 }
 
+void AppCommandManager::SetCurrentContextWidget(QWidget *widget)
+{
+  for (const auto &[context_name, command] : m_commands)
+  {
+    command->SetCurrentContextWidget(widget);
+  }
+}
+
 }  // namespace sup::gui

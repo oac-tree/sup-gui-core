@@ -83,6 +83,8 @@ public:
    */
   int GetCommandCount() const;
 
+  void SetCurrentContextWidget(QWidget* widget);
+
 private:
   std::map<QString, AppCommand*> m_commands;
 };

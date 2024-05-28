@@ -64,6 +64,9 @@ public:
    */
   void SetCurrentContext(const AppContext& current_context);
 
+  /**
+   * @brief Sets the context to serve given focus widget.
+   */
   void SetCurrentContextWidget(const QWidget* widget);
 
   /**
