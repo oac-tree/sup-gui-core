@@ -26,6 +26,11 @@
 namespace sup::gui
 {
 
+AppCommand::AppCommand(const QString &text, QObject *parent)
+    : AppCommand(text, QKeySequence(), parent)
+{
+}
+
 AppCommand::AppCommand(const QString &text, const QKeySequence &key, QObject *parent)
     : QObject(parent), m_proxy_action(new ProxyAction(this))
 {

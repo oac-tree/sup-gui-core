@@ -45,11 +45,14 @@ class AppCommand : public QObject
   Q_OBJECT
 
 public:
-  explicit AppCommand(const QString& text, const QKeySequence& key, QObject* parent = nullptr);
+  explicit AppCommand(const QString& text, QObject* parent = nullptr);
+  AppCommand(const QString& text, const QKeySequence& key, QObject* parent = nullptr);
   ~AppCommand() override;
 
   /**
    * @brief Returns underying proxy action.
+   *
+   * A proxy action is intended for main taskbars.
    */
   ProxyAction* GetProxyAction();
 
