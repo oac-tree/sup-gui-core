@@ -56,11 +56,9 @@ TEST_F(AppCommandTest, AddOverrideAction)
   const QString expected_name2("paste-from-widget2");
   QAction real_action1(expected_name1);
   QAction real_action2(expected_name2);
-  QWidget widget1;
-  QWidget widget2;
 
-  const AppContext context1("Paste", &widget1);
-  const AppContext context2("Paste", &widget2);
+  const AppContext context1("Editor1.Paste");
+  const AppContext context2("Editor2.Paste");
 
   command.AddOverrideAction(context1, &real_action1);
   command.AddOverrideAction(context2, &real_action2);
@@ -96,8 +94,8 @@ TEST_F(AppCommandTest, SetCurrentContextWidget)
   QWidget widget1;
   QWidget widget2;
 
-  const AppContext context1("Paste", &widget1);
-  const AppContext context2("Paste", &widget2);
+  const AppContext context1("Editor1.Paste");
+  const AppContext context2("Editor2.Paste");
 
   command.AddOverrideAction(context1, &real_action1);
   command.AddOverrideAction(context2, &real_action2);
@@ -109,7 +107,7 @@ TEST_F(AppCommandTest, SetCurrentContextWidget)
   EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
 
   // setting context, proxy now is looking to second action
-  command.SetCurrentContextWidget(&widget2);
+  command.SetCurrentContext(context2);
   EXPECT_TRUE(command.GetProxyAction()->isEnabled());
   EXPECT_EQ(command.GetProxyAction()->text(), expected_name2);
   EXPECT_EQ(command.GetProxyAction()->GetAction(), &real_action2);

@@ -65,11 +65,6 @@ public:
   void SetCurrentContext(const AppContext& current_context);
 
   /**
-   * @brief Sets the context to serve given focus widget.
-   */
-  void SetCurrentContextWidget(const QWidget* widget);
-
-  /**
    * @brief Append action to the map of actions.
    */
   void AddOverrideAction(const AppContext& context, QAction* action);

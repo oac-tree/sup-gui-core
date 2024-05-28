@@ -60,20 +60,6 @@ void AppCommand::SetCurrentContext(const AppContext &current_context)
   m_proxy_action->SetAction(nullptr);
 }
 
-void AppCommand::SetCurrentContextWidget(const QWidget *widget)
-{
-  for (const auto &[action, context] : m_action_to_context)
-  {
-    if (widget == context.GetFocusWidget())
-    {
-      m_proxy_action->SetAction(action, ProxyAction::Options::SyncEnabledStatus);
-      return;
-    }
-  }
-
-  m_proxy_action->SetAction(nullptr);
-}
-
 void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
 {
   m_action_to_context[action] = context;

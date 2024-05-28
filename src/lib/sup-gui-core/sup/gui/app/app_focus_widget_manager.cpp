@@ -44,7 +44,7 @@ void AppFocusWidgetManager::UpdateFocusWidget(QWidget *old, QWidget *now)
     return;
   }
 
-  m_command_manager.SetCurrentContextWidget(now);
+  // TODO implement processing focus widget into context
 }
 
 }  // namespace sup::gui

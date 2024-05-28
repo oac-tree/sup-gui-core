@@ -44,13 +44,12 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &context_name,
   return command;
 }
 
-AppCommand *AppCommandManager::RegisterAction(const QString &context_name, QWidget *widget,
-                                              QAction *action)
+AppCommand *AppCommandManager::RegisterAction(const QString &context_name, QAction *action)
 {
   auto command = RegisterCommand(context_name, action->text());
   Q_ASSERT(command);
 
-  command->AddOverrideAction(AppContext{context_name, widget}, action);
+  command->AddOverrideAction(AppContext(context_name), action);
   return command;
 }
 
@@ -65,11 +64,11 @@ int AppCommandManager::GetCommandCount() const
   return static_cast<int>(m_commands.size());
 }
 
-void AppCommandManager::SetCurrentContextWidget(QWidget *widget)
+void AppCommandManager::SetCurrentContext(const AppContext &context)
 {
   for (const auto &[context_name, command] : m_commands)
   {
-    command->SetCurrentContextWidget(widget);
+    command->SetCurrentContext(context);
   }
 }
 

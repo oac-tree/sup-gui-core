@@ -31,27 +31,21 @@ class AppContextTest : public ::testing::Test
 
 TEST_F(AppContextTest, MenuActionContainer)
 {
-  QWidget widget;
-
-  AppContext context("Editor.Copy", &widget);
+  AppContext context("Editor.Copy");
   EXPECT_EQ(context.GetContextName(), QString("Editor.Copy"));
-  EXPECT_EQ(context.GetFocusWidget(), &widget);
 }
 
 TEST_F(AppContextTest, EqualityOperators)
 {
-  QWidget widget1;
-  QWidget widget2;
-
-  const AppContext context1("Editor.Copy", &widget1);
+  const AppContext context1("Editor.Copy");
   EXPECT_TRUE(context1 == context1);
   EXPECT_FALSE(context1 != context1);
 
-  const AppContext context2("Editor.Paste", &widget1);
+  const AppContext context2("Editor.Paste");
   EXPECT_FALSE(context1 == context2);
   EXPECT_TRUE(context1 != context2);
 
-  const AppContext context3("Editor.Copy", &widget2);
-  EXPECT_FALSE(context1 == context3);
-  EXPECT_TRUE(context1 != context3);
+  const AppContext context3("Editor.Copy");
+  EXPECT_TRUE(context1 == context3);
+  EXPECT_FALSE(context1 != context3);
 }

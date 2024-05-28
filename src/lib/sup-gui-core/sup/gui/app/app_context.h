@@ -28,8 +28,7 @@ namespace sup::gui
 {
 
 /**
- * @brief The AppContext class carries information to associate the focus widget with a certain
- * activity.
+ * @brief The AppContext class carries information to associate actions with certain context.
  *
  * It is used to forward proxy actions, like "copy" and "paste" actions of the main menubar, to
  * concrete actions of widgets, that are currently in focus.
@@ -43,26 +42,19 @@ public:
    * @brief Main constructor.
    *
    * @param context The name of the activity.
-   * @param focus_widget Widget which should in focus so the activity can be
    */
-  AppContext(const QString& context, QWidget* focus_widget);
+  explicit AppContext(const QString& context);
 
   /**
    * @brief Returns context name.
    */
   QString GetContextName() const;
 
-  /**
-   * @brief Returns focus widget.
-   */
-  QWidget* GetFocusWidget() const;
-
   bool operator==(const AppContext& other) const;
   bool operator!=(const AppContext& other) const;
 
 private:
   QString m_context_name;
-  QWidget* m_focus_widget{nullptr};
 };
 
 }  // namespace sup::gui
