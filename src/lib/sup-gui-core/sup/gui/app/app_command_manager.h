@@ -47,45 +47,50 @@ public:
   ~AppCommandManager() override;
 
   /**
-   * @brief Registers a new command for a given context.
+   * @brief Registers a new command for a given id.
    *
-   * Context is a name of a certain activity, e.g. "Copy", or "Undo". If the context doesn't exist,
-   * the command will be created and stored in the manager. If context_name was already used, return
-   * registered command to the user.
+   * If the command_id is new to the manager, the command will be created and stored in the manager.
+   * If command_id was already used, return registered command to the user.
    *
-   * @param context_name The name of the context.
+   * @param command_id The id of the command.
    * @param command_text The text which will appear in the menu.
    *
    * @return Registered command.
    */
-  AppCommand* RegisterCommand(const QString& context_name, const QString& command_text);
+  AppCommand* RegisterCommand(const QString& command_id, const QString& command_text);
 
   /**
-   * @brief Registers an action for a given context and widget.
+   * @brief Registers an action for a given command ID using a context.
    *
    * Internally creates a command, if necessary, and adds an action to the list of command actions.
-   * The action will be associated with the given context and widget. Action ownership remains on
+   * The action will be associated with the given context. Action ownership remains on
    * the user side.
    *
-   * @param context_name The name of the context.
    * @param action An action to register.
+   * @param command_id The ID of the command.
+   * @param context Command context.
    * @return The command that will trigger the action.
    */
-  AppCommand* RegisterAction(const QString& context_name, QAction* action);
+  AppCommand* RegisterAction(QAction* action, const QString& command_id, const AppContext& context);
 
   /**
-   * @brief Returns a command registered for a given context name.
+   * @brief Returns a command registered for a given command_id.
    */
-  AppCommand* GetCommand(const QString& context_name);
+  AppCommand* GetCommand(const QString& command_id);
 
   /**
    * @brief Returns number of registered commands.
    */
   int GetCommandCount() const;
 
+  /**
+   * @brief SetCurrentContext
+   * @param context
+   */
   void SetCurrentContext(const AppContext& context);
 
 private:
+  //!< correspondence of the command_id to commands
   std::map<QString, AppCommand*> m_commands;
 };
 

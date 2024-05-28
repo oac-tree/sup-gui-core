@@ -62,39 +62,27 @@ TEST_F(AppCommandManagerTest, RegisterCommand)
   EXPECT_EQ(manager.GetCommand("Paste"), nullptr);
 }
 
-// TEST_F(AppCommandManagerTest, RegisterAction)
-// {
-//   const QKeySequence key("Ctrl+V");
-//   const QString command_text("Paste");
-//   const QString context_name("Editor.Paste");
+TEST_F(AppCommandManagerTest, RegisterAction)
+{
+  const QKeySequence key("Ctrl+V");
+  const QString command_text("Paste");
+  const QString command_id("Editor.Paste");
 
-//   QAction paste_action1(command_text);
-//   QAction paste_action2(command_text);
+  QAction paste_action1(command_text);
+  QAction paste_action2(command_text);
 
-//   AppCommandManager manager(nullptr);
+  const AppContext context1("Editor1.Paste");
+  const AppContext context2("Editor2.Paste");
 
-//   auto command1 = manager.RegisterAction(context_name, &paste_action1);
-//   command1->SetKeySequence(key);
-//   auto command2 = manager.RegisterAction(context_name, &paste_action2);
-//   EXPECT_EQ(command1, command2);
-// }
+  AppCommandManager manager(nullptr);
 
-// TEST_F(AppCommandManagerTest, SetCurrentContextWidget)
-// {
-//   const QString command_text("Paste");
-//   const QString context_name("Editor.Paste");
+  auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
+  command1->SetKeySequence(key);
+  auto command2 = manager.RegisterAction(&paste_action2, command_id, context2);
+  EXPECT_EQ(command1, command2);
 
-//   QAction paste_action1(command_text);
-//   QAction paste_action2(command_text);
+  EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
 
-//   AppCommandManager manager(nullptr);
-
-//   auto command1 = manager.RegisterAction(context_name, &paste_action1);
-//   auto command2 = manager.RegisterAction(context_name, &paste_action2);
-//   EXPECT_EQ(command1, command2);
-
-//   EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
-
-//   manager.SetCurrentContext(AppContext{context_name});
-//   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
-// }
+  manager.SetCurrentContext(context1);
+  EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
+}

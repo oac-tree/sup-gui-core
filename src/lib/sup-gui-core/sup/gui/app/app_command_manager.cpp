@@ -30,32 +30,32 @@ AppCommandManager::AppCommandManager(QObject *parent) : QObject(parent) {}
 
 AppCommandManager::~AppCommandManager() = default;
 
-AppCommand *AppCommandManager::RegisterCommand(const QString &context_name,
+AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
                                                const QString &command_text)
 {
-  if (auto command = GetCommand(context_name); command)
+  if (auto command = GetCommand(command_id); command)
   {
-    // existing command
-    return command;
+    return command;  // existing command
   }
 
   auto command = new AppCommand(command_text, this);  // ownership belongs to the manager
-  m_commands.insert({context_name, command});
+  m_commands.insert({command_id, command});
   return command;
 }
 
-AppCommand *AppCommandManager::RegisterAction(const QString &context_name, QAction *action)
+AppCommand *AppCommandManager::RegisterAction(QAction *action, const QString &command_id,
+                                              const AppContext &context)
 {
-  auto command = RegisterCommand(context_name, action->text());
+  auto command = RegisterCommand(command_id, action->text());
   Q_ASSERT(command);
 
-  command->AddOverrideAction(AppContext(context_name), action);
+  command->AddOverrideAction(context, action);
   return command;
 }
 
-AppCommand *AppCommandManager::GetCommand(const QString &context_name)
+AppCommand *AppCommandManager::GetCommand(const QString &command_id)
 {
-  auto iter = m_commands.find(context_name);
+  auto iter = m_commands.find(command_id);
   return iter == m_commands.end() ? nullptr : iter->second;
 }
 
@@ -66,7 +66,7 @@ int AppCommandManager::GetCommandCount() const
 
 void AppCommandManager::SetCurrentContext(const AppContext &context)
 {
-  for (const auto &[context_name, command] : m_commands)
+  for (const auto &[command_id, command] : m_commands)
   {
     command->SetCurrentContext(context);
   }
