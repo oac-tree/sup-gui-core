@@ -23,6 +23,8 @@
 //! @file
 //! Collection of helper method to register global actions.
 
+#include <sup/gui/app/app_context.h>
+
 #include <QList>
 #include <string>
 
@@ -45,12 +47,18 @@ static inline const std::string kHelpMenu = "&Help";
 }  // namespace constants
 
 class ActionManager;
+class AppContextManager;
 class IActionContainer;
 
 /**
  * @brief Returns global action manager.
  */
 ActionManager& GetGlobalActionManager();
+
+/**
+ * @brief Returns global context manager.
+ */
+AppContextManager& GetGlobalContextManager();
 
 /**
  * @brief Registers the main menubar of QMainWindow to use in action manager.
@@ -84,6 +92,11 @@ QMenu* AppGetMenu(const std::string& menu_name);
  * @param names Vector of top level menus.
  */
 void AppRegisterMainMenuBar(QMenuBar* menubar, const std::vector<std::string>& names);
+
+/**
+ * @brief Registers context for widget.
+ */
+void AppRegisterContext(const QWidget* widget, const AppContext& context);
 
 }  // namespace sup::gui
 

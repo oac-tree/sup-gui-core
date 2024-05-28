@@ -20,6 +20,7 @@
 #include "app_action_helper.h"
 
 #include "app_action_manager.h"
+#include "app_context_manager.h"
 
 namespace sup::gui
 {
@@ -28,6 +29,12 @@ ActionManager &GetGlobalActionManager()
 {
   static ActionManager global_action_manager;
   return global_action_manager;
+}
+
+AppContextManager &GetGlobalContextManager()
+{
+  static AppContextManager global_context_manager;
+  return global_context_manager;
 }
 
 void AppRegisterMenuBar(QMenuBar *menubar)
@@ -68,6 +75,11 @@ void AppRegisterMainMenuBar(QMenuBar *menubar, const std::vector<std::string> &n
   {
     AppAddMenu(name);
   }
+}
+
+void AppRegisterContext(const QWidget *widget, const AppContext &context)
+{
+  GetGlobalContextManager().RegisterContext(widget, context);
 }
 
 }  // namespace sup::gui
