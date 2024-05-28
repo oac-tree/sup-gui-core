@@ -19,6 +19,7 @@
 
 #include "sup/gui/app/app_command.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/widgets/proxy_action.h>
 
 #include <gtest/gtest.h>
@@ -78,6 +79,10 @@ TEST_F(AppCommandTest, AddOverrideAction)
   // setting context that doesn't exist
   command.SetCurrentContext(AppContext());
   EXPECT_FALSE(command.GetProxyAction()->isEnabled());
+
+  // attempt to register another action with same context
+  QAction real_action3("another-action");
+  EXPECT_THROW(command.AddOverrideAction(context2, &real_action3), RuntimeException);
 }
 
 //! Same as before, context is selected via focus widget.
@@ -91,8 +96,6 @@ TEST_F(AppCommandTest, SetCurrentContextWidget)
   const QString expected_name2("paste-from-widget2");
   QAction real_action1(expected_name1);
   QAction real_action2(expected_name2);
-  QWidget widget1;
-  QWidget widget2;
 
   const AppContext context1("Editor1.Paste");
   const AppContext context2("Editor2.Paste");

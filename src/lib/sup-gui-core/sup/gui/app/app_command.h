@@ -76,7 +76,7 @@ public:
 
 private:
   ProxyAction* m_proxy_action{nullptr};
-  std::map<QAction*, AppContext> m_action_to_context;
+  std::map<AppContext, QAction*> m_action_to_context;
 };
 
 }  // namespace sup::gui

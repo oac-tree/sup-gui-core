@@ -19,6 +19,7 @@
 
 #include "app_command.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/widgets/proxy_action.h>
 
 #include <QKeySequence>
@@ -48,7 +49,7 @@ ProxyAction *AppCommand::GetProxyAction()
 
 void AppCommand::SetCurrentContext(const AppContext &current_context)
 {
-  for (const auto &[action, context] : m_action_to_context)
+  for (const auto &[context, action] : m_action_to_context)
   {
     if (current_context == context)
     {
@@ -62,7 +63,14 @@ void AppCommand::SetCurrentContext(const AppContext &current_context)
 
 void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
 {
-  m_action_to_context[action] = context;
+  auto iter = m_action_to_context.find(context);
+  if (iter != m_action_to_context.end())
+  {
+    throw RuntimeException("Already registered context [" + context.GetContextName().toStdString()
+                           + "]");
+  }
+
+  m_action_to_context.insert(iter, {context, action});
 }
 
 void AppCommand::SetKeySequence(const QKeySequence &shortcut)
