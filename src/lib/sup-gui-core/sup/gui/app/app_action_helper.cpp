@@ -20,8 +20,11 @@
 #include "app_action_helper.h"
 
 #include "app_action_manager.h"
+#include "app_command.h"
 #include "app_command_manager.h"
 #include "app_context_manager.h"
+
+#include <sup/gui/widgets/proxy_action.h>
 
 namespace sup::gui
 {
@@ -87,6 +90,13 @@ void AppRegisterMainMenuBar(QMenuBar *menubar, const std::vector<std::string> &n
 void AppRegisterContext(const QWidget *widget, const AppContext &context)
 {
   GetGlobalContextManager().RegisterContext(widget, context);
+}
+
+bool AppRegisterProxyAction(const std::string &menu_name, const QString &command_id,
+                            const QString &text)
+{
+  auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, text);
+  return sup::gui::AppRegisterAction(menu_name, command->GetProxyAction());
 }
 
 }  // namespace sup::gui

@@ -50,6 +50,7 @@ class ActionManager;
 class AppContextManager;
 class AppCommandManager;
 class IActionContainer;
+class AppCommand;
 
 /**
  * @brief Returns global action manager.
@@ -103,6 +104,12 @@ void AppRegisterMainMenuBar(QMenuBar* menubar, const std::vector<std::string>& n
  * @brief Registers context for widget.
  */
 void AppRegisterContext(const QWidget* widget, const AppContext& context);
+
+/**
+ * @brief Register and add proxy action to the menu.
+ */
+bool AppRegisterProxyAction(const std::string& menu_name, const QString& command_id,
+                            const QString& text);
 
 }  // namespace sup::gui
 
