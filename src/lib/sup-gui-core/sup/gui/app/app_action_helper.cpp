@@ -20,6 +20,7 @@
 #include "app_action_helper.h"
 
 #include "app_action_manager.h"
+#include "app_command_manager.h"
 #include "app_context_manager.h"
 
 namespace sup::gui
@@ -35,6 +36,12 @@ AppContextManager &GetGlobalContextManager()
 {
   static AppContextManager global_context_manager;
   return global_context_manager;
+}
+
+AppCommandManager &GetGlobalCommandManager()
+{
+  static AppCommandManager global_command_manager;
+  return global_command_manager;
 }
 
 void AppRegisterMenuBar(QMenuBar *menubar)

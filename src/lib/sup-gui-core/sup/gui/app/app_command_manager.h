@@ -43,7 +43,7 @@ class AppCommandManager : public QObject
   Q_OBJECT
 
 public:
-  explicit AppCommandManager(QObject* parent);
+  explicit AppCommandManager(QObject* parent = nullptr);
   ~AppCommandManager() override;
 
   /**

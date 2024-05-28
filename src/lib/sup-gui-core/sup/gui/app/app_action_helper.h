@@ -48,6 +48,7 @@ static inline const std::string kHelpMenu = "&Help";
 
 class ActionManager;
 class AppContextManager;
+class AppCommandManager;
 class IActionContainer;
 
 /**
@@ -59,6 +60,11 @@ ActionManager& GetGlobalActionManager();
  * @brief Returns global context manager.
  */
 AppContextManager& GetGlobalContextManager();
+
+/**
+ * @brief Returns global command manager.
+ */
+AppCommandManager& GetGlobalCommandManager();
 
 /**
  * @brief Registers the main menubar of QMainWindow to use in action manager.
