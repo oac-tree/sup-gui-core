@@ -41,4 +41,14 @@ bool AppContext::operator!=(const AppContext &other) const
   return !(*this == other);
 }
 
+bool AppContext::operator<(const AppContext &other) const
+{
+  return m_context_name < other.m_context_name;
+}
+
+bool AppContext::operator>=(const AppContext &other) const
+{
+  return (other < *this) || (*this == other);
+}
+
 }  // namespace sup::gui

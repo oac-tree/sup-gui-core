@@ -49,3 +49,12 @@ TEST_F(AppContextTest, EqualityOperators)
   EXPECT_TRUE(context1 == context3);
   EXPECT_FALSE(context1 != context3);
 }
+
+TEST_F(AppContextTest, ComparisonOperators)
+{
+  const AppContext context1("AAA");
+  const AppContext context2("BBB");
+
+  EXPECT_TRUE(context1 < context2);
+  EXPECT_FALSE(context1 >= context2);
+}

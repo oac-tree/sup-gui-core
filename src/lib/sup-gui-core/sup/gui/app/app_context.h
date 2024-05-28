@@ -52,6 +52,8 @@ public:
 
   bool operator==(const AppContext& other) const;
   bool operator!=(const AppContext& other) const;
+  bool operator<(const AppContext& other) const;
+  bool operator>=(const AppContext& other) const;
 
 private:
   QString m_context_name;
