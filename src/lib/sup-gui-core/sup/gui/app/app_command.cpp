@@ -33,7 +33,7 @@ AppCommand::AppCommand(const QString &text, QObject *parent)
 }
 
 AppCommand::AppCommand(const QString &text, const QKeySequence &key, QObject *parent)
-    : QObject(parent), m_proxy_action(new ProxyAction(this))
+    : QObject(parent), m_proxy_action(new ProxyAction(this)), m_default_text(text)
 {
   m_proxy_action->setText(text);
   m_proxy_action->setShortcut(key);
@@ -59,6 +59,7 @@ void AppCommand::SetCurrentContext(const AppContext &current_context)
   }
 
   m_proxy_action->SetAction(nullptr);
+  m_proxy_action->setText(m_default_text);
 }
 
 void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
@@ -71,6 +72,11 @@ void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
   }
 
   m_context_to_action.insert(iter, {context, action});
+}
+
+void AppCommand::SetText(const QString &text)
+{
+  m_default_text = text;
 }
 
 void AppCommand::SetKeySequence(const QKeySequence &shortcut)

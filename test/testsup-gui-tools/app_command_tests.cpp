@@ -85,33 +85,31 @@ TEST_F(AppCommandTest, AddOverrideAction)
   EXPECT_THROW(command.AddOverrideAction(context2, &real_action3), RuntimeException);
 }
 
-//! Same as before, context is selected via focus widget.
+//! Validating that proxy action gets its default text, after we set non-existing context.
 TEST_F(AppCommandTest, SetCurrentContextWidget)
 {
   const QKeySequence key("Ctrl+V");
-  const QString expected_text("Paste");
+  const QString expected_text("Default Text");
   AppCommand command(expected_text, key);
 
-  const QString expected_name1("paste-from-widget1");
-  const QString expected_name2("paste-from-widget2");
-  QAction real_action1(expected_name1);
-  QAction real_action2(expected_name2);
+  const QString real_action_text("paste-from-widget1");
+  QAction real_action(real_action_text);
+  const AppContext context("Editor.Paste");
 
-  const AppContext context1("Editor1.Paste");
-  const AppContext context2("Editor2.Paste");
-
-  command.AddOverrideAction(context1, &real_action1);
-  command.AddOverrideAction(context2, &real_action2);
-
-  // there is underlying proxy action, but it is unconnected
-  ASSERT_NE(command.GetProxyAction(), nullptr);
-  EXPECT_FALSE(command.GetProxyAction()->isEnabled());
+  // default placeholder text
   EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
-  EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
 
-  // setting context, proxy now is looking to second action
-  command.SetCurrentContext(context2);
-  EXPECT_TRUE(command.GetProxyAction()->isEnabled());
-  EXPECT_EQ(command.GetProxyAction()->text(), expected_name2);
-  EXPECT_EQ(command.GetProxyAction()->GetAction(), &real_action2);
+  command.AddOverrideAction(context, &real_action);
+
+  // still default placeholder text
+  EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
+
+  command.SetCurrentContext(context);
+  EXPECT_EQ(command.GetProxyAction()->text(), real_action_text);
+
+  const AppContext non_existing_context("non_existing_context");
+  command.SetCurrentContext(non_existing_context);
+
+  // text returned back to the default placeholder text
+  EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
 }

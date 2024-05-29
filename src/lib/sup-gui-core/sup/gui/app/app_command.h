@@ -70,6 +70,14 @@ public:
   void AddOverrideAction(const AppContext& context, QAction* action);
 
   /**
+   * @brief Sets text to the proxy action.
+   *
+   * This text defines initial appearance of the proxy action in the menu, when no underlying action
+   * is defined.
+   */
+  void SetText(const QString& text);
+
+  /**
    * @brief Sets shortcut sequence.
    */
   void SetKeySequence(const QKeySequence& shortcut);
@@ -77,6 +85,7 @@ public:
 private:
   ProxyAction* m_proxy_action{nullptr};
   std::map<AppContext, QAction*> m_context_to_action;
+  QString m_default_text;
 };
 
 }  // namespace sup::gui

@@ -32,6 +32,8 @@ namespace sup::gui
  *
  * It is used to forward proxy actions, like "copy" and "paste" actions of the main menubar, to
  * concrete actions of widgets, that are currently in focus.
+ *
+ * For the moment it is just a string, it might become a string list in a future.
  */
 class AppContext
 {
