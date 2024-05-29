@@ -106,10 +106,13 @@ void AppRegisterMainMenuBar(QMenuBar* menubar, const std::vector<std::string>& n
 void AppRegisterContext(const QWidget* widget, const AppContext& context);
 
 /**
- * @brief Register and add proxy action to the menu.
+ * @brief Adds proxy action to the menu.
+ *
+ * @param menu_name The name of the menu registered in AppActionManager.
+ * @param command_id The id of the command which has proxy action.
+ * @return Pointer to the command.
  */
-bool AppRegisterProxyAction(const std::string& menu_name, const QString& command_id,
-                            const QString& text);
+AppCommand* AppAddProxyAction(const std::string& menu_name, const QString& command_id);
 
 }  // namespace sup::gui
 

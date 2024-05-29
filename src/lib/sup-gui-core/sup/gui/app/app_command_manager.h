@@ -57,7 +57,7 @@ public:
    *
    * @return Registered command.
    */
-  AppCommand* RegisterCommand(const QString& command_id, const QString& command_text);
+  AppCommand* RegisterCommand(const QString& command_id, const QString& command_text = {});
 
   /**
    * @brief Registers an action for a given command ID using a context.

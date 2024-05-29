@@ -24,6 +24,7 @@
 #include "app_command_manager.h"
 #include "app_context_manager.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/widgets/proxy_action.h>
 
 namespace sup::gui
@@ -92,11 +93,17 @@ void AppRegisterContext(const QWidget *widget, const AppContext &context)
   GetGlobalContextManager().RegisterContext(widget, context);
 }
 
-bool AppRegisterProxyAction(const std::string &menu_name, const QString &command_id,
-                            const QString &text)
+AppCommand *AppAddProxyAction(const std::string &menu_name, const QString &command_id)
 {
-  auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, text);
-  return sup::gui::AppRegisterAction(menu_name, command->GetProxyAction());
+  // register new, or get access to already registered command
+  auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id);
+
+  // add underlying proxy action to the menu
+  if (!sup::gui::AppRegisterAction(menu_name, command->GetProxyAction()))
+  {
+    throw RuntimeException("Global menu [" + menu_name + "] doesn't exist");
+  }
+  return command;
 }
 
 }  // namespace sup::gui
