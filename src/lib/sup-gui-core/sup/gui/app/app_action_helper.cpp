@@ -96,7 +96,7 @@ void AppRegisterContext(const QWidget *widget, const AppContext &context)
 AppCommand *AppAddProxyAction(const std::string &menu_name, const QString &command_id)
 {
   // register new, or get access to already registered command
-  auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id);
+  auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, command_id);
 
   // add underlying proxy action to the menu
   if (!sup::gui::AppRegisterAction(menu_name, command->GetProxyAction()))
@@ -104,6 +104,13 @@ AppCommand *AppAddProxyAction(const std::string &menu_name, const QString &comma
     throw RuntimeException("Global menu [" + menu_name + "] doesn't exist");
   }
   return command;
+}
+
+void AppAddActionToProxy(QAction *action, const QString &command_id, const AppContext &context)
+{
+  // It will register new, or get access to already registered command, and add given action to its
+  // list of real action.
+  sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
 }
 
 }  // namespace sup::gui

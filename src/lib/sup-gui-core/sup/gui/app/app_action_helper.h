@@ -108,11 +108,22 @@ void AppRegisterContext(const QWidget* widget, const AppContext& context);
 /**
  * @brief Adds proxy action to the menu.
  *
+ * It will create a proxy command, if necessary, and add its underlying proxy action to the menu.
+ *
  * @param menu_name The name of the menu registered in AppActionManager.
  * @param command_id The id of the command which has proxy action.
  * @return Pointer to the command.
  */
 AppCommand* AppAddProxyAction(const std::string& menu_name, const QString& command_id);
+
+/**
+ * @brief Adds given action to command.
+ *
+ * @param action User action to add to the command.
+ * @param command_id An identifier under which command is registered in AppCommandManager.
+ * @param context The context of this command.
+ */
+void AppAddActionToProxy(QAction* action, const QString& command_id, const AppContext& context);
 
 }  // namespace sup::gui
 
