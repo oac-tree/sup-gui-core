@@ -20,22 +20,26 @@
 #include "app_context_focus_controller.h"
 
 #include "app_command_manager.h"
+#include "app_context.h"
+#include "app_context_manager.h"
 
 #include <QApplication>
+#include <QDebug>
 #include <QMenuBar>
 
 namespace sup::gui
 {
 
-AppContextFocusController::AppContextFocusController(AppCommandManager &command_manager,
-                                                                 QObject *parent)
-    : QObject(parent), m_command_manager(command_manager)
+AppContextFocusController::AppContextFocusController(AppContextManager &context_manager,
+                                                     AppCommandManager &command_manager,
+                                                     QObject *parent)
+    : QObject(parent), m_context_manager(context_manager), m_command_manager(command_manager)
 {
 }
 
 AppContextFocusController::~AppContextFocusController() = default;
 
-void AppContextFocusController::UpdateFocusWidget(QWidget *old, QWidget *now)
+void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
 {
   Q_UNUSED(old)
 
@@ -45,7 +49,30 @@ void AppContextFocusController::UpdateFocusWidget(QWidget *old, QWidget *now)
     return;
   }
 
-  // TODO implement processing focus widget into context
+  std::vector<sup::gui::AppContext> context_summary;
+
+  qDebug() << "==============================================================================";
+  auto current = now;
+  while (current)
+  {
+    qDebug() << current->metaObject()->className();
+    auto context = m_context_manager.GetContext(current);
+    std::copy(context.begin(), context.end(), std::back_inserter(context_summary));
+    current = current->parentWidget();
+  }
+
+  if (context_summary.empty())
+  {
+    m_command_manager.SetCurrentContext(sup::gui::AppContext());
+  }
+  else
+  {
+    for (const auto &context : context_summary)
+    {
+      qDebug() << " context:" << context.GetContextName();
+      m_command_manager.SetCurrentContext(context);
+    }
+  }
 }
 
 }  // namespace sup::gui
