@@ -53,6 +53,15 @@ void AppRegisterMenuBar(QMenuBar *menubar)
   GetGlobalActionManager().SetMenuBar(menubar);
 }
 
+void AppRegisterMenuBar(QMenuBar *menubar, const std::vector<std::string> &names)
+{
+  AppRegisterMenuBar(menubar);
+  for (const auto &name : names)
+  {
+    AppAddMenu(name);
+  }
+}
+
 IActionContainer *AppAddMenu(const std::string &menu_name)
 {
   return GetGlobalActionManager().AddMenu(menu_name);
@@ -77,15 +86,6 @@ QMenu *AppGetMenu(const std::string &menu_name)
 {
   auto container = GetGlobalActionManager().GetContainer(menu_name);
   return container ? container->GetMenu() : nullptr;
-}
-
-void AppRegisterMainMenuBar(QMenuBar *menubar, const std::vector<std::string> &names)
-{
-  AppRegisterMenuBar(menubar);
-  for (const auto &name : names)
-  {
-    AppAddMenu(name);
-  }
 }
 
 void AppRegisterContext(const QWidget *widget, const AppContext &context)

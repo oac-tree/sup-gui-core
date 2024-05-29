@@ -73,6 +73,14 @@ AppCommandManager& GetGlobalCommandManager();
 void AppRegisterMenuBar(QMenuBar* menubar);
 
 /**
+ * @brief Registers main menubar and create top level menus.
+ *
+ * @param menubar Main main window menubar.
+ * @param names Vector of top level menus.
+ */
+void AppRegisterMenuBar(QMenuBar* menubar, const std::vector<std::string>& names);
+
+/**
  * @brief Adds menu to the registered menubar.
  */
 IActionContainer* AppAddMenu(const std::string& menu_name);
@@ -91,14 +99,6 @@ bool AppRegisterActions(const std::string& menu_name, const QList<QAction*>& act
  * @brief Returns top level menu registered in a menubar under this name.
  */
 QMenu* AppGetMenu(const std::string& menu_name);
-
-/**
- * @brief Registers main menubar and create top level menus.
- *
- * @param menubar Main main window menubar.
- * @param names Vector of top level menus.
- */
-void AppRegisterMainMenuBar(QMenuBar* menubar, const std::vector<std::string>& names);
 
 /**
  * @brief Registers context for widget.

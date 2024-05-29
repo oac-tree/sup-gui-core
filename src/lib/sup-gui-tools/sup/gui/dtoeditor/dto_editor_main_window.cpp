@@ -79,9 +79,8 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  AppRegisterMainMenuBar(menuBar(),
-                         {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
-                          constants::kViewMenu, constants::kHelpMenu});
+  AppRegisterMenuBar(menuBar(), {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
+                                 constants::kViewMenu, constants::kHelpMenu});
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
