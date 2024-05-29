@@ -75,12 +75,12 @@ public:
    * This text defines initial appearance of the proxy action in the menu, when no underlying action
    * is defined.
    */
-  void SetText(const QString& text);
+  AppCommand& SetText(const QString& text);
 
   /**
    * @brief Sets shortcut sequence.
    */
-  void SetKeySequence(const QKeySequence& shortcut);
+  AppCommand& SetShortcut(const QKeySequence& shortcut);
 
 private:
   ProxyAction* m_proxy_action{nullptr};

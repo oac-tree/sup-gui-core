@@ -77,7 +77,7 @@ TEST_F(AppCommandManagerTest, RegisterAction)
   AppCommandManager manager(nullptr);
 
   auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
-  command1->SetKeySequence(key);
+  command1->SetShortcut(key);
   auto command2 = manager.RegisterAction(&paste_action2, command_id, context2);
   EXPECT_EQ(command1, command2);
 
