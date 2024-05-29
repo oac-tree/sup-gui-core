@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_focus_widget_manager.h"
+#include "app_context_focus_controller.h"
 
 #include "app_command_manager.h"
 
@@ -27,14 +27,15 @@
 namespace sup::gui
 {
 
-AppFocusWidgetManager::AppFocusWidgetManager(AppCommandManager &command_manager, QObject *parent)
+AppContextFocusController::AppContextFocusController(AppCommandManager &command_manager,
+                                                                 QObject *parent)
     : QObject(parent), m_command_manager(command_manager)
 {
 }
 
-AppFocusWidgetManager::~AppFocusWidgetManager() = default;
+AppContextFocusController::~AppContextFocusController() = default;
 
-void AppFocusWidgetManager::UpdateFocusWidget(QWidget *old, QWidget *now)
+void AppContextFocusController::UpdateFocusWidget(QWidget *old, QWidget *now)
 {
   Q_UNUSED(old)
 
