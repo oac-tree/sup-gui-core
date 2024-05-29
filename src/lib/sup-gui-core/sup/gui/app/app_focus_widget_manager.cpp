@@ -28,7 +28,7 @@ namespace sup::gui
 {
 
 AppFocusWidgetManager::AppFocusWidgetManager(AppCommandManager &command_manager, QObject *parent)
-    : m_command_manager(command_manager)
+    : QObject(parent), m_command_manager(command_manager)
 {
 }
 
