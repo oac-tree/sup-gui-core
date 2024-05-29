@@ -67,6 +67,12 @@ IActionContainer *AppAddMenu(const std::string &menu_name)
   return GetGlobalActionManager().AddMenu(menu_name);
 }
 
+QMenu *AppGetMenu(const std::string &menu_name)
+{
+  auto container = GetGlobalActionManager().GetContainer(menu_name);
+  return container ? container->GetMenu() : nullptr;
+}
+
 bool AppRegisterAction(const std::string &menu_name, QAction *action)
 {
   return GetGlobalActionManager().RegisterAction(menu_name, action);
@@ -82,18 +88,12 @@ bool AppRegisterActions(const std::string &menu_name, const QList<QAction *> &ac
   return result;
 }
 
-QMenu *AppGetMenu(const std::string &menu_name)
-{
-  auto container = GetGlobalActionManager().GetContainer(menu_name);
-  return container ? container->GetMenu() : nullptr;
-}
-
 void AppRegisterContext(const QWidget *widget, const AppContext &context)
 {
   GetGlobalContextManager().RegisterContext(widget, context);
 }
 
-AppCommand *AppAddProxyAction(const std::string &menu_name, const QString &command_id)
+AppCommand *AppAddCommandToMenu(const std::string &menu_name, const QString &command_id)
 {
   // register new, or get access to already registered command
   auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, command_id);
@@ -106,7 +106,7 @@ AppCommand *AppAddProxyAction(const std::string &menu_name, const QString &comma
   return command;
 }
 
-void AppAddActionToProxy(QAction *action, const QString &command_id, const AppContext &context)
+void AppAddActionToCommand(QAction *action, const QString &command_id, const AppContext &context)
 {
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.

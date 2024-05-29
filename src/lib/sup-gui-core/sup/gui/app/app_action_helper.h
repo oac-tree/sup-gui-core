@@ -86,6 +86,11 @@ void AppRegisterMenuBar(QMenuBar* menubar, const std::vector<std::string>& names
 IActionContainer* AppAddMenu(const std::string& menu_name);
 
 /**
+ * @brief Returns top level menu registered in a menubar under this name.
+ */
+QMenu* AppGetMenu(const std::string& menu_name);
+
+/**
  * @brief Register and add action to the menu.
  */
 bool AppRegisterAction(const std::string& menu_name, QAction* action);
@@ -96,25 +101,20 @@ bool AppRegisterAction(const std::string& menu_name, QAction* action);
 bool AppRegisterActions(const std::string& menu_name, const QList<QAction*>& actions);
 
 /**
- * @brief Returns top level menu registered in a menubar under this name.
- */
-QMenu* AppGetMenu(const std::string& menu_name);
-
-/**
  * @brief Registers context for widget.
  */
 void AppRegisterContext(const QWidget* widget, const AppContext& context);
 
 /**
- * @brief Adds proxy action to the menu.
+ * @brief Adds command to the menu.
  *
- * It will create a proxy command, if necessary, and add its underlying proxy action to the menu.
+ * It will create a command, if necessary, and add its underlying proxy action to the menu.
  *
  * @param menu_name The name of the menu registered in AppActionManager.
  * @param command_id The id of the command which has proxy action.
  * @return Pointer to the command.
  */
-AppCommand* AppAddProxyAction(const std::string& menu_name, const QString& command_id);
+AppCommand* AppAddCommandToMenu(const std::string& menu_name, const QString& command_id);
 
 /**
  * @brief Adds given action to command.
@@ -123,7 +123,7 @@ AppCommand* AppAddProxyAction(const std::string& menu_name, const QString& comma
  * @param command_id An identifier under which command is registered in AppCommandManager.
  * @param context The context of this command.
  */
-void AppAddActionToProxy(QAction* action, const QString& command_id, const AppContext& context);
+void AppAddActionToCommand(QAction* action, const QString& command_id, const AppContext& context);
 
 }  // namespace sup::gui
 
