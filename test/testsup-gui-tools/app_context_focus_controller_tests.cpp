@@ -37,7 +37,7 @@ class AppContextFocusControllerTest : public ::testing::Test
 };
 
 //! Registering context for widget, and action for the same context.
-//! Checking that AppContextFocusController::OnFocusWidgetUpdate brings
+//! Checking that AppContextFocusController::OnFocusWidgetUpdate properly sets proxy action.
 TEST_F(AppContextFocusControllerTest, SingleWidget)
 {
   const AppContext context("Editor");
