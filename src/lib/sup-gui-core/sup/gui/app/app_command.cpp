@@ -62,6 +62,26 @@ void AppCommand::SetCurrentContext(const AppContext &current_context)
   m_proxy_action->setText(m_default_text);
 }
 
+void AppCommand::SetContextStack(const std::vector<AppContext> &context_stack)
+{
+  bool context_found{false};
+  for (const auto &current_context : context_stack)
+  {
+    if (auto action = GetActionForContext(current_context); action)
+    {
+      m_proxy_action->SetAction(action, ProxyAction::Options::SyncEnabledStatus);
+      context_found = true;
+      break;
+    }
+  }
+
+  if (!context_found)
+  {
+    m_proxy_action->SetAction(nullptr);
+    m_proxy_action->setText(m_default_text);
+  }
+}
+
 void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
 {
   auto iter = m_context_to_action.find(context);
@@ -85,6 +105,17 @@ AppCommand &AppCommand::SetShortcut(const QKeySequence &shortcut)
 {
   m_proxy_action->setShortcut(shortcut);
   return *this;
+}
+
+bool AppCommand::HasAction(const AppContext &context) const
+{
+  return m_context_to_action.find(context) != m_context_to_action.end();
+}
+
+QAction *AppCommand::GetActionForContext(const AppContext &context) const
+{
+  auto iter = m_context_to_action.find(context);
+  return iter == m_context_to_action.end() ? nullptr : iter->second;
 }
 
 }  // namespace sup::gui

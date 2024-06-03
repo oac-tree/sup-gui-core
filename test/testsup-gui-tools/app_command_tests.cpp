@@ -43,6 +43,8 @@ TEST_F(AppCommandTest, InitialState)
   ASSERT_NE(command.GetProxyAction(), nullptr);
   EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
   EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
+  EXPECT_EQ(command.GetActionForContext(AppContext{}), nullptr);
+  EXPECT_FALSE(command.HasAction(AppContext{}));
 }
 
 //! Two actions related to two different widgets are added to the same command.
@@ -63,6 +65,11 @@ TEST_F(AppCommandTest, AddOverrideAction)
 
   command.AddOverrideAction(context1, &real_action1);
   command.AddOverrideAction(context2, &real_action2);
+
+  EXPECT_EQ(command.GetActionForContext(context1), &real_action1);
+  EXPECT_TRUE(command.HasAction(context1));
+  EXPECT_EQ(command.GetActionForContext(context2), &real_action2);
+  EXPECT_TRUE(command.HasAction(context2));
 
   // there is underlying proxy action, but it is unconnected
   ASSERT_NE(command.GetProxyAction(), nullptr);
@@ -86,7 +93,7 @@ TEST_F(AppCommandTest, AddOverrideAction)
 }
 
 //! Validating that proxy action gets its default text, after we set non-existing context.
-TEST_F(AppCommandTest, SetCurrentContextWidget)
+TEST_F(AppCommandTest, SetCurrentContext)
 {
   const QKeySequence key("Ctrl+V");
   const QString expected_text("Default Text");
@@ -112,4 +119,22 @@ TEST_F(AppCommandTest, SetCurrentContextWidget)
 
   // text returned back to the default placeholder text
   EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
+}
+
+//! Setting context stack. Action should be enabled if registered context is in the stack.
+TEST_F(AppCommandTest, SetContextStack)
+{
+  const QString expected_text("Default Text");
+  AppCommand command(expected_text);
+
+  const QString real_action_text("paste-from-widget");
+  QAction real_action(real_action_text);
+  const AppContext context("Editor.Paste");
+  command.AddOverrideAction(context, &real_action);
+
+  const AppContext parent_conetxt("Parent");
+
+  command.SetContextStack({parent_conetxt, context});
+  command.SetCurrentContext(context);
+  EXPECT_EQ(command.GetProxyAction()->GetAction(), &real_action);
 }

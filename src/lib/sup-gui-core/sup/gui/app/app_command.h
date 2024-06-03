@@ -39,6 +39,8 @@ class ProxyAction;
  *
  * Proxy action is executed either via shortcut or is triggered from the global menubar. Depending
  * on the context, a proxy action will trigger one of the actions in the list.
+ *
+ * Only one action per context is allowed, i.e. context used for action registration must be unique.
  */
 class AppCommand : public QObject
 {
@@ -57,12 +59,20 @@ public:
   ProxyAction* GetProxyAction();
 
   /**
-   * @brief Set the context to serve.
+   * @brief Sets the context to serve.
    *
-   * Internally will connect proxy action with one of the real actions. If more than one action fits
-   * given context, will ignore the rest.
+   * Internally will connect proxy action with one of the real actions. If no action has been
+   * registered for a given context, will disable proxy action.
    */
   void SetCurrentContext(const AppContext& current_context);
+
+  /**
+   * @brief Sets the context to serve.
+   *
+   * Will run through all given contexts and try to set proxy action for the first matching context.
+   * If no matching action exists, will disable proxy action.
+   */
+  void SetContextStack(const std::vector<AppContext>& context_stack);
 
   /**
    * @brief Append action to the map of actions.
@@ -81,6 +91,16 @@ public:
    * @brief Sets shortcut sequence.
    */
   AppCommand& SetShortcut(const QKeySequence& shortcut);
+
+  /**
+   * @brief Checks if there is a registered action for given context.
+   */
+  bool HasAction(const AppContext& context) const;
+
+  /**
+   * @brief Returns action registered for given context.
+   */
+  QAction* GetActionForContext(const AppContext& context) const;
 
 private:
   ProxyAction* m_proxy_action{nullptr};
