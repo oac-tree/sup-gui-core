@@ -93,6 +93,11 @@ void AppRegisterContext(const QWidget *widget, const AppContext &context)
   GetGlobalContextManager().RegisterContext(widget, context);
 }
 
+AppContext AppRegisterWidgetUniqueId(const QWidget *widget)
+{
+  return GetGlobalContextManager().RegisterWidgetUniqueId(widget);
+}
+
 AppCommand *AppAddCommandToMenu(const std::string &menu_name, const QString &command_id)
 {
   // register new, or get access to already registered command

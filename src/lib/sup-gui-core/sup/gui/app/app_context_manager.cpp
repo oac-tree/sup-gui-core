@@ -21,6 +21,8 @@
 
 #include "app_context.h"
 
+#include <mvvm/core/unique_id_generator.h>
+
 namespace sup::gui
 {
 
@@ -34,6 +36,13 @@ void AppContextManager::RegisterContext(const QWidget *widget, const AppContext 
   }
 
   m_widget_to_context.insert(iter, {widget, std::vector<AppContext>({context})});
+}
+
+AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
+{
+  AppContext context(QString::fromStdString(mvvm::UniqueIdGenerator::Generate()));
+  RegisterContext(widget, context);
+  return context;
 }
 
 std::vector<AppContext> AppContextManager::GetContext(const QWidget *widget) const

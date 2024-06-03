@@ -45,3 +45,13 @@ TEST_F(AppContextManagerTest, RegisterContext)
 
   EXPECT_EQ(manager.GetContext(&widget), std::vector<AppContext>({context1, context2}));
 }
+
+TEST_F(AppContextManagerTest, RegisterWidgetUniqueId)
+{
+  AppContextManager manager;
+  const QWidget widget;
+
+  auto context = manager.RegisterWidgetUniqueId(&widget);
+
+  EXPECT_EQ(context, manager.GetContext(&widget).at(0));
+}

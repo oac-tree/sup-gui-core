@@ -106,6 +106,13 @@ bool AppRegisterActions(const std::string& menu_name, const QList<QAction*>& act
 void AppRegisterContext(const QWidget* widget, const AppContext& context);
 
 /**
+ * @brief Registers given widget using unique identifier.
+ *
+ * @return The context representing used unique identifier.
+ */
+AppContext AppRegisterWidgetUniqueId(const QWidget* widget);
+
+/**
  * @brief Adds command to the menu.
  *
  * It will create a command, if necessary, and add its underlying proxy action to the menu.

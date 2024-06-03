@@ -37,7 +37,17 @@ class AppContextManager
 {
 public:
 
+  /**
+   * @brief Registers widget for given context.
+   */
   void RegisterContext(const QWidget* widget, const AppContext& context);
+
+  /**
+   * @brief Registers given widget using unique identifier.
+   *
+   * @return The context representing used unique identifier.
+   */
+  AppContext RegisterWidgetUniqueId(const QWidget* widget);
 
   std::vector<AppContext> GetContext(const QWidget* widget) const;
 
