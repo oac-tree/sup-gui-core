@@ -21,7 +21,6 @@
 #define SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
 
 #include <map>
-#include <vector>
 
 class QWidget;
 
@@ -36,24 +35,33 @@ class AppContext;
 class AppContextManager
 {
 public:
-
   /**
-   * @brief Registers widget for given context.
-   */
-  void RegisterContext(const QWidget* widget, const AppContext& context);
-
-  /**
-   * @brief Registers given widget using unique identifier.
+   * @brief Registers given widget using unique identifier and returns associated context to the
+   * user.
    *
-   * @return The context representing used unique identifier.
+   * If widget was already registered, return corresponding conext.
    */
   AppContext RegisterWidgetUniqueId(const QWidget* widget);
 
-  std::vector<AppContext> GetContext(const QWidget* widget) const;
+  /**
+   * @brief Returns context for widget.
+   *
+   * Context will be empty, if widget wasn't registered yet.
+   */
+  AppContext GetContext(const QWidget* widget) const;
+
+  /**
+   * @brief Returns registered widget for give context.
+   */
+  const QWidget* GetWidget(const AppContext& context) const;
+
+  /**
+   * @brief Checks if widget was registered.
+   */
+  bool HasContext(const QWidget* widget) const;
 
 private:
-  std::map<const QWidget*, std::vector<AppContext>> m_widget_to_context;
-
+  std::map<const QWidget*, AppContext> m_widget_to_context;
 };
 
 }  // namespace sup::gui

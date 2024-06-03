@@ -88,11 +88,6 @@ bool AppRegisterActions(const std::string &menu_name, const QList<QAction *> &ac
   return result;
 }
 
-void AppRegisterContext(const QWidget *widget, const AppContext &context)
-{
-  GetGlobalContextManager().RegisterContext(widget, context);
-}
-
 AppContext AppRegisterWidgetUniqueId(const QWidget *widget)
 {
   return GetGlobalContextManager().RegisterWidgetUniqueId(widget);

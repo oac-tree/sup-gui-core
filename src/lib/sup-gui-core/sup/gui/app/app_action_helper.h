@@ -101,11 +101,6 @@ bool AppRegisterAction(const std::string& menu_name, QAction* action);
 bool AppRegisterActions(const std::string& menu_name, const QList<QAction*>& actions);
 
 /**
- * @brief Registers context for widget.
- */
-void AppRegisterContext(const QWidget* widget, const AppContext& context);
-
-/**
  * @brief Registers given widget using unique identifier.
  *
  * @return The context representing used unique identifier.

@@ -56,8 +56,10 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
   while (current)
   {
     qDebug() << current->metaObject()->className();
-    auto context = m_context_manager.GetContext(current);
-    std::copy(context.begin(), context.end(), std::back_inserter(context_summary));
+    if (m_context_manager.HasContext(current))
+    {
+      context_summary.push_back(m_context_manager.GetContext(current));
+    }
     current = current->parentWidget();
   }
 
@@ -69,7 +71,8 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
   {
     for (const auto &context : context_summary)
     {
-      qDebug() << " context:" << context.GetContextName();
+      qDebug() << " context:" << context.GetContextName()
+               << m_context_manager.GetWidget(context)->metaObject()->className();
       m_command_manager.SetCurrentContext(context);
     }
   }

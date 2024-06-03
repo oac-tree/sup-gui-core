@@ -26,29 +26,37 @@
 namespace sup::gui
 {
 
-void AppContextManager::RegisterContext(const QWidget *widget, const AppContext &context)
+AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
   if (iter != m_widget_to_context.end())
   {
-    iter->second.push_back(context);
-    return;
+    return iter->second;
   }
 
-  m_widget_to_context.insert(iter, {widget, std::vector<AppContext>({context})});
-}
-
-AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
-{
   AppContext context(QString::fromStdString(mvvm::UniqueIdGenerator::Generate()));
-  RegisterContext(widget, context);
+  m_widget_to_context.insert(iter, {widget, context});
   return context;
 }
 
-std::vector<AppContext> AppContextManager::GetContext(const QWidget *widget) const
+AppContext AppContextManager::GetContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
-  return iter != m_widget_to_context.end() ? iter->second : std::vector<AppContext>();
+  return iter == m_widget_to_context.end() ? AppContext{} : iter->second;
+}
+
+const QWidget *AppContextManager::GetWidget(const AppContext &context) const
+{
+  auto on_element = [&context](auto element) { return element.second == context; };
+  auto iter =
+      std::find_if(std::begin(m_widget_to_context), std::end(m_widget_to_context), on_element);
+  return iter == m_widget_to_context.end() ? nullptr : iter->first;
+}
+
+bool AppContextManager::HasContext(const QWidget *widget) const
+{
+  auto iter = m_widget_to_context.find(widget);
+  return iter != m_widget_to_context.end();
 }
 
 }  // namespace sup::gui

@@ -40,12 +40,10 @@ class AppContextFocusControllerTest : public ::testing::Test
 //! Checking that AppContextFocusController::OnFocusWidgetUpdate properly sets proxy action.
 TEST_F(AppContextFocusControllerTest, SingleWidget)
 {
-  const AppContext context("Editor");
-
   // registering widget for certain context
   QWidget widget;
   AppContextManager context_manager;
-  context_manager.RegisterContext(&widget, context);
+  auto context = context_manager.RegisterWidgetUniqueId(&widget);
 
   // registering action for the same context
   QAction action;

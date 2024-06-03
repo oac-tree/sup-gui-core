@@ -36,22 +36,20 @@ TEST_F(AppContextManagerTest, RegisterContext)
   AppContextManager manager;
   const QWidget widget;
 
-  EXPECT_TRUE(manager.GetContext(&widget).empty());
+  EXPECT_EQ(manager.GetContext(&widget), AppContext{});
+  EXPECT_FALSE(manager.HasContext(&widget));
 
-  const AppContext context1("Editor.Copy");
-  const AppContext context2("Editor.Paste");
-  manager.RegisterContext(&widget, context1);
-  manager.RegisterContext(&widget, context2);
+  auto context1 = manager.RegisterWidgetUniqueId(&widget);
+  EXPECT_TRUE(manager.HasContext(&widget));
+  EXPECT_EQ(manager.GetContext(&widget), context1);
 
-  EXPECT_EQ(manager.GetContext(&widget), std::vector<AppContext>({context1, context2}));
-}
+  // registering again same widget, context should conicide
+  auto context2 = manager.RegisterWidgetUniqueId(&widget);
+  EXPECT_NE(manager.GetContext(&widget), AppContext{});
+  EXPECT_EQ(context1, context2);
 
-TEST_F(AppContextManagerTest, RegisterWidgetUniqueId)
-{
-  AppContextManager manager;
-  const QWidget widget;
-
-  auto context = manager.RegisterWidgetUniqueId(&widget);
-
-  EXPECT_EQ(context, manager.GetContext(&widget).at(0));
+  // another widget
+  const QWidget widget3;
+  auto context3 = manager.RegisterWidgetUniqueId(&widget3);
+  EXPECT_NE(context1, context3);
 }
