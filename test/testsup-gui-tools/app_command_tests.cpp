@@ -132,9 +132,23 @@ TEST_F(AppCommandTest, SetContextStack)
   const AppContext context("Editor.Paste");
   command.AddOverrideAction(context, &real_action);
 
-  const AppContext parent_conetxt("Parent");
+  const AppContext parent_context("Parent");
 
-  command.SetContextStack({parent_conetxt, context});
-  command.SetCurrentContext(context);
+  command.SetContextStack({parent_context, context});
   EXPECT_EQ(command.GetProxyAction()->GetAction(), &real_action);
+}
+
+//! Setting context stack. Action should be disabled.
+TEST_F(AppCommandTest, SetEmptyContextStack)
+{
+  const QString expected_text("Default Text");
+  AppCommand command(expected_text);
+
+  const QString real_action_text("paste-from-widget");
+  QAction real_action(real_action_text);
+  const AppContext context("Editor.Paste");
+  command.AddOverrideAction(context, &real_action);
+
+  command.SetContextStack({});
+  EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
 }

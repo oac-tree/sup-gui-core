@@ -72,4 +72,12 @@ void AppCommandManager::SetCurrentContext(const AppContext &context)
   }
 }
 
+void AppCommandManager::SetContextStack(const std::vector<AppContext> &context_stack)
+{
+  for (const auto &[command_id, command] : m_commands)
+  {
+    command->SetContextStack(context_stack);
+  }
+}
+
 }  // namespace sup::gui

@@ -86,3 +86,29 @@ TEST_F(AppCommandManagerTest, RegisterAction)
   manager.SetCurrentContext(context1);
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }
+
+TEST_F(AppCommandManagerTest, SetContextStack)
+{
+  const QKeySequence key("Ctrl+V");
+  const QString command_text("Paste");
+  const QString command_id("Editor.Paste");
+
+  QAction paste_action1(command_text);
+  QAction paste_action2(command_text);
+
+  const AppContext context1("Editor1.Paste");
+  const AppContext context2("Editor2.Paste");
+
+  AppCommandManager manager(nullptr);
+
+  auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
+  command1->SetShortcut(key);
+  auto command2 = manager.RegisterAction(&paste_action2, command_id, context2);
+  EXPECT_EQ(command1, command2);
+
+  EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
+
+  AppContext some_parent_context("parent-context");
+  manager.SetContextStack({some_parent_context, context1});
+  EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
+}

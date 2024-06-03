@@ -84,10 +84,14 @@ public:
   int GetCommandCount() const;
 
   /**
-   * @brief SetCurrentContext
-   * @param context
+   * @brief Sets the given context for all registered commands.
    */
   void SetCurrentContext(const AppContext& context);
+
+  /**
+   * @brief Sets the given context stack for all registered commands.
+   */
+  void SetContextStack(const std::vector<AppContext>& context_stack);
 
 private:
   //!< correspondence of the command_id to commands
