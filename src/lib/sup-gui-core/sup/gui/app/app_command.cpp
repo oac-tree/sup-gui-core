@@ -49,9 +49,14 @@ ProxyAction *AppCommand::GetProxyAction()
 
 void AppCommand::SetCurrentContext(const AppContext &current_context)
 {
-  for (const auto &[context, action] : m_context_to_action)
+  SetContextStack({current_context});
+}
+
+void AppCommand::SetContextStack(const std::vector<AppContext> &context_stack)
+{
+  for (const auto &current_context : context_stack)
   {
-    if (current_context == context)
+    if (auto action = GetActionForContext(current_context); action)
     {
       m_proxy_action->SetAction(action, ProxyAction::Options::SyncEnabledStatus);
       return;
@@ -60,26 +65,6 @@ void AppCommand::SetCurrentContext(const AppContext &current_context)
 
   m_proxy_action->SetAction(nullptr);
   m_proxy_action->setText(m_default_text);
-}
-
-void AppCommand::SetContextStack(const std::vector<AppContext> &context_stack)
-{
-  bool context_found{false};
-  for (const auto &current_context : context_stack)
-  {
-    if (auto action = GetActionForContext(current_context); action)
-    {
-      m_proxy_action->SetAction(action, ProxyAction::Options::SyncEnabledStatus);
-      context_found = true;
-      break;
-    }
-  }
-
-  if (!context_found)
-  {
-    m_proxy_action->SetAction(nullptr);
-    m_proxy_action->setText(m_default_text);
-  }
 }
 
 void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
