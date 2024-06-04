@@ -13,3 +13,8 @@ target_sources(${library_name} PRIVATE
   visibility_agent_base.cpp
   visibility_agent_base.h
 )
+
+install(FILES
+  anyvalue_editor_context.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/components
+)

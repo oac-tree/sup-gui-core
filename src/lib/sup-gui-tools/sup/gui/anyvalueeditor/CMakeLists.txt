@@ -20,6 +20,5 @@ target_sources(${library_name} PRIVATE
 
 install(FILES
   anyvalue_editor.h
-  anyvalue_editor_context.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/anyvalueeditor
 )
