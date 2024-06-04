@@ -12,9 +12,5 @@ target_sources(${library_name} PRIVATE
   proxy_action.h
   visibility_agent_base.cpp
   visibility_agent_base.h
-)
-
-install(FILES
-  anyvalue_editor_context.h
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/components
+  action_map.h
 )
