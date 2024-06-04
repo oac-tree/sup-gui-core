@@ -23,8 +23,6 @@
 
 #include <gtest/gtest.h>
 
-#include <QApplication>
-
 using namespace sup::gui;
 
 static const QClipboard::Mode kClipboardMode{QClipboard::Mode::Clipboard};
@@ -45,19 +43,10 @@ class AnyValueClipboardUtilsTest : public ::testing::Test
 {
 public:
   void SetUp() override { m_clipboard = QGuiApplication::clipboard(); };
-  static void SetUpTestSuite()
-  {
-    int argc{};
-    char* argv[]{};
-    m_application = std::make_unique<QApplication>(argc, argv);
-  };
-  static void TearDownTestSuite() { m_application.reset(); };
 
 protected:
-  static std::unique_ptr<QApplication> m_application;
   QClipboard* m_clipboard{nullptr};
 };
-std::unique_ptr<QApplication> AnyValueClipboardUtilsTest::m_application{nullptr};
 
 TEST_F(AnyValueClipboardUtilsTest, ClipboardGetAnyvalue)
 {
