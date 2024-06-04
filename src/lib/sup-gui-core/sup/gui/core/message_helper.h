@@ -17,32 +17,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_
-#define SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_
+#ifndef SUP_GUI_COMPONENTS_MESSAGE_HELPER_H_
+#define SUP_GUI_COMPONENTS_MESSAGE_HELPER_H_
 
-#include <sup/gui/components/message_handler_interface.h>
+//! @file
+//! Collection of helper functions to send messages.
 
-#include <memory>
+#include <sup/gui/core/message_event.h>
+
+#include <QMessageBox>
 
 namespace sup::gui
 {
 
-//! Decorator for message handler. Used when we have to use MessageHandler with unique_ptr but still
-//! don't want to pass ownership.
+/**
+ * @brief Send the message via the message box.
+ */
+void SendMessage(const sup::gui::MessageEvent& event, QMessageBox::Icon icon_type);
 
-class MessageHandlerDecorator : public MessageHandlerInterface
-{
-public:
-  explicit MessageHandlerDecorator(MessageHandlerInterface* component);
+/**
+ * @brief Send warning message via the message box.
+ */
+void SendWarningMessage(const sup::gui::MessageEvent& event);
 
-  static std::unique_ptr<MessageHandlerInterface> Create(MessageHandlerInterface* component);
-
-  void SendMessage(const std::string& text) override;
-
-private:
-  MessageHandlerInterface* m_component{nullptr};
-};
+/**
+ * @brief Send info message via the message box.
+ */
+void SendInfoMessage(const sup::gui::MessageEvent& event);
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_
+#endif  // SUP_GUI_COMPONENTS_MESSAGE_HELPER_H_

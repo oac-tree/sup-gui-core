@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_STANDARD_MESSAGE_HANDLERS_H_
 #define SUP_GUI_COMPONENTS_STANDARD_MESSAGE_HANDLERS_H_
 
-#include <sup/gui/components/message_handler_interface.h>
+#include <sup/gui/core/message_handler_interface.h>
 
 namespace sup::gui
 {

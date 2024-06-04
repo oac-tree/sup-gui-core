@@ -20,10 +20,9 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_CONTEXT_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_CONTEXT_H_
 
-#include <sup/gui/components/message_event.h>
+#include <sup/gui/core/message_event.h>
 
 #include <functional>
-#include <string>
 
 namespace sup::gui
 {
