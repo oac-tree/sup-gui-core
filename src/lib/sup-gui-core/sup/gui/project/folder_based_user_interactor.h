@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
 #define SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
 
-#include <sup/gui/components/abstract_project_user_interactor.h>
+#include <sup/gui/project/abstract_project_user_interactor.h>
 
 #include <QString>
 #include <string>

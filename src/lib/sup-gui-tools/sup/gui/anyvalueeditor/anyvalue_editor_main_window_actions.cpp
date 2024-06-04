@@ -22,8 +22,8 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/main_window_helper.h>
-#include <sup/gui/components/project_handler.h>
-#include <sup/gui/components/project_handler_utils.h>
+#include <sup/gui/project/project_handler.h>
+#include <sup/gui/project/project_handler_utils.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 

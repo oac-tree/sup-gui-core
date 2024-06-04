@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/components/abstract_project_user_interactor.h"
+#include "sup/gui/project/abstract_project_user_interactor.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

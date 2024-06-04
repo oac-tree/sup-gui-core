@@ -10,6 +10,8 @@ target_sources(${library_name} PRIVATE
   message_handler_interface.h
   message_helper.cpp
   message_helper.h
+  standard_message_handlers.cpp
+  standard_message_handlers.h
   version.cpp
   version.h
 )

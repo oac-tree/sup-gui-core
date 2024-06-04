@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
 #define SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
 
-#include <sup/gui/components/recent_project_path.h>
+#include <sup/gui/project/recent_project_path.h>
 
 namespace sup::gui
 {

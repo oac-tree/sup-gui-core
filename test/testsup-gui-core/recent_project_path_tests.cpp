@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/components/recent_project_path.h"
+#include "sup/gui/project/recent_project_path.h"
 
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>

@@ -1,6 +1,4 @@
 target_sources(${library_name} PRIVATE
-  abstract_project_user_interactor.cpp
-  abstract_project_user_interactor.h
   anyvalue_editor_action_handler.cpp
   anyvalue_editor_action_handler.h
   anyvalue_editor_context.h
@@ -8,23 +6,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_helper.h
   dto_composer_action_handler.cpp
   dto_composer_action_handler.h
-  file_based_user_interactor.cpp
-  file_based_user_interactor.h
-  folder_based_user_interactor.cpp
-  folder_based_user_interactor.h
-  i_project_user_interactor.h
-  project_handler.cpp
-  project_handler.h
-  project_handler_utils.cpp
-  project_handler_utils.h
   proxy_action.cpp
   proxy_action.h
-  recent_project_path.cpp
-  recent_project_path.h
-  recent_project_settings.cpp
-  recent_project_settings.h
-  standard_message_handlers.cpp
-  standard_message_handlers.h
   visibility_agent_base.cpp
   visibility_agent_base.h
 )
