@@ -23,7 +23,7 @@
 #include <sup/gui/app/app_command_manager.h>
 #include <sup/gui/app/app_context.h>
 #include <sup/gui/app/app_context_manager.h>
-#include <sup/gui/widgets/proxy_action.h>
+#include <sup/gui/components/proxy_action.h>
 
 #include <gtest/gtest.h>
 

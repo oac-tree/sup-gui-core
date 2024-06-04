@@ -20,7 +20,7 @@
 #include "app_command.h"
 
 #include <sup/gui/core/exceptions.h>
-#include <sup/gui/widgets/proxy_action.h>
+#include <sup/gui/components/proxy_action.h>
 
 #include <QKeySequence>
 

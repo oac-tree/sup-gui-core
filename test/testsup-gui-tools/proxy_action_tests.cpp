@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/widgets/proxy_action.h"
+#include "sup/gui/components/proxy_action.h"
 
 #include <gtest/gtest.h>
 

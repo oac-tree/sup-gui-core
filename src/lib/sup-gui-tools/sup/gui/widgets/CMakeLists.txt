@@ -17,8 +17,6 @@ target_sources(${library_name} PRIVATE
   item_stack_widget.h
   panel_toolbar.cpp
   panel_toolbar.h
-  proxy_action.cpp
-  proxy_action.h
   style_utils.cpp
   style_utils.h
   tree_helper.cpp

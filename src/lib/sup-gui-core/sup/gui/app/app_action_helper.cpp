@@ -25,7 +25,7 @@
 #include "app_context_manager.h"
 
 #include <sup/gui/core/exceptions.h>
-#include <sup/gui/widgets/proxy_action.h>
+#include <sup/gui/components/proxy_action.h>
 
 namespace sup::gui
 {
