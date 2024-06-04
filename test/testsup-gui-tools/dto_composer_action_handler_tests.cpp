@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/dtoeditor/dto_composer_action_handler.h"
+#include "sup/gui/components/dto_composer_action_handler.h"
 
 #include <sup/gui/model/anyvalue_item.h>
 

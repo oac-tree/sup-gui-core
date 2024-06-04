@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_context.h
   anyvalue_editor_helper.cpp
   anyvalue_editor_helper.h
+  dto_composer_action_handler.cpp
+  dto_composer_action_handler.h
   file_based_user_interactor.cpp
   file_based_user_interactor.h
   folder_based_user_interactor.cpp
