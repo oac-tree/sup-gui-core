@@ -1,13 +1,8 @@
 target_sources(${library_name} PRIVATE
   anyvalue_editor.cpp
   anyvalue_editor.h
-  anyvalue_editor_action_handler.cpp
-  anyvalue_editor_action_handler.h
   anyvalue_editor_actions.cpp
   anyvalue_editor_actions.h
-  anyvalue_editor_context.h
-  anyvalue_editor_helper.cpp
-  anyvalue_editor_helper.h
   anyvalue_editor_main_window.cpp
   anyvalue_editor_main_window.h
   anyvalue_editor_main_window_actions.cpp
@@ -23,8 +18,6 @@ target_sources(${library_name} PRIVATE
   custom_metatypes.cpp
   custom_metatypes.h
   run_application.h
-  tree_view_component_provider.cpp
-  tree_view_component_provider.h
 )
 
 install(FILES

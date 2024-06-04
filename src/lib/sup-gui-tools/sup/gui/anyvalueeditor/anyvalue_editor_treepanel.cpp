@@ -19,9 +19,8 @@
 
 #include "anyvalue_editor_treepanel.h"
 
-#include "tree_view_component_provider.h"
-
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/viewmodel/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
 #include <sup/gui/widgets/tree_helper.h>
 
@@ -40,7 +39,8 @@ const QString kHeaderStateSettingName = kGroupName + "/" + "header_state";
 namespace sup::gui
 {
 
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *model, QWidget *parent)
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *model,
+                                                 QWidget *parent)
     : QWidget(parent)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)

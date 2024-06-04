@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 
-#include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
+#include <sup/gui/components/anyvalue_editor_context.h>
 
 #include <QString>
 #include <QWidget>

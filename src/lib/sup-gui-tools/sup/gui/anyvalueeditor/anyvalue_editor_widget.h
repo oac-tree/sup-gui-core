@@ -22,7 +22,7 @@
 
 #include "mvvm/interfaces/sessionmodel_interface.h"
 
-#include <sup/gui/anyvalueeditor/anyvalue_editor_context.h>
+#include <sup/gui/components/anyvalue_editor_context.h>
 
 #include <QString>
 #include <QWidget>

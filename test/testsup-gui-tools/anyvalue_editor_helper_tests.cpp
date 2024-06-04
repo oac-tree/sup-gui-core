@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/anyvalueeditor/anyvalue_editor_helper.h"
+#include "sup/gui/components/anyvalue_editor_helper.h"
 
 #include <sup/gui/model/anyvalue_item.h>
 #include <mvvm/standarditems/container_item.h>
