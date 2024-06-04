@@ -22,5 +22,4 @@ target_include_directories(${library_name} PUBLIC
 
 install(TARGETS ${library_name} EXPORT sup-gui-core-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-# header files are installed in sup/gui/anyvalueeditor/CMakeLists.txt
-#install(DIRECTORY sup/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY sup/gui/widgets DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui FILES_MATCHING PATTERN "*.h")
