@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_TREE_VIEW_COMPONENT_PROVIDER_H_
-#define SUP_GUI_ANYVALUEEDITOR_TREE_VIEW_COMPONENT_PROVIDER_H_
+#ifndef SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
+#define SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
 
 #include <QList>
 #include <QObject>
@@ -118,4 +118,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_TREE_VIEW_COMPONENT_PROVIDER_H_
+#endif  // SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_

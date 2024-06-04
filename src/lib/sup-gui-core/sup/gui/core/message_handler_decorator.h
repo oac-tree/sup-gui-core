@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_
-#define SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_
+#ifndef SUP_GUI_CORE_MESSAGE_HANDLER_DECORATOR_H_
+#define SUP_GUI_CORE_MESSAGE_HANDLER_DECORATOR_H_
 
 #include <sup/gui/core/message_handler_interface.h>
 
@@ -45,4 +45,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_MESSAGE_HANDLER_DECORATOR_H_
+#endif  // SUP_GUI_CORE_MESSAGE_HANDLER_DECORATOR_H_

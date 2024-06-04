@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_PROXY_ACTION_H_
-#define SUP_GUI_WIDGETS_PROXY_ACTION_H_
+#ifndef SUP_GUI_COMPONENTS_PROXY_ACTION_H_
+#define SUP_GUI_COMPONENTS_PROXY_ACTION_H_
 
 #include <sup/gui/core/flags.h>
 
@@ -83,4 +83,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_PROXY_ACTION_H_
+#endif  // SUP_GUI_COMPONENTS_PROXY_ACTION_H_

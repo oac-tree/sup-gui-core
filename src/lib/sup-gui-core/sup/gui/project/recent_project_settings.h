@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
-#define SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
+#ifndef SUP_GUI_PROJECT_RECENT_PROJECT_SETTINGS_H_
+#define SUP_GUI_PROJECT_RECENT_PROJECT_SETTINGS_H_
 
 #include <sup/gui/project/recent_project_path.h>
 
@@ -51,4 +51,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_RECENT_PROJECT_SETTINGS_H_
+#endif  // SUP_GUI_PROJECT_RECENT_PROJECT_SETTINGS_H_

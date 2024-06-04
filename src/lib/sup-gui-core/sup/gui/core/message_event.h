@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_MESSAGE_EVENT_H_
-#define SUP_GUI_COMPONENTS_MESSAGE_EVENT_H_
+#ifndef SUP_GUI_CORE_MESSAGE_EVENT_H_
+#define SUP_GUI_CORE_MESSAGE_EVENT_H_
 
 #include <string>
 
@@ -53,4 +53,4 @@ MessageEvent CreateInvalidOperationMessage(const std::string& text,
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_MESSAGE_EVENT_H_
+#endif  // SUP_GUI_CORE_MESSAGE_EVENT_H_

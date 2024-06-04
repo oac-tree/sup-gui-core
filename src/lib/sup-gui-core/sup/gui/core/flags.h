@@ -70,4 +70,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_CORE_VERSION_H_
+#endif  // SUP_GUI_CORE_FLAGS_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_MESSAGE_HANDLER_INTERFACE_H_
-#define SUP_GUI_COMPONENTS_MESSAGE_HANDLER_INTERFACE_H_
+#ifndef SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
+#define SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
 
 #include <string>
 
@@ -35,4 +35,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_MESSAGE_HANDLER_INTERFACE_H_
+#endif  // SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_

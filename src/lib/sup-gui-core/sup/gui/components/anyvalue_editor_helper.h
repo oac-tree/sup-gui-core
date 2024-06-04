@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_HELPER_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_HELPER_H_
+#ifndef SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_HELPER_H_
+#define SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_HELPER_H_
 
 //! @file
 //! Helper functions for AnyValueEditor.
@@ -63,4 +63,4 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_HELPER_H_
+#endif  // SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_HELPER_H_

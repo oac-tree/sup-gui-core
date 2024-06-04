@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_MESSAGE_HELPER_H_
-#define SUP_GUI_COMPONENTS_MESSAGE_HELPER_H_
+#ifndef SUP_GUI_CORE_MESSAGE_HELPER_H_
+#define SUP_GUI_CORE_MESSAGE_HELPER_H_
 
 //! @file
 //! Collection of helper functions to send messages.
@@ -47,4 +47,4 @@ void SendInfoMessage(const sup::gui::MessageEvent& event);
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_MESSAGE_HELPER_H_
+#endif  // SUP_GUI_CORE_MESSAGE_HELPER_H_

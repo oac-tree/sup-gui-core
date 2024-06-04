@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
-#define SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
+#ifndef SUP_GUI_PROJECT_PROJECT_HANDLER_UTILS_H_
+#define SUP_GUI_PROJECT_PROJECT_HANDLER_UTILS_H_
 
 //! @file
 //! Contains utility functions to populate menus with (create new, open, save, save as) requests.
@@ -70,4 +70,4 @@ void AddRecentProjectActions(QMenu* menu, ProjectHandler& handler);
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_PROJECT_HANDLER_UTILS_H_
+#endif  // SUP_GUI_PROJECT_PROJECT_HANDLER_UTILS_H_

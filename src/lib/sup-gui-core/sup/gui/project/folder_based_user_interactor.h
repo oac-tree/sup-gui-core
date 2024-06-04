@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
-#define SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
+#ifndef SUP_GUI_PROJECT_FOLDER_BASED_USER_INTERACTOR_H_
+#define SUP_GUI_PROJECT_FOLDER_BASED_USER_INTERACTOR_H_
 
 #include <sup/gui/project/abstract_project_user_interactor.h>
 
@@ -55,4 +55,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_FOLDER_BASED_USER_INTERACTOR_H_
+#endif  // SUP_GUI_PROJECT_FOLDER_BASED_USER_INTERACTOR_H_

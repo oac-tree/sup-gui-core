@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_I_PROJECT_USER_INTERACTOR_H_
-#define SUP_GUI_COMPONENTS_I_PROJECT_USER_INTERACTOR_H_
+#ifndef SUP_GUI_PROJECT_I_PROJECT_USER_INTERACTOR_H_
+#define SUP_GUI_PROJECT_I_PROJECT_USER_INTERACTOR_H_
 
 #include <mvvm/project/project_types.h>
 
@@ -72,4 +72,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_I_PROJECT_USER_INTERACTOR_H_
+#endif  // SUP_GUI_PROJECT_I_PROJECT_USER_INTERACTOR_H_

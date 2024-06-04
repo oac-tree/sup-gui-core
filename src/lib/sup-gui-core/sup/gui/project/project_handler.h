@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_PROJECT_HANDLER_H_
-#define SUP_GUI_COMPONENTS_PROJECT_HANDLER_H_
+#ifndef SUP_GUI_PROJECT_PROJECT_HANDLER_H_
+#define SUP_GUI_PROJECT_PROJECT_HANDLER_H_
 
 #include <mvvm/project/project_types.h>
 
@@ -184,4 +184,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_PROJECT_HANDLER_H_
+#endif  // SUP_GUI_PROJECT_PROJECT_HANDLER_H_

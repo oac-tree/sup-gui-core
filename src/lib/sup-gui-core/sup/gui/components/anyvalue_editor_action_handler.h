@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTION_HANDLER_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTION_HANDLER_H_
+#ifndef SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_ACTION_HANDLER_H_
+#define SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_ACTION_HANDLER_H_
 
 #include "anyvalue_editor_context.h"
 
@@ -123,4 +123,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTION_HANDLER_H_
+#endif  // SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_ACTION_HANDLER_H_

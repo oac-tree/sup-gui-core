@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_RECENT_PROJECT_PATH_H_
-#define SUP_GUI_COMPONENTS_RECENT_PROJECT_PATH_H_
+#ifndef SUP_GUI_PROJECT_RECENT_PROJECT_PATH_H_
+#define SUP_GUI_PROJECT_RECENT_PROJECT_PATH_H_
 
 #include <QStringList>
 
@@ -103,4 +103,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_RECENT_PROJECT_PATH_H_
+#endif  // SUP_GUI_PROJECT_RECENT_PROJECT_PATH_H_
