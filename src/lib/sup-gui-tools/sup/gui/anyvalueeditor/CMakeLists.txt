@@ -15,8 +15,6 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_widget.h
   command_line_options.cpp
   command_line_options.h
-  custom_metatypes.cpp
-  custom_metatypes.h
   run_application.h
 )
 
