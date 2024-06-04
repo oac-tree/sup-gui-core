@@ -27,10 +27,10 @@ int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
 
-  sup::gui::RegisterCustomMetaTypes();
-
   QApplication app(argc, argv);
   Q_UNUSED(app)
+
+  sup::gui::RegisterCustomMetaTypes();
 
   // run all google tests
   return RUN_ALL_TESTS();
