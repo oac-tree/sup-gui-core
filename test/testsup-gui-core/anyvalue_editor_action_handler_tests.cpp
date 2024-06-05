@@ -138,7 +138,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding empty AnyValueItem as top level item
-  handler->OnAddAnyValueItem(constants::kEmptyTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kEmptyTypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -167,7 +167,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as top level item
-  handler->OnAddAnyValueItem(constants::kStructTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -192,7 +192,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add another top level item
-  handler->OnAddAnyValueItem(constants::kStructTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that there is still one item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -211,7 +211,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  handler->OnAddAnyValueItem(constants::kStructTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -236,7 +236,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding AnyValueItem struct as a field to
-  handler->OnAddAnyValueItem(constants::kStructTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -254,7 +254,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   auto handler = CreateActionHandler(nullptr);
 
   // adding AnyValueItem struct as top level item
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -267,7 +267,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // the amount of items should stay the same
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -285,7 +285,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -310,7 +310,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -335,7 +335,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -354,7 +354,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add second top level scalar
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // checking that model still have a single item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -376,7 +376,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
-  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -386,7 +386,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add mismatching type
-  handler->OnAddAnyValueItem(sup::dto::kInt16TypeName);
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt16TypeName);
 
   // array still has two element
   EXPECT_EQ(parent->GetChildren().size(), 2);
@@ -403,7 +403,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   auto handler = CreateActionHandler(nullptr);
 
   // adding AnyValueItem struct as top level item
-  handler->OnAddAnyValueItem(constants::kArrayTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -416,7 +416,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add second top-level item
-  handler->OnAddAnyValueItem(constants::kArrayTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // the amount of items should stay the same
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -434,7 +434,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field
-  handler->OnAddAnyValueItem(constants::kArrayTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -458,7 +458,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // adding AnyValueItem struct as a field to
-  handler->OnAddAnyValueItem(constants::kArrayTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -477,7 +477,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
   // attempt to add second top level array
-  handler->OnAddAnyValueItem(constants::kArrayTypeName);
+  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // checking that model still have a single item
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);

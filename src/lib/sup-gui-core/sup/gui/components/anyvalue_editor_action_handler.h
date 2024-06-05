@@ -40,16 +40,15 @@ class AnyValueItem;
  * @brief The AnyValueEditorActionHandler class implements logic to manipulate AnyValue's from the
  * toolbar.
  *
- * @details It allows to add to the model AnyValueItems representing scalars, structs, and arrays.
- * The class rely on callbacks to query currently selected item and to report an error if the action
- * is not possible. Depending on current selection, AnyValueItem can be added either as top-level
- * item, or as a field to already existing items.
+ * It allows to add to the model AnyValueItems representing scalars, structs, and arrays.
+ * The class relies on callbacks to query currently selected items and to report an error if the
+ * action is not possible. Depending on the current selection, AnyValueItem can be added either as a
+ * top-level item, or as a field to already existing items.
  *
- * @details Given implementation reflects needs of AnyValueEditor where we edit a single top level
- * AnyValueItem at a time. Thus, it is assumed that there is only signle top level AnyValueItem and
- * it is located in own container.
+ * Given implementation reflects the needs of AnyValueEditor where we edit a single top-level
+ * AnyValueItem at a time. Thus, it is assumed that there is only a single top-level AnyValueItem
+ * and it is located in its own container.
  */
-
 class AnyValueEditorActionHandler : public QObject
 {
   Q_OBJECT
@@ -59,36 +58,66 @@ public:
                               QObject* parent);
   ~AnyValueEditorActionHandler() override;
 
-  void SetAnyValueItemContainer(mvvm::SessionItem *container);
+  /**
+   * @brief Sets an item that represents a container to store top-level AnyValueItem.
+   */
+  void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
-  void OnAddAnyValueItem(const std::string& type_name);
+  /**
+   * @brief Inserts new AnyValueItem of the given type after current selection.
+   */
+  void OnInsertAnyValueItemAfter(const std::string& type_name);
 
+  /**
+   * @brief Removes currently selected item.
+   */
   void OnRemoveSelected();
 
+  /**
+   * @brief Imports ANyValue from file.
+   *
+   * Depending on the current selection, it can become either a top-level item, a field in a
+   * structure, or array element.
+   */
   void OnImportFromFileRequest(const std::string& file_name);
 
+  /**
+   * @brief Exports top-level AnyValue to file.
+   */
   void OnExportToFileRequest(const std::string& file_name);
 
+  /**
+   * @brief Moves a structure field, or array element up.
+   */
   void OnMoveUpRequest();
 
+  /**
+   * @brief Moves a structure field, or array element down.
+   */
   void OnMoveDownRequest();
 
   /**
    * @brief Sets initial value.
    *
-   * @param item The value to set.
+   * The given value will be cloned inside the editor's model and used as a starting point for
+   * editing.
    *
-   * @details The given value will be cloned inside the editor's model and used as a starting point
-   * for editing.
+   * @param item The value to set.
    */
   void SetInitialValue(const AnyValueItem& item);
 
+  /**
+   * @brief Returns a top-level AnyValueItem (i.e. the result of the editing).
+   */
   AnyValueItem* GetTopItem();
 
+  /**
+   * @brief Returns currently selected item.
+   */
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
   /**
-   * @brief Returns container used to store top level AnyValueItem.
+   * @brief Returns container used to store the top-level AnyValueItem.
    */
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
@@ -97,7 +126,7 @@ signals:
 
 private:
   /**
-   * @brief Returns parent to use while inserting an item
+   * @brief Returns parent to use while inserting an item.
    */
   mvvm::SessionItem* GetParent() const;
 

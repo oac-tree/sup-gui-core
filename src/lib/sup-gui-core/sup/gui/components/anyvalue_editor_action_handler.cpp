@@ -50,7 +50,7 @@ void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* co
   m_container = container;
 }
 
-void AnyValueEditorActionHandler::OnAddAnyValueItem(const std::string& type_name)
+void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
 {
   auto result = CreateAnyValueItemFromTypeName(type_name);
   result->SetToolTip(type_name);
