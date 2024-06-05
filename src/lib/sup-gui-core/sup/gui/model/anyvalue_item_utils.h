@@ -20,6 +20,7 @@
 #ifndef SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
 #define SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
 
+//! @file
 //! Collection of sup::gui::AnyValueItem related utility functions.
 
 #include <mvvm/model/taginfo.h>

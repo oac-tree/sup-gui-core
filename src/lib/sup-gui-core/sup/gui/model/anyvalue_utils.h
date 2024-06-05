@@ -20,6 +20,7 @@
 #ifndef SUP_GUI_MODEL_ANYVALUE_UTILS_H_
 #define SUP_GUI_MODEL_ANYVALUE_UTILS_H_
 
+//! @file
 //! Collection of sup::dto::AnyValue related utility functions.
 
 #include <sup/gui/core/dto_types_fwd.h>
@@ -29,31 +30,48 @@
 namespace sup::gui
 {
 
-//! Returns JSON string representing AnyValue.
+/**
+ * @brief Returns JSON string representing AnyValue.
+ */
 std::string AnyValueToJSONString(const anyvalue_t& value, bool is_pretty = false);
 
-//! Returns JSON string representing AnyType.
+/**
+ * @brief Returns JSON string representing AnyType.
+ */
 std::string AnyTypeToJSONString(const anyvalue_t& value);
 
-//! Returns JSON string representing the values of an AnyValue.
+/**
+ * @brief Returns JSON string representing the values of an AnyValue.
+ */
 std::string ValuesToJSONString(const anyvalue_t& value);
 
+/**
+ * @brief Returns AnyValue as serialized in a JSON file.
+ */
 sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
                                         const anytype_registry_t* registry = nullptr);
 
-//! Returns AnyType from its JSON representation.
+/**
+ * @brief Returns AnyType from its JSON representation.
+ */
 sup::dto::AnyType AnyTypeFromJSONString(const std::string& str,
                                         const anytype_registry_t* registry = nullptr);
 
-//! Returns AnyValue from its JSON representation.
+/**
+ * @brief Returns AnyValue from its JSON representation.
+ */
 sup::dto::AnyValue AnyValueFromJSONString(const std::string& str,
                                           const anytype_registry_t* registry = nullptr);
 
-//! Returns AnyValue from AnyType and JSON representation of its value.
+/**
+ * @brief Returns AnyValue from AnyType and JSON representation of its value.
+ */
 sup::dto::AnyValue AnyValueFromJSONString(const sup::dto::AnyType& anytype,
                                           const std::string& value_str);
 
-//! Returns AnyValue from JSON representation of its type and value.
+/**
+ * @brief Returns AnyValue from JSON representation of its type and value.
+ */
 sup::dto::AnyValue AnyValueFromJSONString(const std::string& type_str,
                                           const std::string& value_str);
 
