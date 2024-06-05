@@ -110,7 +110,7 @@ void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &nam
   for (const auto &name : names)
   {
     auto str = QString::fromStdString(name);
-    auto on_action = [str, this]() { emit AddAnyValueItemRequest(str); };
+    auto on_action = [str, this]() { emit InsertAnyValueItemAfterRequest(str); };
     auto action = menu->addAction(str);
     connect(action, &QAction::triggered, this, on_action);
   }

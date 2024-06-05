@@ -179,7 +179,7 @@ void AnyValueEditorWidget::SetupConnections()
 
   // main editing request from AnyValueEditorActions
 
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueItemRequest, m_action_handler,
+  connect(m_actions, &AnyValueEditorActions::InsertAnyValueItemAfterRequest, m_action_handler,
           [this](const auto& str){m_action_handler->OnInsertAnyValueItemAfter(str.toStdString());});
 
   connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,

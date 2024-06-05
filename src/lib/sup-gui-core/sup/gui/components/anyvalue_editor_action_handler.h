@@ -35,6 +35,7 @@ namespace sup::gui
 {
 
 class AnyValueItem;
+class QueryResult;
 
 /**
  * @brief The AnyValueEditorActionHandler class implements logic to manipulate AnyValue's from the
@@ -67,6 +68,12 @@ public:
    * @brief Inserts new AnyValueItem of the given type after current selection.
    */
   void OnInsertAnyValueItemAfter(const std::string& type_name);
+
+  /**
+   * @brief Checks if AnyValueItem of the given type can be inserted after currently selected
+   * AnyValueItem.
+   */
+  bool CanInsertAfter(const std::string &item_type) const;
 
   /**
    * @brief Removes currently selected item.
@@ -139,6 +146,15 @@ private:
                    const std::string& details = {});
 
   void AddAnyValueItem(std::unique_ptr<AnyValueItem> item);
+
+  /**
+   * @brief Checks if AnyValueItem of the given type can be inserted after the current selection.
+   *
+   * @param item_type Type of the AnyValueItem to insert.
+   * @return A result of the query with an error flag and message.
+   */
+  sup::gui::QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
+
 
   AnyValueEditorContext m_context;
   mvvm::SessionItem* m_container{nullptr};

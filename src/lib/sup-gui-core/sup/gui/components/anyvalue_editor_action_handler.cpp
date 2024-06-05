@@ -21,6 +21,7 @@
 
 #include "anyvalue_editor_helper.h"
 
+#include <sup/gui/core/query_result.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
@@ -35,6 +36,11 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
+namespace
+{
+const std::string kFailedActionTitle = "Invalid Operation";
+}
+
 namespace sup::gui
 {
 
@@ -44,6 +50,8 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
     : QObject(parent), m_container(container), m_context(std::move(context))
 {
 }
+
+AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
 
 void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* container)
 {
@@ -57,7 +65,10 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& t
   AddAnyValueItem(std::move(result));
 }
 
-AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
+bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& item_type) const
+{
+  return CanInsertTypeAfterCurrentSelection(item_type).IsSuccess();
+}
 
 void AnyValueEditorActionHandler::OnRemoveSelected()
 {
@@ -209,6 +220,12 @@ void AnyValueEditorActionHandler::AddAnyValueItem(std::unique_ptr<AnyValueItem> 
       SendMessage("Can't add item to current selection", "", ex.what());
     }
   }
+}
+
+QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
+    const std::string& item_type) const
+{
+  return sup::gui::QueryResult::Failure({kFailedActionTitle, "", ""});
 }
 
 }  // namespace sup::gui
