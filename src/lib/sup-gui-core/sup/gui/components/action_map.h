@@ -40,7 +40,7 @@ class ActionMap
 public:
   void Add(ActionKeyT key, QAction* action)
   {
-    if (auto action = GetAction(key); action)
+    if (GetAction(key))
     {
       throw RuntimeException("Key is already registered");
     }
