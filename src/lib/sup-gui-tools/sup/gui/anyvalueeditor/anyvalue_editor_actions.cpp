@@ -20,6 +20,7 @@
 #include "anyvalue_editor_actions.h"
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/widgets/action_menu.h>
 #include <sup/gui/widgets/style_utils.h>
 
@@ -87,31 +88,14 @@ std::unique_ptr<QMenu> AnyValueEditorActions::CreateAddAnyValueMenu()
   auto result = std::make_unique<QMenu>();
   result->setToolTipsVisible(true);
 
-  {  // empty
-    auto action = result->addAction("empty");
-    connect(action, &QAction::triggered, this, &AnyValueEditorActions::AddEmptyAnyValueRequest);
-  }
+  // main action (add empty value, struct, and array)
+  const std::vector<std::string> main_types = {
+      constants::kEmptyTypeName, constants::kStructTypeName, constants::kArrayTypeName};
+  AddInsertActions(main_types, result.get());
 
-  {  // struct
-    auto action = result->addAction("struct");
-    connect(action, &QAction::triggered, this, &AnyValueEditorActions::AddAnyValueStructRequest);
-  }
-
-  {  // array
-    auto action = result->addAction("array");
-    connect(action, &QAction::triggered, this, &AnyValueEditorActions::AddAnyValueArrayRequest);
-  }
-
-  {
-    auto scalar_menu = result->addMenu("scalar");
-    for (const auto &name : sup::gui::GetScalarTypeNames())
-    {
-      auto str = QString::fromStdString(name);
-      auto on_action = [str, this]() { emit AddAnyValueScalarRequest(str); };
-      auto action = scalar_menu->addAction(str);
-      connect(action, &QAction::triggered, this, on_action);
-    }
-  }
+  // scalar menu with scalar actions
+  auto scalar_menu = result->addMenu("scalar");
+  AddInsertActions(sup::gui::GetScalarTypeNames(), scalar_menu);
 
   result->addSeparator();
 
@@ -119,6 +103,17 @@ std::unique_ptr<QMenu> AnyValueEditorActions::CreateAddAnyValueMenu()
   connect(action, &QAction::triggered, this, &AnyValueEditorActions::ImportFromFileRequest);
 
   return result;
+}
+
+void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &names, QMenu *menu)
+{
+  for (const auto &name : names)
+  {
+    auto str = QString::fromStdString(name);
+    auto on_action = [str, this]() { emit AddAnyValueItemRequest(str); };
+    auto action = menu->addAction(str);
+    connect(action, &QAction::triggered, this, on_action);
+  }
 }
 
 }  // namespace sup::gui

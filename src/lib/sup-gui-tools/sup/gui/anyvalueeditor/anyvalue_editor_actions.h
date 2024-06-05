@@ -20,9 +20,10 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_ACTIONS_H_
 
+#include <sup/gui/components/action_map.h>
+
 #include <QObject>
 #include <memory>
-#include <sup/gui/components/action_map.h>
 
 class QAction;
 class QMenu;
@@ -61,10 +62,7 @@ public:
   QList<QAction*> GetActions(const std::vector<ActionKey>& action_keys) const;
 
 signals:
-  void AddEmptyAnyValueRequest();
-  void AddAnyValueStructRequest();
-  void AddAnyValueArrayRequest();
-  void AddAnyValueScalarRequest(const QString& type_name);
+  void AddAnyValueItemRequest(const QString& type_name);
   void ImportFromFileRequest();
   void RemoveSelectedRequest();
   void MoveUpRequest();
@@ -72,11 +70,13 @@ signals:
 
 private:
   void SetupActions();
-
   std::unique_ptr<QMenu> CreateAddAnyValueMenu();
+  /**
+   * @brief Adds actions to insert AnyValueItem into the given menu
+   */
+  void AddInsertActions(const std::vector<std::string>& names, QMenu* menu);
 
   std::unique_ptr<QMenu> m_create_anyvalue_menu;
-
   ActionMenu* m_add_anyvalue_action{nullptr};
   QAction* m_remove_selected_action{nullptr};
   QAction* m_move_up_action{nullptr};

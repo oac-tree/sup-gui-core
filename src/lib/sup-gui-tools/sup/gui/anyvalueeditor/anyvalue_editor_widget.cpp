@@ -178,14 +178,10 @@ void AnyValueEditorWidget::SetupConnections()
           &AnyValueEditorTreePanel::SetSelected);
 
   // main editing request from AnyValueEditorActions
-  connect(m_actions, &AnyValueEditorActions::AddEmptyAnyValueRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnAddEmptyAnyValue);
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueStructRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnAddAnyValueStruct);
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueArrayRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnAddAnyValueArray);
-  connect(m_actions, &AnyValueEditorActions::AddAnyValueScalarRequest, this,
-          [this](auto str) { m_action_handler->OnAddAnyValueScalar(str.toStdString()); });
+
+  connect(m_actions, &AnyValueEditorActions::AddAnyValueItemRequest, m_action_handler,
+          [this](const auto& str){m_action_handler->OnAddAnyValueItem(str.toStdString());});
+
   connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,
           &AnyValueEditorWidget::OnImportFromFileRequest);
   connect(m_actions, &AnyValueEditorActions::RemoveSelectedRequest, m_action_handler,
