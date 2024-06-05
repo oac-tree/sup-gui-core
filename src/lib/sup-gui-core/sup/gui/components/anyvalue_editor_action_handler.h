@@ -63,14 +63,6 @@ public:
 
   void OnAddAnyValueItem(const std::string& type_name);
 
-  void OnAddEmptyAnyValue();
-
-  void OnAddAnyValueStruct();
-
-  void OnAddAnyValueArray();
-
-  void OnAddAnyValueScalar(const std::string& scalar_type);
-
   void OnRemoveSelected();
 
   void OnImportFromFileRequest(const std::string& file_name);

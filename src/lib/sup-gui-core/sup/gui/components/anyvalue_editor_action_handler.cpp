@@ -23,7 +23,6 @@
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
@@ -59,35 +58,6 @@ void AnyValueEditorActionHandler::OnAddAnyValueItem(const std::string& type_name
 }
 
 AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
-
-void AnyValueEditorActionHandler::OnAddEmptyAnyValue()
-{
-  OnAddAnyValueItem(constants::kEmptyTypeName);
-}
-
-void AnyValueEditorActionHandler::OnAddAnyValueStruct()
-{
-  OnAddAnyValueItem(constants::kStructTypeName);
-}
-
-void AnyValueEditorActionHandler::OnAddAnyValueArray()
-{
-  OnAddAnyValueItem(constants::kArrayTypeName);
-}
-
-void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_type)
-{
-  if (auto array_item = dynamic_cast<sup::gui::AnyValueArrayItem*>(GetSelectedItem()); array_item)
-  {
-    if (!sup::gui::IsSuitableScalarType(*array_item, scalar_type))
-    {
-      SendMessage("Array element mismatch");
-      return;
-    }
-  }
-
-  OnAddAnyValueItem(scalar_type);
-}
 
 void AnyValueEditorActionHandler::OnRemoveSelected()
 {

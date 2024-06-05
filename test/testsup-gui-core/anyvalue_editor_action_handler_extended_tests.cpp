@@ -85,7 +85,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   // adding AnyValueItem struct as a field.
-  handler->OnAddAnyValueScalar(sup::dto::kInt32TypeName);
+  handler->OnAddAnyValueItem(sup::dto::kInt32TypeName);
 
   EXPECT_EQ(struct_item->GetChildren().size(), 1);
 };
