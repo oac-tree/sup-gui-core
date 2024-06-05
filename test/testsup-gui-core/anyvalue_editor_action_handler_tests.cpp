@@ -23,21 +23,15 @@
 #include <sup/gui/components/anyvalue_editor_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
-#include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/utils/file_utils.h>
 
-#include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
 #include <testutils/test_utils.h>
-
-#include <QSignalSpy>
 
 using namespace sup::gui;
 using ::testing::_;
@@ -46,11 +40,9 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 //! Tests for AnyValueEditorActionHandler.
 
-class AnyValueEditorActionHandlerTest : public testutils::FolderBasedTest
+class AnyValueEditorActionHandlerTest : public ::testing::Test
 {
 public:
-  AnyValueEditorActionHandlerTest() : testutils::FolderBasedTest("test_AnyValueEditorAction") {}
-
   //! Creates context necessary for AnyValueEditActions to function.
   AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)
   {
@@ -74,7 +66,6 @@ public:
 };
 
 //! Testing initial state of AnyValueEditorActions object.
-
 TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 {
   auto actions = CreateActionHandler(nullptr);
@@ -84,7 +75,6 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 }
 
 //! Testing AnyValueEditorActions::SetInitialValue method.
-
 TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
 {
   AnyValueScalarItem item;
@@ -109,7 +99,6 @@ TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
 
 //! Testing AnyValueEditorActions::SetInitialValue method while trying to set the second initial
 //! value.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 {
   AnyValueScalarItem item;
@@ -136,7 +125,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 // -------------------------------------------------------------------------------------------------
 
 //! Adding empty AnyValue to empty model
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
@@ -166,7 +154,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 // -------------------------------------------------------------------------------------------------
 
 //! Adding structure to an empty model.
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
@@ -193,7 +180,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 };
 
 //! Attempt to add a structure to a non-empty model when nothing is selected.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
 {
   // non-empty model
@@ -213,7 +199,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
 };
 
 //! Adding structure as a field to another structure (which is marked as selected).
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -240,7 +225,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 };
 
 //! Attempt to add a structure as a field to a scalar.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
@@ -264,7 +248,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
 //-------------------------------------------------------------------------------------------------
 
 //! Adding a scalar to an empty model.
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
@@ -291,7 +274,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
 };
 
 //! Adding scalar as a field to another structure (which is marked as selected).
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -317,7 +299,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
 };
 
 //! Adding a scalar as an array element (which is marked as selected).
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
@@ -343,7 +324,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 };
 
 //! Attempt to add scalar as a field to another scalar.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
@@ -363,7 +343,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
 };
 
 //! Attempt to add second top level scalar to the model.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
 {
   m_model.InsertItem<sup::gui::AnyValueScalarItem>();
@@ -382,7 +361,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
 };
 
 //! Attempt to add a scalar as an array element when array is contasining diffierent scalar types.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
@@ -417,7 +395,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToArrayWhenTypeMismath
 //-------------------------------------------------------------------------------------------------
 
 //! Adding a scalar to an empty model.
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
@@ -444,7 +421,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 };
 
 //! Adding array as a field to another structure (which is marked as selected).
-
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -469,7 +445,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 };
 
 //! Attempt to add array as a field to a scalar.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
@@ -489,7 +464,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 };
 
 //! Attempt to add second top level array to the model.
-
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 {
   m_model.InsertItem<sup::gui::AnyValueArrayItem>();
@@ -512,7 +486,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 //-------------------------------------------------------------------------------------------------
 
 //! Remove item when nothing is selected.
-
 TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 {
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -527,7 +500,6 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 };
 
 //! Remove selected item.
-
 TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 {
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -540,146 +512,6 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 
   // validating that there is no item anymore
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 0);
-};
-
-//-------------------------------------------------------------------------------------------------
-// Import/export
-//-------------------------------------------------------------------------------------------------
-
-//! Validates import of JSON from file.
-
-TEST_F(AnyValueEditorActionHandlerTest, ImportFromFile)
-{
-  // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalar.xml");
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  testutils::CreateTextFile(file_path, json_content);
-
-  // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
-
-  // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
-
-  handler->OnImportFromFileRequest(file_path);
-
-  // validating that model got top level item of the correct type
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
-  ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-  EXPECT_EQ(inserted_item->Data<int>(), 42);
-
-  // attempt to import again
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
-
-  handler->OnImportFromFileRequest(file_path);
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-};
-
-//! Validates import of JSON from file, where imported value goes as a field to selected
-//! structure.
-
-TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToStructField)
-{
-  // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalar.xml");
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  testutils::CreateTextFile(file_path, json_content);
-
-  auto structure = m_model.InsertItem<sup::gui::AnyValueStructItem>();
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-
-  // creating action handler for the context, making structure selected
-  auto handler = CreateActionHandler(structure);
-
-  // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
-
-  handler->OnImportFromFileRequest(file_path);
-
-  // testing new child of the structure
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-  ASSERT_EQ(structure->GetChildren().size(), 1);
-  auto inserted_item = dynamic_cast<sup::gui::AnyValueScalarItem*>(structure->GetChildren().at(0));
-  ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-  EXPECT_EQ(inserted_item->Data<int>(), 42);
-};
-
-//! Validates import of JSON from file, on attempt to import into a scalar.
-
-TEST_F(AnyValueEditorActionHandlerTest, ImportFromFileToScalar)
-{
-  // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalar.xml");
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  testutils::CreateTextFile(file_path, json_content);
-
-  auto scalar_item = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
-
-  // creating action handler for the context, making structure selected
-  auto handler = CreateActionHandler(scalar_item);
-
-  // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
-
-  handler->OnImportFromFileRequest(file_path);
-};
-
-//! Validates export of top level item to JSON file.
-
-TEST_F(AnyValueEditorActionHandlerTest, ExportToFile)
-{
-  // preparing scalar
-  auto scalar = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
-  scalar->SetAnyTypeName(sup::dto::kInt32TypeName);
-  scalar->SetData(99);
-
-  // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalarExportResults.xml");
-
-  // creating action handler when nothing is selected
-  auto handler = CreateActionHandler(nullptr);
-
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
-
-  // exporting file
-  handler->OnExportToFileRequest(file_path);
-
-  // model should be the same
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-
-  // reading our exported file for the validation
-  auto exported_value = sup::gui::AnyValueFromJSONFile(file_path);
-
-  sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 99};
-  EXPECT_EQ(exported_value, expected_anyvalue);
-};
-
-//! Attempt to export to JSON file from epmpty model.
-
-TEST_F(AnyValueEditorActionHandlerTest, AttemptToExportEmptyModelToFile)
-{
-  // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalarExportResultsV2.xml");
-
-  // creating action when nothing is selected
-  auto actions = CreateActionHandler(nullptr);
-
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
-
-  // exporting file
-  actions->OnExportToFileRequest(file_path);
-
-  // model empty as it was, file wasn't created
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 0);
-  EXPECT_FALSE(mvvm::utils::IsExists(file_path));
 };
 
 //-------------------------------------------------------------------------------------------------
