@@ -86,7 +86,7 @@ public:
 
     if (iter == m_action_map.end())
     {
-      throw RuntimeException("Can't convert name to RunnerStatus");
+      throw RuntimeException("Can't convert QAction to action key");
     }
     return iter->first;
   }
