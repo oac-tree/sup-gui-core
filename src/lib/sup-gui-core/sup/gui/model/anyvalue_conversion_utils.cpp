@@ -68,11 +68,6 @@ std::map<sup::dto::TypeCode, std::string> CreateScalarTypeCodeNameMap()
 namespace sup::gui
 {
 
-std::vector<std::string> GetMainTypeNames()
-{
-  return {constants::kStructTypeName, constants::kArrayTypeName, constants::kScalarTypeName};
-}
-
 std::vector<std::string> GetScalarTypeNames()
 {
   static const auto names = CreateScalarTypeNames();

@@ -36,11 +36,14 @@ namespace sup::gui
 
 class AnyValueItem;
 
-std::vector<std::string> GetMainTypeNames();
-
+/**
+ * @brief Returns list of available domain type names.
+ */
 std::vector<std::string> GetScalarTypeNames();
 
-//! Returns any_value type code from the name.
+/**
+ * @brief Returns domain's TypeCode from type name.
+ */
 sup::dto::TypeCode GetScalarTypeCode(const std::string& name);
 
 /**
