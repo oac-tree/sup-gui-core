@@ -19,15 +19,68 @@
 
 #include "anyvalue_item_utils.h"
 
+#include "anyvalue_conversion_utils.h"
 #include "anyvalue_item.h"
+#include "anyvalue_item_constants.h"
 
 #include <sup/gui/core/exceptions.h>
 
+#include <mvvm/model/function_types.h>
+#include <mvvm/model/item_catalogue.h>
+
 #include <algorithm>
+#include <map>
 #include <stack>
+
+namespace
+{
+
+/**
+ * @brief Creates factory to build AnyValueItem from corresponding AnyValueItem::Type.
+ */
+std::unique_ptr<mvvm::ItemCatalogue<sup::gui::AnyValueItem>> CreateItemCatalogue()
+{
+  auto result = std::make_unique<mvvm::ItemCatalogue<sup::gui::AnyValueItem>>();
+
+  result->RegisterItem<sup::gui::AnyValueEmptyItem>();
+  result->RegisterItem<sup::gui::AnyValueScalarItem>();
+  result->RegisterItem<sup::gui::AnyValueArrayItem>();
+  result->RegisterItem<sup::gui::AnyValueStructItem>();
+
+  return result;
+}
+
+}  // namespace
 
 namespace sup::gui
 {
+
+std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
+{
+  static const std::map<std::string, std::string> kTypeNameToAnyValueItemType = {
+      {sup::gui::constants::kEmptyTypeName, sup::gui::AnyValueEmptyItem::Type},
+      {sup::gui::constants::kScalarTypeName, sup::gui::AnyValueScalarItem::Type},
+      {sup::gui::constants::kArrayTypeName, sup::gui::AnyValueArrayItem::Type},
+      {sup::gui::constants::kStructTypeName, sup::gui::AnyValueStructItem::Type},
+  };
+
+  auto iter = kTypeNameToAnyValueItemType.find(type_name);
+  return iter == kTypeNameToAnyValueItemType.end() ? std::string() : iter->second;
+}
+
+std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string &type_name)
+{
+  static const auto item_catalogue = CreateItemCatalogue();
+
+  if (IsScalarTypeName(type_name))
+  {
+    auto result = item_catalogue->Create(AnyValueScalarItem::Type);
+    result->SetAnyTypeName(type_name);
+    return result;
+  }
+
+  return item_catalogue->Create(GetAnyValueItemTypeFromTypeName(type_name));
+}
 
 void UpdateAnyValueItemScalarData(const AnyValueItem &source, AnyValueItem &target)
 {

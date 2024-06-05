@@ -25,6 +25,7 @@
 
 #include <mvvm/model/taginfo.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -35,9 +36,26 @@ class AnyValueItem;
 class AnyValueArrayItem;
 
 /**
+ * @brief Returns the value of AnyValueItem::Type from type name ("struct", "array", "scalar",
+ * "empty").
+ */
+std::string GetAnyValueItemTypeFromTypeName(const std::string& type_name);
+
+/**
+ * @brief Creates AnyValueItem from type name.
+ *
+ * Type name can be one of ("struct", "array", "scalar", "empty").
+ *
+ * Instead of "scalar" concrete names can be used: ( "bool", "char8", "int8", "uint8", "int16",
+ * "uint16", "int32", "uint32", "int64", "uint64", , "float32", "float64", "string"). In this case
+ * resulting AnyValueScalarItem will be initialized to a corresponding scalar.
+ */
+std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string& type_name);
+
+/**
  * @brief Updates the data stored in leaves of a target from the data stored in leaves of a source.
  *
- * @details It is assumed that both items represent scalars, and the scalar types are the same.
+ * It is assumed that both items represent scalars, and the scalar types are the same.
  */
 void UpdateAnyValueItemScalarData(const AnyValueItem& source, AnyValueItem& target);
 
@@ -49,12 +67,12 @@ void UpdateAnyValueItemData(const AnyValueItem& source, AnyValueItem& target);
 /**
  * @brief Returns true if the given scalar type is suitable for the array.
  *
+ * If the array is empty, will always return true. If the array is not empty, scalar_type
+ * should coincide with what is already in the array.
+ *
  * @param array The array to explore.
  * @param scalar_type Possible type of the scalar to add to the array.
  * @return True if the scalar type is compatible with the array content.
- *
- * @details If the array is empty, will always return true. If the array is not empty, scalar_type
- * should coincide with what is already in the array.
  */
 bool IsSuitableScalarType(const AnyValueArrayItem& array, const std::string& scalar_type);
 
@@ -67,10 +85,8 @@ std::vector<std::string> GetAnyValueItemTypes();
  * @brief Creates a TagInfo for a AnyValueItem (of any valid kind).
  *
  * @param name The tag name.
- *
  * @param min Minimum allowed number of items.
  * @param max Maximum allowed number of items.
- *
  * @return TagInfo object containing necessary information.
  */
 mvvm::TagInfo CreateAnyValueTag(std::string name, int min = 0, int max = -1);

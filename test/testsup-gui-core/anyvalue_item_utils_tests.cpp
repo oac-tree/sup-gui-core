@@ -21,7 +21,9 @@
 
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/test/mock_model_listener.h>
 
@@ -40,8 +42,39 @@ public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 };
 
-//! Testing UpdateAnyValueItemScalarData method.
+//! Testing GetAnyValueItemTypeFromTypeName function.
+TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
+{
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kEmptyTypeName), AnyValueEmptyItem::Type);
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kScalarTypeName), AnyValueScalarItem::Type);
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kArrayTypeName), AnyValueArrayItem::Type);
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kStructTypeName), AnyValueStructItem::Type);
 
+  EXPECT_TRUE(GetAnyValueItemTypeFromTypeName("non-existing-type_name").empty());
+}
+
+//! Testing CreateAnyValueItemFromTypeName function.
+TEST_F(AnyValueItemUtilsTest, CreateAnyValueItemFromTypeName)
+{
+  // basic items
+  EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kEmptyTypeName)->GetType(),
+            AnyValueEmptyItem::Type);
+  EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kScalarTypeName)->GetType(),
+            AnyValueScalarItem::Type);
+  EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kArrayTypeName)->GetType(),
+            AnyValueArrayItem::Type);
+  EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kStructTypeName)->GetType(),
+            AnyValueStructItem::Type);
+
+  // scalar items
+  auto scalar = CreateAnyValueItemFromTypeName("int32");
+  EXPECT_EQ(scalar->GetType(), AnyValueScalarItem::Type);
+  EXPECT_EQ(scalar->GetAnyTypeName(), "int32");
+
+  EXPECT_THROW(CreateAnyValueItemFromTypeName("int42"), mvvm::KeyNotFoundException);
+}
+
+//! Testing UpdateAnyValueItemScalarData method.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemScalarData)
 {
   {  // empty items
@@ -76,9 +109,8 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemScalarData)
   }
 }
 
-//! Testing UpdateAnyValueItemData method.
-//! Updating one empty item from another. Nothing wrong is expected.
-
+//! Testing UpdateAnyValueItemData method. Updating one empty item from another. Nothing wrong is
+//! expected.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromEmptyItem)
 {
   AnyValueEmptyItem source;
@@ -86,9 +118,8 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromEmptyItem)
   EXPECT_NO_THROW(UpdateAnyValueItemData(source, target));
 }
 
-//! Testing UpdateAnyValueItemData method.
-//! Updating one scalar item from another scalar item. The value of the target should change.
-
+//! Testing UpdateAnyValueItemData method. Updating one scalar item from another scalar item. The
+//! value of the target should change.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromScalar)
 {
   AnyValueScalarItem source;
@@ -105,7 +136,6 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromScalar)
 }
 
 //! Testing signaling while updating the data with UpdateAnyValueItemData method.
-
 TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 {
   mvvm::ApplicationModel model;
@@ -128,7 +158,6 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 
 //! Testing signaling while updating the data with UpdateAnyValueItemData method using the same
 //! data.
-
 TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScalar)
 {
   mvvm::ApplicationModel model;
@@ -150,7 +179,6 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScal
 
 //! Testing UpdateAnyValueItemData method.
 //! Attempt to update structure from the source with different layout.
-
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
 {
   AnyValueStructItem source;
@@ -161,10 +189,8 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
   EXPECT_THROW(UpdateAnyValueItemData(source, target), RuntimeException);
 }
 
-//! Testing UpdateAnyValueItemData method.
-//! Updating one structure from another structure. Both structuers have the same layout (single
-//! field with the same scalar).
-
+//! Testing UpdateAnyValueItemData method. Updating one structure from another structure. Both
+//! structuers have the same layout (single field with the same scalar).
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithSingleField)
 {
   AnyValueStructItem source;
@@ -177,6 +203,7 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithSingleField)
   EXPECT_EQ(scalar1->Data<int>(), 42);
 }
 
+//! Testing UpdateAnyValueItemData method. Same as above with nested fields.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithNestedField)
 {
   AnyValueStructItem source;
