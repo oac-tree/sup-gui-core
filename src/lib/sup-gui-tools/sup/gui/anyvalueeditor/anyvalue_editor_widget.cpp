@@ -44,6 +44,16 @@
 namespace
 {
 
+/**
+ * @brief Returns action keys intended for a toolbar.
+ */
+std::vector<sup::gui::AnyValueEditorActions::ActionKey> GetToolBarActionKeys()
+{
+  using ActionKey = sup::gui::AnyValueEditorActions::ActionKey;
+  return {ActionKey::kInsertAfter, ActionKey::kRemoveSelected,
+          ActionKey::kMoveUp, ActionKey::kMoveDown};
+}
+
 const QString kGroupName("AnyValueEditor/");
 const QString kCurrentWorkdirSettingName = kGroupName + "workdir";
 const QString kSplitterSettingName = kGroupName + "splitter";
@@ -233,7 +243,7 @@ void AnyValueEditorWidget::UpdateCurrentWorkdir(const QString &file_name)
 QWidget *AnyValueEditorWidget::CreateLeftPanel()
 {
   auto result = new ItemStackWidget;
-  result->AddWidget(m_tree_panel, m_actions->GetActions());
+  result->AddWidget(m_tree_panel, m_actions->GetActions(GetToolBarActionKeys()));
   return result;
 }
 

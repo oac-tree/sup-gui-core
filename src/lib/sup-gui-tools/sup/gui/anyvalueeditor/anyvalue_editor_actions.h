@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <memory>
+#include <sup/gui/components/action_map.h>
 
 class QAction;
 class QMenu;
@@ -39,10 +40,25 @@ class AnyValueEditorActions : public QObject
   Q_OBJECT
 
 public:
+  /**
+   * @brief The ActionKey enum defines keys for all available actions.
+   */
+  enum class ActionKey
+  {
+    kInsertAfter,
+    kInsertInto,
+    kRemoveSelected,
+    kMoveUp,
+    kMoveDown
+  };
+
   explicit AnyValueEditorActions(QObject* parent = nullptr);
   ~AnyValueEditorActions() override;
 
-  QList<QAction*> GetActions() const;
+  /**
+   * @brief Returns list of actions according to provided flags.
+   */
+  QList<QAction*> GetActions(const std::vector<ActionKey>& action_keys) const;
 
 signals:
   void AddEmptyAnyValueRequest();
@@ -65,6 +81,8 @@ private:
   QAction* m_remove_selected_action{nullptr};
   QAction* m_move_up_action{nullptr};
   QAction* m_move_down_action{nullptr};
+
+  sup::gui::ActionMap<ActionKey> m_action_map;
 };
 
 }  // namespace sup::gui
