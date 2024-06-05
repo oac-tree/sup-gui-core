@@ -61,6 +61,8 @@ public:
 
   void SetAnyValueItemContainer(mvvm::SessionItem *container);
 
+  void OnAddAnyValueItem(const std::string& type_name);
+
   void OnAddEmptyAnyValue();
 
   void OnAddAnyValueStruct();

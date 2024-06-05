@@ -23,6 +23,7 @@
 
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
@@ -50,21 +51,28 @@ void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* co
   m_container = container;
 }
 
+void AnyValueEditorActionHandler::OnAddAnyValueItem(const std::string& type_name)
+{
+  auto result = CreateAnyValueItemFromTypeName(type_name);
+  result->SetToolTip(type_name);
+  AddAnyValueItem(std::move(result));
+}
+
 AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
 
 void AnyValueEditorActionHandler::OnAddEmptyAnyValue()
 {
-  AddAnyValueItem(std::make_unique<AnyValueEmptyItem>());
+  OnAddAnyValueItem(constants::kEmptyTypeName);
 }
 
 void AnyValueEditorActionHandler::OnAddAnyValueStruct()
 {
-  AddAnyValueItem(std::make_unique<AnyValueStructItem>());
+  OnAddAnyValueItem(constants::kStructTypeName);
 }
 
 void AnyValueEditorActionHandler::OnAddAnyValueArray()
 {
-  AddAnyValueItem(std::make_unique<AnyValueArrayItem>());
+  OnAddAnyValueItem(constants::kArrayTypeName);
 }
 
 void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_type)
@@ -78,10 +86,7 @@ void AnyValueEditorActionHandler::OnAddAnyValueScalar(const std::string& scalar_
     }
   }
 
-  auto item = std::make_unique<AnyValueScalarItem>();
-  item->SetAnyTypeName(scalar_type);
-  item->SetToolTip(scalar_type);
-  AddAnyValueItem(std::move(item));
+  OnAddAnyValueItem(scalar_type);
 }
 
 void AnyValueEditorActionHandler::OnRemoveSelected()
