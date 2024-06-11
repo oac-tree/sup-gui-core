@@ -62,8 +62,8 @@ void AnyValueEditorActions::SetupActions()
 
   // insert into
   m_insert_into_action = new ActionMenu(this);
-  m_insert_into_action->setText("Add");
-  m_insert_into_action->setIcon(utils::GetIcon("plus-circle-outline.svg"));
+  m_insert_into_action->setText("Insert");
+  m_insert_into_action->setIcon(utils::GetIcon("plus-circle-multiple-outline.svg"));
   m_insert_into_action->setToolTip(
       "Insert new AnyValue into the current selection.\n"
       "Used to append a new field to the structure or an element to the array");

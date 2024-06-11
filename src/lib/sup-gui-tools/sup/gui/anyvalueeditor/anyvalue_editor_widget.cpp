@@ -50,7 +50,7 @@ namespace
 std::vector<sup::gui::AnyValueEditorActions::ActionKey> GetToolBarActionKeys()
 {
   using ActionKey = sup::gui::AnyValueEditorActions::ActionKey;
-  return {ActionKey::kInsertAfter, ActionKey::kRemoveSelected,
+  return {ActionKey::kInsertAfter, ActionKey::kInsertInto, ActionKey::kRemoveSelected,
           ActionKey::kMoveUp, ActionKey::kMoveDown};
 }
 
@@ -180,7 +180,11 @@ void AnyValueEditorWidget::SetupConnections()
   // main editing request from AnyValueEditorActions
 
   connect(m_actions, &AnyValueEditorActions::InsertAnyValueItemAfterRequest, m_action_handler,
-          [this](const auto& str){m_action_handler->OnInsertAnyValueItemAfter(str.toStdString());});
+          [this](const auto &str)
+          { m_action_handler->OnInsertAnyValueItemAfter(str.toStdString()); });
+  connect(m_actions, &AnyValueEditorActions::InsertAnyValueItemIntoRequest, m_action_handler,
+          [this](const auto &str)
+          { m_action_handler->OnInsertAnyValueItemInto(str.toStdString()); });
 
   connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,
           &AnyValueEditorWidget::OnImportFromFileRequest);
