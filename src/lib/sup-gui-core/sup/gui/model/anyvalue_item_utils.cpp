@@ -64,6 +64,11 @@ std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
       {sup::gui::constants::kStructTypeName, sup::gui::AnyValueStructItem::Type},
   };
 
+  if (IsScalarTypeName(type_name))
+  {
+    return sup::gui::AnyValueScalarItem::Type;
+  }
+
   auto iter = kTypeNameToAnyValueItemType.find(type_name);
   return iter == kTypeNameToAnyValueItemType.end() ? std::string() : iter->second;
 }

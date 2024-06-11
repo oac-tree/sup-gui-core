@@ -50,6 +50,9 @@ TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kArrayTypeName), AnyValueArrayItem::Type);
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kStructTypeName), AnyValueStructItem::Type);
 
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kInt32TypeName), AnyValueScalarItem::Type);
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kBooleanTypeName), AnyValueScalarItem::Type);
+
   EXPECT_TRUE(GetAnyValueItemTypeFromTypeName("non-existing-type_name").empty());
 }
 
