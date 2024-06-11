@@ -59,6 +59,11 @@ void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* co
   m_container = container;
 }
 
+bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& item_type) const
+{
+  return CanInsertTypeAfterCurrentSelection(item_type).IsSuccess();
+}
+
 void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
 {
   auto querry = CanInsertTypeAfterCurrentSelection(type_name);
@@ -73,9 +78,9 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& t
   InsertAfterCurrentSelection(std::move(result));
 }
 
-bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& item_type) const
+bool AnyValueEditorActionHandler::CanInsertInto(const std::string &item_type) const
 {
-  return CanInsertTypeAfterCurrentSelection(item_type).IsSuccess();
+  return CanInsertTypeIntoCurrentSelection(item_type).IsSuccess();
 }
 
 void AnyValueEditorActionHandler::OnRemoveSelected()
@@ -229,6 +234,11 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(std::unique_ptr<An
   emit SelectItemRequest(result);
 }
 
+void AnyValueEditorActionHandler::InsertIntoCurrentSelection(std::unique_ptr<AnyValueItem> item)
+{
+
+}
+
 QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
     const std::string& item_type) const
 {
@@ -249,6 +259,11 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
         {kFailedActionTitle, kFailedActionText, "There can be only one top-level item"});
   }
 
+  return sup::gui::QueryResult::Success();
+}
+
+QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(const std::string &item_type) const
+{
   return sup::gui::QueryResult::Success();
 }
 

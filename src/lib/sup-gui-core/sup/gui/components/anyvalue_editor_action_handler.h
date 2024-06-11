@@ -66,15 +66,26 @@ public:
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
   /**
+   * @brief Checks if AnyValueItem of the given type can be inserted after currently selected
+   * AnyValueItem.
+   */
+  bool CanInsertAfter(const std::string &item_type) const;
+
+  /**
    * @brief Inserts new AnyValueItem of the given type after current selection.
    */
   void OnInsertAnyValueItemAfter(const std::string& type_name);
 
   /**
-   * @brief Checks if AnyValueItem of the given type can be inserted after currently selected
+   * @brief Checks if AnyValueItem of the given type can be inserted into currently selected
    * AnyValueItem.
    */
-  bool CanInsertAfter(const std::string &item_type) const;
+  bool CanInsertInto(const std::string &item_type) const;
+
+  /**
+   * @brief Inserts new AnyValueItem of the given type into current selection.
+   */
+  void OnInsertAnyValueItemInto(const std::string& type_name);
 
   /**
    * @brief Removes currently selected item.
@@ -153,7 +164,15 @@ private:
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 
+  /**
+   * @brief Inserts given item after currenly selected item.
+   */
   void InsertAfterCurrentSelection(std::unique_ptr<AnyValueItem> item);
+
+  /**
+   * @brief Inserts given item into currenly selected item.
+   */
+  void InsertIntoCurrentSelection(std::unique_ptr<AnyValueItem> item);
 
   /**
    * @brief Checks if AnyValueItem of the given type can be inserted after the current selection.
@@ -162,6 +181,14 @@ private:
    * @return A result of the query with an error flag and message.
    */
   sup::gui::QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
+
+  /**
+   * @brief Checks if AnyValueItem of the given type can be inserted into the current selection.
+   *
+   * @param item_type Type of the AnyValueItem to insert.
+   * @return A result of the query with an error flag and message.
+   */
+  sup::gui::QueryResult CanInsertTypeIntoCurrentSelection(const std::string& item_type) const;
 
   AnyValueEditorContext m_context;
   mvvm::SessionItem* m_container{nullptr};
