@@ -85,6 +85,20 @@ bool AnyValueEditorActionHandler::CanInsertInto(const std::string& item_type) co
   return CanInsertTypeIntoCurrentSelection(item_type).IsSuccess();
 }
 
+void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& type_name)
+{
+  auto querry = CanInsertTypeIntoCurrentSelection(type_name);
+  if (!querry.IsSuccess())
+  {
+    SendMessage(querry.GetMessage());
+    return;
+  }
+
+  auto result = CreateAnyValueItemFromTypeName(type_name);
+  result->SetToolTip(type_name);
+  InsertIntoCurrentSelection(std::move(result));
+}
+
 void AnyValueEditorActionHandler::OnRemoveSelected()
 {
   if (auto selected = GetSelectedItem(); selected)
@@ -228,13 +242,18 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(std::unique_ptr<An
 
 void AnyValueEditorActionHandler::InsertIntoCurrentSelection(std::unique_ptr<AnyValueItem> item)
 {
-  InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
+  if (auto parent = GetParent(); parent)
+  {
+    UpdateChildAppearance(*parent, *item);
+    InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
+  }
 }
 
 QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
     const std::string& item_type) const
 {
-  static const std::string kFailedActionText("Can't insert AnyValue of given type");
+  static const std::string kFailedActionText(
+      "Can't insert AnyValue of given type after current selection");
 
   if (!GetAnyValueItemContainer())
   {
@@ -251,12 +270,52 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
         {kFailedActionTitle, kFailedActionText, "There can be only one top-level item"});
   }
 
+  // Checking if there is a selection inside another parent. To paste after this selection, the
+  // parent should have the room for more items.
+  if (auto selected_item = GetSelectedItem(); selected_item)
+  {
+    auto [success_flag, informative] =
+        mvvm::utils::CanInsertType(GetAnyValueItemTypeFromTypeName(item_type),
+                                   selected_item->GetParent(), selected_item->GetTagIndex().Next());
+    if (!success_flag)
+    {
+      return sup::gui::QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative});
+    }
+  }
+
   return sup::gui::QueryResult::Success();
 }
 
 QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
     const std::string& item_type) const
 {
+  static const std::string kFailedActionText(
+      "Can't insert AnyValue of given type into current selection");
+
+  if (!GetAnyValueItemContainer())
+  {
+    return sup::gui::QueryResult::Failure(
+        {kFailedActionTitle, kFailedActionText, "No container exists"});
+  }
+
+  if (!GetSelectedItem())
+  {
+    return sup::gui::QueryResult::Failure(
+        {kFailedActionTitle, kFailedActionText, "No item selected"});
+  }
+
+  // Checking if there is a selection inside another parent. To paste after this selection, the
+  // parent should have the room for more items.
+  if (auto selected_item = GetSelectedItem(); selected_item)
+  {
+    auto [success_flag, informative] = mvvm::utils::CanInsertType(
+        GetAnyValueItemTypeFromTypeName(item_type), selected_item, mvvm::TagIndex::Append());
+    if (!success_flag)
+    {
+      return sup::gui::QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative});
+    }
+  }
+
   return sup::gui::QueryResult::Success();
 }
 

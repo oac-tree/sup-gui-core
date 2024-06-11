@@ -73,6 +73,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
   EXPECT_EQ(GetAnyValueItemContainer(), handler->GetAnyValueItemContainer());
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
 }
 
 //! Testing AnyValueEditorActions::SetInitialValue method.
@@ -139,6 +140,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kEmptyTypeName));
+  EXPECT_FALSE(handler->CanInsertInto(constants::kEmptyTypeName));
 
   // adding empty AnyValueItem as top level item
   handler->OnInsertAnyValueItemAfter(constants::kEmptyTypeName);
@@ -170,6 +172,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
 
   // adding AnyValueItem struct as top level item
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
@@ -194,6 +197,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   auto handler = CreateActionHandler(nullptr);
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
 
   // expecting warning
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
@@ -226,33 +230,33 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
-// //! Adding structure as a field to another structure (which is marked as selected).
-// TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
-// {
-//   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+//! Adding structure as a field to another structure (which is marked as selected).
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-//   // creating action for the context, when parent is selected
-//   auto handler = CreateActionHandler(parent);
-//   EXPECT_EQ(handler->GetSelectedItem(), parent);
+  // creating action for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
+  EXPECT_EQ(handler->GetSelectedItem(), parent);
 
-//   // expecting no callbacks
-//   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
-//   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
+  EXPECT_TRUE(handler->CanInsertInto(constants::kStructTypeName));
 
-//   // adding AnyValueItem struct as a field
-//   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  // adding AnyValueItem struct as a field
+  handler->OnInsertAnyValueItemInto(constants::kStructTypeName);
 
-//   // validating that parent got new child
-//   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-//   ASSERT_EQ(parent->GetChildren().size(), 1);
+  // validating that parent got new child
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  ASSERT_EQ(parent->GetChildren().size(), 1);
 
-//   auto inserted_item = parent->GetChildren().at(0);
-//   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueStruct"));
+  auto inserted_item = parent->GetChildren().at(0);
+  EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueStruct"));
 
-//   const std::string expected_field_name(kFieldNamePrefix + "0");
-//   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-// };
+  const std::string expected_field_name(kFieldNamePrefix + "0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
+};
 
 //! Attempt to add a structure after a scalar.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
@@ -307,30 +311,32 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
-// //! Adding scalar as a field to another structure (which is marked as selected).
-// TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
-// {
-//   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+//! Adding scalar as a field to another structure (which is marked as selected).
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-//   // creating action handler for the context, when parent is selected
-//   auto handler = CreateActionHandler(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
-//   // expecting no callbacks
-//   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
-//   // adding AnyValueItem struct as a field
-//   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
-//   // validating that parent got new child
-//   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-//   ASSERT_EQ(parent->GetChildren().size(), 1);
+  // adding AnyValueItem struct as a field
+  handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
-//   auto inserted_item = parent->GetChildren().at(0);
-//   const std::string expected_field_name(kFieldNamePrefix + "0");
-//   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-//   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-//   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
-// };
+  // validating that parent got new child
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  ASSERT_EQ(parent->GetChildren().size(), 1);
+
+  auto inserted_item = parent->GetChildren().at(0);
+  const std::string expected_field_name(kFieldNamePrefix + "0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
+};
 
 //! Structure has two fields, first field is selected. Adding new field between two existing ones.
 TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
@@ -361,49 +367,53 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 };
 
-// //! Adding a scalar as an array element (which is marked as selected).
-// TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
-// {
-//   auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+//! Adding a scalar as an array element (which is marked as selected).
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
 
-//   // creating action handler for the context, when parent is selected
-//   auto handler = CreateActionHandler(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
-//   // expecting no callbacks
-//   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
-//   // adding AnyValueItem struct as a field
-//   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
-//   // validating that parent got new child
-//   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-//   ASSERT_EQ(parent->GetChildren().size(), 1);
+  // adding AnyValueItem struct as a field
+  handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
-//   auto inserted_item = parent->GetChildren().at(0);
-//   const std::string expected_field_name(kElementNamePrefix + "0");
-//   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-//   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-//   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
-// };
+  // validating that parent got new child
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  ASSERT_EQ(parent->GetChildren().size(), 1);
 
-// //! Attempt to add scalar as a field to another scalar.
-// TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
-// {
-//   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  auto inserted_item = parent->GetChildren().at(0);
+  const std::string expected_field_name(kElementNamePrefix + "0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
+};
 
-//   // creating action handler for the context, when parent is selected
-//   auto handler = CreateActionHandler(parent);
+//! Attempt to add scalar as a field to another scalar.
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
-//   // expecting no callbacks
-//   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
-//   // adding AnyValueItem struct as a field
-//   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  EXPECT_FALSE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
-//   // validating that nothing can changed in the model
-//   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-//   ASSERT_EQ(parent->GetChildren().size(), 0);
-// };
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+
+  // adding AnyValueItem struct as a field
+  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+
+  // validating that nothing was changed in the model
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  ASSERT_EQ(parent->GetChildren().size(), 0);
+};
 
 //! Attempt to add second top level scalar to the model.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
@@ -489,29 +499,31 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 };
 
-// //! Adding array as a field to another structure (which is marked as selected).
-// TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
-// {
-//   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+//! Adding array as a field to another structure (which is marked as selected).
+TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-//   // creating action handler for the context, when parent is selected
-//   auto handler = CreateActionHandler(parent);
+  // creating action handler for the context, when parent is selected
+  auto handler = CreateActionHandler(parent);
 
-//   // expecting no callbacks
-//   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_TRUE(handler->CanInsertInto(constants::kArrayTypeName));
 
-//   // adding AnyValueItem struct as a field
-//   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
-//   // validating that parent got new child
-//   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-//   ASSERT_EQ(parent->GetChildren().size(), 1);
+  // adding AnyValueItem struct as a field
+  handler->OnInsertAnyValueItemInto(constants::kArrayTypeName);
 
-//   auto inserted_item = parent->GetChildren().at(0);
-//   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueArray"));
-//   const std::string expected_field_name(kFieldNamePrefix + "0");
-//   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-// };
+  // validating that parent got new child
+  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  ASSERT_EQ(parent->GetChildren().size(), 1);
+
+  auto inserted_item = parent->GetChildren().at(0);
+  EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueArray"));
+  const std::string expected_field_name(kFieldNamePrefix + "0");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
+};
 
 //! Attempt to add array as a field to a scalar.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)

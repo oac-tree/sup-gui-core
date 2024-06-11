@@ -72,23 +72,25 @@ public:
   testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
 };
 
-// TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
-// {
-//   auto array_item = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
+{
+  auto array_item = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
 
-//   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>(array_item);
+  auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>(array_item);
 
-//   // creating action handler for the context, when struct is selected
-//   auto handler = CreateActionHandler(struct_item);
+  // creating action handler for the context, when struct is selected
+  auto handler = CreateActionHandler(struct_item);
 
-//   // expecting no callbacks
-//   EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
-//   // adding AnyValueItem struct as a field.
-//   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  // expecting no callbacks
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
 
-//   EXPECT_EQ(struct_item->GetChildren().size(), 1);
-// };
+  // adding AnyValueItem struct as a field.
+  handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
+
+  EXPECT_EQ(struct_item->GetChildren().size(), 1);
+};
 
 //! Validating that editor removes all hidden/disabled flags from initial item.
 
