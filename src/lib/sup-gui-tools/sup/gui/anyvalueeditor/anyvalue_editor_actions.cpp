@@ -24,6 +24,7 @@
 #include <sup/gui/widgets/action_menu.h>
 #include <sup/gui/widgets/style_utils.h>
 
+#include <QDebug>
 #include <QMenu>
 #include <QToolButton>
 
@@ -31,7 +32,9 @@ namespace sup::gui
 {
 
 AnyValueEditorActions::AnyValueEditorActions(QObject *parent)
-    : QObject(parent), m_create_anyvalue_menu(CreateAddAnyValueMenu())
+    : QObject(parent)
+    , m_insert_after_menu(CreateInsertMenu())
+    , m_insert_into_menu(CreateInsertMenu())
 {
   SetupActions();
 }
@@ -45,16 +48,27 @@ QList<QAction *> AnyValueEditorActions::GetActions(const std::vector<ActionKey> 
 
 void AnyValueEditorActions::SetupActions()
 {
-  // Add
-  m_add_anyvalue_action = new ActionMenu(this);
-  m_add_anyvalue_action->setText("Add");
-  m_add_anyvalue_action->setIcon(utils::GetIcon("plus-circle-outline.svg"));
-  m_add_anyvalue_action->setToolTip(
-      "Add new AnyValue to the view. If the view already\n"
-      "contains AnyValue, try to add new AnyValue as a\n"
-      "field to current selection");
-  m_add_anyvalue_action->setMenu(m_create_anyvalue_menu.get());
-  m_action_map.Add(ActionKey::kInsertAfter, m_add_anyvalue_action);
+  // insert after
+  m_insert_after_action = new ActionMenu(this);
+  m_insert_after_action->setText("Add");
+  m_insert_after_action->setIcon(utils::GetIcon("plus-circle-outline.svg"));
+  m_insert_after_action->setToolTip(
+      "Add a new AnyValue after the current selection.\n"
+      "Used to create a new AnyValue if the view is empty,\n"
+      "to add a new field to a structure, and to add a new\n"
+      "element to the array.");
+  m_insert_after_action->setMenu(m_insert_after_menu.get());
+  m_action_map.Add(ActionKey::kInsertAfter, m_insert_after_action);
+
+  // insert into
+  m_insert_into_action = new ActionMenu(this);
+  m_insert_into_action->setText("Add");
+  m_insert_into_action->setIcon(utils::GetIcon("plus-circle-outline.svg"));
+  m_insert_into_action->setToolTip(
+      "Insert new AnyValue into the current selection.\n"
+      "Used to append a new field to the structure or an element to the array");
+  m_insert_into_action->setMenu(m_insert_into_menu.get());
+  m_action_map.Add(ActionKey::kInsertInto, m_insert_into_action);
 
   // Remove selected
   m_remove_selected_action = new QAction(this);
@@ -83,36 +97,53 @@ void AnyValueEditorActions::SetupActions()
   m_action_map.Add(ActionKey::kMoveDown, m_move_down_action);
 }
 
-std::unique_ptr<QMenu> AnyValueEditorActions::CreateAddAnyValueMenu()
+std::unique_ptr<QMenu> AnyValueEditorActions::CreateInsertMenu()
 {
   auto result = std::make_unique<QMenu>();
   result->setToolTipsVisible(true);
+  connect(result.get(), &QMenu::aboutToShow, this, &AnyValueEditorActions::AboutToShowInsertMenu);
+  return result;
+}
+
+void AnyValueEditorActions::AboutToShowInsertMenu()
+{
+  auto menu = qobject_cast<QMenu *>(sender());
+  const bool insert_into = (menu == m_insert_into_menu.get());
+
+  menu->clear();
 
   // main action (add empty value, struct, and array)
   const std::vector<std::string> main_types = {
       constants::kEmptyTypeName, constants::kStructTypeName, constants::kArrayTypeName};
-  AddInsertActions(main_types, result.get());
+  AddInsertActions(main_types, menu, insert_into);
 
   // scalar menu with scalar actions
-  auto scalar_menu = result->addMenu("scalar");
-  AddInsertActions(sup::gui::GetScalarTypeNames(), scalar_menu);
+  auto scalar_menu = menu->addMenu("scalar");
+  AddInsertActions(sup::gui::GetScalarTypeNames(), scalar_menu, insert_into);
 
-  result->addSeparator();
+  menu->addSeparator();
 
-  auto action = result->addAction("Import from file");
+  auto action = menu->addAction("Import from file");
   connect(action, &QAction::triggered, this, &AnyValueEditorActions::ImportFromFileRequest);
-
-  return result;
 }
 
-void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &names, QMenu *menu)
+void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &names, QMenu *menu,
+                                             bool insert_into)
 {
   for (const auto &name : names)
   {
     auto str = QString::fromStdString(name);
-    auto on_action = [str, this]() { emit InsertAnyValueItemAfterRequest(str); };
     auto action = menu->addAction(str);
-    connect(action, &QAction::triggered, this, on_action);
+    if (insert_into)
+    {
+      connect(action, &QAction::triggered, this,
+              [this, str]() { emit InsertAnyValueItemIntoRequest(str); });
+    }
+    else
+    {
+      connect(action, &QAction::triggered, this,
+              [this, str]() { emit InsertAnyValueItemAfterRequest(str); });
+    }
   }
 }
 

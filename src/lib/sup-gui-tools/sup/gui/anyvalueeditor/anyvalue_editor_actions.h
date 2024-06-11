@@ -63,6 +63,7 @@ public:
 
 signals:
   void InsertAnyValueItemAfterRequest(const QString& type_name);
+  void InsertAnyValueItemIntoRequest(const QString& type_name);
   void ImportFromFileRequest();
   void RemoveSelectedRequest();
   void MoveUpRequest();
@@ -70,14 +71,34 @@ signals:
 
 private:
   void SetupActions();
-  std::unique_ptr<QMenu> CreateAddAnyValueMenu();
-  /**
-   * @brief Adds actions to insert AnyValueItem into the given menu
-   */
-  void AddInsertActions(const std::vector<std::string>& names, QMenu* menu);
 
-  std::unique_ptr<QMenu> m_create_anyvalue_menu;
-  ActionMenu* m_add_anyvalue_action{nullptr};
+  /**
+   * @brief Creates a menu intended for insert actions.
+   */
+  std::unique_ptr<QMenu> CreateInsertMenu();
+
+  /**
+   * @brief Populates menu with actions to insert AnyValue items.
+   */
+  void AboutToShowInsertMenu();
+
+  /**
+   * @brief Adds actions to insert AnyValueItem into the given menu.
+   *
+   * Depending on the value of the "insert_into" flag, actions will emit either "insert into" or
+   * "inser after" requests.
+   *
+   * @param names List of AnyValueItem type names to append to the menu.
+   * @param menu The menu to populate.
+   * @param insert_into Flag denoting the type of the action.
+   */
+  void AddInsertActions(const std::vector<std::string>& names, QMenu* menu, bool insert_into);
+
+  std::unique_ptr<QMenu> m_insert_after_menu;
+  std::unique_ptr<QMenu> m_insert_into_menu;
+
+  ActionMenu* m_insert_after_action{nullptr};
+  ActionMenu* m_insert_into_action{nullptr};
   QAction* m_remove_selected_action{nullptr};
   QAction* m_move_up_action{nullptr};
   QAction* m_move_down_action{nullptr};
