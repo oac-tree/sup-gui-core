@@ -21,6 +21,7 @@
 
 #include "anyvalue_editor_helper.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/core/query_result.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
@@ -60,9 +61,16 @@ void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* co
 
 void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
 {
+  auto querry = CanInsertTypeAfterCurrentSelection(type_name);
+  if (!querry.IsSuccess())
+  {
+    SendMessage(querry.GetMessage());
+    return;
+  }
+
   auto result = CreateAnyValueItemFromTypeName(type_name);
   result->SetToolTip(type_name);
-  AddAnyValueItem(std::move(result));
+  InsertAfterCurrentSelection(std::move(result));
 }
 
 bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& item_type) const
@@ -159,6 +167,12 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 {
+  return const_cast<AnyValueItem*>(
+      static_cast<const AnyValueEditorActionHandler*>(this)->GetTopItem());
+}
+
+const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
+{
   return mvvm::utils::GetTopItem<AnyValueItem>(GetModel());
 }
 
@@ -182,50 +196,60 @@ mvvm::SessionModelInterface* AnyValueEditorActionHandler::GetModel() const
   return m_container->GetModel();
 }
 
+void AnyValueEditorActionHandler::SendMessage(const MessageEvent& message)
+{
+  m_context.send_message_callback(message);
+}
+
 void AnyValueEditorActionHandler::SendMessage(const std::string& text,
                                               const std::string& informative,
                                               const std::string& details)
 {
-  auto message = sup::gui::CreateInvalidOperationMessage(text, informative, details);
-  m_context.send_message_callback(message);
+  SendMessage(sup::gui::CreateInvalidOperationMessage(text, informative, details));
 }
 
-void AnyValueEditorActionHandler::AddAnyValueItem(std::unique_ptr<AnyValueItem> item)
+void AnyValueEditorActionHandler::InsertAfterCurrentSelection(std::unique_ptr<AnyValueItem> item)
 {
-  if (!GetSelectedItem() && GetTopItem())
+  auto selected_item = GetSelectedItem();
+
+  auto parent = selected_item ? selected_item->GetParent() : GetAnyValueItemContainer();
+  auto tagindex = selected_item ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
+
+  if (auto name = SuggestDisplayName(*parent, *item); name.has_value())
   {
-    SendMessage("Please select an item where you want to add a field");
-    return;
+    item->SetDisplayName(name.value());
   }
 
-  if (auto parent = GetParent(); parent)
+  if (auto name = SuggestEditableTypeName(*parent, *item); name.has_value())
   {
-    try
-    {
-      if (auto name = SuggestDisplayName(*parent, *item); name.has_value())
-      {
-        item->SetDisplayName(name.value());
-      }
-
-      if (auto name = SuggestEditableTypeName(*parent, *item); name.has_value())
-      {
-        item->SetAnyTypeName(name.value());
-      }
-
-      auto result = GetModel()->InsertItem(std::move(item), parent, mvvm::TagIndex::Append());
-      emit SelectItemRequest(result);
-    }
-    catch (const std::exception& ex)
-    {
-      SendMessage("Can't add item to current selection", "", ex.what());
-    }
+    item->SetAnyTypeName(name.value());
   }
+
+  auto result = GetModel()->InsertItem(std::move(item), parent, tagindex);
+  emit SelectItemRequest(result);
 }
 
 QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
     const std::string& item_type) const
 {
-  return sup::gui::QueryResult::Failure({kFailedActionTitle, "", ""});
+  static const std::string kFailedActionText("Can't insert AnyValue of given type");
+
+  if (!GetAnyValueItemContainer())
+  {
+    return sup::gui::QueryResult::Failure(
+        {kFailedActionTitle, kFailedActionText, "No container exists"});
+  }
+
+  const bool top_item_exists = GetTopItem() != nullptr;
+  const bool top_item_selected = GetSelectedItem() && GetSelectedItem() == GetTopItem();
+  const bool no_selection = GetSelectedItem() == nullptr;
+  if (top_item_exists && (top_item_selected || no_selection))
+  {
+    return sup::gui::QueryResult::Failure(
+        {kFailedActionTitle, kFailedActionText, "There can be only one top-level item"});
+  }
+
+  return sup::gui::QueryResult::Success();
 }
 
 }  // namespace sup::gui

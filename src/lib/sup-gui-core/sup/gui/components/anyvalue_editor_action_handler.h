@@ -29,6 +29,7 @@ namespace mvvm
 {
 class SessionItem;
 class SessionModelInterface;
+class TagIndex;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -81,7 +82,7 @@ public:
   void OnRemoveSelected();
 
   /**
-   * @brief Imports ANyValue from file.
+   * @brief Imports AnyValue from file.
    *
    * Depending on the current selection, it can become either a top-level item, a field in a
    * structure, or array element.
@@ -119,6 +120,11 @@ public:
   AnyValueItem* GetTopItem();
 
   /**
+   * @brief Returns a top-level AnyValueItem (i.e. the result of the editing).
+   */
+  const AnyValueItem* GetTopItem() const;
+
+  /**
    * @brief Returns currently selected item.
    */
   sup::gui::AnyValueItem* GetSelectedItem() const;
@@ -142,10 +148,12 @@ private:
    */
   mvvm::SessionModelInterface* GetModel() const;
 
+  void SendMessage(const sup::gui::MessageEvent& message);
+
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 
-  void AddAnyValueItem(std::unique_ptr<AnyValueItem> item);
+  void InsertAfterCurrentSelection(std::unique_ptr<AnyValueItem> item);
 
   /**
    * @brief Checks if AnyValueItem of the given type can be inserted after the current selection.
@@ -154,7 +162,6 @@ private:
    * @return A result of the query with an error flag and message.
    */
   sup::gui::QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
-
 
   AnyValueEditorContext m_context;
   mvvm::SessionItem* m_container{nullptr};
