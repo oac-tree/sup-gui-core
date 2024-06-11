@@ -190,6 +190,12 @@ private:
    */
   sup::gui::QueryResult CanInsertTypeIntoCurrentSelection(const std::string& item_type) const;
 
+  /**
+   * @brief Inserts given item in the given parent.
+   */
+  mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem* parent,
+                                const mvvm::TagIndex& index);
+
   AnyValueEditorContext m_context;
   mvvm::SessionItem* m_container{nullptr};
 };

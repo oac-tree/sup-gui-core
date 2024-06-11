@@ -37,6 +37,8 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
+#include <sstream>
+
 namespace
 {
 const std::string kFailedActionTitle = "Invalid Operation";
@@ -78,7 +80,7 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& t
   InsertAfterCurrentSelection(std::move(result));
 }
 
-bool AnyValueEditorActionHandler::CanInsertInto(const std::string &item_type) const
+bool AnyValueEditorActionHandler::CanInsertInto(const std::string& item_type) const
 {
   return CanInsertTypeIntoCurrentSelection(item_type).IsSuccess();
 }
@@ -220,23 +222,13 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(std::unique_ptr<An
   auto parent = selected_item ? selected_item->GetParent() : GetAnyValueItemContainer();
   auto tagindex = selected_item ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
 
-  if (auto name = SuggestDisplayName(*parent, *item); name.has_value())
-  {
-    item->SetDisplayName(name.value());
-  }
-
-  if (auto name = SuggestEditableTypeName(*parent, *item); name.has_value())
-  {
-    item->SetAnyTypeName(name.value());
-  }
-
-  auto result = GetModel()->InsertItem(std::move(item), parent, tagindex);
-  emit SelectItemRequest(result);
+  UpdateChildAppearance(*parent, *item);
+  InsertItem(std::move(item), parent, tagindex);
 }
 
 void AnyValueEditorActionHandler::InsertIntoCurrentSelection(std::unique_ptr<AnyValueItem> item)
 {
-
+  InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
 }
 
 QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
@@ -262,9 +254,41 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   return sup::gui::QueryResult::Success();
 }
 
-QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(const std::string &item_type) const
+QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
+    const std::string& item_type) const
 {
   return sup::gui::QueryResult::Success();
+}
+
+mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm::SessionItem> item,
+                                                           mvvm::SessionItem* parent,
+                                                           const mvvm::TagIndex& index)
+{
+  if (!GetModel())
+  {
+    throw RuntimeException("Uninitialised model");
+  }
+
+  if (parent == nullptr)
+  {
+    throw RuntimeException("Uninitialised parent");
+  }
+
+  mvvm::SessionItem* result{nullptr};
+  const auto item_type = item->GetType();
+  try
+  {
+    result = GetModel()->InsertItem(std::move(item), parent, index);
+    emit SelectItemRequest(result);
+  }
+  catch (const std::exception& ex)
+  {
+    std::ostringstream ostr;
+    ostr << "Can't insert instruction [" << item_type << "] into parent [" << parent->GetType()
+         << "]. Maximum allowed number of children exceeded?";
+    SendMessage(ostr.str());
+  }
+  return result;
 }
 
 }  // namespace sup::gui

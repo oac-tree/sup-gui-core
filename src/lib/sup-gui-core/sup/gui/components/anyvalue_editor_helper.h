@@ -61,6 +61,14 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, A
  */
 std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent, AnyValueItem& child);
 
+/**
+ * @brief Updates display name and type name for a given child in the context of a given parent.
+ *
+ * @param parent A parent where a child will be inserted.
+ * @param child Future child of a parent.
+ */
+void UpdateChildAppearance(const mvvm::SessionItem& parent, AnyValueItem& child);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_HELPER_H_

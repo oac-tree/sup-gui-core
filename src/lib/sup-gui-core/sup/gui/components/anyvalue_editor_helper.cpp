@@ -69,4 +69,17 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
   return {};  // scalars has type name already
 }
 
+void UpdateChildAppearance(const mvvm::SessionItem& parent, AnyValueItem& child)
+{
+  if (auto name = SuggestDisplayName(parent, child); name.has_value())
+  {
+    child.SetDisplayName(name.value());
+  }
+
+  if (auto name = SuggestEditableTypeName(parent, child); name.has_value())
+  {
+    child.SetAnyTypeName(name.value());
+  }
+}
+
 }  // namespace sup::gui
