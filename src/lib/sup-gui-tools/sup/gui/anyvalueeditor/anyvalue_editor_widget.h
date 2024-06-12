@@ -115,6 +115,11 @@ private:
    */
   void UpdateCurrentWorkdir(const QString& file_name);
 
+  /**
+   * @brief Creates context menu for AnyValueItem tree.
+   */
+  void OnContextMenuRequest(const QPoint& point);
+
   QWidget* CreateLeftPanel();
   QWidget* CreateRightPanel();
 

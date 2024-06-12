@@ -28,6 +28,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/widgets/tree_helper.h>
 
 #include <mvvm/utils/file_utils.h>
 
@@ -35,6 +36,7 @@
 
 #include <QAction>
 #include <QFileDialog>
+#include <QMenu>
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
@@ -184,6 +186,9 @@ void AnyValueEditorWidget::SetupConnections()
   // export request from text panel
   connect(m_text_panel, &AnyValueEditorTextPanel::ExportToFileRequest, this,
           &AnyValueEditorWidget::OnExportToFileRequest);
+
+  connect(m_tree_panel->GetTreeView(), &QTreeView::customContextMenuRequested, this,
+          &AnyValueEditorWidget::OnContextMenuRequest);
 }
 
 void AnyValueEditorWidget::SetupWidgetActions()
@@ -224,6 +229,15 @@ void AnyValueEditorWidget::UpdateCurrentWorkdir(const QString &file_name)
 {
   auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
   m_current_workdir = QString::fromStdString(parent_path);
+}
+
+void AnyValueEditorWidget::OnContextMenuRequest(const QPoint &point)
+{
+  QMenu menu;
+
+  auto collapse_menu = menu.addMenu("Tree settings");
+  sup::gui::SetupCollapseExpandMenu(point, *collapse_menu, *m_tree_panel->GetTreeView());
+  menu.exec(m_tree_panel->GetTreeView()->mapToGlobal(point));
 }
 
 QWidget *AnyValueEditorWidget::CreateLeftPanel()

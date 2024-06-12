@@ -22,7 +22,6 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/viewmodel/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
-#include <sup/gui/widgets/tree_helper.h>
 
 #include <QLineEdit>
 #include <QSettings>
@@ -64,10 +63,8 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *mo
                                | QAbstractItemView::EditKeyPressed
                                | QAbstractItemView::DoubleClicked);
   m_tree_view->setAlternatingRowColors(true);
+  m_tree_view->setContextMenuPolicy(Qt::CustomContextMenu);
   m_custom_header->setStretchLastSection(true);
-  connect(m_tree_view, &QTreeView::customContextMenuRequested, this,
-          sup::gui::CreateOnCustomMenuCallback(*m_tree_view));
-
   m_tree_view->expandAll();
 
   ReadSettings();
