@@ -49,6 +49,14 @@ QList<QAction *> AnyValueEditorActions::GetActions(const std::vector<ActionKey> 
   return m_action_map.GetActions(action_keys);
 }
 
+void AnyValueEditorActions::SetupMenu(QMenu &menu)
+{
+  menu.addAction(m_insert_after_action);
+  menu.addAction(m_insert_into_action);
+  menu.addAction(m_remove_selected_action);
+  menu.addSeparator();
+}
+
 void AnyValueEditorActions::SetupActions()
 {
   // insert after

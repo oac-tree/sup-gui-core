@@ -235,6 +235,8 @@ void AnyValueEditorWidget::OnContextMenuRequest(const QPoint &point)
 {
   QMenu menu;
 
+  m_actions->SetupMenu(menu);
+
   auto collapse_menu = menu.addMenu("Tree settings");
   sup::gui::SetupCollapseExpandMenu(point, *collapse_menu, *m_tree_panel->GetTreeView());
   menu.exec(m_tree_panel->GetTreeView()->mapToGlobal(point));

@@ -63,6 +63,11 @@ public:
    */
   QList<QAction*> GetActions(const std::vector<ActionKey>& action_keys) const;
 
+  /**
+   * @brief Setup insert/remove, and cut/copy/paste actions in the given menu.
+   */
+  void SetupMenu(QMenu& menu);
+
 signals:
   void ImportFromFileRequest();
 
