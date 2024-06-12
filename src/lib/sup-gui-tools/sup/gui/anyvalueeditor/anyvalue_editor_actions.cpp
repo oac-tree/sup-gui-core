@@ -80,6 +80,16 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
   m_remove_selected_action->setEnabled(m_action_handler->CanRemove());
 
   menu.addSeparator();
+
+  menu.addAction(m_cut_action);
+  menu.addAction(m_copy_action);
+  menu.addAction(m_paste_after_action);
+  menu.addAction(m_paste_into_action);
+  m_cut_action->setEnabled(m_action_handler->CanCut());
+  m_copy_action->setEnabled(m_action_handler->CanCopy());
+  m_paste_into_action->setEnabled(m_action_handler->CanPasteInto());
+  m_paste_after_action->setEnabled(m_action_handler->CanPasteAfter());
+  menu.addSeparator();
 }
 
 void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)

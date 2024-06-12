@@ -23,6 +23,7 @@
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/app/main_window_helper.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/project/project_handler.h>
@@ -47,6 +48,7 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *ma
     : QObject(mainwindow)
     , m_project_handler(new sup::gui::ProjectHandler(
           mvvm::ProjectType::kFileBased, kAnyValueEditorApplicationType, {}, mainwindow))
+    , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
                                              constants::kViewMenu, constants::kHelpMenu});
@@ -57,6 +59,8 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *ma
   connect(m_project_handler, &ProjectHandler::ProjectLoaded, this,
           &AnyValueEditorMainWindowActions::ProjectLoaded);
 }
+
+AnyValueEditorMainWindowActions::~AnyValueEditorMainWindowActions() = default;
 
 bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
 {
@@ -141,6 +145,7 @@ void AnyValueEditorMainWindowActions::SetupFileMenu()
 
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
+  ;
 }
 
 void AnyValueEditorMainWindowActions::SetupEditMenu()

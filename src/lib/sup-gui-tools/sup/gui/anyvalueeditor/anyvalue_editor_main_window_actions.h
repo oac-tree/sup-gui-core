@@ -38,6 +38,7 @@ namespace sup::gui
 {
 
 class ProjectHandler;
+class AppContextFocusController;
 
 class AnyValueEditorMainWindowActions : public QObject
 {
@@ -45,6 +46,7 @@ class AnyValueEditorMainWindowActions : public QObject
 
 public:
   explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
+  ~AnyValueEditorMainWindowActions();
 
   bool CloseCurrentProject() const;
 
@@ -78,6 +80,7 @@ private:
   QMenu* m_recent_project_menu{nullptr};
 
   sup::gui::ProjectHandler* m_project_handler{nullptr};
+  std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };
 
 }  // namespace sup::gui
