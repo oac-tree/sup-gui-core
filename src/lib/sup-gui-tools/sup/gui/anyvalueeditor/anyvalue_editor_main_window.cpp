@@ -74,9 +74,12 @@ void AnyValueEditorMainWindow::InitApplication()
 
 void AnyValueEditorMainWindow::InitComponents()
 {
-  m_anyvalue_editor = new sup::gui::AnyValueEditor;
+  // it should be initialised first, since it creates global proxy actions used by others
+  m_action_manager = new AnyValueEditorMainWindowActions(this);
 
-  m_action_manager = new AnyValueEditorMainWindowActions(m_anyvalue_editor->GetModel(), this);
+  m_anyvalue_editor = new sup::gui::AnyValueEditor;
+  m_action_manager->SetModel(m_anyvalue_editor->GetModel());
+
   connect(m_action_manager, &AnyValueEditorMainWindowActions::RestartApplicationRequest, this,
           &AnyValueEditorMainWindow::OnRestartRequest);
 

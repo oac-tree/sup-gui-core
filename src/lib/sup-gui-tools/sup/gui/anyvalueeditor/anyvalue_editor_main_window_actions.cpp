@@ -43,11 +43,10 @@ const QString kAnyValueEditorApplicationType = "AnyValueEditor";
 namespace sup::gui
 {
 
-AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionModelInterface *model,
-                                                                 QMainWindow *mainwindow)
+AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(QMainWindow *mainwindow)
     : QObject(mainwindow)
     , m_project_handler(new sup::gui::ProjectHandler(
-          mvvm::ProjectType::kFileBased, kAnyValueEditorApplicationType, {model}, mainwindow))
+          mvvm::ProjectType::kFileBased, kAnyValueEditorApplicationType, {}, mainwindow))
 {
   AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
                                              constants::kViewMenu, constants::kHelpMenu});
@@ -62,6 +61,11 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionMo
 bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
 {
   return m_project_handler->CloseCurrentProject();
+}
+
+void AnyValueEditorMainWindowActions::SetModel(mvvm::SessionModelInterface *model)
+{
+  m_project_handler->SetModels({model});
 }
 
 void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)

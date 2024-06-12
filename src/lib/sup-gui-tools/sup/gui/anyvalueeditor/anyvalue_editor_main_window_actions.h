@@ -44,10 +44,11 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(mvvm::SessionModelInterface* model,
-                                           QMainWindow* mainwindow = nullptr);
+  explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
 
   bool CloseCurrentProject() const;
+
+  void SetModel(mvvm::SessionModelInterface* model);
 
 signals:
   void OnImportFromFileRequest();

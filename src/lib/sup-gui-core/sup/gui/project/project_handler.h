@@ -69,7 +69,13 @@ public:
    */
   explicit ProjectHandler(mvvm::ProjectType project_type, const QString& application_type,
                           const std::vector<mvvm::SessionModelInterface*>& models, QWidget* parent);
+
   ~ProjectHandler() override;
+
+  /**
+   * @brief Sets models.
+   */
+  void SetModels(const std::vector<mvvm::SessionModelInterface*>& models);
 
   /**
    * @brief Closes current project.

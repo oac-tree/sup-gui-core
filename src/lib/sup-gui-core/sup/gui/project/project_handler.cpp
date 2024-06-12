@@ -72,6 +72,11 @@ ProjectHandler::~ProjectHandler()
       QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
 }
 
+void ProjectHandler::SetModels(const std::vector<mvvm::SessionModelInterface*>& models)
+{
+  m_models = models;
+}
+
 bool ProjectHandler::CloseCurrentProject()
 {
   auto result = m_project_manager->CloseCurrentProject();
