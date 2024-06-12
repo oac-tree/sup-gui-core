@@ -87,10 +87,10 @@ void AnyValueEditorActions::SetupActions()
   m_insert_after_action->setText("Add");
   m_insert_after_action->setIcon(utils::GetIcon("plus-circle-outline.svg"));
   m_insert_after_action->setToolTip(
-      "Add a new AnyValue after the current selection.\n"
+      "Add a new AnyValue after the current selection.\n\n"
       "Used to create a new AnyValue if the view is empty,\n"
-      "to add a new field to a structure, and to add a new\n"
-      "element to the array.");
+      "to add a new field to a structure, or to add a new\n"
+      "element to the array.\n");
   m_insert_after_action->setMenu(m_insert_after_menu.get());
   m_action_map.Add(ActionKey::kInsertAfter, m_insert_after_action);
 
@@ -99,7 +99,7 @@ void AnyValueEditorActions::SetupActions()
   m_insert_into_action->setText("Insert");
   m_insert_into_action->setIcon(utils::GetIcon("plus-circle-multiple-outline.svg"));
   m_insert_into_action->setToolTip(
-      "Insert new AnyValue into the current selection.\n"
+      "Insert new AnyValue into the current selection.\n\n"
       "Used to append a new field to the structure or an element to the array");
   m_insert_into_action->setMenu(m_insert_into_menu.get());
   m_action_map.Add(ActionKey::kInsertInto, m_insert_into_action);
