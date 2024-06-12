@@ -29,6 +29,26 @@
 #include <QMenu>
 #include <QToolButton>
 
+namespace
+{
+
+/**
+ * @brief Sets menu enabled, if at least one of children actions is enabled.
+ */
+void SetEnabledToChildren(QMenu &menu)
+{
+  for (auto action : menu.actions())
+  {
+    if (action->isEnabled())
+    {
+      menu.setEnabled(true);
+      return;
+    }
+  }
+  menu.setEnabled(false);
+}
+}  // namespace
+
 namespace sup::gui
 {
 
@@ -53,7 +73,10 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
 {
   menu.addAction(m_insert_after_action);
   menu.addAction(m_insert_into_action);
+
   menu.addAction(m_remove_selected_action);
+  m_remove_selected_action->setEnabled(m_action_handler->CanRemove());
+
   menu.addSeparator();
 }
 
@@ -133,6 +156,7 @@ void AnyValueEditorActions::AboutToShowInsertMenu()
   // scalar menu with scalar actions
   auto scalar_menu = menu->addMenu("scalar");
   AddInsertActions(sup::gui::GetScalarTypeNames(), scalar_menu, insert_into);
+  SetEnabledToChildren(*scalar_menu);
 
   menu->addSeparator();
 
@@ -146,6 +170,8 @@ void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &nam
   for (const auto &name : names)
   {
     auto action = menu->addAction(QString::fromStdString(name));
+    action->setEnabled(insert_into ? m_action_handler->CanInsertInto(name)
+                                   : m_action_handler->CanInsertAfter(name));
     if (insert_into)
     {
       connect(action, &QAction::triggered, this,
