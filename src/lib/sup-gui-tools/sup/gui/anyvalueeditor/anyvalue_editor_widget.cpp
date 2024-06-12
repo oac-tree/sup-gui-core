@@ -180,12 +180,6 @@ void AnyValueEditorWidget::SetupConnections()
   // main editing request from AnyValueEditorActions
   connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,
           &AnyValueEditorWidget::OnImportFromFileRequest);
-  connect(m_actions, &AnyValueEditorActions::RemoveSelectedRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnRemoveSelected);
-  connect(m_actions, &AnyValueEditorActions::MoveUpRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnMoveUpRequest);
-  connect(m_actions, &AnyValueEditorActions::MoveDownRequest, m_action_handler,
-          &AnyValueEditorActionHandler::OnMoveDownRequest);
 
   // export request from text panel
   connect(m_text_panel, &AnyValueEditorTextPanel::ExportToFileRequest, this,

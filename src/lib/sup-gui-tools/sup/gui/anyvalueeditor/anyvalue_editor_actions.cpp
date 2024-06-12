@@ -79,7 +79,7 @@ void AnyValueEditorActions::SetupActions()
   m_remove_selected_action->setIcon(utils::GetIcon("beaker-remove-outline.svg"));
   m_remove_selected_action->setToolTip("Remove selected item and all it's children");
   connect(m_remove_selected_action, &QAction::triggered, this,
-          &AnyValueEditorActions::RemoveSelectedRequest);
+          [this]() { m_action_handler->OnRemoveSelected(); });
   m_action_map.Add(ActionKey::kRemoveSelected, m_remove_selected_action);
 
   // MoveUp button
@@ -87,7 +87,8 @@ void AnyValueEditorActions::SetupActions()
   m_move_up_action->setText("Move Up");
   m_move_up_action->setIcon(utils::GetIcon("arrow-up-thin-circle-outline.svg"));
   m_move_up_action->setToolTip("Move currently selected field up (works within the same parent)");
-  connect(m_move_up_action, &QAction::triggered, this, &AnyValueEditorActions::MoveUpRequest);
+  connect(m_move_up_action, &QAction::triggered, this,
+          [this]() { m_action_handler->OnMoveUpRequest(); });
   m_action_map.Add(ActionKey::kMoveUp, m_move_up_action);
 
   // MoveDown button
@@ -96,7 +97,8 @@ void AnyValueEditorActions::SetupActions()
   m_move_down_action->setIcon(utils::GetIcon("arrow-down-thin-circle-outline.svg"));
   m_move_down_action->setToolTip(
       "Move currently selected field down (works within the same parent)");
-  connect(m_move_down_action, &QAction::triggered, this, &AnyValueEditorActions::MoveDownRequest);
+  connect(m_move_down_action, &QAction::triggered, this,
+          [this]() { m_action_handler->OnMoveDownRequest(); });
   m_action_map.Add(ActionKey::kMoveDown, m_move_down_action);
 }
 

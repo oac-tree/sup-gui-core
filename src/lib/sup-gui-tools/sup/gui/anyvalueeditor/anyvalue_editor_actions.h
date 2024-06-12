@@ -65,9 +65,6 @@ public:
 
 signals:
   void ImportFromFileRequest();
-  void RemoveSelectedRequest();
-  void MoveUpRequest();
-  void MoveDownRequest();
 
 private:
   void SetupActions();
