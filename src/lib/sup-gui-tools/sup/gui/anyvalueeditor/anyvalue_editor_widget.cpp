@@ -92,6 +92,8 @@ AnyValueEditorWidget::AnyValueEditorWidget(mvvm::SessionModelInterface *model, Q
   SetupConnections();
   SetupWidgetActions();
   ReadSettings();
+
+  m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()

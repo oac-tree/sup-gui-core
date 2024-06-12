@@ -19,13 +19,14 @@
 
 #include "anyvalue_editor_actions.h"
 
+#include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/widgets/action_menu.h>
 #include <sup/gui/widgets/style_utils.h>
 
-#include <QDebug>
 #include <QMenu>
 #include <QToolButton>
 
@@ -79,6 +80,14 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
   m_remove_selected_action->setEnabled(m_action_handler->CanRemove());
 
   menu.addSeparator();
+}
+
+void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)
+{
+  AppAddActionToCommand(m_cut_action, constants::kCutCommandId, context);
+  AppAddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
+  AppAddActionToCommand(m_paste_after_action, constants::kPasteCommandId, context);
+  AppAddActionToCommand(m_paste_into_action, constants::kPasteSpecialCommandId, context);
 }
 
 void AnyValueEditorActions::SetupInsertRemoveActions()

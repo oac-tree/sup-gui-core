@@ -33,6 +33,7 @@ namespace sup::gui
 
 class ActionMenu;
 class AnyValueEditorActionHandler;
+class AppContext;
 
 /**
  * @brief The AnyValueEditorActions class contains collection of actions to edit AnyValue tree.
@@ -71,6 +72,13 @@ public:
    * @brief Setup insert/remove, and cut/copy/paste actions in the given menu.
    */
   void SetupMenu(QMenu& menu);
+
+  /**
+   * @brief Registers actions for given context.
+   *
+   * The context is normally provided by the parent widget.
+   */
+  void RegisterActionsForContext(const sup::gui::AppContext& context);
 
 signals:
   void ImportFromFileRequest();
