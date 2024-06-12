@@ -58,6 +58,10 @@ signals:
 private:
   void CreateActions(QMainWindow* mainwindow);
   void SetupMenus();
+  void SetupFileMenu();
+  void SetupEditMenu();
+  void SetupViewMenu();
+  void SetupHelpMenu();
 
   void OnChangeSystemFont();
   void OnResetSettings();

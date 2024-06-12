@@ -22,9 +22,9 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/main_window_helper.h>
+#include <sup/gui/core/version.h>
 #include <sup/gui/project/project_handler.h>
 #include <sup/gui/project/project_handler_utils.h>
-#include <sup/gui/core/version.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 
 #include <mvvm/widgets/widget_utils.h>
@@ -47,6 +47,9 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::SessionMo
     , m_project_handler(new sup::gui::ProjectHandler(
           mvvm::ProjectType::kFileBased, kAnyValueEditorApplicationType, {model}, mainwindow))
 {
+  AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
+                                             constants::kViewMenu, constants::kHelpMenu});
+
   CreateActions(mainwindow);
   SetupMenus();
 
@@ -96,6 +99,14 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 
 void AnyValueEditorMainWindowActions::SetupMenus()
 {
+  SetupFileMenu();
+  SetupEditMenu();
+  SetupViewMenu();
+  SetupHelpMenu();
+}
+
+void AnyValueEditorMainWindowActions::SetupFileMenu()
+{
   auto file_menu = AppGetMenu(constants::kFileMenu);
 
   AddNewProjectAction(file_menu, *m_project_handler);
@@ -124,7 +135,14 @@ void AnyValueEditorMainWindowActions::SetupMenus()
 
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
+}
 
+void AnyValueEditorMainWindowActions::SetupEditMenu() {}
+
+void AnyValueEditorMainWindowActions::SetupViewMenu() {}
+
+void AnyValueEditorMainWindowActions::SetupHelpMenu()
+{
   AppRegisterAction(constants::kHelpMenu, m_about_action);
 }
 
