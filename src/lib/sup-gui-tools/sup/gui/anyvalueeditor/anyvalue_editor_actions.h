@@ -32,6 +32,7 @@ namespace sup::gui
 {
 
 class ActionMenu;
+class AnyValueEditorActionHandler;
 
 /**
  * @brief The AnyValueEditorActions class contains collection of actions to edit AnyValue tree.
@@ -53,7 +54,8 @@ public:
     kMoveDown
   };
 
-  explicit AnyValueEditorActions(QObject* parent = nullptr);
+  explicit AnyValueEditorActions(AnyValueEditorActionHandler* action_handler,
+                                 QObject* parent = nullptr);
   ~AnyValueEditorActions() override;
 
   /**
@@ -96,6 +98,8 @@ private:
 
   std::unique_ptr<QMenu> m_insert_after_menu;
   std::unique_ptr<QMenu> m_insert_into_menu;
+
+  AnyValueEditorActionHandler* m_action_handler{nullptr};
 
   ActionMenu* m_insert_after_action{nullptr};
   ActionMenu* m_insert_into_action{nullptr};

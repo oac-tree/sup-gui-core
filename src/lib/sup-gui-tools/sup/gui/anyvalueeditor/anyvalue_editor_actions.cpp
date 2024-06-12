@@ -31,8 +31,10 @@
 namespace sup::gui
 {
 
-AnyValueEditorActions::AnyValueEditorActions(QObject *parent)
+AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorActionHandler *action_handler,
+                                             QObject *parent)
     : QObject(parent)
+    , m_action_handler(action_handler)
     , m_insert_after_menu(CreateInsertMenu())
     , m_insert_into_menu(CreateInsertMenu())
 {
