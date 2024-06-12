@@ -50,6 +50,10 @@ public:
     kInsertAfter,
     kInsertInto,
     kRemoveSelected,
+    kCut,
+    kCopy,
+    kPasteAfter,
+    kPasteInto,
     kMoveUp,
     kMoveDown
   };
@@ -72,7 +76,15 @@ signals:
   void ImportFromFileRequest();
 
 private:
-  void SetupActions();
+  /**
+   * @brief Setups all actions related to insert/remove operations.
+   */
+  void SetupInsertRemoveActions();
+
+  /**
+   * @brief Setups all copy-paste actions.
+   */
+  void SetupCutCopyPasteActions();
 
   /**
    * @brief Creates a menu intended for insert actions.
@@ -106,6 +118,11 @@ private:
   QAction* m_remove_selected_action{nullptr};
   QAction* m_move_up_action{nullptr};
   QAction* m_move_down_action{nullptr};
+
+  QAction* m_cut_action{nullptr};
+  QAction* m_copy_action{nullptr};
+  QAction* m_paste_after_action{nullptr};
+  QAction* m_paste_into_action{nullptr};
 
   sup::gui::ActionMap<ActionKey> m_action_map;
 };
