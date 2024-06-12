@@ -22,10 +22,13 @@
 #include "app_action_manager.h"
 #include "app_command.h"
 #include "app_command_manager.h"
+#include "app_context_focus_controller.h"
 #include "app_context_manager.h"
 
-#include <sup/gui/core/exceptions.h>
 #include <sup/gui/components/proxy_action.h>
+#include <sup/gui/core/exceptions.h>
+
+#include <QApplication>
 
 namespace sup::gui
 {
@@ -46,6 +49,15 @@ AppCommandManager &GetGlobalCommandManager()
 {
   static AppCommandManager global_command_manager;
   return global_command_manager;
+}
+
+std::unique_ptr<AppContextFocusController> CreateGlobalFocusController()
+{
+  auto result = std::make_unique<AppContextFocusController>(GetGlobalContextManager(),
+                                                            GetGlobalCommandManager(), nullptr);
+  QObject::connect(qApp, &QApplication::focusChanged, result.get(),
+                   &sup::gui::AppContextFocusController::OnFocusWidgetUpdate);
+  return result;
 }
 
 void AppRegisterMenuBar(QMenuBar *menubar)

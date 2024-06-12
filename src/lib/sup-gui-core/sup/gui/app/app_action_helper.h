@@ -27,6 +27,7 @@
 
 #include <QList>
 #include <string>
+#include <memory>
 
 class QMenuBar;
 class QAction;
@@ -51,6 +52,7 @@ class AppContextManager;
 class AppCommandManager;
 class IActionContainer;
 class AppCommand;
+class AppContextFocusController;
 
 /**
  * @brief Returns global action manager.
@@ -66,6 +68,11 @@ AppContextManager& GetGlobalContextManager();
  * @brief Returns global command manager.
  */
 AppCommandManager& GetGlobalCommandManager();
+
+/**
+ * @brief Creates focus controller to handle global proxy actions depending on current focus widget.
+ */
+std::unique_ptr<sup::gui::AppContextFocusController> CreateGlobalFocusController();
 
 /**
  * @brief Registers the main menubar of QMainWindow to use in action manager.
