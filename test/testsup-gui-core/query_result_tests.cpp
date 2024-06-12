@@ -29,16 +29,16 @@ class QueryResultTest : public ::testing::Test
 
 TEST_F(QueryResultTest, Success)
 {
-  auto querry = QueryResult::Success();
-  EXPECT_TRUE(querry.IsSuccess());
+  auto query = QueryResult::Success();
+  EXPECT_TRUE(query.IsSuccess());
 }
 
 TEST_F(QueryResultTest, Failure)
 {
-  auto querry = QueryResult::Failure({"title", "text", "informative", "detailed"});
-  EXPECT_FALSE(querry.IsSuccess());
-  EXPECT_EQ(querry.GetMessage().title, std::string("title"));
-  EXPECT_EQ(querry.GetMessage().text, std::string("text"));
-  EXPECT_EQ(querry.GetMessage().informative, std::string("informative"));
-  EXPECT_EQ(querry.GetMessage().detailed, std::string("detailed"));
+  auto query = QueryResult::Failure({"title", "text", "informative", "detailed"});
+  EXPECT_FALSE(query.IsSuccess());
+  EXPECT_EQ(query.GetMessage().title, std::string("title"));
+  EXPECT_EQ(query.GetMessage().text, std::string("text"));
+  EXPECT_EQ(query.GetMessage().informative, std::string("informative"));
+  EXPECT_EQ(query.GetMessage().detailed, std::string("detailed"));
 }

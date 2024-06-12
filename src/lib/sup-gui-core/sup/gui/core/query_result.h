@@ -43,7 +43,7 @@ public:
   QueryResult() = delete;
 
   /**
-   * @brief Checks if querry result was successfull.
+   * @brief Checks if query result was successfull.
    */
   bool IsSuccess() const;
 

@@ -68,10 +68,10 @@ bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& item_type) c
 
 void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
 {
-  auto querry = CanInsertTypeAfterCurrentSelection(type_name);
-  if (!querry.IsSuccess())
+  auto query = CanInsertTypeAfterCurrentSelection(type_name);
+  if (!query.IsSuccess())
   {
-    SendMessage(querry.GetMessage());
+    SendMessage(query.GetMessage());
     return;
   }
 
@@ -87,10 +87,10 @@ bool AnyValueEditorActionHandler::CanInsertInto(const std::string& item_type) co
 
 void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& type_name)
 {
-  auto querry = CanInsertTypeIntoCurrentSelection(type_name);
-  if (!querry.IsSuccess())
+  auto query = CanInsertTypeIntoCurrentSelection(type_name);
+  if (!query.IsSuccess())
   {
-    SendMessage(querry.GetMessage());
+    SendMessage(query.GetMessage());
     return;
   }
 
