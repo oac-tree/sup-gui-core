@@ -21,6 +21,8 @@
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
+#include <sup/gui/app/app_command.h>
+#include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/main_window_helper.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/project/project_handler.h>
@@ -137,7 +139,20 @@ void AnyValueEditorMainWindowActions::SetupFileMenu()
   file_menu->addAction(m_exit_action);
 }
 
-void AnyValueEditorMainWindowActions::SetupEditMenu() {}
+void AnyValueEditorMainWindowActions::SetupEditMenu()
+{
+  auto command = AppAddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
+  command->SetText("Cut").SetShortcut(QKeySequence::Cut);
+
+  command = AppAddCommandToMenu(constants::kEditMenu, constants::kCopyCommandId);
+  command->SetText("Copy").SetShortcut(QKeySequence::Copy);
+
+  command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteCommandId);
+  command->SetText("Paste").SetShortcut(QKeySequence::Paste);
+
+  command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
+  command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
+}
 
 void AnyValueEditorMainWindowActions::SetupViewMenu() {}
 
