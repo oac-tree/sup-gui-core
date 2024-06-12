@@ -188,7 +188,10 @@ void AnyValueEditorActionHandler::Cut()
 
 bool AnyValueEditorActionHandler::CanCopy() const
 {
-  return false;
+  const bool container_is_set = GetAnyValueItemContainer();
+  const bool has_selection = GetSelectedItem() != nullptr;
+  const bool has_clipboard = static_cast<bool>(m_context.set_mime_data);
+  return container_is_set && has_selection && has_clipboard;
 }
 
 void AnyValueEditorActionHandler::Copy()

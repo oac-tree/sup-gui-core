@@ -1,0 +1,60 @@
+/******************************************************************************
+ *
+ * Project       : Graphical User Interface for SUP and PSPS
+ *
+ * Description   : Common libraries and tools for Operation Application GUIs
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2024 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef SUP_GUI_COMPONENTS_MIME_CONVERSION_HELPER_H_
+#define SUP_GUI_COMPONENTS_MIME_CONVERSION_HELPER_H_
+
+//! @file
+//! Helper methods to convert item from/to QMimeData.
+
+#include <QString>
+#include <memory>
+
+class QMimeData;
+
+namespace mvvm
+{
+class SessionItem;
+}
+
+namespace sup::gui
+{
+
+/**
+ * @brief Creates mime data to copy given item.
+ *
+ * @param item The item to copy.
+ * @param mime_format String representing format.
+ */
+std::unique_ptr<QMimeData> CreateCopyMimeData(const mvvm::SessionItem& item,
+                                              const QString& mime_format);
+
+/**
+ * @brief Creates item from given mime data.
+ *
+ * @param mime_data Mime data from copy operation.
+ * @param mime_format String representing format.
+ * @return New item.
+ */
+std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
+                                                     const QString& mime_format);
+
+}  // namespace sup::gui
+
+#endif  // SUP_GUI_COMPONENTS_PROXY_ACTION_H_

@@ -1,5 +1,6 @@
 target_sources(${library_name} PRIVATE
   action_map.h
+  action_map.h
   anyvalue_editor_action_handler.cpp
   anyvalue_editor_action_handler.h
   anyvalue_editor_context.h
@@ -9,9 +10,10 @@ target_sources(${library_name} PRIVATE
   custom_metatypes.h
   dto_composer_action_handler.cpp
   dto_composer_action_handler.h
+  mime_conversion_helper.cpp
+  mime_conversion_helper.h
   proxy_action.cpp
   proxy_action.h
   visibility_agent_base.cpp
   visibility_agent_base.h
-  action_map.h
 )
