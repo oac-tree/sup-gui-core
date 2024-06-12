@@ -69,7 +69,7 @@ public:
    * @brief Checks if AnyValueItem of the given type can be inserted after currently selected
    * AnyValueItem.
    */
-  bool CanInsertAfter(const std::string &item_type) const;
+  bool CanInsertAfter(const std::string& item_type) const;
 
   /**
    * @brief Inserts new AnyValueItem of the given type after current selection.
@@ -80,7 +80,7 @@ public:
    * @brief Checks if AnyValueItem of the given type can be inserted into currently selected
    * AnyValueItem.
    */
-  bool CanInsertInto(const std::string &item_type) const;
+  bool CanInsertInto(const std::string& item_type) const;
 
   /**
    * @brief Inserts new AnyValueItem of the given type into current selection.
@@ -119,6 +119,62 @@ public:
    * @brief Moves a structure field, or array element down.
    */
   void OnMoveDownRequest();
+
+  /**
+   * @brief Checks if cut operation is possible.
+   */
+  bool CanCut() const;
+
+  /**
+   * @brief Cut selected AnyValue.
+   */
+  void Cut();
+
+  /**
+   * @brief Checks if copy operation is possible.
+   */
+  bool CanCopy() const;
+
+  /**
+   * @brief Copy selected AnyValue.
+   */
+  void Copy();
+
+  /**
+   * @brief Checks if paste-after operation is possible.
+   *
+   * Paste-after operation inserts new item after the current selection. If current selection
+   * represent a field of a struct, a new field will be inserted right after. If current selection
+   * represent an array element, the new element will be inserted right after.
+   *
+   * Paste-after operation is not possible for top-level items, since the editor allows to have only
+   * a single top-level item.
+   */
+  bool CanPasteAfter() const;
+
+  /**
+   * @brief Paste new AnyValue after the current selection.
+   */
+  void PasteAfter();
+
+  /**
+   * @brief Checks if paste-into operation is possible.
+   *
+   * Paste-into operation appends a new child to existing children of currently selected
+   * AnyValue.
+   *
+   * If the current selection represents a struct, pasted AnyValue will be appended as a new field
+   * to the list of existing fields. If the current selection represents an array, pasted AnyValue
+   * will be appended to the list of current array elements.
+   *
+   * It is not possible to paste-into a scalar.
+   */
+  bool CanPasteInto() const;
+
+  /**
+   * @brief Paste AnyValue as a child into currently selected AnyValue.
+   */
+  void PasteInto();
 
   /**
    * @brief Sets initial value.

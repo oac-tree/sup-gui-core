@@ -173,6 +173,58 @@ void AnyValueEditorActionHandler::OnMoveDownRequest()
   }
 }
 
+bool AnyValueEditorActionHandler::CanCut() const
+{
+  return false;
+}
+
+void AnyValueEditorActionHandler::Cut()
+{
+  if (!CanCut())
+  {
+    return;
+  }
+}
+
+bool AnyValueEditorActionHandler::CanCopy() const
+{
+  return false;
+}
+
+void AnyValueEditorActionHandler::Copy()
+{
+  if (!CanCopy())
+  {
+    return;
+  }
+}
+
+bool AnyValueEditorActionHandler::CanPasteAfter() const
+{
+  return false;
+}
+
+void AnyValueEditorActionHandler::PasteAfter()
+{
+  if (!CanPasteAfter())
+  {
+    return;
+  }
+}
+
+bool AnyValueEditorActionHandler::CanPasteInto() const
+{
+  return false;
+}
+
+void AnyValueEditorActionHandler::PasteInto()
+{
+  if (!CanPasteInto())
+  {
+    return;
+  }
+}
+
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 {
   if (auto item = GetTopItem(); item)
