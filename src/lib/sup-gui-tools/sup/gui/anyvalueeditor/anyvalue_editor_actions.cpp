@@ -19,6 +19,7 @@
 
 #include "anyvalue_editor_actions.h"
 
+#include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/widgets/action_menu.h>
@@ -134,17 +135,16 @@ void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &nam
 {
   for (const auto &name : names)
   {
-    auto str = QString::fromStdString(name);
-    auto action = menu->addAction(str);
+    auto action = menu->addAction(QString::fromStdString(name));
     if (insert_into)
     {
       connect(action, &QAction::triggered, this,
-              [this, str]() { emit InsertAnyValueItemIntoRequest(str); });
+              [this, name]() { m_action_handler->OnInsertAnyValueItemInto(name); });
     }
     else
     {
       connect(action, &QAction::triggered, this,
-              [this, str]() { emit InsertAnyValueItemAfterRequest(str); });
+              [this, name]() { m_action_handler->OnInsertAnyValueItemAfter(name); });
     }
   }
 }

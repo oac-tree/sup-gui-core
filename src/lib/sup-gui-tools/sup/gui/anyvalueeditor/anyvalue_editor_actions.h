@@ -64,8 +64,6 @@ public:
   QList<QAction*> GetActions(const std::vector<ActionKey>& action_keys) const;
 
 signals:
-  void InsertAnyValueItemAfterRequest(const QString& type_name);
-  void InsertAnyValueItemIntoRequest(const QString& type_name);
   void ImportFromFileRequest();
   void RemoveSelectedRequest();
   void MoveUpRequest();
