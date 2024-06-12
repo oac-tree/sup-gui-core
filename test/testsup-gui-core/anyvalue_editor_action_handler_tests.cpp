@@ -43,15 +43,25 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 class AnyValueEditorActionHandlerTest : public ::testing::Test
 {
 public:
-  //! Creates context necessary for AnyValueEditActions to function.
-  AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)
+  /**
+   * @brief Test helper to create context mimicking AnyValueEditor widget state.
+   *
+   * @param selection Currently selected item.
+   */
+  AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* selection)
   {
+    AnyValueEditorContext result;
     // callback returns given item, pretending it is user's selection
-    auto get_selected_callback = [item]() { return item; };
-    return {get_selected_callback, m_warning_listener.AsStdFunction()};
+    result.get_selected_callback = [selection]() { return selection; };
+    result.send_message_callback = m_warning_listener.AsStdFunction();
+    return result;
   }
 
-  //! Creates AnyValueEditorActions for testing.
+  /**
+   * @brief Creates action handler which we will be testing.
+   *
+   * @param selection Currently selected item.
+   */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
       sup::gui::AnyValueItem* selection)
   {

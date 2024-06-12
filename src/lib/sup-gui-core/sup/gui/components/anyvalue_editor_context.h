@@ -23,6 +23,9 @@
 #include <sup/gui/core/message_event.h>
 
 #include <functional>
+#include <memory>
+
+class QMimeData;
 
 namespace sup::gui
 {
@@ -32,7 +35,10 @@ class AnyValueItem;
 namespace sup::gui
 {
 
-//! Context to setup AnyvalueEditorActions.
+/**
+ * @brief The AnyValueEditorContext class holds collection of callbacks to retrieve current state of
+ * AnyValueEditor.
+ */
 struct AnyValueEditorContext
 {
   //!< callback to retrieve currently selected AnyValueItem
@@ -40,6 +46,12 @@ struct AnyValueEditorContext
 
   //!< callback to report an error
   std::function<void(const sup::gui::MessageEvent&)> send_message_callback;
+
+  //! callback to get mime data from the clipboard
+  std::function<const QMimeData*()> get_mime_data;
+
+  //! callback to set mime data to the clipboard
+  std::function<void(std::unique_ptr<QMimeData>)> set_mime_data;
 };
 
 }  // namespace sup::gui
