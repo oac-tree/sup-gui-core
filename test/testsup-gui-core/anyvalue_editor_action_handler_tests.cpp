@@ -74,6 +74,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
   EXPECT_EQ(GetAnyValueItemContainer(), handler->GetAnyValueItemContainer());
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanRemove());
 }
 
 //! Testing AnyValueEditorActions::SetInitialValue method.
@@ -217,6 +218,8 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
 
   // creating action for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(parent);
+
+  EXPECT_TRUE(handler->CanRemove());
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
@@ -578,6 +581,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(nullptr);
 
+  EXPECT_FALSE(handler->CanRemove());
   EXPECT_NO_FATAL_FAILURE(handler->OnRemoveSelected());
 
   // validating that still has an item
@@ -592,6 +596,8 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 
   // creating action handler for the context, pretending item is selected
   auto handler = CreateActionHandler(struct_item);
+
+  EXPECT_TRUE(handler->CanRemove());
 
   handler->OnRemoveSelected();
 

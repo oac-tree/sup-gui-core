@@ -99,6 +99,11 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& ty
   InsertIntoCurrentSelection(std::move(result));
 }
 
+bool AnyValueEditorActionHandler::CanRemove() const
+{
+  return GetSelectedItem() != nullptr;
+}
+
 void AnyValueEditorActionHandler::OnRemoveSelected()
 {
   if (auto selected = GetSelectedItem(); selected)

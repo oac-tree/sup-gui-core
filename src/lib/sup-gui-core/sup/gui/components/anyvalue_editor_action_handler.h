@@ -88,6 +88,11 @@ public:
   void OnInsertAnyValueItemInto(const std::string& type_name);
 
   /**
+   * @brief Checks if currently selected AnyValue can be removed.
+   */
+  bool CanRemove() const;
+
+  /**
    * @brief Removes currently selected item.
    */
   void OnRemoveSelected();
