@@ -21,6 +21,7 @@
 
 #include <sup/gui/components/anyvalue_editor_context.h>
 #include <sup/gui/components/anyvalue_editor_helper.h>
+#include <sup/gui/components/mime_conversion_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
@@ -93,4 +94,22 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyPasteWhenNothingIsSelected)
   EXPECT_FALSE(handler->CanPasteAfter());
   EXPECT_FALSE(handler->CanPasteInto());
   EXPECT_FALSE(handler->CanCut());
+}
+
+//! Copy operation when item is selected.
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyOperation)
+{
+ auto item =  m_model.InsertItem<sup::gui::AnyValueStructItem>();
+
+  EXPECT_EQ(m_copy_result.get(), nullptr);
+
+  // AnyValueItem is selected, no mime
+  auto handler = CreateActionHandler(item, nullptr);
+  EXPECT_TRUE(handler->CanCopy());
+
+  handler->Copy();
+
+  // As a result of copy QMimeData object was created
+  ASSERT_NE(m_copy_result.get(), nullptr);
+  EXPECT_TRUE(m_copy_result->hasFormat(kCopyAnyValueMimeType));
 }

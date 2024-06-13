@@ -20,6 +20,7 @@
 #include "anyvalue_editor_action_handler.h"
 
 #include "anyvalue_editor_helper.h"
+#include "mime_conversion_helper.h"
 
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/core/query_result.h>
@@ -37,6 +38,7 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
+#include <QMimeData>
 #include <sstream>
 
 namespace
@@ -200,6 +202,8 @@ void AnyValueEditorActionHandler::Copy()
   {
     return;
   }
+
+  m_context.set_mime_data(sup::gui::CreateCopyMimeData(*GetSelectedItem(), kCopyAnyValueMimeType));
 }
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
