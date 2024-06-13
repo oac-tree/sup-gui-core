@@ -42,43 +42,44 @@ std::string GetElementPrefix(const mvvm::SessionItem& parent)
 namespace sup::gui
 {
 
-std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child)
+std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
+                                              const mvvm::SessionItem& child)
 {
-  if (auto anyvalue_item = dynamic_cast<const AnyValueItem*>(&parent); anyvalue_item)
-  {
-    // if parent is an AnyValueItem, suggest the name which is based on number of previous children
-    return GetElementPrefix(*anyvalue_item) + std::to_string(anyvalue_item->GetChildrenCount());
-  }
+  const auto prefix = GetElementPrefix(parent);  // "field" for struct, and "element" for arrays
 
-  return constants::kAnyValueDefaultDisplayName;
+  // if prefix is valid, suggest the name which is based on number of previous children
+  return prefix.empty()
+             ? constants::kAnyValueDefaultDisplayName
+             : prefix + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
 }
 
 std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,
-                                                   AnyValueItem& child)
+                                                   const mvvm::SessionItem& child)
 {
-  if (child.IsStruct())
-  {
-    return constants::kStructTypeName;
-  }
+  (void)parent;
 
-  if (child.IsArray())
-  {
-    return constants::kArrayTypeName;
-  }
+  const static std::map<std::string, std::string> type_to_name{
+      {AnyValueStructItem::Type, constants::kStructTypeName},
+      {AnyValueArrayItem::Type, constants::kArrayTypeName}};
 
-  return {};  // scalars has type name already
+  // scalars has type name already
+  auto iter = type_to_name.find(child.GetType());
+  return iter == type_to_name.end() ? std::nullopt : std::optional<std::string>(iter->second);
 }
 
-void UpdateChildAppearance(const mvvm::SessionItem& parent, AnyValueItem& child)
+void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& child)
 {
-  if (auto name = SuggestDisplayName(parent, child); name.has_value())
+  if (auto anyvalue_item = dynamic_cast<AnyValueItem*>(&child); anyvalue_item)
   {
-    child.SetDisplayName(name.value());
-  }
+    if (auto name = SuggestDisplayName(parent, child); name.has_value())
+    {
+      child.SetDisplayName(name.value());
+    }
 
-  if (auto name = SuggestEditableTypeName(parent, child); name.has_value())
-  {
-    child.SetAnyTypeName(name.value());
+    if (auto name = SuggestEditableTypeName(parent, child); name.has_value())
+    {
+      anyvalue_item->SetAnyTypeName(name.value());
+    }
   }
 }
 

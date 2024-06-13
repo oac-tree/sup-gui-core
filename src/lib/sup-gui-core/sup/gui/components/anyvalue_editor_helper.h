@@ -46,7 +46,8 @@ class AnyValueItem;
  * @param child Future child of a parent.
  * @return Optional string.
  */
-std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, AnyValueItem& child);
+std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
+                                              const mvvm::SessionItem& child);
 
 /**
  * @brief Suggests type name for a child.
@@ -55,7 +56,8 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, A
  * @param child Future child of a parent.
  * @return Optional string.
  */
-std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent, AnyValueItem& child);
+std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,
+                                                   const mvvm::SessionItem& child);
 
 /**
  * @brief Updates display name and type name for a given child in the context of a given parent.
@@ -63,7 +65,7 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
  * @param parent A parent where a child will be inserted.
  * @param child Future child of a parent.
  */
-void UpdateChildAppearance(const mvvm::SessionItem& parent, AnyValueItem& child);
+void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& child);
 
 }  // namespace sup::gui
 
