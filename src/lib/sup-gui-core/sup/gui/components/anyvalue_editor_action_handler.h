@@ -25,6 +25,8 @@
 #include <QObject>
 #include <memory>
 
+class QMimeData;
+
 namespace mvvm
 {
 class SessionItem;
@@ -66,10 +68,14 @@ public:
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
   /**
-   * @brief Checks if AnyValueItem of the given type can be inserted after currently selected
+   * @brief Checks if AnyValueItem with the given type name can be inserted after currently selected
    * AnyValueItem.
+   *
+   * Method uses AnyValueItem type names as provided by menu labels ("struct", "int32", etc...)
+   *
+   * @param type_name The type name.
    */
-  bool CanInsertAfter(const std::string& item_type) const;
+  bool CanInsertAfter(const std::string& type_name) const;
 
   /**
    * @brief Inserts new AnyValueItem of the given type after current selection.
@@ -77,10 +83,14 @@ public:
   void OnInsertAnyValueItemAfter(const std::string& type_name);
 
   /**
-   * @brief Checks if AnyValueItem of the given type can be inserted into currently selected
+   * @brief Checks if AnyValueItem with the given type name can be inserted into currently selected
    * AnyValueItem.
+   *
+   * Method uses AnyValueItem type names as provided by menu labels ("struct", "int32", etc...)
+   *
+   * @param type_name The type name.
    */
-  bool CanInsertInto(const std::string& item_type) const;
+  bool CanInsertInto(const std::string& type_name) const;
 
   /**
    * @brief Inserts new AnyValueItem of the given type into current selection.
@@ -256,6 +266,11 @@ private:
    */
   mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem* parent,
                                 const mvvm::TagIndex& index);
+
+  /**
+   * @brief Returns mime data stored in the clipboar.
+   */
+  const QMimeData* GetMimeData() const;
 
   AnyValueEditorContext m_context;
   mvvm::SessionItem* m_container{nullptr};

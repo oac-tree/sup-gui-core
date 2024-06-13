@@ -85,6 +85,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanRemove());
+  EXPECT_FALSE(handler->CanInsertAfter(std::string()));
 }
 
 //! Testing AnyValueEditorActions::SetInitialValue method.

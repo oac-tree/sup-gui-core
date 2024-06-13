@@ -63,14 +63,14 @@ void AnyValueEditorActionHandler::SetAnyValueItemContainer(mvvm::SessionItem* co
   m_container = container;
 }
 
-bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& item_type) const
+bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& type_name) const
 {
-  return CanInsertTypeAfterCurrentSelection(item_type).IsSuccess();
+  return CanInsertTypeAfterCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name)).IsSuccess();
 }
 
 void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
 {
-  auto query = CanInsertTypeAfterCurrentSelection(type_name);
+  auto query = CanInsertTypeAfterCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name));
   if (!query.IsSuccess())
   {
     SendMessage(query.GetMessage());
@@ -82,14 +82,14 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& t
   InsertAfterCurrentSelection(std::move(result));
 }
 
-bool AnyValueEditorActionHandler::CanInsertInto(const std::string& item_type) const
+bool AnyValueEditorActionHandler::CanInsertInto(const std::string& type_name) const
 {
-  return CanInsertTypeIntoCurrentSelection(item_type).IsSuccess();
+  return CanInsertTypeIntoCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name)).IsSuccess();
 }
 
 void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& type_name)
 {
-  auto query = CanInsertTypeIntoCurrentSelection(type_name);
+  auto query = CanInsertTypeIntoCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name));
   if (!query.IsSuccess())
   {
     SendMessage(query.GetMessage());
@@ -208,7 +208,9 @@ void AnyValueEditorActionHandler::Copy()
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
 {
-  return false;
+  auto querry =
+      CanInsertTypeAfterCurrentSelection(GetSessionItemType(GetMimeData(), kCopyAnyValueMimeType));
+  return querry.IsSuccess();
 }
 
 void AnyValueEditorActionHandler::PasteAfter()
@@ -221,7 +223,9 @@ void AnyValueEditorActionHandler::PasteAfter()
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
 {
-  return false;
+  auto querry =
+      CanInsertTypeIntoCurrentSelection(GetSessionItemType(GetMimeData(), kCopyAnyValueMimeType));
+  return querry.IsSuccess();
 }
 
 void AnyValueEditorActionHandler::PasteInto()
@@ -334,13 +338,18 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
         {kFailedActionTitle, kFailedActionText, "There can be only one top-level item"});
   }
 
+  if (item_type.empty())
+  {
+    return sup::gui::QueryResult::Failure(
+        {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]"});
+  }
+
   // Checking if there is a selection inside another parent. To paste after this selection, the
   // parent should have the room for more items.
   if (auto selected_item = GetSelectedItem(); selected_item)
   {
-    auto [success_flag, informative] =
-        mvvm::utils::CanInsertType(GetAnyValueItemTypeFromTypeName(item_type),
-                                   selected_item->GetParent(), selected_item->GetTagIndex().Next());
+    auto [success_flag, informative] = mvvm::utils::CanInsertType(
+        item_type, selected_item->GetParent(), selected_item->GetTagIndex().Next());
     if (!success_flag)
     {
       return sup::gui::QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative});
@@ -368,12 +377,18 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
         {kFailedActionTitle, kFailedActionText, "No item selected"});
   }
 
+  if (item_type.empty())
+  {
+    return sup::gui::QueryResult::Failure(
+        {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]"});
+  }
+
   // Checking if there is a selection inside another parent. To paste after this selection, the
   // parent should have the room for more items.
   if (auto selected_item = GetSelectedItem(); selected_item)
   {
-    auto [success_flag, informative] = mvvm::utils::CanInsertType(
-        GetAnyValueItemTypeFromTypeName(item_type), selected_item, mvvm::TagIndex::Append());
+    auto [success_flag, informative] =
+        mvvm::utils::CanInsertType(item_type, selected_item, mvvm::TagIndex::Append());
     if (!success_flag)
     {
       return sup::gui::QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative});
@@ -412,6 +427,11 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
     SendMessage(ostr.str());
   }
   return result;
+}
+
+const QMimeData* AnyValueEditorActionHandler::GetMimeData() const
+{
+  return m_context.get_mime_data ? m_context.get_mime_data() : nullptr;
 }
 
 }  // namespace sup::gui
