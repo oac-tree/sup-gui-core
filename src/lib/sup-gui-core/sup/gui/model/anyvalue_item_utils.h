@@ -38,6 +38,12 @@ class AnyValueArrayItem;
 /**
  * @brief Returns the value of AnyValueItem::Type from type name ("struct", "array", "scalar",
  * "empty").
+ *
+ * Instead of "scalar" concrete names can be used: ( "bool", "char8", "int8", "uint8", "int16",
+ * "uint16", "int32", "uint32", "int64", "uint64", , "float32", "float64", "string"). In all these
+ * cases AnyValueScalarItem::Type will be returned.
+ *
+ * Will return empty string if given type name is not known.
  */
 std::string GetAnyValueItemTypeFromTypeName(const std::string& type_name);
 

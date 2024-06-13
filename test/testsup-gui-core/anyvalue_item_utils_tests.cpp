@@ -45,6 +45,9 @@ public:
 //! Testing GetAnyValueItemTypeFromTypeName function.
 TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
 {
+  EXPECT_TRUE(GetAnyValueItemTypeFromTypeName(std::string()).empty());
+  EXPECT_TRUE(GetAnyValueItemTypeFromTypeName(std::string("not-anyvalue-item-type")).empty());
+
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kEmptyTypeName), AnyValueEmptyItem::Type);
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kScalarTypeName), AnyValueScalarItem::Type);
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kArrayTypeName), AnyValueArrayItem::Type);
@@ -52,8 +55,6 @@ TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
 
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kInt32TypeName), AnyValueScalarItem::Type);
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kBooleanTypeName), AnyValueScalarItem::Type);
-
-  EXPECT_TRUE(GetAnyValueItemTypeFromTypeName("non-existing-type_name").empty());
 }
 
 //! Testing CreateAnyValueItemFromTypeName function.

@@ -40,6 +40,16 @@ namespace sup::gui
 const QString kCopyAnyValueMimeType = "application/coa.sequencer.anyvalue.copy";
 
 /**
+ * @brief Returns type of item enclosed inside the given mime data.
+ *
+ * Will return empty string if mime has wrong format.
+ *
+ * @param mime_data The mime data.
+ * @param mime_format Expected format in mime data.
+ */
+std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_format);
+
+/**
  * @brief Creates mime data to copy given item.
  *
  * @param item The item to copy.

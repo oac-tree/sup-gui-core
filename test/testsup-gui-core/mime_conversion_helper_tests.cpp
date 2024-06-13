@@ -19,6 +19,8 @@
 
 #include "sup/gui/components/mime_conversion_helper.h"
 
+#include <sup/gui/model/anyvalue_item.h>
+
 #include <mvvm/model/property_item.h>
 
 #include <gtest/gtest.h>
@@ -30,6 +32,15 @@ using namespace sup::gui;
 class MimeConverionHelperTests : public ::testing::Test
 {
 };
+
+TEST_F(MimeConverionHelperTests, GetSessionItemType)
+{
+  EXPECT_TRUE(GetSessionItemType(nullptr, QString()).empty());
+
+  AnyValueStructItem item;
+  auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
+  EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
+}
 
 TEST_F(MimeConverionHelperTests, CreatePropertyFromMime)
 {

@@ -27,6 +27,17 @@
 namespace sup::gui
 {
 
+std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_format)
+{
+  if (!mime_data || !mime_data->hasFormat(mime_format))
+  {
+    return {};
+  }
+
+  auto item = sup::gui::CreateSessionItem(mime_data, mime_format);
+  return item ? item->GetType() : std::string();
+}
+
 std::unique_ptr<QMimeData> CreateCopyMimeData(const mvvm::SessionItem& item,
                                               const QString& mime_format)
 {
