@@ -293,3 +293,36 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   // validating request to select just inserted item
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
 }
+
+//! Testing Cut operation, when structure has two fields, first field is selected.
+//! Cut operation should remove selected field.
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
+{
+  EXPECT_EQ(m_copy_result.get(), nullptr);
+
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{0});
+
+  // struct is selected, copied item in a buffer
+  auto handler = CreateActionHandler(field0, nullptr);
+
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+
+  EXPECT_TRUE(handler->CanCut());
+  handler->Cut();
+
+  std::vector<sup::gui::AnyValueItem*> expected_children({field1});
+  EXPECT_EQ(parent->GetChildren(), expected_children);
+
+  // validating request to select remaining item
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), field1);
+
+  // As a result of cut operation, QMimeData object was created
+  ASSERT_NE(m_copy_result.get(), nullptr);
+  EXPECT_TRUE(m_copy_result->hasFormat(kCopyAnyValueMimeType));
+  auto removed_field = CreateSessionItem(m_copy_result.get(), kCopyAnyValueMimeType);
+  EXPECT_EQ(removed_field->GetDisplayName(), std::string("field0"));
+}

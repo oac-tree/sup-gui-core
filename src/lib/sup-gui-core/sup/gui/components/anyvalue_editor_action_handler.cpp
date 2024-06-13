@@ -110,7 +110,13 @@ void AnyValueEditorActionHandler::OnRemoveSelected()
 {
   if (auto selected = GetSelectedItem(); selected)
   {
+    auto next_to_select = mvvm::utils::FindNextSiblingToSelect(selected);
     GetModel()->RemoveItem(selected);
+    if (next_to_select)
+    {
+      // suggest to select something else instead of just deleted instruction
+      emit SelectItemRequest(next_to_select);
+    }
   }
 }
 
@@ -177,7 +183,7 @@ void AnyValueEditorActionHandler::OnMoveDownRequest()
 
 bool AnyValueEditorActionHandler::CanCut() const
 {
-  return false;
+  return CanRemove();
 }
 
 void AnyValueEditorActionHandler::Cut()
@@ -186,6 +192,14 @@ void AnyValueEditorActionHandler::Cut()
   {
     return;
   }
+
+  if (!CanCut())
+  {
+    return;
+  }
+
+  Copy();
+  OnRemoveSelected();
 }
 
 bool AnyValueEditorActionHandler::CanCopy() const
