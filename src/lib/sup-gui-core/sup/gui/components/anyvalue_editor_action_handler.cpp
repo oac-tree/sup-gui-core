@@ -236,6 +236,8 @@ void AnyValueEditorActionHandler::PasteInto()
   {
     return;
   }
+
+  InsertIntoCurrentSelection(sup::gui::CreateSessionItem(GetMimeData(), kCopyAnyValueMimeType));
 }
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)

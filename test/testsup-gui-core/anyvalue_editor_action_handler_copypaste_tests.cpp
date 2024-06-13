@@ -253,3 +253,43 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   // validating request to select just inserted item
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
 }
+
+//! Testing PasteInto operation when container has a struct with single fields.
+//! Struct itself is selected, paste-into a field will lead to field append.
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
+{
+  AnyValueScalarItem item_to_paste;
+  item_to_paste.SetAnyTypeName(sup::dto::kInt16TypeName);
+  item_to_paste.SetData(mvvm::int16{42});
+  item_to_paste.SetDisplayName("abc");
+  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
+
+  // struct is selected, copied item in a buffer
+  auto handler = CreateActionHandler(parent, mime_data.get());
+
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+
+  EXPECT_TRUE(handler->CanPasteInto());
+  handler->PasteInto();
+
+  // validating that parent got new child
+  ASSERT_EQ(parent->GetChildren().size(), 2);
+
+  auto inserted_item = parent->GetChildren().at(1);
+  const std::string expected_field_name(constants::kFieldNamePrefix + "1");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt16TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
+  EXPECT_EQ(inserted_item->Data<mvvm::int16>(), 42);
+
+  std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item});
+  EXPECT_EQ(parent->GetChildren(), expected_children);
+
+  // validating request to select just inserted item
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
+}
