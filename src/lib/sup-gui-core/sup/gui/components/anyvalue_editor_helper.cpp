@@ -27,11 +27,11 @@
 namespace
 {
 
-std::string GetElementPrefix(const sup::gui::AnyValueItem& parent)
+std::string GetElementPrefix(const mvvm::SessionItem& parent)
 {
   const static std::map<std::string, std::string> type_to_prefix{
-      {sup::gui::AnyValueStructItem::Type, sup::gui::kFieldNamePrefix},
-      {sup::gui::AnyValueArrayItem::Type, sup::gui::kElementNamePrefix}};
+      {sup::gui::AnyValueStructItem::Type, sup::gui::constants::kFieldNamePrefix},
+      {sup::gui::AnyValueArrayItem::Type, sup::gui::constants::kElementNamePrefix}};
 
   auto iter = type_to_prefix.find(parent.GetType());
   return iter == type_to_prefix.end() ? std::string() : iter->second;
@@ -50,7 +50,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent, A
     return GetElementPrefix(*anyvalue_item) + std::to_string(anyvalue_item->GetChildrenCount());
   }
 
-  return kAnyValueDefaultDisplayName;
+  return constants::kAnyValueDefaultDisplayName;
 }
 
 std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,

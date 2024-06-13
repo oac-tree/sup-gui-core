@@ -46,8 +46,6 @@ static bool anyvalue_items_registered_flag = RegisterAnyValueItems();
 namespace sup::gui
 {
 
-static inline const std::string kChildren = "kChildren";
-
 // ----------------------------------------------------------------------------
 // AnyValueItem
 // ----------------------------------------------------------------------------
@@ -152,7 +150,7 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
   SetDisplayName(constants::kStructTypeName);
   SetAnyTypeName("");
   SetToolTip(constants::kStructTypeName);
-  RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
+  RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone(bool make_unique_id) const
@@ -179,7 +177,7 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
 
 std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 {
-  return GetItems<AnyValueItem>(kChildren);
+  return GetItems<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
 // ----------------------------------------------------------------------------
@@ -191,7 +189,7 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
   SetDisplayName(constants::kArrayTypeName);
   SetAnyTypeName("");
   SetToolTip(constants::kArrayTypeName);
-  RegisterTag(CreateAnyValueTag(kChildren), /*as_default*/ true);
+  RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone(bool make_unique_id) const
@@ -206,7 +204,7 @@ bool AnyValueArrayItem::IsArray() const
 
 std::vector<AnyValueItem*> AnyValueArrayItem::GetChildren() const
 {
-  return GetItems<AnyValueItem>(kChildren);
+  return GetItems<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
 }  // namespace sup::gui

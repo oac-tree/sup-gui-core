@@ -20,6 +20,8 @@
 #include "sup/gui/components/anyvalue_editor_helper.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
+
 #include <mvvm/standarditems/container_item.h>
 
 #include <gtest/gtest.h>
@@ -43,28 +45,28 @@ TEST_F(AnyValueEditorHelperTest, SuggestDisplayNameForTopLevelItem)
 {
   mvvm::ContainerItem container;
 
-  { // empty
+  {  // empty
     AnyValueEmptyItem item;
     auto name = SuggestDisplayName(container, item);
-    EXPECT_EQ(name.value_or(kUndefined), kAnyValueDefaultDisplayName);
+    EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 
-  { // scalar
+  {  // scalar
     AnyValueScalarItem item;
     auto name = SuggestDisplayName(container, item);
-    EXPECT_EQ(name.value_or(kUndefined), kAnyValueDefaultDisplayName);
+    EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 
-  { // struct
+  {  // struct
     AnyValueStructItem item;
     auto name = SuggestDisplayName(container, item);
-    EXPECT_EQ(name.value_or(kUndefined), kAnyValueDefaultDisplayName);
+    EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 
-  { // array
+  {  // array
     AnyValueArrayItem item;
     auto name = SuggestDisplayName(container, item);
-    EXPECT_EQ(name.value_or(kUndefined), kAnyValueDefaultDisplayName);
+    EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 }
 
@@ -74,7 +76,7 @@ TEST_F(AnyValueEditorHelperTest, SuggestNameForStructField)
   AnyValueScalarItem child;
 
   auto name = SuggestDisplayName(parent, child);
-  EXPECT_EQ(name.value_or(kUndefined), kFieldNamePrefix + "0");
+  EXPECT_EQ(name.value_or(kUndefined), constants::kFieldNamePrefix + "0");
 }
 
 TEST_F(AnyValueEditorHelperTest, SuggestNameForArrayElement)
@@ -83,5 +85,5 @@ TEST_F(AnyValueEditorHelperTest, SuggestNameForArrayElement)
   AnyValueScalarItem child;
 
   auto name = SuggestDisplayName(parent, child);
-  EXPECT_EQ(name.value_or(kUndefined), kElementNamePrefix + "0");
+  EXPECT_EQ(name.value_or(kUndefined), constants::kElementNamePrefix + "0");
 }

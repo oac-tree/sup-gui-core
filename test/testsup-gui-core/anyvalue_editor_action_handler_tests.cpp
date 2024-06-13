@@ -161,7 +161,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueEmptyItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
 };
@@ -193,7 +193,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueStructItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kStructTypeName);
 
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
@@ -268,7 +268,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueStruct"));
 
-  const std::string expected_field_name(kFieldNamePrefix + "0");
+  const std::string expected_field_name(constants::kFieldNamePrefix + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 
@@ -310,7 +310,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), ::sup::gui::kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
@@ -346,7 +346,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  const std::string expected_field_name(kFieldNamePrefix + "0");
+  const std::string expected_field_name(constants::kFieldNamePrefix + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
@@ -372,7 +372,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   ASSERT_EQ(parent->GetChildren().size(), 3);
 
   auto inserted_item = parent->GetChildren().at(1);
-  const std::string expected_field_name(kFieldNamePrefix + "2");
+  const std::string expected_field_name(constants::kFieldNamePrefix + "2");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
@@ -402,7 +402,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  const std::string expected_field_name(kElementNamePrefix + "0");
+  const std::string expected_field_name(constants::kElementNamePrefix + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
@@ -500,7 +500,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
   auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(&m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kArrayTypeName);
 
   // expecting a callback
@@ -535,7 +535,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueArray"));
-  const std::string expected_field_name(kFieldNamePrefix + "0");
+  const std::string expected_field_name(constants::kFieldNamePrefix + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 
