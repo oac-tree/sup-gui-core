@@ -155,7 +155,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteSecondTopLevelItem)
   EXPECT_TRUE(handler->CanPasteInto());
 }
 
-//! Testing CanPasteAfter and CanPasteInto methods while trying to paste second top-level item.
+//! Testing CanPasteAfter and CanPasteInto methods while trying to paste into a scalar.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteIntoScalar)
 {
   const AnyValueScalarItem item_to_paste;
@@ -304,7 +304,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{0});
 
-  // struct is selected, copied item in a buffer
+  // struct is selected, mime buffer is empty
   auto handler = CreateActionHandler(field0, nullptr);
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
@@ -320,7 +320,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   // validating request to select remaining item
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), field1);
 
-  // As a result of cut operation, QMimeData object was created
+  // as a result of cut operation, QMimeData object was created
   ASSERT_NE(m_copy_result.get(), nullptr);
   EXPECT_TRUE(m_copy_result->hasFormat(kCopyAnyValueMimeType));
   auto removed_field = CreateSessionItem(m_copy_result.get(), kCopyAnyValueMimeType);

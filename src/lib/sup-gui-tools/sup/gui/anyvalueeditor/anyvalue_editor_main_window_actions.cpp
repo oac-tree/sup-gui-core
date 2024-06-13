@@ -145,7 +145,6 @@ void AnyValueEditorMainWindowActions::SetupFileMenu()
 
   file_menu->addSeparator();
   file_menu->addAction(m_exit_action);
-  ;
 }
 
 void AnyValueEditorMainWindowActions::SetupEditMenu()
