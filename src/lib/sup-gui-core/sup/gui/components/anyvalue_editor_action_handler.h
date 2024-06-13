@@ -238,12 +238,12 @@ private:
   /**
    * @brief Inserts given item after currenly selected item.
    */
-  void InsertAfterCurrentSelection(std::unique_ptr<AnyValueItem> item);
+  void InsertAfterCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
 
   /**
    * @brief Inserts given item into currenly selected item.
    */
-  void InsertIntoCurrentSelection(std::unique_ptr<AnyValueItem> item);
+  void InsertIntoCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
 
   /**
    * @brief Checks if AnyValueItem of the given type can be inserted after the current selection.

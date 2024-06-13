@@ -219,6 +219,8 @@ void AnyValueEditorActionHandler::PasteAfter()
   {
     return;
   }
+
+  InsertAfterCurrentSelection(sup::gui::CreateSessionItem(GetMimeData(), kCopyAnyValueMimeType));
 }
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
@@ -297,7 +299,8 @@ void AnyValueEditorActionHandler::SendMessage(const std::string& text,
   SendMessage(sup::gui::CreateInvalidOperationMessage(text, informative, details));
 }
 
-void AnyValueEditorActionHandler::InsertAfterCurrentSelection(std::unique_ptr<AnyValueItem> item)
+void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
+    std::unique_ptr<mvvm::SessionItem> item)
 {
   auto selected_item = GetSelectedItem();
 
@@ -308,7 +311,8 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(std::unique_ptr<An
   InsertItem(std::move(item), parent, tagindex);
 }
 
-void AnyValueEditorActionHandler::InsertIntoCurrentSelection(std::unique_ptr<AnyValueItem> item)
+void AnyValueEditorActionHandler::InsertIntoCurrentSelection(
+    std::unique_ptr<mvvm::SessionItem> item)
 {
   if (auto parent = GetParent(); parent)
   {
@@ -422,8 +426,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
   catch (const std::exception& ex)
   {
     std::ostringstream ostr;
-    ostr << "Can't insert instruction [" << item_type << "] into parent [" << parent->GetType()
-         << "]. Maximum allowed number of children exceeded?";
+    ostr << "Can't insert child [" << item_type << "] into parent [" << parent->GetType() << "].";
     SendMessage(ostr.str());
   }
   return result;

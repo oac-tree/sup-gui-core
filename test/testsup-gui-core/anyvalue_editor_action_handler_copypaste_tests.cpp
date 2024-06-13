@@ -183,3 +183,73 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteStructIntoStruct)
   EXPECT_TRUE(handler->CanPasteAfter());
   EXPECT_TRUE(handler->CanPasteInto());
 }
+
+//! Testing PasteAfter operation, when container is empty.
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
+{
+  AnyValueScalarItem item_to_paste;
+  item_to_paste.SetDisplayName("abc");
+  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+
+  // nothing is selected, copied item in a buffer
+  auto handler = CreateActionHandler(nullptr, mime_data.get());
+
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+
+  EXPECT_TRUE(handler->CanPasteAfter());
+  handler->PasteAfter();
+
+  ASSERT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+
+  auto items = GetAnyValueItemContainer()->GetAllItems();
+  EXPECT_EQ(items.at(0)->GetType(), AnyValueScalarItem::Type);
+
+  // for the moment paste operation changes display name, it might change in the future
+  EXPECT_EQ(items.at(0)->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
+
+  // validating request to select just inserted item
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), items.at(0));
+}
+
+//! Testing PasteAfter operation when container has a struct with two fields. First field is
+//! selected, paste operation should lead to appearance of a new field in between.
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
+{
+  AnyValueScalarItem item_to_paste;
+  item_to_paste.SetAnyTypeName(sup::dto::kInt16TypeName);
+  item_to_paste.SetData(mvvm::int16{42});
+  item_to_paste.SetDisplayName("abc");
+  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{1});
+
+  // field0 is selected, copied item in a buffer
+  auto handler = CreateActionHandler(field0, mime_data.get());
+
+  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
+
+  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+
+  EXPECT_TRUE(handler->CanPasteAfter());
+  handler->PasteAfter();
+
+  // validating that parent got new child
+  ASSERT_EQ(parent->GetChildren().size(), 3);
+
+  auto inserted_item = parent->GetChildren().at(1);
+  const std::string expected_field_name(constants::kFieldNamePrefix + "2");
+  EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt16TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
+  EXPECT_EQ(inserted_item->Data<mvvm::int16>(), 42);
+
+  std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item, field1});
+  EXPECT_EQ(parent->GetChildren(), expected_children);
+
+  // validating request to select just inserted item
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
+}
