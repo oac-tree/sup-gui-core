@@ -24,6 +24,7 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/core/message_helper.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/widgets/item_stack_widget.h>
@@ -35,9 +36,11 @@
 #include <sup/dto/anyvalue.h>
 
 #include <QAction>
+#include <QClipboard>
 #include <QFileDialog>
+#include <QGuiApplication>
 #include <QMenu>
-#include <QMessageBox>
+#include <QMimeData>
 #include <QSettings>
 #include <QSplitter>
 #include <QTreeView>
@@ -211,19 +214,15 @@ void AnyValueEditorWidget::SetupWidgetActions()
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
 {
-  auto get_selected_callback = [this]() { return GetSelectedItem(); };
+  AnyValueEditorContext result;
 
-  auto notify_warning_callback = [this](const sup::gui::MessageEvent &event)
-  {
-    QMessageBox msg_box;
-    msg_box.setText(QString::fromStdString(event.text));
-    msg_box.setInformativeText(QString::fromStdString(event.informative));
-    msg_box.setDetailedText(QString::fromStdString(event.detailed));
-    msg_box.setIcon(msg_box.Warning);
-    msg_box.exec();
-  };
+  result.get_selected_callback = [this]() { return GetSelectedItem(); };
+  result.send_message_callback = [](const auto &event) { sup::gui::SendWarningMessage(event); };
+  result.get_mime_data = []() { return QGuiApplication::clipboard()->mimeData(); };
+  result.set_mime_data = [](std::unique_ptr<QMimeData> data)
+  { return QGuiApplication::clipboard()->setMimeData(data.release()); };
 
-  return {get_selected_callback, notify_warning_callback};
+  return result;
 }
 
 //! Updates cached value for last working directory for later saving in widget's persistent settings
@@ -236,6 +235,7 @@ void AnyValueEditorWidget::UpdateCurrentWorkdir(const QString &file_name)
 void AnyValueEditorWidget::OnContextMenuRequest(const QPoint &point)
 {
   QMenu menu;
+  menu.setToolTipsVisible(true);
 
   m_actions->SetupMenu(menu);
 
