@@ -53,8 +53,9 @@ class AnyValueItem;
  * @details Provider owns components but doesn't own a view. This provider is oriented for
  * AnyValueItem editing. Internally it uses AnyValueViewModel to have 3-column AnyValue tree and
  * special AnyValueFilteredViewModel to allow filtering.
+ *
+ * FIXME Merge with mvvm::ItemViewComponentProvider
  */
-
 class TreeViewComponentProvider : public QObject
 {
   Q_OBJECT
@@ -108,6 +109,9 @@ public:
    * QAbstractItemProxyModel::mapFromSource to the original item's indices.
    */
   QList<QModelIndex> GetViewIndices(const mvvm::SessionItem* item) const;
+
+signals:
+  void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
   std::unique_ptr<AnyValueViewModel> m_view_model;

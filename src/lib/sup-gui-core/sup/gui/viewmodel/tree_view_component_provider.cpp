@@ -32,7 +32,8 @@
 namespace sup::gui
 {
 
-TreeViewComponentProvider::TreeViewComponentProvider(mvvm::SessionModelInterface *model, QTreeView *view)
+TreeViewComponentProvider::TreeViewComponentProvider(mvvm::SessionModelInterface *model,
+                                                     QTreeView *view)
     : m_view_model(std::make_unique<AnyValueViewModel>(model))
     , m_proxy_model(std::make_unique<AnyValueFilteredViewModel>())
     , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
@@ -43,6 +44,10 @@ TreeViewComponentProvider::TreeViewComponentProvider(mvvm::SessionModelInterface
 
   m_tree_view->setModel(m_proxy_model.get());
   m_tree_view->setItemDelegate(m_delegate.get());
+
+  auto on_select = [this](auto index1, auto index2)
+  { emit SelectedItemChanged(const_cast<mvvm::SessionItem *>(GetSelectedItem())); };
+  connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this, on_select);
 }
 
 void TreeViewComponentProvider::SetItem(mvvm::SessionItem *item)

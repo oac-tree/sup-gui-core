@@ -28,10 +28,14 @@
 #include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_utils.h>
 
 #include <QTreeView>
+#include <QSignalSpy>
 
 using namespace sup::gui;
+
+Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 //! Testing TreeViewComponentProvider class.
 
@@ -57,7 +61,6 @@ TEST_F(TreeViewComponentProviderTests, InitialState)
 }
 
 //! Testing how tree view looks for a single scalar. No filter pattern is set.
-
 TEST_F(TreeViewComponentProviderTests, Scalar)
 {
   // single scalar in a model
@@ -66,6 +69,8 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   item->SetData(mvvm::int8{42});
 
   TreeViewComponentProvider provider(&m_model, &m_tree);
+
+  QSignalSpy spy_selected(&provider, &TreeViewComponentProvider::SelectedItemChanged);
 
   // to test tree view we will be looking at proxy model.
   auto proxymodel = provider.GetProxyModel();
@@ -89,11 +94,13 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   provider.SetSelectedItem(item);
   EXPECT_EQ(provider.GetSelectedItem(), item);
   EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem*>({item}));
+
+  EXPECT_EQ(spy_selected.count(), 1);
+  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selected), item);
 }
 
 //! Testing how tree view looks for a single scalar. The difference with previous test is that
 //! AnyValueItem is located in its own container.
-
 TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
 {
   TreeViewComponentProvider provider(&m_model, &m_tree);
@@ -134,7 +141,6 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
 }
 
 //! Testing how struct looks like with two children, one filtered out
-
 TEST_F(TreeViewComponentProviderTests, FilteredStruct)
 {
   auto struct_item = m_model.InsertItem<AnyValueStructItem>();
