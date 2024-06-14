@@ -168,35 +168,41 @@ void AnyValueEditorActions::SetupCutCopyPasteActions()
   m_cut_action->setText("Cut");
   m_cut_action->setToolTip("Cuts selected instruction");
   m_cut_action->setShortcut(QKeySequence("Ctrl+X"));
-  connect(m_cut_action, &QAction::triggered, this, [this]() { m_action_handler->Cut(); });
+  m_action_map.Add(ActionKey::kCut, m_cut_action);
+  auto on_cut = [this]()
+  {
+    m_action_handler->Cut();
+    UpdateEnabledStatus();  // to update availability of paste operation
+  };
+  connect(m_cut_action, &QAction::triggered, this, on_cut);
 
   m_copy_action = new QAction(this);
   m_copy_action->setText("Copy");
   m_copy_action->setToolTip("Copies selected instruction");
   m_copy_action->setShortcut(QKeySequence("Ctrl+C"));
+  m_action_map.Add(ActionKey::kCopy, m_copy_action);
   auto on_copy_action = [this]()
   {
     m_action_handler->Copy();
     UpdateEnabledStatus();  // to update availability of paste operation
   };
   connect(m_copy_action, &QAction::triggered, this, on_copy_action);
-  m_action_map.Add(ActionKey::kCopy, m_copy_action);
 
   m_paste_after_action = new QAction(this);
   m_paste_after_action->setText("Paste After");
   m_paste_after_action->setToolTip("Paste selected instruction after current selection");
   m_paste_after_action->setShortcut(QKeySequence("Ctrl+V"));
+  m_action_map.Add(ActionKey::kPasteAfter, m_paste_after_action);
   connect(m_paste_after_action, &QAction::triggered, this,
           [this]() { m_action_handler->PasteAfter(); });
-  m_action_map.Add(ActionKey::kPasteAfter, m_paste_after_action);
 
   m_paste_into_action = new QAction(this);
   m_paste_into_action->setText("Paste Into");
   m_paste_into_action->setToolTip("Paste selected instruction into current selection");
   m_paste_into_action->setShortcut(QKeySequence("Ctrl+Shift+V"));
+  m_action_map.Add(ActionKey::kPasteInto, m_paste_into_action);
   connect(m_paste_into_action, &QAction::triggered, this,
           [this]() { m_action_handler->PasteInto(); });
-  m_action_map.Add(ActionKey::kPasteInto, m_paste_into_action);
 }
 
 std::unique_ptr<QMenu> AnyValueEditorActions::CreateInsertMenu()
