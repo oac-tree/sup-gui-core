@@ -24,6 +24,8 @@
 
 #include <QObject>
 
+#include <memory>
+
 class QMainWindow;
 class QMenuBar;
 class QAction;
