@@ -59,8 +59,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *mo
   layout->addWidget(m_line_edit);
 
   m_tree_view->setHeader(m_custom_header);
-  m_tree_view->setEditTriggers(QAbstractItemView::SelectedClicked
-                               | QAbstractItemView::EditKeyPressed
+  m_tree_view->setEditTriggers(QAbstractItemView::EditKeyPressed
                                | QAbstractItemView::DoubleClicked);
   m_tree_view->setAlternatingRowColors(true);
   m_tree_view->setContextMenuPolicy(Qt::CustomContextMenu);
