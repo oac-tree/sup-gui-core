@@ -61,6 +61,9 @@ public:
 
   QTreeView* GetTreeView();
 
+signals:
+  void SelectedItemChanged(mvvm::SessionItem*);
+
 private:
   void ReadSettings();
   void WriteSettings();

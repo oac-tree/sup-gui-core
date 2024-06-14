@@ -24,8 +24,8 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/app/app_action_helper.h>
-#include <sup/gui/core/message_helper.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
+#include <sup/gui/core/message_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/style_utils.h>
@@ -194,6 +194,10 @@ void AnyValueEditorWidget::SetupConnections()
 
   connect(m_tree_panel->GetTreeView(), &QTreeView::customContextMenuRequested, this,
           &AnyValueEditorWidget::OnContextMenuRequest);
+
+  // selection change from tree panel
+  connect(m_tree_panel, &AnyValueEditorTreePanel::SelectedItemChanged, this,
+          [this](auto) { m_actions->UpdateEnabledStatus(); });
 }
 
 void AnyValueEditorWidget::SetupWidgetActions()

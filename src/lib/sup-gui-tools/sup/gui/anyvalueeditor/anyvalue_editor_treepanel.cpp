@@ -73,6 +73,9 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *mo
 
   auto on_text = [this]() { m_component_provider->SetFilterPattern(m_line_edit->text()); };
   connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
+
+  connect(m_component_provider.get(), &TreeViewComponentProvider::SelectedItemChanged, this,
+          &AnyValueEditorTreePanel::SelectedItemChanged);
 }
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel()

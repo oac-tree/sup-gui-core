@@ -22,11 +22,11 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
+#include <sup/gui/components/proxy_action.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/widgets/action_menu.h>
 #include <sup/gui/widgets/style_utils.h>
-#include <sup/gui/components/proxy_action.h>
 
 #include <QMenu>
 #include <QToolButton>
@@ -174,7 +174,12 @@ void AnyValueEditorActions::SetupCutCopyPasteActions()
   m_copy_action->setText("Copy");
   m_copy_action->setToolTip("Copies selected instruction");
   m_copy_action->setShortcut(QKeySequence("Ctrl+C"));
-  connect(m_copy_action, &QAction::triggered, this, [this]() { m_action_handler->Copy(); });
+  auto on_copy_action = [this]()
+  {
+    m_action_handler->Copy();
+    UpdateEnabledStatus();  // to update availability of paste operation
+  };
+  connect(m_copy_action, &QAction::triggered, this, on_copy_action);
   m_action_map.Add(ActionKey::kCopy, m_copy_action);
 
   m_paste_after_action = new QAction(this);
