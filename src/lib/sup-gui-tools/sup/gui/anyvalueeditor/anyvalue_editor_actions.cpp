@@ -76,21 +76,16 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
 {
   menu.addAction(m_insert_after_action);
   menu.addAction(m_insert_into_action);
-
   menu.addAction(m_remove_action);
-  m_remove_action->setEnabled(m_action_handler->CanRemove());
-
   menu.addSeparator();
 
   menu.addAction(m_cut_action);
   menu.addAction(m_copy_action);
   menu.addAction(m_paste_after_action);
   menu.addAction(m_paste_into_action);
-  m_cut_action->setEnabled(m_action_handler->CanCut());
-  m_copy_action->setEnabled(m_action_handler->CanCopy());
-  m_paste_into_action->setEnabled(m_action_handler->CanPasteInto());
-  m_paste_after_action->setEnabled(m_action_handler->CanPasteAfter());
   menu.addSeparator();
+
+  UpdateEnabledStatus();
 }
 
 void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)
@@ -99,6 +94,15 @@ void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)
   AppAddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
   AppAddActionToCommand(m_paste_after_action, constants::kPasteCommandId, context);
   AppAddActionToCommand(m_paste_into_action, constants::kPasteSpecialCommandId, context);
+}
+
+void AnyValueEditorActions::UpdateEnabledStatus()
+{
+  m_remove_action->setEnabled(m_action_handler->CanRemove());
+  m_cut_action->setEnabled(m_action_handler->CanCut());
+  m_copy_action->setEnabled(m_action_handler->CanCopy());
+  m_paste_into_action->setEnabled(m_action_handler->CanPasteInto());
+  m_paste_after_action->setEnabled(m_action_handler->CanPasteAfter());
 }
 
 void AnyValueEditorActions::SetupInsertRemoveActions()
