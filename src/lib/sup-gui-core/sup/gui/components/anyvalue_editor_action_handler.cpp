@@ -193,11 +193,6 @@ void AnyValueEditorActionHandler::Cut()
     return;
   }
 
-  if (!CanCut())
-  {
-    return;
-  }
-
   Copy();
   OnRemoveSelected();
 }
@@ -222,9 +217,9 @@ void AnyValueEditorActionHandler::Copy()
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
 {
-  auto querry =
+  auto query =
       CanInsertTypeAfterCurrentSelection(GetSessionItemType(GetMimeData(), kCopyAnyValueMimeType));
-  return querry.IsSuccess();
+  return query.IsSuccess();
 }
 
 void AnyValueEditorActionHandler::PasteAfter()
@@ -239,9 +234,9 @@ void AnyValueEditorActionHandler::PasteAfter()
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
 {
-  auto querry =
+  auto query =
       CanInsertTypeIntoCurrentSelection(GetSessionItemType(GetMimeData(), kCopyAnyValueMimeType));
-  return querry.IsSuccess();
+  return query.IsSuccess();
 }
 
 void AnyValueEditorActionHandler::PasteInto()
