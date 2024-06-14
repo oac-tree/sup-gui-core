@@ -70,9 +70,9 @@ public:
    * @param name The name of the container.
    * @param menu The menu to serve.
    */
-  MenuActionContainer(const std::string& name, QMenu* menu);
+  MenuActionContainer(const QString& name, QMenu* menu);
 
-  std::string GetName() { return m_name; }
+  QString GetName() { return m_name; }
 
   QMenu* GetMenu() override { return m_menu; }
 
@@ -81,7 +81,7 @@ public:
   size_t GetActionCount() override;
 
 private:
-  std::string m_name;
+  QString m_name;
   QMenu* m_menu{nullptr};
   std::vector<QAction*> m_actions;
 };
@@ -90,7 +90,7 @@ class IActionManager
 {
 public:
   virtual ~IActionManager() = default;
-  virtual bool RegisterAction(const std::string& group_name, QAction* action) = 0;
+  virtual bool RegisterAction(const QString& group_name, QAction* action) = 0;
 };
 
 /**
@@ -126,7 +126,7 @@ public:
    * @details The menubar will take an ownership. If menu was already created, just returns action
    * container.
    */
-  IActionContainer* AddMenu(const std::string& menu_name);
+  IActionContainer* AddMenu(const QString& menu_name);
 
   /**
    * @brief Registers action and add it to the menu.
@@ -137,9 +137,9 @@ public:
    *
    * @details The ownership of the action is not taken.
    */
-  bool RegisterAction(const std::string& menu_name, QAction* action) override;
+  bool RegisterAction(const QString& menu_name, QAction* action) override;
 
-  IActionContainer* GetContainer(const std::string& menu_name);
+  IActionContainer* GetContainer(const QString& menu_name);
 
   /**
    * @brief Returns the number of registered main containers.
@@ -159,7 +159,7 @@ public:
 private:
   void ValidateMenuBar();
 
-  std::map<std::string, std::unique_ptr<IActionContainer>> m_action_storage;
+  std::map<QString, std::unique_ptr<IActionContainer>> m_action_storage;
   QMenuBar* m_menubar{nullptr};
 };
 

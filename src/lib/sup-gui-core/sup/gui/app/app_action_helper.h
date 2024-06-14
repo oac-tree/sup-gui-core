@@ -27,7 +27,6 @@
 
 #include <QList>
 #include <memory>
-#include <string>
 
 class QMenuBar;
 class QAction;
@@ -74,27 +73,27 @@ void AppRegisterMenuBar(QMenuBar* menubar);
  * @param menubar Main main window menubar.
  * @param names Vector of top level menus.
  */
-void AppRegisterMenuBar(QMenuBar* menubar, const std::vector<std::string>& names);
+void AppRegisterMenuBar(QMenuBar* menubar, const QStringList& names);
 
 /**
  * @brief Adds menu to the registered menubar.
  */
-IActionContainer* AppAddMenu(const std::string& menu_name);
+IActionContainer* AppAddMenu(const QString& menu_name);
 
 /**
  * @brief Returns top level menu registered in a menubar under this name.
  */
-QMenu* AppGetMenu(const std::string& menu_name);
+QMenu* AppGetMenu(const QString& menu_name);
 
 /**
  * @brief Register and add action to the menu.
  */
-bool AppRegisterAction(const std::string& menu_name, QAction* action);
+bool AppRegisterAction(const QString& menu_name, QAction* action);
 
 /**
  * @brief Register and add action to the menu.
  */
-bool AppRegisterActions(const std::string& menu_name, const QList<QAction*>& actions);
+bool AppRegisterActions(const QString& menu_name, const QList<QAction*>& actions);
 
 /**
  * @brief Registers given widget using unique identifier.
@@ -112,7 +111,7 @@ AppContext AppRegisterWidgetUniqueId(const QWidget* widget);
  * @param command_id The id of the command which has proxy action.
  * @return Pointer to the command.
  */
-AppCommand* AppAddCommandToMenu(const std::string& menu_name, const QString& command_id);
+AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command_id);
 
 /**
  * @brief Adds given action to command.

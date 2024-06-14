@@ -40,7 +40,7 @@ TEST_F(AppActionManagerTest, MenuActionContainer)
   MenuActionContainer container("abc", &menu);
   EXPECT_EQ(container.GetActionCount(), 0);
   EXPECT_EQ(container.GetMenu(), &menu);
-  EXPECT_EQ(container.GetName(), std::string("abc"));
+  EXPECT_EQ(container.GetName(), QString("abc"));
 
   QAction action;
   EXPECT_TRUE(container.AddAction(&action));

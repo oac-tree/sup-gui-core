@@ -28,7 +28,7 @@
 namespace sup::gui
 {
 
-MenuActionContainer::MenuActionContainer(const std::string &name, QMenu *menu)
+MenuActionContainer::MenuActionContainer(const QString &name, QMenu *menu)
     : m_menu(menu), m_name(name)
 {
   if (!m_menu)
@@ -81,7 +81,7 @@ void ActionManager::SetMenuBar(QMenuBar *menubar)
   throw RuntimeException("There can be only one application minibar");
 }
 
-IActionContainer *ActionManager::AddMenu(const std::string &menu_name)
+IActionContainer *ActionManager::AddMenu(const QString &menu_name)
 {
   ValidateMenuBar();
 
@@ -90,7 +90,7 @@ IActionContainer *ActionManager::AddMenu(const std::string &menu_name)
     return container;
   }
 
-  auto menu = m_menubar->addMenu(QString::fromStdString(menu_name));
+  auto menu = m_menubar->addMenu(menu_name);
   menu->setToolTipsVisible(true);
   auto container = std::make_unique<MenuActionContainer>(menu_name, menu);
   auto container_ptr = container.get();
@@ -98,7 +98,7 @@ IActionContainer *ActionManager::AddMenu(const std::string &menu_name)
   return container_ptr;
 }
 
-bool ActionManager::RegisterAction(const std::string &menu_name, QAction *action)
+bool ActionManager::RegisterAction(const QString &menu_name, QAction *action)
 {
   if (auto container = GetContainer(menu_name); container)
   {
@@ -108,7 +108,7 @@ bool ActionManager::RegisterAction(const std::string &menu_name, QAction *action
   return false;
 }
 
-IActionContainer *ActionManager::GetContainer(const std::string &menu_name)
+IActionContainer *ActionManager::GetContainer(const QString &menu_name)
 {
   auto iter = m_action_storage.find(menu_name);
   return iter == m_action_storage.end() ? nullptr : iter->second.get();

@@ -65,7 +65,7 @@ void AppRegisterMenuBar(QMenuBar *menubar)
   GetGlobalActionManager().SetMenuBar(menubar);
 }
 
-void AppRegisterMenuBar(QMenuBar *menubar, const std::vector<std::string> &names)
+void AppRegisterMenuBar(QMenuBar *menubar, const QStringList &names)
 {
   AppRegisterMenuBar(menubar);
   for (const auto &name : names)
@@ -74,23 +74,23 @@ void AppRegisterMenuBar(QMenuBar *menubar, const std::vector<std::string> &names
   }
 }
 
-IActionContainer *AppAddMenu(const std::string &menu_name)
+IActionContainer *AppAddMenu(const QString &menu_name)
 {
   return GetGlobalActionManager().AddMenu(menu_name);
 }
 
-QMenu *AppGetMenu(const std::string &menu_name)
+QMenu *AppGetMenu(const QString &menu_name)
 {
   auto container = GetGlobalActionManager().GetContainer(menu_name);
   return container ? container->GetMenu() : nullptr;
 }
 
-bool AppRegisterAction(const std::string &menu_name, QAction *action)
+bool AppRegisterAction(const QString &menu_name, QAction *action)
 {
   return GetGlobalActionManager().RegisterAction(menu_name, action);
 }
 
-bool AppRegisterActions(const std::string &menu_name, const QList<QAction *> &actions)
+bool AppRegisterActions(const QString &menu_name, const QList<QAction *> &actions)
 {
   bool result = true;
   for (auto action : actions)
@@ -105,7 +105,7 @@ AppContext AppRegisterWidgetUniqueId(const QWidget *widget)
   return GetGlobalContextManager().RegisterWidgetUniqueId(widget);
 }
 
-AppCommand *AppAddCommandToMenu(const std::string &menu_name, const QString &command_id)
+AppCommand *AppAddCommandToMenu(const QString &menu_name, const QString &command_id)
 {
   // register new, or get access to already registered command
   auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, command_id);
@@ -113,7 +113,7 @@ AppCommand *AppAddCommandToMenu(const std::string &menu_name, const QString &com
   // add underlying proxy action to the menu
   if (!sup::gui::AppRegisterAction(menu_name, command->GetProxyAction()))
   {
-    throw RuntimeException("Global menu [" + menu_name + "] doesn't exist");
+    throw RuntimeException("Global menu [" + menu_name.toStdString() + "] doesn't exist");
   }
   return command;
 }
