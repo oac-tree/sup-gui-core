@@ -22,6 +22,7 @@
 #include "dto_composer_view.h"
 
 #include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/application_helper.h>
 #include <sup/gui/widgets/style_utils.h>
 

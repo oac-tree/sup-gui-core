@@ -26,8 +26,8 @@
 #include <sup/gui/app/app_context.h>
 
 #include <QList>
-#include <string>
 #include <memory>
+#include <string>
 
 class QMenuBar;
 class QAction;
@@ -35,17 +35,6 @@ class QMenu;
 
 namespace sup::gui
 {
-
-namespace constants
-{
-//!< the name of the groups corresponding to main menus of the menubar
-
-static inline const std::string kFileMenu = "&File";
-static inline const std::string kEditMenu = "&Edit";
-static inline const std::string kToolsMenu = "&Tools";
-static inline const std::string kViewMenu = "&View";
-static inline const std::string kHelpMenu = "&Help";
-}  // namespace constants
 
 class ActionManager;
 class AppContextManager;

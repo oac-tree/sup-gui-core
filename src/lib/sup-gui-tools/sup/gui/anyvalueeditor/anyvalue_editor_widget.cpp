@@ -24,6 +24,7 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/core/message_helper.h>
 #include <sup/gui/model/anyvalue_item.h>

@@ -23,6 +23,7 @@
 #include "dto_composer_tab_controller.h"
 
 #include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/dto_composer_action_handler.h>
 
 #include <QMenu>

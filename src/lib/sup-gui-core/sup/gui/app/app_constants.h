@@ -28,7 +28,14 @@
 namespace sup::gui::constants
 {
 
-// Identifiers to find globally registered proxy actions located on the main application toolbar.
+//! the name of the groups corresponding to main menus of the menubar
+const std::string kFileMenu = "&File";
+const std::string kEditMenu = "&Edit";
+const std::string kToolsMenu = "&Tools";
+const std::string kViewMenu = "&View";
+const std::string kHelpMenu = "&Help";
+
+//! Identifiers to find globally registered proxy actions located on the main application toolbar.
 const QString kCutCommandId = "Cut";
 const QString kCopyCommandId = "Copy";
 const QString kPasteCommandId = "Paste";
