@@ -26,6 +26,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/widgets/action_menu.h>
 #include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/components/proxy_action.h>
 
 #include <QMenu>
 #include <QToolButton>
@@ -76,8 +77,8 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
   menu.addAction(m_insert_after_action);
   menu.addAction(m_insert_into_action);
 
-  menu.addAction(m_remove_selected_action);
-  m_remove_selected_action->setEnabled(m_action_handler->CanRemove());
+  menu.addAction(m_remove_action);
+  m_remove_action->setEnabled(m_action_handler->CanRemove());
 
   menu.addSeparator();
 
@@ -125,13 +126,17 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_action_map.Add(ActionKey::kInsertInto, m_insert_into_action);
 
   // Remove selected
-  m_remove_selected_action = new QAction(this);
-  m_remove_selected_action->setText("Remove");
-  m_remove_selected_action->setIcon(utils::GetIcon("beaker-remove-outline.svg"));
-  m_remove_selected_action->setToolTip("Remove selected item and all it's children");
-  connect(m_remove_selected_action, &QAction::triggered, this,
+  m_remove_action = new QAction(this);
+  m_remove_action->setText("Remove");
+  m_remove_action->setIcon(utils::GetIcon("beaker-remove-outline.svg"));
+  m_remove_action->setToolTip("Remove selected item and all it's children");
+  connect(m_remove_action, &QAction::triggered, this,
           [this]() { m_action_handler->OnRemoveSelected(); });
-  m_action_map.Add(ActionKey::kRemoveSelected, m_remove_selected_action);
+
+  // remove action (own toolbar version to avoid disabled status)
+  m_remove_toolbar_action = new sup::gui::ProxyAction(this);
+  m_remove_toolbar_action->SetAction(m_remove_action);
+  m_action_map.Add(ActionKey::kRemoveSelected, m_remove_toolbar_action);
 
   // MoveUp button
   m_move_up_action = new QAction(this);

@@ -34,6 +34,7 @@ namespace sup::gui
 class ActionMenu;
 class AnyValueEditorActionHandler;
 class AppContext;
+class ProxyAction;
 
 /**
  * @brief The AnyValueEditorActions class contains collection of actions to edit AnyValue tree.
@@ -123,7 +124,11 @@ private:
 
   ActionMenu* m_insert_after_action{nullptr};
   ActionMenu* m_insert_into_action{nullptr};
-  QAction* m_remove_selected_action{nullptr};
+  QAction* m_remove_action{nullptr};
+
+  //!< toolbar version without enable/disable features
+  sup::gui::ProxyAction* m_remove_toolbar_action{nullptr};
+
   QAction* m_move_up_action{nullptr};
   QAction* m_move_down_action{nullptr};
 
