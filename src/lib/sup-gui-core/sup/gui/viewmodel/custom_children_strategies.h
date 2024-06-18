@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_VIEWMODEL_CUSTOM_CHILDREN_STRATEGIES_H_
 #define SUP_GUI_VIEWMODEL_CUSTOM_CHILDREN_STRATEGIES_H_
 
-#include <mvvm/interfaces/children_strategy_interface.h>
+#include <mvvm/viewmodel/i_children_strategy.h>
 
 namespace sup::gui
 {
@@ -28,8 +28,7 @@ namespace sup::gui
 /**
  * @brief The AnyValueChildrenStrategy class is a strategy to children related to AnyValueItem.
  */
-
-class AnyValueChildrenStrategy : public mvvm::ChildrenStrategyInterface
+class AnyValueChildrenStrategy : public mvvm::IChildrenStrategy
 {
 public:
   std::vector<mvvm::SessionItem*> GetChildren(const mvvm::SessionItem* item) const override;
