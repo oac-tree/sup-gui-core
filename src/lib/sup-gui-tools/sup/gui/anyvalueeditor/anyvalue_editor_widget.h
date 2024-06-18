@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 
 #include <sup/gui/components/anyvalue_editor_context.h>
 

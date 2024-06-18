@@ -21,7 +21,7 @@
 
 #include <sup/gui/core/exceptions.h>
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 

@@ -19,7 +19,7 @@
 
 #include "custom_metatypes.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 namespace sup::gui
 {

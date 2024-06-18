@@ -21,7 +21,7 @@
 
 #include <sup/gui/model/anyvalue_item_utils.h>
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/utils/container_utils.h>
 
 namespace sup::gui

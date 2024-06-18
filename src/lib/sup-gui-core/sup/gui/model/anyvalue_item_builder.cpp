@@ -22,7 +22,7 @@
 #include "anyvalue_conversion_utils.h"
 #include "anyvalue_item.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/model/tagindex.h>
 
 #include <sup/dto/anyvalue.h>
