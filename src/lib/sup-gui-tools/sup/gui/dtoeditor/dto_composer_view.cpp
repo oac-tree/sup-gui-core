@@ -34,7 +34,7 @@
 namespace sup::gui
 {
 
-DtoComposerView::DtoComposerView(mvvm::SessionModelInterface *model, QWidget *parent)
+DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_tab_widget(new QTabWidget)

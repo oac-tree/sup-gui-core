@@ -29,7 +29,7 @@
 #include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/validate_utils.h>
@@ -293,7 +293,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
   return GetSelectedItem() ? GetSelectedItem() : GetAnyValueItemContainer();
 }
 
-mvvm::SessionModelInterface* AnyValueEditorActionHandler::GetModel() const
+mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const
 {
   return m_container->GetModel();
 }

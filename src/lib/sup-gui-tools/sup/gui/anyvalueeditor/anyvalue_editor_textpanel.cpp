@@ -40,7 +40,7 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::SessionModelInterface *model,
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ISessionModel *model,
                                                  QWidget *parent)
     : QWidget(parent)
     , m_json_view(new CodeView(CodeView::kJSON))

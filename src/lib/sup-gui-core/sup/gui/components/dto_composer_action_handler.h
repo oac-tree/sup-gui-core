@@ -24,7 +24,7 @@
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 }
 
 namespace sup::gui
@@ -42,7 +42,7 @@ class DtoComposerActionHandler : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoComposerActionHandler(mvvm::SessionModelInterface* model, QObject* parent = nullptr);
+  explicit DtoComposerActionHandler(mvvm::ISessionModel* model, QObject* parent = nullptr);
 
   /**
    * @brief Remove container with given index.
@@ -61,7 +61,7 @@ public:
 
 
 private:
-  mvvm::SessionModelInterface* m_model{nullptr};
+  mvvm::ISessionModel* m_model{nullptr};
 };
 
 }  // namespace sup::gui

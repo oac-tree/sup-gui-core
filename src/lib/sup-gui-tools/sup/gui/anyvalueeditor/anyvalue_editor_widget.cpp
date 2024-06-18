@@ -70,7 +70,7 @@ const QString kIsVisiblePanelSettingName = kGroupName + "json_panel";
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(mvvm::SessionModelInterface *model, QWidget *parent)
+AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_action_handler(

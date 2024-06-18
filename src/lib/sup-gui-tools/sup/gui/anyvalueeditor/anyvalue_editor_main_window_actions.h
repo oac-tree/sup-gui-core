@@ -33,7 +33,7 @@ class QMenu;
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 }
 
 namespace sup::gui
@@ -52,7 +52,7 @@ public:
 
   bool CloseCurrentProject() const;
 
-  void SetModel(mvvm::SessionModelInterface* model);
+  void SetModel(mvvm::ISessionModel *model);
 
 signals:
   void OnImportFromFileRequest();

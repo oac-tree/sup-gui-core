@@ -27,7 +27,7 @@
 namespace sup::gui
 {
 
-AnyValueViewModel::AnyValueViewModel(mvvm::SessionModelInterface *model, QObject *parent)
+AnyValueViewModel::AnyValueViewModel(mvvm::ISessionModel *model, QObject *parent)
     : ViewModel(parent)
 {
   SetController(

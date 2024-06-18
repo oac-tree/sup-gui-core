@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 
-#include "mvvm/interfaces/sessionmodel_interface.h"
+#include <mvvm/model/i_sessionmodel.h>
 
 #include <sup/gui/components/anyvalue_editor_context.h>
 
@@ -31,7 +31,7 @@ class QSplitter;
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 class SessionItem;
 }  // namespace mvvm
 
@@ -55,7 +55,7 @@ class AnyValueEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorWidget(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
+  explicit AnyValueEditorWidget(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~AnyValueEditorWidget() override;
 
   /**
@@ -125,7 +125,7 @@ private:
 
   QAction* m_show_right_sidebar{nullptr};
 
-  mvvm::SessionModelInterface* m_model{nullptr};
+  mvvm::ISessionModel* m_model{nullptr};
   AnyValueEditorActionHandler* m_action_handler{nullptr};
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};

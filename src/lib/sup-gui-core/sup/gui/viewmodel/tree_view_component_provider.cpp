@@ -32,7 +32,7 @@
 namespace sup::gui
 {
 
-TreeViewComponentProvider::TreeViewComponentProvider(mvvm::SessionModelInterface *model,
+TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel *model,
                                                      QTreeView *view)
     : m_view_model(std::make_unique<AnyValueViewModel>(model))
     , m_proxy_model(std::make_unique<AnyValueFilteredViewModel>())

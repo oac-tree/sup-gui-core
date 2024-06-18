@@ -30,7 +30,7 @@ class QTabWidget;
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 template <typename T>
 class ModelListener;
 class SessionItem;
@@ -60,7 +60,7 @@ public:
    * @param tab_widget QTabWidget to control
    * @param parent QObject parent
    */
-  DtoComposerTabController(mvvm::SessionModelInterface* model, QTabWidget* tab_widget,
+  DtoComposerTabController(mvvm::ISessionModel* model, QTabWidget* tab_widget,
                            QObject* parent = nullptr);
   ~DtoComposerTabController() override;
 
@@ -87,9 +87,9 @@ private:
    */
   void InsertAnyValueItemContainerTab(mvvm::SessionItem* container, int index);
 
-  mvvm::SessionModelInterface* m_model{nullptr};
+  mvvm::ISessionModel* m_model{nullptr};
   QTabWidget* m_tab_widget{nullptr};
-  std::unique_ptr<mvvm::ModelListener<mvvm::SessionModelInterface>> m_listener;
+  std::unique_ptr<mvvm::ModelListener<mvvm::ISessionModel>> m_listener;
 
   //!< correspondance of AnyValueItem container to AnyValueEditorWidget
   std::map<const mvvm::SessionItem*, AnyValueEditorWidget*> m_widget_map;

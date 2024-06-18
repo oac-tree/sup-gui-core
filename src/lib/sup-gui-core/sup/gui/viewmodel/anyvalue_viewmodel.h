@@ -24,7 +24,7 @@
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 }
 
 namespace sup::gui
@@ -37,7 +37,7 @@ class AnyValueViewModel : public mvvm::ViewModel
   Q_OBJECT
 
 public:
-  explicit AnyValueViewModel(mvvm::SessionModelInterface* model, QObject* parent = nullptr);
+  explicit AnyValueViewModel(mvvm::ISessionModel* model, QObject* parent = nullptr);
 
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 };

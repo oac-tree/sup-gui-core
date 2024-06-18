@@ -32,7 +32,7 @@ class QAbstractProxyModel;
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 class ItemViewComponentProvider;
 class SessionItem;
 class ViewModelDelegate;
@@ -61,7 +61,7 @@ class TreeViewComponentProvider : public QObject
   Q_OBJECT
 
 public:
-  explicit TreeViewComponentProvider(mvvm::SessionModelInterface* model, QTreeView* view);
+  explicit TreeViewComponentProvider(mvvm::ISessionModel *model, QTreeView* view);
   ~TreeViewComponentProvider() override;
 
   /**

@@ -38,7 +38,7 @@ const QString kHeaderStateSettingName = kGroupName + "/" + "header_state";
 namespace sup::gui
 {
 
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::SessionModelInterface *model,
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ISessionModel *model,
                                                  QWidget *parent)
     : QWidget(parent)
     , m_tree_view(new QTreeView)

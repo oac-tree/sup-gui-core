@@ -22,7 +22,7 @@
 #include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
 #include <sup/gui/core/exceptions.h>
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/signals/model_listener.h>
 
@@ -31,12 +31,12 @@
 namespace sup::gui
 {
 
-DtoComposerTabController::DtoComposerTabController(mvvm::SessionModelInterface *model,
+DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
                                                    QTabWidget *tab_widget, QObject *parent)
     : QObject(parent)
     , m_model(model)
     , m_tab_widget(tab_widget)
-    , m_listener(std::make_unique<mvvm::ModelListener<mvvm::SessionModelInterface>>(model))
+    , m_listener(std::make_unique<mvvm::ModelListener<mvvm::ISessionModel>>(model))
 {
   if (!tab_widget)
   {

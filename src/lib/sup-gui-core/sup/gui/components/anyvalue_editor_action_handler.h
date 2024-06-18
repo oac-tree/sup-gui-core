@@ -30,7 +30,7 @@ class QMimeData;
 namespace mvvm
 {
 class SessionItem;
-class SessionModelInterface;
+class ISessionModel;
 class TagIndex;
 }  // namespace mvvm
 
@@ -228,7 +228,7 @@ private:
   /**
    * @brief Returns the model.
    */
-  mvvm::SessionModelInterface* GetModel() const;
+  mvvm::ISessionModel* GetModel() const;
 
   void SendMessage(const sup::gui::MessageEvent& message);
 

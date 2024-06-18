@@ -28,7 +28,7 @@ class QToolButton;
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 template <typename T>
 class ModelListener;
 class SessionItem;
@@ -48,9 +48,9 @@ class AnyValueEditorTextPanel : public QWidget
   Q_OBJECT
 
 public:
-  using listener_t = mvvm::ModelListener<mvvm::SessionModelInterface>;
+  using listener_t = mvvm::ModelListener<mvvm::ISessionModel>;
 
-  explicit AnyValueEditorTextPanel(mvvm::SessionModelInterface* model, QWidget* parent = nullptr);
+  explicit AnyValueEditorTextPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~AnyValueEditorTextPanel() override;
 
   /**
@@ -73,7 +73,7 @@ private:
   QAction* m_pretty_action{nullptr};
 
   CodeView* m_json_view{nullptr};
-  mvvm::SessionModelInterface* m_model{nullptr};
+  mvvm::ISessionModel* m_model{nullptr};
   mvvm::SessionItem* m_container{nullptr};
   std::unique_ptr<listener_t> m_listener;
   bool m_pretty_json{true};

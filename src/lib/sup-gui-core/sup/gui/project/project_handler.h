@@ -31,7 +31,7 @@ namespace mvvm
 {
 class IProject;
 class IProjectManager;
-class SessionModelInterface;
+class ISessionModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -68,14 +68,14 @@ public:
    * @param parent Parent widget.
    */
   explicit ProjectHandler(mvvm::ProjectType project_type, const QString& application_type,
-                          const std::vector<mvvm::SessionModelInterface*>& models, QWidget* parent);
+                          const std::vector<mvvm::ISessionModel*>& models, QWidget* parent);
 
   ~ProjectHandler() override;
 
   /**
    * @brief Sets models.
    */
-  void SetModels(const std::vector<mvvm::SessionModelInterface*>& models);
+  void SetModels(const std::vector<mvvm::ISessionModel*>& models);
 
   /**
    * @brief Closes current project.
@@ -185,7 +185,7 @@ private:
   std::unique_ptr<sup::gui::RecentProjectSettings> m_recent_projects;
 
   //!< models intended for serialization
-  std::vector<mvvm::SessionModelInterface*> m_models;
+  std::vector<mvvm::ISessionModel*> m_models;
 };
 
 }  // namespace sup::gui

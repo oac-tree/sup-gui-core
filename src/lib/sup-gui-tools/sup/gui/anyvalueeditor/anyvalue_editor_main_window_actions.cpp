@@ -67,7 +67,7 @@ bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
   return m_project_handler->CloseCurrentProject();
 }
 
-void AnyValueEditorMainWindowActions::SetModel(mvvm::SessionModelInterface *model)
+void AnyValueEditorMainWindowActions::SetModel(mvvm::ISessionModel *model)
 {
   m_project_handler->SetModels({model});
 }

@@ -21,14 +21,14 @@
 
 #include <sup/gui/core/exceptions.h>
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 
 namespace sup::gui
 {
 
-DtoComposerActionHandler::DtoComposerActionHandler(mvvm::SessionModelInterface *model,
+DtoComposerActionHandler::DtoComposerActionHandler(mvvm::ISessionModel *model,
                                                    QObject *parent)
     : QObject(parent), m_model(model)
 {
