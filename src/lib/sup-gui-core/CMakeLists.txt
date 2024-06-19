@@ -9,7 +9,7 @@ set_target_properties(${library_name} PROPERTIES
   SOVERSION ${SUP_GUI_CORE_SOVERSION}
   VERSION ${SUP_GUI_CORE_BUILDVERSION})
 
-target_link_libraries(${library_name} PUBLIC pthread sup-mvvm::view sup-dto::sup-dto)
+target_link_libraries(${library_name} PUBLIC pthread Qt${QT_VERSION_MAJOR}::Charts sup-mvvm::view sup-dto::sup-dto)
 
 add_subdirectory(sup)
 

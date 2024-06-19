@@ -92,10 +92,10 @@ file(MAKE_DIRECTORY ${SUP_GUI_CORE_AUTOGEN_DIR})
 # -----------------------------------------------------------------------------
 if(COA_USE_QT6)
   set(QT_VERSION_MAJOR 6)
-  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Test)
+  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Test Charts)
 else()
   set(QT_VERSION_MAJOR 5)
-  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Test)
+  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Test Charts)
 endif()
 
 if(CODAC_FOUND)
