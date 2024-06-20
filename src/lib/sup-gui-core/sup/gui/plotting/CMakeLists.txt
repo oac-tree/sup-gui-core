@@ -5,6 +5,10 @@ target_sources(${library_name} PRIVATE
   chart_items.h
   chart_viewport_controller.cpp
   chart_viewport_controller.h
+  custom_children_waveform_strategies.cpp
+  custom_children_waveform_strategies.h
+  custom_row_waveform_strategies.cpp
+  custom_row_waveform_strategies.h
   line_series_controller.cpp
   line_series_controller.h
   line_series_data_controller.cpp
