@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : PSPS editor
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : Graphical user interface for pulse schedule preparation system
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Gennady Pospelov (IO)
  *

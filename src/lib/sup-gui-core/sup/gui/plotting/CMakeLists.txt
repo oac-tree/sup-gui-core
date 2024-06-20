@@ -17,4 +17,6 @@ target_sources(${library_name} PRIVATE
   pen_controller.h
   waveform_helper.cpp
   waveform_helper.h
+  waveform_twocolumn_viewmodel.cpp
+  waveform_twocolumn_viewmodel.h
 )
