@@ -23,3 +23,4 @@ target_include_directories(${library_name} PUBLIC
 install(TARGETS ${library_name} EXPORT sup-gui-core-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(DIRECTORY sup/gui/widgets DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY sup/gui/waveformeditor DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui FILES_MATCHING PATTERN "*.h")
