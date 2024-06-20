@@ -46,7 +46,7 @@ WaveformTableComponentProvider::~WaveformTableComponentProvider() = default;
 void WaveformTableComponentProvider::SetModel(mvvm::ApplicationModel *model)
 {
   m_model = model;
-    m_table_view_model = std::make_unique<sup::gui::WaveformTwoColumnViewModel>(model);
+    m_table_view_model = std::make_unique<WaveformTwoColumnViewModel>(model);
   m_horizontal_proxy_model->setSourceModel(m_table_view_model.get());
   m_table_view->setModel(m_horizontal_proxy_model);
   m_table_view->setItemDelegate(m_delegate.get());

@@ -1,0 +1,106 @@
+/******************************************************************************
+ *
+ * Project       : Graphical User Interface for SUP and PSPS
+ *
+ * Description   : Common libraries and tools for Operation Application GUIs
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2024 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "waveform_editor.h"
+
+#include "waveform_editor_toolbar.h"
+#include "waveform_editor_view.h"
+
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/plotting/chart_items.h>
+#include <sup/gui/plotting/waveform_editor_action_handler.h>
+#include <sup/gui/plotting/waveform_editor_context.h>
+
+#include <mvvm/model/application_model.h>
+
+#include <QSplitter>
+#include <QVBoxLayout>
+
+namespace sup::gui
+{
+
+WaveformEditor::WaveformEditor(QWidget *parent)
+    : QWidget(parent)
+    , m_action_handler(std::make_unique<WaveformEditorActionHandler>(CreateActionContext()))
+    , m_editor_view(new WaveformEditorView)
+    , m_tool_bar(new WaveformEditorToolBar)
+{
+  auto layout = new QHBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+
+  layout->addWidget(m_editor_view);
+  layout->addWidget(m_tool_bar);
+
+  SetupConnections();
+}
+
+WaveformEditor::~WaveformEditor() = default;
+
+void WaveformEditor::SetWaveformModel(mvvm::ApplicationModel *model)
+{
+  m_model = model;
+
+  // for the moment we show only one Line Series in a viewport
+  auto viewport = m_model->InsertItem<sup::gui::ChartViewportItem>();
+  m_line_series_item = m_model->InsertItem<sup::gui::LineSeriesItem>(viewport);
+  m_editor_view->SetViewportItem(viewport);
+}
+
+void WaveformEditor::SetSetpoint(sup::gui::AnyValueItem *anyvalue_item, const std::string &title)
+{
+  auto data_item = dynamic_cast<sup::gui::AnyValueArrayItem *>(anyvalue_item);
+
+  m_line_series_item->SetDataItem(data_item);
+  m_line_series_item->SetNamedColor("red");
+  m_line_series_item->SetDisplayName(title);
+  m_editor_view->SetLineSeriesItem(m_line_series_item);
+  m_editor_view->SetViewportToContent();
+}
+
+void WaveformEditor::SetupConnections()
+{
+  connect(m_tool_bar, &WaveformEditorToolBar::ZoomInRequest, m_editor_view,
+          &WaveformEditorView::ZoomIn);
+  connect(m_tool_bar, &WaveformEditorToolBar::ZoomOutRequest, m_editor_view,
+          &WaveformEditorView::ZoomOut);
+  connect(m_tool_bar, &WaveformEditorToolBar::SetViewportToContentRequest, m_editor_view,
+          &WaveformEditorView::SetViewportToContent);
+
+  connect(m_tool_bar, &WaveformEditorToolBar::AddColumnBeforeRequest, m_action_handler.get(),
+          &WaveformEditorActionHandler::OnAddColumnBeforeRequest);
+  connect(m_tool_bar, &WaveformEditorToolBar::AddColumnAfterRequest, m_action_handler.get(),
+          &WaveformEditorActionHandler::OnAddColumnAfterRequest);
+  connect(m_tool_bar, &WaveformEditorToolBar::RemoveColumnRequest, m_action_handler.get(),
+          &WaveformEditorActionHandler::OnRemoveColumnRequest);
+
+  connect(m_action_handler.get(), &WaveformEditorActionHandler::SelectItemRequest, this,
+          [this](auto item)
+          { m_editor_view->SetSelectedPoint(dynamic_cast<const sup::gui::AnyValueItem *>(item)); });
+}
+
+WaveformEditorContext WaveformEditor::CreateActionContext() const
+{
+  auto get_current_line_series = [this]() { return m_editor_view->GetLineSeriesItem(); };
+
+  auto get_selected_point_callback = [this]() { return m_editor_view->GetSelectedPoint(); };
+  return {get_current_line_series, get_selected_point_callback};
+}
+
+}  // namespace sup::gui
