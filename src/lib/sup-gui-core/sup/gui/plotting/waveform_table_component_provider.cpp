@@ -21,7 +21,7 @@
 
 #include <sup/gui/plotting/waveform_twocolumn_viewmodel.h>
 
-#include <mvvm/delegates/viewmodel_delegate.h>
+#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
 

@@ -22,7 +22,7 @@
 #include <sup/gui/viewmodel/anyvalue_filtered_viewmodel.h>
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
-#include <mvvm/delegates/viewmodel_delegate.h>
+#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/model/session_item.h>
 
 #include <QItemSelectionModel>
