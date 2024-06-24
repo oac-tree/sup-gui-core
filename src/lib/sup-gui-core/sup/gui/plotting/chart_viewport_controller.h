@@ -31,13 +31,17 @@ class QAbstractAxis;
 class QLineSeries;
 }  // namespace QtCharts
 
+namespace mvvm
+{
+class AxisPlotController;
+}
+
 namespace sup::gui
 {
 class LineSeriesItem;
 class ChartViewportItem;
 class LineSeriesController;
-class AxisPlotController;
-}
+}  // namespace sup::gui
 
 namespace sup::gui
 {
@@ -95,10 +99,10 @@ private:
 
   QtCharts::QChart* m_chart{nullptr};
   std::list<std::unique_ptr<sup::gui::LineSeriesController>> m_line_controllers;
-  std::unique_ptr<sup::gui::AxisPlotController> m_x_axis_controller;
-  std::unique_ptr<sup::gui::AxisPlotController> m_y_axis_controller;
+  std::unique_ptr<mvvm::AxisPlotController> m_x_axis_controller;
+  std::unique_ptr<mvvm::AxisPlotController> m_y_axis_controller;
 };
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_PLOTTING_CHART_VIEWPORT_CONTROLLER_H_

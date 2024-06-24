@@ -19,12 +19,11 @@
 
 #include "chart_viewport_controller.h"
 
-#include "axis_plot_controller.h"
-
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/plotting/chart_items.h>
 #include <sup/gui/plotting/line_series_controller.h>
 
+#include <mvvm/plotting/charts/axis_plot_controller.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/viewport_item.h>
 
@@ -86,14 +85,14 @@ void ChartViewportController::SetupAxes()
   auto x_axes = m_chart->axes(Qt::Horizontal);
   if (!x_axes.empty())
   {
-    m_x_axis_controller = std::make_unique<AxisPlotController>(x_axes.at(0));
+    m_x_axis_controller = std::make_unique<mvvm::AxisPlotController>(x_axes.at(0));
     m_x_axis_controller->SetItem(GetItem()->GetXAxis());
   }
 
   auto y_axes = m_chart->axes(Qt::Vertical);
   if (!y_axes.empty())
   {
-    m_y_axis_controller = std::make_unique<AxisPlotController>(y_axes.at(0));
+    m_y_axis_controller = std::make_unique<mvvm::AxisPlotController>(y_axes.at(0));
     m_y_axis_controller->SetItem(GetItem()->GetYAxis());
   }
 }
@@ -142,4 +141,4 @@ void ChartViewportController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemove
   }
 }
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
