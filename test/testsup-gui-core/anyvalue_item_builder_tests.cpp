@@ -29,8 +29,6 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>
 
-#include <iostream>
-
 using namespace sup::gui;
 
 class AnyValueItemBuilderTest : public testutils::FolderBasedTest

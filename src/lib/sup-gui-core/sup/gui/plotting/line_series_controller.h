@@ -29,10 +29,14 @@ namespace QtCharts
 class QLineSeries;
 }
 
+namespace mvvm
+{
+class ChartsPenController;
+}
+
 namespace sup::gui
 {
 class LineSeriesItem;
-class PenController;
 class LineSeriesDataController;
 }  // namespace sup::gui
 
@@ -79,7 +83,7 @@ private:
   void OnDataChanged(const mvvm::DataChangedEvent& event);
 
   std::unique_ptr<LineSeriesDataController> m_data_controller;
-  std::unique_ptr<PenController> m_pen_controller;
+  std::unique_ptr<mvvm::ChartsPenController> m_pen_controller;
 };
 
 }  // namespace sup::gui

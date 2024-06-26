@@ -15,8 +15,6 @@ target_sources(${library_name} PRIVATE
   line_series_controller.h
   line_series_data_controller.cpp
   line_series_data_controller.h
-  pen_controller.cpp
-  pen_controller.h
   waveform_editor_action_handler.cpp
   waveform_editor_action_handler.h
   waveform_editor_context.h

@@ -22,8 +22,8 @@
 #include "line_series_data_controller.h"
 
 #include <sup/gui/plotting/chart_items.h>
-#include <sup/gui/plotting/pen_controller.h>
 
+#include <mvvm/plotting/charts/charts_pen_controller.h>
 #include <mvvm/standarditems/plottable_items.h>
 
 #include <QLineSeries>
@@ -33,7 +33,7 @@ namespace sup::gui
 
 LineSeriesController::LineSeriesController(QtCharts::QLineSeries *line_series)
     : m_data_controller(std::make_unique<LineSeriesDataController>(line_series))
-    , m_pen_controller(std::make_unique<PenController>(line_series))
+    , m_pen_controller(std::make_unique<mvvm::ChartsPenController>(line_series))
 {
 }
 
@@ -81,4 +81,4 @@ void LineSeriesController::OnDataChanged(const mvvm::DataChangedEvent &event)
   }
 }
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
