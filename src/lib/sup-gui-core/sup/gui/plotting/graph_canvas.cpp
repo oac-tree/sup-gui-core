@@ -19,10 +19,10 @@
 
 #include "graph_canvas.h"
 
-#include "chart_view.h"
-
 #include <sup/gui/plotting/chart_items.h>
 #include <sup/gui/plotting/chart_viewport_controller.h>
+
+#include <mvvm/views/chart_view.h>
 
 #include <QVBoxLayout>
 #include <QtCharts/QChart>
@@ -37,7 +37,7 @@ namespace sup::gui
 {
 
 GraphCanvas::GraphCanvas(QWidget *parent)
-    : QWidget(parent), m_chart(new QtCharts::QChart), m_chart_view(new ChartView)
+    : QWidget(parent), m_chart(new QtCharts::QChart), m_chart_view(new mvvm::ChartView)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -47,7 +47,8 @@ GraphCanvas::GraphCanvas(QWidget *parent)
   m_chart_view->setChart(m_chart);
   m_chart->setAnimationOptions(QtCharts::QChart::AllAnimations);
 
-  connect(m_chart_view, &ChartView::OperationModeChanged, this, &GraphCanvas::OperationModeChanged);
+  connect(m_chart_view, &mvvm::ChartView::OperationModeChanged, this,
+          &GraphCanvas::OperationModeChanged);
 }
 
 GraphCanvas::~GraphCanvas() = default;
@@ -78,7 +79,7 @@ void GraphCanvas::SetViewportToContent()
 
 void GraphCanvas::SetOperationMode(int mode)
 {
-  m_chart_view->SetOperationMode(static_cast<ChartView::OperationMode>(mode));
+  m_chart_view->SetOperationMode(static_cast<mvvm::ChartView::OperationMode>(mode));
 }
 
 }  // namespace sup::gui

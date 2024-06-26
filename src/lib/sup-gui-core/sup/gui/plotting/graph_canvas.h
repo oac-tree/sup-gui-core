@@ -28,10 +28,14 @@ namespace QtCharts
 class QChart;
 }  // namespace QtCharts
 
+
+namespace mvvm {
+class ChartView;
+}
+
 namespace sup::gui
 {
 
-class ChartView;
 class ChartViewportItem;
 class ChartViewportController;
 
@@ -65,7 +69,7 @@ private:
   std::unique_ptr<ChartViewportController> m_viewport_controller;
 
   QtCharts::QChart* m_chart{nullptr};
-  ChartView* m_chart_view{nullptr};
+  mvvm::ChartView* m_chart_view{nullptr};
   ChartViewportItem* m_viewport{nullptr};
 };
 

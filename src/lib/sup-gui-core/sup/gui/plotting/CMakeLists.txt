@@ -1,8 +1,6 @@
 target_sources(${library_name} PRIVATE
   chart_items.cpp
   chart_items.h
-  chart_view.cpp
-  chart_view.h
   chart_viewport_controller.cpp
   chart_viewport_controller.h
   custom_children_waveform_strategies.cpp
