@@ -21,7 +21,10 @@
 
 #include "anyvalue_editor_widget.h"
 
+#include <sup/gui/model/anyvalue_item.h>
+
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_utils.h>
 
 #include <QVBoxLayout>
 
@@ -29,7 +32,7 @@ namespace sup::gui
 {
 
 AnyValueEditor::AnyValueEditor(QWidget *parent)
-    : QWidget(parent)
+    : AbstractAnyValueEditor(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_editor_widget(new AnyValueEditorWidget(m_model.get()))
 {
@@ -40,9 +43,19 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   layout->addWidget(m_editor_widget);
 }
 
-void AnyValueEditor::SetInitialValue(const AnyValueItem &item)
+void AnyValueEditor::SetInitialValue(const AnyValueItem *item)
 {
-  m_editor_widget->SetInitialValue(item);
+  m_editor_widget->SetInitialValue(*item);
+}
+
+std::unique_ptr<AnyValueItem> AnyValueEditor::GetResult()
+{
+  if (auto top_item = GetTopItem(); top_item)
+  {
+    return mvvm::utils::CloneItem(*top_item);
+  }
+
+  return {};
 }
 
 AnyValueItem *AnyValueEditor::GetTopItem()

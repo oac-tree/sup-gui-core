@@ -20,8 +20,7 @@
 #ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 #define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 
-#include <sup/gui/components/anyvalue_editor_context.h>
-
+#include <sup/gui/anyvalueeditor/abstract_anyvalue_editor.h>
 #include <QString>
 #include <QWidget>
 #include <memory>
@@ -35,8 +34,9 @@ namespace sup::gui
 {
 
 class AnyValueEditorWidget;
+class AnyValueItem;
 
-class AnyValueEditor : public QWidget
+class AnyValueEditor : public AbstractAnyValueEditor
 {
   Q_OBJECT
 
@@ -44,7 +44,9 @@ public:
   explicit AnyValueEditor(QWidget* parent = nullptr);
   ~AnyValueEditor() override;
 
-  void SetInitialValue(const sup::gui::AnyValueItem& item);
+  void SetInitialValue(const sup::gui::AnyValueItem* item) override;
+
+  std::unique_ptr<sup::gui::AnyValueItem> GetResult() override;
 
   AnyValueItem* GetTopItem();
 
