@@ -1,4 +1,5 @@
 target_sources(${library_name} PRIVATE
+  abstract_anyvalue_editor.h
   anyvalue_editor.cpp
   anyvalue_editor.h
   anyvalue_editor_actions.cpp
