@@ -21,9 +21,9 @@
 
 #include <sup/gui/plotting/waveform_twocolumn_viewmodel.h>
 
-#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/viewmodel_delegate.h>
 
 #include <QHeaderView>
 #include <QTableView>
@@ -46,7 +46,7 @@ WaveformTableComponentProvider::~WaveformTableComponentProvider() = default;
 void WaveformTableComponentProvider::SetModel(mvvm::ApplicationModel *model)
 {
   m_model = model;
-    m_table_view_model = std::make_unique<WaveformTwoColumnViewModel>(model);
+  m_table_view_model = std::make_unique<WaveformTwoColumnViewModel>(model);
   m_horizontal_proxy_model->setSourceModel(m_table_view_model.get());
   m_table_view->setModel(m_horizontal_proxy_model);
   m_table_view->setItemDelegate(m_delegate.get());
@@ -152,4 +152,4 @@ void WaveformTableComponentProvider::OnViewModelReset()
   GetSelectionModel()->clearSelection();
 }
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
