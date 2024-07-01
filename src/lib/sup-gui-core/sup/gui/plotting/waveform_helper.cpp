@@ -22,6 +22,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/standarditems/waveform_helper.h>
 
 #include <sup/dto/anytype.h>
 
@@ -55,25 +56,6 @@ sup::gui::AnyValueItem* GetFirstPoint(const sup::gui::AnyValueArrayItem& array_i
 {
   auto points = array_item.GetChildren();
   return points.empty() ? nullptr : points.front();
-}
-
-/**
- * @brief Make pair of vectors instead of vector of pairs.
- */
-std::pair<std::vector<double>, std::vector<double>> GetPairOfVectors(
-    const std::vector<std::pair<double, double>>& points)
-{
-  std::vector<double> first;
-  std::vector<double> second;
-
-  auto on_element = [&first, &second](const auto& element)
-  {
-    first.push_back(element.first);
-    second.push_back(element.second);
-  };
-  for_each(std::begin(points), std::end(points), on_element);
-
-  return {first, second};
 }
 
 }  // namespace
@@ -129,16 +111,16 @@ std::pair<double, double> GetXY(const AnyValueItem& item)
   throw std::runtime_error("Error in GetXY: can't get float or double values from point");
 }
 
-std::unique_ptr<AnyValueItem> CreatePointToAppend(
-    const AnyValueArrayItem& array_item, const AnyValueItem* selected_point)
+std::unique_ptr<AnyValueItem> CreatePointToAppend(const AnyValueArrayItem& array_item,
+                                                  const AnyValueItem* selected_point)
 {
   // creating point slighly shifted to the right
   auto base_point = selected_point ? selected_point : GetLastPoint(array_item);
   return CreateShiftedPoint(base_point, kDefaultDx);
 }
 
-std::unique_ptr<AnyValueItem> CreatePointToPrepend(
-    const AnyValueArrayItem& array_item, const AnyValueItem* selected_point)
+std::unique_ptr<AnyValueItem> CreatePointToPrepend(const AnyValueArrayItem& array_item,
+                                                   const AnyValueItem* selected_point)
 {
   // creating point slighly shifted to the left
   auto base_point = selected_point ? selected_point : GetFirstPoint(array_item);
@@ -158,14 +140,14 @@ std::vector<std::pair<double, double>> GetPoints(const AnyValueArrayItem* array_
   return result;
 }
 
-std::vector<double> GetXValues(const sup::gui::AnyValueArrayItem *array_item)
+std::vector<double> GetXValues(const sup::gui::AnyValueArrayItem* array_item)
 {
-  return GetPairOfVectors(GetPoints(array_item)).first;
+  return mvvm::GetPairOfVectors(GetPoints(array_item)).first;
 }
 
 std::vector<double> GetYValues(const sup::gui::AnyValueArrayItem* array_item)
 {
-  return GetPairOfVectors(GetPoints(array_item)).second;
+  return mvvm::GetPairOfVectors(GetPoints(array_item)).second;
 }
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
