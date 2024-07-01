@@ -19,9 +19,7 @@
 
 #include "custom_children_waveform_strategies.h"
 
-#include <sup/gui/model/anyvalue_item.h>
-
-#include <mvvm/model/session_item.h>
+#include <mvvm/standarditems/line_series_data_item.h>
 
 namespace sup::gui
 {
@@ -31,12 +29,9 @@ std::vector<mvvm::SessionItem *> WaveformChildrenStrategy::GetChildren(
 {
   // The strategy reports AnyValueArrayItem's children (which are structs carraying "x" and "y") as
   // it is.
-  if (auto anyvalue_item = dynamic_cast<const sup::gui::AnyValueItem *>(item); anyvalue_item)
+  if (auto data_item = dynamic_cast<const mvvm::LineSeriesDataItem *>(item); data_item)
   {
-    if (anyvalue_item->IsArray())
-    {
-      return anyvalue_item->GetAllItems();
-    }
+    return data_item->GetAllItems();
   }
 
   // For all others pretend no children.

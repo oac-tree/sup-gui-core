@@ -19,11 +19,9 @@
 
 #include "custom_row_waveform_strategies.h"
 
-#include <sup/gui/model/anyvalue_item.h>
-
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
-#include <mvvm/widgets/widget_utils.h>
 
 #include <stdexcept>
 
@@ -34,11 +32,11 @@ namespace
  * @brief Constructs row of two data items pointing to values of "xY and "y" fields of
  * AnyValueStructItem.
  */
-std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const sup::gui::AnyValueItem &item)
+std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem &item)
 {
   std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
-  auto scalar_items = item.GetChildren();
+  auto scalar_items = item.GetAllItems();
   if (scalar_items.size() != 2)
   {
     throw std::runtime_error("Error in CreateXYRow: not intended for this type of item");
@@ -68,12 +66,9 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> TwoColumRowStrategy::ConstructRowIm
     mvvm::SessionItem *item)
 {
   // For structures construct a row made of data's of two fields
-  if (auto anyvalue_item = dynamic_cast<const sup::gui::AnyValueItem *>(item); anyvalue_item)
+  if (auto point_item = dynamic_cast<const mvvm::PointItem *>(item); point_item)
   {
-    if (anyvalue_item->IsStruct())
-    {
-      return CreateXYRow(*anyvalue_item);
-    }
+    return CreateXYRow(*point_item);
   }
 
   return {};

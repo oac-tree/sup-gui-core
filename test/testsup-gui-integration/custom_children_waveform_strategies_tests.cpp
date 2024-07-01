@@ -19,9 +19,8 @@
 
 #include "sup/gui/plotting/custom_children_waveform_strategies.h"
 
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/plotting/waveform_helper.h>
-
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
@@ -36,17 +35,16 @@ TEST_F(CustomChildrenStategiesTest, WaveformChildrenStrategy)
 {
   WaveformChildrenStrategy strategy;
 
-  // create AnyValueItem representing a waveform
-  const auto anyvalue_array_item =
-      sup::gui::CreatePlotData({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
-  const auto struct_items = anyvalue_array_item->GetChildren();
+  mvvm::LineSeriesDataItem data_item;
+  data_item.SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+
+  auto points = data_item.GetPoints();
 
   // strategy report underlying AnyValueStructItem's as children of our array
-  auto children = mvvm::utils::CastItems<sup::gui::AnyValueItem>(
-      strategy.GetChildren(anyvalue_array_item.get()));
+  auto children = mvvm::utils::CastItems<mvvm::PointItem>(strategy.GetChildren(&data_item));
   ASSERT_EQ(children.size(), 3);
-  EXPECT_EQ(children, struct_items);
+  EXPECT_EQ(children, points);
 
-  // strategy doesn't see x,y children below each struct
-  EXPECT_TRUE(strategy.GetChildren(struct_items.at(0)).empty());
+  // strategy doesn't see x,y below each point
+  EXPECT_TRUE(strategy.GetChildren(points.at(0)).empty());
 }

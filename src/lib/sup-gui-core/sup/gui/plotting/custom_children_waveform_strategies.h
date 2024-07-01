@@ -26,11 +26,11 @@ namespace sup::gui
 {
 
 /**
- * @brief The WaveformChildrenStrategy class reports children of parent AnyValueItem representing
+ * @brief The WaveformChildrenStrategy class reports children of LineSeriesDataItem representing
  * time series.
  *
- * @details It's a part of WaveformTwoColumnViewModel. The strategy allows to iterate through array
- * elements, without going to down to element's children.
+ * It's a part of WaveformTwoColumnViewModel. The strategy allows to iterate through array elements,
+ * without going to down to element's children.
  */
 class WaveformChildrenStrategy : public mvvm::IChildrenStrategy
 {
