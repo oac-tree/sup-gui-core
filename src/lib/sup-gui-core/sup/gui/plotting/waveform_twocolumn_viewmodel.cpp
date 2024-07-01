@@ -22,35 +22,7 @@
 #include "custom_children_waveform_strategies.h"
 #include "custom_row_waveform_strategies.h"
 
-#include <mvvm/viewmodel/viewmodel_controller.h>
-#include <mvvm/viewmodel/viewmodel_controller_impl.h>
-
-namespace
-{
-/**
- * @brief Creates implementation for ViewModelController with custom children and row strategies.
- */
-std::unique_ptr<mvvm::IViewModelController> CreateImpl(mvvm::ViewModelBase *viewmodel)
-{
-  auto children_strategy = std::make_unique<sup::gui::WaveformChildrenStrategy>();
-  auto row_strategy = std::make_unique<sup::gui::TwoColumRowStrategy>();
-
-  auto result = std::make_unique<mvvm::ViewModelControllerImpl>(
-      viewmodel, std::move(children_strategy), std::move(row_strategy));
-
-  return result;
-}
-
-class WaveformTwoColumnViewModelController : public mvvm::ViewModelController
-{
-public:
-  explicit WaveformTwoColumnViewModelController(mvvm::ViewModelBase *viewmodel)
-      : mvvm::ViewModelController(CreateImpl(viewmodel))
-  {
-  }
-};
-
-}  // namespace
+#include <mvvm/viewmodel/viewmodel_controller_factory.h>
 
 namespace sup::gui
 {
@@ -58,8 +30,8 @@ namespace sup::gui
 WaveformTwoColumnViewModel::WaveformTwoColumnViewModel(mvvm::ISessionModel *model, QObject *parent)
     : ViewModel(parent)
 {
-  auto controller = std::make_unique<WaveformTwoColumnViewModelController>(this);
-  controller->SetModel(model);
+  auto controller = mvvm::factory::CreateController<sup::gui::WaveformChildrenStrategy,
+                                                    sup::gui::TwoColumRowStrategy>(model, this);
   SetController(std::move(controller));
 }
 

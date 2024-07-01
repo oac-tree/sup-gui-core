@@ -26,16 +26,16 @@ namespace sup::gui
 {
 
 /**
- * @brief The WaveformTwoColumnViewModel shows AnyValueItem with waveform data on board as
+ * @brief The WaveformTwoColumnViewModel shows LineSeriesDataItem with waveform data on board as
  * two-columns table.
  *
- * @details The layout of AnyValueItem:
+ * @details The layout of LineSeriesDataItem:
  * @code
- * array
- *  struct
+ * LineSeriesDataItem
+ *  PointItem
  *    "x": 1.0
  *    "y": 10.0
- *  struct
+ *  PointItem
  *    "x": 2.0
  *    "y": 20.0
  * @endcode
@@ -45,7 +45,6 @@ namespace sup::gui
  * 1.0 10.0
  * 2.0 20.0
  * @endcode
- *
  */
 
 class WaveformTwoColumnViewModel : public mvvm::ViewModel

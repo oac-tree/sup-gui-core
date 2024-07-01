@@ -19,10 +19,9 @@
 
 #include "sup/gui/plotting/waveform_twocolumn_viewmodel.h"
 
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/plotting/waveform_helper.h>
-
 #include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/point_item.h>
 
 #include <gtest/gtest.h>
 
@@ -35,19 +34,15 @@ class WaveformTwoColumnViewModelTest : public ::testing::Test
 };
 
 //! Testing how viewmodel looks like when pointed to time series of 3 (x,y) points.
-
 TEST_F(WaveformTwoColumnViewModelTest, ViewModelData)
 {
   mvvm::ApplicationModel model;
 
-  // an item representing time series
-  auto array_item = sup::gui::CreatePlotData({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
-
-  auto item =
-      model.InsertItem(std::move(array_item), model.GetRootItem(), mvvm::TagIndex::Append());
+  auto data_item = model.InsertItem<mvvm::LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
 
   WaveformTwoColumnViewModel viewmodel(&model);
-  viewmodel.SetRootSessionItem(item);
+  viewmodel.SetRootSessionItem(data_item);
 
   EXPECT_EQ(viewmodel.rowCount(), 3);
   EXPECT_EQ(viewmodel.columnCount(), 2);
@@ -74,7 +69,6 @@ TEST_F(WaveformTwoColumnViewModelTest, ViewModelData)
 //! Testing how viewmodel looks like when pointed to time series of 3 (x,y) points.
 //! This time we are testing special QTransposeProxyModel and expectind that
 //! nrow=3, ncol=2 will become nrow=2, ncol=3.
-
 TEST_F(WaveformTwoColumnViewModelTest, TwoColumnModelTransposedProxy)
 {
   // 1.0, 10.0
@@ -87,16 +81,12 @@ TEST_F(WaveformTwoColumnViewModelTest, TwoColumnModelTransposedProxy)
 
   mvvm::ApplicationModel model;
 
-  // an item representing time series
-  auto array_item = sup::gui::CreatePlotData({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
-  const auto struct_items = array_item->GetChildren();
-  ASSERT_EQ(struct_items.size(), 3);
-
-  auto item =
-      model.InsertItem(std::move(array_item), model.GetRootItem(), mvvm::TagIndex::Append());
+  // an item representing time series data
+  auto data_item = model.InsertItem<mvvm::LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
 
   WaveformTwoColumnViewModel viewmodel(&model);
-  viewmodel.SetRootSessionItem(item);
+  viewmodel.SetRootSessionItem(data_item);
 
   QTransposeProxyModel proxy;
   proxy.setSourceModel(&viewmodel);
@@ -124,13 +114,12 @@ TEST_F(WaveformTwoColumnViewModelTest, TwoColumnModelTransposedProxy)
   proxy.setData(y_col1, 42.0);
 
   // validating via original AnyValueStructItem
-  auto scalar_fields = struct_items.at(1)->GetChildren();
-  ASSERT_EQ(scalar_fields.size(), 2);
-  EXPECT_EQ(scalar_fields.at(1)->Data<double>(), 42.0);
+  auto [x, y] = data_item->GetPointCoordinates(1);
+  EXPECT_EQ(x, 2.0);
+  EXPECT_EQ(y, 42.0);
 }
 
 //! Validating viewmodel while populating the model with time series points.
-
 TEST_F(WaveformTwoColumnViewModelTest, AppendPoints)
 {
   mvvm::ApplicationModel model;
@@ -139,38 +128,34 @@ TEST_F(WaveformTwoColumnViewModelTest, AppendPoints)
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 2);
 
-  auto array_item = model.InsertItem<sup::gui::AnyValueArrayItem>();
-  viewmodel.SetRootSessionItem(array_item);
+  auto data_item = model.InsertItem<mvvm::LineSeriesDataItem>();
+  viewmodel.SetRootSessionItem(data_item);
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 2);
 
   // adding a point to the array
-  model.InsertItem(sup::gui::CreatePoint(1, 10.0), array_item, mvvm::TagIndex::Append());
+  data_item->InsertPoint(0, {1.0, 10.0});
   EXPECT_EQ(viewmodel.rowCount(), 1);
   EXPECT_EQ(viewmodel.columnCount(), 2);
 }
 
 //! Validating viewmodel while removing points from the model.
-
 TEST_F(WaveformTwoColumnViewModelTest, RemovePoints)
 {
   mvvm::ApplicationModel model;
 
   // an item representing time series
-  auto array_item = sup::gui::CreatePlotData({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
-  const auto struct_items = array_item->GetChildren();
-
-  auto item =
-      model.InsertItem(std::move(array_item), model.GetRootItem(), mvvm::TagIndex::Append());
+  auto data_item = model.InsertItem<mvvm::LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
 
   WaveformTwoColumnViewModel viewmodel(&model);
-  viewmodel.SetRootSessionItem(item);
+  viewmodel.SetRootSessionItem(data_item);
 
   EXPECT_EQ(viewmodel.rowCount(), 3);
   EXPECT_EQ(viewmodel.columnCount(), 2);
 
   // removing middle point
-  model.RemoveItem(struct_items.at(1));
+  data_item->RemovePoint(1);
 
   // viewmodel should see only first and last point
   EXPECT_EQ(viewmodel.rowCount(), 2);
