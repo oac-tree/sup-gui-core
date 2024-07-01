@@ -1,18 +1,8 @@
 target_sources(${library_name} PRIVATE
-  chart_items.cpp
-  chart_items.h
-  chart_viewport_controller.cpp
-  chart_viewport_controller.h
   custom_children_waveform_strategies.cpp
   custom_children_waveform_strategies.h
   custom_row_waveform_strategies.cpp
   custom_row_waveform_strategies.h
-  graph_canvas.cpp
-  graph_canvas.h
-  line_series_controller.cpp
-  line_series_controller.h
-  line_series_data_controller.cpp
-  line_series_data_controller.h
   waveform_editor_action_handler.cpp
   waveform_editor_action_handler.h
   waveform_editor_context.h

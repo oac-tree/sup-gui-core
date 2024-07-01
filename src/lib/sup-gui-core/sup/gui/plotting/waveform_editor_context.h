@@ -22,11 +22,14 @@
 
 #include <functional>
 
+namespace mvvm
+{
+class PointItem;
+class LineSeriesItem;
+}  // namespace mvvm
+
 namespace sup::gui
 {
-
-class AnyValueItem;
-class LineSeriesItem;
 
 /**
  * @brief The WaveformEditorContext struct carries the data for WaveformEditorActionHandler.
@@ -34,10 +37,10 @@ class LineSeriesItem;
 struct WaveformEditorContext
 {
   //!< Callback to retrieve current line series item.
-  std::function<LineSeriesItem*()> get_selected_waveform_callback;
+  std::function<mvvm::LineSeriesItem*()> get_selected_waveform_callback;
 
   //!< Callback to retrieve currently selected AnyValueItem representing a point.
-  std::function<AnyValueItem*()> get_selected_point_callback;
+  std::function<mvvm::PointItem*()> get_selected_point_callback;
 };
 
 }  // namespace sup::gui

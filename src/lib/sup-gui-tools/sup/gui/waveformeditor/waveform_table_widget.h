@@ -29,13 +29,13 @@ namespace mvvm
 {
 class ApplicationModel;
 class SessionItem;
+class LineSeriesItem;
+class PointItem;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
-class AnyValueItem;
-class LineSeriesItem;
 class WaveformTableComponentProvider;
 
 /**
@@ -58,14 +58,14 @@ public:
   /**
    * @brief Returns current waveform being served by the table widget.
    */
-  LineSeriesItem* GetLineSeriesItem();
+  mvvm::LineSeriesItem* GetLineSeriesItem();
 
   /**
    * @brief Set waveform to show in table widget.
    *
    * @details For the moment table widget can show only one waveform.
    */
-  void SetLineSeriesItem(LineSeriesItem* line_series_item);
+  void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
   /**
    * @brief Returns AnyValueItem representing currently selected point.
@@ -73,7 +73,7 @@ public:
    * @details The point is a structure with x,y fields represented by a column in a table. Selection
    * of any of "x" or "y" cells, or both, will report point as selected.
    */
-  AnyValueItem* GetSelectedPoint();
+  mvvm::PointItem* GetSelectedPoint();
 
   /**
    * @brief Set point selected in table widget.
@@ -82,7 +82,7 @@ public:
    *
    * @details Will select two cells represening x,y values.
    */
-  void SetSelectedPoint(const AnyValueItem* item);
+  void SetSelectedPoint(const mvvm::PointItem* item);
 
   QSize sizeHint() const override;
 
@@ -92,9 +92,9 @@ private:
   mvvm::ApplicationModel* m_model{nullptr};
   std::unique_ptr<WaveformTableComponentProvider> m_component_provider;
 
-  LineSeriesItem* m_current_line_series{nullptr};
+  mvvm::LineSeriesItem* m_current_line_series{nullptr};
 };
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_WAVEFORMEDITOR_WAVEFORM_TABLE_WIDGET_H_

@@ -22,10 +22,9 @@
 #include "waveform_table_widget.h"
 
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/plotting/chart_items.h>
-#include <sup/gui/plotting/graph_canvas.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/views/chart_canvas.h>
 
 #include <QSplitter>
 #include <QVBoxLayout>
@@ -36,57 +35,57 @@ namespace sup::gui
 WaveformEditorView::WaveformEditorView(QWidget *parent)
     : QWidget(parent)
     , m_splitter(new QSplitter)
-    , m_graph_canvas(new GraphCanvas)
+    , m_chart_canvas(new mvvm::ChartCanvas)
     , m_table_widget(new WaveformTableWidget(nullptr))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
   m_splitter->setOrientation(Qt::Vertical);
-  m_splitter->addWidget(m_graph_canvas);
+  m_splitter->addWidget(m_chart_canvas);
   m_splitter->addWidget(m_table_widget);
 
   layout->addWidget(m_splitter);
 }
 
-LineSeriesItem *WaveformEditorView::GetLineSeriesItem()
+mvvm::LineSeriesItem *WaveformEditorView::GetLineSeriesItem()
 {
   return m_table_widget->GetLineSeriesItem();
 }
 
 WaveformEditorView::~WaveformEditorView() = default;
 
-void WaveformEditorView::SetLineSeriesItem(LineSeriesItem *line_series_item)
+void WaveformEditorView::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_table_widget->SetLineSeriesItem(line_series_item);
 }
 
-void WaveformEditorView::SetViewportItem(ChartViewportItem *viewport_item)
+void WaveformEditorView::SetViewportItem(mvvm::ChartViewportItem *viewport_item)
 {
-  m_graph_canvas->SetViewport(viewport_item);
+  m_chart_canvas->SetViewport(viewport_item);
 }
 
-AnyValueItem *WaveformEditorView::GetSelectedPoint()
+mvvm::PointItem *WaveformEditorView::GetSelectedPoint()
 {
   return m_table_widget->GetSelectedPoint();
 }
 
 void WaveformEditorView::ZoomIn()
 {
-  m_graph_canvas->ZoomIn();
+  m_chart_canvas->ZoomIn();
 }
 
 void WaveformEditorView::ZoomOut()
 {
-  m_graph_canvas->ZoomOut();
+  m_chart_canvas->ZoomOut();
 }
 
 void WaveformEditorView::SetViewportToContent()
 {
-  m_graph_canvas->SetViewportToContent();
+  m_chart_canvas->SetViewportToContent();
 }
 
-void WaveformEditorView::SetSelectedPoint(const AnyValueItem *item)
+void WaveformEditorView::SetSelectedPoint(const mvvm::PointItem *item)
 {
   m_table_widget->SetSelectedPoint(item);
 }

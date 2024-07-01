@@ -21,10 +21,10 @@
 
 #include <sup/gui/plotting/waveform_table_component_provider.h>
 
-#include <sup/gui/plotting/chart_items.h>
-#include <sup/gui/model/anyvalue_item.h>
-
 #include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QHeaderView>
@@ -60,31 +60,31 @@ WaveformTableWidget::~WaveformTableWidget() = default;
 void WaveformTableWidget::SetModel(mvvm::ApplicationModel *model)
 {
   m_model = model;
-    m_component_provider = std::make_unique<WaveformTableComponentProvider>(model, m_table_view);
+  m_component_provider = std::make_unique<WaveformTableComponentProvider>(model, m_table_view);
 }
 
-LineSeriesItem *WaveformTableWidget::GetLineSeriesItem()
+mvvm::LineSeriesItem *WaveformTableWidget::GetLineSeriesItem()
 {
   return m_current_line_series;
 }
 
-void WaveformTableWidget::SetLineSeriesItem(LineSeriesItem *line_series_item)
+void WaveformTableWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_current_line_series = line_series_item;
   m_component_provider->SetItem(line_series_item->GetDataItem());
 }
 
-AnyValueItem *WaveformTableWidget::GetSelectedPoint()
+mvvm::PointItem *WaveformTableWidget::GetSelectedPoint()
 {
   auto selected = m_component_provider->GetSelectedItem();
   auto parent_struct = selected ? selected->GetParent() : nullptr;
-  return dynamic_cast<AnyValueItem *>(parent_struct);
+  return dynamic_cast<mvvm::PointItem *>(parent_struct);
 }
 
-void WaveformTableWidget::SetSelectedPoint(const AnyValueItem *item)
+void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem *item)
 {
   // enough to select only x, will select the whole column
-  auto points = item->GetChildren();
+  auto points = item->GetAllItems();
   if (!points.empty())
   {
     auto x_cell = points.at(0);
@@ -108,4 +108,4 @@ QSize WaveformTableWidget::sizeHint() const
   return {800, height};
 }
 
-}  // namespace pspsdemo
+}  // namespace sup::gui

@@ -20,19 +20,19 @@
 #ifndef SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
 #define SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
 
-#include "sup/gui/model/anyvalue_item.h"
 #include <QWidget>
 #include <memory>
 
 namespace mvvm
 {
 class ApplicationModel;
-}
+class LineSeriesItem;
+class LineSeriesDataItem;
+}  // namespace mvvm
 
 namespace sup::gui
 {
-class LineSeriesItem;
-class AnyValueArrayItem;
+
 class WaveformEditorView;
 class WaveformEditorToolBar;
 class WaveformEditorActionHandler;
@@ -48,7 +48,7 @@ public:
 
   void SetWaveformModel(mvvm::ApplicationModel* model);
 
-  void SetSetpoint(AnyValueItem* anyvalue_item, const std::string& title);
+  void SetSetpoint(mvvm::LineSeriesDataItem* data_item, const std::string& title);
 
 private:
   void SetupConnections();
@@ -59,9 +59,9 @@ private:
 
   WaveformEditorView* m_editor_view{nullptr};
   WaveformEditorToolBar* m_tool_bar{nullptr};
-  LineSeriesItem* m_line_series_item{nullptr};
+  mvvm::LineSeriesItem* m_line_series_item{nullptr};
 };
 
-}  // namespace pspsdemo
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_

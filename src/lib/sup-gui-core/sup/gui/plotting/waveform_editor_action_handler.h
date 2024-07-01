@@ -34,13 +34,10 @@ namespace sup::gui
 {
 
 struct WaveformEditorContext;
-class AnyValueItem;
-class LineSeriesItem;
 
 /**
  * @brief The WaveformEditorActionHandler class implements logic to add/remove points to waveform.
  */
-
 class WaveformEditorActionHandler : public QObject
 {
   Q_OBJECT
@@ -58,8 +55,8 @@ signals:
 
 private:
   mvvm::ISessionModel* GetModel();
-  LineSeriesItem* GetLineSeries();
-  AnyValueItem* GetSelectedPoint();
+  mvvm::LineSeriesItem* GetLineSeries();
+  mvvm::PointItem* GetSelectedPoint();
 
   mvvm::SessionItem* GetParent();
 

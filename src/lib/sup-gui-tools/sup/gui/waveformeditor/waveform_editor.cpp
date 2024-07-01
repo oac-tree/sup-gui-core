@@ -22,12 +22,14 @@
 #include "waveform_editor_toolbar.h"
 #include "waveform_editor_view.h"
 
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/plotting/chart_items.h>
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
 #include <sup/gui/plotting/waveform_editor_context.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/point_item.h>
 
 #include <QSplitter>
 #include <QVBoxLayout>
@@ -58,15 +60,13 @@ void WaveformEditor::SetWaveformModel(mvvm::ApplicationModel *model)
   m_model = model;
 
   // for the moment we show only one Line Series in a viewport
-  auto viewport = m_model->InsertItem<sup::gui::ChartViewportItem>();
-  m_line_series_item = m_model->InsertItem<sup::gui::LineSeriesItem>(viewport);
+  auto viewport = m_model->InsertItem<mvvm::ChartViewportItem>();
+  m_line_series_item = m_model->InsertItem<mvvm::LineSeriesItem>(viewport);
   m_editor_view->SetViewportItem(viewport);
 }
 
-void WaveformEditor::SetSetpoint(sup::gui::AnyValueItem *anyvalue_item, const std::string &title)
+void WaveformEditor::SetSetpoint(mvvm::LineSeriesDataItem *data_item, const std::string &title)
 {
-  auto data_item = dynamic_cast<sup::gui::AnyValueArrayItem *>(anyvalue_item);
-
   m_line_series_item->SetDataItem(data_item);
   m_line_series_item->SetNamedColor("red");
   m_line_series_item->SetDisplayName(title);
@@ -92,7 +92,7 @@ void WaveformEditor::SetupConnections()
 
   connect(m_action_handler.get(), &WaveformEditorActionHandler::SelectItemRequest, this,
           [this](auto item)
-          { m_editor_view->SetSelectedPoint(dynamic_cast<const sup::gui::AnyValueItem *>(item)); });
+          { m_editor_view->SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
 }
 
 WaveformEditorContext WaveformEditor::CreateActionContext() const
