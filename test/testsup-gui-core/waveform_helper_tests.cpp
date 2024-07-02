@@ -22,6 +22,9 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/point_item.h>
+
 #include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
@@ -83,44 +86,43 @@ TEST_F(WaveformHelperTest, GetXY)
 }
 
 //! Testing method CreatePointToAppend.
-
 TEST_F(WaveformHelperTest, CreatePointToAppend)
 {
-  {  // array without points
-    sup::gui::AnyValueArrayItem array_item;
+  {  // waveform without points
+    mvvm::LineSeriesDataItem data_item;
 
-    auto new_point = CreatePointToAppend(array_item, nullptr);
+    auto new_point = CreatePointToAppend(data_item, nullptr);
 
     // point to append should be (0.0, 0.0)
-    EXPECT_EQ(GetPoint(*new_point), std::make_pair(0.0, 0.0));
+    EXPECT_EQ(new_point->GetPointCoordinates(), std::make_pair(0.0, 0.0));
   }
 
-  {  // array with single point (1.0, 2.0)
+  {  // waveform with single point (1.0, 2.0)
+    mvvm::LineSeriesDataItem data_item;
+
     const double x{1.0};
     const double y{2.0};
-    auto array_item = CreateFromWaveform({{x, y}});
+    data_item.SetWaveform({{x, y}});
 
-    auto new_point = CreatePointToAppend(*array_item, nullptr);
+    auto new_point = CreatePointToAppend(data_item, nullptr);
 
     // point to append should be shifted (1.1, 2.0)
-    auto [new_point_x, new_point_y] = GetPoint(*new_point);
-    EXPECT_DOUBLE_EQ(new_point_x, x + kDefaultDx);
-    EXPECT_EQ(new_point_y, y);
+    EXPECT_DOUBLE_EQ(new_point->GetX(), x + kDefaultDx);
+    EXPECT_EQ(new_point->GetY(), y);
   }
 
-  {  // array with 3 points when middle is selected
+  {  // waveform with 3 points when middle is selected
+    mvvm::LineSeriesDataItem data_item;
+
     const double x_middle{2.0};
     const double y_middle{20.0};
+    data_item.SetWaveform({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
 
-    auto array_item = CreateFromWaveform({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
-    auto points = array_item->GetChildren();
-
-    auto new_point = CreatePointToAppend(*array_item, points.at(1));
+    auto new_point = CreatePointToAppend(data_item, data_item.GetPoint(1));
 
     // point to append should be shifted (2.1, 20.0)
-    auto [new_point_x, new_point_y] = GetPoint(*new_point);
-    EXPECT_DOUBLE_EQ(new_point_x, x_middle + kDefaultDx);
-    EXPECT_EQ(new_point_y, y_middle);
+    EXPECT_DOUBLE_EQ(new_point->GetX(), x_middle + kDefaultDx);
+    EXPECT_EQ(new_point->GetY(), y_middle);
   }
 }
 
@@ -128,41 +130,41 @@ TEST_F(WaveformHelperTest, CreatePointToAppend)
 
 TEST_F(WaveformHelperTest, CreatePointToPrepend)
 {
-  {  // array without points
-    sup::gui::AnyValueArrayItem array_item;
+  {  // waveform without points
+    mvvm::LineSeriesDataItem data_item;
 
-    auto new_point = CreatePointToPrepend(array_item, nullptr);
+    auto new_point = CreatePointToPrepend(data_item, nullptr);
 
     // point to append should be (0.0, 0.0)
-    EXPECT_EQ(GetPoint(*new_point), std::make_pair(0.0, 0.0));
+    EXPECT_EQ(new_point->GetPointCoordinates(), std::make_pair(0.0, 0.0));
   }
 
-  {  // array with single point (1.0, 2.0)
+  {  // waveform with single point (1.0, 2.0)
+    mvvm::LineSeriesDataItem data_item;
+
     const double x{1.0};
     const double y{2.0};
-    auto array_item = CreateFromWaveform({{x, y}});
+    data_item.SetWaveform({{x, y}});
 
-    auto new_point = CreatePointToPrepend(*array_item, nullptr);
+    auto new_point = CreatePointToPrepend(data_item, nullptr);
 
     // point to append should be shifted (0.9, 2.0)
-    auto [new_point_x, new_point_y] = GetPoint(*new_point);
-    EXPECT_DOUBLE_EQ(new_point_x, x - kDefaultDx);
-    EXPECT_EQ(new_point_y, y);
+    EXPECT_DOUBLE_EQ(new_point->GetX(), x - kDefaultDx);
+    EXPECT_EQ(new_point->GetY(), y);
   }
 
   {  // array with 3 points when middle is selected
     const double x_middle{2.0};
     const double y_middle{20.0};
 
-    auto array_item = CreateFromWaveform({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
-    auto points = array_item->GetChildren();
+    mvvm::LineSeriesDataItem data_item;
+    data_item.SetWaveform({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
 
-    auto new_point = CreatePointToPrepend(*array_item, points.at(1));
+    auto new_point = CreatePointToPrepend(data_item, data_item.GetPoint(1));
 
     // point to append should be shifted (1.9, 20.0)
-    auto [new_point_x, new_point_y] = GetPoint(*new_point);
-    EXPECT_DOUBLE_EQ(new_point_x, x_middle - kDefaultDx);
-    EXPECT_EQ(new_point_y, y_middle);
+    EXPECT_DOUBLE_EQ(new_point->GetX(), x_middle - kDefaultDx);
+    EXPECT_EQ(new_point->GetY(), y_middle);
   }
 }
 

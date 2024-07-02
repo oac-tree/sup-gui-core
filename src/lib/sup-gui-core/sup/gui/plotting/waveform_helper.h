@@ -27,6 +27,12 @@
 #include <string>
 #include <vector>
 
+namespace mvvm
+{
+class PointItem;
+class LineSeriesDataItem;
+}  // namespace mvvm
+
 namespace sup::gui
 {
 
@@ -76,30 +82,30 @@ std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* arra
 /**
  * @brief Create a point which can be added after the given point.
  *
- * @param array_item An array that should get a new point.
+ * Will create a point with reasonable default values of (x,y) coordinates. See code for more
+ * details.
+ *
+ * @param data_item A LineSeriesDataItem that should get a new point.
  * @param selected_point Currenlty selected point.
  *
  * @return New point to add into array.
- *
- * @details Will create a point with reasonable default values of (x,y) coordinates. See code for
- * more details.
- */
-std::unique_ptr<AnyValueItem> CreatePointToAppend(const AnyValueArrayItem& array_item,
-                                                  const AnyValueItem* selected_point);
+ * */
+std::unique_ptr<mvvm::PointItem> CreatePointToAppend(const mvvm::LineSeriesDataItem& data_item,
+                                                     const mvvm::PointItem* selected_point);
 
 /**
  * @brief Create a point which can be added before the given point.
  *
+ * Will create a point with reasonable default values of (x,y) coordinates. See code for more
+ * details.
+ *
  * @param array_item An array that should get a new point.
  * @param selected_point Currenlty selected point.
  *
  * @return New point to add into array.
- *
- * @details Will create a point with reasonable default values of (x,y) coordinates. See code for
- * more details.
  */
-std::unique_ptr<AnyValueItem> CreatePointToPrepend(const AnyValueArrayItem& array_item,
-                                                   const AnyValueItem* selected_point);
+std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesDataItem& data_item,
+                                                      const mvvm::PointItem* selected_point);
 
 }  // namespace sup::gui
 

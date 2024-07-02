@@ -22,6 +22,8 @@
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/standarditems/waveform_helper.h>
 
 #include <sup/dto/anytype.h>
@@ -34,28 +36,28 @@ namespace
 /**
  * @brief Create point slightly shifted to the right wrt the given point.
  */
-std::unique_ptr<sup::gui::AnyValueItem> CreateShiftedPoint(const sup::gui::AnyValueItem* point,
-                                                           double x_shift)
+std::unique_ptr<mvvm::PointItem> CreateShiftedPoint(const mvvm::PointItem* point, double x_shift)
 {
+  auto result = std::make_unique<mvvm::PointItem>();
+
   if (point)
   {
-    auto [x, y] = sup::gui::GetPoint(*point);
-    return sup::gui::CreateFromPoint(x + x_shift, y);
+    result->SetX(point->GetX() + x_shift);
+    result->SetY(point->GetY());
   }
 
-  return sup::gui::CreateFromPoint(0.0, 0.0);
+  return result;
 }
 
-sup::gui::AnyValueItem* GetLastPoint(const sup::gui::AnyValueArrayItem& array_item)
+mvvm::PointItem* GetLastPoint(const mvvm::LineSeriesDataItem& data_item)
 {
-  auto points = array_item.GetChildren();
-  return points.empty() ? nullptr : points.back();
+  return data_item.GetPointCount() == 0 ? nullptr
+                                        : data_item.GetPoint(data_item.GetPointCount() - 1);
 }
 
-sup::gui::AnyValueItem* GetFirstPoint(const sup::gui::AnyValueArrayItem& array_item)
+mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
 {
-  auto points = array_item.GetChildren();
-  return points.empty() ? nullptr : points.front();
+  return data_item.GetPointCount() == 0 ? nullptr : data_item.GetPoint(0);
 }
 
 }  // namespace
@@ -124,19 +126,19 @@ std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* arra
   return result;
 }
 
-std::unique_ptr<AnyValueItem> CreatePointToAppend(const AnyValueArrayItem& array_item,
-                                                  const AnyValueItem* selected_point)
+std::unique_ptr<mvvm::PointItem> CreatePointToAppend(const mvvm::LineSeriesDataItem& data_item,
+                                                     const mvvm::PointItem* selected_point)
 {
   // creating point slighly shifted to the right
-  auto base_point = selected_point ? selected_point : GetLastPoint(array_item);
+  auto base_point = selected_point ? selected_point : GetLastPoint(data_item);
   return CreateShiftedPoint(base_point, kDefaultDx);
 }
 
-std::unique_ptr<AnyValueItem> CreatePointToPrepend(const AnyValueArrayItem& array_item,
-                                                   const AnyValueItem* selected_point)
+std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesDataItem& data_item,
+                                                      const mvvm::PointItem* selected_point)
 {
   // creating point slighly shifted to the left
-  auto base_point = selected_point ? selected_point : GetFirstPoint(array_item);
+  auto base_point = selected_point ? selected_point : GetFirstPoint(data_item);
   return CreateShiftedPoint(base_point, -kDefaultDx);
 }
 
