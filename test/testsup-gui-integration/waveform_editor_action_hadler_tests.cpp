@@ -101,172 +101,153 @@ public:
 };
 
 //! Appending points to empty line series.
+TEST_F(WaveformEditorActionHandlerTest, AddAfterEmptyLineSeries)
+{
+  // Line series set, no point selected
+  auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
 
-// TEST_F(WaveformEditorActionHandlerTest, AddAfterEmptyLineSeries)
-// {
-//   // Line series set, no point selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
+  QSignalSpy spy_selection_request(action_handler.get(),
+                                   &WaveformEditorActionHandler::SelectItemRequest);
 
-//   QSignalSpy spy_selection_request(action_handler.get(),
-//                                    &WaveformEditorActionHandler::SelectItemRequest);
+  action_handler->OnAddColumnAfterRequest();
 
-//   action_handler->OnAddColumnAfterRequest();
+  // should get a point (0.0)
+  auto points = m_data_item->GetAllItems();
+  ASSERT_EQ(m_data_item->GetPointCount(), 1);
+  auto [x, y] = m_data_item->GetPointCoordinates(0);
+  EXPECT_EQ(x, 0.0);
+  EXPECT_EQ(y, 0.0);
 
-//   // should get a point (0.0)
-//   auto points = m_data_item->GetAllItems();
-//   ASSERT_EQ(m_data_item->GetPointCount(), 1);
-//   auto [x, y] = m_data_item->GetPointCoordinates(0);
-//   EXPECT_EQ(x, 0.0);
-//   EXPECT_EQ(y, 0.0);
+  EXPECT_EQ(GetSendItem(spy_selection_request), points.at(0));
+}
 
-//   EXPECT_EQ(GetSendItem(spy_selection_request), points.at(0));
-// }
+//! Appending points to non-empty line series. For the moment action handler has following behavior:
+//! if point is selected, new point will have same "y" and slightly shifted x.
+TEST_F(WaveformEditorActionHandlerTest, AddAfterNonEmptyLineSeries)
+{
+  m_data_item->InsertPoint(0, {1.0, 10.0});
 
-// //! Appending points to non-empty line series. For the moment action handler has following behavior:
-// //! if point is selected, new point will have same "y" and slightly shifted x.
-// TEST_F(WaveformEditorActionHandlerTest, AddAfterNonEmptyLineSeries)
-// {
-//   m_data_item->InsertPoint(0, {1.0, 10.0});
+  // Line series set, no point selected
+  auto action_handler = CreateActionHandler(m_line_series_item, m_data_item->GetPoint(0));
 
-//   // Line series set, no point selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, m_data_item->GetPoint(0));
+  action_handler->OnAddColumnAfterRequest();
 
-//   action_handler->OnAddColumnAfterRequest();
+  // should get a point (1.1, 10.0)
+  auto points = m_data_item->GetPoints();
+  ASSERT_EQ(points.size(), 2);
+  EXPECT_DOUBLE_EQ(points.at(1)->GetX(), 1.0 + kDefaultDx);
+  EXPECT_EQ(points.at(1)->GetY(), 10.0);
+}
 
-//   // should get a point (1.1, 10.0)
-//   auto points = m_data_item->GetPoints();
-//   ASSERT_EQ(points.size(), 2);
-//   EXPECT_DOUBLE_EQ(points.at(1)->GetX(), 1.0 + kDefaultDx);
-//   EXPECT_DOUBLE_EQ(points.at(1)->GetY(), 10.0);
-// }
+//! Appending points to non-empty line series. The difference with previous test is that nothing is
+//! selected. Nevertheless, the algorithm should add point with coordinates after the last existing
+//! point.
+TEST_F(WaveformEditorActionHandlerTest, AddAfterNonEmptyLineSeriesWhenNothingIsSelected)
+{
+  m_data_item->InsertPoint(0, {1.0, 10.0});
 
-// //! Appending points to non-empty line series. The difference with previous test is that nothing is
-// //! selected. Nevertheless, the algorithm should add point with coordinates after the last existing
-// //! point.
+  // Line series set, no point selected
+  auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
 
-// TEST_F(WaveformEditorActionHandlerTest, AddAfterNonEmptyLineSeriesWhenNothingIsSelected)
-// {
-//   auto point = CreatePoint(1.0, 10.0);
-//   auto point_ptr = point.get();
-//   m_model.InsertItem(std::move(point), m_data_item, mvvm::TagIndex::Append());
+  action_handler->OnAddColumnAfterRequest();
 
-//   // Line series set, no point selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
+  // should get a point (1.1, 10.0)
+  auto points = m_data_item->GetPoints();
+  ASSERT_EQ(points.size(), 2);
+  EXPECT_DOUBLE_EQ(points.at(1)->GetX(), 1.0 + kDefaultDx);
+  EXPECT_EQ(points.at(1)->GetY(), 10.0);
+}
 
-//   action_handler->OnAddColumnAfterRequest();
+TEST_F(WaveformEditorActionHandlerTest, RemovePoint)
+{
+  // Line series set, no point selected
+  auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
 
-//   // should get a point (1.1, 10.0)
-//   auto points = m_data_item->GetChildren();
-//   ASSERT_EQ(points.size(), 2);
-//   auto [x, y] = GetXY(*points.at(1));
-//   EXPECT_DOUBLE_EQ(x, 1.0 + kDefaultDx);
-//   EXPECT_DOUBLE_EQ(y, 10.0);
-// }
+  m_data_item->InsertPoint(0, {0.0, 0.0});
 
-// TEST_F(WaveformEditorActionHandlerTest, RemovePoint)
-// {
-//   // Line series set, no point selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
+  action_handler->OnRemoveColumnRequest();
 
-//   auto point = CreatePoint(0.0, 0.0);
-//   auto point_ptr = point.get();
-//   m_model.InsertItem(std::move(point), m_data_item, mvvm::TagIndex::Append());
+  // still same amount of points
+  ASSERT_EQ(m_data_item->GetPointCount(), 1);
 
-//   action_handler->OnRemoveColumnRequest();
+  // creating handler mimicking the points is selected
+  action_handler = CreateActionHandler(m_line_series_item, m_data_item->GetPoint(0));
 
-//   // still same amount of points
-//   auto points = m_data_item->GetChildren();
-//   ASSERT_EQ(points.size(), 1);
+  // second removal should succeed
+  action_handler->OnRemoveColumnRequest();
 
-//   // creating handler mimicking the points is selected
-//   action_handler = CreateActionHandler(m_line_series_item, point_ptr);
+  ASSERT_EQ(m_data_item->GetPointCount(), 0);
+}
 
-//   // second removal should succeed
-//   action_handler->OnRemoveColumnRequest();
+TEST_F(WaveformEditorActionHandlerTest, RemoveMiddlePoint)
+{
+  m_data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
 
-//   EXPECT_TRUE(m_data_item->GetChildren().empty());
-// }
+  // Line series set, middle point is selected
+  auto action_handler = CreateActionHandler(m_line_series_item, m_data_item->GetPoint(1));
 
-// TEST_F(WaveformEditorActionHandlerTest, RemoveMiddlePoint)
-// {
-//   m_model.InsertItem(CreatePoint(1.0, 10.0), m_data_item, mvvm::TagIndex::Append());
-//   m_model.InsertItem(CreatePoint(2.0, 20.0), m_data_item, mvvm::TagIndex::Append());
-//   m_model.InsertItem(CreatePoint(3.0, 30.0), m_data_item, mvvm::TagIndex::Append());
-//   auto points = m_data_item->GetChildren();
+  QSignalSpy spy_selection_request(action_handler.get(),
+                                   &WaveformEditorActionHandler::SelectItemRequest);
 
-//   // Line series set, middle point is selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, points.at(1));
+  // removing second point
+  action_handler->OnRemoveColumnRequest();
 
-//   QSignalSpy spy_selection_request(action_handler.get(),
-//                                    &WaveformEditorActionHandler::SelectItemRequest);
+  // new points should have only first and last point
+  std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {3.0, 30.0}});
+  EXPECT_EQ(m_data_item->GetWaveform(), expected);
 
-//   // removing second point
-//   action_handler->OnRemoveColumnRequest();
+  // algorithm should suggest the last point for selection
+  EXPECT_EQ(GetSendItem(spy_selection_request), m_data_item->GetPoint(1));
+}
 
-//   // new points should have only first and last point
-//   EXPECT_EQ(m_data_item->GetChildren(), std::vector<AnyValueItem*>({points.at(0), points.at(2)}));
+//! Prepending points to empty line series.
 
-//   // algorithm should suggest the last point for selection
-//   EXPECT_EQ(GetSendItem(spy_selection_request), points.at(2));
-// }
+TEST_F(WaveformEditorActionHandlerTest, AddBeforeOnEmptySeries)
+{
+  // Line series set, no point selected
+  auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
 
-// //! Prepending points to empty line series.
+  action_handler->OnAddColumnBeforeRequest();
 
-// TEST_F(WaveformEditorActionHandlerTest, AddBeforeOnEmptySeries)
-// {
-//   // Line series set, no point selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
+  // should get a point (0.0)
+  ASSERT_EQ(m_data_item->GetPointCount(), 1);
+  auto [x, y] = m_data_item->GetPointCoordinates(0);
+  EXPECT_EQ(x, 0.0);
+  EXPECT_EQ(y, 0.0);
+}
 
-//   action_handler->OnAddColumnBeforeRequest();
+//! Prepending points to non-empty line series. For the moment action handler has following
+//! behavior: if point is selected, new point will have same "y" and x slighly shifted back.
+TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeries)
+{
+  m_data_item->InsertPoint(0, {1.0, 10.0});
 
-//   // should get a point (0.0)
-//   auto points = m_data_item->GetChildren();
-//   ASSERT_EQ(points.size(), 1);
-//   auto [x, y] = GetXY(*points.at(0));
-//   EXPECT_EQ(x, 0.0);
-//   EXPECT_EQ(y, 0.0);
-// }
+  // Line series set, point selected
+  auto action_handler = CreateActionHandler(m_line_series_item, m_data_item->GetPoint(0));
 
-// //! Prepending points to non-empty line series. For the moment action handler has following
-// //! behavior: if point is selected, new point will have same "y" and x slighly shifted back.
+  action_handler->OnAddColumnBeforeRequest();
 
-// TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeries)
-// {
-//   auto point = CreatePoint(1.0, 10.0);
-//   auto point_ptr = point.get();
-//   m_model.InsertItem(std::move(point), m_data_item, mvvm::TagIndex::Append());
+  // should get a point (0.9, 10.0)
+  ASSERT_EQ(m_data_item->GetPointCount(), 2);
+  auto [x, y] = m_data_item->GetPointCoordinates(0);
+  EXPECT_DOUBLE_EQ(x, 1.0 - kDefaultDx);
+  EXPECT_EQ(y, 10.0);
+}
 
-//   // Line series set, point selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, point_ptr);
+//! Prepending points to non-empty line series. Nothing is selected.
+//! New point should appear at the beginning, slighly shifted back.
+TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeriesWHenNothinIsSelected)
+{
+  m_data_item->InsertPoint(0, {1.0, 10.0});
 
-//   action_handler->OnAddColumnBeforeRequest();
+  // Line series set, nothing is selected
+  auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
 
-//   // should get a point (0.9, 10.0)
-//   auto points = m_data_item->GetChildren();
-//   ASSERT_EQ(points.size(), 2);
-//   auto [x, y] = GetXY(*points.at(0));
-//   EXPECT_DOUBLE_EQ(x, 1.0 - kDefaultDx);
-//   EXPECT_DOUBLE_EQ(y, 10.0);
-// }
+  action_handler->OnAddColumnBeforeRequest();
 
-// //! Prepending points to non-empty line series. Nothing is selected.
-// //! New point should appear at the beginning, slighly shifted back.
-
-// TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeriesWHenNothinIsSelected)
-// {
-//   auto point = CreatePoint(1.0, 10.0);
-//   auto point_ptr = point.get();
-//   m_model.InsertItem(std::move(point), m_data_item, mvvm::TagIndex::Append());
-
-//   // Line series set, nothing is selected
-//   auto action_handler = CreateActionHandler(m_line_series_item, nullptr);
-
-//   action_handler->OnAddColumnBeforeRequest();
-
-//   // should get a point (0.9, 10.0)
-//   auto points = m_data_item->GetChildren();
-//   ASSERT_EQ(points.size(), 2);
-//   auto [x, y] = GetXY(*points.at(0));
-//   EXPECT_DOUBLE_EQ(x, 1.0 - kDefaultDx);
-//   EXPECT_DOUBLE_EQ(y, 10.0);
-// }
+  // should get a point (0.9, 10.0)
+  ASSERT_EQ(m_data_item->GetPointCount(), 2);
+  auto [x, y] = m_data_item->GetPointCoordinates(0);
+  EXPECT_DOUBLE_EQ(x, 1.0 - kDefaultDx);
+  EXPECT_EQ(y, 10.0);
+}

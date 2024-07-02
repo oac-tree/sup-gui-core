@@ -20,6 +20,7 @@
 #include "waveform_editor_action_handler.h"
 
 #include "waveform_editor_context.h"
+#include "waveform_helper.h"
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
@@ -42,11 +43,11 @@ void WaveformEditorActionHandler::OnAddColumnBeforeRequest()
 {
   if (auto parent = GetParent(); parent)
   {
-    // auto point_item = GetSelectedPoint();
-    // auto tag_index = point_item ? point_item->GetTagIndex() : mvvm::TagIndex::First();
-    // auto new_point_item = CreatePointToPrepend(*GetLineSeries()->GetDataItem(), point_item);
-    // auto item = GetModel()->InsertItem(std::move(new_point_item), parent, tag_index);
-    // emit SelectItemRequest(item);
+    auto point_item = GetSelectedPoint();
+    auto tag_index = point_item ? point_item->GetTagIndex() : mvvm::TagIndex::First();
+    auto new_point_item = CreatePointToPrepend(*GetLineSeries()->GetDataItem(), point_item);
+    auto item = GetModel()->InsertItem(std::move(new_point_item), parent, tag_index);
+    emit SelectItemRequest(item);
   }
 }
 
@@ -54,11 +55,11 @@ void WaveformEditorActionHandler::OnAddColumnAfterRequest()
 {
   if (auto parent = GetParent(); parent)
   {
-    // auto point_item = GetSelectedPoint();
-    // auto tag_index = point_item ? point_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
-    // auto new_point_item = CreatePointToAppend(*GetLineSeries()->GetDataItem(), point_item);
-    // auto item = GetModel()->InsertItem(std::move(new_point_item), parent, tag_index);
-    // emit SelectItemRequest(item);
+    auto point_item = GetSelectedPoint();
+    auto tag_index = point_item ? point_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
+    auto new_point_item = CreatePointToAppend(*GetLineSeries()->GetDataItem(), point_item);
+    auto item = GetModel()->InsertItem(std::move(new_point_item), parent, tag_index);
+    emit SelectItemRequest(item);
   }
 }
 
