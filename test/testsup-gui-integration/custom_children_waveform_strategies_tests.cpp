@@ -27,6 +27,8 @@
 
 using namespace sup::gui;
 
+//! Tests for WaveformChildrenStrategy class.
+
 class CustomChildrenStategiesTest : public ::testing::Test
 {
 };
@@ -40,7 +42,7 @@ TEST_F(CustomChildrenStategiesTest, WaveformChildrenStrategy)
 
   auto points = data_item.GetPoints();
 
-  // strategy report underlying AnyValueStructItem's as children of our array
+  // strategy report underlying points as children of LineSeriesDataItem
   auto children = mvvm::utils::CastItems<mvvm::PointItem>(strategy.GetChildren(&data_item));
   ASSERT_EQ(children.size(), 3);
   EXPECT_EQ(children, points);

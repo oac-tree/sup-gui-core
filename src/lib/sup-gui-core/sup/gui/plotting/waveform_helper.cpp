@@ -32,7 +32,7 @@ namespace
 {
 
 /**
- * @brief Create point slighly shifted to the right wrt the given point.
+ * @brief Create point slightly shifted to the right wrt the given point.
  */
 std::unique_ptr<sup::gui::AnyValueItem> CreateShiftedPoint(const sup::gui::AnyValueItem* point,
                                                            double x_shift)

@@ -29,8 +29,7 @@ namespace
 {
 
 /**
- * @brief Constructs row of two data items pointing to values of "xY and "y" fields of
- * AnyValueStructItem.
+ * @brief Constructs row of two data items pointing to values of "x" and "y" fields of PointItem.
  */
 std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem &item)
 {
@@ -39,11 +38,12 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem &
   auto scalar_items = item.GetAllItems();
   if (scalar_items.size() != 2)
   {
-    throw std::runtime_error("Error in CreateXYRow: not intended for this type of item");
+    throw std::runtime_error("Error in TwoColumRowStrategy: not intended for this type of item");
   }
 
   result.emplace_back(mvvm::CreateDataViewItem(scalar_items.at(0)));
   result.emplace_back(mvvm::CreateDataViewItem(scalar_items.at(1)));
+
   return result;
 }
 

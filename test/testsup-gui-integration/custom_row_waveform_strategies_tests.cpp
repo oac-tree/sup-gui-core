@@ -35,7 +35,6 @@ TEST_F(CustomRowStategiesTest, WaveformChildrenStrategy)
 {
   TwoColumRowStrategy strategy;
 
-  // create AnyValueItem representing a waveform
   mvvm::LineSeriesDataItem data_item;
   data_item.SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
 

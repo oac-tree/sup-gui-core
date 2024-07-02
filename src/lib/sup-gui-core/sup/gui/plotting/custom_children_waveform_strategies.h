@@ -29,8 +29,8 @@ namespace sup::gui
  * @brief The WaveformChildrenStrategy class reports children of LineSeriesDataItem representing
  * time series.
  *
- * It's a part of WaveformTwoColumnViewModel. The strategy allows to iterate through array elements,
- * without going to down to element's children.
+ * It's a part of WaveformTwoColumnViewModel. The strategy allows to iterate through points,
+ * without going down to points's properties (i.e. "x" and "y").
  */
 class WaveformChildrenStrategy : public mvvm::IChildrenStrategy
 {

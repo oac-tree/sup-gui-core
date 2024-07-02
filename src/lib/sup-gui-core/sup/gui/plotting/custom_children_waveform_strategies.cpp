@@ -27,7 +27,7 @@ namespace sup::gui
 std::vector<mvvm::SessionItem *> WaveformChildrenStrategy::GetChildren(
     const mvvm::SessionItem *item) const
 {
-  // The strategy reports AnyValueArrayItem's children (which are structs carraying "x" and "y") as
+  // The strategy reports LineSeriesDataItem's children (which are structs carraying "x" and "y") as
   // it is.
   if (auto data_item = dynamic_cast<const mvvm::LineSeriesDataItem *>(item); data_item)
   {
