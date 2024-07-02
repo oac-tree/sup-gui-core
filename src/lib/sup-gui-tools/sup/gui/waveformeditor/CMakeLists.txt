@@ -1,5 +1,7 @@
 
 target_sources(${library_name} PRIVATE
+  anyvalue_waveform_editor.cpp
+  anyvalue_waveform_editor.h
   waveform_editor.cpp
   waveform_editor.h
   waveform_editor_toolbar.cpp
