@@ -39,6 +39,7 @@ namespace sup::gui
 
 WaveformEditor::WaveformEditor(QWidget *parent)
     : QWidget(parent)
+    , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_action_handler(std::make_unique<WaveformEditorActionHandler>(CreateActionContext()))
     , m_editor_view(new WaveformEditorView)
     , m_tool_bar(new WaveformEditorToolBar)

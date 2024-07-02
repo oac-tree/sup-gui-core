@@ -62,7 +62,7 @@ private:
   void SetupConnections();
   WaveformEditorContext CreateActionContext() const;
 
-  mvvm::ApplicationModel* m_model{nullptr};
+  std::unique_ptr<mvvm::ApplicationModel> m_model;
   std::unique_ptr<WaveformEditorActionHandler> m_action_handler;
 
   WaveformEditorView* m_editor_view{nullptr};
