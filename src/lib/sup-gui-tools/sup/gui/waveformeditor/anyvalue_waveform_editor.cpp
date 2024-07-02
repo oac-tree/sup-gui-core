@@ -42,11 +42,14 @@ AnyValueWaveformEditor::AnyValueWaveformEditor(QWidget *parent)
 
 AnyValueWaveformEditor::~AnyValueWaveformEditor() = default;
 
-void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem *item) {}
+void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem *item)
+{
+  m_waveform_editor->SetWaveform(GetWaveform(dynamic_cast<const AnyValueArrayItem *>(item)), "");
+}
 
 std::unique_ptr<AnyValueItem> AnyValueWaveformEditor::GetResult()
 {
-  return {};
+  return CreateFromWaveform(m_waveform_editor->GetWaveform());
 }
 
 }  // namespace sup::gui

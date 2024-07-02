@@ -51,28 +51,28 @@ WaveformEditor::WaveformEditor(QWidget *parent)
   layout->addWidget(m_tool_bar);
 
   SetupConnections();
+
+  m_chart_viewport_item = m_model->InsertItem<mvvm::ChartViewportItem>();
+  m_line_series_data_item = m_model->InsertItem<mvvm::LineSeriesDataItem>();
+
+  m_line_series_item = m_model->InsertItem<mvvm::LineSeriesItem>(m_chart_viewport_item);
+  m_line_series_item->SetDataItem(m_line_series_data_item);
+
+  m_editor_view->SetViewportItem(m_chart_viewport_item);
+}
+
+void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &waveform, const std::string &title)
+{
+  m_line_series_data_item->SetWaveform(waveform);
+  m_line_series_item->SetDisplayName(title);
+}
+
+std::vector<std::pair<double, double> > WaveformEditor::GetWaveform() const
+{
+  return m_line_series_data_item->GetWaveform();
 }
 
 WaveformEditor::~WaveformEditor() = default;
-
-void WaveformEditor::SetWaveformModel(mvvm::ApplicationModel *model)
-{
-  m_model = model;
-
-  // for the moment we show only one Line Series in a viewport
-  auto viewport = m_model->InsertItem<mvvm::ChartViewportItem>();
-  m_line_series_item = m_model->InsertItem<mvvm::LineSeriesItem>(viewport);
-  m_editor_view->SetViewportItem(viewport);
-}
-
-void WaveformEditor::SetSetpoint(mvvm::LineSeriesDataItem *data_item, const std::string &title)
-{
-  m_line_series_item->SetDataItem(data_item);
-  m_line_series_item->SetNamedColor("red");
-  m_line_series_item->SetDisplayName(title);
-  m_editor_view->SetLineSeriesItem(m_line_series_item);
-  m_editor_view->SetViewportToContent();
-}
 
 void WaveformEditor::SetupConnections()
 {

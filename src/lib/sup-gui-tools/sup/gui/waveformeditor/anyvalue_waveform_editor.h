@@ -28,10 +28,10 @@ namespace sup::gui
 class WaveformEditor;
 
 /**
- * @brief The AnyValueWaveformEditor class is a widget with a line series canvas, a two-column
- * table, and a toolbar for waveform editing.
+ * @brief The AnyValueWaveformEditor class is a wrapper widget around WaveformEditor to edit
+ * AnyValueItems intended for waveform storage.
  *
- * The initial waveform and result of waveform editing are encoded in AnyValueItem. Internally the
+ * The initial waveform and result of waveform editing are encoded in AnyValueItem. Underlying
  * editor operates via mvvm::LineSeriesItem machinery.
  */
 class AnyValueWaveformEditor : public AbstractAnyValueEditor

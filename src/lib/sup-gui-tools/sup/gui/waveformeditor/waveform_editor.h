@@ -28,6 +28,7 @@ namespace mvvm
 class ApplicationModel;
 class LineSeriesItem;
 class LineSeriesDataItem;
+class ChartViewportItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -38,6 +39,12 @@ class WaveformEditorToolBar;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 
+/**
+ * @brief The WaveformEditor class is a widget with a line series canvas, a two-column table, and a
+ * toolbar for a single waveform editing.
+ *
+ * Internally the editor operates via mvvm::LineSeriesItem machinery.
+ */
 class WaveformEditor : public QWidget
 {
   Q_OBJECT
@@ -46,9 +53,10 @@ public:
   explicit WaveformEditor(QWidget* parent = nullptr);
   ~WaveformEditor() override;
 
-  void SetWaveformModel(mvvm::ApplicationModel* model);
+  void SetWaveform(const std::vector<std::pair<double, double>>& waveform,
+                   const std::string& title);
 
-  void SetSetpoint(mvvm::LineSeriesDataItem* data_item, const std::string& title);
+  std::vector<std::pair<double, double>> GetWaveform() const;
 
 private:
   void SetupConnections();
@@ -59,7 +67,10 @@ private:
 
   WaveformEditorView* m_editor_view{nullptr};
   WaveformEditorToolBar* m_tool_bar{nullptr};
+
   mvvm::LineSeriesItem* m_line_series_item{nullptr};
+  mvvm::LineSeriesDataItem* m_line_series_data_item{nullptr};
+  mvvm::ChartViewportItem* m_chart_viewport_item{nullptr};
 };
 
 }  // namespace sup::gui
