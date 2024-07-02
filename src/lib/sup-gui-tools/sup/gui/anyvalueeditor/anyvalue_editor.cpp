@@ -19,14 +19,30 @@
 
 #include "anyvalue_editor.h"
 
+#include "anyvalue_editor_dialog.h"
 #include "anyvalue_editor_widget.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/waveformeditor/anyvalue_waveform_editor.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_utils.h>
 
 #include <QVBoxLayout>
+
+namespace
+{
+
+std::unique_ptr<sup::gui::AnyValueEditorDialog> CreateWaveformEditorDialog(
+    const sup::gui::AnyValueItem *item, QWidget *parent)
+{
+  auto editor = std::make_unique<sup::gui::AnyValueWaveformEditor>();
+  editor->SetInitialValue(item);
+  editor->setWindowTitle("AnyValueExtendedEditor");
+  return std::make_unique<sup::gui::AnyValueEditorDialog>(std::move(editor), parent);
+}
+
+}  // namespace
 
 namespace sup::gui
 {
@@ -71,6 +87,16 @@ mvvm::ApplicationModel *AnyValueEditor::GetModel() const
 void AnyValueEditor::OnImportFromFileRequest()
 {
   m_editor_widget->OnImportFromFileRequest();
+}
+
+void AnyValueEditor::OnImportWaveformRequest()
+{
+  auto dialog = CreateWaveformEditorDialog(GetTopItem(), this);
+  if (dialog->exec() == QDialog::Accepted)
+  {
+    auto result = dialog->GetResult();
+    m_editor_widget->SetInitialValue(*result.get());
+  }
 }
 
 void AnyValueEditor::OnExportToFileRequest()

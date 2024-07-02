@@ -53,6 +53,7 @@ public:
   mvvm::ApplicationModel* GetModel() const;
 
   void OnImportFromFileRequest();
+  void OnImportWaveformRequest();
   void OnExportToFileRequest();
   void OnProjectLoad();
 

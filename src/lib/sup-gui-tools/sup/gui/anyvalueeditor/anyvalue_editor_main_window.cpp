@@ -91,6 +91,8 @@ void AnyValueEditorMainWindow::InitComponents()
           m_anyvalue_editor, &sup::gui::AnyValueEditor::OnExportToFileRequest);
   connect(m_action_manager, &AnyValueEditorMainWindowActions::ProjectLoaded, this,
           &AnyValueEditorMainWindow::OnProjectLoad);
+  connect(m_action_manager, &AnyValueEditorMainWindowActions::OnImportWaveformRequest,
+          m_anyvalue_editor, &sup::gui::AnyValueEditor::OnImportWaveformRequest);
 }
 
 void AnyValueEditorMainWindow::ReadSettings()

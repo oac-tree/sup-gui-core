@@ -59,6 +59,7 @@ signals:
   void OnExportToFileRequest();
   void RestartApplicationRequest(sup::gui::AppExitCode);
   void ProjectLoaded();
+  void OnImportWaveformRequest();
 
 private:
   void CreateActions(QMainWindow* mainwindow);
@@ -73,6 +74,7 @@ private:
   void OnAbout();
 
   QAction* m_import_action{nullptr};
+  QAction* m_import_waveform_action{nullptr};
   QAction* m_export_action{nullptr};
   QAction* m_system_font_action{nullptr};
   QAction* m_reset_settings_action{nullptr};

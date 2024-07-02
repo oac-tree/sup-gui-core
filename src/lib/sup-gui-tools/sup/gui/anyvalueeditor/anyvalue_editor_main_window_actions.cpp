@@ -79,6 +79,10 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
   connect(m_import_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnImportFromFileRequest);
 
+  m_import_waveform_action = new QAction("Create Waveform", this);
+  connect(m_import_waveform_action, &QAction::triggered, this,
+          &AnyValueEditorMainWindowActions::OnImportWaveformRequest);
+
   m_export_action = new QAction("Export", this);
   m_export_action->setShortcuts(QKeySequence::Save);
   connect(m_export_action, &QAction::triggered, this,
@@ -160,6 +164,10 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
 
   command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
+
+  auto menu = AppGetMenu(constants::kEditMenu);
+  menu->addSeparator();
+  menu->addAction(m_import_waveform_action);
 }
 
 void AnyValueEditorMainWindowActions::SetupViewMenu() {}
