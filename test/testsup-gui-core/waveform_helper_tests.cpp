@@ -30,16 +30,15 @@
 
 using namespace sup::gui;
 
-
 //! Testing helper methods from waveform_helper.h
 
 class WaveformHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(WaveformHelperTest, CreatePoint)
+TEST_F(WaveformHelperTest, CreateFromPoint)
 {
-  auto point = CreatePoint(1, 2);
+  auto point = CreateFromPoint(1, 2);
   EXPECT_TRUE(point->IsStruct());
 
   auto fields = point->GetChildren();
@@ -55,9 +54,9 @@ TEST_F(WaveformHelperTest, CreatePoint)
   EXPECT_EQ(fields.at(1)->Data<double>(), 2.0);
 }
 
-TEST_F(WaveformHelperTest, CreatePlotData)
+TEST_F(WaveformHelperTest, CreateFromWaveform)
 {
-  auto plot_data = CreatePlotData({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+  auto plot_data = CreateFromWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
   EXPECT_TRUE(plot_data->IsArray());
 
   auto structs = plot_data->GetChildren();
@@ -75,12 +74,12 @@ TEST_F(WaveformHelperTest, CreatePlotData)
 TEST_F(WaveformHelperTest, GetXY)
 {
   sup::gui::AnyValueItem item;
-  EXPECT_THROW(GetXY(item), std::runtime_error);
+  EXPECT_THROW(GetPoint(item), std::runtime_error);
 
-  auto point = CreatePoint(1, 2);
+  auto point = CreateFromPoint(1, 2);
   EXPECT_TRUE(point->IsStruct());
 
-  EXPECT_EQ(GetXY(*point), std::make_pair(1.0, 2.0));
+  EXPECT_EQ(GetPoint(*point), std::make_pair(1.0, 2.0));
 }
 
 //! Testing method CreatePointToAppend.
@@ -93,18 +92,18 @@ TEST_F(WaveformHelperTest, CreatePointToAppend)
     auto new_point = CreatePointToAppend(array_item, nullptr);
 
     // point to append should be (0.0, 0.0)
-    EXPECT_EQ(GetXY(*new_point), std::make_pair(0.0, 0.0));
+    EXPECT_EQ(GetPoint(*new_point), std::make_pair(0.0, 0.0));
   }
 
   {  // array with single point (1.0, 2.0)
     const double x{1.0};
     const double y{2.0};
-    auto array_item = CreatePlotData({{x, y}});
+    auto array_item = CreateFromWaveform({{x, y}});
 
     auto new_point = CreatePointToAppend(*array_item, nullptr);
 
     // point to append should be shifted (1.1, 2.0)
-    auto [new_point_x, new_point_y] = GetXY(*new_point);
+    auto [new_point_x, new_point_y] = GetPoint(*new_point);
     EXPECT_DOUBLE_EQ(new_point_x, x + kDefaultDx);
     EXPECT_EQ(new_point_y, y);
   }
@@ -113,13 +112,13 @@ TEST_F(WaveformHelperTest, CreatePointToAppend)
     const double x_middle{2.0};
     const double y_middle{20.0};
 
-    auto array_item = CreatePlotData({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
+    auto array_item = CreateFromWaveform({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
     auto points = array_item->GetChildren();
 
     auto new_point = CreatePointToAppend(*array_item, points.at(1));
 
     // point to append should be shifted (2.1, 20.0)
-    auto [new_point_x, new_point_y] = GetXY(*new_point);
+    auto [new_point_x, new_point_y] = GetPoint(*new_point);
     EXPECT_DOUBLE_EQ(new_point_x, x_middle + kDefaultDx);
     EXPECT_EQ(new_point_y, y_middle);
   }
@@ -135,18 +134,18 @@ TEST_F(WaveformHelperTest, CreatePointToPrepend)
     auto new_point = CreatePointToPrepend(array_item, nullptr);
 
     // point to append should be (0.0, 0.0)
-    EXPECT_EQ(GetXY(*new_point), std::make_pair(0.0, 0.0));
+    EXPECT_EQ(GetPoint(*new_point), std::make_pair(0.0, 0.0));
   }
 
   {  // array with single point (1.0, 2.0)
     const double x{1.0};
     const double y{2.0};
-    auto array_item = CreatePlotData({{x, y}});
+    auto array_item = CreateFromWaveform({{x, y}});
 
     auto new_point = CreatePointToPrepend(*array_item, nullptr);
 
     // point to append should be shifted (0.9, 2.0)
-    auto [new_point_x, new_point_y] = GetXY(*new_point);
+    auto [new_point_x, new_point_y] = GetPoint(*new_point);
     EXPECT_DOUBLE_EQ(new_point_x, x - kDefaultDx);
     EXPECT_EQ(new_point_y, y);
   }
@@ -155,30 +154,22 @@ TEST_F(WaveformHelperTest, CreatePointToPrepend)
     const double x_middle{2.0};
     const double y_middle{20.0};
 
-    auto array_item = CreatePlotData({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
+    auto array_item = CreateFromWaveform({{1.0, 10.0}, {x_middle, y_middle}, {3.0, 30.0}});
     auto points = array_item->GetChildren();
 
     auto new_point = CreatePointToPrepend(*array_item, points.at(1));
 
     // point to append should be shifted (1.9, 20.0)
-    auto [new_point_x, new_point_y] = GetXY(*new_point);
+    auto [new_point_x, new_point_y] = GetPoint(*new_point);
     EXPECT_DOUBLE_EQ(new_point_x, x_middle - kDefaultDx);
     EXPECT_EQ(new_point_y, y_middle);
   }
 }
 
-TEST_F(WaveformHelperTest, GetPoints)
+TEST_F(WaveformHelperTest, GetWaveform)
 {
   const std::vector<std::pair<double, double>> expected = {{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}};
-  auto array_item = CreatePlotData(expected);
+  auto array_item = CreateFromWaveform(expected);
 
-  EXPECT_EQ(GetPoints(array_item.get()), expected);
-}
-
-TEST_F(WaveformHelperTest, GetXYValues)
-{
-  auto array_item = CreatePlotData({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
-
-  EXPECT_EQ(GetXValues(array_item.get()), std::vector<double>({1.0, 2.0, 3.0}));
-  EXPECT_EQ(GetYValues(array_item.get()), std::vector<double>({10.0, 20.0, 30.0}));
+  EXPECT_EQ(GetWaveform(array_item.get()), expected);
 }

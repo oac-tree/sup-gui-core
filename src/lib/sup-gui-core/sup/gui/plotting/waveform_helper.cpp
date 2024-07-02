@@ -39,11 +39,11 @@ std::unique_ptr<sup::gui::AnyValueItem> CreateShiftedPoint(const sup::gui::AnyVa
 {
   if (point)
   {
-    auto [x, y] = sup::gui::GetXY(*point);
-    return sup::gui::CreatePoint(x + x_shift, y);
+    auto [x, y] = sup::gui::GetPoint(*point);
+    return sup::gui::CreateFromPoint(x + x_shift, y);
   }
 
-  return sup::gui::CreatePoint(0.0, 0.0);
+  return sup::gui::CreateFromPoint(0.0, 0.0);
 }
 
 sup::gui::AnyValueItem* GetLastPoint(const sup::gui::AnyValueArrayItem& array_item)
@@ -63,7 +63,7 @@ sup::gui::AnyValueItem* GetFirstPoint(const sup::gui::AnyValueArrayItem& array_i
 namespace sup::gui
 {
 
-std::unique_ptr<AnyValueItem> CreatePoint(double x, double y)
+std::unique_ptr<AnyValueItem> CreateFromPoint(double x, double y)
 {
   auto result = std::make_unique<AnyValueStructItem>();
 
@@ -73,21 +73,7 @@ std::unique_ptr<AnyValueItem> CreatePoint(double x, double y)
   return result;
 }
 
-std::unique_ptr<AnyValueArrayItem> CreatePlotData(
-    const std::vector<std::pair<double, double>>& data)
-{
-  auto result = std::make_unique<AnyValueArrayItem>();
-
-  for (const auto& [x, y] : data)
-  {
-    // using utility function to provide notifications
-    mvvm::utils::InsertItem(CreatePoint(x, y), result.get(), mvvm::TagIndex::Append());
-  }
-
-  return result;
-}
-
-std::pair<double, double> GetXY(const AnyValueItem& item)
+std::pair<double, double> GetPoint(const AnyValueItem& item)
 {
   auto children = item.GetChildren();
   if (!item.IsStruct() || children.size() != 2)
@@ -111,6 +97,33 @@ std::pair<double, double> GetXY(const AnyValueItem& item)
   throw std::runtime_error("Error in GetXY: can't get float or double values from point");
 }
 
+std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
+    const std::vector<std::pair<double, double>>& data)
+{
+  auto result = std::make_unique<AnyValueArrayItem>();
+
+  for (const auto& [x, y] : data)
+  {
+    // using utility function to provide notifications
+    mvvm::utils::InsertItem(CreateFromPoint(x, y), result.get(), mvvm::TagIndex::Append());
+  }
+
+  return result;
+}
+
+std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* array_item)
+{
+  if (!array_item)
+  {
+    return {};
+  }
+  std::vector<std::pair<double, double>> result;
+  auto points = array_item->GetChildren();
+  auto on_point = [](auto item) { return GetPoint(*item); };
+  std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
+  return result;
+}
+
 std::unique_ptr<AnyValueItem> CreatePointToAppend(const AnyValueArrayItem& array_item,
                                                   const AnyValueItem* selected_point)
 {
@@ -125,29 +138,6 @@ std::unique_ptr<AnyValueItem> CreatePointToPrepend(const AnyValueArrayItem& arra
   // creating point slighly shifted to the left
   auto base_point = selected_point ? selected_point : GetFirstPoint(array_item);
   return CreateShiftedPoint(base_point, -kDefaultDx);
-}
-
-std::vector<std::pair<double, double>> GetPoints(const AnyValueArrayItem* array_item)
-{
-  if (!array_item)
-  {
-    return {};
-  }
-  std::vector<std::pair<double, double>> result;
-  auto points = array_item->GetChildren();
-  auto on_point = [](auto item) { return GetXY(*item); };
-  std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
-  return result;
-}
-
-std::vector<double> GetXValues(const sup::gui::AnyValueArrayItem* array_item)
-{
-  return mvvm::GetPairOfVectors(GetPoints(array_item)).first;
-}
-
-std::vector<double> GetYValues(const sup::gui::AnyValueArrayItem* array_item)
-{
-  return mvvm::GetPairOfVectors(GetPoints(array_item)).second;
 }
 
 }  // namespace sup::gui

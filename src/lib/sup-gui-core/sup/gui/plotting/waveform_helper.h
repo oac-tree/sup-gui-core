@@ -50,24 +50,28 @@ const double kDefaultDx = 0.1;
  *
  * @return AnyValueItem struct.
  */
-std::unique_ptr<AnyValueItem> CreatePoint(double x, double y);
-
-/**
- * @brief Returns AnyValueArrayItem representing the data to plot.
- *
- * @param data Vector of (x,y) values.
- * @return AnyValueItem array.
- *
- * @details It will be an array of struct, where each struct has two float64 fields for "x" and "y"
- * values.
- */
-std::unique_ptr<AnyValueArrayItem> CreatePlotData(
-    const std::vector<std::pair<double, double>>& data);
+std::unique_ptr<AnyValueItem> CreateFromPoint(double x, double y);
 
 /**
  * @brief Returns (x,y) from AnyValueItem structure representing a point.
  */
-std::pair<double, double> GetXY(const AnyValueItem& item);
+std::pair<double, double> GetPoint(const AnyValueItem& item);
+
+/**
+ * @brief Returns AnyValueArrayItem representing waveform.
+ *
+ * It will be an array of struct, where each struct has two float64 fields for "x" and "y" values.
+ *
+ * @param data Vector of (x,y) values.
+ * @return AnyValueItem array.
+ */
+std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
+    const std::vector<std::pair<double, double>>& data);
+
+/**
+ * @brief Return vector of (x,y) points from given AnyValueItemArray.
+ */
+std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* array_item);
 
 /**
  * @brief Create a point which can be added after the given point.
@@ -96,21 +100,6 @@ std::unique_ptr<AnyValueItem> CreatePointToAppend(const AnyValueArrayItem& array
  */
 std::unique_ptr<AnyValueItem> CreatePointToPrepend(const AnyValueArrayItem& array_item,
                                                    const AnyValueItem* selected_point);
-
-/**
- * @brief Return vector of (x,y) points from given AnyValueItemArray.
- */
-std::vector<std::pair<double, double>> GetPoints(const AnyValueArrayItem* array_item);
-
-/**
- * @brief Return vector of x-coordinates from given AnyValueItemArray.
- */
-std::vector<double> GetXValues(const AnyValueArrayItem* array_item);
-
-/**
- * @brief Return vector of y-coordinates from given AnyValueItemArray.
- */
-std::vector<double> GetYValues(const AnyValueArrayItem* array_item);
 
 }  // namespace sup::gui
 
