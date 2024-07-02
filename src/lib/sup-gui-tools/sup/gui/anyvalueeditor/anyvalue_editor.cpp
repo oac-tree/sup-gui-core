@@ -38,8 +38,9 @@ std::unique_ptr<sup::gui::AnyValueEditorDialog> CreateWaveformEditorDialog(
 {
   auto editor = std::make_unique<sup::gui::AnyValueWaveformEditor>();
   editor->SetInitialValue(item);
-  editor->setWindowTitle("AnyValueExtendedEditor");
-  return std::make_unique<sup::gui::AnyValueEditorDialog>(std::move(editor), parent);
+  auto result = std::make_unique<sup::gui::AnyValueEditorDialog>(std::move(editor), parent);
+  result->setWindowTitle("Import Waveform");
+  return result;
 }
 
 }  // namespace

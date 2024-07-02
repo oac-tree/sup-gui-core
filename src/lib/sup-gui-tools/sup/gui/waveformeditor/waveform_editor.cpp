@@ -53,6 +53,8 @@ WaveformEditor::WaveformEditor(QWidget *parent)
 
   SetupConnections();
 
+  // In current implementation we create a single viewport, single LineSeriesItem and data for it.
+  // Later we will manipulate data points via WaveformEditor::SetWaveform method.
   m_chart_viewport_item = m_model->InsertItem<mvvm::ChartViewportItem>();
   m_line_series_data_item = m_model->InsertItem<mvvm::LineSeriesDataItem>();
 
@@ -60,12 +62,15 @@ WaveformEditor::WaveformEditor(QWidget *parent)
   m_line_series_item->SetDataItem(m_line_series_data_item);
 
   m_editor_view->SetViewportItem(m_chart_viewport_item);
+  m_editor_view->SetLineSeriesItem(m_line_series_item);
 }
 
-void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &waveform, const std::string &title)
+void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &waveform,
+                                 const std::string &title)
 {
   m_line_series_data_item->SetWaveform(waveform);
   m_line_series_item->SetDisplayName(title);
+  m_editor_view->SetViewportToContent();
 }
 
 std::vector<std::pair<double, double> > WaveformEditor::GetWaveform() const

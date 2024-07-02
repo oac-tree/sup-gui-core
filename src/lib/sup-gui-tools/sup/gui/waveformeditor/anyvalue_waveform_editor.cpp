@@ -44,6 +44,7 @@ AnyValueWaveformEditor::~AnyValueWaveformEditor() = default;
 
 void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem *item)
 {
+  // FIXME introduce check that AnyValueItem is suitable for waveform
   m_waveform_editor->SetWaveform(GetWaveform(dynamic_cast<const AnyValueArrayItem *>(item)), "");
 }
 
