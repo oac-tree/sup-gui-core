@@ -4,6 +4,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor.h
   anyvalue_editor_actions.cpp
   anyvalue_editor_actions.h
+  anyvalue_editor_dialog.cpp
+  anyvalue_editor_dialog.h
   anyvalue_editor_main_window.cpp
   anyvalue_editor_main_window.h
   anyvalue_editor_main_window_actions.cpp
