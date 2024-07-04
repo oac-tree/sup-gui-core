@@ -1,6 +1,4 @@
 target_sources(${library_name} PRIVATE
-  anyvalue_filtered_viewmodel.cpp
-  anyvalue_filtered_viewmodel.h
   anyvalue_viewmodel.cpp
   anyvalue_viewmodel.h
   custom_children_strategies.cpp

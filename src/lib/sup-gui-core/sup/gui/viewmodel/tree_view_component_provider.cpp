@@ -19,11 +19,11 @@
 
 #include "tree_view_component_provider.h"
 
-#include <sup/gui/viewmodel/anyvalue_filtered_viewmodel.h>
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
-#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/viewmodel_delegate.h>
+#include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <QItemSelectionModel>
 #include <QModelIndexList>
@@ -32,10 +32,9 @@
 namespace sup::gui
 {
 
-TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel *model,
-                                                     QTreeView *view)
+TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel *model, QTreeView *view)
     : m_view_model(std::make_unique<AnyValueViewModel>(model))
-    , m_proxy_model(std::make_unique<AnyValueFilteredViewModel>())
+    , m_proxy_model(std::make_unique<mvvm::FilterNameViewModel>())
     , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
     , m_tree_view(view)
 {

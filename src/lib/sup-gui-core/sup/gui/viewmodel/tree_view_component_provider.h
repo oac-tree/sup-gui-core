@@ -37,6 +37,7 @@ class ItemViewComponentProvider;
 class SessionItem;
 class ViewModelDelegate;
 class ViewModel;
+class FilterNameViewModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -115,7 +116,7 @@ signals:
 
 private:
   std::unique_ptr<AnyValueViewModel> m_view_model;
-  std::unique_ptr<AnyValueFilteredViewModel> m_proxy_model;
+  std::unique_ptr<mvvm::FilterNameViewModel> m_proxy_model;
   std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
   QTreeView* m_tree_view{nullptr};
 };

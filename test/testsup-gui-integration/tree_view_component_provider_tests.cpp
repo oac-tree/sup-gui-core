@@ -20,18 +20,18 @@
 #include "sup/gui/viewmodel/tree_view_component_provider.h"
 
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/viewmodel/anyvalue_filtered_viewmodel.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
+#include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
 #include <testutils/test_utils.h>
 
-#include <QTreeView>
 #include <QSignalSpy>
+#include <QTreeView>
 
 using namespace sup::gui;
 
@@ -56,7 +56,7 @@ TEST_F(TreeViewComponentProviderTests, InitialState)
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
   EXPECT_TRUE(provider.GetSelectedItems().empty());
 
-  ASSERT_NE(dynamic_cast<AnyValueFilteredViewModel*>(m_tree.model()), nullptr);
+  ASSERT_NE(dynamic_cast<mvvm::FilterNameViewModel*>(m_tree.model()), nullptr);
   EXPECT_EQ(provider.GetProxyModel(), m_tree.model());
 }
 
