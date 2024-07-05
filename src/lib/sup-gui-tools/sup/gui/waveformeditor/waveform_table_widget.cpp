@@ -91,7 +91,7 @@ void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem *item)
     m_component_provider->SetSelectedItem(x_cell);
 
     // make sure cell is visible
-    auto indexes = m_component_provider->GetViewIndices(x_cell);
+    auto indexes = m_component_provider->GetViewIndexes(x_cell);
     if (!indexes.empty())
     {
       m_table_view->scrollTo(indexes.at(0));

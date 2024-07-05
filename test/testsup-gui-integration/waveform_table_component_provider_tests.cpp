@@ -43,14 +43,14 @@ TEST_F(WaveformTableComponentProviderTest, InitialState)
   WaveformTableComponentProvider provider(&model, &table_view);
 
   EXPECT_NE(provider.GetViewModel(), nullptr);
-  EXPECT_NE(provider.GetProxyModel(), nullptr);
+  EXPECT_NE(provider.GetLastProxyModel(), nullptr);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
 
   ASSERT_NE(dynamic_cast<QTransposeProxyModel *>(table_view.model()), nullptr);
-  EXPECT_EQ(provider.GetProxyModel(), table_view.model());
+  EXPECT_EQ(provider.GetLastProxyModel(), table_view.model());
 
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem *>({}));
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem *>({}));
   EXPECT_EQ(provider.GetSelectedPointIndex(), -1);
 }
 
@@ -68,7 +68,7 @@ TEST_F(WaveformTableComponentProviderTest, SimpleStruct)
   provider.SetItem(data_item);
 
   // validating how view sees our data via proxymodel
-  auto proxy_model = provider.GetProxyModel();
+  auto proxy_model = provider.GetLastProxyModel();
 
   EXPECT_EQ(proxy_model->rowCount(), 2);
   EXPECT_EQ(proxy_model->columnCount(), 3);
@@ -98,7 +98,7 @@ TEST_F(WaveformTableComponentProviderTest, SimpleStruct)
   EXPECT_EQ(provider.GetItemFromViewIndex(y_col1), y_item);
 
   // checking if we can retrieve item's view indexes
-  EXPECT_EQ(provider.GetViewIndices(x_item), QList<QModelIndex>({x_col1}));
+  EXPECT_EQ(provider.GetViewIndexes(x_item), QList<QModelIndex>({x_col1}));
 }
 
 TEST_F(WaveformTableComponentProviderTest, Selection)
@@ -115,7 +115,7 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   provider.SetItem(data_item);
 
   // validating how view sees our data via proxymodel
-  auto proxy_model = provider.GetProxyModel();
+  auto proxy_model = provider.GetLastProxyModel();
 
   EXPECT_EQ(proxy_model->rowCount(), 2);
   EXPECT_EQ(proxy_model->columnCount(), 3);
@@ -144,7 +144,7 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   provider.SetSelectedItem(x_item);
 
   // should lead to the selection of the whole volumn
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem *>({x_item, y_item}));
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem *>({x_item, y_item}));
 
   // should report correct index of selected point
   EXPECT_EQ(provider.GetSelectedPointIndex(), 1);
