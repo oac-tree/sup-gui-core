@@ -23,24 +23,14 @@
 
 #include <sup/dto/anytype.h>
 
+#include <mvvm/test/test_helper.h>
+
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 using namespace sup::gui;
 
 class AnyValueItemTest : public ::testing::Test
 {
-public:
-  //! Returns true if clone method is implemented.
-  template <typename T>
-  bool IsCloneImplemented()
-  {
-    // We expect that the specified object can be created, cloned, and the result of clone can
-    // be casted to the object type itself.
-    T item;
-    auto clone = item.Clone(/*make_unique_id*/ false);
-    return testutils::CanCast<T>(clone.get());
-  }
 };
 
 TEST_F(AnyValueItemTest, InitialState)
@@ -164,8 +154,8 @@ TEST_F(AnyValueItemTest, AddScalarField)
 
 TEST_F(AnyValueItemTest, Clone)
 {
-  EXPECT_TRUE(IsCloneImplemented<AnyValueEmptyItem>());
-  EXPECT_TRUE(IsCloneImplemented<AnyValueScalarItem>());
-  EXPECT_TRUE(IsCloneImplemented<AnyValueStructItem>());
-  EXPECT_TRUE(IsCloneImplemented<AnyValueArrayItem>());
+  EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueEmptyItem>());
+  EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueScalarItem>());
+  EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueStructItem>());
+  EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueArrayItem>());
 }

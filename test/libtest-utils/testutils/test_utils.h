@@ -28,13 +28,6 @@ namespace testutils
 //! Shoud point to CMAKE_BINARY_DIR/test_output
 std::string GetTestSuiteOutputDir();
 
-//! Returns true if given item can be casted to desired type.
-template <typename DesiredT, typename ItemT>
-bool CanCast(const ItemT* item)
-{
-  return dynamic_cast<const DesiredT*>(item) != nullptr;
-}
-
 }  // namespace testutils
 
 #endif  // TESTUTILS_TEST_UTILS_H_
