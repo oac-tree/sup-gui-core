@@ -21,7 +21,7 @@
 
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>
-#include <testutils/test_utils.h>
+#include <mvvm/test/test_helper.h>
 
 using namespace sup::gui;
 
@@ -66,10 +66,10 @@ TEST_F(RecentProjectPathTest, AddToRecentProjectList)
   auto path2 = GetFilePath("a2.txt");
   auto path3 = GetFilePath("a3.txt");
   auto path4 = GetFilePath("a4.txt");
-  testutils::CreateTextFile(path1, "");
-  testutils::CreateTextFile(path2, "");
-  testutils::CreateTextFile(path3, "");
-  testutils::CreateTextFile(path4, "");
+  mvvm::test::CreateTextFile(path1, "");
+  mvvm::test::CreateTextFile(path2, "");
+  mvvm::test::CreateTextFile(path3, "");
+  mvvm::test::CreateTextFile(path4, "");
 
   // updating recent project paths
   projects.AddToRecentProjectList(QString::fromStdString(path1));

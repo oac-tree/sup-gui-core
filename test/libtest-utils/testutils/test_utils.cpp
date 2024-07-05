@@ -32,16 +32,6 @@ std::string GetTestSuiteOutputDir()
   return sup::gui::TestConfig::TestOutputDir();  // defined in auto-generated testconfig.h
 }
 
-std::string GetTextFileContent(const std::string &file_name)
-{
-  std::ifstream in(file_name);
-  std::stringstream sstr;
-  while (in >> sstr.rdbuf())
-  {
-  }
-  return sstr.str();
-}
-
 void CreateTextFile(const std::string &file_name, const std::string &content)
 {
   std::ofstream file_out(file_name);

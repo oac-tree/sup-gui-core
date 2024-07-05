@@ -27,12 +27,12 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/test/test_helper.h>
 
 #include <sup/dto/anyvalue.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 #include <QMimeData>
 
@@ -210,7 +210,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   EXPECT_EQ(items.at(0)->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
   // validating request to select just inserted item
-  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), items.at(0));
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), items.at(0));
 }
 
 //! Testing PasteAfter operation when container has a struct with two fields. First field is
@@ -251,7 +251,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
-  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), inserted_item);
 }
 
 //! Testing PasteInto operation when container has a struct with single fields.
@@ -291,7 +291,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
-  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), inserted_item);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), inserted_item);
 }
 
 //! Testing Cut operation, when structure has two fields, first field is selected.
@@ -318,7 +318,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select remaining item
-  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selection_request), field1);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), field1);
 
   // as a result of cut operation, QMimeData object was created
   ASSERT_NE(m_copy_result.get(), nullptr);

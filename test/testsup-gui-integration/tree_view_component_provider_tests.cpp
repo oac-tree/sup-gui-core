@@ -24,6 +24,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
+#include <mvvm/test/test_helper.h>
 
 #include <sup/dto/anytype.h>
 
@@ -96,7 +97,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
 
   EXPECT_EQ(spy_selected.count(), 1);
-  EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selected), item);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
 }
 
 //! Testing how tree view looks for a single scalar. The difference with previous test is that
