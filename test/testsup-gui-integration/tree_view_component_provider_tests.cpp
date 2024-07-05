@@ -29,7 +29,6 @@
 #include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 #include <QSignalSpy>
 #include <QTreeView>

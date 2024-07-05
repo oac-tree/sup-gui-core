@@ -35,7 +35,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
-#include <testutils/test_utils.h>
 
 using namespace sup::gui;
 using ::testing::_;
