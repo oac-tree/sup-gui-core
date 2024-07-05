@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTUTILS_FOLDER_BASED_TEST_H_
-#define TESTUTILS_FOLDER_BASED_TEST_H_
+#ifndef TESTUTILS_FOLDER_TEST_H_
+#define TESTUTILS_FOLDER_TEST_H_
 
 #include <mvvm/test/folder_output_based_test.h>
 
@@ -30,10 +30,10 @@
 namespace testutils
 {
 
-class FolderBasedTest : public mvvm::test::FolderOutputBasedTest
+class FolderTest : public mvvm::test::FolderOutputBasedTest
 {
 public:
-  explicit FolderBasedTest(std::string test_home_dirname)
+  explicit FolderTest(std::string test_home_dirname)
       : FolderOutputBasedTest(GetTestSuiteOutputDir(), std::move(test_home_dirname))
   {
   }

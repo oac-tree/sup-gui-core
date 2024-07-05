@@ -34,7 +34,7 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
+#include <testutils/folder_test.h>
 #include <testutils/test_utils.h>
 
 using namespace sup::gui;
@@ -44,11 +44,11 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 //! Tests for AnyValueEditorActionHandler related to import/export from/to file.
 
-class AnyValueEditorActionHandlerFolderTest : public testutils::FolderBasedTest
+class AnyValueEditorActionHandlerFolderTest : public testutils::FolderTest
 {
 public:
   AnyValueEditorActionHandlerFolderTest()
-      : testutils::FolderBasedTest("test_AnyValueEditorActionHandlerFolder")
+      : testutils::FolderTest("test_AnyValueEditorActionHandlerFolder")
   {
   }
 

@@ -20,7 +20,7 @@
 #include "sup/gui/project/recent_project_path.h"
 
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
+#include <testutils/folder_test.h>
 #include <mvvm/test/test_helper.h>
 
 using namespace sup::gui;
@@ -28,10 +28,10 @@ using namespace sup::gui;
 /**
  * @brief The RecentProjectPathTest class tests RecentProjectPath.
  */
-class RecentProjectPathTest : public testutils::FolderBasedTest
+class RecentProjectPathTest : public testutils::FolderTest
 {
 public:
-  RecentProjectPathTest() : testutils::FolderBasedTest("test_RecentProjectPath") {}
+  RecentProjectPathTest() : testutils::FolderTest("test_RecentProjectPath") {}
 };
 
 TEST_F(RecentProjectPathTest, InitialState)

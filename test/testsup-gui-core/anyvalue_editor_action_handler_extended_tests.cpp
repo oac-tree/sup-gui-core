@@ -34,7 +34,7 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
+#include <testutils/folder_test.h>
 #include <testutils/test_utils.h>
 
 using namespace sup::gui;
@@ -44,13 +44,10 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 //! Extended tests for AnyValueEditorActionHandler.
 
-class AnyValueEditorActionHandlerExtendedTest : public testutils::FolderBasedTest
+class AnyValueEditorActionHandlerExtendedTest : public testutils::FolderTest
 {
 public:
-  AnyValueEditorActionHandlerExtendedTest()
-      : testutils::FolderBasedTest("test_AnyValueEditorAction")
-  {
-  }
+  AnyValueEditorActionHandlerExtendedTest() : testutils::FolderTest("test_AnyValueEditorAction") {}
 
   //! Creates context necessary for AnyValueEditActions to function.
   AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)

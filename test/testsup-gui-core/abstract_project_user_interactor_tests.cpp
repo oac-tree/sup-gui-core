@@ -21,19 +21,18 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
-#include <testutils/test_utils.h>
+#include <testutils/folder_test.h>
 
 using namespace sup::gui;
 
 /**
  * @brief Tests for AbstractProjectUserInteractor class.
  */
-class AbstractProjectUserInteractorTest : public testutils::FolderBasedTest
+class AbstractProjectUserInteractorTest : public testutils::FolderTest
 {
 public:
   AbstractProjectUserInteractorTest()
-      : testutils::FolderBasedTest("test_AbstractProjectUserInteractor")
+      : testutils::FolderTest("test_AbstractProjectUserInteractor")
   {
   }
 

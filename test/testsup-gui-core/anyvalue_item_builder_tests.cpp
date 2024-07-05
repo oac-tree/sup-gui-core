@@ -27,14 +27,14 @@
 #include <sup/dto/anyvalue_helper.h>
 
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
+#include <testutils/folder_test.h>
 
 using namespace sup::gui;
 
-class AnyValueItemBuilderTest : public testutils::FolderBasedTest
+class AnyValueItemBuilderTest : public testutils::FolderTest
 {
 public:
-  AnyValueItemBuilderTest() : FolderBasedTest("test_AnyValueItemBuilder") {}
+  AnyValueItemBuilderTest() : FolderTest("test_AnyValueItemBuilder") {}
 
   std::unique_ptr<AnyValueItem> GetAnyValueItem(const sup::dto::AnyValue& value)
   {
