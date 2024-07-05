@@ -21,128 +21,23 @@
 
 #include <sup/gui/viewmodel/anyvalue_viewmodel.h>
 
-#include <mvvm/model/session_item.h>
-#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 
-#include <QItemSelectionModel>
-#include <QModelIndexList>
 #include <QTreeView>
 
 namespace sup::gui
 {
 
 TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel *model, QTreeView *view)
-    : m_view_model(std::make_unique<AnyValueViewModel>(model))
-    , m_proxy_model(std::make_unique<mvvm::FilterNameViewModel>())
-    , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
-    , m_tree_view(view)
+    : mvvm::ItemViewComponentProvider(std::make_unique<AnyValueViewModel>(model), view)
 {
-  m_proxy_model->setSourceModel(m_view_model.get());
-  m_proxy_model->setRecursiveFilteringEnabled(true);
-
-  m_tree_view->setModel(m_proxy_model.get());
-  m_tree_view->setItemDelegate(m_delegate.get());
-
-  auto on_select = [this](auto index1, auto index2)
-  { emit SelectedItemChanged(const_cast<mvvm::SessionItem *>(GetSelectedItem())); };
-  connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this, on_select);
+  auto proxy_model = std::make_unique<mvvm::FilterNameViewModel>();
+  m_filter_proxy_model = proxy_model.get();
+  AddProxyModel(std::move(proxy_model));
 }
-
-void TreeViewComponentProvider::SetItem(mvvm::SessionItem *item)
-{
-  m_view_model->SetRootSessionItem(item);
-}
-
-TreeViewComponentProvider::~TreeViewComponentProvider() = default;
 
 void TreeViewComponentProvider::SetFilterPattern(const QString &pattern)
 {
-  m_proxy_model->SetPattern(pattern);
+  m_filter_proxy_model->SetPattern(pattern);
 }
-
-const mvvm::SessionItem *TreeViewComponentProvider::GetSelectedItem() const
-{
-  auto selected = GetSelectedItems();
-  return selected.empty() ? nullptr : selected.front();
-}
-
-std::vector<const mvvm::SessionItem *> TreeViewComponentProvider::GetSelectedItems() const
-{
-  std::vector<const mvvm::SessionItem *> result;
-
-  for (auto index : GetSelectionModel()->selectedIndexes())
-  {
-    // skipping nullptr
-    if (auto item = GetItemFromViewIndex(index); item)
-    {
-      result.push_back(item);
-    }
-  }
-
-  return mvvm::utils::UniqueWithOrder(result);
-}
-
-void TreeViewComponentProvider::SetSelectedItem(const mvvm::SessionItem *item)
-{
-  SetSelectedItems({item});
-}
-
-void TreeViewComponentProvider::SetSelectedItems(
-    const std::vector<const mvvm::SessionItem *> &items)
-{
-  GetSelectionModel()->clearSelection();
-  QItemSelection selection;
-  for (auto item : items)
-  {
-    for (auto index : GetViewIndices(item))
-    {
-      selection.push_back(QItemSelectionRange(index));
-    }
-  }
-
-  //  auto flags = QItemSelectionModel::Select;  // not clear, which one to use
-  auto flags = QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows;
-  GetSelectionModel()->select(selection, flags);
-}
-
-QItemSelectionModel *TreeViewComponentProvider::GetSelectionModel() const
-{
-  return m_tree_view->selectionModel();
-}
-
-const mvvm::ViewModel *TreeViewComponentProvider::GetViewModel() const
-{
-  return m_view_model.get();
-}
-
-const QAbstractProxyModel *TreeViewComponentProvider::GetProxyModel() const
-{
-  return m_proxy_model.get();
-}
-
-const mvvm::SessionItem *TreeViewComponentProvider::GetItemFromViewIndex(
-    const QModelIndex &index) const
-{
-  auto source_index = m_proxy_model ? m_proxy_model->mapToSource(index) : index;
-  return GetViewModel()->GetSessionItemFromIndex(source_index);
-}
-
-QList<QModelIndex> TreeViewComponentProvider::GetViewIndices(const mvvm::SessionItem *item) const
-{
-  const auto source_indices = GetViewModel()->GetIndexOfSessionItem(item);
-
-  if (!m_proxy_model)
-  {
-    return source_indices;
-  }
-
-  auto on_index = [this](auto index) { return m_proxy_model->mapFromSource(index); };
-  QList<QModelIndex> result;
-  std::transform(std::begin(source_indices), std::end(source_indices), std::back_inserter(result),
-                 on_index);
-
-  return result;
-}
-
 }  // namespace sup::gui

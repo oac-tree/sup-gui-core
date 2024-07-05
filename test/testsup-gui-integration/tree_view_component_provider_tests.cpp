@@ -51,13 +51,13 @@ TEST_F(TreeViewComponentProviderTests, InitialState)
   TreeViewComponentProvider provider(&m_model, &m_tree);
 
   EXPECT_NE(provider.GetViewModel(), nullptr);
-  EXPECT_NE(provider.GetProxyModel(), nullptr);
+  EXPECT_NE(provider.GetLastProxyModel(), nullptr);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
   EXPECT_TRUE(provider.GetSelectedItems().empty());
 
   ASSERT_NE(dynamic_cast<mvvm::FilterNameViewModel*>(m_tree.model()), nullptr);
-  EXPECT_EQ(provider.GetProxyModel(), m_tree.model());
+  EXPECT_EQ(provider.GetLastProxyModel(), m_tree.model());
 }
 
 //! Testing how tree view looks for a single scalar. No filter pattern is set.
@@ -73,7 +73,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   QSignalSpy spy_selected(&provider, &TreeViewComponentProvider::SelectedItemChanged);
 
   // to test tree view we will be looking at proxy model.
-  auto proxymodel = provider.GetProxyModel();
+  auto proxymodel = provider.GetLastProxyModel();
 
   // no item is selected
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
@@ -93,7 +93,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   // making item selected
   provider.SetSelectedItem(item);
   EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem*>({item}));
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
 
   EXPECT_EQ(spy_selected.count(), 1);
   EXPECT_EQ(testutils::GetSendItem<mvvm::SessionItem>(spy_selected), item);
@@ -112,7 +112,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   item->SetData(mvvm::int8{42});
 
   // to test tree view we will be looking at proxy model.
-  auto proxymodel = provider.GetProxyModel();
+  auto proxymodel = provider.GetLastProxyModel();
 
   EXPECT_EQ(proxymodel->rowCount(), 0);
   EXPECT_EQ(proxymodel->columnCount(), 3);
@@ -137,7 +137,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   // making item selected
   provider.SetSelectedItem(item);
   EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<const mvvm::SessionItem*>({item}));
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
 }
 
 //! Testing how struct looks like with two children, one filtered out
@@ -150,7 +150,7 @@ TEST_F(TreeViewComponentProviderTests, FilteredStruct)
   TreeViewComponentProvider provider(&m_model, &m_tree);
 
   // to test tree view we will be looking at proxy model.
-  auto proxymodel = provider.GetProxyModel();
+  auto proxymodel = provider.GetLastProxyModel();
 
   // we see both children beneath
   auto struct_index = proxymodel->index(0, 0);

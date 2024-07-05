@@ -20,105 +20,41 @@
 #ifndef SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
 #define SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
 
-#include <QList>
-#include <QObject>
-#include <memory>
-#include <vector>
+#include <mvvm/providers/item_view_component_provider.h>
 
 class QTreeView;
-class QItemSelectionModel;
-class QModelIndex;
-class QAbstractProxyModel;
 
 namespace mvvm
 {
-class ISessionModel;
-class ItemViewComponentProvider;
-class SessionItem;
-class ViewModelDelegate;
-class ViewModel;
 class FilterNameViewModel;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
-class AnyValueViewModel;
-class AnyValueFilteredViewModel;
-class AnyValueItem;
-
 /**
  * @brief The TreeViewComponentProvider class provides QAbstractItemView with custom components:
  * viemodel, delegate and selection model.
  *
- * @details Provider owns components but doesn't own a view. This provider is oriented for
- * AnyValueItem editing. Internally it uses AnyValueViewModel to have 3-column AnyValue tree and
- * special AnyValueFilteredViewModel to allow filtering.
- *
- * FIXME Merge with mvvm::ItemViewComponentProvider
+ * This provider is oriented for AnyValueItem editing. Internally it uses AnyValueViewModel to have
+ * 3-column AnyValue tree and special AnyValueFilteredViewModel to allow filtering.
  */
-class TreeViewComponentProvider : public QObject
+class TreeViewComponentProvider : public mvvm::ItemViewComponentProvider
 {
   Q_OBJECT
 
 public:
-  explicit TreeViewComponentProvider(mvvm::ISessionModel *model, QTreeView* view);
-  ~TreeViewComponentProvider() override;
+  explicit TreeViewComponentProvider(mvvm::ISessionModel* model, QTreeView* view);
 
   /**
-   * @brief Set an item to be a new invisible root item for view model.
+   * @brief Sets filtering pattern to the display name in the first column of AnyValueItem tree.
+   *
+   * Item will be filtered out if its display name doesn't contain a given pattern (case insensitive).
    */
-  void SetItem(mvvm::SessionItem* item);
-
   void SetFilterPattern(const QString& pattern);
 
-  const mvvm::SessionItem* GetSelectedItem() const;
-  std::vector<const mvvm::SessionItem*> GetSelectedItems() const;
-
-  void SetSelectedItem(const mvvm::SessionItem* item);
-  void SetSelectedItems(const std::vector<const mvvm::SessionItem*>& items);
-
-  /**
-   * @brief Returns view selection model.
-   */
-  QItemSelectionModel* GetSelectionModel() const;
-
-  /**
-   * @brief Returns view model.
-   */
-  const mvvm::ViewModel* GetViewModel() const;
-
-  /**
-   * @brief Returns underlying proxy model.
-   */
-  const QAbstractProxyModel* GetProxyModel() const;
-
-  /**
-   * @brief Returns item from view index.
-   *
-   * @details The method takes into account the existence of proxy model. When proxy model is set,
-   * the result is obtained by applying QAbstractItemProxyModel::mapToSource to given index, and
-   * then getting item out of it.
-   */
-  const mvvm::SessionItem* GetItemFromViewIndex(const QModelIndex& index) const;
-
-  /**
-   * @brief Returns view indices for given item.
-   *
-   * @details View indices can be used for operation through a view. The method takes into account
-   * the existence of proxy model. When proxy model is set, the result is obtained by applying
-   * QAbstractItemProxyModel::mapFromSource to the original item's indices.
-   */
-  QList<QModelIndex> GetViewIndices(const mvvm::SessionItem* item) const;
-
-signals:
-  void SelectedItemChanged(mvvm::SessionItem*);
-
 private:
-  std::unique_ptr<AnyValueViewModel> m_view_model;
-  std::unique_ptr<mvvm::FilterNameViewModel> m_proxy_model;
-  std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
-  QTreeView* m_tree_view{nullptr};
+  mvvm::FilterNameViewModel* m_filter_proxy_model{nullptr};
 };
 
 }  // namespace sup::gui

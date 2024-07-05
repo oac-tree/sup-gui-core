@@ -96,7 +96,7 @@ AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
 {
   m_component_provider->SetSelectedItem(item);
-  auto indices_of_inserted = m_component_provider->GetViewIndices(item);
+  auto indices_of_inserted = m_component_provider->GetViewIndexes(item);
   if (!indices_of_inserted.empty())
   {
     m_tree_view->setExpanded(indices_of_inserted.front(), true);
