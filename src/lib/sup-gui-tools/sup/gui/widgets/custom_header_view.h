@@ -51,6 +51,20 @@ public:
   ~CustomHeaderView() override;
 
   /**
+   * @brief The constructor that invokes persistent setting machinery.
+   *
+   * For any non-empty setting name, the class will write its favorite state on destruction using
+   * QSettings machinery. It will be used during the next header construction. The setting's name
+   * can be "WidgetName/header_state" so the header state would be grouped with other settings of
+   * certain widgets in QSetting file.
+   *
+   * @param setting_name The name of the setting in QSetting file.
+   * @param stretch_factors Desired stretch factors for each column.
+   * @param parent The parent widget responsible for the time of life.
+   */
+  CustomHeaderView(const QString &setting_name, QWidget *parent);
+
+  /**
    * @brief The constructor that invokes persistent setting machinery and stretch factors.
    *
    * For any non-empty setting name, the class will write its favorite state on destruction using
@@ -58,7 +72,7 @@ public:
    * can be "WidgetName/header_state" so the header state would be grouped with other settings of
    * certain widgets in QSetting file.
    *
-   * If stretch factors are given, will
+   * If stretch factors are given, will adjust column width accordingly.
    *
    * @param setting_name The name of the setting in QSetting file.
    * @param stretch_factors Desired stretch factors for each column.

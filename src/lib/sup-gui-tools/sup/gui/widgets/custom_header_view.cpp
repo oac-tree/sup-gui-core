@@ -31,9 +31,9 @@ namespace sup::gui
 
 CustomHeaderView::CustomHeaderView(QWidget *parent) : CustomHeaderView({}, {}, parent) {}
 
-CustomHeaderView::~CustomHeaderView()
+CustomHeaderView::CustomHeaderView(const QString &setting_name, QWidget *parent)
+    : CustomHeaderView(setting_name, {}, parent)
 {
-  WriteSettings();
 }
 
 CustomHeaderView::CustomHeaderView(const QString &setting_name,
@@ -50,6 +50,11 @@ CustomHeaderView::CustomHeaderView(const QString &setting_name,
           &CustomHeaderView::OnContextMenuRequest);
 
   ReadSettings();
+}
+
+CustomHeaderView::~CustomHeaderView()
+{
+  WriteSettings();
 }
 
 void CustomHeaderView::SetAsFavoriteState(const QByteArray &state)
@@ -124,8 +129,12 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
 
 void CustomHeaderView::showEvent(QShowEvent *event)
 {
+  Q_UNUSED(event)
+
   if (!m_first_time_shown)
   {
+    // make column adjustment on the first show event, when tree got its physical size
+    // do not try to adjust on the next show events
     AdjustColumnsWidth();
     m_first_time_shown = true;
   }
