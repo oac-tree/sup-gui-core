@@ -19,17 +19,30 @@
 
 #include "custom_header_view.h"
 
+#include <QSettings>
+
 namespace sup::gui
 {
 
-CustomHeaderView::CustomHeaderView(QWidget *parent) : QHeaderView(Qt::Horizontal, parent)
+CustomHeaderView::CustomHeaderView(QWidget *parent) : CustomHeaderView({}, parent) {}
+
+CustomHeaderView::~CustomHeaderView()
+{
+  WriteSettings();
+}
+
+CustomHeaderView::CustomHeaderView(const QString &setting_group_name, QWidget *parent)
+    : QHeaderView(Qt::Horizontal, parent)
 {
   setDefaultAlignment(Qt::AlignLeft);
   connect(this, &QHeaderView::sectionResized, this, &CustomHeaderView::OnSectionResize);
+
+  ReadSettings();
 }
 
 void CustomHeaderView::SetAsFavoriteState(QByteArray state)
 {
+  // we set favorite state, but do not use it yet
   m_favorite_state = std::move(state);
 }
 
@@ -51,6 +64,14 @@ QByteArray CustomHeaderView::GetFavoriteState() const
   return m_favorite_state;
 }
 
+void CustomHeaderView::AdjustColumnsWidth()
+{
+  if (HasFavoriteState())
+  {
+    RestoreFavoriteState();
+  }
+}
+
 void CustomHeaderView::mousePressEvent(QMouseEvent *event)
 {
   m_is_in_interactive_mode = true;
@@ -61,6 +82,37 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
 {
   m_is_in_interactive_mode = false;
   QHeaderView::mouseReleaseEvent(event);
+}
+
+void CustomHeaderView::ReadSettings()
+{
+  if (m_setting_name.isEmpty())
+  {
+    return;
+  }
+
+  const QSettings settings;
+
+  if (settings.contains(m_setting_name))
+  {
+    SetAsFavoriteState(settings.value(m_setting_name).toByteArray());
+  }
+
+  // we read favorite state, but do not use it yet
+}
+
+void CustomHeaderView::WriteSettings()
+{
+  if (m_setting_name.isEmpty())
+  {
+    return;
+  }
+
+  QSettings settings;
+  if (HasFavoriteState())
+  {
+    settings.setValue(m_setting_name, GetFavoriteState());
+  }
 }
 
 void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)

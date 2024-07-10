@@ -47,6 +47,18 @@ public:
    */
   explicit CustomHeaderView(QWidget *parent);
 
+  ~CustomHeaderView();
+
+  /**
+   * @brief The constructor that invokes persistent setting machinery.
+   *
+   * For any non-empty setting name, the class will write its favorite state on destruction using
+   * QSettings machinery. It will be used during the next header construction. The setting's name
+   * can be "WidgetName/header_state" so the header state would be grouped with other settings of
+   * certain widgets in QSetting file.
+   */
+  CustomHeaderView(const QString &setting_name, QWidget *parent);
+
   /**
    * @brief Sets given state as a favorite state.
    *
@@ -73,11 +85,28 @@ public:
    */
   QByteArray GetFavoriteState() const;
 
+  /**
+   * @brief Adjusts column width.
+   *
+   * Will use the favorite state, if available. Otherwise will use optimum column with.
+   */
+  void AdjustColumnsWidth();
+
 protected:
   void mousePressEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
+  /**
+   * @brief Reads header state from disk.
+   */
+  void ReadSettings();
+
+  /**
+   * @brief Writes header state.
+   */
+  void WriteSettings();
+
   /**
    * @brief Save size of columns in a header on any interactive resize activity.
    *
@@ -87,6 +116,7 @@ private:
 
   bool m_is_in_interactive_mode{false};
   QByteArray m_favorite_state;
+  QString m_setting_name;
 };
 
 }  // namespace sup::gui
