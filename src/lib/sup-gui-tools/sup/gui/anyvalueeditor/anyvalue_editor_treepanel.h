@@ -65,8 +65,6 @@ signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
-  void ReadSettings();
-  void WriteSettings();
   void AdjustTreeAppearance();
 
   QTreeView* m_tree_view{nullptr};
