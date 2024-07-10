@@ -23,6 +23,7 @@
 
 #include <QAction>
 #include <QMenu>
+#include <QMouseEvent>
 #include <QSettings>
 
 namespace sup::gui
@@ -51,10 +52,10 @@ CustomHeaderView::CustomHeaderView(const QString &setting_name,
   ReadSettings();
 }
 
-void CustomHeaderView::SetAsFavoriteState(QByteArray state)
+void CustomHeaderView::SetAsFavoriteState(const QByteArray &state)
 {
   // we set favorite state, but do not use it yet
-  m_favorite_state = std::move(state);
+  m_favorite_state = state;
 }
 
 void CustomHeaderView::RestoreFavoriteState()
@@ -75,26 +76,13 @@ QByteArray CustomHeaderView::GetFavoriteState() const
   return m_favorite_state;
 }
 
-bool CustomHeaderView::AdjustColumnsWidth()
+void CustomHeaderView::AdjustColumnsWidth()
 {
   if (HasFavoriteState())
   {
     RestoreFavoriteState();
-    return true;
+    return;
   }
-
-  if (!m_stretch_factors.empty())
-  {
-    AdjustWidthOfColumns(this, m_stretch_factors);
-    return true;
-  }
-
-  return false;
-}
-
-void CustomHeaderView::ResetColumnWidth()
-{
-  SetAsFavoriteState({});
 
   if (!m_stretch_factors.empty())
   {
@@ -102,21 +90,45 @@ void CustomHeaderView::ResetColumnWidth()
     return;
   }
 
-  // evenly distribute column width
   const std::vector<int> stretch_factors(1, count());
   AdjustWidthOfColumns(this, stretch_factors);
 }
 
+void CustomHeaderView::ResetColumnWidth()
+{
+  m_favorite_state.clear();
+  AdjustColumnsWidth();
+}
+
 void CustomHeaderView::mousePressEvent(QMouseEvent *event)
 {
-  m_is_in_interactive_mode = true;
+  // Catching when the user has started to resize columns. Ignoring press events for context
+  // right-mouse button event.
+  if (event->buttons() & Qt::LeftButton)
+  {
+    m_is_in_interactive_mode = true;
+  }
   QHeaderView::mousePressEvent(event);
 }
 
 void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
 {
-  m_is_in_interactive_mode = false;
+  // Catching when the user has stopped to resize columns. Ignoring release event for context
+  // right-mouse button event.
+  if (event->button() == Qt::LeftButton)
+  {
+    m_is_in_interactive_mode = false;
+  }
   QHeaderView::mouseReleaseEvent(event);
+}
+
+void CustomHeaderView::showEvent(QShowEvent *event)
+{
+  if (!m_first_time_shown)
+  {
+    AdjustColumnsWidth();
+    m_first_time_shown = true;
+  }
 }
 
 void CustomHeaderView::OnContextMenuRequest(const QPoint &point)
@@ -142,8 +154,6 @@ void CustomHeaderView::ReadSettings()
   {
     SetAsFavoriteState(settings.value(m_setting_name).toByteArray());
   }
-
-  // we read favorite state, but do not use it yet
 }
 
 void CustomHeaderView::WriteSettings()
@@ -154,14 +164,14 @@ void CustomHeaderView::WriteSettings()
   }
 
   QSettings settings;
-  if (HasFavoriteState())
-  {
-    settings.setValue(m_setting_name, GetFavoriteState());
-  }
+  settings.setValue(m_setting_name, GetFavoriteState());
 }
 
 void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
 {
+  Q_UNUSED(index);
+  Q_UNUSED(prev_size);
+  Q_UNUSED(new_size);
   if (!m_is_in_interactive_mode)
   {
     return;

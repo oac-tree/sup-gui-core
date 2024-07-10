@@ -72,7 +72,7 @@ public:
    *
    * It will be restored later on RestoreFavoriteState call.
    */
-  void SetAsFavoriteState(QByteArray state);
+  void SetAsFavoriteState(const QByteArray& state);
 
   /**
    * @brief Restore state (width of tree's columns) stored earlier as a favorite state.
@@ -96,37 +96,35 @@ public:
   /**
    * @brief Adjusts columns width to favorite values.
    *
-   * This method should be called when user assigns a new view model to a tree and wants to see
-   * reasonable column width.
+   * This method should be called when the user assigns a new view model to a tree and wants to see
+   * a reasonable column width.
    *
    * Will use the favorite state, if available. Otherwise, will use the optimum column width, if
-   * provided. If none are known, will leave column width unchanged. In the later case, will return
-   * false, so the user can align columns to his will.
-   *
-   * @return Returns true if the column widths was adjusted.
+   * provided. If none are known, will make columns of equal width.
    */
-  bool AdjustColumnsWidth();
+  void AdjustColumnsWidth();
 
   /**
    * @brief Reset column width to optimal values.
    *
-   * This method should be called from context menu, when the user whants quickly align columns.
+   * This method should be called from the context menu when the user wants to quickly align
+   * columns.
    *
-   * First, this method will reset the favorite state if it exists. Then will set the column width
-   * to a given stretch factor. If stretch factors were not provided, will evenly distribute column
-   * width.
+   * The method resets favorite state, and then calls AdjustColumnWidth, effectively adjusting
+   * columns width following preferable stretch factors.
    */
   void ResetColumnWidth();
 
 protected:
   void mousePressEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
+  void showEvent(QShowEvent *event) override;
 
 private:
   /**
    * @brief Creates context menu to reset header to reasonable state.
    */
-  void OnContextMenuRequest(const QPoint& point);
+  void OnContextMenuRequest(const QPoint &point);
 
   /**
    * @brief Reads header state from disk.
@@ -149,6 +147,7 @@ private:
   QByteArray m_favorite_state;           //!< favorite user state for this header
   QString m_setting_name;                //!< the name of the setting in QSetting file
   std::vector<int> m_stretch_factors;    //!< optional column stretch factors
+  bool m_first_time_shown{false};        //!< flag denoting that widget was shown for the first time
 };
 
 }  // namespace sup::gui
