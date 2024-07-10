@@ -20,6 +20,7 @@
 #ifndef SUP_GUI_WIDGETS_TREE_HELPER_H_
 #define SUP_GUI_WIDGETS_TREE_HELPER_H_
 
+//! @file
 //! Helper methods to deal with Qt trees.
 
 #include <functional>
@@ -28,6 +29,7 @@ class QMenu;
 class QTreeView;
 class QPoint;
 class QHeaderView;
+class QModelIndex;
 
 namespace sup::gui
 {
@@ -66,6 +68,32 @@ void AdjustWidthOfColumns(QHeaderView* header, std::vector<int> stretch_factors)
  * @param stretch_factors Relative stretch factors
  */
 void AdjustWidthOfColumns(QTreeView& tree, std::vector<int> stretch_factors);
+
+/**
+ * @brief Scrolls tree viewport to selection.
+ *
+ * @Performs scrolling of the tree viewport to show the current selection. The scrolling will be
+ * performed only if the current selection is located outside of the viewport. The viewport will be
+ * positioned to show selected item at the top.
+ */
+void ScrollTreeViewportToSelection(QTreeView& tree_view);
+
+/**
+ * @brief Returns index of item which should be highlighted instead of the given item.
+ *
+ * The algorithm is used in the context of highlighting the current running instruction,
+ * when it is hidden inside collapsed branch of its parent. In this case we want to highlight the
+ * parent itself.
+ *
+ * The algorithm will go up in the hierarchy and look for parent, containing our child in
+ * one of collapsed branches. If all branches are expanded, will return child back.
+ *
+ * @param tree The tree with some branches collapsed and some expanded.
+ * @param child The index of a child which we would like to highlight.
+ *
+ * @return The actual index of a parent that we have to highlight instead.
+ */
+QModelIndex FindVisibleCandidate(const QTreeView& tree, const QModelIndex& child);
 
 }  // namespace sup::gui
 
