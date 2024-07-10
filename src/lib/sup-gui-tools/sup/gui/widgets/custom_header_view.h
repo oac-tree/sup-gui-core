@@ -48,15 +48,17 @@ public:
    */
   explicit CustomHeaderView(QWidget *parent);
 
-  ~CustomHeaderView();
+  ~CustomHeaderView() override;
 
   /**
-   * @brief The constructor that invokes persistent setting machinery.
+   * @brief The constructor that invokes persistent setting machinery and stretch factors.
    *
    * For any non-empty setting name, the class will write its favorite state on destruction using
    * QSettings machinery. It will be used during the next header construction. The setting's name
    * can be "WidgetName/header_state" so the header state would be grouped with other settings of
    * certain widgets in QSetting file.
+   *
+   * If stretch factors are given, will
    *
    * @param setting_name The name of the setting in QSetting file.
    * @param stretch_factors Desired stretch factors for each column.
@@ -92,13 +94,29 @@ public:
   QByteArray GetFavoriteState() const;
 
   /**
-   * @brief Adjusts column width.
+   * @brief Adjusts columns width to favorite values.
    *
-   * Will use the favorite state, if available. Otherwise, I will use the optimum column width.
+   * This method should be called when user assigns a new view model to a tree and wants to see
+   * reasonable column width.
    *
-   * @return Returns true if columns width was adjusted.
+   * Will use the favorite state, if available. Otherwise, will use the optimum column width, if
+   * provided. If none are known, will leave column width unchanged. In the later case, will return
+   * false, so the user can align columns to his will.
+   *
+   * @return Returns true if the column widths was adjusted.
    */
   bool AdjustColumnsWidth();
+
+  /**
+   * @brief Reset column width to optimal values.
+   *
+   * This method should be called from context menu, when the user whants quickly align columns.
+   *
+   * First, this method will reset the favorite state if it exists. Then will set the column width
+   * to a given stretch factor. If stretch factors were not provided, will evenly distribute column
+   * width.
+   */
+  void ResetColumnWidth();
 
 protected:
   void mousePressEvent(QMouseEvent *event) override;

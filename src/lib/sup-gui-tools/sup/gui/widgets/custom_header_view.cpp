@@ -86,6 +86,21 @@ bool CustomHeaderView::AdjustColumnsWidth()
   return false;
 }
 
+void CustomHeaderView::ResetColumnWidth()
+{
+  SetAsFavoriteState({});
+
+  if (!m_stretch_factors.empty())
+  {
+    AdjustWidthOfColumns(this, m_stretch_factors);
+    return;
+  }
+
+  // evenly distribute column width
+  const std::vector<int> stretch_factors(1, count());
+  AdjustWidthOfColumns(this, stretch_factors);
+}
+
 void CustomHeaderView::mousePressEvent(QMouseEvent *event)
 {
   m_is_in_interactive_mode = true;
