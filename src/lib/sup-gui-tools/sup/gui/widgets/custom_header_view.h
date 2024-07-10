@@ -59,7 +59,6 @@ public:
    * certain widgets in QSetting file.
    *
    * @param setting_name The name of the setting in QSetting file.
-   * @param stretch_factors Desired stretch factors for each column.
    * @param parent The parent widget responsible for the time of life.
    */
   CustomHeaderView(const QString &setting_name, QWidget *parent);
