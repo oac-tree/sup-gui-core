@@ -95,7 +95,7 @@ void CustomHeaderView::AdjustColumnsWidth()
     return;
   }
 
-  const std::vector<int> stretch_factors(1, count());
+  const std::vector<int> stretch_factors(count(), 1);
   AdjustWidthOfColumns(this, stretch_factors);
 }
 

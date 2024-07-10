@@ -42,7 +42,8 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ISessionModel *model, QWi
     : QWidget(parent)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
-    , m_custom_header(new sup::gui::CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
+    , m_custom_header(
+          new sup::gui::CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
     , m_component_provider(std::make_unique<TreeViewComponentProvider>(model, m_tree_view))
 {
   setWindowTitle("AnyValue tree");
