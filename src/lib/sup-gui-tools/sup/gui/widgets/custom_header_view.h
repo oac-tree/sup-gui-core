@@ -27,23 +27,50 @@ namespace sup::gui
 {
 
 /**
- * @brief The CustomHeaderView class provides a header for QTreeView that remembers column size as
- * they have been interactively adjusted by the user.
+ * @brief The CustomHeaderView class provides a header for QTreeView that remembers column size
+ * following interactive adjustment by the user.
+ *
+ * It also can save its state on disk in persistent settings and can restore to that state on the
+ * next construction. It has a context menu: on the right mouse button, one can reset the column
+ * width to initial settings.
  */
-
 class CustomHeaderView : public QHeaderView
 {
   Q_OBJECT
 
 public:
+  /**
+   * @brief The base c-tor.
+   *
+   * The header constructed in this way knows nothing about optimal tree column width, and doesn't
+   * try to restore own state from persistent settings on disk.
+   */
   explicit CustomHeaderView(QWidget *parent);
 
+  /**
+   * @brief Sets given state as a favorite state.
+   *
+   * It will be restored later on RestoreFavoriteState call.
+   */
   void SetAsFavoriteState(QByteArray state);
 
+  /**
+   * @brief Restore state (width of tree's columns) stored earlier as a favorite state.
+   */
   void RestoreFavoriteState();
 
+  /**
+   * @brief Checks if the header has a favorite state (width of columns).
+   *
+   * Favorite state appears when the user starts to resize tree columns manually.
+   */
   bool HasFavoriteState() const;
 
+  /**
+   * @brief Returns favorite state.
+   *
+   * Favorite state appears when the user starts to resize tree columns manually.
+   */
   QByteArray GetFavoriteState() const;
 
 protected:
@@ -51,6 +78,11 @@ protected:
   void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
+  /**
+   * @brief Save size of columns in a header on any interactive resize activity.
+   *
+   * Will ignore programmatic column resize (i.e. due to resize of the parent widget).
+   */
   void OnSectionResize(int index, int prev_size, int new_size);
 
   bool m_is_in_interactive_mode{false};

@@ -63,8 +63,6 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
   QHeaderView::mouseReleaseEvent(event);
 }
 
-//! Save size of columns in a header on any interactive resize activity. Will ignore programmatic
-//! column resize (i.e. due to resize of the parent widget).
 void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
 {
   if (!m_is_in_interactive_mode)

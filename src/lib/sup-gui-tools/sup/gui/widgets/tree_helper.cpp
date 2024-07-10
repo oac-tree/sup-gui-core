@@ -115,7 +115,7 @@ void AdjustWidthOfColumns(QHeaderView *header, std::vector<int> stretch_factors)
 
 void AdjustWidthOfColumns(QTreeView &tree, std::vector<int> stretch_factors)
 {
-  AdjustWidthOfColumns(tree.header(), stretch_factors);
+  AdjustWidthOfColumns(tree.header(), std::move(stretch_factors));
 }
 
 }  // namespace sup::gui
