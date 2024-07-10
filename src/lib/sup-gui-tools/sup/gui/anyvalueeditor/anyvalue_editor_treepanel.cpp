@@ -23,7 +23,6 @@
 #include <sup/gui/viewmodel/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
 
-#include <QDebug>
 #include <QLineEdit>
 #include <QSettings>
 #include <QTreeView>
@@ -75,7 +74,6 @@ AnyValueEditorTreePanel::~AnyValueEditorTreePanel() = default;
 
 void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
 {
-  qDebug() << "AnyValueEditorTreePanel::SetAnyValueItemContainer" << container;
   m_component_provider->SetItem(container);
   AdjustTreeAppearance();
 }
@@ -88,7 +86,6 @@ AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
 
 void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
 {
-  qDebug() << "AnyValueEditorTreePanel::SetSelected" << item;
   m_component_provider->SetSelectedItem(item);
   auto indices_of_inserted = m_component_provider->GetViewIndexes(item);
   if (!indices_of_inserted.empty())
