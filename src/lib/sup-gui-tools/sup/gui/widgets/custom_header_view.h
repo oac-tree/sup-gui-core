@@ -124,6 +124,11 @@ protected:
 
 private:
   /**
+   * @brief Creates context menu to reset header to reasonable state.
+   */
+  void OnContextMenuRequest(const QPoint& point);
+
+  /**
    * @brief Reads header state from disk.
    */
   void ReadSettings();

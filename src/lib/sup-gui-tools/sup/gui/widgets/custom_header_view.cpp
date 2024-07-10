@@ -21,6 +21,8 @@
 
 #include "tree_helper.h"
 
+#include <QAction>
+#include <QMenu>
 #include <QSettings>
 
 namespace sup::gui
@@ -41,6 +43,10 @@ CustomHeaderView::CustomHeaderView(const QString &setting_name,
 {
   setDefaultAlignment(Qt::AlignLeft);
   connect(this, &QHeaderView::sectionResized, this, &CustomHeaderView::OnSectionResize);
+
+  setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, &CustomHeaderView::customContextMenuRequested, this,
+          &CustomHeaderView::OnContextMenuRequest);
 
   ReadSettings();
 }
@@ -111,6 +117,16 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
 {
   m_is_in_interactive_mode = false;
   QHeaderView::mouseReleaseEvent(event);
+}
+
+void CustomHeaderView::OnContextMenuRequest(const QPoint &point)
+{
+  QMenu menu;
+
+  auto reset_action = menu.addAction("Reset column width to optimal");
+  connect(reset_action, &QAction::triggered, this, [this]() { ResetColumnWidth(); });
+
+  menu.exec(mapToGlobal(point));
 }
 
 void CustomHeaderView::ReadSettings()
