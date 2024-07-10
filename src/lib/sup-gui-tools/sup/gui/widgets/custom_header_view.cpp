@@ -19,20 +19,25 @@
 
 #include "custom_header_view.h"
 
+#include "tree_helper.h"
+
 #include <QSettings>
 
 namespace sup::gui
 {
 
-CustomHeaderView::CustomHeaderView(QWidget *parent) : CustomHeaderView({}, parent) {}
+CustomHeaderView::CustomHeaderView(QWidget *parent) : CustomHeaderView({}, {}, parent) {}
 
 CustomHeaderView::~CustomHeaderView()
 {
   WriteSettings();
 }
 
-CustomHeaderView::CustomHeaderView(const QString &setting_group_name, QWidget *parent)
+CustomHeaderView::CustomHeaderView(const QString &setting_name,
+                                   const std::vector<int> &stretch_factors, QWidget *parent)
     : QHeaderView(Qt::Horizontal, parent)
+    , m_setting_name(setting_name)
+    , m_stretch_factors(stretch_factors)
 {
   setDefaultAlignment(Qt::AlignLeft);
   connect(this, &QHeaderView::sectionResized, this, &CustomHeaderView::OnSectionResize);
@@ -64,12 +69,21 @@ QByteArray CustomHeaderView::GetFavoriteState() const
   return m_favorite_state;
 }
 
-void CustomHeaderView::AdjustColumnsWidth()
+bool CustomHeaderView::AdjustColumnsWidth()
 {
   if (HasFavoriteState())
   {
     RestoreFavoriteState();
+    return true;
   }
+
+  if (!m_stretch_factors.empty())
+  {
+    AdjustWidthOfColumns(this, m_stretch_factors);
+    return true;
+  }
+
+  return false;
 }
 
 void CustomHeaderView::mousePressEvent(QMouseEvent *event)
