@@ -111,7 +111,7 @@ void CustomHeaderView::mousePressEvent(QMouseEvent *event)
   // right-mouse button event.
   if (event->buttons() & Qt::LeftButton)
   {
-    m_is_in_interactive_mode = true;
+    m_interaction_state.SetFlag(InteractionState::kInteractiveMode);
   }
   QHeaderView::mousePressEvent(event);
 }
@@ -122,7 +122,7 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
   // right-mouse button event.
   if (event->button() == Qt::LeftButton)
   {
-    m_is_in_interactive_mode = false;
+    m_interaction_state.UnsetFlag(InteractionState::kInteractiveMode);
   }
   QHeaderView::mouseReleaseEvent(event);
 }
@@ -131,12 +131,12 @@ void CustomHeaderView::showEvent(QShowEvent *event)
 {
   Q_UNUSED(event)
 
-  if (!m_first_time_shown)
+  if (!m_interaction_state.HasFlag(InteractionState::kWasShown))
   {
     // make column adjustment on the first show event, when tree got its physical size
     // do not try to adjust on the next show events
     AdjustColumnsWidth();
-    m_first_time_shown = true;
+    m_interaction_state.SetFlag(InteractionState::kWasShown);
   }
 }
 
@@ -181,12 +181,11 @@ void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
   Q_UNUSED(index);
   Q_UNUSED(prev_size);
   Q_UNUSED(new_size);
-  if (!m_is_in_interactive_mode)
-  {
-    return;
-  }
 
-  m_favorite_state = saveState();
+  if (m_interaction_state.HasFlag(InteractionState::kInteractiveMode))
+  {
+    m_favorite_state = saveState();
+  }
 }
 
 }  // namespace sup::gui

@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_WIDGETS_CUSTOM_HEADER_VIEW_H_
 #define SUP_GUI_WIDGETS_CUSTOM_HEADER_VIEW_H_
 
+#include <sup/gui/core/flags.h>
+
 #include <QByteArray>
 #include <QHeaderView>
 #include <vector>
@@ -40,6 +42,12 @@ class CustomHeaderView : public QHeaderView
   Q_OBJECT
 
 public:
+  enum class InteractionState
+  {
+    kInteractiveMode,  //!< flag denoting that the user is currently resizing columns
+    kWasShown,         //!< flag denoting that the widget was already shown at least once
+  };
+
   /**
    * @brief The base c-tor.
    *
@@ -85,7 +93,7 @@ public:
    *
    * It will be restored later on RestoreFavoriteState call.
    */
-  void SetAsFavoriteState(const QByteArray& state);
+  void SetAsFavoriteState(const QByteArray &state);
 
   /**
    * @brief Restore state (width of tree's columns) stored earlier as a favorite state.
@@ -156,11 +164,10 @@ private:
    */
   void OnSectionResize(int index, int prev_size, int new_size);
 
-  bool m_is_in_interactive_mode{false};  //!< flag to trace when user holds mouse button
   QByteArray m_favorite_state;           //!< favorite user state for this header
   QString m_setting_name;                //!< the name of the setting in QSetting file
   std::vector<int> m_stretch_factors;    //!< optional column stretch factors
-  bool m_first_time_shown{false};        //!< flag denoting that widget was shown for the first time
+  Flags<InteractionState> m_interaction_state;  //!< interaction state
 };
 
 }  // namespace sup::gui
