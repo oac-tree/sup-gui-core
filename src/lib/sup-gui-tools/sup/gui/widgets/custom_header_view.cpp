@@ -101,6 +101,7 @@ void CustomHeaderView::AdjustColumnsWidth()
 
 void CustomHeaderView::ResetColumnWidth()
 {
+  m_interaction_state.SetFlag(InteractionState::kWasAdjusted);
   m_favorite_state.clear();
   AdjustColumnsWidth();
 }
@@ -172,8 +173,16 @@ void CustomHeaderView::WriteSettings()
     return;
   }
 
-  QSettings settings;
-  settings.setValue(m_setting_name, GetFavoriteState());
+  if (m_interaction_state.HasFlag(InteractionState::kWasAdjusted))
+  {
+    // This covers a case of two widgets looking at the same setting name. If the widget was never
+    // adjusted by the user, it will never try to overwrite the setting. However, if two widgets
+    // with the same setting name were adjusted by the user, the widget that was destructed the
+    // last, will overwrite the settings of the previous widget.
+
+    QSettings settings;
+    settings.setValue(m_setting_name, GetFavoriteState());
+  }
 }
 
 void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
@@ -184,6 +193,7 @@ void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
 
   if (m_interaction_state.HasFlag(InteractionState::kInteractiveMode))
   {
+    m_interaction_state.SetFlag(InteractionState::kWasAdjusted);
     m_favorite_state = saveState();
   }
 }

@@ -33,19 +33,29 @@ namespace sup::gui
  * @brief The CustomHeaderView class provides a header for QTreeView that remembers column size
  * following interactive adjustment by the user.
  *
- * It also can save its state on disk in persistent settings and can restore to that state on the
- * next construction. It has a context menu: on the right mouse button, one can reset the column
- * width to initial settings.
+ * It can save its state on disk in persistent settings and can restore to that state on the next
+ * construction.
+ *
+ * When shown to the user for the first time, it sets the width of the column as it was adjusted by
+ * the user last time. If there were no adjustments, it will setup the column's width following the
+ * default stretch factors.
+ *
+ * It has a context menu: on the right mouse button, one can reset the column width to initial
+ * settings.
  */
 class CustomHeaderView : public QHeaderView
 {
   Q_OBJECT
 
 public:
+  /**
+   * @brief The InteractionState enum holds flags related to the current user activity.
+   */
   enum class InteractionState
   {
-    kInteractiveMode,  //!< flag denoting that the user is currently resizing columns
-    kWasShown,         //!< flag denoting that the widget was already shown at least once
+    kInteractiveMode,  //!< the user is currently resizing columns
+    kWasShown,         //!< the widget was already shown to the user at least once
+    kWasAdjusted,      //!< the widget was already interactively adjusted by the user at least once
   };
 
   /**
@@ -164,9 +174,9 @@ private:
    */
   void OnSectionResize(int index, int prev_size, int new_size);
 
-  QByteArray m_favorite_state;           //!< favorite user state for this header
-  QString m_setting_name;                //!< the name of the setting in QSetting file
-  std::vector<int> m_stretch_factors;    //!< optional column stretch factors
+  QByteArray m_favorite_state;                  //!< favorite user state for this header
+  QString m_setting_name;                       //!< the name of the setting in QSetting file
+  std::vector<int> m_stretch_factors;           //!< optional column stretch factors
   Flags<InteractionState> m_interaction_state;  //!< interaction state
 };
 
