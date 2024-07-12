@@ -56,13 +56,45 @@ public:
    */
   bool HasFlag(EnumT flag) const
   {
-    return std::find(m_flags.begin(), m_flags.end(), flag) != m_flags.end();
+    return std::find(m_flags.cbegin(), m_flags.cend(), flag) != m_flags.cend();
   }
 
   /**
    * @brief Sets flags from given values, discards previous flags.
    */
   void SetFlags(std::vector<EnumT> flags) { m_flags = std::move(flags); }
+
+  /**
+   * @brief Adds a flag to the list of flags.
+   *
+   * If flag already exists, will do nothing.
+   */
+  void SetFlag(EnumT flag)
+  {
+    if (!HasFlag(flag))
+    {
+      m_flags.push_back(flag);
+    }
+  }
+
+  /**
+   * @brief Remove the flag from the list of flags.
+   *
+   * If the flag didn't exist, will do nothing.
+   */
+  void UnsetFlag(EnumT flag)
+  {
+    auto iter = std::find(std::begin(m_flags), std::end(m_flags), flag);
+    if (iter != m_flags.end())
+    {
+      m_flags.erase(iter);
+    }
+  }
+
+  /**
+   * @brief Returns number of flags.
+   */
+  size_t GetFlagCount() const { return m_flags.size(); }
 
 private:
   std::vector<EnumT> m_flags;
