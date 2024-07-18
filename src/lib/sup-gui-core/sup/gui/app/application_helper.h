@@ -33,8 +33,6 @@ namespace sup::gui
 /**
  * @brief Initialize core COA application.
  *
- * It performs necessary settings
- *
  * @param app_name The name of the executable.
  * @param version The string representing version in the form "major.minor.patch".
  */

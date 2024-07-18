@@ -48,6 +48,17 @@ void InitCoreApplication(const QString &app_name, const QString &version)
   QCoreApplication::setApplicationName(app_name);
   QCoreApplication::setApplicationVersion(version);
   QCoreApplication::setOrganizationName("coa");
+
+  if (!IsAppHasValidSettings(version.toStdString()))
+  {
+    std::cout << "Application's settings file which was found in $HOME/.config/coa folder is too "
+                 "old for this GUI version ["
+              << version.toStdString() << "], starting from scratch." << std::endl;
+
+    QSettings settings;
+    settings.clear();
+    settings.setValue(constants::kAppVersion, version);
+  }
 }
 
 void SetupHighDpiScaling(bool scale_from_environment)
@@ -162,7 +173,7 @@ bool IsAppHasValidSettings(const std::string &app_version)
     return HasSameMajorMinorVersion(app_version, settings_version);
   }
 
- return false;
+  return false;
 }
 
 }  // namespace sup::gui
