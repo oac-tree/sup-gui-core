@@ -33,6 +33,8 @@ namespace sup::gui
 /**
  * @brief Initialize core COA application.
  *
+ * It performs necessary settings
+ *
  * @param app_name The name of the executable.
  * @param version The string representing version in the form "major.minor.patch".
  */
@@ -106,6 +108,16 @@ std::optional<QFont> GetAppFontFromSettings();
  * The method should be called after InitCoreApplication.
  */
 void SaveAppFontInSettings(const QFont &font);
+
+/**
+ * @brief Checks if the application has a settings file and this settings can be used for the
+ * given application version.
+ *
+ * There should be a setting file on disk, it should contain the version string, and this version
+ * string should match app_version string in "minor.major" parts. This method should be always
+ * called after InitCoreApplication.
+ */
+bool IsAppHasValidSettings(const std::string &app_version);
 
 }  // namespace sup::gui
 

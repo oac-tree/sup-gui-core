@@ -30,6 +30,7 @@ namespace sup::gui::constants
 
 //! the name of common settings in the application main configuration file
 const QString kAppFontSettingName = "MainWindow/font";
+const QString kAppVersion = "MainWindow/version";
 
 //! the name of the groups corresponding to main menus of the menubar
 const QString kFileMenu = "&File";

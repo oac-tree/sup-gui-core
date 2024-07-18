@@ -23,6 +23,8 @@
 #include "app_action_manager.h"
 #include "app_constants.h"
 
+#include <sup/gui/core/version_helper.h>
+
 #include <mvvm/widgets/app_utils.h>
 
 #include <QApplication>
@@ -147,6 +149,20 @@ void SaveAppFontInSettings(const QFont &font)
 {
   QSettings settings;
   settings.setValue(constants::kAppFontSettingName, font);
+}
+
+bool IsAppHasValidSettings(const std::string &app_version)
+{
+  const QSettings settings;
+
+  if (settings.contains(constants::kAppVersion))
+  {
+    auto settings_version = settings.value(constants::kAppVersion).toString().toStdString();
+
+    return HasSameMajorMinorVersion(app_version, settings_version);
+  }
+
+ return false;
 }
 
 }  // namespace sup::gui
