@@ -29,22 +29,19 @@ namespace sup::gui
 std::tuple<int, int, int> ParseVersionString(const std::string& version_string)
 {
   const std::string separator(".");
-  auto parsed = mvvm::utils::SplitString(version_string, separator);
-
-  if (parsed.size() != 3)
-  {
-    throw RuntimeException("Can't parse version string [" + version_string + "]");
-  }
 
   std::vector<int> version_parts;
-  for (const auto& str : parsed)
+  for (const auto& str : mvvm::utils::SplitString(version_string, separator))
   {
-    auto num = mvvm::utils::StringToInteger(str);
-    if (!num.has_value())
+    if (auto num = mvvm::utils::StringToInteger(str); num.has_value())
     {
-      throw RuntimeException("Can't parse version string [" + version_string + "]");
+      version_parts.push_back(num.value());
     }
-    version_parts.push_back(num.value());
+  }
+
+  if (version_parts.size() != 3)
+  {
+    throw RuntimeException("Can't parse version string [" + version_string + "]");
   }
 
   return std::make_tuple(version_parts[0], version_parts[1], version_parts[2]);
