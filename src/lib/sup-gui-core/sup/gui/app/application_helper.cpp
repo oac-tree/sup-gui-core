@@ -19,8 +19,9 @@
 
 #include "application_helper.h"
 
-#include "app_action_manager.h"
 #include "app_action_helper.h"
+#include "app_action_manager.h"
+#include "app_constants.h"
 
 #include <mvvm/widgets/app_utils.h>
 
@@ -33,7 +34,6 @@
 
 namespace
 {
-const QString kAppFontSettingName = "MainWindow/font";
 const QString kPreferredCodacStyle = "Adwaita";
 }  // namespace
 
@@ -135,9 +135,9 @@ std::optional<QFont> GetAppFontFromSettings()
 {
   const QSettings settings;
 
-  if (settings.contains(kAppFontSettingName))
+  if (settings.contains(constants::kAppFontSettingName))
   {
-    return settings.value(kAppFontSettingName).value<QFont>();
+    return settings.value(constants::kAppFontSettingName).value<QFont>();
   }
 
   return {};
@@ -146,7 +146,7 @@ std::optional<QFont> GetAppFontFromSettings()
 void SaveAppFontInSettings(const QFont &font)
 {
   QSettings settings;
-  settings.setValue(kAppFontSettingName, font);
+  settings.setValue(constants::kAppFontSettingName, font);
 }
 
 }  // namespace sup::gui
