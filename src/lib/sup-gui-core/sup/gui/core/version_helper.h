@@ -33,6 +33,12 @@ namespace sup::gui
  */
 std::tuple<int, int, int> ParseVersionString(const std::string& version_string);
 
+
+/**
+ * @brief Checks if two version strings has same major and minor versions in a version string.
+ */
+bool HasSameMajorMinorVersion(const std::string& str1, const std::string& str2);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_CORE_VERSION_HELPER_H_

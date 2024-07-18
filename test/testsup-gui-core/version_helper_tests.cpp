@@ -31,7 +31,15 @@ class VersionHelperTest : public ::testing::Test
 TEST_F(VersionHelperTest, ParseVersionString)
 {
   EXPECT_EQ(ParseVersionString("1.2.3"), std::make_tuple(1, 2, 3));
+  EXPECT_EQ(ParseVersionString(" 1. 2.3 "), std::make_tuple(1, 2, 3));
+  EXPECT_THROW(ParseVersionString("1.2a.3patch"), RuntimeException);
   EXPECT_THROW(ParseVersionString("1..3"), RuntimeException);
   EXPECT_THROW(ParseVersionString("1.2."), RuntimeException);
   EXPECT_THROW(ParseVersionString("1.2"), RuntimeException);
+}
+
+TEST_F(VersionHelperTest, HasSameMajorMinorVersion)
+{
+  EXPECT_TRUE(HasSameMajorMinorVersion("1.2.0", "1.2.1"));
+  EXPECT_FALSE(HasSameMajorMinorVersion("1.3.1", "1.2.2"));
 }
