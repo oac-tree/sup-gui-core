@@ -16,4 +16,6 @@ target_sources(${library_name} PRIVATE
   standard_message_handlers.h
   version.cpp
   version.h
+  version_helper.cpp
+  version_helper.h
 )
