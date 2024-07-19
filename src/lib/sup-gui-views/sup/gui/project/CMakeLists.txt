@@ -15,3 +15,11 @@ target_sources(${library_name} PRIVATE
   recent_project_settings.cpp
   recent_project_settings.h
 )
+
+install(FILES
+  project_handler.h
+  project_handler_utils.h
+  recent_project_settings.h
+  recent_project_path.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/project
+)
