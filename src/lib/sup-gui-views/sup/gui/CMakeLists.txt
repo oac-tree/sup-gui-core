@@ -1,6 +1,3 @@
-add_subdirectory(anyvalueeditor)
-add_subdirectory(codeeditor)
-add_subdirectory(dtoeditor)
-add_subdirectory(waveformeditor)
+add_subdirectory(views)
 add_subdirectory(widgets)
 add_subdirectory(project)

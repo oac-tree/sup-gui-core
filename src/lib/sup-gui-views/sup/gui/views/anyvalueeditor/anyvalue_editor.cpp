@@ -23,7 +23,7 @@
 #include "anyvalue_editor_widget.h"
 
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/waveformeditor/anyvalue_waveform_editor.h>
+#include <sup/gui/views/waveformeditor/anyvalue_waveform_editor.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_utils.h>

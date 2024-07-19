@@ -19,7 +19,7 @@
 
 #include "dto_composer_tab_controller.h"
 
-#include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
+#include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 #include <sup/gui/core/exceptions.h>
 
 #include <mvvm/model/i_session_model.h>

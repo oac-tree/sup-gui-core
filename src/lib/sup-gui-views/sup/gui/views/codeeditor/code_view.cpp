@@ -19,7 +19,7 @@
 
 #include "code_view.h"
 
-#include <sup/gui/codeeditor/code_editor.h>
+#include <sup/gui/views/codeeditor/code_editor.h>
 
 #include <mvvm/utils/file_utils.h>
 

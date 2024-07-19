@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/anyvalueeditor/run_application.h>
+#include <sup/gui/views/anyvalueeditor/run_application.h>
 #include <sup/gui/app/application_helper.h>
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/version.h>
-#include <sup/gui/dtoeditor/dto_editor_main_window.h>
+#include <sup/gui/views/dtoeditor/dto_editor_main_window.h>
 
 int main(int argc, char** argv)
 {

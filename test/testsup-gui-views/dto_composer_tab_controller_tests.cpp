@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/dtoeditor/dto_composer_tab_controller.h"
+#include "sup/gui/views/dtoeditor/dto_composer_tab_controller.h"
 
-#include <sup/gui/anyvalueeditor/anyvalue_editor_widget.h>
+#include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>

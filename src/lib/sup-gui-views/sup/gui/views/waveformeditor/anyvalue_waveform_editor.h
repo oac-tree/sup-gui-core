@@ -17,51 +17,39 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
+#ifndef SUP_GUI_WAVEFORMEDITOR_ANYVALUE_WAVEFORM_EDITOR_H_
+#define SUP_GUI_WAVEFORMEDITOR_ANYVALUE_WAVEFORM_EDITOR_H_
 
-#include <sup/gui/anyvalueeditor/abstract_anyvalue_editor.h>
-#include <QString>
-#include <QWidget>
-#include <memory>
-
-namespace mvvm
-{
-class ApplicationModel;
-}  // namespace mvvm
+#include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
 
 namespace sup::gui
 {
 
-class AnyValueEditorWidget;
-class AnyValueItem;
+class WaveformEditor;
 
-class AnyValueEditor : public AbstractAnyValueEditor
+/**
+ * @brief The AnyValueWaveformEditor class is a wrapper widget around WaveformEditor to edit
+ * AnyValueItems intended for waveform storage.
+ *
+ * The initial waveform and result of waveform editing are encoded in AnyValueItem. Underlying
+ * editor operates via mvvm::LineSeriesItem machinery.
+ */
+class AnyValueWaveformEditor : public AbstractAnyValueEditor
 {
   Q_OBJECT
 
 public:
-  explicit AnyValueEditor(QWidget* parent = nullptr);
-  ~AnyValueEditor() override;
+  explicit AnyValueWaveformEditor(QWidget* parent = nullptr);
+  ~AnyValueWaveformEditor() override;
 
   void SetInitialValue(const sup::gui::AnyValueItem* item) override;
 
   std::unique_ptr<sup::gui::AnyValueItem> GetResult() override;
 
-  AnyValueItem* GetTopItem();
-
-  mvvm::ApplicationModel* GetModel() const;
-
-  void OnImportFromFileRequest();
-  void OnImportWaveformRequest();
-  void OnExportToFileRequest();
-  void OnProjectLoad();
-
 private:
-  std::unique_ptr<mvvm::ApplicationModel> m_model;
-  AnyValueEditorWidget* m_editor_widget{nullptr};
+  WaveformEditor* m_waveform_editor{nullptr};
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
+#endif  // SUP_GUI_WAVEFORMEDITOR_ANYVALUE_WAVEFORM_EDITOR_H_
