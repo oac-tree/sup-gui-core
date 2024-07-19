@@ -17,15 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/components/custom_metatypes.h>
-
 #include <gtest/gtest.h>
 
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
-
-  sup::gui::RegisterCustomMetaTypes();
 
   // run all google tests
   return RUN_ALL_TESTS();
