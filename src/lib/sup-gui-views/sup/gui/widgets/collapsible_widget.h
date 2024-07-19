@@ -49,6 +49,6 @@ private:
   CollapsibleToolBar* m_tool_bar{nullptr};  // ToolBar intended to go to splitter separately
 };
 
-}  // namespace mvvm
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_WIDGETS_COLLAPSIBLE_WIDGET_H_

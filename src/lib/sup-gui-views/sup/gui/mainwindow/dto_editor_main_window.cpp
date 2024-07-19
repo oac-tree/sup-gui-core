@@ -19,11 +19,10 @@
 
 #include "dto_editor_main_window.h"
 
-#include <sup/gui/views/dtoeditor/dto_composer_view.h>
-
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/application_helper.h>
+#include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>

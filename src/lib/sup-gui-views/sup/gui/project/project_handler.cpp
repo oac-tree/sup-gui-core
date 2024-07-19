@@ -51,8 +51,7 @@ namespace sup::gui
 {
 
 ProjectHandler::ProjectHandler(mvvm::ProjectType project_type, const QString& application_type,
-                               const std::vector<mvvm::ISessionModel*>& models,
-                               QWidget* parent)
+                               const std::vector<mvvm::ISessionModel*>& models, QWidget* parent)
     : QObject(parent)
     , m_project_type(project_type)
     , m_application_type(application_type)

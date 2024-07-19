@@ -31,8 +31,7 @@ using namespace sup::gui;
 class AbstractProjectUserInteractorTest : public testutils::FolderTest
 {
 public:
-  AbstractProjectUserInteractorTest()
-      : testutils::FolderTest("test_AbstractProjectUserInteractor")
+  AbstractProjectUserInteractorTest() : testutils::FolderTest("test_AbstractProjectUserInteractor")
   {
   }
 
@@ -42,7 +41,7 @@ public:
   class MockInteractor : public AbstractProjectUserInteractor
   {
   public:
-    MockInteractor() : AbstractProjectUserInteractor("MockInteractor", nullptr){};
+    MockInteractor() : AbstractProjectUserInteractor("MockInteractor", nullptr) {};
 
     MOCK_METHOD(mvvm::SaveChangesAnswer, OnSaveCurrentChangesRequest, (), (const));
 

@@ -21,9 +21,9 @@
 
 #include <sup/gui/model/anyvalue_item_constants.h>
 
-#include <sup/dto/anytype.h>
-
 #include <mvvm/test/test_helper.h>
+
+#include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
 

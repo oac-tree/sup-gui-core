@@ -309,8 +309,8 @@ void CodeEditor::toggleFold(const QTextBlock& startBlock)
                                 endBlock.position() - startBlock.position() + 1);
 
   // update scrollbars
-  Q_EMIT document()->documentLayout()->documentSizeChanged(
-      document()->documentLayout()->documentSize());
+  Q_EMIT document() -> documentLayout()->documentSizeChanged(
+                        document()->documentLayout()->documentSize());
 }
 
 }  // namespace sup::gui

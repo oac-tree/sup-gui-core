@@ -19,9 +19,10 @@
 
 #include "sup/gui/project/recent_project_path.h"
 
+#include <mvvm/test/test_helper.h>
+
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
-#include <mvvm/test/test_helper.h>
 
 using namespace sup::gui;
 

@@ -40,7 +40,7 @@ public:
 
   virtual void SetInitialValue(const sup::gui::AnyValueItem* item) = 0;
 
-  virtual void SetDescription(const QString& description){};
+  virtual void SetDescription(const QString& description) {};
 
   virtual std::unique_ptr<sup::gui::AnyValueItem> GetResult() = 0;
 };

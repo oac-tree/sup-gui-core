@@ -44,5 +44,5 @@ add_subdirectory(doc)
 
 include(installation)
 
-# Defines 'clangformat' target. See CodeTools.cmake for details.
+# Defines 'clangformat' target ('make clangformat').
 project_codetools_setup()

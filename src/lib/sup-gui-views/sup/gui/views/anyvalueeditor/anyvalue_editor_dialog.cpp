@@ -19,8 +19,8 @@
 
 #include "anyvalue_editor_dialog.h"
 
-#include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
 
 #include <mvvm/widgets/widget_utils.h>
 

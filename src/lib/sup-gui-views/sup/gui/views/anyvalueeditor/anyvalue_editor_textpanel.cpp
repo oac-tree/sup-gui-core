@@ -19,12 +19,12 @@
 
 #include "anyvalue_editor_textpanel.h"
 
-#include <sup/gui/views/codeeditor/code_view.h>
-#include <sup/gui/widgets/visibility_agent_base.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_utils.h>
+#include <sup/gui/views/codeeditor/code_view.h>
 #include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/widgets/visibility_agent_base.h>
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/signals/model_listener.h>
@@ -40,8 +40,7 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ISessionModel *model,
-                                                 QWidget *parent)
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_json_view(new CodeView(CodeView::kJSON))
     , m_model(model)

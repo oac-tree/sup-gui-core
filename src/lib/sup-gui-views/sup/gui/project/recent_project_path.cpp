@@ -57,7 +57,7 @@ QStringList RecentProjectPath::GetRecentProjectList()
   return m_recent_projects;
 }
 
-void RecentProjectPath::SetRecentProjectList(const QStringList &recent_project_list)
+void RecentProjectPath::SetRecentProjectList(const QStringList& recent_project_list)
 {
   m_recent_projects = recent_project_list;
 }

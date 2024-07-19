@@ -21,6 +21,7 @@
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 
 #include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
+
 #include <QString>
 #include <QWidget>
 #include <memory>

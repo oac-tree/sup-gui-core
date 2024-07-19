@@ -64,7 +64,7 @@ public:
                            QObject* parent = nullptr);
   ~DtoComposerTabController() override;
 
-  AnyValueEditorWidget* GetWidgetForItem(const mvvm::SessionItem*container);
+  AnyValueEditorWidget* GetWidgetForItem(const mvvm::SessionItem* container);
 
 private:
   /**

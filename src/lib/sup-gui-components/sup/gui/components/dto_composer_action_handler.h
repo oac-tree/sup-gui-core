@@ -59,7 +59,6 @@ public:
    */
   void OnDuplicateContainer(int container_index);
 
-
 private:
   mvvm::ISessionModel* m_model{nullptr};
 };

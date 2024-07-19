@@ -138,9 +138,8 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
 
       // preparing vector containing pairs of children
       std::vector<Node> new_children;
-      auto on_transform = [&nodes](const AnyValueItem *source, AnyValueItem *target) {
-        return Node{source, target};
-      };
+      auto on_transform = [&nodes](const AnyValueItem *source, AnyValueItem *target)
+      { return Node{source, target}; };
       std::transform(source_children.begin(), source_children.end(), target_children.begin(),
                      std::back_inserter(new_children), on_transform);
 

@@ -46,7 +46,7 @@ public:
    * @brief Convenience method that can be called in a GUI thread to finalize the task.
    * For example, it can perform updates of GUI model with the data obtained on previous step.
    */
-  virtual void Finalize(){};
+  virtual void Finalize() {};
 };
 
 #endif  // SUP_GUI_EXPERIMENTAL_TASK_H_

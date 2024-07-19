@@ -20,8 +20,8 @@
 #ifndef SUP_GUI_CORE_VERSION_HELPER_H_
 #define SUP_GUI_CORE_VERSION_HELPER_H_
 
-#include <tuple>
 #include <string>
+#include <tuple>
 
 namespace sup::gui
 {
@@ -32,7 +32,6 @@ namespace sup::gui
  * Will throw if format ot string differs.
  */
 std::tuple<int, int, int> ParseVersionString(const std::string& version_string);
-
 
 /**
  * @brief Checks if two version strings has same major and minor versions in a version string.

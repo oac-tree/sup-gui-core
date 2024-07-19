@@ -87,7 +87,7 @@ std::unique_ptr<QAction> CreateSaveProjectAsAction(sup::gui::ProjectHandler &han
  */
 void AddAction(QMenu *menu, std::unique_ptr<QAction> action)
 {
-  action->setParent(menu); // transfer ownerhip
+  action->setParent(menu);  // transfer ownerhip
   menu->addAction(action.release());
 }
 

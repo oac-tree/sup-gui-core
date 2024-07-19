@@ -49,7 +49,8 @@ public:
   /**
    * @brief Sets filtering pattern to the display name in the first column of AnyValueItem tree.
    *
-   * Item will be filtered out if its display name doesn't contain a given pattern (case insensitive).
+   * Item will be filtered out if its display name doesn't contain a given pattern (case
+   * insensitive).
    */
   void SetFilterPattern(const QString& pattern);
 

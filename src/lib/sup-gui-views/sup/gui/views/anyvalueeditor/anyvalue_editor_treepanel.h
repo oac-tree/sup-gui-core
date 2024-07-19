@@ -47,7 +47,7 @@ class AnyValueEditorTreePanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTreePanel(mvvm::ISessionModel *model, QWidget* parent = nullptr);
+  explicit AnyValueEditorTreePanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~AnyValueEditorTreePanel() override;
 
   /**

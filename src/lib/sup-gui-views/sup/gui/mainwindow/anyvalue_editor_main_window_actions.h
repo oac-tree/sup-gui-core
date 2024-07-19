@@ -23,7 +23,6 @@
 #include <sup/gui/app/main_window_types.h>
 
 #include <QObject>
-
 #include <memory>
 
 class QMainWindow;
@@ -52,7 +51,7 @@ public:
 
   bool CloseCurrentProject() const;
 
-  void SetModel(mvvm::ISessionModel *model);
+  void SetModel(mvvm::ISessionModel* model);
 
 signals:
   void OnImportFromFileRequest();

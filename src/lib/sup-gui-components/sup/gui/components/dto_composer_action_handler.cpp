@@ -28,8 +28,7 @@
 namespace sup::gui
 {
 
-DtoComposerActionHandler::DtoComposerActionHandler(mvvm::ISessionModel *model,
-                                                   QObject *parent)
+DtoComposerActionHandler::DtoComposerActionHandler(mvvm::ISessionModel *model, QObject *parent)
     : QObject(parent), m_model(model)
 {
   if (!m_model)

@@ -23,9 +23,9 @@
 //! @file
 //! Collection of helper methods common for all sequencer main windows.
 
-#include <sup/gui/views/anyvalueeditor/command_line_options.h>
 #include <sup/gui/app/application_helper.h>
 #include <sup/gui/app/main_window_types.h>
+#include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
 #include <mvvm/widgets/widget_utils.h>
 

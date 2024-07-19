@@ -54,4 +54,4 @@ CollapsibleToolBar *CollapsibleWidget::GetToolBar()
   return m_tool_bar;
 }
 
-}  // namespace mvvm
+}  // namespace sup::gui

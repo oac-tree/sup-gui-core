@@ -26,9 +26,8 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/utils/file_utils.h>
-
 #include <mvvm/test/test_helper.h>
+#include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
 

@@ -2,7 +2,7 @@
 include(ClangFormat)
 
 # List of targets for project code beautification.
-set(BEAUTIFICATION_TARGETS sup-gui-core sup-gui-tools testsup-gui-core testsup-gui-tools)
+set(BEAUTIFICATION_TARGETS sup-gui-core sup-gui-components sup-gui-views testsup-gui-core testsup-gui-components testsup-gui-components-app testsup-gui-views)
 
 # Defines new target for 'clangformat' to beautify whole project.
 # Use 'make clangformat' or 'cmake --build . --target clangformat' to beautify the code.

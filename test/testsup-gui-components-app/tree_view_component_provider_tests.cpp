@@ -23,8 +23,8 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
-#include <mvvm/viewmodel/filter_name_viewmodel.h>
 #include <mvvm/test/test_helper.h>
+#include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <sup/dto/anytype.h>
 
