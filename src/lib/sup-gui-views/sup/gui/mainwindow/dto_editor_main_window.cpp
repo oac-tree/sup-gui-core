@@ -19,7 +19,7 @@
 
 #include "dto_editor_main_window.h"
 
-#include "dto_composer_view.h"
+#include <sup/gui/views/dtoeditor/dto_composer_view.h>
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>

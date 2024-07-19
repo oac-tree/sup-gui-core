@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/views/anyvalueeditor/anyvalue_editor_main_window.h>
-#include <sup/gui/views/anyvalueeditor/run_application.h>
+#include <sup/gui/mainwindow/anyvalue_editor_main_window.h>
+#include <sup/gui/mainwindow/run_application.h>
 #include <sup/gui/app/application_helper.h>
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/version.h>
