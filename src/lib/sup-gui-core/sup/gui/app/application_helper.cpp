@@ -49,7 +49,7 @@ void InitCoreApplication(const QString &app_name, const QString &version)
   QCoreApplication::setApplicationVersion(version);
   QCoreApplication::setOrganizationName("coa");
 
-  if (!IsAppHasValidSettings(version.toStdString()))
+  if (!HasValidAppSettings(version.toStdString()))
   {
     std::cout << "Application's settings file which was found in $HOME/.config/coa folder is too "
                  "old for this GUI version ["
@@ -162,7 +162,7 @@ void SaveAppFontInSettings(const QFont &font)
   settings.setValue(constants::kAppFontSettingName, font);
 }
 
-bool IsAppHasValidSettings(const std::string &app_version)
+bool HasValidAppSettings(const std::string &app_version)
 {
   const QSettings settings;
 

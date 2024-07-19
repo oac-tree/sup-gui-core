@@ -115,7 +115,7 @@ void SaveAppFontInSettings(const QFont &font);
  * string should match app_version string in "minor.major" parts. This method should be always
  * called after InitCoreApplication.
  */
-bool IsAppHasValidSettings(const std::string &app_version);
+bool HasValidAppSettings(const std::string &app_version);
 
 }  // namespace sup::gui
 
