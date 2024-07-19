@@ -1,5 +1,5 @@
-set(library_name sup-gui-views)
-set(export_name tools)
+set(library_name sup-gui-components)
+set(export_name components)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -13,7 +13,7 @@ set_target_properties(${library_name} PROPERTIES
 
 add_subdirectory(sup)
 
-target_link_libraries(${library_name} PUBLIC pthread sup-gui-components sup-gui-extra::ksyntaxhighlighting)
+target_link_libraries(${library_name} PUBLIC pthread sup-gui-core)
 
 target_include_directories(${library_name} PUBLIC
   $<INSTALL_INTERFACE:include>
@@ -22,5 +22,4 @@ target_include_directories(${library_name} PUBLIC
 
 install(TARGETS ${library_name} EXPORT sup-gui-core-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-install(DIRECTORY sup/gui/widgets DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY sup/gui/waveformeditor DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY sup/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup FILES_MATCHING PATTERN "*.h")
