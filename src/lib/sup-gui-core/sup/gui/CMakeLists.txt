@@ -1,5 +1,4 @@
 add_subdirectory(core)
 add_subdirectory(experimental)
 add_subdirectory(model)
-add_subdirectory(plotting)
 add_subdirectory(project)
