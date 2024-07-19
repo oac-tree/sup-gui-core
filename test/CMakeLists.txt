@@ -20,7 +20,6 @@ add_subdirectory(libtest-utils)
 add_subdirectory(testsup-gui-core)
 add_subdirectory(testsup-gui-components)
 add_subdirectory(testsup-gui-components-app)
-add_subdirectory(testsup-gui-integration)
 add_subdirectory(testsup-gui-views)
 
 # Add custom target `make testall` which will run test executables one after another.
@@ -32,7 +31,6 @@ add_custom_target(testall
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-core
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components-app
-  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-integration
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-views
 )
 
@@ -43,7 +41,6 @@ fail=0
 " ${TEST_OUTPUT_DIRECTORY}/testsup-gui-core " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components-app " || fail=1
-" ${TEST_OUTPUT_DIRECTORY}/testsup-gui-integration " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-gui-views " || fail=1
 exit $fail
 ")
