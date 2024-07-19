@@ -5,8 +5,6 @@ target_sources(${library_name} PRIVATE
   about_application_dialog.h
   action_menu.cpp
   action_menu.h
-  anyvalue_clipboard_utils.cpp
-  anyvalue_clipboard_utils.h
   collapsible_list_view.cpp
   collapsible_list_view.h
   collapsible_toolbar.cpp
