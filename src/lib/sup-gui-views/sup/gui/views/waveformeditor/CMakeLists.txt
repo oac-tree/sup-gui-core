@@ -11,3 +11,8 @@ target_sources(${library_name} PRIVATE
   waveform_table_widget.cpp
   waveform_table_widget.h
 )
+
+install(FILES
+  waveform_editor.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/views/waveformeditor
+)
