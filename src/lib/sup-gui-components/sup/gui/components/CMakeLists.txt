@@ -13,4 +13,6 @@ target_sources(${library_name} PRIVATE
   mime_conversion_helper.h
   proxy_action.cpp
   proxy_action.h
+  tree_helper.cpp
+  tree_helper.h
 )

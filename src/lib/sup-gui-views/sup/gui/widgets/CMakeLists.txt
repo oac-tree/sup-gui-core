@@ -24,8 +24,6 @@ target_sources(${library_name} PRIVATE
   standard_message_handlers.cpp
   style_utils.cpp
   style_utils.h
-  tree_helper.cpp
-  tree_helper.h
   standard_message_handlers.h
   visibility_agent_base.cpp
   visibility_agent_base.h

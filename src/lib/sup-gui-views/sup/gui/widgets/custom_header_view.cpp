@@ -19,7 +19,7 @@
 
 #include "custom_header_view.h"
 
-#include "tree_helper.h"
+#include <sup/gui/components/tree_helper.h>
 
 #include <QAction>
 #include <QMenu>

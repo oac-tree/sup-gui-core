@@ -1,5 +1,5 @@
 set(library_name sup-gui-views)
-set(export_name tools)
+set(export_name views)
 
 set(CMAKE_AUTOMOC ON)
 

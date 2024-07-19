@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/widgets/tree_helper.h"
+#include "sup/gui/components/tree_helper.h"
 
 //! @file
 //! Testing helper methods from tree_helper.h
