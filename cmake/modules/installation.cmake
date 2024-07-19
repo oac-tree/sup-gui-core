@@ -20,7 +20,7 @@ set(PACKAGE_TARGETS_FILE ${BUILD_CONFIGDIR}/${PACKAGE_TARGETS_FILENAME})
 install(EXPORT sup-gui-core-targets FILE ${PACKAGE_TARGETS_FILENAME} NAMESPACE sup-gui-core:: DESTINATION ${INSTALL_CONFIGDIR})
 
 # Generate the export targets for the build tree usage
-export(TARGETS sup-gui-core sup-gui-tools NAMESPACE sup-gui-core:: FILE ${PACKAGE_TARGETS_FILE})
+export(TARGETS sup-gui-core sup-gui-views NAMESPACE sup-gui-core:: FILE ${PACKAGE_TARGETS_FILE})
 
 # Export the package to CMake registry for build tree usage (goes to $HOME/.cmake)
 if(COA_EXPORT_BUILD_TREE)

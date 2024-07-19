@@ -1,4 +1,4 @@
-set(library_name sup-gui-tools)
+set(library_name sup-gui-views)
 set(export_name tools)
 
 set(CMAKE_AUTOMOC ON)
