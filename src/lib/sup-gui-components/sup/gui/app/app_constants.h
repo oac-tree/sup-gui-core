@@ -47,4 +47,4 @@ const QString kPasteSpecialCommandId = "Paste Special";
 
 }  // namespace sup::gui::constants
 
-#endif  // SUP_GUI_APP_APP_ACTION_HELPER_H_
+#endif  // SUP_GUI_APP_APP_CONSTANTS_H_

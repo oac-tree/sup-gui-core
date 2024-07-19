@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
+#ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
+#define SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 
 #include <mvvm/model/i_session_model.h>
 
@@ -140,4 +140,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
+#endif  // SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_

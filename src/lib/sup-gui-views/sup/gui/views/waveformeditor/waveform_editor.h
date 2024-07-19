@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
-#define SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
+#ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
+#define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
 
 #include <QWidget>
 #include <memory>
@@ -75,4 +75,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_
+#endif  // SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_H_

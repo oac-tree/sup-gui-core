@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_ANYVALUE_CLIPBOARD_UTILS_H_
-#define SUP_GUI_MODEL_ANYVALUE_CLIPBOARD_UTILS_H_
+#ifndef SUP_GUI_WIDGETS_ANYVALUE_CLIPBOARD_UTILS_H_
+#define SUP_GUI_WIDGETS_ANYVALUE_CLIPBOARD_UTILS_H_
 
 #include <sup/gui/core/dto_types_fwd.h>
 
@@ -52,4 +52,4 @@ void ClipboardSetAnyvalueList(const std::vector<sup::dto::AnyValue>& anyvalues,
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_MODEL_ANYVALUE_CLIPBOARD_UTILS_H_
+#endif  // SUP_GUI_WIDGETS_ANYVALUE_CLIPBOARD_UTILS_H_

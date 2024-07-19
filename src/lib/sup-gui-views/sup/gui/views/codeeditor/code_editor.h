@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
-#define SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
+#ifndef SUP_GUI_VIEWS_CODEEDITOR_CODE_EDITOR_H_
+#define SUP_GUI_VIEWS_CODEEDITOR_CODE_EDITOR_H_
 
 #include <QPlainTextEdit>
 #include <memory>
@@ -73,4 +73,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_CODEEDITOR_CODE_EDITOR_H_
+#endif  // SUP_GUI_VIEWS_CODEEDITOR_CODE_EDITOR_H_

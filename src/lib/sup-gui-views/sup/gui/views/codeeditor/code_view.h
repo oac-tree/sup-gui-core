@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_CODEEDITOR_CODE_VIEW_H_
-#define SUP_GUI_CODEEDITOR_CODE_VIEW_H_
+#ifndef SUP_GUI_VIEWS_CODEEDITOR_CODE_VIEW_H_
+#define SUP_GUI_VIEWS_CODEEDITOR_CODE_VIEW_H_
 
 #include <QWidget>
 
@@ -80,4 +80,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_CODEEDITOR_CODE_VIEW_H_
+#endif  // SUP_GUI_VIEWS_CODEEDITOR_CODE_VIEW_H_

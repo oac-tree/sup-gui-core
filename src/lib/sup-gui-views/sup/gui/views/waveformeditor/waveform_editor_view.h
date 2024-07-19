@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
-#define SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
+#ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
+#define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
 
 class QSplitter;
 
@@ -90,4 +90,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
+#endif  // SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_

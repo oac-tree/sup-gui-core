@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_TREE_HELPER_H_
-#define SUP_GUI_WIDGETS_TREE_HELPER_H_
+#ifndef SUP_GUI_COMPONENTS_TREE_HELPER_H_
+#define SUP_GUI_COMPONENTS_TREE_HELPER_H_
 
 //! @file
 //! Helper methods to deal with Qt trees.
@@ -97,4 +97,4 @@ QModelIndex FindVisibleCandidate(const QTreeView& tree, const QModelIndex& child
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_TREE_HELPER_H_
+#endif  // SUP_GUI_COMPONENTS_TREE_HELPER_H_

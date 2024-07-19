@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_DTOEDITOR_DTO_COMPOSER_VIEW_H_
-#define SUP_GUI_DTOEDITOR_DTO_COMPOSER_VIEW_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_
 
 #include <QWidget>
 #include <memory>
@@ -64,4 +64,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_DTOEDITOR_DTO_COMPOSER_VIEW_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_

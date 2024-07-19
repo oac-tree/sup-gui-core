@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_TOOLBAR_H_
-#define SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_TOOLBAR_H_
+#ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_TOOLBAR_H_
+#define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_TOOLBAR_H_
 
 #include <QToolBar>
 
@@ -53,4 +53,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WAVEFORMEDITOR_WAVEFORM_EDITOR_TOOLBAR_H_
+#endif  // SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_TOOLBAR_H_

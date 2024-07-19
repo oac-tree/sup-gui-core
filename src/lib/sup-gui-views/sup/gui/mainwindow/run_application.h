@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_RUN_APPLICATION_H_
-#define SUP_GUI_ANYVALUEEDITOR_RUN_APPLICATION_H_
+#ifndef SUP_GUI_MAINWINDOW_RUN_APPLICATION_H_
+#define SUP_GUI_MAINWINDOW_RUN_APPLICATION_H_
 
 //! @file
 //! Collection of helper methods common for all sequencer main windows.
@@ -75,4 +75,4 @@ int RunApplication(int argc, char** argv)
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_RUN_APPLICATION_H_
+#endif  // SUP_GUI_MAINWINDOW_RUN_APPLICATION_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_VISIBILITY_AGENT_BASE_H_
-#define SUP_GUI_COMPONENTS_VISIBILITY_AGENT_BASE_H_
+#ifndef SUP_GUI_WIDGETS_VISIBILITY_AGENT_BASE_H_
+#define SUP_GUI_WIDGETS_VISIBILITY_AGENT_BASE_H_
 
 #include <QObject>
 #include <functional>
@@ -52,4 +52,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_VISIBILITY_AGENT_BASE_H_
+#endif  // SUP_GUI_WIDGETS_VISIBILITY_AGENT_BASE_H_

@@ -70,4 +70,4 @@ std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_PROXY_ACTION_H_
+#endif  // SUP_GUI_COMPONENTS_MIME_CONVERSION_HELPER_H_

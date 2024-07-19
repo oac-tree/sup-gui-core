@@ -71,4 +71,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SEQUENCERGUI_COMPONENTS_QUERRY_RESULT_H_
+#endif  // SUP_GUI_CORE_QUERY_RESULT_H_

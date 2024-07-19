@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
-#define SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
+#ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
+#define SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
 
 #include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
 #include <QString>
@@ -64,4 +64,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
+#endif  // SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_H_
