@@ -1,6 +1,8 @@
 # Collection of general purpose widgets with the dependency on Qt only.
 
 target_sources(${library_name} PRIVATE
+  anyvalue_clipboard_utils.cpp
+  anyvalue_clipboard_utils.h
   about_application_dialog.cpp
   about_application_dialog.h
   action_menu.cpp
@@ -13,6 +15,8 @@ target_sources(${library_name} PRIVATE
   collapsible_widget.h
   custom_header_view.cpp
   custom_header_view.h
+  message_helper.cpp
+  message_helper.h
   item_stack_widget.cpp
   item_stack_widget.h
   panel_toolbar.cpp
@@ -21,4 +25,7 @@ target_sources(${library_name} PRIVATE
   style_utils.h
   tree_helper.cpp
   tree_helper.h
+standard_message_handlers.cpp
+standard_message_handlers.h
+
   )

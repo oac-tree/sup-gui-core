@@ -8,12 +8,8 @@ target_sources(${library_name} PRIVATE
   message_handler_decorator.cpp
   message_handler_decorator.h
   message_handler_interface.h
-  message_helper.cpp
-  message_helper.h
   query_result.cpp
   query_result.h
-  standard_message_handlers.cpp
-  standard_message_handlers.h
   version.cpp
   version.h
   version_helper.cpp

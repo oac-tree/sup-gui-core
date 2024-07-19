@@ -13,7 +13,7 @@ set_target_properties(${library_name} PROPERTIES
 
 add_subdirectory(sup)
 
-target_link_libraries(${library_name} PUBLIC pthread sup-gui-core)
+target_link_libraries(${library_name} PUBLIC pthread Qt${QT_VERSION_MAJOR}::Charts sup-gui-core sup-mvvm::view)
 
 target_include_directories(${library_name} PUBLIC
   $<INSTALL_INTERFACE:include>

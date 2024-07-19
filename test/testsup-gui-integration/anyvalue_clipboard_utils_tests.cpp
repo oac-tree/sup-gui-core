@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/model/anyvalue_clipboard_utils.h"
+#include "sup/gui/widgets/anyvalue_clipboard_utils.h"
 
 #include <sup/dto/anyvalue.h>
 

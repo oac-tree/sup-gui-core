@@ -20,7 +20,7 @@
 #include "abstract_project_user_interactor.h"
 
 #include <sup/gui/core/message_event.h>
-#include <sup/gui/core/message_helper.h>
+#include <sup/gui/widgets/message_helper.h>
 
 #include <mvvm/project/project_context.h>
 #include <mvvm/utils/file_utils.h>

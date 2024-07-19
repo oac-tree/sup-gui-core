@@ -1,6 +1,4 @@
 target_sources(${library_name} PRIVATE
-  anyvalue_clipboard_utils.cpp
-  anyvalue_clipboard_utils.h
   anyvalue_conversion_utils.cpp
   anyvalue_conversion_utils.h
   anyvalue_item_builder.cpp

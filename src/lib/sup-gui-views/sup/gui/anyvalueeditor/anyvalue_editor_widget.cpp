@@ -26,7 +26,7 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
-#include <sup/gui/core/message_helper.h>
+#include <sup/gui/widgets/message_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/style_utils.h>
