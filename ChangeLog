@@ -1,3 +1,21 @@
+Changes for 1.5.0:
+
+- COA Release v2.2, August 2024
+- Implement CustomHeaderView with the possibility to reset the width of columns and persistent settings
+- Embed WaveformEditor into AnyValueEditor
+- Switch views to a new ItemViewComponentProvider with installable proxy models
+- New cup-copy-paster machinery for AnyValueEditor
+- Refactor AnyValueActionManager
+- Repair broken sup-pvmonitor
+- Restructure folders for better separation of testable and non-testable code
+- Implement new ActionManager, AppCommand, and focus widget machinery for common action registration
+- Switch AnyValueEditor to a new Project machinery and file-based projects
+- Switch model strategies to a new AbstractRowStrategy
+- Refactoring to decrease QWidgetAction usage
+- New ActionMenu for toolbars and menus
+- New lightweight Flags class
+- New ProxyAction for toolbars and menus
+
 Changes for 1.4.0:
 
 - COA Release v2.1, March 2024
