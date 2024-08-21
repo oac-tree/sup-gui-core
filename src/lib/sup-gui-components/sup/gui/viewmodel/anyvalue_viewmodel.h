@@ -30,16 +30,16 @@ class ISessionModel;
 namespace sup::gui
 {
 
-//! View model to show AnyValueItem with editable display name.
-
+/**
+ * @brief The AnyValueViewModel class is a view model to show AnyValueItem with editable display
+ * name, value columnt, and type column.
+ */
 class AnyValueViewModel : public mvvm::ViewModel
 {
   Q_OBJECT
 
 public:
   explicit AnyValueViewModel(mvvm::ISessionModel* model, QObject* parent = nullptr);
-
-  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 };
 
 }  // namespace sup::gui

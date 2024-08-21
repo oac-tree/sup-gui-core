@@ -53,8 +53,6 @@ class WaveformTwoColumnViewModel : public mvvm::ViewModel
 
 public:
   explicit WaveformTwoColumnViewModel(mvvm::ISessionModel* model, QObject* parent = nullptr);
-
-  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 };
 
 }  // namespace sup::gui

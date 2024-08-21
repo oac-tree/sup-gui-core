@@ -55,6 +55,11 @@ bool HasEditableTypeName(const sup::gui::AnyValueItem &item)
 namespace sup::gui
 {
 
+int AnyValueRowStrategy::GetSize() const
+{
+  return 3;
+}
+
 QStringList AnyValueRowStrategy::GetHorizontalHeaderLabels() const
 {
   const static QStringList result{"Name", "Value", "TypeName"};

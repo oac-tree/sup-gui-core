@@ -33,6 +33,8 @@ namespace sup::gui
 class TwoColumRowStrategy : public mvvm::AbstractRowStrategy
 {
 public:
+  int GetSize() const override;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:

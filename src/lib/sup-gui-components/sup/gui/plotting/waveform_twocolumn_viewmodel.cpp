@@ -35,9 +35,4 @@ WaveformTwoColumnViewModel::WaveformTwoColumnViewModel(mvvm::ISessionModel *mode
   SetController(std::move(controller));
 }
 
-int WaveformTwoColumnViewModel::columnCount(const QModelIndex &parent) const
-{
-  return 2;  // "x" and "y"
-}
-
 }  // namespace sup::gui

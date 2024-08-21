@@ -34,10 +34,4 @@ AnyValueViewModel::AnyValueViewModel(mvvm::ISessionModel *model, QObject *parent
       mvvm::factory::CreateController<AnyValueChildrenStrategy, AnyValueRowStrategy>(model, this));
 }
 
-int AnyValueViewModel::columnCount(const QModelIndex &parent) const
-{
-  // always fixed number of columns: Name, Value, TypeName
-  return 3;
-}
-
 }  // namespace sup::gui

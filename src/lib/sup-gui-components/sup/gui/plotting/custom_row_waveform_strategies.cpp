@@ -56,6 +56,11 @@ namespace sup::gui
 // TwoColumRowStrategy
 // -------------------------------------------------------------------------------------------------
 
+int TwoColumRowStrategy::GetSize() const
+{
+  return 2;
+}
+
 QStringList TwoColumRowStrategy::GetHorizontalHeaderLabels() const
 {
   static const QStringList result = {"X", "Y"};
