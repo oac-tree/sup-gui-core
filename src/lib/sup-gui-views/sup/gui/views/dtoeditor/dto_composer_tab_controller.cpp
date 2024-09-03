@@ -36,7 +36,7 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
     : QObject(parent)
     , m_model(model)
     , m_tab_widget(tab_widget)
-    , m_listener(std::make_unique<mvvm::ModelListener<mvvm::ISessionModel>>(model))
+    , m_listener(std::make_unique<mvvm::ModelListener>(model))
 {
   if (!tab_widget)
   {

@@ -44,7 +44,7 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ISessionModel *model, QWi
     : QWidget(parent)
     , m_json_view(new CodeView(CodeView::kJSON))
     , m_model(model)
-    , m_listener(std::make_unique<listener_t>(m_model))
+    , m_listener(std::make_unique<mvvm::ModelListener>(m_model))
 {
   setWindowTitle("JSON view");
 
@@ -130,7 +130,7 @@ void AnyValueEditorTextPanel::UpdateJson()
 
 void AnyValueEditorTextPanel::SetupListener()
 {
-  m_listener = std::make_unique<listener_t>(m_model);
+  m_listener = std::make_unique<mvvm::ModelListener>(m_model);
 
   m_listener->Connect<mvvm::ModelAboutToBeResetEvent>([this](auto)
                                                       { SetAnyValueItemContainer(nullptr); });

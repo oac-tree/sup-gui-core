@@ -31,7 +31,6 @@ class QTabWidget;
 namespace mvvm
 {
 class ISessionModel;
-template <typename T>
 class ModelListener;
 class SessionItem;
 }  // namespace mvvm
@@ -89,7 +88,7 @@ private:
 
   mvvm::ISessionModel* m_model{nullptr};
   QTabWidget* m_tab_widget{nullptr};
-  std::unique_ptr<mvvm::ModelListener<mvvm::ISessionModel>> m_listener;
+  std::unique_ptr<mvvm::ModelListener> m_listener;
 
   //!< correspondance of AnyValueItem container to AnyValueEditorWidget
   std::map<const mvvm::SessionItem*, AnyValueEditorWidget*> m_widget_map;
