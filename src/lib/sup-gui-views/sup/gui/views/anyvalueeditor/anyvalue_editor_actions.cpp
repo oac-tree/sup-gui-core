@@ -94,6 +94,9 @@ void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)
   AppAddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
   AppAddActionToCommand(m_paste_after_action, constants::kPasteCommandId, context);
   AppAddActionToCommand(m_paste_into_action, constants::kPasteSpecialCommandId, context);
+
+  AppAddActionToCommand(m_undo_action, constants::kUndoCommandId, context);
+  AppAddActionToCommand(m_redo_action, constants::kRedoCommandId, context);
 }
 
 void AnyValueEditorActions::UpdateEnabledStatus()
@@ -108,8 +111,7 @@ void AnyValueEditorActions::UpdateEnabledStatus()
 void AnyValueEditorActions::SetupInsertRemoveActions()
 {
   // insert after
-  m_insert_after_action = new ActionMenu(this);
-  m_insert_after_action->setText("Add");
+  m_insert_after_action = new ActionMenu("Add", this);
   m_insert_after_action->setIcon(utils::GetIcon("plus-circle-outline.svg"));
   m_insert_after_action->setToolTip(
       "Add a new AnyValue after the current selection.\n\n"
@@ -120,8 +122,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_action_map.Add(ActionKey::kInsertAfter, m_insert_after_action);
 
   // insert into
-  m_insert_into_action = new ActionMenu(this);
-  m_insert_into_action->setText("Insert");
+  m_insert_into_action = new ActionMenu("Insert", this);
   m_insert_into_action->setIcon(utils::GetIcon("plus-circle-multiple-outline.svg"));
   m_insert_into_action->setToolTip(
       "Insert new AnyValue into the current selection.\n\n"
@@ -130,8 +131,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_action_map.Add(ActionKey::kInsertInto, m_insert_into_action);
 
   // Remove selected
-  m_remove_action = new QAction(this);
-  m_remove_action->setText("Remove");
+  m_remove_action = new QAction("Remove", this);
   m_remove_action->setIcon(utils::GetIcon("beaker-remove-outline.svg"));
   m_remove_action->setToolTip("Remove selected item and all it's children");
   connect(m_remove_action, &QAction::triggered, this,
@@ -143,8 +143,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_action_map.Add(ActionKey::kRemoveSelected, m_remove_toolbar_action);
 
   // MoveUp button
-  m_move_up_action = new QAction(this);
-  m_move_up_action->setText("Move Up");
+  m_move_up_action = new QAction("Move Up", this);
   m_move_up_action->setIcon(utils::GetIcon("arrow-up-thin-circle-outline.svg"));
   m_move_up_action->setToolTip("Move currently selected field up (works within the same parent)");
   connect(m_move_up_action, &QAction::triggered, this,
@@ -152,8 +151,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_action_map.Add(ActionKey::kMoveUp, m_move_up_action);
 
   // MoveDown button
-  m_move_down_action = new QAction(this);
-  m_move_down_action->setText("Move Down");
+  m_move_down_action = new QAction("Move Down", this);
   m_move_down_action->setIcon(utils::GetIcon("arrow-down-thin-circle-outline.svg"));
   m_move_down_action->setToolTip(
       "Move currently selected field down (works within the same parent)");
@@ -164,10 +162,9 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
 
 void AnyValueEditorActions::SetupCutCopyPasteActions()
 {
-  m_cut_action = new QAction(this);
-  m_cut_action->setText("Cut");
+  m_cut_action = new QAction("Cut", this);
+  m_cut_action->setShortcut(QKeySequence::Cut);
   m_cut_action->setToolTip("Cuts selected instruction");
-  m_cut_action->setShortcut(QKeySequence("Ctrl+X"));
   m_action_map.Add(ActionKey::kCut, m_cut_action);
   auto on_cut = [this]()
   {
@@ -176,10 +173,9 @@ void AnyValueEditorActions::SetupCutCopyPasteActions()
   };
   connect(m_cut_action, &QAction::triggered, this, on_cut);
 
-  m_copy_action = new QAction(this);
-  m_copy_action->setText("Copy");
+  m_copy_action = new QAction("Copy", this);
+  m_copy_action->setShortcut(QKeySequence::Copy);
   m_copy_action->setToolTip("Copies selected instruction");
-  m_copy_action->setShortcut(QKeySequence("Ctrl+C"));
   m_action_map.Add(ActionKey::kCopy, m_copy_action);
   auto on_copy_action = [this]()
   {
@@ -188,21 +184,27 @@ void AnyValueEditorActions::SetupCutCopyPasteActions()
   };
   connect(m_copy_action, &QAction::triggered, this, on_copy_action);
 
-  m_paste_after_action = new QAction(this);
-  m_paste_after_action->setText("Paste After");
+  m_paste_after_action = new QAction("Paste After", this);
+  m_paste_after_action->setShortcut(QKeySequence::Paste);
   m_paste_after_action->setToolTip("Paste selected instruction after current selection");
-  m_paste_after_action->setShortcut(QKeySequence("Ctrl+V"));
   m_action_map.Add(ActionKey::kPasteAfter, m_paste_after_action);
   connect(m_paste_after_action, &QAction::triggered, this,
           [this]() { m_action_handler->PasteAfter(); });
 
-  m_paste_into_action = new QAction(this);
-  m_paste_into_action->setText("Paste Into");
-  m_paste_into_action->setToolTip("Paste selected instruction into current selection");
+  m_paste_into_action = new QAction("Paste Into", this);
   m_paste_into_action->setShortcut(QKeySequence("Ctrl+Shift+V"));
+  m_paste_into_action->setToolTip("Paste selected instruction into current selection");
   m_action_map.Add(ActionKey::kPasteInto, m_paste_into_action);
   connect(m_paste_into_action, &QAction::triggered, this,
           [this]() { m_action_handler->PasteInto(); });
+
+  m_undo_action = new QAction("Undo", this);
+  m_action_map.Add(ActionKey::kUndo, m_undo_action);
+  connect(m_undo_action, &QAction::triggered, this, [this]() { m_action_handler->Undo(); });
+
+  m_redo_action = new QAction("Redo", this);
+  m_action_map.Add(ActionKey::kRedo, m_redo_action);
+  connect(m_redo_action, &QAction::triggered, this, [this]() { m_action_handler->Redo(); });
 }
 
 std::unique_ptr<QMenu> AnyValueEditorActions::CreateInsertMenu()

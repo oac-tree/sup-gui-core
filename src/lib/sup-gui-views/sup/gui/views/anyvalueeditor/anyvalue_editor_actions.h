@@ -57,7 +57,9 @@ public:
     kPasteAfter,
     kPasteInto,
     kMoveUp,
-    kMoveDown
+    kMoveDown,
+    kUndo,
+    kRedo
   };
 
   explicit AnyValueEditorActions(AnyValueEditorActionHandler* action_handler,
@@ -145,6 +147,9 @@ private:
   QAction* m_copy_action{nullptr};
   QAction* m_paste_after_action{nullptr};
   QAction* m_paste_into_action{nullptr};
+
+  QAction* m_undo_action{nullptr};
+  QAction* m_redo_action{nullptr};
 
   sup::gui::ActionMap<ActionKey> m_action_map;
 };

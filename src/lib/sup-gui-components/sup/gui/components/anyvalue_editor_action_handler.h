@@ -216,6 +216,16 @@ public:
    */
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
+  /**
+   * @brief Unddo last change.
+   */
+  void Undo();
+
+  /**
+   * @brief Redo last undo.
+   */
+  void Redo();
+
 signals:
   void SelectItemRequest(mvvm::SessionItem* item);
 

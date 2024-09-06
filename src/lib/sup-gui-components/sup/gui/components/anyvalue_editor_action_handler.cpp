@@ -32,6 +32,7 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/validate_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -286,6 +287,16 @@ AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
 {
   return m_container;
+}
+
+void AnyValueEditorActionHandler::Undo()
+{
+  GetModel()->GetCommandStack()->Undo();
+}
+
+void AnyValueEditorActionHandler::Redo()
+{
+  GetModel()->GetCommandStack()->Redo();
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const

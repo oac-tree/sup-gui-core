@@ -43,6 +43,9 @@ std::unique_ptr<sup::gui::AnyValueEditorDialog> CreateWaveformEditorDialog(
   return result;
 }
 
+const bool kEnableUndo = true;
+const size_t kUndoLimit = 100;
+
 }  // namespace
 
 namespace sup::gui
@@ -58,6 +61,8 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   layout->setSpacing(0);
 
   layout->addWidget(m_editor_widget);
+
+  m_model->SetUndoEnabled(kEnableUndo, kUndoLimit);
 }
 
 void AnyValueEditor::SetInitialValue(const AnyValueItem *item)

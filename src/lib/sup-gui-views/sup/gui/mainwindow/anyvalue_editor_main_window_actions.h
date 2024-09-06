@@ -47,7 +47,7 @@ class AnyValueEditorMainWindowActions : public QObject
 
 public:
   explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
-  ~AnyValueEditorMainWindowActions();
+  ~AnyValueEditorMainWindowActions() override;
 
   bool CloseCurrentProject() const;
 

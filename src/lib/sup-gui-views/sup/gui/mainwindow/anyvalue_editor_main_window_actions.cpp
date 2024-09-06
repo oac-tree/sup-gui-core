@@ -153,7 +153,15 @@ void AnyValueEditorMainWindowActions::SetupFileMenu()
 
 void AnyValueEditorMainWindowActions::SetupEditMenu()
 {
-  auto command = AppAddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
+  auto command = AppAddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
+  command->SetText("Undo").SetShortcut(QKeySequence::Undo);
+
+  command = AppAddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
+  command->SetText("Redo").SetShortcut(QKeySequence::Redo);
+
+  sup::gui::AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
+
+  command = AppAddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
   command->SetText("Cut").SetShortcut(QKeySequence::Cut);
 
   command = AppAddCommandToMenu(constants::kEditMenu, constants::kCopyCommandId);
