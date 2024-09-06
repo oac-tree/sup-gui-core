@@ -24,16 +24,16 @@ namespace sup::gui
 
 AppContext::AppContext() = default;
 
-AppContext::AppContext(const QString &context) : m_context_name(context) {}
+AppContext::AppContext(const QString &context_id) : m_context_id(context_id) {}
 
-QString AppContext::GetContextName() const
+QString AppContext::GetContextId() const
 {
-  return m_context_name;
+  return m_context_id;
 }
 
 bool AppContext::operator==(const AppContext &other) const
 {
-  return m_context_name == other.m_context_name;
+  return m_context_id == other.m_context_id;
 }
 
 bool AppContext::operator!=(const AppContext &other) const
@@ -43,7 +43,7 @@ bool AppContext::operator!=(const AppContext &other) const
 
 bool AppContext::operator<(const AppContext &other) const
 {
-  return m_context_name < other.m_context_name;
+  return m_context_id < other.m_context_id;
 }
 
 bool AppContext::operator>=(const AppContext &other) const

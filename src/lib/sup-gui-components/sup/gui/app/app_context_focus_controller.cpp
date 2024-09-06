@@ -67,7 +67,7 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
 
   for (const auto &context : context_summary)
   {
-    qDebug() << " context:" << context.GetContextName()
+    qDebug() << " context:" << context.GetContextId()
              << m_context_manager.GetWidget(context)->metaObject()->className();
   }
 }

@@ -72,7 +72,7 @@ void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
   auto iter = m_context_to_action.find(context);
   if (iter != m_context_to_action.end())
   {
-    throw RuntimeException("Already registered context [" + context.GetContextName().toStdString()
+    throw RuntimeException("Already registered context [" + context.GetContextId().toStdString()
                            + "]");
   }
 

@@ -32,7 +32,7 @@ class AppContextTest : public ::testing::Test
 TEST_F(AppContextTest, MenuActionContainer)
 {
   AppContext context("Editor.Copy");
-  EXPECT_EQ(context.GetContextName(), QString("Editor.Copy"));
+  EXPECT_EQ(context.GetContextId(), QString("Editor.Copy"));
 }
 
 TEST_F(AppContextTest, EqualityOperators)

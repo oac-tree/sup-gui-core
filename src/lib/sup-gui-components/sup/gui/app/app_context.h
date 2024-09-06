@@ -32,8 +32,6 @@ namespace sup::gui
  *
  * It is used to forward proxy actions, like "copy" and "paste" actions of the main menubar, to
  * concrete actions of widgets, that are currently in focus.
- *
- * For the moment it is just a string, it might become a string list in a future.
  */
 class AppContext
 {
@@ -43,14 +41,14 @@ public:
   /**
    * @brief Main constructor.
    *
-   * @param context The name of the activity.
+   * @param context_id Unique identifier.
    */
-  explicit AppContext(const QString& context);
+  explicit AppContext(const QString& context_id);
 
   /**
-   * @brief Returns context name.
+   * @brief Returns context identifier.
    */
-  QString GetContextName() const;
+  QString GetContextId() const;
 
   bool operator==(const AppContext& other) const;
   bool operator!=(const AppContext& other) const;
@@ -58,7 +56,7 @@ public:
   bool operator>=(const AppContext& other) const;
 
 private:
-  const QString m_context_name;
+  const QString m_context_id;
 };
 
 }  // namespace sup::gui
