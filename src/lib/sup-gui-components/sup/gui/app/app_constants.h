@@ -44,6 +44,8 @@ const QString kCutCommandId = "Cut";
 const QString kCopyCommandId = "Copy";
 const QString kPasteCommandId = "Paste";
 const QString kPasteSpecialCommandId = "Paste Special";
+const QString kUndoCommandId = "Undo";
+const QString kRedoCommandId = "Redo";
 
 }  // namespace sup::gui::constants
 
