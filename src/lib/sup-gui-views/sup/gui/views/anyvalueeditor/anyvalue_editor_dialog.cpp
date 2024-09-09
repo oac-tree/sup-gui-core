@@ -39,10 +39,12 @@ QString GetDialogSizeSettingName(const QString& editor_name)
   return QString("AnyValueEditorDialog") + "/" + editor_name + "window_size";
 }
 
-//! Creates layout with OK/Cancel buttons.
+/**
+ * @brief Creates layout with OK/Cancel buttons.
+ */
 std::unique_ptr<QBoxLayout> CreateButtonLayout(QDialog* dialog)
 {
-  std::unique_ptr<QBoxLayout> result = std::make_unique<QVBoxLayout>();
+  auto result = std::make_unique<QVBoxLayout>();
 
   auto button_box = new QDialogButtonBox;
   auto button = button_box->addButton("Set AnyValue", QDialogButtonBox::AcceptRole);
