@@ -24,7 +24,6 @@
 #include <QVector>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 class QAction;
@@ -97,9 +96,8 @@ public:
  * @brief The ActionManager class provides subscriptions of user actions to the menubar of the main
  * window.
  *
- * @details It doesn't own user actions. Intended to be used as a global variable.
+ * It doesn't own user actions. Intended to be used as a global variable.
  */
-
 class ActionManager : public IActionManager
 {
 public:
@@ -111,31 +109,30 @@ public:
   /**
    * @brief Sets menubar to serve.
    *
-   * @details There can be only one menubar to serve.
+   * There can be only one menubar to serve.
    */
   void SetMenuBar(QMenuBar* menubar);
 
   /**
    * @brief Adds new menu to the menu bar.
    *
+   * The menubar will take an ownership. If menu was already created, just returns action container.
+   *
    * @param menu_name The title of the menu.
    * @param menubar The menubar where the menu will be added.
    *
    * @return Action container holding just created menu and other information.
-   *
-   * @details The menubar will take an ownership. If menu was already created, just returns action
-   * container.
    */
   IActionContainer* AddMenu(const QString& menu_name);
 
   /**
    * @brief Registers action and add it to the menu.
    *
+   * The ownership of the action is not taken.
+   *
    * @param menu_name The name of already existing menu added via AddMenu call.
    * @param action User action to add.
    * @return True if action was added, or false if no such menu was registered.
-   *
-   * @details The ownership of the action is not taken.
    */
   bool RegisterAction(const QString& menu_name, QAction* action) override;
 
@@ -143,8 +140,6 @@ public:
 
   /**
    * @brief Returns the number of registered main containers.
-   *
-   *
    */
   size_t GetContainerCount() const;
 
