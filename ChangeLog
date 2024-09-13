@@ -6,9 +6,8 @@ Changes for 1.5.0:
 - Implement CustomHeaderView with the possibility to reset the width of columns and persistent settings
 - Embed WaveformEditor into AnyValueEditor
 - Switch views to a new ItemViewComponentProvider with installable proxy models
-- New cup-copy-paster machinery for AnyValueEditor
+- New cut-copy-paster machinery for AnyValueEditor
 - Refactor AnyValueActionManager
-- Repair broken sup-pvmonitor
 - Restructure folders for better separation of testable and non-testable code
 - Implement new ActionManager, AppCommand, and focus widget machinery for common action registration
 - Switch AnyValueEditor to a new Project machinery and file-based projects

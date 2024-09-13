@@ -51,11 +51,11 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
 
   std::vector<sup::gui::AppContext> context_summary;
 
-  qDebug() << "==============================================================================";
+  // qDebug() << "==============================================================================";
   auto current = now;
   while (current)
   {
-    qDebug() << current->metaObject()->className();
+    // qDebug() << current->metaObject()->className();
     if (m_context_manager.HasContext(current))
     {
       context_summary.push_back(m_context_manager.GetContext(current));
@@ -65,11 +65,11 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
 
   m_command_manager.SetContextStack(context_summary);
 
-  for (const auto &context : context_summary)
-  {
-    qDebug() << " context:" << context.GetContextId()
-             << m_context_manager.GetWidget(context)->metaObject()->className();
-  }
+  // for (const auto &context : context_summary)
+  // {
+  //   qDebug() << " context:" << context.GetContextId()
+  //            << m_context_manager.GetWidget(context)->metaObject()->className();
+  // }
 }
 
 }  // namespace sup::gui
