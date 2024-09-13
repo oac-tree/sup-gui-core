@@ -26,6 +26,64 @@
 namespace sup::gui
 {
 
+namespace
+{
+const QString kInfoOption = "info";
+const QString kScaleOption = "scale";
+const QString kFontOption = "font";
+const QString kStyleOption = "style";
+
+/**
+ * @brief Populates parser with application command line options.
+ */
+void PopulateOptions(QCommandLineParser& parser)
+{
+  parser.addHelpOption();
+  parser.addVersionOption();
+
+  const QCommandLineOption info_option(kInfoOption, "Show system environment information.");
+  parser.addOption(info_option);
+
+  const QCommandLineOption scale_option(
+      "scale",
+      "Rely on system high-DPI scale via QT_ variables for 4K. If option is "
+      "absent, will rely on internal scale mechanism (preferred).");
+  parser.addOption(scale_option);
+
+  QCommandLineOption font_option(kFontOption, "Main application font point size.");
+  font_option.setValueName("pt");
+  parser.addOption(font_option);
+
+  QCommandLineOption style_option(kStyleOption,
+                                  "Main GUI style, see --info for full list available.");
+  style_option.setValueName("name");
+  parser.addOption(style_option);
+}
+
+/**
+ * @brief Parses command line options and returns structure with options.
+ */
+Options ParseOptions(QCommandLineParser& parser)
+{
+  Options result;
+  result.info = parser.isSet(kInfoOption);
+  result.scale = parser.isSet(kScaleOption);
+
+  if (parser.isSet(kFontOption))
+  {
+    result.system_font_psize = parser.value(kFontOption).toInt();
+  }
+
+  if (parser.isSet(kStyleOption))
+  {
+    result.style = parser.value(kStyleOption);
+  }
+
+  return result;
+}
+
+}  // namespace
+
 Options ParseOptions(int argc, char** argv)
 {
   // Parser requires an application to be created upfront.
@@ -33,43 +91,9 @@ Options ParseOptions(int argc, char** argv)
   QCoreApplication app(argc, argv);
 
   QCommandLineParser parser;
-  parser.addHelpOption();
-  parser.addVersionOption();
-
-  QCommandLineOption info_option("info", "Show system environment information");
-  parser.addOption(info_option);
-
-  QCommandLineOption scale_option(
-      "scale",
-      "Rely on system high-DPI scale via QT_ variables for 4K. If option is "
-      "absent, will rely on internal scale mechanism (preferred).");
-  parser.addOption(scale_option);
-
-  QCommandLineOption font_option("font", "Main application font point size");
-  font_option.setValueName("pt");
-  parser.addOption(font_option);
-
-  QCommandLineOption style_option("style", "Main GUI style, see --info for full list available");
-  style_option.setValueName("name");
-  parser.addOption(style_option);
-
+  PopulateOptions(parser);
   parser.process(app);
-
-  Options result;
-  result.info = parser.isSet(info_option);
-  result.scale = parser.isSet(scale_option);
-
-  if (parser.isSet(font_option))
-  {
-    result.system_font_psize = parser.value(font_option).toInt();
-  }
-
-  if (parser.isSet(style_option))
-  {
-    result.style = parser.value(style_option);
-  }
-
-  return result;
+  return ParseOptions(parser);
 }
 
 }  // namespace sup::gui

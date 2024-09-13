@@ -20,13 +20,16 @@
 #ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_COMMAND_LINE_OPTIONS_H_
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_COMMAND_LINE_OPTIONS_H_
 
-//! Command line options.
-
 #include <QString>
+#include <QSize>
+#include <optional>
 
 namespace sup::gui
 {
 
+/**
+ * @brief The Options struct contains the result of command line option parsing.
+ */
 struct Options
 {
   //! rely on system scale via QT_ variables, if true
@@ -40,9 +43,14 @@ struct Options
 
   //! main appplication GUI style
   QString style;
+
+  //! initial window size
+  std::optional<QSize> window_size;
 };
 
-//! Parse command line options.
+/**
+ * @brief Parses command line options and returns parsing result.
+ */
 Options ParseOptions(int argc, char** argv);
 
 }  // namespace sup::gui
