@@ -65,6 +65,10 @@ int RunApplication(int argc, char** argv)
     }
 
     win = std::make_unique<MainWindowT>();
+    if (options.window_size.has_value())
+    {
+      win->resize(options.window_size.value());
+    }
     win->show();
 
     exit_code = app.exec();
