@@ -23,6 +23,11 @@
 //! @file
 //! Collection of helper methods for main windows.
 
+#include <optional>
+
+class QSize;
+class QString;
+
 namespace sup::gui
 {
 
@@ -37,6 +42,14 @@ bool ShouldResetSettingsAndRestart();
  * @brief Summons dialog to change system font.
  */
 bool SummonChangeSystemFontDialog();
+
+/**
+ * @brief Returns size object from size string.
+ *
+ * "1024x768" -> QSize{1024, 768}
+ * Will return empty optional, if conversion is not possible.
+ */
+std::optional<QSize> ParseSizeString(const QString& text);
 
 }  // namespace sup::gui
 

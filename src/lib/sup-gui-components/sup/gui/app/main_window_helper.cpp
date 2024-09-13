@@ -21,6 +21,7 @@
 
 #include "application_helper.h"
 
+#include <mvvm/utils/string_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
@@ -28,6 +29,8 @@
 #include <QFontDialog>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QSize>
+#include <QString>
 
 namespace sup::gui
 {
@@ -62,6 +65,21 @@ bool SummonChangeSystemFontDialog()
   }
 
   return font_was_changed;
+}
+
+std::optional<QSize> ParseSizeString(const QString &text)
+{
+  auto parts = mvvm::utils::SplitString(text.toStdString(), "x");
+
+  if (parts.size() != 2)
+  {
+    return {};
+  }
+
+  auto x = mvvm::utils::StringToInteger(parts.at(0));
+  auto y = mvvm::utils::StringToInteger(parts.at(1));
+
+  return x.has_value() && y.has_value() ? QSize(x.value(), y.value()) : std::optional<QSize>{};
 }
 
 }  // namespace sup::gui
