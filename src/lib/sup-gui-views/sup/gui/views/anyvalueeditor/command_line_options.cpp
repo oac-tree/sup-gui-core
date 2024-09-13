@@ -19,19 +19,24 @@
 
 #include "command_line_options.h"
 
+#include <sup/gui/app/main_window_helper.h>
+
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QCoreApplication>
+#include <QDebug>
 
 namespace sup::gui
 {
 
 namespace
 {
+
 const QString kInfoOption = "info";
 const QString kScaleOption = "scale";
 const QString kFontOption = "font";
 const QString kStyleOption = "style";
+const QString kWindowSizeOption = "size";
 
 /**
  * @brief Populates parser with application command line options.
@@ -58,6 +63,10 @@ void PopulateOptions(QCommandLineParser& parser)
                                   "Main GUI style, see --info for full list available.");
   style_option.setValueName("name");
   parser.addOption(style_option);
+
+  QCommandLineOption window_size_option(kWindowSizeOption, "Initial window size");
+  window_size_option.setValueName("1024x768");
+  parser.addOption(window_size_option);
 }
 
 /**
@@ -77,6 +86,20 @@ Options ParseOptions(QCommandLineParser& parser)
   if (parser.isSet(kStyleOption))
   {
     result.style = parser.value(kStyleOption);
+  }
+
+  if (parser.isSet(kWindowSizeOption))
+  {
+    if (auto optional_size = ParseSizeString(parser.value(kWindowSizeOption));
+        optional_size.has_value())
+    {
+      result.window_size = optional_size;
+    }
+    else
+    {
+      qInfo() << "Can't parse windows size option" << parser.value(kWindowSizeOption);
+      parser.showHelp(1);
+    }
   }
 
   return result;
