@@ -19,14 +19,14 @@
 
 #include "standard_message_handlers.h"
 
-#include <QDebug>
+#include <iostream>
 
 namespace sup::gui
 {
 
 void StdMessageHandler::SendMessage(const std::string &text)
 {
-  qInfo("%s", text.c_str());
+  std::cout << text << "\n";
 }
 
 void NullMessageHandler::SendMessage(const std::string &text)

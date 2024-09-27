@@ -19,12 +19,10 @@ target_sources(${library_name} PRIVATE
   message_helper.h
   panel_toolbar.cpp
   panel_toolbar.h
-  standard_message_handlers.cpp
   steady_menu.cpp
   steady_menu.h
   style_utils.cpp
   style_utils.h
-  standard_message_handlers.h
   visibility_agent_base.cpp
   visibility_agent_base.h
   )
