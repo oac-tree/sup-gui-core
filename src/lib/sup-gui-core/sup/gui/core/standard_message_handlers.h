@@ -20,29 +20,37 @@
 #ifndef SUP_GUI_CORE_STANDARD_MESSAGE_HANDLERS_H_
 #define SUP_GUI_CORE_STANDARD_MESSAGE_HANDLERS_H_
 
+//! @file
+//! Collection of simple message handlers.
+
 #include <sup/gui/core/message_handler_interface.h>
 
 namespace sup::gui
 {
 
-//! Simple message handler that prints messages to standard output.
-
+/**
+ * @brief The StdMessageHandler class represents a simple message handler that prints messages to
+ * standard output.
+ */
 class StdMessageHandler : public MessageHandlerInterface
 {
 public:
   void SendMessage(const std::string& text) override;
 };
 
-//! A message handler that does nothing.
-
+/**
+ * @brief The StdMessageHandler class represents a message handler that does nothing.
+ */
 class NullMessageHandler : public MessageHandlerInterface
 {
 public:
   void SendMessage(const std::string& text) override;
 };
 
-//! A message handler that throws an exception of given type.
-
+/**
+ * @brief The StdMessageHandler class represents a message handler that throws an exception of a
+ * given type.
+ */
 template <typename T>
 class ThrowingMessageHandler : public MessageHandlerInterface
 {
