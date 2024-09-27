@@ -20,6 +20,8 @@ target_sources(${library_name} PRIVATE
   panel_toolbar.cpp
   panel_toolbar.h
   standard_message_handlers.cpp
+  steady_menu.cpp
+  steady_menu.h
   style_utils.cpp
   style_utils.h
   standard_message_handlers.h
