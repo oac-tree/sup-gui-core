@@ -27,9 +27,11 @@
 namespace sup::gui
 {
 
-//! Decorator for message handler. Used when we have to use MessageHandler with unique_ptr but still
-//! don't want to pass ownership.
-
+/**
+ * @brief The MessageHandlerDecorator class is decorator for message handler.
+ *
+ * Used when we have to use MessageHandler with unique_ptr but still don't want to pass ownership.
+ */
 class MessageHandlerDecorator : public MessageHandlerInterface
 {
 public:
@@ -37,7 +39,7 @@ public:
 
   static std::unique_ptr<MessageHandlerInterface> Create(MessageHandlerInterface* component);
 
-  void SendMessage(const std::string& text) override;
+  void SendMessage(const MessageEvent& message) override;
 
 private:
   MessageHandlerInterface* m_component{nullptr};

@@ -33,9 +33,9 @@ std::unique_ptr<MessageHandlerInterface> MessageHandlerDecorator::Create(
   return std::make_unique<MessageHandlerDecorator>(component);
 }
 
-void MessageHandlerDecorator::SendMessage(const std::string &text)
+void MessageHandlerDecorator::SendMessage(const MessageEvent &message)
 {
-  m_component->SendMessage(text);
+  m_component->SendMessage(message);
 }
 
 }  // namespace sup::gui

@@ -35,7 +35,7 @@ namespace sup::gui
 class StdMessageHandler : public MessageHandlerInterface
 {
 public:
-  void SendMessage(const std::string& text) override;
+  void SendMessage(const MessageEvent& message) override;
 };
 
 /**
@@ -44,7 +44,7 @@ public:
 class NullMessageHandler : public MessageHandlerInterface
 {
 public:
-  void SendMessage(const std::string& text) override;
+  void SendMessage(const MessageEvent& message) override;
 };
 
 /**
@@ -55,7 +55,7 @@ template <typename T>
 class ThrowingMessageHandler : public MessageHandlerInterface
 {
 public:
-  void SendMessage(const std::string& text) override { throw T(text); }
+  void SendMessage(const MessageEvent& message) override { throw T(message.detailed); }
 };
 
 }  // namespace sup::gui

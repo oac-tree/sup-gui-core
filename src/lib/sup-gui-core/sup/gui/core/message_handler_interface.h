@@ -20,17 +20,21 @@
 #ifndef SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
 #define SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
 
-#include <string>
+#include <sup/gui/core/message_event.h>
 
 namespace sup::gui
 {
 
-//! Interface class to send messages to the user.
+class MessageEvent;
+
+/**
+ * @brief The MessageHandlerInterface class is an interface to send the message to the user.
+ */
 class MessageHandlerInterface
 {
 public:
   virtual ~MessageHandlerInterface() = default;
-  virtual void SendMessage(const std::string& text) = 0;
+  virtual void SendMessage(const MessageEvent& message) = 0;
 };
 
 }  // namespace sup::gui

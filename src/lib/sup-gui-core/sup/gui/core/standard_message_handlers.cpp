@@ -24,14 +24,17 @@
 namespace sup::gui
 {
 
-void StdMessageHandler::SendMessage(const std::string &text)
+void StdMessageHandler::SendMessage(const MessageEvent &message)
 {
-  std::cout << text << "\n";
+  std::cout << message.title << "\n";
+  std::cout << message.text << "\n";
+  std::cout << message.informative << "\n";
+  std::cout << message.detailed << "\n";
 }
 
-void NullMessageHandler::SendMessage(const std::string &text)
+void NullMessageHandler::SendMessage(const MessageEvent &message)
 {
-  (void)text;
+  (void)message;
 }
 
 }  // namespace sup::gui
