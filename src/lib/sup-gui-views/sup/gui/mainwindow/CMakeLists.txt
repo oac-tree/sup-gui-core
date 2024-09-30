@@ -5,5 +5,7 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_main_window_actions.h
   dto_editor_main_window.cpp
   dto_editor_main_window.h
+  dto_editor_main_window_actions.cpp
+  dto_editor_main_window_actions.h
   run_application.h
 )

@@ -19,6 +19,8 @@
 
 #include "dto_editor_main_window.h"
 
+#include "dto_editor_main_window_actions.h"
+
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/application_helper.h>
@@ -79,8 +81,7 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  AppRegisterMenuBar(menuBar(), {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
-                                 constants::kViewMenu, constants::kHelpMenu});
+  m_action_manager = new DtoEditorMainWindowActions(m_model.get(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
@@ -96,6 +97,9 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget->SetCurrentIndex(0);
 
   setCentralWidget(m_tab_widget);
+
+  connect(m_action_manager, &DtoEditorMainWindowActions::RestartApplicationRequest, this,
+          &DtoEditorMainWindow::OnRestartRequest);
 }
 
 void DtoEditorMainWindow::ReadSettings()

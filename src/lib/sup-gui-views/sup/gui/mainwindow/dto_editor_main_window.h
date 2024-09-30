@@ -37,6 +37,7 @@ namespace sup::gui
 {
 
 class DtoComposerView;
+class DtoEditorMainWindowActions;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -77,6 +78,7 @@ private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;
 
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
+  DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};
 };
 
