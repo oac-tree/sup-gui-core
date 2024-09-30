@@ -41,6 +41,9 @@ namespace sup::gui
 class ProjectHandler;
 class AppContextFocusController;
 
+/**
+ * @brief The AnyValueEditorMainWindowActions class handles actions of the main menubar.
+ */
 class AnyValueEditorMainWindowActions : public QObject
 {
   Q_OBJECT
@@ -49,6 +52,16 @@ public:
   explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
   ~AnyValueEditorMainWindowActions() override;
 
+  /**
+   * @brief Closes current project.
+   *
+   * Internally performs check for unsaved data, and proceeds via save/discard/cancel dialog.
+   * Returns true if project was successfully saved or user has agreed to discard unsaved changes,
+   * and false otherwise. The later normally means that the user has changed his mind in the course
+   * of this operation, canceled dialog, and the project has remained in unsaved state.
+   *
+   * @return True in the case of success.
+   */
   bool CloseCurrentProject() const;
 
   void SetModel(mvvm::ISessionModel* model);

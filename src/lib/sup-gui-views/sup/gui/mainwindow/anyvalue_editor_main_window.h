@@ -32,8 +32,9 @@ namespace sup::gui
 class AnyValueEditor;
 class AnyValueEditorMainWindowActions;
 
-//! The main window of this application.
-
+/**
+ * @brief The AnyValueEditorMainWindow class is a main window of anyvalue-editor application.
+ */
 class AnyValueEditorMainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -53,14 +54,14 @@ private:
   void OnProjectLoad();
 
   /**
-   * @brief Prepare for application shutdown.
+   * @brief Checks if application can be closed.
+   *
+   * This perform saving of unsaved projects, and writing persistent application settings.
    *
    * @return True if application is ready to be closed.
-   *
-   * @details This perform saving of unsaved projects, writing persistent application settings and
-   * stopping possible running jobs.
    */
-  bool PrepareForShutdown();
+  bool CanCloseApplication();
+
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
