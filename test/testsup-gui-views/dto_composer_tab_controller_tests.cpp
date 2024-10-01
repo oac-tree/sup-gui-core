@@ -19,6 +19,7 @@
 
 #include "sup/gui/views/dtoeditor/dto_composer_tab_controller.h"
 
+#include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/application_model.h>
@@ -30,6 +31,9 @@
 
 using namespace sup::gui;
 
+/**
+ * @brief Tests for DtoComposerTabController class.
+ */
 class DtoComposerTabControllerTest : public ::testing::Test
 {
 public:
@@ -113,4 +117,37 @@ TEST_F(DtoComposerTabControllerTest, InsertContainerBetweenAndThenRemove)
   EXPECT_EQ(tab_widget.count(), 2);
   EXPECT_EQ(controller.GetWidgetForItem(container0), tab_widget.widget(0));
   EXPECT_EQ(controller.GetWidgetForItem(container1), tab_widget.widget(1));
+}
+
+//! Controller should cleanup tabs after model reset.
+TEST_F(DtoComposerTabControllerTest, ResetApplicationModel)
+{
+  auto container = m_model.InsertItem<mvvm::ContainerItem>();
+
+  QTabWidget tab_widget;
+  DtoComposerTabController controller(&m_model, &tab_widget);
+
+  EXPECT_EQ(tab_widget.count(), 1);
+
+  m_model.Clear();
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  EXPECT_EQ(tab_widget.count(), 0);
+}
+
+//! Controller should recreate default tab after SupDtoModel reset.
+TEST_F(DtoComposerTabControllerTest, ResetSupDtoModel)
+{
+  SupDtoModel model;  // has one container by default
+
+  QTabWidget tab_widget;
+  DtoComposerTabController controller(&model, &tab_widget);
+
+  EXPECT_EQ(tab_widget.count(), 1);
+
+  model.Clear();
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
+
+  // tab was recreated because model has recreated default container
+  EXPECT_EQ(tab_widget.count(), 1);
 }

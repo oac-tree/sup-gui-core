@@ -44,7 +44,7 @@ class AnyValueEditorWidget;
  * @brief The DtoComposerTabController class controlls adding/removal of QTabWidget's tabs when
  * AnyValueItem containers are being added or removed from the model.
  *
- * @details It is expected that the model contains a number of top level container items. Adding a
+ * It is expected that the model contains a number of top level container items. Adding a
  * new container will lead to appearance of a new tab. Container removal will trigger tab removal.
  */
 class DtoComposerTabController : public QObject
@@ -85,6 +85,16 @@ private:
    * @brief Inserts widget tab corresponding to a given container.
    */
   void InsertAnyValueItemContainerTab(mvvm::SessionItem* container, int index);
+
+  /**
+   * @brief Removes tabs when model is reset.
+   */
+  void OnModelAboutToBeResetEvent(const mvvm::ModelAboutToBeResetEvent& event);
+
+  /**
+   * @brief Clear QTabWidget from all content.
+   */
+  void Clear();
 
   mvvm::ISessionModel* m_model{nullptr};
   QTabWidget* m_tab_widget{nullptr};

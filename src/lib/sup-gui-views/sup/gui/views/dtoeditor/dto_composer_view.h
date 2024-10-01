@@ -41,7 +41,7 @@ class DtoComposerActionHandler;
 /**
  * @brief The DtoComposerView class represents a main view to assemble AnyValue.
  *
- * @details It contains tabs with multiple instances of AnyValueEditor, belongs to MainWindow.
+ * It contains tabs with multiple instances of AnyValueEditor, belongs to MainWindow.
  */
 class DtoComposerView : public QWidget
 {

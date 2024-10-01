@@ -47,6 +47,8 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
                                                &DtoComposerTabController::OnItemInsertedEvent);
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
       this, &DtoComposerTabController::OnAboutToRemoveItemEvent);
+  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(
+      this, &DtoComposerTabController::OnModelAboutToBeResetEvent);
 
   InitTabs();
 }
@@ -65,7 +67,10 @@ void DtoComposerTabController::InitTabs()
   }
 }
 
-DtoComposerTabController::~DtoComposerTabController() = default;
+DtoComposerTabController::~DtoComposerTabController()
+{
+  Clear();
+}
 
 void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent &event)
 {
@@ -110,6 +115,24 @@ void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem 
 
   // ownership is taken by QTabWidget
   m_tab_widget->insertTab(index, widget.release(), "AnyValue");
+}
+
+void DtoComposerTabController::OnModelAboutToBeResetEvent(
+    const mvvm::ModelAboutToBeResetEvent &event)
+{
+  (void)event;
+  Clear();
+}
+
+void DtoComposerTabController::Clear()
+{
+  m_tab_widget->clear();
+
+  for (auto [item, widget] : m_widget_map)
+  {
+    delete widget;
+  }
+  m_widget_map.clear();
 }
 
 }  // namespace sup::gui
