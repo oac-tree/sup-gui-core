@@ -30,7 +30,6 @@ class QCloseEvent;
 namespace mvvm
 {
 class MainVerticalBarWidget;
-class ApplicationModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -38,6 +37,7 @@ namespace sup::gui
 
 class DtoComposerView;
 class DtoEditorMainWindowActions;
+class SupDtoModel;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -54,11 +54,6 @@ protected:
   void closeEvent(QCloseEvent* event) override;
 
 private:
-  /**
-   * @brief Populates model with empty container to hold first AnyValueItem.
-   */
-  void PopulateModel();
-
   void InitApplication();
   void InitComponents();
   void ReadSettings();
@@ -80,7 +75,12 @@ private:
    */
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 
-  std::unique_ptr<mvvm::ApplicationModel> m_model;
+  /**
+   * @brief Perform widgets setup on new project creation or project load from disk.
+   */
+  void OnProjectLoad();
+
+  std::unique_ptr<SupDtoModel> m_model;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};

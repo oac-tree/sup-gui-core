@@ -108,11 +108,6 @@ void AnyValueEditorMainWindow::WriteSettings()
   settings.setValue(GetWindowPosSettingName(), pos());
 }
 
-void AnyValueEditorMainWindow::OnProjectLoad()
-{
-  m_anyvalue_editor->OnProjectLoad();
-}
-
 bool AnyValueEditorMainWindow::CanCloseApplication()
 {
   WriteSettings();
@@ -133,6 +128,11 @@ void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
     ShutdownApplication();
     QCoreApplication::exit(exit_code);
   }
+}
+
+void AnyValueEditorMainWindow::OnProjectLoad()
+{
+  m_anyvalue_editor->OnProjectLoad();
 }
 
 }  // namespace sup::gui

@@ -24,6 +24,7 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/application_helper.h>
+#include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/widgets/style_utils.h>
 
@@ -47,9 +48,8 @@ const QString kWindowPosSettingName = kGroupName + "/" + "position";
 namespace sup::gui
 {
 
-DtoEditorMainWindow::DtoEditorMainWindow() : m_model(std::make_unique<mvvm::ApplicationModel>())
+DtoEditorMainWindow::DtoEditorMainWindow() : m_model(std::make_unique<SupDtoModel>())
 {
-  PopulateModel();
   InitApplication();
 }
 
@@ -64,13 +64,6 @@ void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
     return;
   }
   event->ignore();
-}
-
-void DtoEditorMainWindow::PopulateModel()
-{
-  // Adding empty container for first AnyValueItem. Item itself will be created from
-  // SupDtoComposerView.
-  m_model->InsertItem<mvvm::ContainerItem>();
 }
 
 void DtoEditorMainWindow::InitApplication()
@@ -100,6 +93,8 @@ void DtoEditorMainWindow::InitComponents()
 
   connect(m_action_manager, &DtoEditorMainWindowActions::RestartApplicationRequest, this,
           &DtoEditorMainWindow::OnRestartRequest);
+  connect(m_action_manager, &DtoEditorMainWindowActions::ProjectLoaded, this,
+          &DtoEditorMainWindow::OnProjectLoad);
 }
 
 void DtoEditorMainWindow::ReadSettings()
@@ -140,5 +135,7 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
     QCoreApplication::exit(exit_code);
   }
 }
+
+void DtoEditorMainWindow::OnProjectLoad() {}
 
 }  // namespace sup::gui
