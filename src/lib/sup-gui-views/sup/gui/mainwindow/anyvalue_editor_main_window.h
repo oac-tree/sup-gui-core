@@ -54,14 +54,19 @@ private:
   void OnProjectLoad();
 
   /**
-   * @brief Checks if application can be closed.
+   * @brief Check if the application can be closed.
    *
-   * This perform saving of unsaved projects, and writing persistent application settings.
+   * This saves unsaved projects and writes persistent application settings.
    *
-   * @return True if application is ready to be closed.
+   * @return True if the application is ready to be closed.
    */
   bool CanCloseApplication();
 
+  /**
+   * @brief Check if the application can be restarted and exit the application with the given code.
+   *
+   * The code will be used to start the application again from the main.
+   */
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};

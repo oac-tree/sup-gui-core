@@ -65,18 +65,22 @@ private:
   void WriteSettings();
 
   /**
-   * @brief Prepare for application shutdown.
+   * @brief Check if the application can be closed.
    *
-   * @return True if application is ready to be closed.
+   * This saves unsaved projects and writes persistent application settings.
    *
-   * @details This perform saving of unsaved projects, writing persistent application settings and
-   * stopping possible running jobs.
+   * @return True if the application is ready to be closed.
    */
-  bool PrepareForShutdown();
+  bool CanCloseApplication();
+
+  /**
+   * @brief Check if the application can be restarted and exit the application with the given code.
+   *
+   * The code will be used to start the application again from the main.
+   */
   void OnRestartRequest(sup::gui::AppExitCode exit_code);
 
   std::unique_ptr<mvvm::ApplicationModel> m_model;
-
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};

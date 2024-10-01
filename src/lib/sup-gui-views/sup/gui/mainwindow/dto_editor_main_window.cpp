@@ -57,7 +57,7 @@ DtoEditorMainWindow::~DtoEditorMainWindow() = default;
 
 void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
 {
-  if (PrepareForShutdown())
+  if (CanCloseApplication())
   {
     ShutdownApplication();
     QMainWindow::closeEvent(event);
@@ -119,16 +119,24 @@ void DtoEditorMainWindow::WriteSettings()
   settings.setValue(kWindowPosSettingName, pos());
 }
 
-bool DtoEditorMainWindow::PrepareForShutdown()
+bool DtoEditorMainWindow::CanCloseApplication()
 {
   WriteSettings();
-  return true;
+
+  if (m_action_manager->CloseCurrentProject())
+  {
+    WriteSettings();
+    return true;
+  }
+
+  return false;
 }
 
 void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 {
-  if (PrepareForShutdown())
+  if (CanCloseApplication())
   {
+    ShutdownApplication();
     QCoreApplication::exit(exit_code);
   }
 }
