@@ -22,7 +22,7 @@
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
-#include <mvvm/model/application_model.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 
 #include <gtest/gtest.h>
@@ -125,7 +125,7 @@ TEST_F(DtoComposerTabControllerTest, ResetApplicationModel)
   auto container = m_model.InsertItem<mvvm::ContainerItem>();
 
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&m_model, &tab_widget);
+  const DtoComposerTabController controller(&m_model, &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
 
@@ -141,7 +141,7 @@ TEST_F(DtoComposerTabControllerTest, ResetSupDtoModel)
   SupDtoModel model;  // has one container by default
 
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&model, &tab_widget);
+  const DtoComposerTabController controller(&model, &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
 
@@ -150,4 +150,22 @@ TEST_F(DtoComposerTabControllerTest, ResetSupDtoModel)
 
   // tab was recreated because model has recreated default container
   EXPECT_EQ(tab_widget.count(), 1);
+}
+
+//! This mimick loading of the project from disk.
+TEST_F(DtoComposerTabControllerTest, ReplaceRootItem)
+{
+  SupDtoModel model;  // has one container by default
+
+  QTabWidget tab_widget;
+  const DtoComposerTabController controller(&model, &tab_widget);
+
+  EXPECT_EQ(tab_widget.count(), 1);
+
+  auto new_root = mvvm::utils::CreateEmptyRootItem();
+  new_root->InsertItem<mvvm::ContainerItem>(mvvm::TagIndex::Append());
+  new_root->InsertItem<mvvm::ContainerItem>(mvvm::TagIndex::Append());
+
+  model.ReplaceRootItem(std::move(new_root));
+  EXPECT_EQ(tab_widget.count(), 2);
 }

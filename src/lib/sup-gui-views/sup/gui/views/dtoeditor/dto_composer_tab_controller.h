@@ -92,6 +92,13 @@ private:
   void OnModelAboutToBeResetEvent(const mvvm::ModelAboutToBeResetEvent& event);
 
   /**
+   * @brief Regenerates tabs at the end of the reset event.
+   *
+   * When project is loaded from disk, root item can be replaced with non-empty root item.
+   */
+  void OnModelResetEvent(const mvvm::ModelResetEvent& event);
+
+  /**
    * @brief Clear QTabWidget from all content.
    */
   void Clear();

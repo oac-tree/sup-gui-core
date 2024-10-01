@@ -49,6 +49,7 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
       this, &DtoComposerTabController::OnAboutToRemoveItemEvent);
   m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(
       this, &DtoComposerTabController::OnModelAboutToBeResetEvent);
+  m_listener->Connect<mvvm::ModelResetEvent>(this, &DtoComposerTabController::OnModelResetEvent);
 
   InitTabs();
 }
@@ -61,6 +62,7 @@ AnyValueEditorWidget *DtoComposerTabController::GetWidgetForItem(const mvvm::Ses
 
 void DtoComposerTabController::InitTabs()
 {
+  m_tab_widget->clear();
   for (auto child : m_model->GetRootItem()->GetAllItems())
   {
     InsertAnyValueItemContainerTab(child, child->GetTagIndex().index);
@@ -122,6 +124,12 @@ void DtoComposerTabController::OnModelAboutToBeResetEvent(
 {
   (void)event;
   Clear();
+}
+
+void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent &event)
+{
+  (void)event;
+  InitTabs();
 }
 
 void DtoComposerTabController::Clear()
