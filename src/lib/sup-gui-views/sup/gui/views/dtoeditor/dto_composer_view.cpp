@@ -26,6 +26,9 @@
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/dto_composer_action_handler.h>
 
+#include <mvvm/model/i_session_model.h>
+#include <mvvm/model/session_item.h>
+
 #include <QMenu>
 #include <QTabBar>
 #include <QTabWidget>
@@ -38,7 +41,7 @@ DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_tab_widget(new QTabWidget)
-    , m_tab_controller(std::make_unique<DtoComposerTabController>(model, m_tab_widget))
+    , m_tab_controller(std::make_unique<DtoComposerTabController>(m_model, m_tab_widget))
     , m_actions(new DtoComposerActions(this))
     , m_action_handler(new DtoComposerActionHandler(m_model, this))
 {
@@ -61,6 +64,8 @@ DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
 
   SetupConnections();
 }
+
+DtoComposerView::~DtoComposerView() = default;
 
 void DtoComposerView::SetupConnections()
 {

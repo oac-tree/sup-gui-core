@@ -49,6 +49,7 @@ class DtoComposerView : public QWidget
 
 public:
   explicit DtoComposerView(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  ~DtoComposerView() override;
 
 private:
   void SetupConnections();

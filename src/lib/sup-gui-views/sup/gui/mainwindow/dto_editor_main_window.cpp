@@ -51,6 +51,7 @@ namespace sup::gui
 DtoEditorMainWindow::DtoEditorMainWindow() : m_model(std::make_unique<SupDtoModel>())
 {
   InitApplication();
+  OnProjectLoad();
 }
 
 DtoEditorMainWindow::~DtoEditorMainWindow() = default;
@@ -136,6 +137,8 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
   }
 }
 
-void DtoEditorMainWindow::OnProjectLoad() {}
+void DtoEditorMainWindow::OnProjectLoad()
+{
+}
 
 }  // namespace sup::gui
