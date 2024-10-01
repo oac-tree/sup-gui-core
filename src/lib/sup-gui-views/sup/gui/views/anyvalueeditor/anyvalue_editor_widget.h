@@ -62,7 +62,7 @@ public:
    * @brief Sets the container with AnyValueItem.
    *
    * This editor is build around the idea, that there is only a single AnyValueItem in a container.
-   * It can be either root item of the model, mvvm::ContainerItem or any other conteiner-like item.
+   * It can be either root item of the model, mvvm::ContainerItem or any other container-like item.
    */
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 

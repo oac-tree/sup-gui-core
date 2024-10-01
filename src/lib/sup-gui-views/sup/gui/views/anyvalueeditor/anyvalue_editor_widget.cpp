@@ -225,7 +225,7 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
   result.send_message_callback = [](const auto &event) { sup::gui::SendWarningMessage(event); };
   result.get_mime_data = []() { return QGuiApplication::clipboard()->mimeData(); };
   result.set_mime_data = [](std::unique_ptr<QMimeData> data)
-  { return QGuiApplication::clipboard()->setMimeData(data.release()); };
+  { QGuiApplication::clipboard()->setMimeData(data.release()); };
 
   return result;
 }

@@ -22,6 +22,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
@@ -179,4 +180,49 @@ TEST_F(TreeViewComponentProviderTests, FilteredStruct)
   // the model is empty
   EXPECT_EQ(proxymodel->rowCount(), 0);
   EXPECT_EQ(proxymodel->columnCount(), 3);
+}
+
+//! Testing component provider after model reset.
+TEST_F(TreeViewComponentProviderTests, ScalarInContainerAfterModelReset)
+{
+  TreeViewComponentProvider provider(&m_model, &m_tree);
+
+  // single scalar in a model
+  auto container = m_model.InsertItem<mvvm::ContainerItem>();
+
+  // to test tree view we will be looking at proxy model.
+  auto proxymodel = provider.GetLastProxyModel();
+
+  EXPECT_EQ(proxymodel->rowCount(), 0);
+  EXPECT_EQ(proxymodel->columnCount(), 3);
+
+  provider.SetItem(container);
+
+  EXPECT_EQ(proxymodel->rowCount(), 0);
+  EXPECT_EQ(proxymodel->columnCount(), 3);
+
+  auto new_root = mvvm::utils::CreateEmptyRootItem();
+  auto new_container = new_root->InsertItem<mvvm::ContainerItem>(mvvm::TagIndex::Append());
+  auto item = m_model.InsertItem<AnyValueScalarItem>(new_container, mvvm::TagIndex::Append());
+  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetData(mvvm::int8{42});
+
+  // mimicking model load from disk
+  m_model.ReplaceRootItem(std::move(new_root));
+  provider.SetItem(new_container);
+
+  EXPECT_EQ(proxymodel->rowCount(), 1);
+  EXPECT_EQ(proxymodel->columnCount(), 3);
+
+  // check if we can get back to item using visible indices
+  auto item_displayname_index = proxymodel->index(0, 0);
+  auto item_value_index = proxymodel->index(0, 1);
+  auto item_type_index = proxymodel->index(0, 2);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_displayname_index), item);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_value_index), item);
+
+  // check that proxymodel sees correct data
+  EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
+            std::string("scalar"));
+  EXPECT_EQ(proxymodel->data(item_value_index, Qt::DisplayRole).toInt(), 42);
 }

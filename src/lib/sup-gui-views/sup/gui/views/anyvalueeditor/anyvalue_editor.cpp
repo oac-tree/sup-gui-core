@@ -100,8 +100,7 @@ void AnyValueEditor::OnImportWaveformRequest()
   auto dialog = CreateWaveformEditorDialog(GetTopItem(), this);
   if (dialog->exec() == QDialog::Accepted)
   {
-    auto result = dialog->GetResult();
-    m_editor_widget->SetInitialValue(*result.get());
+    m_editor_widget->SetInitialValue(*dialog->GetResult());
   }
 }
 

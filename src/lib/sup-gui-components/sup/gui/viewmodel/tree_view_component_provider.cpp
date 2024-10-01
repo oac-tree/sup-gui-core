@@ -40,4 +40,5 @@ void TreeViewComponentProvider::SetFilterPattern(const QString &pattern)
 {
   m_filter_proxy_model->SetPattern(pattern);
 }
+
 }  // namespace sup::gui
