@@ -42,6 +42,7 @@ public:
    * @brief Main constructor.
    *
    * @param context_id Unique identifier.
+   * @param context_name The name of the context.
    */
   explicit AppContext(const QString& context_id, const QString& context_name = {});
 

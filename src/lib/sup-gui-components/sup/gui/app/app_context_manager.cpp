@@ -23,6 +23,8 @@
 
 #include <mvvm/core/unique_id_generator.h>
 
+#include <QWidget>
+
 namespace sup::gui
 {
 
@@ -34,7 +36,10 @@ AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
     return iter->second;
   }
 
-  AppContext context(QString::fromStdString(mvvm::UniqueIdGenerator::Generate()));
+  const auto unique_id = QString::fromStdString(mvvm::UniqueIdGenerator::Generate());
+  const auto context_name = widget->metaObject()->className();
+
+  AppContext context(unique_id, context_name);
   m_widget_to_context.insert(iter, {widget, context});
   return context;
 }

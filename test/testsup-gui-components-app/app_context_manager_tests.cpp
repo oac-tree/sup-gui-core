@@ -42,6 +42,7 @@ TEST_F(AppContextManagerTest, RegisterContext)
   auto context1 = manager.RegisterWidgetUniqueId(&widget);
   EXPECT_TRUE(manager.HasContext(&widget));
   EXPECT_EQ(manager.GetContext(&widget), context1);
+  EXPECT_EQ(manager.GetContext(&widget).GetContextName(), QString("QWidget"));
 
   // registering again same widget, context should conicide
   auto context2 = manager.RegisterWidgetUniqueId(&widget);
