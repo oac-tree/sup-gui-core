@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_APPLICATION_HELPER_H_
-#define SUP_GUI_APP_APPLICATION_HELPER_H_
+#ifndef SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
+#define SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
 
 //! @file
 //! Helper functions to start application.
@@ -83,11 +83,6 @@ void SetWindowStyle(const QString &app_style);
 void SetApplicationFont(int font_size_hint);
 
 /**
- * @brief Returns true if application is running in CODAC environment.
- */
-bool IsOnCodac();
-
-/**
  * @brief Gets the current system user name.
  * @return The current system user name, or empty string if the user name cannot be retrieved.
  */
@@ -117,6 +112,19 @@ void SaveAppFontInSettings(const QFont &font);
  */
 bool HasValidAppSettings(const std::string &app_version);
 
+/**
+ * @brief Opens message box with the question if we should reset application settings and restart
+ *
+ * @return Truth if reset and restart was requested, false otherwise.
+ */
+bool ShouldResetSettingsAndRestart();
+
+/**
+ * @brief Summons dialog to change system font.
+ */
+bool SummonChangeSystemFontDialog();
+
+
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_APPLICATION_HELPER_H_
+#endif  // SUP_GUI_APP_MAIN_WINDOW_HELPER_H_

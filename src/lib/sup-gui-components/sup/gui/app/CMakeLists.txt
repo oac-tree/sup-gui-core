@@ -16,11 +16,7 @@ target_sources(${library_name} PRIVATE
   app_context_focus_controller.h
   app_context_manager.cpp
   app_context_manager.h
-  application_helper.cpp
-  application_helper.h
   app_helper.cpp
   app_helper.h
-  main_window_helper.cpp
-  main_window_helper.h
   main_window_types.h
   )

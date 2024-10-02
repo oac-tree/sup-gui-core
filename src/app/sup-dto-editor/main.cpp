@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/app/application_helper.h>
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/dto_editor_main_window.h>

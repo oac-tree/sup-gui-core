@@ -19,8 +19,8 @@
 
 #include "anyvalue_editor_main_window.h"
 
-#include <sup/gui/app/application_helper.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
+#include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor.h>
 
 #include <mvvm/model/application_model.h>

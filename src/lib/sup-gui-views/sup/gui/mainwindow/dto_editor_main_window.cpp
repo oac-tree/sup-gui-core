@@ -23,7 +23,7 @@
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
-#include <sup/gui/app/application_helper.h>
+#include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/widgets/style_utils.h>
@@ -137,8 +137,6 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
   }
 }
 
-void DtoEditorMainWindow::OnProjectLoad()
-{
-}
+void DtoEditorMainWindow::OnProjectLoad() {}
 
 }  // namespace sup::gui

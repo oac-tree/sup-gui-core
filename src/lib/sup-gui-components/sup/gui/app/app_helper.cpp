@@ -27,6 +27,15 @@
 namespace sup::gui
 {
 
+bool IsOnCodac()
+{
+#ifdef CODAC_FOUND
+  return true;
+#else
+  return false;
+#endif
+}
+
 std::optional<QSize> ParseSizeString(const QString &text)
 {
   auto parts = mvvm::utils::SplitString(text.toStdString(), "x");

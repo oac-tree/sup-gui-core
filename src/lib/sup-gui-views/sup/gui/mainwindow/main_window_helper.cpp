@@ -17,19 +17,23 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "application_helper.h"
+#include "main_window_helper.h"
 
-#include "app_action_helper.h"
-#include "app_action_manager.h"
-#include "app_constants.h"
-
+#include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_action_manager.h>
+#include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/app_helper.h>
 #include <sup/gui/core/version_helper.h>
 
 #include <mvvm/widgets/app_utils.h>
+#include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
+#include <QFontDialog>
 #include <QLocale>
+#include <QMessageBox>
 #include <QProcess>
+#include <QPushButton>
 #include <QSettings>
 #include <QStyleFactory>
 #include <iostream>
@@ -115,15 +119,6 @@ void SetApplicationFont(int font_size_hint)
   }
 }
 
-bool IsOnCodac()
-{
-#ifdef CODAC_FOUND
-  return true;
-#else
-  return false;
-#endif
-}
-
 QString GetUserName()
 {
 #ifdef Q_OS_UNIX
@@ -174,6 +169,38 @@ bool HasValidAppSettings(const std::string &app_version)
   }
 
   return false;
+}
+
+bool ShouldResetSettingsAndRestart()
+{
+  const QString question_text =
+      "All persistent application settings (i.e. window sizes, position of splitters, etc) "
+      " will be reset to their default values. Restart is required.";
+
+  QMessageBox msgBox;
+  msgBox.setText(question_text);
+  msgBox.setInformativeText("Do you want to reset settings and restart application?\n");
+
+  auto yes_button = msgBox.addButton("Yes, please restart", QMessageBox::YesRole);
+  msgBox.addButton("Cancel", QMessageBox::NoRole);
+
+  msgBox.exec();
+  return msgBox.clickedButton() == yes_button;
+}
+
+bool SummonChangeSystemFontDialog()
+{
+  bool font_was_changed{false};
+
+  QFont font = QFontDialog::getFont(&font_was_changed, QApplication::font(), nullptr);
+
+  if (font_was_changed)
+  {
+    sup::gui::SaveAppFontInSettings(font);
+    mvvm::utils::SetApplicationFont(font);
+  }
+
+  return font_was_changed;
 }
 
 }  // namespace sup::gui
