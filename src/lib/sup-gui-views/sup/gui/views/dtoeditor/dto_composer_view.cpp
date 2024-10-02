@@ -25,6 +25,7 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/dto_composer_action_handler.h>
+#include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
@@ -37,11 +38,25 @@
 namespace sup::gui
 {
 
+namespace
+{
+DtoComposerTabController::create_widget_callback_t CreateCallback(mvvm::ISessionModel *model)
+{
+  return [model](mvvm::SessionItem *item)
+  {
+    auto result = std::make_unique<AnyValueEditorWidget>(model);
+    result->SetAnyValueItemContainer(item);
+    return result;
+  };
+}
+}  // namespace
+
 DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_tab_widget(new QTabWidget)
-    , m_tab_controller(std::make_unique<DtoComposerTabController>(m_model, m_tab_widget))
+    , m_tab_controller(
+          std::make_unique<DtoComposerTabController>(m_model, CreateCallback(model), m_tab_widget))
     , m_actions(new DtoComposerActions(this))
     , m_action_handler(new DtoComposerActionHandler(m_model, this))
 {

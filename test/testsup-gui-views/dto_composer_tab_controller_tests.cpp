@@ -20,7 +20,6 @@
 #include "sup/gui/views/dtoeditor/dto_composer_tab_controller.h"
 
 #include <sup/gui/model/sup_dto_model.h>
-#include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
@@ -38,12 +37,21 @@ class DtoComposerTabControllerTest : public ::testing::Test
 {
 public:
   mvvm::ApplicationModel m_model;
+
+  static DtoComposerTabController::create_widget_callback_t CreateCallback()
+  {
+    return [](mvvm::SessionItem* item)
+    {
+      (void)item;
+      return std::make_unique<QWidget>();
+    };
+  }
 };
 
 TEST_F(DtoComposerTabControllerTest, InitialState)
 {
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&m_model, &tab_widget);
+  DtoComposerTabController controller(&m_model, CreateCallback(), &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 0);
 
@@ -58,7 +66,7 @@ TEST_F(DtoComposerTabControllerTest, ModelWithSingleContainer)
   auto container = m_model.InsertItem<mvvm::ContainerItem>();
 
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&m_model, &tab_widget);
+  DtoComposerTabController controller(&m_model, CreateCallback(), &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
   EXPECT_EQ(controller.GetWidgetForItem(container), tab_widget.widget(0));
@@ -68,7 +76,7 @@ TEST_F(DtoComposerTabControllerTest, ModelWithSingleContainer)
 TEST_F(DtoComposerTabControllerTest, InsertContainer)
 {
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&m_model, &tab_widget);
+  DtoComposerTabController controller(&m_model, CreateCallback(), &tab_widget);
 
   // inserting after initialization
   auto container = m_model.InsertItem<mvvm::ContainerItem>();
@@ -82,7 +90,7 @@ TEST_F(DtoComposerTabControllerTest, RemoveContainer)
   auto container = m_model.InsertItem<mvvm::ContainerItem>();
 
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&m_model, &tab_widget);
+  DtoComposerTabController controller(&m_model, CreateCallback(), &tab_widget);
 
   m_model.RemoveItem(container);
 
@@ -99,7 +107,7 @@ TEST_F(DtoComposerTabControllerTest, InsertContainerBetweenAndThenRemove)
       m_model.InsertItem<mvvm::ContainerItem>(m_model.GetRootItem(), mvvm::TagIndex::Default(1));
 
   QTabWidget tab_widget;
-  DtoComposerTabController controller(&m_model, &tab_widget);
+  DtoComposerTabController controller(&m_model, CreateCallback(), &tab_widget);
 
   // inserting after initialization between container0 and container 1
   auto container2 =
@@ -125,7 +133,7 @@ TEST_F(DtoComposerTabControllerTest, ResetApplicationModel)
   auto container = m_model.InsertItem<mvvm::ContainerItem>();
 
   QTabWidget tab_widget;
-  const DtoComposerTabController controller(&m_model, &tab_widget);
+  const DtoComposerTabController controller(&m_model, CreateCallback(), &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
 
@@ -141,7 +149,7 @@ TEST_F(DtoComposerTabControllerTest, ResetSupDtoModel)
   SupDtoModel model;  // has one container by default
 
   QTabWidget tab_widget;
-  const DtoComposerTabController controller(&model, &tab_widget);
+  const DtoComposerTabController controller(&model, CreateCallback(), &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
 
@@ -158,7 +166,7 @@ TEST_F(DtoComposerTabControllerTest, ReplaceRootItem)
   SupDtoModel model;  // has one container by default
 
   QTabWidget tab_widget;
-  const DtoComposerTabController controller(&model, &tab_widget);
+  const DtoComposerTabController controller(&model, CreateCallback(), &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
 

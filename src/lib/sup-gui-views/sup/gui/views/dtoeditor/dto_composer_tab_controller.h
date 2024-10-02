@@ -23,6 +23,7 @@
 #include <mvvm/signals/event_types.h>
 
 #include <QObject>
+#include <functional>
 #include <map>
 #include <memory>
 
@@ -38,8 +39,6 @@ class SessionItem;
 namespace sup::gui
 {
 
-class AnyValueEditorWidget;
-
 /**
  * @brief The DtoComposerTabController class controlls adding/removal of QTabWidget's tabs when
  * AnyValueItem containers are being added or removed from the model.
@@ -52,18 +51,21 @@ class DtoComposerTabController : public QObject
   Q_OBJECT
 
 public:
+  using create_widget_callback_t = std::function<std::unique_ptr<QWidget>(mvvm::SessionItem*)>;
+
   /**
    * @brief Main controller constructor.
    *
    * @param model The application model.
+   * @param create_widget_callback_t A callback to create widget for given item.
    * @param tab_widget QTabWidget to control
    * @param parent QObject parent
    */
-  DtoComposerTabController(mvvm::ISessionModel* model, QTabWidget* tab_widget,
-                           QObject* parent = nullptr);
+  DtoComposerTabController(mvvm::ISessionModel* model, create_widget_callback_t callback,
+                           QTabWidget* tab_widget, QObject* parent = nullptr);
   ~DtoComposerTabController() override;
 
-  AnyValueEditorWidget* GetWidgetForItem(const mvvm::SessionItem* container);
+  QWidget* GetWidgetForItem(const mvvm::SessionItem* container);
 
 private:
   /**
@@ -108,7 +110,9 @@ private:
   std::unique_ptr<mvvm::ModelListener> m_listener;
 
   //!< correspondance of AnyValueItem container to AnyValueEditorWidget
-  std::map<const mvvm::SessionItem*, AnyValueEditorWidget*> m_widget_map;
+  std::map<const mvvm::SessionItem*, QWidget*> m_widget_map;
+
+  create_widget_callback_t m_create_widget_callback;
 };
 
 }  // namespace sup::gui

@@ -20,7 +20,6 @@
 #include "dto_composer_tab_controller.h"
 
 #include <sup/gui/core/exceptions.h>
-#include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
@@ -32,9 +31,11 @@ namespace sup::gui
 {
 
 DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
+                                                   create_widget_callback_t callback,
                                                    QTabWidget *tab_widget, QObject *parent)
     : QObject(parent)
     , m_model(model)
+    , m_create_widget_callback(std::move(callback))
     , m_tab_widget(tab_widget)
     , m_listener(std::make_unique<mvvm::ModelListener>(model))
 {
@@ -54,7 +55,7 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
   InitTabs();
 }
 
-AnyValueEditorWidget *DtoComposerTabController::GetWidgetForItem(const mvvm::SessionItem *container)
+QWidget *DtoComposerTabController::GetWidgetForItem(const mvvm::SessionItem *container)
 {
   auto iter = m_widget_map.find(container);
   return iter == m_widget_map.end() ? nullptr : iter->second;
@@ -110,9 +111,8 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
 void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem *container,
                                                               int index)
 {
-  auto widget = std::make_unique<AnyValueEditorWidget>(m_model);
+  auto widget = m_create_widget_callback(container);
 
-  widget->SetAnyValueItemContainer(container);
   m_widget_map.insert({container, widget.get()});
 
   // ownership is taken by QTabWidget
