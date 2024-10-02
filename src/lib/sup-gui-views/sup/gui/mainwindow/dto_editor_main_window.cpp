@@ -26,6 +26,7 @@
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
+#include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 #include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
@@ -83,6 +84,10 @@ void DtoEditorMainWindow::InitComponents()
   m_composer_view = new DtoComposerView(m_model.get());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::GetIcon("file-tree-outline-light.svg"));
+  m_waveform_view = new DtoWaveformView;
+  m_tab_widget->AddWidget(m_waveform_view, "Waveforms",
+                          utils::GetIcon("chart-timeline-variant-shimmer-light.svg"));
+
   m_tab_widget->AddWidget(new QWidget, "Compare",
                           utils::GetIcon("application-brackets-outline-light.svg"));
   m_tab_widget->AddWidget(new QWidget, "Bulk Edit", utils::GetIcon("animation-outline-light.svg"));

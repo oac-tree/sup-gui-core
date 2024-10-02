@@ -37,6 +37,7 @@ namespace sup::gui
 
 class DtoComposerView;
 class DtoEditorMainWindowActions;
+class DtoWaveformView;
 class SupDtoModel;
 
 /**
@@ -84,6 +85,7 @@ private:
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};
+  DtoWaveformView* m_waveform_view{nullptr};
 };
 
 }  // namespace sup::gui
