@@ -26,6 +26,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/standarditems/container_item.h>
 #include <mvvm/test/test_helper.h>
 
 #include <sup/dto/anyvalue.h>
@@ -43,6 +44,8 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 class AnyValueEditorActionHandlerTest : public ::testing::Test
 {
 public:
+  AnyValueEditorActionHandlerTest() { m_container = m_model.InsertItem<mvvm::ContainerItem>(); }
+
   /**
    * @brief Test helper to create context mimicking AnyValueEditor widget state.
    *
@@ -65,13 +68,17 @@ public:
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
       sup::gui::AnyValueItem* selection)
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection),
-                                                         m_model.GetRootItem(), nullptr);
+    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), m_container,
+                                                         nullptr);
   }
 
-  mvvm::SessionItem* GetAnyValueItemContainer() { return m_model.GetRootItem(); }
+  /**
+   * @brief Returns main container to store top-level AnyValueItem.
+   */
+  mvvm::SessionItem* GetContainer() const { return m_container; }
 
   mvvm::ApplicationModel m_model;
+  mvvm::SessionItem* m_container{nullptr};
   testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
 };
 
@@ -81,7 +88,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
   auto handler = CreateActionHandler(nullptr);
   EXPECT_EQ(handler->GetTopItem(), nullptr);
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
-  EXPECT_EQ(GetAnyValueItemContainer(), handler->GetAnyValueItemContainer());
+  EXPECT_EQ(GetContainer(), handler->GetAnyValueItemContainer());
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanRemove());
@@ -127,7 +134,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 
   EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
 
-  AnyValueScalarItem item2;
+  const AnyValueScalarItem item2;
   handler->SetInitialValue(item2);
 
   // expect oner warning, and still old top anyvalue
@@ -158,8 +165,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   handler->OnInsertAnyValueItemAfter(constants::kEmptyTypeName);
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueEmptyItem>(&m_model);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+  auto inserted_item = GetContainer()->GetItem<AnyValueEmptyItem>(mvvm::TagIndex::First());
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
@@ -190,8 +197,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueStructItem>(&m_model);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+  auto inserted_item = GetContainer()->GetItem<AnyValueStructItem>(mvvm::TagIndex::First());
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kStructTypeName);
@@ -203,7 +210,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
 {
   // non-empty model
-  m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(nullptr);
@@ -218,14 +225,15 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that there is still one item
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //! Attempt to add a second structure after top-level selected structure.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
 {
   // non-empty model
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(parent);
@@ -241,13 +249,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that there is still one item
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //! Adding structure as a field to another structure (which is marked as selected).
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -262,7 +271,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   handler->OnInsertAnyValueItemInto(constants::kStructTypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -275,7 +284,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 //! Attempt to add a structure after a scalar.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -289,7 +299,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that nothing can changed in the model
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 0);
 };
 
@@ -307,8 +317,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+  auto inserted_item = GetContainer()->GetItem<AnyValueScalarItem>(mvvm::TagIndex::First());
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
@@ -322,13 +332,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // the amount of items should stay the same
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //! Adding scalar as a field to another structure (which is marked as selected).
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -342,7 +353,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -377,14 +388,15 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
 
-  std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item, field1});
+  const std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item, field1});
   EXPECT_EQ(parent->GetChildren(), expected_children);
 };
 
 //! Adding a scalar as an array element (which is marked as selected).
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -398,7 +410,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -411,7 +423,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 //! Attempt to add scalar as a field to another scalar.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -425,14 +438,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that nothing was changed in the model
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 0);
 };
 
 //! Attempt to add second top level scalar to the model.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
 {
-  m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(nullptr);
@@ -446,7 +459,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // checking that model still have a single item
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //! Attempt to add a scalar as an array element when array is containing diffierent scalar types.
@@ -454,7 +467,8 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
 // array. Will be refactored soon.
 TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTypeMismath)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
   m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent)->SetAnyTypeName(
       sup::dto::kInt32TypeName);
 
@@ -468,7 +482,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   // expecting error callback
@@ -497,8 +511,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that model got top level item of the correct type
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueArrayItem>(&m_model);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+  auto inserted_item = GetContainer()->GetItem<AnyValueArrayItem>(mvvm::TagIndex::First());
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kArrayTypeName);
@@ -510,13 +524,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // the amount of items should stay the same
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //! Adding array as a field to another structure (which is marked as selected).
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -530,7 +545,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
   handler->OnInsertAnyValueItemInto(constants::kArrayTypeName);
 
   // validating that parent got new child
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
@@ -542,7 +557,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 //! Attempt to add array as a field to a scalar.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler(parent);
@@ -556,14 +572,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that nothing can changed in the model
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 0);
 };
 
 //! Attempt to add second top level array to the model.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 {
-  m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+  m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(nullptr);
@@ -577,7 +593,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // checking that model still have a single item
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -587,7 +603,8 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 //! Remove item when nothing is selected.
 TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 {
-  auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto struct_item =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler(nullptr);
@@ -596,14 +613,15 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
   EXPECT_NO_FATAL_FAILURE(handler->OnRemoveSelected());
 
   // validating that still has an item
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
 //! Remove selected item.
 TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 {
-  auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  auto struct_item =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
   // creating action handler for the context, pretending item is selected
   auto handler = CreateActionHandler(struct_item);
@@ -613,7 +631,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
   handler->OnRemoveSelected();
 
   // validating that there is no item anymore
-  EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 0);
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
 };
 
 //-------------------------------------------------------------------------------------------------

@@ -29,10 +29,10 @@
 #include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/validate_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -72,6 +72,7 @@ bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& type_name) c
 void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
 {
   auto query = CanInsertTypeAfterCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name));
+
   if (!query.IsSuccess())
   {
     SendMessage(query.GetMessage());
@@ -276,7 +277,11 @@ AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 {
-  return mvvm::utils::GetTopItem<AnyValueItem>(GetModel());
+  if (GetAnyValueItemContainer() && GetAnyValueItemContainer()->GetTotalItemCount() > 0)
+  {
+    return GetAnyValueItemContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::First());
+  }
+  return nullptr;
 }
 
 AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
@@ -357,7 +362,7 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
 
   const bool top_item_exists = GetTopItem() != nullptr;
   const bool top_item_selected = GetSelectedItem() && GetSelectedItem() == GetTopItem();
-  const bool no_selection = GetSelectedItem() == nullptr;
+  const bool no_selection = GetSelectedItem() == nullptr;  
   if (top_item_exists && (top_item_selected || no_selection))
   {
     return sup::gui::QueryResult::Failure(
