@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/main_window_helper.h"
+#include "sup/gui/app/app_helper.h"
 
 #include <gtest/gtest.h>
 
@@ -27,11 +27,14 @@
 
 using namespace sup::gui;
 
-class MainWindowHelperTest : public ::testing::Test
+/**
+ * @brief Tests for helper methods located in app_helper.h
+ */
+class AppHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(MainWindowHelperTest, ParseSizeString)
+TEST_F(AppHelperTest, ParseSizeString)
 {
   EXPECT_EQ(ParseSizeString("1024x768").value_or(QSize()), QSize(1024, 768));
   EXPECT_EQ(ParseSizeString("1024 x 768").value_or(QSize()), QSize(1024, 768));

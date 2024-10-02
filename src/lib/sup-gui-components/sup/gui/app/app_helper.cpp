@@ -17,30 +17,29 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
-#define SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
+#include "app_helper.h"
 
-//! @file
-//! Collection of helper methods for main windows.
+#include <mvvm/utils/string_utils.h>
 
-class QSize;
-class QString;
+#include <QSize>
+#include <QString>
 
 namespace sup::gui
 {
 
-/**
- * @brief Opens message box with the question if we should reset application settings and restart
- *
- * @return Truth if reset and restart was requested, false otherwise.
- */
-bool ShouldResetSettingsAndRestart();
+std::optional<QSize> ParseSizeString(const QString &text)
+{
+  auto parts = mvvm::utils::SplitString(text.toStdString(), "x");
 
-/**
- * @brief Summons dialog to change system font.
- */
-bool SummonChangeSystemFontDialog();
+  if (parts.size() != 2)
+  {
+    return {};
+  }
+
+  auto x = mvvm::utils::StringToInteger(parts.at(0));
+  auto y = mvvm::utils::StringToInteger(parts.at(1));
+
+  return x.has_value() && y.has_value() ? QSize(x.value(), y.value()) : std::optional<QSize>{};
+}
 
 }  // namespace sup::gui
-
-#endif  // SUP_GUI_APP_MAIN_WINDOW_HELPER_H_

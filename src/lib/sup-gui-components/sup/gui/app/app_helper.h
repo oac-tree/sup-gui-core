@@ -17,30 +17,28 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
-#define SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
+#ifndef SUP_GUI_APP_APP_HELPER_H_
+#define SUP_GUI_APP_APP_HELPER_H_
 
 //! @file
-//! Collection of helper methods for main windows.
+//! Helper functions for application.
 
-class QSize;
+#include <optional>
+
 class QString;
+class QSize;
 
 namespace sup::gui
 {
 
 /**
- * @brief Opens message box with the question if we should reset application settings and restart
+ * @brief Returns size object from size string.
  *
- * @return Truth if reset and restart was requested, false otherwise.
+ * "1024x768" -> QSize{1024, 768}
+ * Will return empty optional, if conversion is not possible.
  */
-bool ShouldResetSettingsAndRestart();
-
-/**
- * @brief Summons dialog to change system font.
- */
-bool SummonChangeSystemFontDialog();
+std::optional<QSize> ParseSizeString(const QString& text);
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
+#endif  // SUP_GUI_APP_APP_HELPER_H_

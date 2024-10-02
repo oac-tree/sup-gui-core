@@ -19,7 +19,7 @@
 
 #include "command_line_options.h"
 
-#include <sup/gui/app/main_window_helper.h>
+#include <sup/gui/app/app_helper.h>
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -111,7 +111,7 @@ Options ParseOptions(int argc, char** argv)
 {
   // Parser requires an application to be created upfront.
   // Create an application solely for parser needs (fortunately it is cheap).
-  QCoreApplication app(argc, argv);
+  const QCoreApplication app(argc, argv);
 
   QCommandLineParser parser;
   PopulateOptions(parser);
