@@ -44,6 +44,15 @@ public:
   AppContext RegisterWidgetUniqueId(const QWidget* widget);
 
   /**
+   * @brief Unregisters given widget.
+   *
+   * Associated widget's unique context will bre removed from the global database. It is assumed,
+   * that the widget was registered earlier with AppRegisterWidgetUniqueId call. This method
+   * normally should be called in the destructor of the widget.
+   */
+  void UnregisterWidgetUniqueId(const QWidget* widget);
+
+  /**
    * @brief Returns context for widget.
    *
    * Context will be empty, if widget wasn't registered yet.
@@ -59,6 +68,11 @@ public:
    * @brief Checks if widget was registered.
    */
   bool HasContext(const QWidget* widget) const;
+
+  /**
+   * @brief Returns a number of registered widgets.
+   */
+  size_t GetNumberOfRegistrations() const;
 
 private:
   std::map<const QWidget*, AppContext> m_widget_to_context;

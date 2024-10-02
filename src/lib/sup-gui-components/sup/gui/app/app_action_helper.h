@@ -98,9 +98,22 @@ bool AppRegisterActions(const QString& menu_name, const QList<QAction*>& actions
 /**
  * @brief Registers given widget using unique identifier.
  *
+ * This call generates a unique identifier (represented by AppContext class) and registers the
+ * widget in the global database.
+ *
  * @return The context representing used unique identifier.
  */
 AppContext AppRegisterWidgetUniqueId(const QWidget* widget);
+
+/**
+ * @brief Unregisters given widget.
+ *
+ * Associated widget's unique context will be removed from the global database. It is assumed,
+ * that the widget was registered earlier with AppRegisterWidgetUniqueId call.
+ *
+ * This method normally should be called in the destructor of the widget.
+ */
+void AppUnregisterWidgetUniqueId(const QWidget* widget);
 
 /**
  * @brief Adds command to the menu.

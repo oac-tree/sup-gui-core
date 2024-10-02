@@ -103,6 +103,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ISessionModel *model, QWidget *
 AnyValueEditorWidget::~AnyValueEditorWidget()
 {
   WriteSettings();
+  AppUnregisterWidgetUniqueId(this);
 }
 
 void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container)

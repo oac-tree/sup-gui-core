@@ -21,6 +21,8 @@
 
 #include "app_context.h"
 
+#include <sup/gui/core/exceptions.h>
+
 #include <mvvm/core/unique_id_generator.h>
 
 #include <QWidget>
@@ -44,6 +46,17 @@ AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
   return context;
 }
 
+void AppContextManager::UnregisterWidgetUniqueId(const QWidget *widget)
+{
+  auto iter = m_widget_to_context.find(widget);
+  if (iter == m_widget_to_context.end())
+  {
+    throw RuntimeException("This widget wasn't registered");
+  }
+
+  m_widget_to_context.erase(iter);
+}
+
 AppContext AppContextManager::GetContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
@@ -62,6 +75,11 @@ bool AppContextManager::HasContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
   return iter != m_widget_to_context.end();
+}
+
+size_t AppContextManager::GetNumberOfRegistrations() const
+{
+  return m_widget_to_context.size();
 }
 
 }  // namespace sup::gui
