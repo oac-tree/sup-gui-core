@@ -43,12 +43,20 @@ public:
    *
    * @param context_id Unique identifier.
    */
-  explicit AppContext(const QString& context_id);
+  explicit AppContext(const QString& context_id, const QString& context_name = {});
 
   /**
    * @brief Returns context identifier.
    */
   QString GetContextId() const;
+
+  /**
+   * @brief Returns context name.
+   *
+   * Context name is the user-provided name of the context used for debugging purposes. It can be Qt
+   * meta object name of the widget, which is associated with the given context.
+   */
+  QString GetContextName() const;
 
   bool operator==(const AppContext& other) const;
   bool operator!=(const AppContext& other) const;
@@ -57,6 +65,7 @@ public:
 
 private:
   const QString m_context_id;
+  const QString m_context_name;
 };
 
 }  // namespace sup::gui

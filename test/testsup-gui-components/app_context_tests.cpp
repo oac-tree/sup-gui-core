@@ -31,8 +31,20 @@ class AppContextTest : public ::testing::Test
 
 TEST_F(AppContextTest, MenuActionContainer)
 {
-  AppContext context("Editor.Copy");
-  EXPECT_EQ(context.GetContextId(), QString("Editor.Copy"));
+  {
+    const QString unique_id("abc");
+    AppContext context(unique_id);
+    EXPECT_EQ(context.GetContextId(), unique_id);
+    EXPECT_TRUE(context.GetContextName().isEmpty());
+  }
+
+  {
+    const QString unique_id("abc");
+    const QString context_name("def");
+    AppContext context(unique_id, context_name);
+    EXPECT_EQ(context.GetContextId(), unique_id);
+    EXPECT_EQ(context.GetContextName(), context_name);
+  }
 }
 
 TEST_F(AppContextTest, EqualityOperators)
