@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/views/dtoeditor/dto_composer_tab_controller.h"
+#include <sup/gui/components/dto_composer_tab_controller.h>
 
 #include <sup/gui/model/sup_dto_model.h>
 

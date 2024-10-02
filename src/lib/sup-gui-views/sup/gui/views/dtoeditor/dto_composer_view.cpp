@@ -20,11 +20,11 @@
 #include "dto_composer_view.h"
 
 #include "dto_composer_actions.h"
-#include "dto_composer_tab_controller.h"
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/dto_composer_action_handler.h>
+#include <sup/gui/components/dto_composer_tab_controller.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/i_session_model.h>
