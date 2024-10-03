@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
-#define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
+#ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_WIDGET_H_
+#define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_WIDGET_H_
 
 class QSplitter;
 
@@ -38,13 +38,13 @@ namespace sup::gui
 
 class WaveformTableWidget;
 
-class WaveformEditorView : public QWidget
+class WaveformEditorWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit WaveformEditorView(QWidget* parent = nullptr);
-  ~WaveformEditorView() override;
+  explicit WaveformEditorWidget(QWidget* parent = nullptr);
+  ~WaveformEditorWidget() override;
 
   /**
    * @brief Returns current waveform being served by the table widget.
@@ -90,4 +90,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_VIEW_H_
+#endif  // SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_WIDGET_H_

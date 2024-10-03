@@ -34,7 +34,7 @@ class ChartViewportItem;
 namespace sup::gui
 {
 
-class WaveformEditorView;
+class WaveformEditorWidget;
 class WaveformEditorToolBar;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
@@ -65,7 +65,7 @@ private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   std::unique_ptr<WaveformEditorActionHandler> m_action_handler;
 
-  WaveformEditorView* m_editor_view{nullptr};
+  WaveformEditorWidget* m_editor_view{nullptr};
   WaveformEditorToolBar* m_tool_bar{nullptr};
 
   mvvm::LineSeriesItem* m_line_series_item{nullptr};

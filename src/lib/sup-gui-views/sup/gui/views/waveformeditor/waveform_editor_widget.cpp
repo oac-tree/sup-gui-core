@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "waveform_editor_view.h"
+#include "waveform_editor_widget.h"
 
 #include "waveform_table_widget.h"
 
@@ -32,7 +32,7 @@
 namespace sup::gui
 {
 
-WaveformEditorView::WaveformEditorView(QWidget *parent)
+WaveformEditorWidget::WaveformEditorWidget(QWidget *parent)
     : QWidget(parent)
     , m_splitter(new QSplitter)
     , m_chart_canvas(new mvvm::ChartCanvas)
@@ -48,44 +48,44 @@ WaveformEditorView::WaveformEditorView(QWidget *parent)
   layout->addWidget(m_splitter);
 }
 
-mvvm::LineSeriesItem *WaveformEditorView::GetLineSeriesItem()
+mvvm::LineSeriesItem *WaveformEditorWidget::GetLineSeriesItem()
 {
   return m_table_widget->GetLineSeriesItem();
 }
 
-WaveformEditorView::~WaveformEditorView() = default;
+WaveformEditorWidget::~WaveformEditorWidget() = default;
 
-void WaveformEditorView::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
+void WaveformEditorWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_table_widget->SetLineSeriesItem(line_series_item);
 }
 
-void WaveformEditorView::SetViewportItem(mvvm::ChartViewportItem *viewport_item)
+void WaveformEditorWidget::SetViewportItem(mvvm::ChartViewportItem *viewport_item)
 {
   m_chart_canvas->SetViewport(viewport_item);
 }
 
-mvvm::PointItem *WaveformEditorView::GetSelectedPoint()
+mvvm::PointItem *WaveformEditorWidget::GetSelectedPoint()
 {
   return m_table_widget->GetSelectedPoint();
 }
 
-void WaveformEditorView::ZoomIn()
+void WaveformEditorWidget::ZoomIn()
 {
   m_chart_canvas->ZoomIn();
 }
 
-void WaveformEditorView::ZoomOut()
+void WaveformEditorWidget::ZoomOut()
 {
   m_chart_canvas->ZoomOut();
 }
 
-void WaveformEditorView::SetViewportToContent()
+void WaveformEditorWidget::SetViewportToContent()
 {
   m_chart_canvas->SetViewportToContent();
 }
 
-void WaveformEditorView::SetSelectedPoint(const mvvm::PointItem *item)
+void WaveformEditorWidget::SetSelectedPoint(const mvvm::PointItem *item)
 {
   m_table_widget->SetSelectedPoint(item);
 }

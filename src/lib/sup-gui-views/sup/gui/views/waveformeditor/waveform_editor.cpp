@@ -20,7 +20,7 @@
 #include "waveform_editor.h"
 
 #include "waveform_editor_toolbar.h"
-#include "waveform_editor_view.h"
+#include "waveform_editor_widget.h"
 
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
 #include <sup/gui/plotting/waveform_editor_context.h>
@@ -41,7 +41,7 @@ WaveformEditor::WaveformEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_action_handler(std::make_unique<WaveformEditorActionHandler>(CreateActionContext()))
-    , m_editor_view(new WaveformEditorView)
+    , m_editor_view(new WaveformEditorWidget)
     , m_tool_bar(new WaveformEditorToolBar)
 {
   auto layout = new QHBoxLayout(this);
@@ -83,11 +83,11 @@ WaveformEditor::~WaveformEditor() = default;
 void WaveformEditor::SetupConnections()
 {
   connect(m_tool_bar, &WaveformEditorToolBar::ZoomInRequest, m_editor_view,
-          &WaveformEditorView::ZoomIn);
+          &WaveformEditorWidget::ZoomIn);
   connect(m_tool_bar, &WaveformEditorToolBar::ZoomOutRequest, m_editor_view,
-          &WaveformEditorView::ZoomOut);
+          &WaveformEditorWidget::ZoomOut);
   connect(m_tool_bar, &WaveformEditorToolBar::SetViewportToContentRequest, m_editor_view,
-          &WaveformEditorView::SetViewportToContent);
+          &WaveformEditorWidget::SetViewportToContent);
 
   connect(m_tool_bar, &WaveformEditorToolBar::AddColumnBeforeRequest, m_action_handler.get(),
           &WaveformEditorActionHandler::OnAddColumnBeforeRequest);
