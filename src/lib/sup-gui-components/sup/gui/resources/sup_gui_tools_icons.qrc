@@ -32,9 +32,9 @@
         <file>icons/menu.svg</file>
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
-        <file>icons/table-column-plus-after-v2.svg</file>
-        <file>icons/table-column-plus-before-v2.svg</file>
-        <file>icons/table-column-remove-v2.svg</file>
+        <file>icons/table-column-plus-after-narrow.svg</file>
+        <file>icons/table-column-plus-before-narrow.svg</file>
+        <file>icons/table-column-remove-narrow.svg</file>
         <file>icons/vline.svg</file>
     </qresource>
 </RCC>

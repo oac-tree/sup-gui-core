@@ -44,7 +44,7 @@ QList<QAction*> WaveformEditorActions::GetActions(const std::vector<ActionKey>& 
 void WaveformEditorActions::SetupActions()
 {
   m_add_column_before = new QAction("Add before", this);
-  m_add_column_before->setIcon(sup::gui::utils::GetIcon("table-column-plus-before-v2.svg"));
+  m_add_column_before->setIcon(sup::gui::utils::GetIcon("table-column-plus-before-narrow.svg"));
   m_add_column_before->setText("Add before");
   m_add_column_before->setToolTip("Insert point before selected column");
   connect(m_add_column_before, &QAction::triggered, this,
@@ -52,7 +52,7 @@ void WaveformEditorActions::SetupActions()
   m_action_map.Add(ActionKey::kAddColumnBefore, m_add_column_before);
 
   m_add_column_after = new QAction("Add after", this);
-  m_add_column_after->setIcon(sup::gui::utils::GetIcon("table-column-plus-after-v2.svg"));
+  m_add_column_after->setIcon(sup::gui::utils::GetIcon("table-column-plus-after-narrow.svg"));
   m_add_column_after->setText("Add after");
   m_add_column_after->setToolTip("Insert point after selected column");
   connect(m_add_column_after, &QAction::triggered, this,
@@ -60,7 +60,7 @@ void WaveformEditorActions::SetupActions()
   m_action_map.Add(ActionKey::kAddColumnAfter, m_add_column_after);
 
   m_remove_column = new QAction("Remove", this);
-  m_remove_column->setIcon(sup::gui::utils::GetIcon("table-column-remove-v2.svg"));
+  m_remove_column->setIcon(sup::gui::utils::GetIcon("table-column-remove-narrow.svg"));
   m_remove_column->setToolTip("Remove selected column");
   connect(m_remove_column, &QAction::triggered, this,
           [this]() { m_action_handler->OnRemoveColumnRequest(); });
@@ -72,7 +72,7 @@ void WaveformEditorActions::SetupActions()
   connect(m_zoom_in, &QAction::triggered, this, &WaveformEditorActions::ZoomInRequest);
   m_action_map.Add(ActionKey::kZoomIn, m_zoom_in);
 
-  m_zoom_out = new QAction("Zoom In", this);
+  m_zoom_out = new QAction("Zoom Out", this);
   m_zoom_out->setIcon(sup::gui::utils::GetIcon("magnify-minus-outline.svg"));
   m_zoom_out->setToolTip("Zoom out");
   connect(m_zoom_out, &QAction::triggered, this, &WaveformEditorActions::ZoomOutRequest);
