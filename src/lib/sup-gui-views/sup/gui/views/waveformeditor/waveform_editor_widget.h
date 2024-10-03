@@ -37,6 +37,9 @@ namespace sup::gui
 {
 
 class WaveformTableWidget;
+class WaveformEditorActions;
+class WaveformEditorActionHandler;
+struct WaveformEditorContext;
 
 class WaveformEditorWidget : public QWidget
 {
@@ -49,7 +52,7 @@ public:
   /**
    * @brief Returns current waveform being served by the table widget.
    */
-  mvvm::LineSeriesItem* GetLineSeriesItem();
+  mvvm::LineSeriesItem* GetLineSeriesItem() const;
 
   /**
    * @brief Set waveform to show in table widget.
@@ -69,7 +72,7 @@ public:
    * @details The point is a structure with x,y fields represented by a column in a table. Selection
    * of any of "x" or "y" cells, or both, will report point as selected.
    */
-  mvvm::PointItem* GetSelectedPoint();
+  mvvm::PointItem* GetSelectedPoint() const;
 
   void ZoomIn();
 
@@ -82,7 +85,17 @@ public:
    */
   void SetSelectedPoint(const mvvm::PointItem* item);
 
+  /**
+   * @brief Returns context representing current widget state which is relevant for action handler.
+   */
+  WaveformEditorContext CreateActionContext() const;
+
 private:
+  void SetupConnections();
+
+  WaveformEditorActionHandler* m_action_handler{nullptr};
+  WaveformEditorActions* m_actions{nullptr};
+
   QSplitter* m_splitter{nullptr};
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
   WaveformTableWidget* m_table_widget{nullptr};

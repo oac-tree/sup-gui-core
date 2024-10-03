@@ -29,7 +29,7 @@ namespace sup::gui::utils
 {
 
 /**
- * @brief Size of mainw tolbar icons.
+ * @brief Size of main tolbar icons.
  */
 QSize ToolBarIconSize();
 

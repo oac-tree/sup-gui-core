@@ -23,19 +23,21 @@
 #include <QWidget>
 #include <memory>
 
+class QToolBar;
+
 namespace mvvm
 {
 class ApplicationModel;
 class LineSeriesItem;
 class LineSeriesDataItem;
 class ChartViewportItem;
+class QToolBar;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
 class WaveformEditorWidget;
-class WaveformEditorToolBar;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 
@@ -61,14 +63,10 @@ public:
   std::vector<std::pair<double, double>> GetWaveform() const;
 
 private:
-  void SetupConnections();
-  WaveformEditorContext CreateActionContext() const;
-
   std::unique_ptr<mvvm::ApplicationModel> m_model;
-  std::unique_ptr<WaveformEditorActionHandler> m_action_handler;
 
+  QToolBar* m_tool_bar{nullptr};
   WaveformEditorWidget* m_editor_widget{nullptr};
-  WaveformEditorToolBar* m_tool_bar{nullptr};
 
   mvvm::LineSeriesItem* m_line_series_item{nullptr};
   mvvm::LineSeriesDataItem* m_line_series_data_item{nullptr};

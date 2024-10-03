@@ -19,11 +19,9 @@
 
 #include "waveform_editor.h"
 
-#include "waveform_editor_toolbar.h"
 #include "waveform_editor_widget.h"
 
-#include <sup/gui/plotting/waveform_editor_action_handler.h>
-#include <sup/gui/plotting/waveform_editor_context.h>
+#include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
@@ -32,6 +30,7 @@
 #include <mvvm/standarditems/point_item.h>
 
 #include <QSplitter>
+#include <QToolBar>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -40,18 +39,19 @@ namespace sup::gui
 WaveformEditor::WaveformEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_action_handler(std::make_unique<WaveformEditorActionHandler>(CreateActionContext()))
+    , m_tool_bar(new QToolBar)
     , m_editor_widget(new WaveformEditorWidget)
-    , m_tool_bar(new WaveformEditorToolBar)
 {
-  auto layout = new QHBoxLayout(this);
+  auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_editor_widget);
-  layout->addWidget(m_tool_bar);
+  m_tool_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  m_tool_bar->setIconSize(sup::gui::utils::ToolBarIconSize());
+  m_tool_bar->addActions(m_editor_widget->actions());
 
-  SetupConnections();
+  layout->addWidget(m_tool_bar);
+  layout->addWidget(m_editor_widget);
 
   // In current implementation we create a single viewport, single LineSeriesItem and data for it.
   // Later we will manipulate data points via WaveformEditor::SetWaveform method.
@@ -65,6 +65,8 @@ WaveformEditor::WaveformEditor(QWidget *parent)
   m_editor_widget->SetLineSeriesItem(m_line_series_item);
 }
 
+WaveformEditor::~WaveformEditor() = default;
+
 void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &waveform,
                                  const std::string &title)
 {
@@ -76,37 +78,6 @@ void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &
 std::vector<std::pair<double, double> > WaveformEditor::GetWaveform() const
 {
   return m_line_series_data_item->GetWaveform();
-}
-
-WaveformEditor::~WaveformEditor() = default;
-
-void WaveformEditor::SetupConnections()
-{
-  connect(m_tool_bar, &WaveformEditorToolBar::ZoomInRequest, m_editor_widget,
-          &WaveformEditorWidget::ZoomIn);
-  connect(m_tool_bar, &WaveformEditorToolBar::ZoomOutRequest, m_editor_widget,
-          &WaveformEditorWidget::ZoomOut);
-  connect(m_tool_bar, &WaveformEditorToolBar::SetViewportToContentRequest, m_editor_widget,
-          &WaveformEditorWidget::SetViewportToContent);
-
-  connect(m_tool_bar, &WaveformEditorToolBar::AddColumnBeforeRequest, m_action_handler.get(),
-          &WaveformEditorActionHandler::OnAddColumnBeforeRequest);
-  connect(m_tool_bar, &WaveformEditorToolBar::AddColumnAfterRequest, m_action_handler.get(),
-          &WaveformEditorActionHandler::OnAddColumnAfterRequest);
-  connect(m_tool_bar, &WaveformEditorToolBar::RemoveColumnRequest, m_action_handler.get(),
-          &WaveformEditorActionHandler::OnRemoveColumnRequest);
-
-  connect(m_action_handler.get(), &WaveformEditorActionHandler::SelectItemRequest, this,
-          [this](auto item)
-          { m_editor_widget->SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
-}
-
-WaveformEditorContext WaveformEditor::CreateActionContext() const
-{
-  auto get_current_line_series = [this]() { return m_editor_widget->GetLineSeriesItem(); };
-
-  auto get_selected_point_callback = [this]() { return m_editor_widget->GetSelectedPoint(); };
-  return {get_current_line_series, get_selected_point_callback};
 }
 
 }  // namespace sup::gui
