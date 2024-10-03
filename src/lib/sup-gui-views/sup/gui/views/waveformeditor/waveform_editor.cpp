@@ -41,14 +41,14 @@ WaveformEditor::WaveformEditor(QWidget *parent)
     : QWidget(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_action_handler(std::make_unique<WaveformEditorActionHandler>(CreateActionContext()))
-    , m_editor_view(new WaveformEditorWidget)
+    , m_editor_widget(new WaveformEditorWidget)
     , m_tool_bar(new WaveformEditorToolBar)
 {
   auto layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_editor_view);
+  layout->addWidget(m_editor_widget);
   layout->addWidget(m_tool_bar);
 
   SetupConnections();
@@ -61,8 +61,8 @@ WaveformEditor::WaveformEditor(QWidget *parent)
   m_line_series_item = m_model->InsertItem<mvvm::LineSeriesItem>(m_chart_viewport_item);
   m_line_series_item->SetDataItem(m_line_series_data_item);
 
-  m_editor_view->SetViewportItem(m_chart_viewport_item);
-  m_editor_view->SetLineSeriesItem(m_line_series_item);
+  m_editor_widget->SetViewportItem(m_chart_viewport_item);
+  m_editor_widget->SetLineSeriesItem(m_line_series_item);
 }
 
 void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &waveform,
@@ -70,7 +70,7 @@ void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &
 {
   m_line_series_data_item->SetWaveform(waveform);
   m_line_series_item->SetDisplayName(title);
-  m_editor_view->SetViewportToContent();
+  m_editor_widget->SetViewportToContent();
 }
 
 std::vector<std::pair<double, double> > WaveformEditor::GetWaveform() const
@@ -82,11 +82,11 @@ WaveformEditor::~WaveformEditor() = default;
 
 void WaveformEditor::SetupConnections()
 {
-  connect(m_tool_bar, &WaveformEditorToolBar::ZoomInRequest, m_editor_view,
+  connect(m_tool_bar, &WaveformEditorToolBar::ZoomInRequest, m_editor_widget,
           &WaveformEditorWidget::ZoomIn);
-  connect(m_tool_bar, &WaveformEditorToolBar::ZoomOutRequest, m_editor_view,
+  connect(m_tool_bar, &WaveformEditorToolBar::ZoomOutRequest, m_editor_widget,
           &WaveformEditorWidget::ZoomOut);
-  connect(m_tool_bar, &WaveformEditorToolBar::SetViewportToContentRequest, m_editor_view,
+  connect(m_tool_bar, &WaveformEditorToolBar::SetViewportToContentRequest, m_editor_widget,
           &WaveformEditorWidget::SetViewportToContent);
 
   connect(m_tool_bar, &WaveformEditorToolBar::AddColumnBeforeRequest, m_action_handler.get(),
@@ -98,14 +98,14 @@ void WaveformEditor::SetupConnections()
 
   connect(m_action_handler.get(), &WaveformEditorActionHandler::SelectItemRequest, this,
           [this](auto item)
-          { m_editor_view->SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
+          { m_editor_widget->SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
 }
 
 WaveformEditorContext WaveformEditor::CreateActionContext() const
 {
-  auto get_current_line_series = [this]() { return m_editor_view->GetLineSeriesItem(); };
+  auto get_current_line_series = [this]() { return m_editor_widget->GetLineSeriesItem(); };
 
-  auto get_selected_point_callback = [this]() { return m_editor_view->GetSelectedPoint(); };
+  auto get_selected_point_callback = [this]() { return m_editor_widget->GetSelectedPoint(); };
   return {get_current_line_series, get_selected_point_callback};
 }
 

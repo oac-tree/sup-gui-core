@@ -4,6 +4,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_waveform_editor.h
   waveform_editor.cpp
   waveform_editor.h
+  waveform_editor_actions.cpp
+  waveform_editor_actions.h
   waveform_editor_toolbar.cpp
   waveform_editor_toolbar.h
   waveform_editor_widget.cpp

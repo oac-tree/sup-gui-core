@@ -43,7 +43,9 @@ struct WaveformEditorContext;
  * @brief The WaveformEditor class is a widget with a line series canvas, a two-column table, and a
  * toolbar for a single waveform editing.
  *
- * Internally the editor operates via mvvm::LineSeriesItem machinery.
+ * Internally the editor operates via mvvm::LineSeriesItem machinery. This editor has its model on
+ * board and is intended to communicate with the outside world via GetWaveform, and SetWaveform
+ * methods.
  */
 class WaveformEditor : public QWidget
 {
@@ -65,7 +67,7 @@ private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   std::unique_ptr<WaveformEditorActionHandler> m_action_handler;
 
-  WaveformEditorWidget* m_editor_view{nullptr};
+  WaveformEditorWidget* m_editor_widget{nullptr};
   WaveformEditorToolBar* m_tool_bar{nullptr};
 
   mvvm::LineSeriesItem* m_line_series_item{nullptr};

@@ -38,7 +38,7 @@ WaveformEditorToolBar::WaveformEditorToolBar(QWidget *parent)
     , m_center_canvas(new QToolButton)
 {
   const int width = mvvm::utils::UnitSize(2.2);
-  QSize size{width, width};
+  const QSize size{width, width};
 
   setIconSize(size);
   setOrientation(Qt::Vertical);
