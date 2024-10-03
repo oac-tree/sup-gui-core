@@ -25,6 +25,7 @@
 namespace mvvm
 {
 class AllItemsTreeView;
+class ISessionModel;
 }
 
 namespace sup::gui
@@ -42,7 +43,7 @@ class DtoWaveformPropertyPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformPropertyPanel(QWidget* parent = nullptr);
+  explicit DtoWaveformPropertyPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~DtoWaveformPropertyPanel() override;
 
 private:

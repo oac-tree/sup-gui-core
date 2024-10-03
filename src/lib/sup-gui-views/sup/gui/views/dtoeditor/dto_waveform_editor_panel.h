@@ -22,10 +22,15 @@
 
 #include <QWidget>
 
+namespace mvvm
+{
+class ISessionModel;
+}
+
 namespace sup::gui
 {
 
-class WaveformEditor;
+class WaveformEditorWidget;
 class ItemStackWidget;
 
 /**
@@ -37,13 +42,13 @@ class DtoWaveformEditorPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformEditorPanel(QWidget* parent = nullptr);
+  explicit DtoWaveformEditorPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~DtoWaveformEditorPanel() override;
 
 
 private:
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
-  WaveformEditor* m_waveform_editor{nullptr};
+  WaveformEditorWidget* m_waveform_editor{nullptr};
 };
 
 }  // namespace sup::gui

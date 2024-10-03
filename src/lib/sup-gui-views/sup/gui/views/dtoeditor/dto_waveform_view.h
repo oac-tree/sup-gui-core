@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
 
+#include <mvvm/model/i_session_model.h>
+
 #include <QWidget>
 
 class QSplitter;
@@ -41,7 +43,7 @@ class DtoWaveformView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoWaveformView(QWidget* parent = nullptr);
+  explicit DtoWaveformView(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~DtoWaveformView() override;
 
 private:

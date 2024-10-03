@@ -27,7 +27,7 @@
 namespace sup::gui
 {
 
-DtoWaveformListPanel::DtoWaveformListPanel(QWidget *parent)
+DtoWaveformListPanel::DtoWaveformListPanel(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent), m_stack_widget(new sup::gui::ItemStackWidget), m_list_view(new QListView)
 
 {

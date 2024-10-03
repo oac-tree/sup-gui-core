@@ -19,7 +19,7 @@
 
 #include "dto_waveform_editor_panel.h"
 
-#include <sup/gui/views/waveformeditor/waveform_editor.h>
+#include <sup/gui/views/waveformeditor/waveform_editor_widget.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 
 #include <QVBoxLayout>
@@ -27,15 +27,15 @@
 namespace sup::gui
 {
 
-DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget *parent)
+DtoWaveformEditorPanel::DtoWaveformEditorPanel(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_stack_widget(new sup::gui::ItemStackWidget)
-    , m_waveform_editor(new WaveformEditor)
+    , m_waveform_editor(new WaveformEditorWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
-  m_stack_widget->AddWidget(m_waveform_editor);
+  m_stack_widget->AddWidget(m_waveform_editor, m_waveform_editor->actions());
 
   layout->addWidget(m_stack_widget);
 }

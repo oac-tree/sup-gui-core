@@ -49,7 +49,9 @@ const QString kWindowPosSettingName = kGroupName + "/" + "position";
 namespace sup::gui
 {
 
-DtoEditorMainWindow::DtoEditorMainWindow() : m_model(std::make_unique<SupDtoModel>())
+DtoEditorMainWindow::DtoEditorMainWindow()
+    : m_sup_dto_model(std::make_unique<SupDtoModel>())
+    , m_waveform_model(std::make_unique<mvvm::ApplicationModel>())
 {
   InitApplication();
   OnProjectLoad();
@@ -76,15 +78,15 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager = new DtoEditorMainWindowActions(m_model.get(), this);
+  m_action_manager = new DtoEditorMainWindowActions(m_sup_dto_model.get(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
 
-  m_composer_view = new DtoComposerView(m_model.get());
+  m_composer_view = new DtoComposerView(m_sup_dto_model.get());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::GetIcon("file-tree-outline-light.svg"));
-  m_waveform_view = new DtoWaveformView;
+  m_waveform_view = new DtoWaveformView(m_waveform_model.get());
   m_tab_widget->AddWidget(m_waveform_view, "Waveforms",
                           utils::GetIcon("chart-timeline-variant-shimmer-light.svg"));
 

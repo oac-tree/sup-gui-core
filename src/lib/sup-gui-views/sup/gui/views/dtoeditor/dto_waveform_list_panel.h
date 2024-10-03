@@ -24,6 +24,11 @@
 
 class QListView;
 
+namespace mvvm
+{
+class ISessionModel;
+}
+
 namespace sup::gui
 {
 
@@ -39,7 +44,7 @@ class DtoWaveformListPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformListPanel(QWidget* parent = nullptr);
+  explicit DtoWaveformListPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~DtoWaveformListPanel() override;
 
 private:

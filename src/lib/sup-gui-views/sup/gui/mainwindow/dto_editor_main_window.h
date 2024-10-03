@@ -30,6 +30,7 @@ class QCloseEvent;
 namespace mvvm
 {
 class MainVerticalBarWidget;
+class ApplicationModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -81,7 +82,9 @@ private:
    */
   void OnProjectLoad();
 
-  std::unique_ptr<SupDtoModel> m_model;
+  std::unique_ptr<SupDtoModel> m_sup_dto_model;
+  std::unique_ptr<mvvm::ApplicationModel> m_waveform_model;
+
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};

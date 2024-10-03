@@ -29,12 +29,12 @@
 namespace sup::gui
 {
 
-DtoWaveformView::DtoWaveformView(QWidget *parent)
+DtoWaveformView::DtoWaveformView(mvvm::ISessionModel* model, QWidget* parent)
     : QWidget(parent)
     , m_splitter(new QSplitter)
-    , m_list_panel(new DtoWaveformListPanel)
-    , m_editor_panel(new DtoWaveformEditorPanel)
-    , m_property_panel(new DtoWaveformPropertyPanel)
+    , m_list_panel(new DtoWaveformListPanel(model))
+    , m_editor_panel(new DtoWaveformEditorPanel(model))
+    , m_property_panel(new DtoWaveformPropertyPanel(model))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
