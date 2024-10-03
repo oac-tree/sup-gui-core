@@ -19,10 +19,25 @@
 
 #include "dto_waveform_list_panel.h"
 
+#include <sup/gui/widgets/item_stack_widget.h>
+
+#include <QListView>
+#include <QVBoxLayout>
+
 namespace sup::gui
 {
 
-DtoWaveformListPanel::DtoWaveformListPanel(QWidget *parent) : QWidget(parent) {}
+DtoWaveformListPanel::DtoWaveformListPanel(QWidget *parent)
+    : QWidget(parent), m_stack_widget(new sup::gui::ItemStackWidget), m_list_view(new QListView)
+
+{
+  auto layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+
+  layout->addWidget(m_stack_widget);
+
+  m_stack_widget->AddWidget(m_list_view);
+}
 
 DtoWaveformListPanel::~DtoWaveformListPanel() = default;
 

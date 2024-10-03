@@ -22,8 +22,15 @@
 
 #include <QWidget>
 
+namespace mvvm
+{
+class AllItemsTreeView;
+}
+
 namespace sup::gui
 {
+
+class ItemStackWidget;
 
 /**
  * @brief The DtoWaveformPropertyPanel class is a vertical panel with waveform tree-like property
@@ -37,6 +44,10 @@ class DtoWaveformPropertyPanel : public QWidget
 public:
   explicit DtoWaveformPropertyPanel(QWidget* parent = nullptr);
   ~DtoWaveformPropertyPanel() override;
+
+private:
+  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
+  mvvm::AllItemsTreeView* m_tree_view{nullptr};
 };
 
 }  // namespace sup::gui

@@ -22,8 +22,12 @@
 
 #include <QWidget>
 
+class QListView;
+
 namespace sup::gui
 {
+
+class ItemStackWidget;
 
 /**
  * @brief The DtoWaveformListPanel class represents a vertical panel with the list of available
@@ -37,6 +41,10 @@ class DtoWaveformListPanel : public QWidget
 public:
   explicit DtoWaveformListPanel(QWidget* parent = nullptr);
   ~DtoWaveformListPanel() override;
+
+private:
+  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
+  QListView* m_list_view{nullptr};
 };
 
 }  // namespace sup::gui

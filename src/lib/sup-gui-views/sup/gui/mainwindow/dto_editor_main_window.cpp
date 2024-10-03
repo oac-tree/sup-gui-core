@@ -93,7 +93,7 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget->AddWidget(new QWidget, "Bulk Edit", utils::GetIcon("animation-outline-light.svg"));
 
   m_tab_widget->AddSpacer();
-  m_tab_widget->SetCurrentIndex(0);
+  m_tab_widget->SetCurrentIndex(1);
 
   setCentralWidget(m_tab_widget);
 

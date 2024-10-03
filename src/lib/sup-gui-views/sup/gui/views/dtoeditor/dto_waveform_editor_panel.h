@@ -25,6 +25,9 @@
 namespace sup::gui
 {
 
+class WaveformEditor;
+class ItemStackWidget;
+
 /**
  * @brief The DtoWaveformEditorPanel class is a vertical panel with embedded single-waveform editor.
  *
@@ -36,6 +39,11 @@ class DtoWaveformEditorPanel : public QWidget
 public:
   explicit DtoWaveformEditorPanel(QWidget* parent = nullptr);
   ~DtoWaveformEditorPanel() override;
+
+
+private:
+  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
+  WaveformEditor* m_waveform_editor{nullptr};
 };
 
 }  // namespace sup::gui
