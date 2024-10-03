@@ -42,7 +42,7 @@ DtoWaveformView::DtoWaveformView(mvvm::ISessionModel* model, QWidget* parent)
   m_splitter->addWidget(m_list_panel);
   m_splitter->addWidget(m_editor_panel);
   m_splitter->addWidget(m_property_panel);
-  m_splitter->setSizes({200, 300, 300});
+  m_splitter->setSizes({200, 300, 200});
 
   layout->addWidget(m_splitter);
 }

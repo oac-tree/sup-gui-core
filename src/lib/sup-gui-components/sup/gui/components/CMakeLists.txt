@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   dto_composer_action_handler.h
   dto_composer_tab_controller.cpp
   dto_composer_tab_controller.h
+  dto_waveform_action_handler.cpp
+  dto_waveform_action_handler.h
   mime_conversion_helper.cpp
   mime_conversion_helper.h
   proxy_action.cpp

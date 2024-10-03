@@ -28,11 +28,11 @@ namespace sup::gui
 {
 
 /**
- * @brief The DtoComposerActions class contains collection of main actions of DtoComposerView.
+ * @brief The DtoComposerActions class contains a collection of the main actions of DtoComposerView.
  *
- * @details Actions are related to multiple AnyValueItem editing and can populate the main
- * application menubar, tabs context menu, etc. The class only creates actions and provides
- * signaling when they are triggered. The logic is handled by DtoComposerActionHandler.
+ * Actions are related to multiple AnyValueItem editing and can populate the main application
+ * menubar, tabs context menu, etc. The class only creates actions and provides signaling when they
+ * are triggered. The logic is handled by DtoComposerActionHandler.
  */
 class DtoComposerActions : public QObject
 {
