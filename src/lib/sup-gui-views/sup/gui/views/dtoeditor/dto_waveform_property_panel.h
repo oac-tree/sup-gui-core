@@ -17,40 +17,28 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_PROPERTY_PANEL_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_PROPERTY_PANEL_H_
 
 #include <QWidget>
-
-class QSplitter;
 
 namespace sup::gui
 {
 
-class DtoWaveformListPanel;
-class DtoWaveformEditorPanel;
-class DtoWaveformPropertyPanel;
-
 /**
- * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
+ * @brief The DtoWaveformPropertyPanel class is a vertical panel with waveform tree-like property
+ * editors.
  *
- * Belongs directly to MainWIndow. It is the second main view of the main toolbar.
+ * Located on the right of DtoWaveformformView.
  */
-class DtoWaveformView : public QWidget
+class DtoWaveformPropertyPanel : public QWidget
 {
   Q_OBJECT
-
 public:
-  explicit DtoWaveformView(QWidget* parent = nullptr);
-  ~DtoWaveformView() override;
-
-private:
-  QSplitter* m_splitter{nullptr};
-  DtoWaveformListPanel* m_list_panel{nullptr};
-  DtoWaveformEditorPanel* m_editor_panel{nullptr};
-  DtoWaveformPropertyPanel* m_property_panel{nullptr};
+  explicit DtoWaveformPropertyPanel(QWidget* parent = nullptr);
+  ~DtoWaveformPropertyPanel() override;
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_PROPERTY_PANEL_H_

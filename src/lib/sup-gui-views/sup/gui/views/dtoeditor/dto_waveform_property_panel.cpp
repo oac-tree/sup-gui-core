@@ -17,35 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "dto_waveform_view.h"
-
-#include "dto_waveform_editor_panel.h"
-#include "dto_waveform_list_panel.h"
 #include "dto_waveform_property_panel.h"
-
-#include <QSplitter>
-#include <QVBoxLayout>
 
 namespace sup::gui
 {
 
-DtoWaveformView::DtoWaveformView(QWidget *parent)
-    : QWidget(parent)
-    , m_splitter(new QSplitter)
-    , m_list_panel(new DtoWaveformListPanel)
-    , m_editor_panel(new DtoWaveformEditorPanel)
-    , m_property_panel(new DtoWaveformPropertyPanel)
-{
-  auto layout = new QVBoxLayout(this);
-  layout->setContentsMargins(0, 0, 0, 0);
+DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(QWidget *parent) : QWidget(parent) {}
 
-  m_splitter->addWidget(m_list_panel);
-  m_splitter->addWidget(m_editor_panel);
-  m_splitter->addWidget(m_property_panel);
-
-  layout->addWidget(m_splitter);
-}
-
-DtoWaveformView::~DtoWaveformView() = default;
+DtoWaveformPropertyPanel::~DtoWaveformPropertyPanel() = default;
 
 }  // namespace sup::gui
