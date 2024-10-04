@@ -22,6 +22,8 @@
 
 #include <QObject>
 
+#include <sup/gui/components/dto_waveform_editor_context.h>
+
 namespace mvvm
 {
 class ISessionModel;
@@ -42,7 +44,7 @@ class DtoWaveformActionHandler : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoWaveformActionHandler(QObject* parent = nullptr);
+  explicit DtoWaveformActionHandler(DtoWaveformEditorContext context, QObject* parent = nullptr);
 
   /**
    * @brief Adds new waveform after current selection.
@@ -55,6 +57,7 @@ public:
   void RemoveWaveform();
 
 private:
+  DtoWaveformEditorContext m_context;
 };
 
 }  // namespace sup::gui

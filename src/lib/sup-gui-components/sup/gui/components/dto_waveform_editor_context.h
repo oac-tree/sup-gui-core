@@ -17,32 +17,33 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_PLOTTING_WAVEFORM_EDITOR_CONTEXT_H_
-#define SUP_GUI_PLOTTING_WAVEFORM_EDITOR_CONTEXT_H_
+#ifndef SUP_GUI_COMPONENTS_DTO_WAVEFORM_EDITOR_CONTEXT_H_
+#define SUP_GUI_COMPONENTS_DTO_WAVEFORM_EDITOR_CONTEXT_H_
 
+#include <QObject>
 #include <functional>
 
 namespace mvvm
 {
-class PointItem;
 class LineSeriesItem;
+class SessionItem;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
 /**
- * @brief The WaveformEditorContext struct carries the data for WaveformEditorActionHandler.
+ * @brief The DtoWaveformEditorContext struct holds collection of callbacks to retrieve
  */
-struct WaveformEditorContext
+struct DtoWaveformEditorContext
 {
-  //!< callback to retrieve current line series item
-  std::function<mvvm::LineSeriesItem*()> selected_waveform_callback;
+  //! callback to get container with waveforms
+  std::function<mvvm::SessionItem*()> waveform_container;
 
-  //!< callback to retrieve currently selected AnyValueItem representing a point
-  std::function<mvvm::PointItem*()> selected_point_callback;
+  //! callback to get currently selected waveform
+  std::function<mvvm::LineSeriesItem*()> selected_waveform;
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_PLOTTING_WAVEFORM_EDITOR_CONTEXT_H_
+#endif  // SUP_GUI_COMPONENTS_DTO_WAVEFORM_EDITOR_CONTEXT_H_

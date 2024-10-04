@@ -19,8 +19,25 @@
 
 #include "dto_waveform_action_handler.h"
 
+#include <sup/gui/core/exceptions.h>
+
 namespace sup::gui
 {
+
+DtoWaveformActionHandler::DtoWaveformActionHandler(DtoWaveformEditorContext context,
+                                                   QObject *parent)
+    : QObject(parent), m_context(std::move(context))
+{
+  if (!m_context.waveform_container)
+  {
+    throw RuntimeException("Callback to retrieve waveform container is not defined");
+  }
+
+  if (!m_context.selected_waveform)
+  {
+    throw RuntimeException("Callback to retrieve selected waveform is not defined");
+  }
+}
 
 void DtoWaveformActionHandler::AddWaveform() {}
 

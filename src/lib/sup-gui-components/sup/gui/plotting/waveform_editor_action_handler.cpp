@@ -80,12 +80,12 @@ mvvm::ISessionModel *WaveformEditorActionHandler::GetModel()
 
 mvvm::LineSeriesItem *WaveformEditorActionHandler::GetLineSeries()
 {
-  return m_context.get_selected_waveform_callback();
+  return m_context.selected_waveform_callback();
 }
 
 mvvm::PointItem *WaveformEditorActionHandler::GetSelectedPoint()
 {
-  return m_context.get_selected_point_callback();
+  return m_context.selected_point_callback();
 }
 
 mvvm::SessionItem *WaveformEditorActionHandler::GetParent()
