@@ -19,6 +19,7 @@
 
 #include "dto_waveform_editor_panel.h"
 
+#include <sup/gui/model/waveform_model.h>
 #include <sup/gui/views/waveformeditor/waveform_editor_widget.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 
@@ -27,7 +28,7 @@
 namespace sup::gui
 {
 
-DtoWaveformEditorPanel::DtoWaveformEditorPanel(mvvm::ISessionModel *model, QWidget *parent)
+DtoWaveformEditorPanel::DtoWaveformEditorPanel(WaveformModel *model, QWidget *parent)
     : QWidget(parent)
     , m_stack_widget(new sup::gui::ItemStackWidget)
     , m_waveform_editor(new WaveformEditorWidget)
@@ -38,6 +39,13 @@ DtoWaveformEditorPanel::DtoWaveformEditorPanel(mvvm::ISessionModel *model, QWidg
   m_stack_widget->AddWidget(m_waveform_editor, m_waveform_editor->actions());
 
   layout->addWidget(m_stack_widget);
+
+  m_waveform_editor->SetViewportItem(model->GetViewPort());
+}
+
+void DtoWaveformEditorPanel::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
+{
+  m_waveform_editor->SetLineSeriesItem(line_series_item);
 }
 
 DtoWaveformEditorPanel::~DtoWaveformEditorPanel() = default;

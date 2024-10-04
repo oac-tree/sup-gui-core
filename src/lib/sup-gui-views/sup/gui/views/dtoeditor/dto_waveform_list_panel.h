@@ -20,36 +20,61 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_LIST_PANEL_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_LIST_PANEL_H_
 
+#include <sup/gui/components/dto_waveform_editor_context.h>
+
 #include <QWidget>
+#include <memory>
 
 class QListView;
 
 namespace mvvm
 {
-class ISessionModel;
-}
+class ItemViewComponentProvider;
+class LineSeriesItem;
+}  // namespace mvvm
 
 namespace sup::gui
 {
 
 class ItemStackWidget;
+class DtoWaveformActionHandler;
+class DtoWaveformActions;
+class WaveformModel;
 
 /**
  * @brief The DtoWaveformListPanel class represents a vertical panel with the list of available
  * waveforms.
  *
- * Located on the left of DtoWaveformformView.
+ * Located on the left of DtoWaveformView.
  */
 class DtoWaveformListPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformListPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformListPanel(WaveformModel* model, QWidget* parent = nullptr);
   ~DtoWaveformListPanel() override;
 
+  mvvm::LineSeriesItem* GetSelectedWaveform();
+
+  void SetSelectedWaveform(mvvm::LineSeriesItem* waveform);
+
+signals:
+  void WaveformSelected(mvvm::LineSeriesItem* waveform_item);
+
 private:
+  /**
+   * @brief Create context describing current status of the widget.
+   */
+  DtoWaveformEditorContext CreateContext();
+
+  WaveformModel* m_model{nullptr};
+
+  DtoWaveformActionHandler* m_action_handler{nullptr};
+  DtoWaveformActions* m_actions{nullptr};
+
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
   QListView* m_list_view{nullptr};
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };
 
 }  // namespace sup::gui

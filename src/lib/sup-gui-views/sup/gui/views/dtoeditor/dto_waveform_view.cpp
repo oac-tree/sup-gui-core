@@ -25,6 +25,8 @@
 
 #include <sup/gui/model/waveform_model.h>
 
+#include <mvvm/standarditems/line_series_item.h>
+
 #include <QSplitter>
 #include <QVBoxLayout>
 
@@ -47,6 +49,9 @@ DtoWaveformView::DtoWaveformView(WaveformModel* model, QWidget* parent)
   m_splitter->setSizes({200, 300, 200});
 
   layout->addWidget(m_splitter);
+
+  connect(m_list_panel, &DtoWaveformListPanel::WaveformSelected, m_editor_panel,
+          &DtoWaveformEditorPanel::SetLineSeriesItem);
 }
 
 DtoWaveformView::~DtoWaveformView() = default;

@@ -41,7 +41,9 @@ void DtoWaveformActions::SetupActions()
   // add waveform
   m_add_waveform_action = new QAction("Add", this);
   m_add_waveform_action->setIcon(sup::gui::utils::GetIcon("plus-circle-outline.svg"));
-  m_add_waveform_action->setToolTip("Add waveform after current selection");
+  m_add_waveform_action->setToolTip(
+      "Creates new empty waveform.\n"
+      "Waveform will be added to the list after current selection");
   connect(m_add_waveform_action, &QAction::triggered, this,
           [this]() { m_action_handler->AddWaveform(); });
   m_action_map.Add(ActionKey::kAddWaveform, m_add_waveform_action);

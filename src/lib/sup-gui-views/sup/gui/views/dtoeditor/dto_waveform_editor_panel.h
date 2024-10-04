@@ -24,7 +24,7 @@
 
 namespace mvvm
 {
-class ISessionModel;
+class LineSeriesItem;
 }
 
 namespace sup::gui
@@ -32,6 +32,7 @@ namespace sup::gui
 
 class WaveformEditorWidget;
 class ItemStackWidget;
+class WaveformModel;
 
 /**
  * @brief The DtoWaveformEditorPanel class is a vertical panel with embedded single-waveform editor.
@@ -42,9 +43,15 @@ class DtoWaveformEditorPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformEditorPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformEditorPanel(WaveformModel* model, QWidget* parent = nullptr);
   ~DtoWaveformEditorPanel() override;
 
+  /**
+   * @brief Set waveform to show in table widget.
+   *
+   * @details For the moment table widget can show only one waveform.
+   */
+  void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
