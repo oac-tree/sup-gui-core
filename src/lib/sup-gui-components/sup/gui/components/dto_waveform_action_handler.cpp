@@ -41,7 +41,7 @@ DtoWaveformActionHandler::DtoWaveformActionHandler(DtoWaveformEditorContext cont
 
   if (!m_context.data_container)
   {
-    throw RuntimeException("Callback to retrieve waveform container is not defined");
+    throw RuntimeException("Callback to retrieve data container is not defined");
   }
 
   if (!m_context.selected_waveform)

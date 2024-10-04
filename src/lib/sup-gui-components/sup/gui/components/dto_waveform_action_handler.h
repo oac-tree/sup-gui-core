@@ -35,7 +35,7 @@ namespace sup::gui
 {
 
 /**
- * @brief The DtoComposerActionHandler class provides a logic to handle main actions of
+ * @brief The DtoWaveformActionHandler class provides a logic to handle main actions of
  * DtoWaveformView.
  *
  * These are actions to add/remove/cut/copy/pase waveforms. Normally triggered from the left panel

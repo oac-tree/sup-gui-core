@@ -222,11 +222,11 @@ TEST_F(DtoWaveformActionHandlerTest, RemoveWaveformFromTheMiddle)
 
   handler->RemoveWaveform();
 
-  // two items (waveform and its data) has been removed from the container
+  // two items (waveform and its data) have been removed from both containers
   EXPECT_EQ(GetWaveformContainer()->GetSize(), 2);
   EXPECT_EQ(GetDataContainer()->GetSize(), 2);
 
-  // request to select next waveform after just removed
+  // request to select next waveform after the one which was just removed
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::LineSeriesItem*>(spy_selection_request), waveform2);
 
   EXPECT_EQ(GetWaveformContainer()->GetChildren(),
