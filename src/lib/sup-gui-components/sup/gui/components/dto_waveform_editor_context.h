@@ -37,8 +37,11 @@ namespace sup::gui
  */
 struct DtoWaveformEditorContext
 {
-  //! callback to get container with waveforms
+  //! callback to get container with data series items
   std::function<mvvm::SessionItem*()> waveform_container;
+
+  //! callback to get container with waveform data items
+  std::function<mvvm::SessionItem*()> data_container;
 
   //! callback to get currently selected waveform
   std::function<mvvm::LineSeriesItem*()> selected_waveform;

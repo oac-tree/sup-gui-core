@@ -20,24 +20,26 @@
 #ifndef SUP_GUI_COMPONENTS_DTO_WAVEFORM_ACTION_HANDLER_H_
 #define SUP_GUI_COMPONENTS_DTO_WAVEFORM_ACTION_HANDLER_H_
 
-#include <QObject>
-
 #include <sup/gui/components/dto_waveform_editor_context.h>
+
+#include <QObject>
 
 namespace mvvm
 {
 class ISessionModel;
+class LineSeriesDataItem;
 }
+
 
 namespace sup::gui
 {
 
 /**
  * @brief The DtoComposerActionHandler class provides a logic to handle main actions of
- * DtoComposerView.
+ * DtoWaveformView.
  *
- * @details Actions are related to multiple AnyValueItem editing and can populate the main
- * application menubar, tabs context menu, etc.
+ * These are actions to add/remove/cut/copy/pase waveforms. Normally triggered from the left panel
+ * of DtoWaveformView.
  */
 class DtoWaveformActionHandler : public QObject
 {
@@ -47,16 +49,61 @@ public:
   explicit DtoWaveformActionHandler(DtoWaveformEditorContext context, QObject* parent = nullptr);
 
   /**
+   * @brief Checks if waveform can be added to the container.
+   */
+  bool CanAddWaveform() const;
+
+  /**
    * @brief Adds new waveform after current selection.
    */
   void AddWaveform();
+
+  /**
+   * @brief Checks if the waveform can be removed from the container.
+   */
+  bool CanRemoveWaveform() const;
 
   /**
    * @brief Removes currently selected waveform;
    */
   void RemoveWaveform();
 
+signals:
+  void SelectWaveformRequest(mvvm::LineSeriesItem* item);
+
 private:
+  /**
+   * @brief Returns currently selected waveform.
+   */
+  mvvm::LineSeriesItem* GetSelectedWaveform() const;
+
+  /**
+   * @brief Returns container used to store LineSeriesItem.
+   */
+  mvvm::SessionItem* GetWaveformContainer() const;
+
+  /**
+   * @brief Returns container used to store LineSeriesDataItem.
+   */
+  mvvm::SessionItem* GetDataContainer() const;
+
+  /**
+   * @brief Returns the model.
+   */
+  mvvm::ISessionModel* GetModel();
+
+  /**
+   * @brief Insert new waveform after current selection.
+   */
+  mvvm::LineSeriesItem* InsertWaveform(std::unique_ptr<mvvm::LineSeriesItem> waveform);
+
+  /**
+   * @brief Insert new data for given waveform.
+   *
+   * The data will be located in the data container.
+   */
+  void InsertDataForWaveform(mvvm::LineSeriesItem* waveform);
+
   DtoWaveformEditorContext m_context;
 };
 

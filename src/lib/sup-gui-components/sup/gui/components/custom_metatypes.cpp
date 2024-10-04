@@ -20,6 +20,7 @@
 #include "custom_metatypes.h"
 
 #include <mvvm/model/session_item.h>
+#include <mvvm/standarditems/line_series_item.h>
 
 namespace sup::gui
 {
@@ -27,6 +28,7 @@ namespace sup::gui
 void RegisterCustomMetaTypes()
 {
   qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
 }
 
 }  // namespace sup::gui
