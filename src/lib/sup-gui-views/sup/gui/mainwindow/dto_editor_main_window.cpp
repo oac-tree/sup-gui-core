@@ -25,6 +25,7 @@
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/sup_dto_model.h>
+#include <sup/gui/model/waveform_model.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 #include <sup/gui/widgets/style_utils.h>
@@ -51,7 +52,7 @@ namespace sup::gui
 
 DtoEditorMainWindow::DtoEditorMainWindow()
     : m_sup_dto_model(std::make_unique<SupDtoModel>())
-    , m_waveform_model(std::make_unique<mvvm::ApplicationModel>())
+    , m_waveform_model(std::make_unique<WaveformModel>())
 {
   InitApplication();
   OnProjectLoad();

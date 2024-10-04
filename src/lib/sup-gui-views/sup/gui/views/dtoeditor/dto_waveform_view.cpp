@@ -23,13 +23,15 @@
 #include "dto_waveform_list_panel.h"
 #include "dto_waveform_property_panel.h"
 
+#include <sup/gui/model/waveform_model.h>
+
 #include <QSplitter>
 #include <QVBoxLayout>
 
 namespace sup::gui
 {
 
-DtoWaveformView::DtoWaveformView(mvvm::ISessionModel* model, QWidget* parent)
+DtoWaveformView::DtoWaveformView(WaveformModel* model, QWidget* parent)
     : QWidget(parent)
     , m_splitter(new QSplitter)
     , m_list_panel(new DtoWaveformListPanel(model))

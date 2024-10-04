@@ -17,45 +17,51 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_SUP_DTO_MODEL_H_
-#define SUP_GUI_MODEL_SUP_DTO_MODEL_H_
+#ifndef SUP_GUI_MODEL_WAVEFORM_MODEL_H_
+#define SUP_GUI_MODEL_WAVEFORM_MODEL_H_
 
 #include <mvvm/model/application_model.h>
-#include <vector>
 
 namespace mvvm
 {
 class ContainerItem;
-}
+class ChartViewportItem;
+}  // namespace mvvm
 
 namespace sup::gui
 {
 
 /**
- * @brief The SupDtoModel class is the main model for editing multiple AnyValueItem in the context
- * of AnyValueEditor.
+ * @brief The WaveformModel class is the main model for editing multiple waveforms in the context of
+ * DtoWaveformView.
  *
- * AnyValueEditor is intended to edit one AnyValueItem at a time. Each item is located in its own
- * container and AnyValueEditor receives this container as an input.
+ * For the moment the model by default contain an empty viewport, and empty data container.
+ *
+ *    ChartViewportItem        <-- viewport
+ *      LineSeriesItem0        <-- waveform0
+ *      LineSeriesItem1        <-- waveform1
+ *    ContainerItem            <-- container for data
+ *      LineSeriesDataItem0    <-- data for waveform0
+ *      LineSeriesDataItem1    <-- data for waveform1
  */
-class SupDtoModel : public mvvm::ApplicationModel
+class WaveformModel : public mvvm::ApplicationModel
 {
 public:
-  explicit SupDtoModel(std::shared_ptr<mvvm::ItemPool> pool = {});
+  explicit WaveformModel(std::shared_ptr<mvvm::ItemPool> pool = {});
 
   void Clear() override;
 
-  std::vector<mvvm::ContainerItem *> GetContainers() const;
+  mvvm::ChartViewportItem* GetViewPort() const;
+
+  mvvm::ContainerItem* GetDataContainer() const;
 
 private:
   /**
    * @brief Populate the model with the initial content.
-   *
-   * By default the model contains single container for AnyValueItem.
    */
   void PopulateModel();
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_MODEL_SUP_DTO_MODEL_H_
+#endif  // SUP_GUI_MODEL_WAVEFORM_MODEL_H_

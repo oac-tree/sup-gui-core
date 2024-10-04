@@ -16,4 +16,6 @@ target_sources(${library_name} PRIVATE
   scalar_conversion_utils.h
   sup_dto_model.cpp
   sup_dto_model.h
+  waveform_model.cpp
+  waveform_model.h
 )

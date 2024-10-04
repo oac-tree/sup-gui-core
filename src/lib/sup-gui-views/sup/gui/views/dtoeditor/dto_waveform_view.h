@@ -20,8 +20,6 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_WAVEFORM_VIEW_H_
 
-#include <mvvm/model/i_session_model.h>
-
 #include <QWidget>
 
 class QSplitter;
@@ -32,6 +30,7 @@ namespace sup::gui
 class DtoWaveformListPanel;
 class DtoWaveformEditorPanel;
 class DtoWaveformPropertyPanel;
+class WaveformModel;
 
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
@@ -43,7 +42,7 @@ class DtoWaveformView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoWaveformView(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformView(WaveformModel* model, QWidget* parent = nullptr);
   ~DtoWaveformView() override;
 
 private:
