@@ -22,6 +22,7 @@
 #include <sup/gui/core/exceptions.h>
 
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
@@ -69,7 +70,7 @@ void DtoWaveformActionHandler::AddWaveform()
 
 bool DtoWaveformActionHandler::CanRemoveWaveform() const
 {
-  return false;
+  return GetSelectedWaveform() != nullptr;
 }
 
 void DtoWaveformActionHandler::RemoveWaveform()
@@ -78,6 +79,17 @@ void DtoWaveformActionHandler::RemoveWaveform()
   {
     return;
   }
+
+  auto selected_waveform = GetSelectedWaveform();
+  auto next_to_select =
+      dynamic_cast<mvvm::LineSeriesItem *>(mvvm::utils::FindNextSiblingToSelect(selected_waveform));
+
+  auto corresponding_data = selected_waveform->GetDataItem();
+
+  GetModel()->RemoveItem(selected_waveform);
+  GetModel()->RemoveItem(corresponding_data);
+
+  emit SelectWaveformRequest(next_to_select);
 }
 
 mvvm::LineSeriesItem *DtoWaveformActionHandler::GetSelectedWaveform() const
