@@ -11,3 +11,8 @@ target_sources(${library_name} PRIVATE
   main_window_helper.h
   run_application.h
 )
+
+install(FILES
+  main_window_helper.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/mainwindow
+)
