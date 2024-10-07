@@ -23,11 +23,13 @@
 #include <sup/gui/components/dto_waveform_editor_context.h>
 
 #include <QObject>
+#include <memory>
 
 namespace mvvm
 {
 class ISessionModel;
 class LineSeriesDataItem;
+class LineSeriesItem;
 }
 
 
