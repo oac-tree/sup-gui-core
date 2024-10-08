@@ -27,6 +27,7 @@ namespace mvvm
 {
 class LineSeriesItem;
 class SessionItem;
+class ChartViewportItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -38,7 +39,7 @@ namespace sup::gui
 struct DtoWaveformEditorContext
 {
   //! callback to get container with data series items
-  std::function<mvvm::SessionItem*()> waveform_container;
+  std::function<mvvm::ChartViewportItem*()> waveform_container;
 
   //! callback to get container with waveform data items
   std::function<mvvm::SessionItem*()> data_container;

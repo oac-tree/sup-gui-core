@@ -25,6 +25,7 @@
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
@@ -43,7 +44,7 @@ class DtoWaveformActionHandlerTest : public ::testing::Test
 public:
   DtoWaveformActionHandlerTest()
   {
-    m_waveform_container = m_model.InsertItem<mvvm::ContainerItem>();
+    m_waveform_container = m_model.InsertItem<mvvm::ChartViewportItem>();
     m_data_container = m_model.InsertItem<mvvm::ContainerItem>();
   }
 
@@ -77,7 +78,7 @@ public:
   /**
    * @brief Returns container used to store waveforms.
    */
-  mvvm::ContainerItem* GetWaveformContainer() { return m_waveform_container; }
+  mvvm::ChartViewportItem* GetWaveformContainer() { return m_waveform_container; }
 
   /**
    * @brief Returns container used to store waveform data.
@@ -85,7 +86,7 @@ public:
   mvvm::ContainerItem* GetDataContainer() { return m_data_container; }
 
   mvvm::ApplicationModel m_model;
-  mvvm::ContainerItem* m_waveform_container{nullptr};
+  mvvm::ChartViewportItem* m_waveform_container{nullptr};
   mvvm::ContainerItem* m_data_container{nullptr};
 };
 
@@ -122,7 +123,7 @@ TEST_F(DtoWaveformActionHandlerTest, AddWaveformToEmptyModel)
 
   EXPECT_TRUE(handler->CanAddWaveform());
   EXPECT_FALSE(handler->CanRemoveWaveform());
-  EXPECT_TRUE(GetWaveformContainer()->IsEmpty());
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 0);
   EXPECT_TRUE(GetDataContainer()->IsEmpty());
 
   QSignalSpy spy_selection_request(handler.get(), &DtoWaveformActionHandler::SelectWaveformRequest);
@@ -130,11 +131,11 @@ TEST_F(DtoWaveformActionHandlerTest, AddWaveformToEmptyModel)
   handler->AddWaveform();
 
   // new item appeared in the container
-  ASSERT_FALSE(GetWaveformContainer()->IsEmpty());
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 1);
   ASSERT_FALSE(GetDataContainer()->IsEmpty());
 
   auto inserted_waveform =
-      dynamic_cast<mvvm::LineSeriesItem*>(GetWaveformContainer()->GetAllItems().at(0));
+      dynamic_cast<mvvm::LineSeriesItem*>(GetWaveformContainer()->GetLineSeries().at(0));
   auto inserted_data = GetDataContainer()->GetAllItems().at(0);
   ASSERT_NE(inserted_waveform, nullptr);
 
@@ -164,7 +165,7 @@ TEST_F(DtoWaveformActionHandlerTest, InsertWaveformBetweenTwoWaveforms)
 
   EXPECT_TRUE(handler->CanAddWaveform());
   EXPECT_TRUE(handler->CanRemoveWaveform());
-  EXPECT_EQ(GetWaveformContainer()->GetSize(), 2);
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 2);
   EXPECT_EQ(GetDataContainer()->GetSize(), 2);
 
   QSignalSpy spy_selection_request(handler.get(), &DtoWaveformActionHandler::SelectWaveformRequest);
@@ -172,11 +173,11 @@ TEST_F(DtoWaveformActionHandlerTest, InsertWaveformBetweenTwoWaveforms)
   handler->AddWaveform();
 
   // new item appeared in the container in-between of two other items
-  EXPECT_EQ(GetWaveformContainer()->GetSize(), 3);
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 3);
   EXPECT_EQ(GetDataContainer()->GetSize(), 3);
 
   auto inserted_waveform =
-      dynamic_cast<mvvm::LineSeriesItem*>(GetWaveformContainer()->GetAllItems().at(1));
+      dynamic_cast<mvvm::LineSeriesItem*>(GetWaveformContainer()->GetLineSeries().at(1));
   auto inserted_data = GetDataContainer()->GetAllItems().at(1);
   ASSERT_NE(inserted_waveform, nullptr);
 
@@ -186,8 +187,8 @@ TEST_F(DtoWaveformActionHandlerTest, InsertWaveformBetweenTwoWaveforms)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::LineSeriesItem*>(spy_selection_request),
             inserted_waveform);
 
-  EXPECT_EQ(GetWaveformContainer()->GetChildren(),
-            std::vector<mvvm::SessionItem*>({waveform0, inserted_waveform, waveform1}));
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeries(),
+            std::vector<mvvm::LineSeriesItem*>({waveform0, inserted_waveform, waveform1}));
 
   EXPECT_EQ(GetDataContainer()->GetChildren(),
             std::vector<mvvm::SessionItem*>({data0, inserted_data, data1}));
@@ -223,14 +224,14 @@ TEST_F(DtoWaveformActionHandlerTest, RemoveWaveformFromTheMiddle)
   handler->RemoveWaveform();
 
   // two items (waveform and its data) have been removed from both containers
-  EXPECT_EQ(GetWaveformContainer()->GetSize(), 2);
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 2);
   EXPECT_EQ(GetDataContainer()->GetSize(), 2);
 
   // request to select next waveform after the one which was just removed
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::LineSeriesItem*>(spy_selection_request), waveform2);
 
-  EXPECT_EQ(GetWaveformContainer()->GetChildren(),
-            std::vector<mvvm::SessionItem*>({waveform0, waveform2}));
+  EXPECT_EQ(GetWaveformContainer()->GetLineSeries(),
+            std::vector<mvvm::LineSeriesItem*>({waveform0, waveform2}));
 
   EXPECT_EQ(GetDataContainer()->GetChildren(), std::vector<mvvm::SessionItem*>({data0, data2}));
 }

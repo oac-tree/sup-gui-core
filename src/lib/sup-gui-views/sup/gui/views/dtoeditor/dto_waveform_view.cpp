@@ -54,12 +54,12 @@ DtoWaveformView::DtoWaveformView(WaveformModel* model, QWidget* parent)
           &DtoWaveformView::SetLineSeriesItem);
 }
 
+DtoWaveformView::~DtoWaveformView() = default;
+
 void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* waveform)
 {
   m_editor_panel->SetLineSeriesItem(waveform);
   m_property_panel->SetLineSeriesItem(waveform);
 }
-
-DtoWaveformView::~DtoWaveformView() = default;
 
 }  // namespace sup::gui
