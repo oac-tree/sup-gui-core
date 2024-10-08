@@ -31,7 +31,8 @@ namespace mvvm
 {
 class AllItemsTreeView;
 class ISessionModel;
-}
+class PropertyTreeView;
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -58,7 +59,9 @@ public:
 
 private:
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
-  mvvm::AllItemsTreeView* m_tree_view{nullptr};
+  mvvm::AllItemsTreeView* m_plot_property_tree{nullptr};
+  mvvm::AllItemsTreeView* m_waveform_tree{nullptr};
+  mvvm::PropertyTreeView* m_viewport_property_tree{nullptr};
 };
 
 }  // namespace sup::gui
