@@ -65,6 +65,10 @@ DtoWaveformListPanel::DtoWaveformListPanel(WaveformModel *model, QWidget *parent
 void DtoWaveformListPanel::SetViewport(mvvm::ChartViewportItem *viewport)
 {
   m_component_provider->SetItem(viewport);
+  if (viewport->GetLineSeriesCount() > 0)
+  {
+    SetSelectedWaveform(viewport->GetLineSeries().at(0));
+  }
 }
 
 DtoWaveformListPanel::~DtoWaveformListPanel() = default;
