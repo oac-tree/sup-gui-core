@@ -51,6 +51,7 @@ DtoWaveformListPanel::DtoWaveformListPanel(WaveformModel *model, QWidget *parent
   layout->addWidget(m_stack_widget);
 
   using ActionKey = DtoWaveformActions::ActionKey;
+  m_list_view->setWindowTitle("Waveform list");
   m_stack_widget->AddWidget(
       m_list_view, m_actions->GetActions({ActionKey::kAddWaveform, ActionKey::kRemoveWaveform}));
 

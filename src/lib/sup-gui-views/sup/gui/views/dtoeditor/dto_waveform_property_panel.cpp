@@ -37,6 +37,7 @@ DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(mvvm::ISessionModel* model, Q
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
+  m_tree_view->setWindowTitle("Waveform properties");
   m_stack_widget->AddWidget(m_tree_view);
 
   layout->addWidget(m_stack_widget);

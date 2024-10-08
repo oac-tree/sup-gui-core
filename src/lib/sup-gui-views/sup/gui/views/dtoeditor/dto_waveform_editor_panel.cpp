@@ -36,6 +36,7 @@ DtoWaveformEditorPanel::DtoWaveformEditorPanel(WaveformModel *model, QWidget *pa
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
+  m_waveform_editor->setWindowTitle("Waveform editor");
   m_stack_widget->AddWidget(m_waveform_editor, m_waveform_editor->actions());
 
   layout->addWidget(m_stack_widget);
