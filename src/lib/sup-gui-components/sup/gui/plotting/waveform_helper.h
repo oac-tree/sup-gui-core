@@ -31,6 +31,7 @@ namespace mvvm
 {
 class PointItem;
 class LineSeriesDataItem;
+class LineSeriesItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -106,6 +107,13 @@ std::unique_ptr<mvvm::PointItem> CreatePointToAppend(const mvvm::LineSeriesDataI
  */
 std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesDataItem& data_item,
                                                       const mvvm::PointItem* selected_point);
+
+/**
+ * @brief Provides reasonable setup of just created waveform.
+ *
+ * Will set reasonable waveform color, and display name.
+ */
+void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count);
 
 }  // namespace sup::gui
 

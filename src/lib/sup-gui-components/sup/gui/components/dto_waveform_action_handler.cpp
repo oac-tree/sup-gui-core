@@ -20,12 +20,14 @@
 #include "dto_waveform_action_handler.h"
 
 #include <sup/gui/core/exceptions.h>
+#include <sup/gui/plotting/waveform_helper.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
 
 namespace sup::gui
 {
@@ -97,7 +99,7 @@ mvvm::LineSeriesItem *DtoWaveformActionHandler::GetSelectedWaveform() const
   return m_context.selected_waveform();
 }
 
-mvvm::SessionItem *DtoWaveformActionHandler::GetWaveformContainer() const
+mvvm::ChartViewportItem *DtoWaveformActionHandler::GetWaveformContainer() const
 {
   return m_context.waveform_container();
 }
@@ -117,6 +119,8 @@ mvvm::LineSeriesItem *DtoWaveformActionHandler::InsertWaveform(
     std::unique_ptr<mvvm::LineSeriesItem> waveform)
 {
   auto result_ptr = waveform.get();
+
+  SetupNewWaveform(*waveform, GetWaveformContainer()->GetLineSeriesCount());
 
   // inserting right after current selection
   auto selected = GetSelectedWaveform();

@@ -23,6 +23,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
 
 #include <sup/dto/anytype.h>
@@ -33,8 +34,9 @@
 
 using namespace sup::gui;
 
-//! Testing helper methods from waveform_helper.h
-
+/**
+ * @brief Testing functions from waveform_helper.h
+ */
 class WaveformHelperTest : public ::testing::Test
 {
 };
@@ -127,7 +129,6 @@ TEST_F(WaveformHelperTest, CreatePointToAppend)
 }
 
 //! Testing method CreatePointToAppend.
-
 TEST_F(WaveformHelperTest, CreatePointToPrepend)
 {
   {  // waveform without points
@@ -174,4 +175,15 @@ TEST_F(WaveformHelperTest, GetWaveform)
   auto array_item = CreateFromWaveform(expected);
 
   EXPECT_EQ(GetWaveform(array_item.get()), expected);
+}
+
+TEST_F(WaveformHelperTest, SetupNewWaveform)
+{
+  mvvm::LineSeriesItem item;
+
+  SetupNewWaveform(item, 1);
+
+  // hardcoded in SetupNewWaveform()
+  EXPECT_EQ(item.GetDisplayName(), std::string("waveform1"));
+  EXPECT_EQ(item.GetNamedColor(), std::string("green"));
 }

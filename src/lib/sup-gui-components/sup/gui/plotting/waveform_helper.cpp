@@ -23,8 +23,10 @@
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
 #include <mvvm/standarditems/waveform_helper.h>
+#include <mvvm/widgets/widget_utils.h>
 
 #include <sup/dto/anytype.h>
 
@@ -58,6 +60,19 @@ mvvm::PointItem* GetLastPoint(const mvvm::LineSeriesDataItem& data_item)
 mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
 {
   return data_item.GetPointCount() == 0 ? nullptr : data_item.GetPoint(0);
+}
+
+/**
+ * @brief Return named color corresponding to a given index.
+ *
+ * First 6 items will get always the same color, then we will use random color.
+ */
+std::string GetNextNamedColor(int index)
+{
+  // Colors from https://www.w3.org/TR/css-color-3/#svg-color
+  static std::vector<std::string> colors = {"dodgerblue", "green",   "darkorange",
+                                            "crimson",    "fuchsia", "teal"};
+  return index < colors.size() ? colors[index] : mvvm::utils::RandomNamedColor();
 }
 
 }  // namespace
@@ -140,6 +155,12 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
   // creating point slighly shifted to the left
   auto base_point = selected_point ? selected_point : GetFirstPoint(data_item);
   return CreateShiftedPoint(base_point, -kDefaultDx);
+}
+
+void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count)
+{
+  item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
+  item.SetNamedColor(GetNextNamedColor(total_waveform_count));
 }
 
 }  // namespace sup::gui
