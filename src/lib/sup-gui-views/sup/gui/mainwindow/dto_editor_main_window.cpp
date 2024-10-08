@@ -79,7 +79,8 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager = new DtoEditorMainWindowActions(m_sup_dto_model.get(), this);
+  m_action_manager =
+      new DtoEditorMainWindowActions({m_sup_dto_model.get(), m_waveform_model.get()}, this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
@@ -145,6 +146,9 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
   }
 }
 
-void DtoEditorMainWindow::OnProjectLoad() {}
+void DtoEditorMainWindow::OnProjectLoad()
+{
+  m_waveform_view->OnProjectLoad();
+}
 
 }  // namespace sup::gui

@@ -25,6 +25,7 @@
 namespace mvvm
 {
 class LineSeriesItem;
+class ChartViewportItem;
 }
 
 namespace sup::gui
@@ -45,6 +46,11 @@ class DtoWaveformEditorPanel : public QWidget
 public:
   explicit DtoWaveformEditorPanel(WaveformModel* model, QWidget* parent = nullptr);
   ~DtoWaveformEditorPanel() override;
+
+  /**
+   * @brief Sets main viewport with waveforms.
+   */
+  void SetViewport(mvvm::ChartViewportItem *viewport);
 
   /**
    * @brief Set waveform to show in waveform editor.

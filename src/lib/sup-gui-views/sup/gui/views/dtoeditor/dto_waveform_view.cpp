@@ -39,6 +39,7 @@ DtoWaveformView::DtoWaveformView(WaveformModel* model, QWidget* parent)
     , m_list_panel(new DtoWaveformListPanel(model))
     , m_editor_panel(new DtoWaveformEditorPanel(model))
     , m_property_panel(new DtoWaveformPropertyPanel(model))
+    , m_model(model)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -52,6 +53,8 @@ DtoWaveformView::DtoWaveformView(WaveformModel* model, QWidget* parent)
 
   connect(m_list_panel, &DtoWaveformListPanel::WaveformSelected, this,
           &DtoWaveformView::SetLineSeriesItem);
+
+  OnProjectLoad();
 }
 
 DtoWaveformView::~DtoWaveformView() = default;
@@ -60,6 +63,12 @@ void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* waveform)
 {
   m_editor_panel->SetLineSeriesItem(waveform);
   m_property_panel->SetLineSeriesItem(waveform);
+}
+
+void DtoWaveformView::OnProjectLoad()
+{
+  m_list_panel->SetViewport(m_model->GetViewPort());
+  m_editor_panel->SetViewport(m_model->GetViewPort());
 }
 
 }  // namespace sup::gui

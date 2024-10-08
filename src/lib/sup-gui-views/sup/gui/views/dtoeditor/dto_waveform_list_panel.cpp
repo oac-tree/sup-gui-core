@@ -60,8 +60,11 @@ DtoWaveformListPanel::DtoWaveformListPanel(WaveformModel *model, QWidget *parent
 
   connect(m_action_handler, &DtoWaveformActionHandler::SelectWaveformRequest, this,
           &DtoWaveformListPanel::SetSelectedWaveform);
+}
 
-  m_component_provider->SetItem(model->GetViewPort());
+void DtoWaveformListPanel::SetViewport(mvvm::ChartViewportItem *viewport)
+{
+  m_component_provider->SetItem(viewport);
 }
 
 DtoWaveformListPanel::~DtoWaveformListPanel() = default;

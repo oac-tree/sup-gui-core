@@ -52,11 +52,15 @@ public:
 
   void SetLineSeriesItem(mvvm::LineSeriesItem* waveform);
 
+  void OnProjectLoad();
+
 private:
   QSplitter* m_splitter{nullptr};
   DtoWaveformListPanel* m_list_panel{nullptr};
   DtoWaveformEditorPanel* m_editor_panel{nullptr};
   DtoWaveformPropertyPanel* m_property_panel{nullptr};
+
+  WaveformModel* m_model{nullptr};
 };
 
 }  // namespace sup::gui

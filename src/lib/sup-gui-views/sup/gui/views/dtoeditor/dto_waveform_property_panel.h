@@ -53,7 +53,7 @@ public:
   ~DtoWaveformPropertyPanel() override;
 
   /**
-   * @brief Set waveform to show in waveform editor.
+   * @brief Set waveform to show in property editor.
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 

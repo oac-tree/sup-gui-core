@@ -31,6 +31,7 @@ namespace mvvm
 {
 class ItemViewComponentProvider;
 class LineSeriesItem;
+class ChartViewportItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -53,6 +54,11 @@ class DtoWaveformListPanel : public QWidget
 public:
   explicit DtoWaveformListPanel(WaveformModel* model, QWidget* parent = nullptr);
   ~DtoWaveformListPanel() override;
+
+  /**
+   * @brief Sets main viewport with waveforms.
+   */
+  void SetViewport(mvvm::ChartViewportItem *viewport);
 
   mvvm::LineSeriesItem* GetSelectedWaveform();
 

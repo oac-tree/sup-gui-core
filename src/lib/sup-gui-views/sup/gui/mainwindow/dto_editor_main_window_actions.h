@@ -49,7 +49,7 @@ class DtoEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoEditorMainWindowActions(mvvm::ISessionModel* model,
+  explicit DtoEditorMainWindowActions(const std::vector<mvvm::ISessionModel*>& models,
                                       QMainWindow* mainwindow = nullptr);
   ~DtoEditorMainWindowActions() override;
 

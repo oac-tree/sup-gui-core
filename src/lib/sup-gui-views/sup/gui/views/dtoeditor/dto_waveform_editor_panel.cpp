@@ -40,8 +40,11 @@ DtoWaveformEditorPanel::DtoWaveformEditorPanel(WaveformModel *model, QWidget *pa
   m_stack_widget->AddWidget(m_waveform_editor, m_waveform_editor->actions());
 
   layout->addWidget(m_stack_widget);
+}
 
-  m_waveform_editor->SetViewportItem(model->GetViewPort());
+void DtoWaveformEditorPanel::SetViewport(mvvm::ChartViewportItem *viewport)
+{
+  m_waveform_editor->SetViewportItem(viewport);
 }
 
 DtoWaveformEditorPanel::~DtoWaveformEditorPanel() = default;
