@@ -71,7 +71,7 @@ mvvm::LineSeriesItem *WaveformTableWidget::GetLineSeriesItem()
 void WaveformTableWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_current_line_series = line_series_item;
-  m_component_provider->SetItem(line_series_item->GetDataItem());
+  m_component_provider->SetItem(line_series_item ? line_series_item->GetDataItem() : nullptr);
 }
 
 mvvm::PointItem *WaveformTableWidget::GetSelectedPoint()
