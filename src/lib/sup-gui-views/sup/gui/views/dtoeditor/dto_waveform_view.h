@@ -24,6 +24,11 @@
 
 class QSplitter;
 
+namespace mvvm
+{
+class LineSeriesItem;
+}
+
 namespace sup::gui
 {
 
@@ -44,6 +49,8 @@ class DtoWaveformView : public QWidget
 public:
   explicit DtoWaveformView(WaveformModel* model, QWidget* parent = nullptr);
   ~DtoWaveformView() override;
+
+  void SetLineSeriesItem(mvvm::LineSeriesItem* waveform);
 
 private:
   QSplitter* m_splitter{nullptr};

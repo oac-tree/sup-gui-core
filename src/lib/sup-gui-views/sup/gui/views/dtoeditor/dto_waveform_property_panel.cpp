@@ -21,6 +21,7 @@
 
 #include <sup/gui/widgets/item_stack_widget.h>
 
+#include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/views/all_items_tree_view.h>
 
 #include <QVBoxLayout>
@@ -42,5 +43,10 @@ DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(mvvm::ISessionModel* model, Q
 }
 
 DtoWaveformPropertyPanel::~DtoWaveformPropertyPanel() = default;
+
+void DtoWaveformPropertyPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
+{
+  m_tree_view->SetItem(line_series_item);
+}
 
 }  // namespace sup::gui

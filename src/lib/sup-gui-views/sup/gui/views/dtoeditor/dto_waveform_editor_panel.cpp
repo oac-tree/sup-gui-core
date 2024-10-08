@@ -43,11 +43,11 @@ DtoWaveformEditorPanel::DtoWaveformEditorPanel(WaveformModel *model, QWidget *pa
   m_waveform_editor->SetViewportItem(model->GetViewPort());
 }
 
+DtoWaveformEditorPanel::~DtoWaveformEditorPanel() = default;
+
 void DtoWaveformEditorPanel::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_waveform_editor->SetLineSeriesItem(line_series_item);
 }
-
-DtoWaveformEditorPanel::~DtoWaveformEditorPanel() = default;
 
 }  // namespace sup::gui

@@ -32,7 +32,6 @@ class LineSeriesDataItem;
 class LineSeriesItem;
 }
 
-
 namespace sup::gui
 {
 

@@ -59,7 +59,7 @@ public:
   void SetSelectedWaveform(mvvm::LineSeriesItem* waveform);
 
 signals:
-  void WaveformSelected(mvvm::LineSeriesItem* waveform_item);
+  void WaveformSelected(mvvm::LineSeriesItem* waveform);
 
 private:
   /**

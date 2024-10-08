@@ -24,6 +24,11 @@
 
 namespace mvvm
 {
+class LineSeriesItem;
+}
+
+namespace mvvm
+{
 class AllItemsTreeView;
 class ISessionModel;
 }
@@ -45,6 +50,11 @@ class DtoWaveformPropertyPanel : public QWidget
 public:
   explicit DtoWaveformPropertyPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~DtoWaveformPropertyPanel() override;
+
+  /**
+   * @brief Set waveform to show in waveform editor.
+   */
+  void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};

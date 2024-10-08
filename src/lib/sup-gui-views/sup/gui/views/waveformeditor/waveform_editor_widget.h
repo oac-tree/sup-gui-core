@@ -41,6 +41,12 @@ class WaveformEditorActions;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 
+/**
+ * @brief The WaveformEditorWidget class is a waveform editor intended for editing of one waveform
+ * at a time.
+ *
+ * It has a viewport at the top, and horizontal table with (x,y) points at the bottom.
+ */
 class WaveformEditorWidget : public QWidget
 {
   Q_OBJECT
@@ -57,12 +63,14 @@ public:
   /**
    * @brief Set waveform to show in table widget.
    *
-   * @details For the moment table widget can show only one waveform.
+   * For the moment table widget can show only one waveform.
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
   /**
    * @brief Sets viewport with waveforms to show in a canvas.
+   *
+   * Viewport
    */
   void SetViewportItem(mvvm::ChartViewportItem* viewport_item);
 

@@ -47,9 +47,7 @@ public:
   ~DtoWaveformEditorPanel() override;
 
   /**
-   * @brief Set waveform to show in table widget.
-   *
-   * @details For the moment table widget can show only one waveform.
+   * @brief Set waveform to show in waveform editor.
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
