@@ -27,7 +27,7 @@ namespace sup::gui
 {
 
 WaveformModel::WaveformModel(std::shared_ptr<mvvm::ItemPool> pool)
-    : mvvm::ApplicationModel("SupDtoModel", std::move(pool))
+    : mvvm::ApplicationModel("WaveformModel", std::move(pool))
 
 {
   PopulateModel();

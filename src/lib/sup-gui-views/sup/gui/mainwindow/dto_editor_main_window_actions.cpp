@@ -51,8 +51,9 @@ DtoEditorMainWindowActions::DtoEditorMainWindowActions(
                                                      kDtoEditorApplicationType, models, mainwindow))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
-  AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
-                                             constants::kViewMenu, constants::kHelpMenu});
+  AppRegisterMenuBar(mainwindow->menuBar(),
+                     {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
+                      constants::kViewMenu, constants::kHelpMenu});
 
   CreateActions(mainwindow);
   SetupMenus();
