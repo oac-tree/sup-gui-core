@@ -40,6 +40,7 @@ namespace sup::gui
 
 namespace
 {
+
 DtoComposerTabController::create_widget_callback_t CreateCallback(mvvm::ISessionModel *model)
 {
   return [model](mvvm::SessionItem *item)
@@ -49,6 +50,7 @@ DtoComposerTabController::create_widget_callback_t CreateCallback(mvvm::ISession
     return result;
   };
 }
+
 }  // namespace
 
 DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
@@ -84,7 +86,7 @@ DtoComposerView::~DtoComposerView() = default;
 
 void DtoComposerView::OnProjectLoad()
 {
-
+  m_tab_controller->InitTabs();
 }
 
 void DtoComposerView::SetupConnections()

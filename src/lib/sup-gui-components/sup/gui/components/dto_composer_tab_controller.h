@@ -67,12 +67,14 @@ public:
 
   QWidget* GetWidgetForItem(const mvvm::SessionItem* container);
 
-private:
   /**
    * @brief Create necessary tabs to reflect initial state of the model;
+   *
+   *
    */
   void InitTabs();
 
+private:
   /**
    * @brief Creates new tab when top-level container is inserted in the model.
    */
@@ -89,14 +91,11 @@ private:
   void InsertAnyValueItemContainerTab(mvvm::SessionItem* container, int index);
 
   /**
-   * @brief Removes tabs when model is reset.
-   */
-  void OnModelAboutToBeResetEvent(const mvvm::ModelAboutToBeResetEvent& event);
-
-  /**
-   * @brief Regenerates tabs at the end of the reset event.
+   * @brief Removes all tabs on model reset.
    *
-   * When project is loaded from disk, root item can be replaced with non-empty root item.
+   * When project is loaded from disk, root item can be replaced with non-empty root item. In this
+   * implementation we remove all widgets. To make it functional again, InitTabs should be called
+   * manually.
    */
   void OnModelResetEvent(const mvvm::ModelResetEvent& event);
 

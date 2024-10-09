@@ -71,6 +71,4 @@ void DtoWaveformView::OnProjectLoad()
   m_editor_panel->SetViewport(m_model->GetViewPort());
 }
 
-
-
 }  // namespace sup::gui

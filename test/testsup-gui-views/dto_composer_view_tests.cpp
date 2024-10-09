@@ -57,5 +57,10 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
   new_root->InsertItem<mvvm::ContainerItem>(mvvm::TagIndex::Append());
 
   model.ReplaceRootItem(std::move(new_root));
+
+  EXPECT_EQ(tab_widget->count(), 0);
+
+  // after project reload, the call OnProjectLoad() is necessary to get tabs back
+  view.OnProjectLoad();
   EXPECT_EQ(tab_widget->count(), 2);
 }

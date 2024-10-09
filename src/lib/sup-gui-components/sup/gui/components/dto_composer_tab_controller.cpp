@@ -48,8 +48,6 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
                                                &DtoComposerTabController::OnItemInsertedEvent);
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
       this, &DtoComposerTabController::OnAboutToRemoveItemEvent);
-  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(
-      this, &DtoComposerTabController::OnModelAboutToBeResetEvent);
   m_listener->Connect<mvvm::ModelResetEvent>(this, &DtoComposerTabController::OnModelResetEvent);
 
   InitTabs();
@@ -70,10 +68,7 @@ void DtoComposerTabController::InitTabs()
   }
 }
 
-DtoComposerTabController::~DtoComposerTabController()
-{
-  Clear();
-}
+DtoComposerTabController::~DtoComposerTabController() = default;
 
 void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent &event)
 {
@@ -119,17 +114,13 @@ void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem 
   m_tab_widget->insertTab(index, widget.release(), "AnyValue");
 }
 
-void DtoComposerTabController::OnModelAboutToBeResetEvent(
-    const mvvm::ModelAboutToBeResetEvent &event)
-{
-  (void)event;
-  Clear();
-}
-
 void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent &event)
 {
+  Clear();
   (void)event;
-  InitTabs();
+  // This is called when the project is reloaded from disk.
+  // We do not call any tab initialization here, since other widgets might still receiving
+  // ModelResetEvent event. SeeDtoEditorMainWindow::OnProjectLoad();
 }
 
 void DtoComposerTabController::Clear()

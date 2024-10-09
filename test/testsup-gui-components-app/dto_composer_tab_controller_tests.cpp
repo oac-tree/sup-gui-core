@@ -18,7 +18,6 @@
  *****************************************************************************/
 
 #include <sup/gui/components/dto_composer_tab_controller.h>
-
 #include <sup/gui/model/sup_dto_model.h>
 
 #include <mvvm/model/model_utils.h>
@@ -166,7 +165,7 @@ TEST_F(DtoComposerTabControllerTest, ReplaceRootItem)
   SupDtoModel model;  // has one container by default
 
   QTabWidget tab_widget;
-  const DtoComposerTabController controller(&model, CreateCallback(), &tab_widget);
+  DtoComposerTabController controller(&model, CreateCallback(), &tab_widget);
 
   EXPECT_EQ(tab_widget.count(), 1);
 
@@ -175,5 +174,10 @@ TEST_F(DtoComposerTabControllerTest, ReplaceRootItem)
   new_root->InsertItem<mvvm::ContainerItem>(mvvm::TagIndex::Append());
 
   model.ReplaceRootItem(std::move(new_root));
+
+  // to make it ready for new content again, InitTabs should be called manually
+  // see DtoComposerTabController::OnModelResetEvent
+  EXPECT_EQ(tab_widget.count(), 0);
+  controller.InitTabs();
   EXPECT_EQ(tab_widget.count(), 2);
 }
