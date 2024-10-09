@@ -148,6 +148,7 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
+  m_composer_view->OnProjectLoad();
   m_waveform_view->OnProjectLoad();
 }
 

@@ -82,6 +82,11 @@ DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
 
 DtoComposerView::~DtoComposerView() = default;
 
+void DtoComposerView::OnProjectLoad()
+{
+
+}
+
 void DtoComposerView::SetupConnections()
 {
   // Connecting DtoComposerActions requests (add/duplicate/remove tabs) with

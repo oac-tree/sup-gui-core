@@ -52,6 +52,9 @@ public:
 
   void SetLineSeriesItem(mvvm::LineSeriesItem* waveform);
 
+  /**
+   * @brief Perform widgets setup on new project creation or project load from disk.
+   */
   void OnProjectLoad();
 
 private:

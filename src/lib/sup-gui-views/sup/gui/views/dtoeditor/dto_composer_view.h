@@ -51,6 +51,11 @@ public:
   explicit DtoComposerView(mvvm::ISessionModel* model, QWidget* parent = nullptr);
   ~DtoComposerView() override;
 
+  /**
+   * @brief Perform widgets setup on new project creation or project load from disk.
+   */
+  void OnProjectLoad();
+
 private:
   void SetupConnections();
   void SummonContextMenu(const QPoint& point);
