@@ -51,7 +51,7 @@ QList<QAction *> GetCanvasToolBarActions(WaveformEditorActions *editor_actions)
 }
 
 /**
- * @brief Returns list of actions intended for canvas toolbar.
+ * @brief Returns list of actions intended for table toolbar.
  */
 QList<QAction *> GetTableToolBarActions(WaveformEditorActions *editor_actions)
 {
