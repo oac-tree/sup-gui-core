@@ -84,7 +84,7 @@ void WaveformEditorActions::SetupCanvasActions()
   m_pointer_button_group->addButton(m_pan_button,
                                     static_cast<int>(mvvm::CanvasOperationMode::kPan));
   connect(m_pointer_button_group, &QButtonGroup::idClicked, this,
-          &WaveformEditorActions::ChangeSelectionModelRequest);
+          &WaveformEditorActions::ChangeOperationModeRequest);
 
   m_zoom_in = new QAction("Zoom In", this);
   m_zoom_in->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));

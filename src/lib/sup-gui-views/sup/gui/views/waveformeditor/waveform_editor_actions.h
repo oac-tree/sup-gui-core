@@ -68,7 +68,7 @@ public:
   QList<QAction*> GetActions(const std::vector<ActionKey>& action_keys) const;
 
   /**
-   * @brief Set active button ID of pointer group.
+   * @brief Set active button ID for pointer group.
    *
    * button_id=0 - button "select" will appear pressed, the button "Pan" released
    * button_id=1 - button "select" will appear released, the button "Pan" pressed
@@ -79,7 +79,7 @@ signals:
   void ZoomInRequest();
   void ZoomOutRequest();
   void SetViewportToContentRequest();
-  int ChangeSelectionModelRequest(int);
+  int ChangeOperationModeRequest(int);
 
 private:
   /**

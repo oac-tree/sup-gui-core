@@ -46,8 +46,8 @@ namespace
 QList<QAction *> GetCanvasToolBarActions(WaveformEditorActions *editor_actions)
 {
   using ActionKey = WaveformEditorActions::ActionKey;
-  return editor_actions->GetActions(
-      {ActionKey::kZoomIn, ActionKey::kZoomOut, ActionKey::kCenterCanvas});
+  return editor_actions->GetActions({ActionKey::kPointer, ActionKey::kPan, ActionKey::kZoomIn,
+                                     ActionKey::kZoomOut, ActionKey::kCenterCanvas});
 }
 
 /**
@@ -144,6 +144,14 @@ void WaveformEditorWidget::SetupConnections()
 
   connect(m_action_handler, &WaveformEditorActionHandler::SelectItemRequest, this,
           [this](auto item) { SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
+
+  // propagate request to change canvas operation mode (select/pan) from toolbar to canvas
+  connect(m_actions, &WaveformEditorActions::ChangeOperationModeRequest, m_chart_canvas,
+          &mvvm::ChartCanvas::SetOperationMode);
+
+  // propagate notification from canvas to toolbar, that
+  connect(m_chart_canvas, &mvvm::ChartCanvas::OperationModeChanged, m_actions,
+          &WaveformEditorActions::SetPointerButtonGroup);
 }
 
 std::unique_ptr<QWidget> WaveformEditorWidget::CreateTableEnvelopWidget()
