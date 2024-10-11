@@ -25,6 +25,9 @@
 #include <QObject>
 
 class QAction;
+class QWidgetAction;
+class QButtonGroup;
+class QToolButton;
 
 namespace sup::gui
 {
@@ -64,16 +67,36 @@ public:
    */
   QList<QAction*> GetActions(const std::vector<ActionKey>& action_keys) const;
 
+  /**
+   * @brief Set active button ID of pointer group.
+   *
+   * button_id=0 - button "select" will appear pressed, the button "Pan" released
+   * button_id=1 - button "select" will appear released, the button "Pan" pressed
+   */
+  void SetPointerButtonGroup(int button_id);
+
 signals:
   void ZoomInRequest();
   void ZoomOutRequest();
   void SetViewportToContentRequest();
+  int ChangeSelectionModelRequest(int);
 
 private:
   /**
-   * @brief Creates all actions.
+   * @brief Setup actions related to canvas.
    */
-  void SetupActions();
+  void SetupCanvasActions();
+
+  /**
+   * @brief Setup actions related to table manipulation.
+   */
+  void SetupTableActions();
+
+  QButtonGroup* m_pointer_button_group{nullptr};
+  QToolButton* m_pointer_button{nullptr};
+  QWidgetAction* m_pointer_action{nullptr};
+  QToolButton* m_pan_button{nullptr};
+  QWidgetAction* m_pan_action{nullptr};
 
   QAction* m_zoom_in{nullptr};
   QAction* m_zoom_out{nullptr};

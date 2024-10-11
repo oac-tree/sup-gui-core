@@ -22,18 +22,31 @@
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
 #include <sup/gui/widgets/style_utils.h>
 
+#include <mvvm/plotting/plot_types.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
+#include <QButtonGroup>
+#include <QMenu>
+#include <QToolButton>
+#include <QWidgetAction>
 
 namespace sup::gui
 {
 
 WaveformEditorActions::WaveformEditorActions(WaveformEditorActionHandler* action_handler,
                                              QObject* parent)
-    : QObject(parent), m_action_handler(action_handler)
+    : QObject(parent)
+    , m_pointer_button_group(new QButtonGroup(this))
+    , m_pointer_button(new QToolButton)
+    , m_pointer_action(new QWidgetAction(this))
+    , m_pan_button(new QToolButton)
+    , m_pan_action(new QWidgetAction(this))
+
+    , m_action_handler(action_handler)
 {
-  SetupActions();
+  SetupCanvasActions();
+  SetupTableActions();
 }
 
 QList<QAction*> WaveformEditorActions::GetActions(const std::vector<ActionKey>& action_keys) const
@@ -41,8 +54,38 @@ QList<QAction*> WaveformEditorActions::GetActions(const std::vector<ActionKey>& 
   return m_action_map.GetActions(action_keys);
 }
 
-void WaveformEditorActions::SetupActions()
+void WaveformEditorActions::SetPointerButtonGroup(int button_id)
 {
+  m_pointer_button_group->button(button_id)->setChecked(true);
+}
+
+void WaveformEditorActions::SetupCanvasActions()
+{
+  m_pointer_button->setText("Select");
+  m_pointer_button->setIcon(sup::gui::utils::GetIcon("arrow-top-left.svg"));
+  m_pointer_button->setToolTip("Scene in edit mode");
+  m_pointer_button->setCheckable(true);
+  m_pointer_button->setChecked(true);
+  m_pointer_button->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+  m_pointer_action->setDefaultWidget(m_pointer_button);
+  m_action_map.Add(ActionKey::kPointer, m_pointer_action);
+
+  m_pan_button->setText("Pan");
+  m_pan_button->setIcon(sup::gui::utils::GetIcon("hand-back-right-outline.svg"));
+  m_pan_button->setToolTip("Scene in pan mode (space)");
+  m_pan_button->setCheckable(true);
+  m_pan_button->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+  m_pan_action->setText("Select");
+  m_pan_action->setDefaultWidget(m_pan_button);
+  m_action_map.Add(ActionKey::kPan, m_pan_action);
+
+  m_pointer_button_group->addButton(m_pointer_button,
+                                    static_cast<int>(mvvm::CanvasOperationMode::kSelection));
+  m_pointer_button_group->addButton(m_pan_button,
+                                    static_cast<int>(mvvm::CanvasOperationMode::kPan));
+  connect(m_pointer_button_group, &QButtonGroup::idClicked, this,
+          &WaveformEditorActions::ChangeSelectionModelRequest);
+
   m_zoom_in = new QAction("Zoom In", this);
   m_zoom_in->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));
   m_zoom_in->setToolTip("Zoom in");
@@ -61,7 +104,10 @@ void WaveformEditorActions::SetupActions()
   connect(m_center_canvas, &QAction::triggered, this,
           &WaveformEditorActions::SetViewportToContentRequest);
   m_action_map.Add(ActionKey::kCenterCanvas, m_center_canvas);
+}
 
+void WaveformEditorActions::SetupTableActions()
+{
   m_add_column_before = new QAction("Add before", this);
   m_add_column_before->setIcon(sup::gui::utils::GetIcon("table-column-plus-before.svg"));
   m_add_column_before->setText("Add before");

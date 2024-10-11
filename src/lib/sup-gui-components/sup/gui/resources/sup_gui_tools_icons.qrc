@@ -6,6 +6,7 @@
         <file>icons/application-brackets-outline-light.svg</file>
         <file>icons/application-brackets-outline.svg</file>
         <file>icons/arrow-down-thin-circle-outline.svg</file>
+        <file>icons/arrow-top-left.svg</file>
         <file>icons/arrow-up-thin-circle-outline.svg</file>
         <file>icons/beaker-remove-outline.svg</file>
         <file>icons/branch-end.svg</file>
@@ -26,18 +27,19 @@
         <file>icons/file-tree-outline-light.svg</file>
         <file>icons/file-tree-outline.svg</file>
         <file>icons/graph-outline-light.svg</file>
+        <file>icons/hand-back-right-outline.svg</file>
         <file>icons/iter_logo.png</file>
         <file>icons/magnify-minus-outline.svg</file>
         <file>icons/magnify-plus-outline.svg</file>
         <file>icons/menu.svg</file>
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
-        <file>icons/table-column-plus-after.svg</file>
         <file>icons/table-column-plus-after-narrow.svg</file>
-        <file>icons/table-column-plus-before.svg</file>
+        <file>icons/table-column-plus-after.svg</file>
         <file>icons/table-column-plus-before-narrow.svg</file>
-        <file>icons/table-column-remove.svg</file>
+        <file>icons/table-column-plus-before.svg</file>
         <file>icons/table-column-remove-narrow.svg</file>
+        <file>icons/table-column-remove.svg</file>
         <file>icons/vline.svg</file>
     </qresource>
 </RCC>
