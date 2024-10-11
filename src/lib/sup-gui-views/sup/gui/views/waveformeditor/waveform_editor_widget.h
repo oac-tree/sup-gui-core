@@ -20,9 +20,10 @@
 #ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_WIDGET_H_
 #define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_EDITOR_WIDGET_H_
 
-class QSplitter;
-
 #include <QWidget>
+
+class QToolBar;
+class QSplitter;
 
 namespace mvvm
 {
@@ -101,11 +102,17 @@ public:
 private:
   void SetupConnections();
 
+  /**
+   * @brief Places table widget together with own toolbar.
+   */
+  std::unique_ptr<QWidget> CreateTableEnvelopWidget();
+
   WaveformEditorActionHandler* m_action_handler{nullptr};
   WaveformEditorActions* m_actions{nullptr};
 
   QSplitter* m_splitter{nullptr};
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
+  QToolBar* m_table_tool_bar{nullptr};
   WaveformTableWidget* m_table_widget{nullptr};
 };
 

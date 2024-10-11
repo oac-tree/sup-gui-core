@@ -24,12 +24,14 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
+#include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/views/chart_canvas.h>
 #include <mvvm/standarditems/point_item.h>
+#include <mvvm/views/chart_canvas.h>
 
 #include <QSplitter>
+#include <QToolBar>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -55,14 +57,18 @@ WaveformEditorWidget::WaveformEditorWidget(QWidget *parent)
     , m_actions(new WaveformEditorActions(m_action_handler, this))
     , m_splitter(new QSplitter)
     , m_chart_canvas(new mvvm::ChartCanvas)
+    , m_table_tool_bar(new QToolBar)
     , m_table_widget(new WaveformTableWidget(nullptr))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
+  m_table_tool_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  m_table_tool_bar->setIconSize(sup::gui::utils::ToolBarIconSize());
+
   m_splitter->setOrientation(Qt::Vertical);
   m_splitter->addWidget(m_chart_canvas);
-  m_splitter->addWidget(m_table_widget);
+  m_splitter->addWidget(CreateTableEnvelopWidget().release());
 
   layout->addWidget(m_splitter);
 
@@ -130,6 +136,18 @@ void WaveformEditorWidget::SetupConnections()
 
   connect(m_action_handler, &WaveformEditorActionHandler::SelectItemRequest, this,
           [this](auto item) { SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
+}
+
+std::unique_ptr<QWidget> WaveformEditorWidget::CreateTableEnvelopWidget()
+{
+  auto result = std::make_unique<QWidget>();
+
+  auto layout = new QVBoxLayout(result.get());
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->addWidget(m_table_tool_bar);
+  layout->addWidget(m_table_widget);
+
+  return result;
 }
 
 }  // namespace sup::gui
