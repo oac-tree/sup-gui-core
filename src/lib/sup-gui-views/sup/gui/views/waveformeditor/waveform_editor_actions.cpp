@@ -43,6 +43,25 @@ QList<QAction*> WaveformEditorActions::GetActions(const std::vector<ActionKey>& 
 
 void WaveformEditorActions::SetupActions()
 {
+  m_zoom_in = new QAction("Zoom In", this);
+  m_zoom_in->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));
+  m_zoom_in->setToolTip("Zoom in");
+  connect(m_zoom_in, &QAction::triggered, this, &WaveformEditorActions::ZoomInRequest);
+  m_action_map.Add(ActionKey::kZoomIn, m_zoom_in);
+
+  m_zoom_out = new QAction("Zoom Out", this);
+  m_zoom_out->setIcon(sup::gui::utils::GetIcon("magnify-minus-outline.svg"));
+  m_zoom_out->setToolTip("Zoom out");
+  connect(m_zoom_out, &QAction::triggered, this, &WaveformEditorActions::ZoomOutRequest);
+  m_action_map.Add(ActionKey::kZoomOut, m_zoom_out);
+
+  m_center_canvas = new QAction("Center", this);
+  m_center_canvas->setIcon(sup::gui::utils::GetIcon("camera-metering-center.svg"));
+  m_center_canvas->setToolTip("Reset viewport to default axes range");
+  connect(m_center_canvas, &QAction::triggered, this,
+          &WaveformEditorActions::SetViewportToContentRequest);
+  m_action_map.Add(ActionKey::kCenterCanvas, m_center_canvas);
+
   m_add_column_before = new QAction("Add before", this);
   m_add_column_before->setIcon(sup::gui::utils::GetIcon("table-column-plus-before.svg"));
   m_add_column_before->setText("Add before");
@@ -65,25 +84,6 @@ void WaveformEditorActions::SetupActions()
   connect(m_remove_column, &QAction::triggered, this,
           [this]() { m_action_handler->OnRemoveColumnRequest(); });
   m_action_map.Add(ActionKey::kRemoveColumn, m_remove_column);
-
-  m_zoom_in = new QAction("Zoom In", this);
-  m_zoom_in->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));
-  m_zoom_in->setToolTip("Zoom in");
-  connect(m_zoom_in, &QAction::triggered, this, &WaveformEditorActions::ZoomInRequest);
-  m_action_map.Add(ActionKey::kZoomIn, m_zoom_in);
-
-  m_zoom_out = new QAction("Zoom Out", this);
-  m_zoom_out->setIcon(sup::gui::utils::GetIcon("magnify-minus-outline.svg"));
-  m_zoom_out->setToolTip("Zoom out");
-  connect(m_zoom_out, &QAction::triggered, this, &WaveformEditorActions::ZoomOutRequest);
-  m_action_map.Add(ActionKey::kZoomOut, m_zoom_out);
-
-  m_center_canvas = new QAction("Center", this);
-  m_center_canvas->setIcon(sup::gui::utils::GetIcon("camera-metering-center.svg"));
-  m_center_canvas->setToolTip("Reset viewport to default axes range");
-  connect(m_center_canvas, &QAction::triggered, this,
-          &WaveformEditorActions::SetViewportToContentRequest);
-  m_action_map.Add(ActionKey::kCenterCanvas, m_center_canvas);
 }
 
 }  // namespace sup::gui

@@ -45,12 +45,14 @@ public:
    */
   enum class ActionKey
   {
-    kAddColumnBefore,
-    kAddColumnAfter,
-    kRemoveColumn,
+    kPointer,
+    kPan,
     kZoomIn,
     kZoomOut,
     kCenterCanvas,
+    kAddColumnBefore,
+    kAddColumnAfter,
+    kRemoveColumn,
     kTotalCount
   };
 
@@ -73,12 +75,12 @@ private:
    */
   void SetupActions();
 
-  QAction* m_add_column_before{nullptr};
-  QAction* m_add_column_after{nullptr};
-  QAction* m_remove_column{nullptr};
   QAction* m_zoom_in{nullptr};
   QAction* m_zoom_out{nullptr};
   QAction* m_center_canvas{nullptr};
+  QAction* m_add_column_before{nullptr};
+  QAction* m_add_column_after{nullptr};
+  QAction* m_remove_column{nullptr};
 
   WaveformEditorActionHandler* m_action_handler{nullptr};
   sup::gui::ActionMap<ActionKey> m_action_map;
