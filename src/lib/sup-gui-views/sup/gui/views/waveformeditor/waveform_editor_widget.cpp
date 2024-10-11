@@ -41,14 +41,25 @@ namespace
 {
 
 /**
- * @brief Returns list of action keys which are intended for toolbar.
+ * @brief Returns list of actions intended for canvas toolbar.
  */
-std::vector<WaveformEditorActions::ActionKey> GetToolBarActionKeys()
+QList<QAction *> GetCanvasToolBarActions(WaveformEditorActions *editor_actions)
 {
   using ActionKey = WaveformEditorActions::ActionKey;
-  return {ActionKey::kAddColumnBefore, ActionKey::kAddColumnAfter, ActionKey::kRemoveColumn,
-          ActionKey::kZoomIn,          ActionKey::kZoomOut,        ActionKey::kCenterCanvas};
+  return editor_actions->GetActions(
+      {ActionKey::kZoomIn, ActionKey::kZoomOut, ActionKey::kCenterCanvas});
 }
+
+/**
+ * @brief Returns list of actions intended for canvas toolbar.
+ */
+QList<QAction *> GetTableToolBarActions(WaveformEditorActions *editor_actions)
+{
+  using ActionKey = WaveformEditorActions::ActionKey;
+  return editor_actions->GetActions(
+      {ActionKey::kAddColumnBefore, ActionKey::kAddColumnAfter, ActionKey::kRemoveColumn});
+}
+
 }  // namespace
 
 WaveformEditorWidget::WaveformEditorWidget(QWidget *parent)
@@ -63,16 +74,13 @@ WaveformEditorWidget::WaveformEditorWidget(QWidget *parent)
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
 
-  m_table_tool_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-  m_table_tool_bar->setIconSize(sup::gui::utils::ToolBarIconSize());
-
   m_splitter->setOrientation(Qt::Vertical);
   m_splitter->addWidget(m_chart_canvas);
   m_splitter->addWidget(CreateTableEnvelopWidget().release());
 
   layout->addWidget(m_splitter);
 
-  addActions(m_actions->GetActions(GetToolBarActionKeys()));
+  addActions(GetCanvasToolBarActions(m_actions));
 
   SetupConnections();
 }
@@ -142,8 +150,13 @@ std::unique_ptr<QWidget> WaveformEditorWidget::CreateTableEnvelopWidget()
 {
   auto result = std::make_unique<QWidget>();
 
+  m_table_tool_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  m_table_tool_bar->setIconSize(sup::gui::utils::ToolBarIconSize());
+  m_table_tool_bar->addActions(GetTableToolBarActions(m_actions));
+
   auto layout = new QVBoxLayout(result.get());
   layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
   layout->addWidget(m_table_tool_bar);
   layout->addWidget(m_table_widget);
 
