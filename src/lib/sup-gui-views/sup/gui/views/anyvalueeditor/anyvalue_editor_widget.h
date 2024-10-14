@@ -93,6 +93,11 @@ public:
    */
   AnyValueItem* GetTopItem();
 
+  /**
+   * @brief Returns the result of editing.
+   */
+  std::unique_ptr<sup::gui::AnyValueItem> GetResult();
+
 private:
   void ReadSettings();
   void WriteSettings();

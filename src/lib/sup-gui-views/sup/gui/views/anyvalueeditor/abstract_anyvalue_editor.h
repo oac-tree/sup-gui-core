@@ -38,10 +38,22 @@ class AbstractAnyValueEditor : public QWidget
 public:
   explicit AbstractAnyValueEditor(QWidget* parent) : QWidget(parent) {}
 
+  /**
+   * @brief Sets initial value.
+   *
+   * The given value will be cloned inside the editor's model and used as a starting point for
+   * editing.
+   */
   virtual void SetInitialValue(const sup::gui::AnyValueItem* item) = 0;
 
+  /**
+   * @brief Sets the description of the editor.
+   */
   virtual void SetDescription(const QString& description) {};
 
+  /**
+   * @brief Returns the result of editing.
+   */
   virtual std::unique_ptr<sup::gui::AnyValueItem> GetResult() = 0;
 };
 

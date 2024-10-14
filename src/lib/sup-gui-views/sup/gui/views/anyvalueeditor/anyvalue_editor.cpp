@@ -26,7 +26,6 @@
 #include <sup/gui/views/waveformeditor/anyvalue_waveform_editor.h>
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/item_utils.h>
 
 #include <QVBoxLayout>
 
@@ -75,12 +74,7 @@ void AnyValueEditor::SetInitialValue(const AnyValueItem *item)
 
 std::unique_ptr<AnyValueItem> AnyValueEditor::GetResult()
 {
-  if (auto top_item = GetTopItem(); top_item)
-  {
-    return mvvm::utils::CloneItem(*top_item);
-  }
-
-  return {};
+  return m_editor_widget->GetResult();
 }
 
 AnyValueItem *AnyValueEditor::GetTopItem()

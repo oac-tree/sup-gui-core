@@ -31,6 +31,7 @@
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
 #include <sup/gui/widgets/style_utils.h>
+#include <mvvm/model/item_utils.h>
 
 #include <mvvm/utils/file_utils.h>
 
@@ -152,6 +153,16 @@ void AnyValueEditorWidget::SetInitialValue(const AnyValueItem &item)
 AnyValueItem *AnyValueEditorWidget::GetTopItem()
 {
   return m_action_handler->GetTopItem();
+}
+
+std::unique_ptr<AnyValueItem> AnyValueEditorWidget::GetResult()
+{
+  if (auto top_item = GetTopItem(); top_item)
+  {
+    return mvvm::utils::CloneItem(*top_item);
+  }
+
+  return {};
 }
 
 void AnyValueEditorWidget::ReadSettings()
