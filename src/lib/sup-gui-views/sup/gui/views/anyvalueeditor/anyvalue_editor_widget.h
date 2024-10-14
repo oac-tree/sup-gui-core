@@ -47,7 +47,7 @@ class AnyValueEditorActions;
 /**
  * @brief The AnyValueEditorWidget class is a main widget of AnyValueEditor.
  *
- * @details It contains a toolbar, a tree for AnyValueItem editing, and optional panel with JSON
+ * It contains a toolbar, a tree for AnyValueItem editing, and optional panel with JSON
  * representation.
  */
 class AnyValueEditorWidget : public QWidget

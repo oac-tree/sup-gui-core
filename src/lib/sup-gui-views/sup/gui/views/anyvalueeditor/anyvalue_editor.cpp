@@ -65,6 +65,8 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   m_model->SetUndoEnabled(kEnableUndo, kUndoLimit);
 }
 
+AnyValueEditor::~AnyValueEditor() = default;
+
 void AnyValueEditor::SetInitialValue(const AnyValueItem *item)
 {
   m_editor_widget->SetInitialValue(*item);
@@ -113,7 +115,5 @@ void AnyValueEditor::OnProjectLoad()
 {
   m_editor_widget->SetAnyValueItemContainer(m_model->GetRootItem());
 }
-
-AnyValueEditor::~AnyValueEditor() = default;
 
 }  // namespace sup::gui

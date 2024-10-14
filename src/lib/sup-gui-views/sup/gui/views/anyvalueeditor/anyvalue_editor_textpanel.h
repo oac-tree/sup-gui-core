@@ -40,14 +40,16 @@ class CodeView;
 class VisibilityAgentBase;
 class AnyValueItem;
 
-//! Collapsible panel on the right of AnyValueEditor with JSON representation of AnyValue.
-
+/**
+ * @brief The AnyValueEditorTextPanel class represents a collapsible panel on the right of
+ * AnyValueEditor with JSON representation of AnyValue.
+ */
 class AnyValueEditorTextPanel : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTextPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit AnyValueEditorTextPanel(QWidget* parent = nullptr);
   ~AnyValueEditorTextPanel() override;
 
   /**
@@ -61,6 +63,8 @@ signals:
   void ExportToFileRequest();
 
 private:
+  mvvm::ISessionModel* GetModel();
+
   void SetupActions();
   void UpdateJson();
   void SetupListener();
@@ -70,7 +74,6 @@ private:
   QAction* m_pretty_action{nullptr};
 
   CodeView* m_json_view{nullptr};
-  mvvm::ISessionModel* m_model{nullptr};
   mvvm::SessionItem* m_container{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;
   bool m_pretty_json{true};

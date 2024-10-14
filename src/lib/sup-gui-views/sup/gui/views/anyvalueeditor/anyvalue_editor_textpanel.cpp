@@ -19,6 +19,7 @@
 
 #include "anyvalue_editor_textpanel.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_utils.h>
@@ -40,11 +41,8 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ISessionModel *model, QWidget *parent)
-    : QWidget(parent)
-    , m_json_view(new CodeView(CodeView::kJSON))
-    , m_model(model)
-    , m_listener(std::make_unique<mvvm::ModelListener>(m_model))
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent)
+    : QWidget(parent), m_json_view(new CodeView(CodeView::kJSON))
 {
   setWindowTitle("JSON view");
 
@@ -66,10 +64,15 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(mvvm::ISessionModel *model, QWi
   m_visibility_agent = new sup::gui::VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
 }
 
+AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
+
 void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
 {
   m_container = container;
-  UpdateJson();
+  if (isVisible())
+  {
+    SetupListener();
+  }
 }
 
 void AnyValueEditorTextPanel::SetJSONPretty(bool value)
@@ -81,6 +84,11 @@ void AnyValueEditorTextPanel::SetJSONPretty(bool value)
                                            : utils::GetIcon("checkbox-blank-circle-outline"));
     UpdateJson();
   }
+}
+
+mvvm::ISessionModel *AnyValueEditorTextPanel::GetModel()
+{
+  return m_container ? m_container->GetModel() : nullptr;
 }
 
 void AnyValueEditorTextPanel::SetupActions()
@@ -101,8 +109,6 @@ void AnyValueEditorTextPanel::SetupActions()
           &AnyValueEditorTextPanel::ExportToFileRequest);
   addAction(m_export_action);
 }
-
-AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
 
 void AnyValueEditorTextPanel::UpdateJson()
 {
@@ -130,16 +136,19 @@ void AnyValueEditorTextPanel::UpdateJson()
 
 void AnyValueEditorTextPanel::SetupListener()
 {
-  m_listener = std::make_unique<mvvm::ModelListener>(m_model);
+  if (GetModel())
+  {
+    m_listener = std::make_unique<mvvm::ModelListener>(GetModel());
 
-  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>([this](auto)
-                                                      { SetAnyValueItemContainer(nullptr); });
+    m_listener->Connect<mvvm::ModelAboutToBeResetEvent>([this](auto)
+                                                        { SetAnyValueItemContainer(nullptr); });
 
-  m_listener->Connect<mvvm::DataChangedEvent>([this](auto) { UpdateJson(); });
-  m_listener->Connect<mvvm::ItemInsertedEvent>([this](auto) { UpdateJson(); });
-  m_listener->Connect<mvvm::ItemRemovedEvent>([this](auto) { UpdateJson(); });
+    m_listener->Connect<mvvm::DataChangedEvent>([this](auto) { UpdateJson(); });
+    m_listener->Connect<mvvm::ItemInsertedEvent>([this](auto) { UpdateJson(); });
+    m_listener->Connect<mvvm::ItemRemovedEvent>([this](auto) { UpdateJson(); });
 
-  UpdateJson();
+    UpdateJson();
+  }
 }
 
 AnyValueItem *AnyValueEditorTextPanel::GetAnyValueItem()

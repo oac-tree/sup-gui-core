@@ -76,7 +76,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ISessionModel *model, QWidget *
     , m_action_handler(
           new AnyValueEditorActionHandler(CreateActionContext(), m_model->GetRootItem(), this))
     , m_actions(new AnyValueEditorActions(m_action_handler, this))
-    , m_text_panel(new AnyValueEditorTextPanel(m_model))
+    , m_text_panel(new AnyValueEditorTextPanel)
     , m_tree_panel(new AnyValueEditorTreePanel(m_model))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
@@ -98,6 +98,8 @@ AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ISessionModel *model, QWidget *
   ReadSettings();
 
   m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
+
+  SetAnyValueItemContainer(m_model->GetRootItem());
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
