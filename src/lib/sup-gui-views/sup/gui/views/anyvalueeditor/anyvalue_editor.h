@@ -22,7 +22,6 @@
 
 #include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
 
-#include <QString>
 #include <QWidget>
 #include <memory>
 
@@ -53,12 +52,6 @@ public:
   std::unique_ptr<sup::gui::AnyValueItem> GetResult() override;
 
   AnyValueItem* GetTopItem();
-
-  mvvm::ApplicationModel* GetModel() const;
-
-  void OnImportFromFileRequest();
-  void OnExportToFileRequest();
-  void OnProjectLoad();
 
 private:
   std::unique_ptr<mvvm::ApplicationModel> m_model;

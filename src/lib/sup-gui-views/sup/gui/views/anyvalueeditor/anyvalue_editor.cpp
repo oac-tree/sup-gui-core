@@ -70,24 +70,4 @@ AnyValueItem *AnyValueEditor::GetTopItem()
   return m_editor_widget->GetTopItem();
 }
 
-mvvm::ApplicationModel *AnyValueEditor::GetModel() const
-{
-  return m_model.get();
-}
-
-void AnyValueEditor::OnImportFromFileRequest()
-{
-  m_editor_widget->OnImportFromFileRequest();
-}
-
-void AnyValueEditor::OnExportToFileRequest()
-{
-  m_editor_widget->OnExportToFileRequest();
-}
-
-void AnyValueEditor::OnProjectLoad()
-{
-  m_editor_widget->SetAnyValueItemContainer(m_model->GetRootItem());
-}
-
 }  // namespace sup::gui
