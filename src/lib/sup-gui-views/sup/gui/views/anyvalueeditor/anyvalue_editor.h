@@ -37,6 +37,9 @@ namespace sup::gui
 class AnyValueEditorWidget;
 class AnyValueItem;
 
+/**
+ * @brief The AnyValueEditor class is an evelop to provide AnyValueEditorWidget with the model.
+ */
 class AnyValueEditor : public AbstractAnyValueEditor
 {
   Q_OBJECT
@@ -54,7 +57,6 @@ public:
   mvvm::ApplicationModel* GetModel() const;
 
   void OnImportFromFileRequest();
-  void OnImportWaveformRequest();
   void OnExportToFileRequest();
   void OnProjectLoad();
 

@@ -28,11 +28,13 @@
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/tree_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
+#include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog_factory.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
 #include <sup/gui/widgets/style_utils.h>
-#include <mvvm/model/item_utils.h>
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
@@ -137,6 +139,15 @@ void AnyValueEditorWidget::OnExportToFileRequest()
   {
     m_action_handler->OnExportToFileRequest(file_name.toStdString());
     UpdateCurrentWorkdir(file_name);
+  }
+}
+
+void AnyValueEditorWidget::OnImportWaveformRequest()
+{
+  auto dialog = CreateWaveformEditorDialog(GetTopItem(), this);
+  if (dialog->exec() == QDialog::Accepted)
+  {
+    SetInitialValue(*dialog->GetResult());
   }
 }
 

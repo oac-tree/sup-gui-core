@@ -76,6 +76,11 @@ public:
   void OnExportToFileRequest();
 
   /**
+   * @brief Import waveform from external dialog.
+   */
+  void OnImportWaveformRequest();
+
+  /**
    * @brief Returns AnyValueItem selected by the user in item tree.
    */
   sup::gui::AnyValueItem* GetSelectedItem() const;
