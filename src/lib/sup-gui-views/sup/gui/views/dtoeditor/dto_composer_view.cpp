@@ -41,11 +41,11 @@ namespace sup::gui
 namespace
 {
 
-DtoComposerTabController::create_widget_callback_t CreateCallback(mvvm::ISessionModel *model)
+DtoComposerTabController::create_widget_callback_t CreateCallback()
 {
-  return [model](mvvm::SessionItem *item)
+  return [](mvvm::SessionItem *item)
   {
-    auto result = std::make_unique<AnyValueEditorWidget>(model);
+    auto result = std::make_unique<AnyValueEditorWidget>();
     result->SetAnyValueItemContainer(item);
     return result;
   };
@@ -58,7 +58,7 @@ DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
     , m_model(model)
     , m_tab_widget(new QTabWidget)
     , m_tab_controller(
-          std::make_unique<DtoComposerTabController>(m_model, CreateCallback(model), m_tab_widget))
+          std::make_unique<DtoComposerTabController>(m_model, CreateCallback(), m_tab_widget))
     , m_actions(new DtoComposerActions(this))
     , m_action_handler(new DtoComposerActionHandler(m_model, this))
 {

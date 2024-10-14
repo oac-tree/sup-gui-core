@@ -54,7 +54,7 @@ namespace sup::gui
 AnyValueEditor::AnyValueEditor(QWidget *parent)
     : AbstractAnyValueEditor(parent)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_editor_widget(new AnyValueEditorWidget(m_model.get()))
+    , m_editor_widget(new AnyValueEditorWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -63,6 +63,7 @@ AnyValueEditor::AnyValueEditor(QWidget *parent)
   layout->addWidget(m_editor_widget);
 
   m_model->SetUndoEnabled(kEnableUndo, kUndoLimit);
+  m_editor_widget->SetAnyValueItemContainer(m_model->GetRootItem());
 }
 
 AnyValueEditor::~AnyValueEditor() = default;

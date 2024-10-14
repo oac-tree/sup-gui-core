@@ -31,7 +31,6 @@ class QSplitter;
 
 namespace mvvm
 {
-class ISessionModel;
 class SessionItem;
 }  // namespace mvvm
 
@@ -55,7 +54,7 @@ class AnyValueEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorWidget(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit AnyValueEditorWidget(QWidget* parent = nullptr);
   ~AnyValueEditorWidget() override;
 
   /**
@@ -125,7 +124,6 @@ private:
 
   QAction* m_show_right_sidebar{nullptr};
 
-  mvvm::ISessionModel* m_model{nullptr};
   AnyValueEditorActionHandler* m_action_handler{nullptr};
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};
