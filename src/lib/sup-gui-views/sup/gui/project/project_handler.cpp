@@ -58,6 +58,7 @@ ProjectHandler::ProjectHandler(mvvm::ProjectType project_type, const QString& ap
     , m_user_interactor(CreateUserInteractor(project_type, application_type, parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_models(models)
+    , m_project(mvvm::utils::CreateUntitledProject(m_project_type, CreateProjectContext()))
 {
   InitProjectManager();
   UpdateNames();
@@ -138,9 +139,7 @@ void ProjectHandler::SetUseNativeDialog(bool value)
 
 void ProjectHandler::InitProjectManager()
 {
-  auto project_factory_func = [this]() { return CreateProject(); };
-  auto user_context = m_user_interactor->CreateContext();
-  m_project_manager = CreateProjectManager(project_factory_func, user_context);
+  m_project_manager = CreateProjectManager(*m_project, m_user_interactor->CreateContext());
 }
 
 void ProjectHandler::UpdateNames()
@@ -168,13 +167,13 @@ void ProjectHandler::UpdateRecentProjectNames()
       QString::fromStdString(m_project_manager->CurrentProjectPath()));
 }
 
-std::unique_ptr<mvvm::IProject> ProjectHandler::CreateProject()
+mvvm::ProjectContext ProjectHandler::CreateProjectContext()
 {
-  mvvm::ProjectContext project_context;
-  project_context.modified_callback = [this]() { UpdateCurrentProjectName(); };
-  project_context.models_callback = [this]() { return m_models; };
-  project_context.application_type = m_application_type.toStdString();
-  return mvvm::utils::CreateUntitledProject(m_project_type, project_context);
+  mvvm::ProjectContext result;
+  result.modified_callback = [this]() { UpdateCurrentProjectName(); };
+  result.models_callback = [this]() { return m_models; };
+  result.application_type = m_application_type.toStdString();
+  return result;
 }
 
 }  // namespace sup::gui

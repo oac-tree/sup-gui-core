@@ -32,6 +32,7 @@ namespace mvvm
 class IProject;
 class IProjectManager;
 class ISessionModel;
+class ProjectContext;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -167,7 +168,7 @@ private:
   /**
    * @brief Creates new project.
    */
-  std::unique_ptr<mvvm::IProject> CreateProject();
+  mvvm::ProjectContext CreateProjectContext();
 
   //!< fixed type of projects which this handler generates
   mvvm::ProjectType m_project_type;
@@ -178,14 +179,17 @@ private:
   //!< knows how to interact with the user
   std::unique_ptr<AbstractProjectUserInteractor> m_user_interactor;
 
+  //!< models intended for serialization
+  std::vector<mvvm::ISessionModel*> m_models;
+
+  //!< project
+  std::unique_ptr<mvvm::IProject> m_project;
+
   //!< performs actual model saving
   std::unique_ptr<mvvm::IProjectManager> m_project_manager;
 
   //!< tracks recent projects
   std::unique_ptr<sup::gui::RecentProjectSettings> m_recent_projects;
-
-  //!< models intended for serialization
-  std::vector<mvvm::ISessionModel*> m_models;
 };
 
 }  // namespace sup::gui
