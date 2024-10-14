@@ -51,6 +51,12 @@ namespace sup::gui
 {
 
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
+                                                         QObject* parent)
+    : AnyValueEditorActionHandler(context, nullptr, parent)
+{
+}
+
+AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
                                                          mvvm::SessionItem* container,
                                                          QObject* parent)
     : QObject(parent), m_container(container), m_context(std::move(context))
@@ -362,7 +368,7 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
 
   const bool top_item_exists = GetTopItem() != nullptr;
   const bool top_item_selected = GetSelectedItem() && GetSelectedItem() == GetTopItem();
-  const bool no_selection = GetSelectedItem() == nullptr;  
+  const bool no_selection = GetSelectedItem() == nullptr;
   if (top_item_exists && (top_item_selected || no_selection))
   {
     return sup::gui::QueryResult::Failure(

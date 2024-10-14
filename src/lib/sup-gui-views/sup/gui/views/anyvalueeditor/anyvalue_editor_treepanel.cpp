@@ -37,13 +37,13 @@ const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 namespace sup::gui
 {
 
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(mvvm::ISessionModel *model, QWidget *parent)
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent)
     : QWidget(parent)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
     , m_custom_header(
           new sup::gui::CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
-    , m_component_provider(std::make_unique<TreeViewComponentProvider>(model, m_tree_view))
+    , m_component_provider(std::make_unique<TreeViewComponentProvider>(nullptr, m_tree_view))
 {
   setWindowTitle("AnyValue tree");
 

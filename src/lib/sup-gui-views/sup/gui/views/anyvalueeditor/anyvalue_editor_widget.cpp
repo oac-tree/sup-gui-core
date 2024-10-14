@@ -73,11 +73,10 @@ namespace sup::gui
 AnyValueEditorWidget::AnyValueEditorWidget(mvvm::ISessionModel *model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
-    , m_action_handler(
-          new AnyValueEditorActionHandler(CreateActionContext(), m_model->GetRootItem(), this))
+    , m_action_handler(new AnyValueEditorActionHandler(CreateActionContext(), this))
     , m_actions(new AnyValueEditorActions(m_action_handler, this))
     , m_text_panel(new AnyValueEditorTextPanel)
-    , m_tree_panel(new AnyValueEditorTreePanel(m_model))
+    , m_tree_panel(new AnyValueEditorTreePanel)
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
     , m_splitter(new QSplitter)
