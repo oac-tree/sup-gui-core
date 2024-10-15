@@ -49,7 +49,7 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(QMainWindow* mainwindow = nullptr);
+  explicit AnyValueEditorMainWindowActions(mvvm::ISessionModel* model, QMainWindow* mainwindow = nullptr);
   ~AnyValueEditorMainWindowActions() override;
 
   /**
@@ -63,8 +63,6 @@ public:
    * @return True in the case of success.
    */
   bool CloseCurrentProject() const;
-
-  void SetModel(mvvm::ISessionModel* model);
 
 signals:
   void OnImportFromFileRequest();

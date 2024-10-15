@@ -77,10 +77,9 @@ void AnyValueEditorMainWindow::InitApplication()
 void AnyValueEditorMainWindow::InitComponents()
 {
   // it should be initialised first, since it creates global proxy actions used by others
-  m_action_manager = new AnyValueEditorMainWindowActions(this);
+  m_action_manager = new AnyValueEditorMainWindowActions(m_model.get(), this);
 
   m_anyvalue_editor = new sup::gui::AnyValueEditorWidget;
-  m_action_manager->SetModel(m_model.get());
 
   setCentralWidget(m_anyvalue_editor);
 

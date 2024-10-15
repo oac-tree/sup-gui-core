@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_context.h
   anyvalue_editor_helper.cpp
   anyvalue_editor_helper.h
+  anyvalue_editor_project.cpp
+  anyvalue_editor_project.h
   custom_metatypes.cpp
   custom_metatypes.h
   dto_composer_action_handler.cpp

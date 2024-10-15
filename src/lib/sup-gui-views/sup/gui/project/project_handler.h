@@ -74,11 +74,6 @@ public:
   ~ProjectHandler() override;
 
   /**
-   * @brief Sets models.
-   */
-  void SetModels(const std::vector<mvvm::ISessionModel*>& models);
-
-  /**
    * @brief Closes current project.
    *
    * Internally performs check for unsaved data, and proceeds via save/discard/cancel dialog.
