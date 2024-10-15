@@ -58,7 +58,7 @@ ProjectHandler::ProjectHandler(mvvm::ProjectType project_type, const QString& ap
     , m_user_interactor(CreateUserInteractor(project_type, application_type, parent))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_models(models)
-    , m_project(mvvm::utils::CreateUntitledProject(m_project_type, CreateProjectContext()))
+    , m_project(mvvm::utils::CreateUntitledProject(m_project_type, models, CreateProjectContext()))
 {
   InitProjectManager();
   UpdateNames();
@@ -171,7 +171,6 @@ mvvm::ProjectContext ProjectHandler::CreateProjectContext()
 {
   mvvm::ProjectContext result;
   result.modified_callback = [this]() { UpdateCurrentProjectName(); };
-  result.models_callback = [this]() { return m_models; };
   result.application_type = m_application_type.toStdString();
   return result;
 }
