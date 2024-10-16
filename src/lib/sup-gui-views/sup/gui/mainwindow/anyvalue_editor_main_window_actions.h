@@ -49,7 +49,8 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(mvvm::ISessionModel* model, QMainWindow* mainwindow = nullptr);
+  explicit AnyValueEditorMainWindowActions(mvvm::ISessionModel* model,
+                                           QMainWindow* mainwindow = nullptr);
   ~AnyValueEditorMainWindowActions() override;
 
   /**

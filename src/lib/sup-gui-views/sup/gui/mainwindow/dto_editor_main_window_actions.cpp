@@ -36,19 +36,14 @@
 #include <QMainWindow>
 #include <QMenuBar>
 
-namespace
-{
-const QString kDtoEditorApplicationType = "SupDtoEditor";
-}
-
 namespace sup::gui
 {
 
 DtoEditorMainWindowActions::DtoEditorMainWindowActions(
     const std::vector<mvvm::ISessionModel *> &models, QMainWindow *mainwindow)
     : QObject(mainwindow)
-    , m_project_handler(new sup::gui::ProjectHandler(mvvm::ProjectType::kFileBased,
-                                                     kDtoEditorApplicationType, models, mainwindow))
+    , m_project_handler(new sup::gui::ProjectHandler(
+          mvvm::ProjectType::kFileBased, constants::kDtoEditorApplicationType, models, mainwindow))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(),

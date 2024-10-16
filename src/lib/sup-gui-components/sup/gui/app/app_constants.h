@@ -21,7 +21,7 @@
 #define SUP_GUI_APP_APP_CONSTANTS_H_
 
 //! @file
-//! Collection of constants related to a global action registration.
+//! Collection of constants related to the whole application.
 
 #include <QString>
 
@@ -39,13 +39,17 @@ const QString kToolsMenu = "&Tools";
 const QString kViewMenu = "&View";
 const QString kHelpMenu = "&Help";
 
-//! Identifiers to find globally registered proxy actions located on the main application toolbar.
+//! identifiers to find globally registered proxy actions located on the main application toolbar
 const QString kCutCommandId = "Cut";
 const QString kCopyCommandId = "Copy";
 const QString kPasteCommandId = "Paste";
 const QString kPasteSpecialCommandId = "Paste Special";
 const QString kUndoCommandId = "Undo";
 const QString kRedoCommandId = "Redo";
+
+//! identifiers to distinguish XML projects from different applications
+const QString kAnyValueEditorApplicationType = "AnyValueEditor";
+const QString kDtoEditorApplicationType = "SupDtoEditor";
 
 }  // namespace sup::gui::constants
 

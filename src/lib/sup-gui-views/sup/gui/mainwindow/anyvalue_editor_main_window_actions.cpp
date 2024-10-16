@@ -36,18 +36,15 @@
 #include <QMainWindow>
 #include <QMenuBar>
 
-namespace
-{
-const QString kAnyValueEditorApplicationType = "AnyValueEditor";
-}
-
 namespace sup::gui
 {
 
-AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::ISessionModel *model, QMainWindow *mainwindow)
+AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::ISessionModel *model,
+                                                                 QMainWindow *mainwindow)
     : QObject(mainwindow)
-    , m_project_handler(new sup::gui::ProjectHandler(
-          mvvm::ProjectType::kFileBased, kAnyValueEditorApplicationType, {model}, mainwindow))
+    , m_project_handler(new sup::gui::ProjectHandler(mvvm::ProjectType::kFileBased,
+                                                     constants::kAnyValueEditorApplicationType,
+                                                     {model}, mainwindow))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
