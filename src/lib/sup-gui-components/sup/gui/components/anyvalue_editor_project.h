@@ -30,22 +30,38 @@ class ApplicationModel;
 namespace sup::gui
 {
 
-// class AnyValueEditorProject : public mvvm::AbstractProject
-// {
-// public:
-//   explicit AnyValueEditorProject(const AnyValueEditorProjectContext& context);
-//   ~AnyValueEditorProject() override;
+/**
+ * @brief The AnyValueEditorProject class is a main project for anyvalue-editor application.
+ *
+ * It owns a single ApplicationModel for AnyValue editing. Belongs to AnyValueEditorMainWindow.
+ */
+class AnyValueEditorProject : public mvvm::AbstractProject
+{
+public:
+  using callback_t = std::function<void()>;
 
-//   std::vector<mvvm::ISessionModel*> GetModels() const override;
+  /**
+   * @brief Main c-tor.
+   *
+   * @param modified_callback A callback to report when project was modified.
+   * @param loaded_callback A callback to report when project was reloaded.
+   */
+  explicit AnyValueEditorProject(callback_t modified_callback, callback_t loaded_callback);
 
-// private:
-//   bool SaveImpl(const std::string& path) override;
-//   bool LoadImpl(const std::string& path) override;
-//   bool CloseProjectImpl() override;
-//   bool CreateNewProjectImpl() override;
+  ~AnyValueEditorProject() override;
 
-//   std::unique_ptr<mvvm::ApplicationModel> m_model;
-// };
+  mvvm::ApplicationModel* GetApplicationModel();
+
+  std::vector<mvvm::ISessionModel*> GetModels() const override;
+
+private:
+  bool SaveImpl(const std::string& path) override;
+  bool LoadImpl(const std::string& path) override;
+  bool CloseProjectImpl() override;
+  bool CreateNewProjectImpl() override;
+
+  std::unique_ptr<mvvm::ApplicationModel> m_model;
+};
 
 }  // namespace sup::gui
 
