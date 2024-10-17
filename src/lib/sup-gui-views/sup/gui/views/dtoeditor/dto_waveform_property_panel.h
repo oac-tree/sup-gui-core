@@ -49,7 +49,7 @@ class DtoWaveformPropertyPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformPropertyPanel(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformPropertyPanel(QWidget* parent = nullptr);
   ~DtoWaveformPropertyPanel() override;
 
   /**

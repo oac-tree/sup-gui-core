@@ -32,7 +32,7 @@
 namespace sup::gui
 {
 
-DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(mvvm::ISessionModel* model, QWidget* parent)
+DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(QWidget* parent)
     : QWidget(parent)
     , m_stack_widget(new sup::gui::ItemStackWidget)
     , m_plot_property_tree(new mvvm::AllItemsTreeView)

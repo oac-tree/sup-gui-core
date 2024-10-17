@@ -44,7 +44,7 @@ class DtoWaveformEditorPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformEditorPanel(WaveformModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformEditorPanel(QWidget* parent = nullptr);
   ~DtoWaveformEditorPanel() override;
 
   /**
