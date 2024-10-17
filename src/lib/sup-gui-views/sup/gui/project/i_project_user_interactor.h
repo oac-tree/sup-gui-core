@@ -27,8 +27,6 @@
 namespace sup::gui
 {
 
-struct MessageEvent;
-
 /**
  * @brief The IProjectUserInteractor class defines an interface for the interaction with the user
  * while saving/loading projects.
