@@ -57,11 +57,6 @@ bool AppProject::SaveImpl(const std::string &path)
 
 bool AppProject::LoadImpl(const std::string &path)
 {
-  if (GetModels().empty())
-  {
-    return false;
-  }
-
   // creating and populating copies first
   auto models = CreateModels();
   auto document =

@@ -218,4 +218,18 @@ TEST_F(AppProjectTest, SaveAndLoad)
   ASSERT_NE(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()), nullptr);
   // expecting old value which we had at the moment of save
   EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
+
+  // closing, and loading again
+  EXPECT_TRUE(project->CloseProject());
+
+  // setting up expectation before document load
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+
+  EXPECT_TRUE(project->Load(expected_path));
+  recreated_model = project->GetModel<TestModelB>(1U);
+  ASSERT_NE(recreated_model, nullptr);
+  ASSERT_NE(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()), nullptr);
+  // expecting old value which we had at the moment of save
+  EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
+
 }
