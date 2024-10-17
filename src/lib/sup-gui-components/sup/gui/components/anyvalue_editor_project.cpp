@@ -21,11 +21,7 @@
 
 #include <sup/gui/app/app_constants.h>
 
-#include <mvvm/factories/model_document_factory.h>
 #include <mvvm/model/application_model.h>
-#include <mvvm/serialization/xml_document_helper.h>
-
-#include <QString>
 
 namespace sup::gui
 {
@@ -47,52 +43,16 @@ mvvm::ProjectContext CreateContext(AnyValueEditorProject::callback_t modified_ca
 
 AnyValueEditorProject::AnyValueEditorProject(callback_t modified_callback,
                                              callback_t loaded_callback)
-    : AbstractProject(mvvm::ProjectType::kFileBased,
-                      CreateContext(std::move(modified_callback), std::move(loaded_callback)))
+    : AppProject(CreateContext(std::move(modified_callback), std::move(loaded_callback)))
 {
-}
-
-mvvm::ApplicationModel *AnyValueEditorProject::GetApplicationModel()
-{
-  return m_model ? m_model.get() : nullptr;
+  RegisterModel<mvvm::ApplicationModel>();
 }
 
 AnyValueEditorProject::~AnyValueEditorProject() = default;
 
-std::vector<mvvm::ISessionModel *> AnyValueEditorProject::GetModels() const
+mvvm::ApplicationModel *AnyValueEditorProject::GetApplicationModel()
 {
-  std::vector<mvvm::ISessionModel *> result;
-  if (m_model)
-  {
-    result.push_back(m_model.get());
-  }
-  return result;
-}
-
-bool AnyValueEditorProject::SaveImpl(const std::string &path)
-{
-  auto document = mvvm::CreateXmlDocument(GetModels(), GetApplicationType());
-  document->Save(path);
-  return true;
-}
-
-bool AnyValueEditorProject::LoadImpl(const std::string &path)
-{
-  auto models = mvvm::LoadModels<mvvm::ApplicationModel>(path, GetApplicationType());
-  m_model = std::move(std::get<0>(models));
-  return true;
-}
-
-bool AnyValueEditorProject::CloseProjectImpl()
-{
-  m_model.reset();
-  return true;
-}
-
-bool AnyValueEditorProject::CreateNewProjectImpl()
-{
-  m_model = std::make_unique<mvvm::ApplicationModel>();
-  return true;
+  return GetModelCount() > 0 ? GetModel<mvvm::ApplicationModel>() : nullptr;
 }
 
 }  // namespace sup::gui

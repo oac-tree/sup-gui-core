@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_PROJECT_H_
 #define SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_PROJECT_H_
 
-#include <mvvm/project/abstract_project.h>
+#include <sup/gui/components/app_project.h>
 
 namespace mvvm
 {
@@ -35,11 +35,9 @@ namespace sup::gui
  *
  * It owns a single ApplicationModel for AnyValue editing. Belongs to AnyValueEditorMainWindow.
  */
-class AnyValueEditorProject : public mvvm::AbstractProject
+class AnyValueEditorProject : public AppProject
 {
 public:
-  using callback_t = std::function<void()>;
-
   /**
    * @brief Main c-tor.
    *
@@ -51,16 +49,6 @@ public:
   ~AnyValueEditorProject() override;
 
   mvvm::ApplicationModel* GetApplicationModel();
-
-  std::vector<mvvm::ISessionModel*> GetModels() const override;
-
-private:
-  bool SaveImpl(const std::string& path) override;
-  bool LoadImpl(const std::string& path) override;
-  bool CloseProjectImpl() override;
-  bool CreateNewProjectImpl() override;
-
-  std::unique_ptr<mvvm::ApplicationModel> m_model;
 };
 
 }  // namespace sup::gui

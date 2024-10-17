@@ -69,7 +69,7 @@ public:
    * Will throw if cast can't be done.
    */
   template <typename ModelT>
-  ModelT* GetModel(size_t index);
+  ModelT* GetModel(size_t index = 0);
 
 private:
   bool SaveImpl(const std::string& path) override;
