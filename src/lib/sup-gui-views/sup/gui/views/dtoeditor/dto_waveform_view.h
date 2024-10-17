@@ -47,7 +47,7 @@ class DtoWaveformView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoWaveformView(WaveformModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformView(QWidget* parent = nullptr);
   ~DtoWaveformView() override;
 
   void SetLineSeriesItem(mvvm::LineSeriesItem* waveform);
@@ -55,7 +55,7 @@ public:
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.
    */
-  void OnProjectLoad();
+  void SetWaveformModel(WaveformModel* model);
 
 private:
   QSplitter* m_splitter{nullptr};

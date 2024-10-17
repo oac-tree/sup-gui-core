@@ -52,13 +52,13 @@ class DtoWaveformListPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformListPanel(WaveformModel* model, QWidget* parent = nullptr);
+  explicit DtoWaveformListPanel(QWidget* parent = nullptr);
   ~DtoWaveformListPanel() override;
 
   /**
    * @brief Sets main viewport with waveforms.
    */
-  void SetViewport(mvvm::ChartViewportItem *viewport);
+  void SetViewport(mvvm::ChartViewportItem* viewport);
 
   mvvm::LineSeriesItem* GetSelectedWaveform();
 
@@ -73,7 +73,7 @@ private:
    */
   DtoWaveformEditorContext CreateContext();
 
-  WaveformModel* m_model{nullptr};
+  WaveformModel* GetWaveformModel();
 
   DtoWaveformActionHandler* m_action_handler{nullptr};
   DtoWaveformActions* m_actions{nullptr};
@@ -81,6 +81,8 @@ private:
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
   QListView* m_list_view{nullptr};
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
+
+  mvvm::ChartViewportItem* m_chart_viewport{nullptr};
 };
 
 }  // namespace sup::gui

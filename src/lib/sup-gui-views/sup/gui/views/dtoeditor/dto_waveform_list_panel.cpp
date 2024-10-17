@@ -36,9 +36,8 @@
 namespace sup::gui
 {
 
-DtoWaveformListPanel::DtoWaveformListPanel(WaveformModel *model, QWidget *parent)
+DtoWaveformListPanel::DtoWaveformListPanel(QWidget *parent)
     : QWidget(parent)
-    , m_model(model)
     , m_action_handler(new DtoWaveformActionHandler(CreateContext(), this))
     , m_actions(new DtoWaveformActions(m_action_handler))
     , m_stack_widget(new sup::gui::ItemStackWidget)
@@ -64,6 +63,7 @@ DtoWaveformListPanel::DtoWaveformListPanel(WaveformModel *model, QWidget *parent
 
 void DtoWaveformListPanel::SetViewport(mvvm::ChartViewportItem *viewport)
 {
+  m_chart_viewport = viewport;
   m_component_provider->SetItem(viewport);
   if (viewport->GetLineSeriesCount() > 0)
   {
@@ -87,11 +87,16 @@ DtoWaveformEditorContext DtoWaveformListPanel::CreateContext()
 {
   DtoWaveformEditorContext result;
 
-  result.waveform_container = [this]() { return m_model->GetViewPort(); };
-  result.data_container = [this]() { return m_model->GetDataContainer(); };
+  result.waveform_container = [this]() { return GetWaveformModel()->GetViewPort(); };
+  result.data_container = [this]() { return GetWaveformModel()->GetDataContainer(); };
   result.selected_waveform = [this]() { return GetSelectedWaveform(); };
 
   return result;
+}
+
+WaveformModel *DtoWaveformListPanel::GetWaveformModel()
+{
+  return dynamic_cast<WaveformModel *>(m_chart_viewport->GetModel());
 }
 
 }  // namespace sup::gui
