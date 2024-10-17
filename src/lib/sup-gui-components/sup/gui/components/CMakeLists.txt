@@ -15,6 +15,8 @@ target_sources(${library_name} PRIVATE
   dto_composer_action_handler.h
   dto_composer_tab_controller.cpp
   dto_composer_tab_controller.h
+  dto_editor_project.cpp
+  dto_editor_project.h
   dto_waveform_action_handler.cpp
   dto_waveform_action_handler.h
   dto_waveform_editor_context.h
