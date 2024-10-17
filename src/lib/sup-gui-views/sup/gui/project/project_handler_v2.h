@@ -57,12 +57,12 @@ public:
 
   QStringList GetRecentProjectList() const override;
 
-private:
   /**
    * @brief Performs internal updates related to project name change.
    */
   void UpdateNames();
 
+private:
   /**
    * @brief Updates the name of the current project on main window.
    */

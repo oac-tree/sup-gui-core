@@ -19,6 +19,8 @@
 
 #include "anyvalue_editor_main_window.h"
 
+#include <sup/gui/app/app_constants.h>
+#include <sup/gui/components/anyvalue_editor_project.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
@@ -27,9 +29,11 @@
 
 #include <QCloseEvent>
 #include <QCoreApplication>
-#include <QDialog>
 #include <QMenuBar>
 #include <QSettings>
+
+namespace sup::gui
+{
 
 namespace
 {
@@ -47,13 +51,11 @@ QString GetWindowPosSettingName()
 
 }  // namespace
 
-namespace sup::gui
-{
-AnyValueEditorMainWindow::AnyValueEditorMainWindow()
-    : m_model(std::make_unique<mvvm::ApplicationModel>())
+AnyValueEditorMainWindow::AnyValueEditorMainWindow() : m_project(CreateProject())
 {
   InitApplication();
-  OnProjectLoad();
+
+  m_project->CreateNewProject();
 }
 
 AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;
@@ -77,7 +79,7 @@ void AnyValueEditorMainWindow::InitApplication()
 void AnyValueEditorMainWindow::InitComponents()
 {
   // it should be initialised first, since it creates global proxy actions used by others
-  m_action_manager = new AnyValueEditorMainWindowActions(m_model.get(), this);
+  m_action_manager = new AnyValueEditorMainWindowActions(m_project.get(), this);
 
   m_anyvalue_editor = new sup::gui::AnyValueEditorWidget;
 
@@ -134,7 +136,21 @@ void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void AnyValueEditorMainWindow::OnProjectLoad()
 {
-  m_anyvalue_editor->SetAnyValueItemContainer(m_model->GetRootItem());
+  if (!m_project->GetApplicationModel())
+  {
+    throw RuntimeException("No model exists");
+  }
+
+  m_anyvalue_editor->SetAnyValueItemContainer(m_project->GetApplicationModel()->GetRootItem());
+}
+
+void AnyValueEditorMainWindow::OnProjectModified() {}
+
+std::unique_ptr<AnyValueEditorProject> AnyValueEditorMainWindow::CreateProject()
+{
+  auto modified_callback = [this]() { OnProjectModified(); };
+  auto loaded_callback = [this]() { OnProjectLoad(); };
+  return std::make_unique<AnyValueEditorProject>(modified_callback, loaded_callback);
 }
 
 }  // namespace sup::gui

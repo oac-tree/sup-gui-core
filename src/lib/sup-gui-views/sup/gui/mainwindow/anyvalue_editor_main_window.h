@@ -28,7 +28,7 @@ class QCloseEvent;
 
 namespace mvvm
 {
-class ApplicationModel;
+class IProject;
 }
 
 namespace sup::gui
@@ -36,6 +36,7 @@ namespace sup::gui
 
 class AnyValueEditorWidget;
 class AnyValueEditorMainWindowActions;
+class AnyValueEditorProject;
 
 /**
  * @brief The AnyValueEditorMainWindow class is a main window of anyvalue-editor application.
@@ -78,9 +79,17 @@ private:
    */
   void OnProjectLoad();
 
+  /**
+   * @brief Perform widgets setup on project modification.
+   */
+  void OnProjectModified();
+
+  std::unique_ptr<AnyValueEditorProject> CreateProject();
+
+  std::unique_ptr<AnyValueEditorProject> m_project;
+
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditorWidget* m_anyvalue_editor{nullptr};
-  std::unique_ptr<mvvm::ApplicationModel> m_model;
 };
 
 }  // namespace sup::gui

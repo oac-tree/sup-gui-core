@@ -32,6 +32,7 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QMainWindow>
+#include <QDebug>
 
 namespace sup::gui
 {
@@ -96,6 +97,7 @@ void ProjectHandlerV2::CreateNewProject()
 
 void ProjectHandlerV2::OpenExistingProject(const QString &path)
 {
+  qDebug() << "ProjectHandlerV2::OpenExistingProject" << path;
   if (m_project_manager->OpenExistingProject(path.toStdString()))
   {
     UpdateNames();
