@@ -21,6 +21,7 @@
 #define SUP_GUI_PROJECT_PROJECT_HANDLER_H_
 
 #include <mvvm/project/project_types.h>
+#include <sup/gui/project/i_project_handler.h>
 
 #include <QObject>
 #include <memory>
@@ -55,7 +56,7 @@ class RecentProjectSettings;
  * load. Documents that have different application types will not be loaded into the models of the
  * current application.
  */
-class ProjectHandler : public QObject
+class ProjectHandler : public QObject, public IProjectHandler
 {
   Q_OBJECT
 
@@ -83,12 +84,12 @@ public:
    *
    * @return True in the case of success.
    */
-  bool CloseCurrentProject();
+  bool CloseCurrentProject() override;
 
   /**
    * @brief Creates new project.
    */
-  void CreateNewProject();
+  void CreateNewProject() override;
 
   /**
    * @brief Opens existing project.
@@ -104,7 +105,7 @@ public:
    * full path to a project file, for the folder-based project, it is a full path to the project
    * directory.
    */
-  void OpenExistingProject(const QString& path);
+  void OpenExistingProject(const QString& path) override;
 
   /**
    * @brief Saves current project.
@@ -114,22 +115,22 @@ public:
    *
    * @return True in the case of success.
    */
-  void SaveCurrentProject();
+  void SaveCurrentProject() override;
 
   /**
    * @brief Summon dialog to select new project path and save project to it.
    */
-  void SaveProjectAs();
+  void SaveProjectAs() override;
 
   /**
    * @brief Clears the list of recent projects.
    */
-  void ClearRecentProjectsList();
+  void ClearRecentProjectsList() override;
 
   /**
    * @brief Returns the list of recent projects.
    */
-  QStringList GetRecentProjectList() const;
+  QStringList GetRecentProjectList() const override;
 
   /**
    * @brief Sets the flag responsible for using system native file/directory selection dialogs.

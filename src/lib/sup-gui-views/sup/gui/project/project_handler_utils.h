@@ -29,7 +29,7 @@ class QMenu;
 namespace sup::gui
 {
 
-class ProjectHandler;
+class IProjectHandler;
 
 /**
  * @brief Add to the menu an action to trigger "create new project" request.
@@ -37,12 +37,12 @@ class ProjectHandler;
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddNewProjectAction(QMenu* menu, ProjectHandler& handler);
+void AddNewProjectAction(QMenu* menu, IProjectHandler& handler);
 
 /**
  * @brief Add to the menu an action to trigger "close current project" request.
  */
-void AddOpenExistingProjectAction(QMenu* menu, ProjectHandler& handler);
+void AddOpenExistingProjectAction(QMenu* menu, IProjectHandler& handler);
 
 /**
  * @brief Add to the menu an action to trigger "save current project" request.
@@ -50,7 +50,7 @@ void AddOpenExistingProjectAction(QMenu* menu, ProjectHandler& handler);
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddSaveCurrentProjectAction(QMenu* menu, ProjectHandler& handler);
+void AddSaveCurrentProjectAction(QMenu* menu, IProjectHandler& handler);
 
 /**
  * @brief Add to the menu an action to trigger "save current project" request.
@@ -58,7 +58,7 @@ void AddSaveCurrentProjectAction(QMenu* menu, ProjectHandler& handler);
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddSaveProjectAsAction(QMenu* menu, ProjectHandler& handler);
+void AddSaveProjectAsAction(QMenu* menu, IProjectHandler& handler);
 
 /**
  * @brief Add to the menu entries to open recent projects.
@@ -66,7 +66,7 @@ void AddSaveProjectAsAction(QMenu* menu, ProjectHandler& handler);
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddRecentProjectActions(QMenu* menu, ProjectHandler& handler);
+void AddRecentProjectActions(QMenu* menu, IProjectHandler& handler);
 
 }  // namespace sup::gui
 

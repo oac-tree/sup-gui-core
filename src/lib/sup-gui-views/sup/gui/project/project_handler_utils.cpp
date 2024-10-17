@@ -19,6 +19,7 @@
 
 #include "project_handler_utils.h"
 
+#include "i_project_handler.h"
 #include "project_handler.h"
 
 #include <mvvm/widgets/widget_utils.h>
@@ -32,25 +33,24 @@ namespace
 /**
  * @brief Creates an action to trigger "create new project" request.
  */
-std::unique_ptr<QAction> CreateNewProjectAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateNewProjectAction(sup::gui::IProjectHandler &handler)
 {
   auto result = std::make_unique<QAction>("&New Project");
   result->setShortcuts(QKeySequence::New);
   result->setStatusTip("Create a new project");
-  QObject::connect(result.get(), &QAction::triggered, &handler,
-                   &sup::gui::ProjectHandler::CreateNewProject);
+  QObject::connect(result.get(), &QAction::triggered, [&handler]() { handler.CreateNewProject(); });
   return result;
 }
 
 /**
  * @brief Creates an action to trigger "open existing project" request.
  */
-std::unique_ptr<QAction> CreateOpenExistingProjectAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateOpenExistingProjectAction(sup::gui::IProjectHandler &handler)
 {
   auto result = std::make_unique<QAction>("&Open Project");
   result->setShortcuts(QKeySequence::Open);
   result->setStatusTip("Open an existing project");
-  QObject::connect(result.get(), &QAction::triggered, &handler,
+  QObject::connect(result.get(), &QAction::triggered,
                    [&handler]() { handler.OpenExistingProject({}); });
   return result;
 }
@@ -58,27 +58,26 @@ std::unique_ptr<QAction> CreateOpenExistingProjectAction(sup::gui::ProjectHandle
 /**
  * @brief Creates an action to trigger "save current project" request.
  */
-std::unique_ptr<QAction> CreateSaveCurrentProjectAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateSaveCurrentProjectAction(sup::gui::IProjectHandler &handler)
 {
   auto result = std::make_unique<QAction>("&Save Project");
   result->setShortcuts(QKeySequence::Save);
   result->setStatusTip("Save project");
   result->setShortcutContext(Qt::ApplicationShortcut);
-  QObject::connect(result.get(), &QAction::triggered, &handler,
-                   &sup::gui::ProjectHandler::SaveCurrentProject);
+  QObject::connect(result.get(), &QAction::triggered,
+                   [&handler]() { handler.SaveCurrentProject(); });
   return result;
 }
 
 /**
  * @brief Creates an action to trigger "save project as" request.
  */
-std::unique_ptr<QAction> CreateSaveProjectAsAction(sup::gui::ProjectHandler &handler)
+std::unique_ptr<QAction> CreateSaveProjectAsAction(sup::gui::IProjectHandler &handler)
 {
   auto result = std::make_unique<QAction>("Save &As...");
   result->setShortcuts(QKeySequence::SaveAs);
   result->setStatusTip("Save project under different name");
-  QObject::connect(result.get(), &QAction::triggered, &handler,
-                   &sup::gui::ProjectHandler::SaveProjectAs);
+  QObject::connect(result.get(), &QAction::triggered, [&handler]() { handler.SaveProjectAs(); });
   return result;
 }
 
@@ -96,27 +95,27 @@ void AddAction(QMenu *menu, std::unique_ptr<QAction> action)
 namespace sup::gui
 {
 
-void AddNewProjectAction(QMenu *menu, ProjectHandler &handler)
+void AddNewProjectAction(QMenu *menu, IProjectHandler &handler)
 {
   AddAction(menu, CreateNewProjectAction(handler));
 }
 
-void AddOpenExistingProjectAction(QMenu *menu, ProjectHandler &handler)
+void AddOpenExistingProjectAction(QMenu *menu, IProjectHandler &handler)
 {
   AddAction(menu, CreateOpenExistingProjectAction(handler));
 }
 
-void AddSaveCurrentProjectAction(QMenu *menu, ProjectHandler &handler)
+void AddSaveCurrentProjectAction(QMenu *menu, IProjectHandler &handler)
 {
   AddAction(menu, CreateSaveCurrentProjectAction(handler));
 }
 
-void AddSaveProjectAsAction(QMenu *menu, ProjectHandler &handler)
+void AddSaveProjectAsAction(QMenu *menu, IProjectHandler &handler)
 {
   AddAction(menu, CreateSaveProjectAsAction(handler));
 }
 
-void AddRecentProjectActions(QMenu *menu, ProjectHandler &handler)
+void AddRecentProjectActions(QMenu *menu, IProjectHandler &handler)
 {
   auto recent_projects = handler.GetRecentProjectList();
   menu->clear();
@@ -136,8 +135,8 @@ void AddRecentProjectActions(QMenu *menu, ProjectHandler &handler)
   {
     menu->addSeparator();
     auto action = menu->addAction("Clear Menu");
-    QAction::connect(action, &QAction::triggered, &handler,
-                     &sup::gui::ProjectHandler::ClearRecentProjectsList);
+    QAction::connect(action, &QAction::triggered,
+                     [&handler]() { handler.ClearRecentProjectsList(); });
   }
 }
 
