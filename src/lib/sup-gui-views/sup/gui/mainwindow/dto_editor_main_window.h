@@ -21,6 +21,7 @@
 #define SUP_GUI_MAINWINDOW_DTO_EDITOR_MAIN_WINDOW_H_
 
 #include <sup/gui/app/main_window_types.h>
+#include <sup/gui/components/dto_editor_project.h>
 
 #include <QMainWindow>
 #include <memory>
@@ -38,8 +39,7 @@ namespace sup::gui
 class DtoComposerView;
 class DtoEditorMainWindowActions;
 class DtoWaveformView;
-class SupDtoModel;
-class WaveformModel;
+class DtoEditorProject;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -82,9 +82,17 @@ private:
    */
   void OnProjectLoad();
 
-  std::unique_ptr<SupDtoModel> m_sup_dto_model;
-  std::unique_ptr<WaveformModel> m_waveform_model;
+  /**
+   * @brief Perform widgets setup on project modification.
+   */
+  void OnProjectModified();
 
+  /**
+   * @brief Creates main application project agent.
+   */
+  std::unique_ptr<DtoEditorProject> CreateProject();
+
+  std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};

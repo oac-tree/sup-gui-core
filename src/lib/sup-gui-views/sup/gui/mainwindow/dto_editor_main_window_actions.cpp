@@ -26,8 +26,8 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/project/project_handler.h>
 #include <sup/gui/project/project_handler_utils.h>
+#include <sup/gui/project/project_handler_v2.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 
 #include <mvvm/widgets/widget_utils.h>
@@ -39,11 +39,10 @@
 namespace sup::gui
 {
 
-DtoEditorMainWindowActions::DtoEditorMainWindowActions(
-    const std::vector<mvvm::ISessionModel *> &models, QMainWindow *mainwindow)
+DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
+                                                       QMainWindow *mainwindow)
     : QObject(mainwindow)
-    , m_project_handler(new sup::gui::ProjectHandler(
-          mvvm::ProjectType::kFileBased, constants::kDtoEditorApplicationType, models, mainwindow))
+    , m_project_handler(new sup::gui::ProjectHandlerV2(project))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(),
@@ -52,9 +51,6 @@ DtoEditorMainWindowActions::DtoEditorMainWindowActions(
 
   CreateActions(mainwindow);
   SetupMenus();
-
-  connect(m_project_handler, &ProjectHandler::ProjectLoaded, this,
-          &DtoEditorMainWindowActions::ProjectLoaded);
 }
 
 DtoEditorMainWindowActions::~DtoEditorMainWindowActions() = default;

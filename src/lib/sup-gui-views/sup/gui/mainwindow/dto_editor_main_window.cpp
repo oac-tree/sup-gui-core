@@ -50,12 +50,11 @@ const QString kWindowPosSettingName = kGroupName + "/" + "position";
 namespace sup::gui
 {
 
-DtoEditorMainWindow::DtoEditorMainWindow()
-    : m_sup_dto_model(std::make_unique<SupDtoModel>())
-    , m_waveform_model(std::make_unique<WaveformModel>())
+DtoEditorMainWindow::DtoEditorMainWindow() : m_project(CreateProject())
 {
   InitApplication();
-  OnProjectLoad();
+
+  m_project->CreateNewProject();
 }
 
 DtoEditorMainWindow::~DtoEditorMainWindow() = default;
@@ -79,8 +78,7 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager =
-      new DtoEditorMainWindowActions({m_sup_dto_model.get(), m_waveform_model.get()}, this);
+  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
@@ -147,8 +145,17 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
-  m_composer_view->SetModel(m_sup_dto_model.get());
-  m_waveform_view->SetWaveformModel(m_waveform_model.get());
+  m_composer_view->SetModel(m_project->GetSupDtoModel());
+  m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
+}
+
+void DtoEditorMainWindow::OnProjectModified() {}
+
+std::unique_ptr<DtoEditorProject> DtoEditorMainWindow::CreateProject()
+{
+  auto modified_callback = [this]() { OnProjectModified(); };
+  auto loaded_callback = [this]() { OnProjectLoad(); };
+  return std::make_unique<DtoEditorProject>(modified_callback, loaded_callback);
 }
 
 }  // namespace sup::gui

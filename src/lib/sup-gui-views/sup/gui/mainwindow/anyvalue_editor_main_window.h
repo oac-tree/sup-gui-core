@@ -84,10 +84,12 @@ private:
    */
   void OnProjectModified();
 
+  /**
+   * @brief Creates main application project agent.
+   */
   std::unique_ptr<AnyValueEditorProject> CreateProject();
 
   std::unique_ptr<AnyValueEditorProject> m_project;
-
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditorWidget* m_anyvalue_editor{nullptr};
 };

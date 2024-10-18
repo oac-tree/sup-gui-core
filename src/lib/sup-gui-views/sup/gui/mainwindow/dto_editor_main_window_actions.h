@@ -32,13 +32,13 @@ class QMenu;
 
 namespace mvvm
 {
-class ISessionModel;
+class IProject;
 }
 
 namespace sup::gui
 {
 
-class ProjectHandler;
+class ProjectHandlerV2;
 class AppContextFocusController;
 
 /**
@@ -49,7 +49,7 @@ class DtoEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoEditorMainWindowActions(const std::vector<mvvm::ISessionModel*>& models,
+  explicit DtoEditorMainWindowActions(mvvm::IProject* project,
                                       QMainWindow* mainwindow = nullptr);
   ~DtoEditorMainWindowActions() override;
 
@@ -88,7 +88,7 @@ private:
 
   QMenu* m_recent_project_menu{nullptr};
 
-  sup::gui::ProjectHandler* m_project_handler{nullptr};
+  sup::gui::ProjectHandlerV2* m_project_handler{nullptr};
   std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };
 
