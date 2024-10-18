@@ -44,6 +44,11 @@ public:
   explicit DtoComposerActionHandler(mvvm::ISessionModel* model, QObject* parent = nullptr);
 
   /**
+   * @brief Sets the model with AnyValueItem containers.
+   */
+  void SetModel(mvvm::ISessionModel* model);
+
+  /**
    * @brief Remove container with given index.
    */
   void OnRemoveContainer(int container_index);
@@ -59,6 +64,8 @@ public:
   void OnDuplicateContainer(int container_index);
 
 private:
+  void ValidateModel();
+
   mvvm::ISessionModel* m_model{nullptr};
 };
 

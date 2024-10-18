@@ -89,6 +89,11 @@ void DtoComposerView::OnProjectLoad()
   m_tab_controller->InitTabs();
 }
 
+void DtoComposerView::SetModel(mvvm::ISessionModel *model)
+{
+  m_action_handler->SetModel(model);
+}
+
 void DtoComposerView::SetupConnections()
 {
   // Connecting DtoComposerActions requests (add/duplicate/remove tabs) with

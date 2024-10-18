@@ -56,6 +56,8 @@ public:
    */
   void OnProjectLoad();
 
+  void SetModel(mvvm::ISessionModel* model);
+
 private:
   void SetupConnections();
   void SummonContextMenu(const QPoint& point);

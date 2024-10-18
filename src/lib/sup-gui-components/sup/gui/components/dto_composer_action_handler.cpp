@@ -31,30 +31,42 @@ namespace sup::gui
 DtoComposerActionHandler::DtoComposerActionHandler(mvvm::ISessionModel *model, QObject *parent)
     : QObject(parent), m_model(model)
 {
-  if (!m_model)
-  {
-    throw RuntimeException("DtoComposerActionHandler: model is not initialised");
-  }
+}
+
+void DtoComposerActionHandler::SetModel(mvvm::ISessionModel *model)
+{
+  m_model = model;
 }
 
 void DtoComposerActionHandler::OnRemoveContainer(int container_index)
 {
+  ValidateModel();
   m_model->TakeItem(m_model->GetRootItem(), mvvm::TagIndex::Default(container_index));
 }
 
 void DtoComposerActionHandler::OnAddNewContainer()
 {
+  ValidateModel();
   m_model->InsertItem<mvvm::ContainerItem>();
 }
 
 void DtoComposerActionHandler::OnDuplicateContainer(int container_index)
 {
+  ValidateModel();
   auto container_to_copy =
       m_model->GetRootItem()->GetItem(mvvm::TagIndex::Default(container_index));
 
   // copy container right after the given index
   mvvm::utils::CopyItem(container_to_copy, m_model, m_model->GetRootItem(),
                         container_to_copy->GetTagIndex().Next());
+}
+
+void DtoComposerActionHandler::ValidateModel()
+{
+  if (!m_model)
+  {
+    throw RuntimeException("DtoComposerActionHandler: model is not initialised");
+  }
 }
 
 }  // namespace sup::gui

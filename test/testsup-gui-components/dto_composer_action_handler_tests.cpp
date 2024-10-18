@@ -19,6 +19,7 @@
 
 #include "sup/gui/components/dto_composer_action_handler.h"
 
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
@@ -39,6 +40,18 @@ public:
 TEST_F(DtoComposerActionHandlerTest, OnAddNewContainer)
 {
   DtoComposerActionHandler action_handler(&m_model);
+
+  action_handler.OnAddNewContainer();
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+}
+
+TEST_F(DtoComposerActionHandlerTest, OnAddNewContainerWhenModelIsEmpty)
+{
+  DtoComposerActionHandler action_handler(nullptr);
+
+  EXPECT_THROW(action_handler.OnAddNewContainer(), RuntimeException);
+
+  action_handler.SetModel(&m_model);
 
   action_handler.OnAddNewContainer();
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
