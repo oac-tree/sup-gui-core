@@ -59,6 +59,11 @@ bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
   return m_project_handler->CloseCurrentProject();
 }
 
+void AnyValueEditorMainWindowActions::OnProjectModified()
+{
+  m_project_handler->UpdateNames();
+}
+
 void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 {
   m_import_action = new QAction("Import", this);

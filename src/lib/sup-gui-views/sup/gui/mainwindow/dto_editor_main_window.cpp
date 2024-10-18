@@ -149,7 +149,10 @@ void DtoEditorMainWindow::OnProjectLoad()
   m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
 }
 
-void DtoEditorMainWindow::OnProjectModified() {}
+void DtoEditorMainWindow::OnProjectModified()
+{
+  m_action_manager->OnProjectModified();
+}
 
 std::unique_ptr<DtoEditorProject> DtoEditorMainWindow::CreateProject()
 {

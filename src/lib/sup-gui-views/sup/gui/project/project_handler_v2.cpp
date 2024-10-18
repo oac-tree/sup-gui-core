@@ -75,7 +75,11 @@ ProjectHandlerV2::ProjectHandlerV2(mvvm::IProject *project)
   UpdateNames();
 }
 
-ProjectHandlerV2::~ProjectHandlerV2() = default;
+ProjectHandlerV2::~ProjectHandlerV2()
+{
+  m_recent_projects->SetCurrentWorkdir(
+      QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
+}
 
 bool ProjectHandlerV2::CloseCurrentProject()
 {
@@ -152,6 +156,7 @@ void ProjectHandlerV2::UpdateCurrentProjectName()
 
 void ProjectHandlerV2::UpdateRecentProjectNames()
 {
+  qDebug() << "AAAA " << QString::fromStdString(m_project_manager->CurrentProjectPath());
   m_recent_projects->AddToRecentProjectList(
       QString::fromStdString(m_project_manager->CurrentProjectPath()));
 }

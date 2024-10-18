@@ -60,6 +60,11 @@ bool DtoEditorMainWindowActions::CloseCurrentProject() const
   return m_project_handler->CloseCurrentProject();
 }
 
+void DtoEditorMainWindowActions::OnProjectModified()
+{
+  m_project_handler->UpdateNames();
+}
+
 void DtoEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
 {
   m_system_font_action = new QAction("System font (restart required)", this);

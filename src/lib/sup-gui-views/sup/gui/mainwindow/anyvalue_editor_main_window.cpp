@@ -144,7 +144,10 @@ void AnyValueEditorMainWindow::OnProjectLoad()
   m_anyvalue_editor->SetAnyValueItemContainer(m_project->GetApplicationModel()->GetRootItem());
 }
 
-void AnyValueEditorMainWindow::OnProjectModified() {}
+void AnyValueEditorMainWindow::OnProjectModified()
+{
+  m_action_manager->OnProjectModified();
+}
 
 std::unique_ptr<AnyValueEditorProject> AnyValueEditorMainWindow::CreateProject()
 {
