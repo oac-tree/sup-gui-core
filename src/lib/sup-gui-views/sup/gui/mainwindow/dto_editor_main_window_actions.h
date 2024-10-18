@@ -49,8 +49,7 @@ class DtoEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoEditorMainWindowActions(mvvm::IProject* project,
-                                      QMainWindow* mainwindow = nullptr);
+  explicit DtoEditorMainWindowActions(mvvm::IProject* project, QMainWindow* mainwindow = nullptr);
   ~DtoEditorMainWindowActions() override;
 
   /**
@@ -90,7 +89,7 @@ private:
 
   QMenu* m_recent_project_menu{nullptr};
 
-  sup::gui::ProjectHandlerV2* m_project_handler{nullptr};
+  std::unique_ptr<sup::gui::ProjectHandlerV2> m_project_handler;
   std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };
 

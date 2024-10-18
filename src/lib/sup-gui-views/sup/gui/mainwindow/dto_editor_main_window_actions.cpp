@@ -42,7 +42,7 @@ namespace sup::gui
 DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
                                                        QMainWindow *mainwindow)
     : QObject(mainwindow)
-    , m_project_handler(new sup::gui::ProjectHandlerV2(project))
+    , m_project_handler(std::make_unique<sup::gui::ProjectHandlerV2>(project))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(),

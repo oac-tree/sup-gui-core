@@ -32,7 +32,6 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QMainWindow>
-#include <QDebug>
 
 namespace sup::gui
 {
@@ -73,6 +72,7 @@ ProjectHandlerV2::ProjectHandlerV2(mvvm::IProject *project)
     , m_project_manager(CreateProjectManager(*project, m_user_interactor->CreateContext()))
 {
   UpdateNames();
+  m_user_interactor->SetCurrentWorkdir(m_recent_projects->GetCurrentWorkdir().toStdString());
 }
 
 ProjectHandlerV2::~ProjectHandlerV2()
@@ -101,7 +101,6 @@ void ProjectHandlerV2::CreateNewProject()
 
 void ProjectHandlerV2::OpenExistingProject(const QString &path)
 {
-  qDebug() << "ProjectHandlerV2::OpenExistingProject" << path;
   if (m_project_manager->OpenExistingProject(path.toStdString()))
   {
     UpdateNames();
@@ -156,7 +155,6 @@ void ProjectHandlerV2::UpdateCurrentProjectName()
 
 void ProjectHandlerV2::UpdateRecentProjectNames()
 {
-  qDebug() << "AAAA " << QString::fromStdString(m_project_manager->CurrentProjectPath());
   m_recent_projects->AddToRecentProjectList(
       QString::fromStdString(m_project_manager->CurrentProjectPath()));
 }
