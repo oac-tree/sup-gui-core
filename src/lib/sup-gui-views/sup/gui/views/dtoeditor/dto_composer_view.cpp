@@ -53,14 +53,11 @@ DtoComposerTabController::create_widget_callback_t CreateCallback()
 
 }  // namespace
 
-DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
+DtoComposerView::DtoComposerView(QWidget *parent)
     : QWidget(parent)
-    , m_model(model)
     , m_tab_widget(new QTabWidget)
-    , m_tab_controller(
-          std::make_unique<DtoComposerTabController>(m_model, CreateCallback(), m_tab_widget))
     , m_actions(new DtoComposerActions(this))
-    , m_action_handler(new DtoComposerActionHandler(m_model, this))
+    , m_action_handler(new DtoComposerActionHandler(this))
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
@@ -84,14 +81,11 @@ DtoComposerView::DtoComposerView(mvvm::ISessionModel *model, QWidget *parent)
 
 DtoComposerView::~DtoComposerView() = default;
 
-void DtoComposerView::OnProjectLoad()
-{
-  m_tab_controller->InitTabs();
-}
-
 void DtoComposerView::SetModel(mvvm::ISessionModel *model)
 {
   m_action_handler->SetModel(model);
+  m_tab_controller =
+      std::make_unique<DtoComposerTabController>(model, CreateCallback(), m_tab_widget);
 }
 
 void DtoComposerView::SetupConnections()

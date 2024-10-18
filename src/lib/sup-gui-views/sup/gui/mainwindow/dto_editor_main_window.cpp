@@ -85,7 +85,7 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget = new mvvm::MainVerticalBarWidget;
   m_tab_widget->SetBaseColor("#008a65");
 
-  m_composer_view = new DtoComposerView(m_sup_dto_model.get());
+  m_composer_view = new DtoComposerView;
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::GetIcon("file-tree-outline-light.svg"));
   m_waveform_view = new DtoWaveformView;
@@ -147,7 +147,7 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
-  m_composer_view->OnProjectLoad();
+  m_composer_view->SetModel(m_sup_dto_model.get());
   m_waveform_view->SetWaveformModel(m_waveform_model.get());
 }
 

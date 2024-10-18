@@ -47,7 +47,7 @@ TEST_F(DtoComposerActionHandlerTest, OnAddNewContainer)
 
 TEST_F(DtoComposerActionHandlerTest, OnAddNewContainerWhenModelIsEmpty)
 {
-  DtoComposerActionHandler action_handler(nullptr);
+  DtoComposerActionHandler action_handler;
 
   EXPECT_THROW(action_handler.OnAddNewContainer(), RuntimeException);
 

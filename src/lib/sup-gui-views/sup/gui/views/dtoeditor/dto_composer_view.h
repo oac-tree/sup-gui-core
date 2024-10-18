@@ -48,13 +48,8 @@ class DtoComposerView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(mvvm::ISessionModel* model, QWidget* parent = nullptr);
+  explicit DtoComposerView(QWidget* parent = nullptr);
   ~DtoComposerView() override;
-
-  /**
-   * @brief Perform widgets setup on new project creation or project load from disk.
-   */
-  void OnProjectLoad();
 
   void SetModel(mvvm::ISessionModel* model);
 

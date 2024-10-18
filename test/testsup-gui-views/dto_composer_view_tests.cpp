@@ -45,7 +45,8 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
 {
   SupDtoModel model;  // has one container by default
 
-  DtoComposerView view(&model);
+  DtoComposerView view;
+  view.SetModel(&model);
 
   auto tab_widget = view.findChild<QTabWidget*>();
   ASSERT_NE(tab_widget, nullptr);
@@ -60,7 +61,7 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
 
   EXPECT_EQ(tab_widget->count(), 0);
 
-  // after project reload, the call OnProjectLoad() is necessary to get tabs back
-  view.OnProjectLoad();
+  // after project reload, it is necessary to set model again
+  view.SetModel(&model);
   EXPECT_EQ(tab_widget->count(), 2);
 }

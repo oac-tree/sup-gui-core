@@ -34,16 +34,16 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
                                                    create_widget_callback_t callback,
                                                    QTabWidget *tab_widget, QObject *parent)
     : QObject(parent)
-    , m_model(model)
     , m_create_widget_callback(std::move(callback))
+    , m_model(model)
     , m_tab_widget(tab_widget)
-    , m_listener(std::make_unique<mvvm::ModelListener>(model))
 {
   if (!tab_widget)
   {
     throw NullException("DtoComposerTabController: QTabWidget is not initialised");
   }
 
+  m_listener = std::make_unique<mvvm::ModelListener>(model);
   m_listener->Connect<mvvm::ItemInsertedEvent>(this,
                                                &DtoComposerTabController::OnItemInsertedEvent);
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
@@ -116,14 +116,14 @@ void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem 
 
 void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent &event)
 {
-  Clear();
+  ClearWidgets();
   (void)event;
   // This is called when the project is reloaded from disk.
   // We do not call any tab initialization here, since other widgets might still receiving
   // ModelResetEvent event. SeeDtoEditorMainWindow::OnProjectLoad();
 }
 
-void DtoComposerTabController::Clear()
+void DtoComposerTabController::ClearWidgets()
 {
   m_tab_widget->clear();
 

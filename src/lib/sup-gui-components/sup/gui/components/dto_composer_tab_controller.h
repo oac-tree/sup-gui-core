@@ -65,12 +65,13 @@ public:
                            QTabWidget* tab_widget, QObject* parent = nullptr);
   ~DtoComposerTabController() override;
 
+  /**
+   * @brief Returns the widget serving given container.
+   */
   QWidget* GetWidgetForItem(const mvvm::SessionItem* container);
 
   /**
    * @brief Create necessary tabs to reflect initial state of the model;
-   *
-   *
    */
   void InitTabs();
 
@@ -100,9 +101,9 @@ private:
   void OnModelResetEvent(const mvvm::ModelResetEvent& event);
 
   /**
-   * @brief Clear QTabWidget from all content.
+   * @brief ClearWidgets QTabWidget from all content.
    */
-  void Clear();
+  void ClearWidgets();
 
   mvvm::ISessionModel* m_model{nullptr};
   QTabWidget* m_tab_widget{nullptr};

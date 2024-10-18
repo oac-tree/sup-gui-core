@@ -41,6 +41,8 @@ class DtoComposerActionHandler : public QObject
   Q_OBJECT
 
 public:
+  explicit DtoComposerActionHandler(QObject* parent = nullptr);
+
   explicit DtoComposerActionHandler(mvvm::ISessionModel* model, QObject* parent = nullptr);
 
   /**
