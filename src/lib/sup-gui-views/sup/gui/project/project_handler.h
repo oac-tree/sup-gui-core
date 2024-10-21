@@ -36,12 +36,12 @@ namespace sup::gui
 class AbstractProjectUserInteractor;
 class RecentProjectSettings;
 
-class ProjectHandlerV2 : public IProjectHandler
+class ProjectHandler : public IProjectHandler
 {
 public:
-  explicit ProjectHandlerV2(mvvm::IProject* project);
+  explicit ProjectHandler(mvvm::IProject* project);
 
-  ~ProjectHandlerV2() override;
+  ~ProjectHandler() override;
 
   bool CloseCurrentProject() override;
 

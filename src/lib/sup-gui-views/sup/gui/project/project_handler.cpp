@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "project_handler_v2.h"
+#include "project_handler.h"
 
 #include "file_based_user_interactor.h"
 #include "folder_based_user_interactor.h"
@@ -66,7 +66,7 @@ std::unique_ptr<sup::gui::AbstractProjectUserInteractor> CreateUserInteractor(
 
 }  // namespace
 
-ProjectHandlerV2::ProjectHandlerV2(mvvm::IProject *project)
+ProjectHandler::ProjectHandler(mvvm::IProject *project)
     : m_user_interactor(CreateUserInteractor(project))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_project_manager(CreateProjectManager(*project, m_user_interactor->CreateContext()))
@@ -75,13 +75,13 @@ ProjectHandlerV2::ProjectHandlerV2(mvvm::IProject *project)
   m_user_interactor->SetCurrentWorkdir(m_recent_projects->GetCurrentWorkdir().toStdString());
 }
 
-ProjectHandlerV2::~ProjectHandlerV2()
+ProjectHandler::~ProjectHandler()
 {
   m_recent_projects->SetCurrentWorkdir(
       QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
 }
 
-bool ProjectHandlerV2::CloseCurrentProject()
+bool ProjectHandler::CloseCurrentProject()
 {
   auto result = m_project_manager->CloseCurrentProject();
   if (result)
@@ -91,7 +91,7 @@ bool ProjectHandlerV2::CloseCurrentProject()
   return result;
 }
 
-void ProjectHandlerV2::CreateNewProject()
+void ProjectHandler::CreateNewProject()
 {
   if (m_project_manager->CreateNewProject({}))
   {
@@ -99,7 +99,7 @@ void ProjectHandlerV2::CreateNewProject()
   }
 }
 
-void ProjectHandlerV2::OpenExistingProject(const QString &path)
+void ProjectHandler::OpenExistingProject(const QString &path)
 {
   if (m_project_manager->OpenExistingProject(path.toStdString()))
   {
@@ -107,7 +107,7 @@ void ProjectHandlerV2::OpenExistingProject(const QString &path)
   }
 }
 
-void ProjectHandlerV2::SaveCurrentProject()
+void ProjectHandler::SaveCurrentProject()
 {
   if (m_project_manager->SaveCurrentProject())
   {
@@ -115,7 +115,7 @@ void ProjectHandlerV2::SaveCurrentProject()
   }
 }
 
-void ProjectHandlerV2::SaveProjectAs()
+void ProjectHandler::SaveProjectAs()
 {
   if (m_project_manager->SaveProjectAs({}))
   {
@@ -123,24 +123,24 @@ void ProjectHandlerV2::SaveProjectAs()
   }
 }
 
-void ProjectHandlerV2::ClearRecentProjectsList()
+void ProjectHandler::ClearRecentProjectsList()
 {
   m_recent_projects->ClearRecentProjectsList();
   UpdateNames();
 }
 
-QStringList ProjectHandlerV2::GetRecentProjectList() const
+QStringList ProjectHandler::GetRecentProjectList() const
 {
   return m_recent_projects->GetRecentProjectList();
 }
 
-void ProjectHandlerV2::UpdateNames()
+void ProjectHandler::UpdateNames()
 {
   UpdateCurrentProjectName();
   UpdateRecentProjectNames();
 }
 
-void ProjectHandlerV2::UpdateCurrentProjectName()
+void ProjectHandler::UpdateCurrentProjectName()
 {
   const auto current_project_dir = m_project_manager->CurrentProjectPath();
   const auto is_modified = m_project_manager->IsModified();
@@ -153,7 +153,7 @@ void ProjectHandlerV2::UpdateCurrentProjectName()
   }
 }
 
-void ProjectHandlerV2::UpdateRecentProjectNames()
+void ProjectHandler::UpdateRecentProjectNames()
 {
   m_recent_projects->AddToRecentProjectList(
       QString::fromStdString(m_project_manager->CurrentProjectPath()));
