@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_DTO_EDITOR_PROJECT_H_
 #define SUP_GUI_COMPONENTS_DTO_EDITOR_PROJECT_H_
 
-#include <sup/gui/app/app_project.h>
+#include <mvvm/project/app_project.h>
 
 namespace sup::gui
 {
@@ -33,7 +33,7 @@ class WaveformModel;
  *
  * It owns two models and belongs to main window.
  */
-class DtoEditorProject : public AppProject
+class DtoEditorProject : public mvvm::AppProject
 {
 public:
   /**

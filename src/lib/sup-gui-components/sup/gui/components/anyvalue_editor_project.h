@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_PROJECT_H_
 #define SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_PROJECT_H_
 
-#include <sup/gui/app/app_project.h>
+#include <mvvm/project/app_project.h>
 
 namespace mvvm
 {
@@ -35,7 +35,7 @@ namespace sup::gui
  *
  * It owns a single ApplicationModel for AnyValue editing. Belongs to AnyValueEditorMainWindow.
  */
-class AnyValueEditorProject : public AppProject
+class AnyValueEditorProject : public mvvm::AppProject
 {
 public:
   /**

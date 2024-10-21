@@ -21,6 +21,7 @@
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_project.h>
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>

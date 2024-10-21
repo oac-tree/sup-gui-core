@@ -44,7 +44,7 @@ mvvm::ProjectContext CreateContext(DtoEditorProject::callback_t modified_callbac
 }  // namespace
 
 DtoEditorProject::DtoEditorProject(callback_t modified_callback, callback_t loaded_callback)
-    : AppProject(CreateContext(std::move(modified_callback), std::move(loaded_callback)))
+    : mvvm::AppProject(CreateContext(std::move(modified_callback), std::move(loaded_callback)))
     , m_sup_dto_model_index(RegisterModel<SupDtoModel>())
     , m_waveform_model_index(RegisterModel<WaveformModel>())
 {
