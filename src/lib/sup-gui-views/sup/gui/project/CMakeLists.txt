@@ -20,6 +20,7 @@ target_sources(${library_name} PRIVATE
 )
 
 install(FILES
+  i_project_handler.h
   project_handler.h
   project_handler_utils.h
   recent_project_settings.h
