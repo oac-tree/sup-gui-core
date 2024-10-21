@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_APP_PROJECT_H_
-#define SUP_GUI_COMPONENTS_APP_PROJECT_H_
+#ifndef SUP_GUI_APP_APP_PROJECT_H_
+#define SUP_GUI_APP_APP_PROJECT_H_
 
 #include <mvvm/project/abstract_project.h>
 #include <sup/gui/core/exceptions.h>
@@ -113,4 +113,4 @@ inline ModelT* AppProject::GetModel(size_t index)
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_ACTION_MAP_H_
+#endif  // SUP_GUI_APP_APP_PROJECT_H_

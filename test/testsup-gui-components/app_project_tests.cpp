@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/components/app_project.h"
+#include "sup/gui/app/app_project.h"
 
 #include <sup/gui/app/app_constants.h>
 
@@ -231,5 +231,4 @@ TEST_F(AppProjectTest, SaveAndLoad)
   ASSERT_NE(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()), nullptr);
   // expecting old value which we had at the moment of save
   EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
-
 }

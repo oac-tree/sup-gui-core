@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_DTO_EDITOR_PROJECT_H_
 #define SUP_GUI_COMPONENTS_DTO_EDITOR_PROJECT_H_
 
-#include <sup/gui/components/app_project.h>
+#include <sup/gui/app/app_project.h>
 
 namespace sup::gui
 {
