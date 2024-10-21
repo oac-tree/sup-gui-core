@@ -20,8 +20,9 @@
 #ifndef SUP_GUI_APP_APP_PROJECT_H_
 #define SUP_GUI_APP_APP_PROJECT_H_
 
-#include <mvvm/project/abstract_project.h>
 #include <sup/gui/core/exceptions.h>
+
+#include <mvvm/project/abstract_project.h>
 
 namespace sup::gui
 {
@@ -59,6 +60,16 @@ public:
   size_t RegisterModel();
 
   /**
+   * @brief Registers models that will be created for new project using its factory function.
+   *
+   * The model will be created and stored following the order of registrations.
+   *
+   * @param factory_func The models' factory function.
+   * @return The position of the model in the array of models.
+   */
+  size_t RegisterModel(model_factory_func_t factory_func);
+
+  /**
    * @brief Returns number of existing models.
    */
   size_t GetModelCount() const;
@@ -91,9 +102,7 @@ private:
 template <typename ModelT>
 inline size_t AppProject::RegisterModel()
 {
-  const size_t model_index = m_factory_func_list.size();
-  m_factory_func_list.push_back([]() { return std::make_unique<ModelT>(); });
-  return model_index;
+  return RegisterModel([]() { return std::make_unique<ModelT>(); });
 }
 
 template <typename ModelT>
