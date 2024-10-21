@@ -20,7 +20,6 @@
 #include "project_handler_utils.h"
 
 #include "i_project_handler.h"
-#include "project_handler.h"
 
 #include <mvvm/widgets/widget_utils.h>
 
