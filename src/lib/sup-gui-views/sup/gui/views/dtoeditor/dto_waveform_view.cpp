@@ -56,10 +56,10 @@ DtoWaveformView::DtoWaveformView(QWidget* parent)
 
 DtoWaveformView::~DtoWaveformView() = default;
 
-void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* waveform)
+void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
-  m_editor_panel->SetLineSeriesItem(waveform);
-  m_property_panel->SetLineSeriesItem(waveform);
+  m_editor_panel->SetLineSeriesItem(line_series_item);
+  m_property_panel->SetLineSeriesItem(line_series_item);
 }
 
 void DtoWaveformView::SetWaveformModel(WaveformModel* model)

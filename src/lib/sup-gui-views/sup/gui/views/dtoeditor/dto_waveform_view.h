@@ -40,7 +40,8 @@ class WaveformModel;
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
  *
- * Belongs directly to MainWIndow. It is the second main view of the main toolbar.
+ * Belongs directly to MainWIndow (the second main view of the main toolbar). Contains list with
+ * waveforms on the left, waveform editor panel at the center, and property editors on the right.
  */
 class DtoWaveformView : public QWidget
 {
@@ -50,12 +51,15 @@ public:
   explicit DtoWaveformView(QWidget* parent = nullptr);
   ~DtoWaveformView() override;
 
-  void SetLineSeriesItem(mvvm::LineSeriesItem* waveform);
-
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.
    */
   void SetWaveformModel(WaveformModel* model);
+
+  /**
+   * @brief Set waveform to show in waveform and property editors.
+   */
+  void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
   QSplitter* m_splitter{nullptr};

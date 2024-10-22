@@ -26,11 +26,14 @@ namespace sup::gui
 {
 
 /**
- * @brief The ActionMenu class provides a menu with other actions intended for both taskbars and
- * pop-up menus.
+ * @brief The ActionMenu class is an action with the menu and instant pop-up capabilities.
  *
- * When inserted in a pop-up menu, it looks like a usual action with the menu. When inserted in a
- * toolbar, it looks like a tool button with an instant menu pop-up feature.
+ * When inserted in a context menu (i.e. right-mouse-button menu), it looks like a usual action with
+ * the menu. When inserted in a toolbar, it looks like a tool button with an instant menu pop-up
+ * feature.
+ *
+ * It is necessary since normal actions with the menu doesn't have instant pop-up when embedded in a
+ * toolbar.
  *
  * Inspired by https://api.kde.org/frameworks/kwidgetsaddons/html/classKActionMenu.html
  */

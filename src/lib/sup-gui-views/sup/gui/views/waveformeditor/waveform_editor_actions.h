@@ -33,6 +33,7 @@ namespace sup::gui
 {
 
 class WaveformEditorActionHandler;
+class ActionMenu;
 
 /**
  * @brief The WaveformEditorActions class defines actions related to the editing of a single
@@ -56,6 +57,7 @@ public:
     kAddColumnBefore,
     kAddColumnAfter,
     kRemoveColumn,
+    kMoreSettings,
     kTotalCount
   };
 
@@ -98,9 +100,12 @@ private:
   QToolButton* m_pan_button{nullptr};
   QWidgetAction* m_pan_action{nullptr};
 
-  QAction* m_zoom_in{nullptr};
-  QAction* m_zoom_out{nullptr};
-  QAction* m_center_canvas{nullptr};
+  QAction* m_zoom_in_action{nullptr};
+  QAction* m_zoom_out_action{nullptr};
+  QAction* m_center_canvas_action{nullptr};
+
+  ActionMenu* m_more_settings_action{nullptr};
+
   QAction* m_add_column_before{nullptr};
   QAction* m_add_column_after{nullptr};
   QAction* m_remove_column{nullptr};

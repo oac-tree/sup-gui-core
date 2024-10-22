@@ -21,6 +21,7 @@
 
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
 #include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/widgets/action_menu.h>
 
 #include <mvvm/plotting/plot_types.h>
 #include <mvvm/widgets/widget_utils.h>
@@ -42,7 +43,6 @@ WaveformEditorActions::WaveformEditorActions(WaveformEditorActionHandler* action
     , m_pointer_action(new QWidgetAction(this))
     , m_pan_button(new QToolButton)
     , m_pan_action(new QWidgetAction(this))
-
     , m_action_handler(action_handler)
 {
   SetupCanvasActions();
@@ -86,24 +86,30 @@ void WaveformEditorActions::SetupCanvasActions()
   connect(m_pointer_button_group, &QButtonGroup::idClicked, this,
           &WaveformEditorActions::ChangeOperationModeRequest);
 
-  m_zoom_in = new QAction("Zoom In", this);
-  m_zoom_in->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));
-  m_zoom_in->setToolTip("Zoom in");
-  connect(m_zoom_in, &QAction::triggered, this, &WaveformEditorActions::ZoomInRequest);
-  m_action_map.Add(ActionKey::kZoomIn, m_zoom_in);
+  m_zoom_in_action = new QAction("Zoom In", this);
+  m_zoom_in_action->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));
+  m_zoom_in_action->setToolTip("Zoom in");
+  connect(m_zoom_in_action, &QAction::triggered, this, &WaveformEditorActions::ZoomInRequest);
+  m_action_map.Add(ActionKey::kZoomIn, m_zoom_in_action);
 
-  m_zoom_out = new QAction("Zoom Out", this);
-  m_zoom_out->setIcon(sup::gui::utils::GetIcon("magnify-minus-outline.svg"));
-  m_zoom_out->setToolTip("Zoom out");
-  connect(m_zoom_out, &QAction::triggered, this, &WaveformEditorActions::ZoomOutRequest);
-  m_action_map.Add(ActionKey::kZoomOut, m_zoom_out);
+  m_zoom_out_action = new QAction("Zoom Out", this);
+  m_zoom_out_action->setIcon(sup::gui::utils::GetIcon("magnify-minus-outline.svg"));
+  m_zoom_out_action->setToolTip("Zoom out");
+  connect(m_zoom_out_action, &QAction::triggered, this, &WaveformEditorActions::ZoomOutRequest);
+  m_action_map.Add(ActionKey::kZoomOut, m_zoom_out_action);
 
-  m_center_canvas = new QAction("Center", this);
-  m_center_canvas->setIcon(sup::gui::utils::GetIcon("camera-metering-center.svg"));
-  m_center_canvas->setToolTip("Reset viewport to default axes range");
-  connect(m_center_canvas, &QAction::triggered, this,
+  m_center_canvas_action = new QAction("Center", this);
+  m_center_canvas_action->setIcon(sup::gui::utils::GetIcon("camera-metering-center.svg"));
+  m_center_canvas_action->setToolTip("Reset viewport to default axes range");
+  connect(m_center_canvas_action, &QAction::triggered, this,
           &WaveformEditorActions::SetViewportToContentRequest);
-  m_action_map.Add(ActionKey::kCenterCanvas, m_center_canvas);
+  m_action_map.Add(ActionKey::kCenterCanvas, m_center_canvas_action);
+
+  m_more_settings_action = new sup::gui::ActionMenu("Other", this);
+  m_more_settings_action->setToolTip("More settings");
+  m_more_settings_action->setIcon(sup::gui::utils::GetIcon("menu.svg"));
+  // m_more_settings_action->setMenu(m_modify_attribute_menu.get());
+  m_action_map.Add(ActionKey::kMoreSettings, m_more_settings_action);
 }
 
 void WaveformEditorActions::SetupTableActions()

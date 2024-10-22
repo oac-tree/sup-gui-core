@@ -47,7 +47,8 @@ QList<QAction *> GetCanvasToolBarActions(WaveformEditorActions *editor_actions)
 {
   using ActionKey = WaveformEditorActions::ActionKey;
   return editor_actions->GetActions({ActionKey::kPointer, ActionKey::kPan, ActionKey::kZoomIn,
-                                     ActionKey::kZoomOut, ActionKey::kCenterCanvas});
+                                     ActionKey::kZoomOut, ActionKey::kCenterCanvas,
+                                     ActionKey::kMoreSettings});
 }
 
 /**
