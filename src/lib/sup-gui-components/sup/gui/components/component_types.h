@@ -29,10 +29,10 @@ namespace sup::gui
 {
 
 /**
- * @brief The WaveformDisplayType enum defines various ways how multiple waveform can be persented
+ * @brief The WaveformDisplayMode enum defines various ways how multiple waveform can be persented
  * on a single canvas.
  */
-enum class WaveformDisplayType : std::uint8_t
+enum class WaveformDisplayMode : std::uint8_t
 {
   kDisplayAll,       //!< display all waveforms on a single canvas
   kDisplaySelected,  //!< display currently selected canvas, hide others

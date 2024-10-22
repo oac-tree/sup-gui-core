@@ -25,4 +25,6 @@ target_sources(${library_name} PRIVATE
   proxy_action.h
   tree_helper.cpp
   tree_helper.h
+  waveform_display_controller.cpp
+  waveform_display_controller.h
 )

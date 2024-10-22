@@ -144,6 +144,7 @@ void WaveformEditorActions::SetupTableActions()
 std::unique_ptr<QMenu> WaveformEditorActions::CreateMoreSettingsMenu()
 {
   auto result = std::make_unique<QMenu>();
+  result->setToolTipsVisible(true);
 
   auto action_group = new QActionGroup(this);
 
@@ -155,7 +156,7 @@ std::unique_ptr<QMenu> WaveformEditorActions::CreateMoreSettingsMenu()
   connect(
       show_all, &QAction::triggered, this,
       [this]() {
-        emit ChangeWaveformDisplayModeRequest(static_cast<int>(WaveformDisplayType::kDisplayAll));
+        emit ChangeWaveformDisplayModeRequest(static_cast<int>(WaveformDisplayMode::kDisplayAll));
       });
 
   auto show_selected = new QAction("Show selected waveform ", this);
@@ -166,7 +167,7 @@ std::unique_ptr<QMenu> WaveformEditorActions::CreateMoreSettingsMenu()
           [this]()
           {
             emit ChangeWaveformDisplayModeRequest(
-                static_cast<int>(WaveformDisplayType::kDisplaySelected));
+                static_cast<int>(WaveformDisplayMode::kDisplaySelected));
           });
 
   result->addAction(show_all);
