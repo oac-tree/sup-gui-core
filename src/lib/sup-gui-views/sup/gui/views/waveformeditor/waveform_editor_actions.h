@@ -28,6 +28,7 @@ class QAction;
 class QWidgetAction;
 class QButtonGroup;
 class QToolButton;
+class QMenu;
 
 namespace sup::gui
 {
@@ -47,7 +48,7 @@ public:
   /**
    * @brief The ActionKey enum defines keys for all available actions.
    */
-  enum class ActionKey
+  enum class ActionKey : std::uint8_t
   {
     kPointer,
     kPan,
@@ -82,6 +83,7 @@ signals:
   void ZoomOutRequest();
   void SetViewportToContentRequest();
   int ChangeOperationModeRequest(int);
+  int ChangeWaveformDisplayModeRequest(int);
 
 private:
   /**
@@ -94,6 +96,11 @@ private:
    */
   void SetupTableActions();
 
+  /**
+   * @brief Creates menu for kMoreSettings action.
+   */
+  std::unique_ptr<QMenu> CreateMoreSettingsMenu();
+
   QButtonGroup* m_pointer_button_group{nullptr};
   QToolButton* m_pointer_button{nullptr};
   QWidgetAction* m_pointer_action{nullptr};
@@ -104,6 +111,7 @@ private:
   QAction* m_zoom_out_action{nullptr};
   QAction* m_center_canvas_action{nullptr};
 
+  std::unique_ptr<QMenu> m_more_settings_menu;
   ActionMenu* m_more_settings_action{nullptr};
 
   QAction* m_add_column_before{nullptr};

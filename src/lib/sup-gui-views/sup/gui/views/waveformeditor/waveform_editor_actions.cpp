@@ -19,14 +19,16 @@
 
 #include "waveform_editor_actions.h"
 
+#include <sup/gui/components/component_types.h>
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
-#include <sup/gui/widgets/style_utils.h>
 #include <sup/gui/widgets/action_menu.h>
+#include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/plotting/plot_types.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
+#include <QActionGroup>
 #include <QButtonGroup>
 #include <QMenu>
 #include <QToolButton>
@@ -43,6 +45,7 @@ WaveformEditorActions::WaveformEditorActions(WaveformEditorActionHandler* action
     , m_pointer_action(new QWidgetAction(this))
     , m_pan_button(new QToolButton)
     , m_pan_action(new QWidgetAction(this))
+    , m_more_settings_menu(CreateMoreSettingsMenu())
     , m_action_handler(action_handler)
 {
   SetupCanvasActions();
@@ -108,7 +111,7 @@ void WaveformEditorActions::SetupCanvasActions()
   m_more_settings_action = new sup::gui::ActionMenu("Other", this);
   m_more_settings_action->setToolTip("More settings");
   m_more_settings_action->setIcon(sup::gui::utils::GetIcon("menu.svg"));
-  // m_more_settings_action->setMenu(m_modify_attribute_menu.get());
+  m_more_settings_action->setMenu(m_more_settings_menu.get());
   m_action_map.Add(ActionKey::kMoreSettings, m_more_settings_action);
 }
 
@@ -136,6 +139,40 @@ void WaveformEditorActions::SetupTableActions()
   connect(m_remove_column, &QAction::triggered, this,
           [this]() { m_action_handler->OnRemoveColumnRequest(); });
   m_action_map.Add(ActionKey::kRemoveColumn, m_remove_column);
+}
+
+std::unique_ptr<QMenu> WaveformEditorActions::CreateMoreSettingsMenu()
+{
+  auto result = std::make_unique<QMenu>();
+
+  auto action_group = new QActionGroup(this);
+
+  auto show_all = new QAction("Show all waveforms", this);
+  show_all->setToolTip("Show all waveforms on one canvas");
+  show_all->setActionGroup(action_group);
+  show_all->setCheckable(true);
+  show_all->setChecked(true);
+  connect(
+      show_all, &QAction::triggered, this,
+      [this]() {
+        emit ChangeWaveformDisplayModeRequest(static_cast<int>(WaveformDisplayType::kDisplayAll));
+      });
+
+  auto show_selected = new QAction("Show selected waveform ", this);
+  show_selected->setToolTip("Show only active waveform (i.e. the one selected in the list)");
+  show_selected->setActionGroup(action_group);
+  show_selected->setCheckable(true);
+  connect(show_selected, &QAction::triggered, this,
+          [this]()
+          {
+            emit ChangeWaveformDisplayModeRequest(
+                static_cast<int>(WaveformDisplayType::kDisplaySelected));
+          });
+
+  result->addAction(show_all);
+  result->addAction(show_selected);
+
+  return result;
 }
 
 }  // namespace sup::gui

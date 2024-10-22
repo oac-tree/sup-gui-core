@@ -70,8 +70,6 @@ public:
 
   /**
    * @brief Sets viewport with waveforms to show in a canvas.
-   *
-   * Viewport
    */
   void SetViewportItem(mvvm::ChartViewportItem* viewport_item);
 
