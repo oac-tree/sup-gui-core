@@ -22,6 +22,7 @@
 #include "waveform_editor_actions.h"
 #include "waveform_table_widget.h"
 
+#include <sup/gui/components/waveform_display_controller.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
 #include <sup/gui/widgets/style_utils.h>
@@ -96,11 +97,13 @@ WaveformEditorWidget::~WaveformEditorWidget() = default;
 void WaveformEditorWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_table_widget->SetLineSeriesItem(line_series_item);
+  m_display_controller->SetSelected(line_series_item);
 }
 
 void WaveformEditorWidget::SetViewportItem(mvvm::ChartViewportItem *viewport_item)
 {
   m_chart_canvas->SetViewport(viewport_item);
+  m_display_controller = std::make_unique<WaveformDisplayController>(viewport_item);
 }
 
 mvvm::PointItem *WaveformEditorWidget::GetSelectedPoint() const
@@ -142,6 +145,11 @@ void WaveformEditorWidget::SetupConnections()
   connect(m_actions, &WaveformEditorActions::ZoomOutRequest, this, &WaveformEditorWidget::ZoomOut);
   connect(m_actions, &WaveformEditorActions::SetViewportToContentRequest, this,
           &WaveformEditorWidget::SetViewportToContent);
+
+  auto on_display_mode_change = [this](int mode)
+  { m_display_controller->SetDisplayMode(static_cast<WaveformDisplayMode>(mode)); };
+  connect(m_actions, &WaveformEditorActions::ChangeWaveformDisplayModeRequest, this,
+          on_display_mode_change);
 
   connect(m_action_handler, &WaveformEditorActionHandler::SelectItemRequest, this,
           [this](auto item) { SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });

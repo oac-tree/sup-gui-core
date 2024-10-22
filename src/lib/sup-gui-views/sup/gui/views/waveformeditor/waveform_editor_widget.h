@@ -41,6 +41,7 @@ class WaveformTableWidget;
 class WaveformEditorActions;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
+class WaveformDisplayController;
 
 /**
  * @brief The WaveformEditorWidget class is a waveform editor intended for editing of one waveform
@@ -107,6 +108,7 @@ private:
 
   WaveformEditorActionHandler* m_action_handler{nullptr};
   WaveformEditorActions* m_actions{nullptr};
+  std::unique_ptr<WaveformDisplayController> m_display_controller;
 
   QSplitter* m_splitter{nullptr};
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
