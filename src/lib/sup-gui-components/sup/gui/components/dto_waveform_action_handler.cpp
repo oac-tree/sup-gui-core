@@ -25,9 +25,9 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
-#include <mvvm/standarditems/chart_viewport_item.h>
 
 namespace sup::gui
 {

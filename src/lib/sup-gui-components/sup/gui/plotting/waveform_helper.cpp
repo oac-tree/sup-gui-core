@@ -160,6 +160,7 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
 void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count)
 {
   item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
+  item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);
   item.SetNamedColor(GetNextNamedColor(total_waveform_count));
 }
 
