@@ -22,12 +22,10 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
 
-#include <mvvm/widgets/widget_utils.h>
+#include <sup/gui/widgets/dialog_helper.h>
 
-#include <QDialogButtonBox>
 #include <QKeyEvent>
 #include <QLabel>
-#include <QPushButton>
 #include <QSettings>
 #include <QVBoxLayout>
 
@@ -37,29 +35,6 @@ namespace
 QString GetDialogSizeSettingName(const QString& editor_name)
 {
   return QString("AnyValueEditorDialog") + "/" + editor_name + "window_size";
-}
-
-/**
- * @brief Creates layout with OK/Cancel buttons.
- */
-std::unique_ptr<QBoxLayout> CreateButtonLayout(QDialog* dialog)
-{
-  auto result = std::make_unique<QVBoxLayout>();
-
-  auto button_box = new QDialogButtonBox;
-  auto button = button_box->addButton("Set AnyValue", QDialogButtonBox::AcceptRole);
-  button->setAutoDefault(false);
-  button->setDefault(false);
-  button = button_box->addButton("Cancel", QDialogButtonBox::RejectRole);
-  button->setAutoDefault(false);
-  button->setDefault(false);
-  QDialogButtonBox::connect(button_box, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
-  QDialogButtonBox::connect(button_box, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
-
-  auto gap = mvvm::utils::UnitSize(0.5);
-  result->setContentsMargins(gap, gap, gap, gap);
-  result->addWidget(button_box);
-  return result;
 }
 
 }  // namespace
@@ -78,7 +53,7 @@ AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<sup::gui::AbstractAny
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
   layout->addWidget(m_anyvalue_editor);
-  layout->addLayout(CreateButtonLayout(this).release());
+  layout->addLayout(CreateButtonLayout(this, "Set AnyValue", "Cancel").release());
 }
 
 AnyValueEditorDialog::~AnyValueEditorDialog()
