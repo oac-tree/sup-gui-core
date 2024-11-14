@@ -83,7 +83,7 @@ ProjectHandler::~ProjectHandler()
 
 bool ProjectHandler::CloseCurrentProject()
 {
-  auto result = m_project_manager->CloseCurrentProject();
+  auto result = m_project_manager->CloseProject();
   if (result)
   {
     UpdateNames();
@@ -142,11 +142,11 @@ void ProjectHandler::UpdateNames()
 
 void ProjectHandler::UpdateCurrentProjectName()
 {
-  const auto current_project_dir = m_project_manager->CurrentProjectPath();
+  const auto current_project_path = m_project_manager->GetProject()->GetPath();
   const auto is_modified = m_project_manager->IsModified();
 
   // set main window title
-  auto title = mvvm::utils::ProjectWindowTitle(current_project_dir, is_modified);
+  auto title = mvvm::utils::ProjectWindowTitle(current_project_path, is_modified);
   if (auto main_window = mvvm::utils::FindMainWindow(); main_window)
   {
     main_window->setWindowTitle(QString::fromStdString(title));
@@ -156,7 +156,7 @@ void ProjectHandler::UpdateCurrentProjectName()
 void ProjectHandler::UpdateRecentProjectNames()
 {
   m_recent_projects->AddToRecentProjectList(
-      QString::fromStdString(m_project_manager->CurrentProjectPath()));
+      QString::fromStdString(m_project_manager->GetProject()->GetPath()));
 }
 
 }  // namespace sup::gui

@@ -54,7 +54,7 @@ DtoEditorMainWindow::DtoEditorMainWindow() : m_project(CreateProject())
 {
   InitApplication();
 
-  m_project->CreateNewProject();
+  m_project->CreateEmpty();
 }
 
 DtoEditorMainWindow::~DtoEditorMainWindow() = default;

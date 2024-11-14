@@ -55,7 +55,7 @@ TEST_F(DtoEditorProjectTest, InitialState)
 {
   auto project = CreateProject();
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_TRUE(project->GetPath().empty());
   EXPECT_EQ(project->GetProjectType(), mvvm::ProjectType::kFileBased);
   EXPECT_EQ(project->GetApplicationType(), constants::kDtoEditorApplicationType.toStdString());
 
@@ -71,9 +71,9 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateNewProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_FALSE(project->HasPath());
   EXPECT_NE(project->GetSupDtoModel(), nullptr);
   EXPECT_NE(project->GetWaveformModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
@@ -87,7 +87,7 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_TRUE(project->IsModified());
 
   // closing project
-  EXPECT_TRUE(project->CloseProject());
+  EXPECT_TRUE(project->Close());
   EXPECT_EQ(project->GetWaveformModel(), nullptr);
   EXPECT_EQ(project->GetSupDtoModel(), nullptr);
   EXPECT_FALSE(project->IsModified());

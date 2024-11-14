@@ -56,7 +56,7 @@ AnyValueEditorMainWindow::AnyValueEditorMainWindow() : m_project(CreateProject()
 {
   InitApplication();
 
-  m_project->CreateNewProject();
+  m_project->CreateEmpty();
 }
 
 AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;

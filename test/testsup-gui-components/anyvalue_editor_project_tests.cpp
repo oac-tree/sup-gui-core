@@ -54,7 +54,7 @@ TEST_F(AnyValueEditorProjectTest, InitialState)
 {
   auto project = CreateProject();
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_FALSE(project->HasPath());
   EXPECT_EQ(project->GetProjectType(), mvvm::ProjectType::kFileBased);
   EXPECT_EQ(project->GetApplicationType(), constants::kAnyValueEditorApplicationType.toStdString());
 
@@ -70,9 +70,9 @@ TEST_F(AnyValueEditorProjectTest, CreateNewProjectThenModifyThenClose)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateNewProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_FALSE(project->HasPath());
   EXPECT_NE(project->GetApplicationModel(), nullptr);
   ASSERT_FALSE(project->GetModels().empty());
   EXPECT_NE(project->GetModels().at(0), nullptr);
@@ -86,7 +86,7 @@ TEST_F(AnyValueEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_TRUE(project->IsModified());
 
   // closing project
-  EXPECT_TRUE(project->CloseProject());
+  EXPECT_TRUE(project->Close());
   EXPECT_EQ(project->GetApplicationModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
 }
@@ -100,7 +100,7 @@ TEST_F(AnyValueEditorProjectTest, SaveAndClose)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateNewProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
@@ -112,12 +112,12 @@ TEST_F(AnyValueEditorProjectTest, SaveAndClose)
 
   EXPECT_TRUE(project->Save(expected_path));
 
-  EXPECT_EQ(project->GetProjectPath(), expected_path);
+  EXPECT_EQ(project->GetPath(), expected_path);
   EXPECT_EQ(project->GetApplicationModel(), previous_model);
   EXPECT_FALSE(project->IsModified());
 
   // closing project
-  EXPECT_TRUE(project->CloseProject());
+  EXPECT_TRUE(project->Close());
   EXPECT_EQ(project->GetApplicationModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
 
@@ -133,7 +133,7 @@ TEST_F(AnyValueEditorProjectTest, SaveAndLoad)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateNewProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
