@@ -26,10 +26,10 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/project/project_handler.h>
-#include <sup/gui/project/project_handler_utils.h>
 #include <sup/gui/widgets/about_application_dialog.h>
 
+#include <mvvm/project/project_handler.h>
+#include <mvvm/project/project_handler_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
@@ -42,7 +42,7 @@ namespace sup::gui
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::IProject *project,
                                                                  QMainWindow *mainwindow)
     : QObject(mainwindow)
-    , m_project_handler(std::make_unique<sup::gui::ProjectHandler>(project))
+    , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
