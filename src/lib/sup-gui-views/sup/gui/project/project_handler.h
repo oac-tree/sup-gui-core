@@ -43,17 +43,15 @@ public:
 
   ~ProjectHandler() override;
 
-  bool IsModified() const override;
-
-  bool CloseProject() override;
-
   bool CreateNewProject(const std::string& path) override;
 
-  bool OpenExistingProject(const std::string& path) override;
+  bool CloseProject() override;
 
   bool SaveCurrentProject() override;
 
   bool SaveProjectAs(const std::string& path) override;
+
+  bool OpenExistingProject(const std::string& path) override;
 
   mvvm::IProject* GetProject() const override;
 

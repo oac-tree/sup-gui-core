@@ -81,21 +81,6 @@ ProjectHandler::~ProjectHandler()
       QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
 }
 
-bool ProjectHandler::IsModified() const
-{
-  return m_project_manager->IsModified();
-}
-
-bool ProjectHandler::CloseProject()
-{
-  const bool is_success = m_project_manager->CloseProject();
-  if (is_success)
-  {
-    UpdateNames();
-  }
-  return is_success;
-}
-
 bool ProjectHandler::CreateNewProject(const std::string &path)
 {
   const bool is_success = m_project_manager->CreateNewProject(path);
@@ -106,9 +91,9 @@ bool ProjectHandler::CreateNewProject(const std::string &path)
   return is_success;
 }
 
-bool ProjectHandler::OpenExistingProject(const std::string &path)
+bool ProjectHandler::CloseProject()
 {
-  const bool is_success = m_project_manager->OpenExistingProject(path);
+  const bool is_success = m_project_manager->CloseProject();
   if (is_success)
   {
     UpdateNames();
@@ -129,6 +114,16 @@ bool ProjectHandler::SaveCurrentProject()
 bool ProjectHandler::SaveProjectAs(const std::string &path)
 {
   const bool is_success = m_project_manager->SaveProjectAs(path);
+  if (is_success)
+  {
+    UpdateNames();
+  }
+  return is_success;
+}
+
+bool ProjectHandler::OpenExistingProject(const std::string &path)
+{
+  const bool is_success = m_project_manager->OpenExistingProject(path);
   if (is_success)
   {
     UpdateNames();
@@ -161,7 +156,7 @@ void ProjectHandler::UpdateNames()
 void ProjectHandler::UpdateCurrentProjectName()
 {
   const auto current_project_path = m_project_manager->GetProject()->GetPath();
-  const auto is_modified = m_project_manager->IsModified();
+  const auto is_modified = m_project_manager->GetProject()->IsModified();
 
   // set main window title
   auto title = mvvm::utils::ProjectWindowTitle(current_project_path, is_modified);
