@@ -57,7 +57,7 @@ DtoEditorMainWindowActions::~DtoEditorMainWindowActions() = default;
 
 bool DtoEditorMainWindowActions::CloseCurrentProject() const
 {
-  return m_project_handler->CloseCurrentProject();
+  return m_project_handler->CloseProject();
 }
 
 void DtoEditorMainWindowActions::OnProjectModified()

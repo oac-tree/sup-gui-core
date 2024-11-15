@@ -19,8 +19,7 @@
 
 #include "project_handler_utils.h"
 
-#include "i_project_handler.h"
-
+#include <mvvm/project/i_project_manager.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
@@ -29,35 +28,39 @@
 namespace
 {
 
+// empty name will trigger file selection dialog
+const std::string kAskForName = "";
+
 /**
  * @brief Creates an action to trigger "create new project" request.
  */
-std::unique_ptr<QAction> CreateNewProjectAction(sup::gui::IProjectHandler &handler)
+std::unique_ptr<QAction> CreateNewProjectAction(mvvm::IProjectManager &handler)
 {
   auto result = std::make_unique<QAction>("&New Project");
   result->setShortcuts(QKeySequence::New);
   result->setStatusTip("Create a new project");
-  QObject::connect(result.get(), &QAction::triggered, [&handler]() { handler.CreateNewProject(); });
+  QObject::connect(result.get(), &QAction::triggered,
+                   [&handler]() { handler.CreateNewProject(kAskForName); });
   return result;
 }
 
 /**
  * @brief Creates an action to trigger "open existing project" request.
  */
-std::unique_ptr<QAction> CreateOpenExistingProjectAction(sup::gui::IProjectHandler &handler)
+std::unique_ptr<QAction> CreateOpenExistingProjectAction(mvvm::IProjectManager &handler)
 {
   auto result = std::make_unique<QAction>("&Open Project");
   result->setShortcuts(QKeySequence::Open);
   result->setStatusTip("Open an existing project");
   QObject::connect(result.get(), &QAction::triggered,
-                   [&handler]() { handler.OpenExistingProject({}); });
+                   [&handler]() { handler.OpenExistingProject(kAskForName); });
   return result;
 }
 
 /**
  * @brief Creates an action to trigger "save current project" request.
  */
-std::unique_ptr<QAction> CreateSaveCurrentProjectAction(sup::gui::IProjectHandler &handler)
+std::unique_ptr<QAction> CreateSaveCurrentProjectAction(mvvm::IProjectManager &handler)
 {
   auto result = std::make_unique<QAction>("&Save Project");
   result->setShortcuts(QKeySequence::Save);
@@ -71,12 +74,13 @@ std::unique_ptr<QAction> CreateSaveCurrentProjectAction(sup::gui::IProjectHandle
 /**
  * @brief Creates an action to trigger "save project as" request.
  */
-std::unique_ptr<QAction> CreateSaveProjectAsAction(sup::gui::IProjectHandler &handler)
+std::unique_ptr<QAction> CreateSaveProjectAsAction(mvvm::IProjectManager &handler)
 {
   auto result = std::make_unique<QAction>("Save &As...");
   result->setShortcuts(QKeySequence::SaveAs);
   result->setStatusTip("Save project under different name");
-  QObject::connect(result.get(), &QAction::triggered, [&handler]() { handler.SaveProjectAs(); });
+  QObject::connect(result.get(), &QAction::triggered,
+                   [&handler]() { handler.SaveProjectAs(kAskForName); });
   return result;
 }
 
@@ -94,39 +98,39 @@ void AddAction(QMenu *menu, std::unique_ptr<QAction> action)
 namespace sup::gui
 {
 
-void AddNewProjectAction(QMenu *menu, IProjectHandler &handler)
+void AddNewProjectAction(QMenu *menu, mvvm::IProjectManager &handler)
 {
   AddAction(menu, CreateNewProjectAction(handler));
 }
 
-void AddOpenExistingProjectAction(QMenu *menu, IProjectHandler &handler)
+void AddOpenExistingProjectAction(QMenu *menu, mvvm::IProjectManager &handler)
 {
   AddAction(menu, CreateOpenExistingProjectAction(handler));
 }
 
-void AddSaveCurrentProjectAction(QMenu *menu, IProjectHandler &handler)
+void AddSaveCurrentProjectAction(QMenu *menu, mvvm::IProjectManager &handler)
 {
   AddAction(menu, CreateSaveCurrentProjectAction(handler));
 }
 
-void AddSaveProjectAsAction(QMenu *menu, IProjectHandler &handler)
+void AddSaveProjectAsAction(QMenu *menu, mvvm::IProjectManager &handler)
 {
   AddAction(menu, CreateSaveProjectAsAction(handler));
 }
 
-void AddRecentProjectActions(QMenu *menu, IProjectHandler &handler)
+void AddRecentProjectActions(QMenu *menu, mvvm::IProjectManager &handler)
 {
   auto recent_projects = handler.GetRecentProjectList();
   menu->clear();
-  menu->setEnabled(!recent_projects.isEmpty());
+  menu->setEnabled(!recent_projects.empty());
 
-  for (const auto &project_dir : recent_projects)
+  for (const auto &path : recent_projects)
   {
-    auto trimmed_project_dir = mvvm::utils::WithTildeHomePath(project_dir);
-    auto action = menu->addAction(trimmed_project_dir);
-    action->setData(QVariant::fromValue(project_dir));
-    auto on_project_selected = [&handler, project_dir]()
-    { handler.OpenExistingProject(project_dir); };
+    auto trimmed_path = mvvm::utils::WithTildeHomePath(QString::fromStdString(path));
+    auto action = menu->addAction(trimmed_path);
+    action->setData(QVariant::fromValue(QString::fromStdString(path)));
+    auto on_project_selected = [&handler, path]()
+    { handler.OpenExistingProject(path); };
     QObject::connect(action, &QAction::triggered, on_project_selected);
   }
 

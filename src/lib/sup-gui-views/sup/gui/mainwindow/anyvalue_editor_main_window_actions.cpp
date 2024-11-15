@@ -56,7 +56,7 @@ AnyValueEditorMainWindowActions::~AnyValueEditorMainWindowActions() = default;
 
 bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
 {
-  return m_project_handler->CloseCurrentProject();
+  return m_project_handler->CloseProject();
 }
 
 void AnyValueEditorMainWindowActions::OnProjectModified()

@@ -81,46 +81,64 @@ ProjectHandler::~ProjectHandler()
       QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
 }
 
-bool ProjectHandler::CloseCurrentProject()
+bool ProjectHandler::IsModified() const
 {
-  auto result = m_project_manager->CloseProject();
-  if (result)
-  {
-    UpdateNames();
-  }
-  return result;
+  return m_project_manager->IsModified();
 }
 
-void ProjectHandler::CreateNewProject()
+bool ProjectHandler::CloseProject()
 {
-  if (m_project_manager->CreateNewProject({}))
+  const bool is_success = m_project_manager->CloseProject();
+  if (is_success)
   {
     UpdateNames();
   }
+  return is_success;
 }
 
-void ProjectHandler::OpenExistingProject(const QString &path)
+bool ProjectHandler::CreateNewProject(const std::string &path)
 {
-  if (m_project_manager->OpenExistingProject(path.toStdString()))
+  const bool is_success = m_project_manager->CreateNewProject(path);
+  if (is_success)
   {
     UpdateNames();
   }
+  return is_success;
 }
 
-void ProjectHandler::SaveCurrentProject()
+bool ProjectHandler::OpenExistingProject(const std::string &path)
 {
-  if (m_project_manager->SaveCurrentProject())
+  const bool is_success = m_project_manager->OpenExistingProject(path);
+  if (is_success)
   {
     UpdateNames();
   }
+  return is_success;
 }
 
-void ProjectHandler::SaveProjectAs()
+bool ProjectHandler::SaveCurrentProject()
 {
-  if (m_project_manager->SaveProjectAs({}))
+  const bool is_success = m_project_manager->SaveCurrentProject();
+  if (is_success)
   {
     UpdateNames();
   }
+  return is_success;
+}
+
+bool ProjectHandler::SaveProjectAs(const std::string &path)
+{
+  const bool is_success = m_project_manager->SaveProjectAs(path);
+  if (is_success)
+  {
+    UpdateNames();
+  }
+  return is_success;
+}
+
+mvvm::IProject *ProjectHandler::GetProject() const
+{
+  return m_project_manager->GetProject();
 }
 
 void ProjectHandler::ClearRecentProjectsList()
@@ -129,9 +147,9 @@ void ProjectHandler::ClearRecentProjectsList()
   UpdateNames();
 }
 
-QStringList ProjectHandler::GetRecentProjectList() const
+std::vector<std::string> ProjectHandler::GetRecentProjectList() const
 {
-  return m_recent_projects->GetRecentProjectList();
+  return mvvm::utils::GetStdStringVector(m_recent_projects->GetRecentProjectList());
 }
 
 void ProjectHandler::UpdateNames()

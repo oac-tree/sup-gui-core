@@ -5,7 +5,6 @@ target_sources(${library_name} PRIVATE
   file_based_user_interactor.h
   folder_based_user_interactor.cpp
   folder_based_user_interactor.h
-  i_project_handler.h
   project_handler.cpp
   project_handler.h
   project_handler_utils.cpp
@@ -17,7 +16,6 @@ target_sources(${library_name} PRIVATE
 )
 
 install(FILES
-  i_project_handler.h
   project_handler.h
   project_handler_utils.h
   recent_project_settings.h

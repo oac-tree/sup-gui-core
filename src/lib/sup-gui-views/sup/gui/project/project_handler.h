@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_PROJECT_PROJECT_HANDLER_H_
 #define SUP_GUI_PROJECT_PROJECT_HANDLER_H_
 
-#include <sup/gui/project/i_project_handler.h>
+#include <mvvm/project/i_project_manager.h>
 
 #include <memory>
 
@@ -36,26 +36,30 @@ namespace sup::gui
 class AbstractProjectUserInteractor;
 class RecentProjectSettings;
 
-class ProjectHandler : public IProjectHandler
+class ProjectHandler : public mvvm::IProjectManager
 {
 public:
   explicit ProjectHandler(mvvm::IProject* project);
 
   ~ProjectHandler() override;
 
-  bool CloseCurrentProject() override;
+  bool IsModified() const override;
 
-  void CreateNewProject() override;
+  bool CloseProject() override;
 
-  void OpenExistingProject(const QString& path) override;
+  bool CreateNewProject(const std::string& path) override;
 
-  void SaveCurrentProject() override;
+  bool OpenExistingProject(const std::string& path) override;
 
-  void SaveProjectAs() override;
+  bool SaveCurrentProject() override;
+
+  bool SaveProjectAs(const std::string& path) override;
+
+  mvvm::IProject* GetProject() const override;
 
   void ClearRecentProjectsList() override;
 
-  QStringList GetRecentProjectList() const override;
+  std::vector<std::string> GetRecentProjectList() const override;
 
   /**
    * @brief Performs internal updates related to project name change.

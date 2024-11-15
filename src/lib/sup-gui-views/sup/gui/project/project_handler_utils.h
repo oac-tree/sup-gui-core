@@ -23,13 +23,16 @@
 //! @file
 //! Contains utility functions to populate menus with (create new, open, save, save as) requests.
 
+namespace mvvm
+{
+class IProjectManager;
+}
+
 class QAction;
 class QMenu;
 
 namespace sup::gui
 {
-
-class IProjectHandler;
 
 /**
  * @brief Add to the menu an action to trigger "create new project" request.
@@ -37,12 +40,12 @@ class IProjectHandler;
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddNewProjectAction(QMenu* menu, IProjectHandler& handler);
+void AddNewProjectAction(QMenu* menu, mvvm::IProjectManager& handler);
 
 /**
  * @brief Add to the menu an action to trigger "close current project" request.
  */
-void AddOpenExistingProjectAction(QMenu* menu, IProjectHandler& handler);
+void AddOpenExistingProjectAction(QMenu* menu, mvvm::IProjectManager& handler);
 
 /**
  * @brief Add to the menu an action to trigger "save current project" request.
@@ -50,7 +53,7 @@ void AddOpenExistingProjectAction(QMenu* menu, IProjectHandler& handler);
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddSaveCurrentProjectAction(QMenu* menu, IProjectHandler& handler);
+void AddSaveCurrentProjectAction(QMenu* menu, mvvm::IProjectManager& handler);
 
 /**
  * @brief Add to the menu an action to trigger "save current project" request.
@@ -58,7 +61,7 @@ void AddSaveCurrentProjectAction(QMenu* menu, IProjectHandler& handler);
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddSaveProjectAsAction(QMenu* menu, IProjectHandler& handler);
+void AddSaveProjectAsAction(QMenu* menu, mvvm::IProjectManager& handler);
 
 /**
  * @brief Add to the menu entries to open recent projects.
@@ -66,7 +69,7 @@ void AddSaveProjectAsAction(QMenu* menu, IProjectHandler& handler);
  * @param menu The menu to populate with entries.
  * @param handler Project handler to use for actual job.
  */
-void AddRecentProjectActions(QMenu* menu, IProjectHandler& handler);
+void AddRecentProjectActions(QMenu* menu, mvvm::IProjectManager& handler);
 
 }  // namespace sup::gui
 
