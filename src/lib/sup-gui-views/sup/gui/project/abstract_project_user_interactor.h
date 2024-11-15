@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_PROJECT_ABSTRACT_PROJECT_USER_INTERACTOR_H_
 #define SUP_GUI_PROJECT_ABSTRACT_PROJECT_USER_INTERACTOR_H_
 
-#include <sup/gui/project/i_project_user_interactor.h>
+#include <mvvm/project/i_project_user_interactor.h>
 
 #include <QString>
 
@@ -41,7 +41,7 @@ namespace sup::gui
  * It is responsible for calling correct methods (open file, open dir) while handling paths for
  * file-based and folder-based projects.
  */
-class AbstractProjectUserInteractor : public IProjectUserInteractor
+class AbstractProjectUserInteractor : public mvvm::IProjectUserInteractor
 {
 public:
   explicit AbstractProjectUserInteractor(const QString& application_type, QWidget* parent);

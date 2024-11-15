@@ -6,7 +6,6 @@ target_sources(${library_name} PRIVATE
   folder_based_user_interactor.cpp
   folder_based_user_interactor.h
   i_project_handler.h
-  i_project_user_interactor.h
   project_handler.cpp
   project_handler.h
   project_handler_utils.cpp
