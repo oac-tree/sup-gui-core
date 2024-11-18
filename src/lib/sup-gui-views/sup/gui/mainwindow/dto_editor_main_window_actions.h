@@ -64,7 +64,7 @@ public:
    */
   bool CloseCurrentProject() const;
 
-  void OnProjectModified();
+  void UpdateProjectNames();
 
 signals:
   void RestartApplicationRequest(sup::gui::AppExitCode);

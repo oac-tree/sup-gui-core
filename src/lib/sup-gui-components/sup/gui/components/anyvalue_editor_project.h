@@ -44,7 +44,7 @@ public:
    * @param modified_callback A callback to report when project was modified.
    * @param loaded_callback A callback to report when project was reloaded.
    */
-  explicit AnyValueEditorProject(callback_t modified_callback, callback_t loaded_callback);
+  explicit AnyValueEditorProject(const mvvm::ProjectContext& context);
 
   ~AnyValueEditorProject() override;
 

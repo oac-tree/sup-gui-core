@@ -59,7 +59,7 @@ bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
   return m_project_handler->CloseProject();
 }
 
-void AnyValueEditorMainWindowActions::OnProjectModified()
+void AnyValueEditorMainWindowActions::UpdateProjectNames()
 {
   m_project_handler->UpdateNames();
 }

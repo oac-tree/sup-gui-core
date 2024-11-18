@@ -65,7 +65,7 @@ public:
    */
   bool CloseCurrentProject() const;
 
-  void OnProjectModified();
+  void UpdateProjectNames();
 
 signals:
   void OnImportFromFileRequest();

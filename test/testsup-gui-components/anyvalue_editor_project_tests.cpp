@@ -23,6 +23,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/test/mock_project_context.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -42,12 +43,11 @@ public:
 
   std::unique_ptr<AnyValueEditorProject> CreateProject()
   {
-    return std::make_unique<AnyValueEditorProject>(m_modified_callback.AsStdFunction(),
-                                                   m_loaded_callback.AsStdFunction());
+    return std::make_unique<AnyValueEditorProject>(m_mock_project_context.CreateContext(
+        constants::kAnyValueEditorApplicationType.toStdString()));
   }
 
-  ::testing::MockFunction<void(void)> m_modified_callback;
-  ::testing::MockFunction<void(void)> m_loaded_callback;
+  mvvm::test::MockProjectContext m_mock_project_context;
 };
 
 TEST_F(AnyValueEditorProjectTest, InitialState)
@@ -68,7 +68,7 @@ TEST_F(AnyValueEditorProjectTest, CreateNewProjectThenModifyThenClose)
   auto project = CreateProject();
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
@@ -79,7 +79,7 @@ TEST_F(AnyValueEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_FALSE(project->IsModified());
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   // modifying a project
   project->GetApplicationModel()->InsertItem<mvvm::SessionItem>();
@@ -98,18 +98,19 @@ TEST_F(AnyValueEditorProjectTest, SaveAndClose)
   auto project = CreateProject();
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   project->GetApplicationModel()->InsertItem<mvvm::SessionItem>();
   EXPECT_TRUE(project->IsModified());
 
   auto previous_model = project->GetApplicationModel();
 
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
 
   EXPECT_EQ(project->GetPath(), expected_path);
@@ -131,27 +132,28 @@ TEST_F(AnyValueEditorProjectTest, SaveAndLoad)
   auto project = CreateProject();
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   auto item = project->GetApplicationModel()->InsertItem<mvvm::SessionItem>();
   item->SetData(42);
   EXPECT_TRUE(project->IsModified());
 
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   // modifying further after save was made
   item->SetData(43);
 
   // setting up expectation before document load
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->Load(expected_path));
   EXPECT_FALSE(project->IsModified());

@@ -26,24 +26,8 @@
 namespace sup::gui
 {
 
-namespace
-{
-
-/**
- * @brief Creates context to pass to AbstractProject.
- */
-mvvm::ProjectContext CreateContext(AnyValueEditorProject::callback_t modified_callback,
-                                   AnyValueEditorProject::callback_t loaded_callback)
-{
-  return {std::move(modified_callback), std::move(loaded_callback),
-          constants::kAnyValueEditorApplicationType.toStdString()};
-}
-
-}  // namespace
-
-AnyValueEditorProject::AnyValueEditorProject(callback_t modified_callback,
-                                             callback_t loaded_callback)
-    : AppProject(CreateContext(std::move(modified_callback), std::move(loaded_callback)))
+AnyValueEditorProject::AnyValueEditorProject(const mvvm::ProjectContext &context)
+    : AppProject(context)
 {
   RegisterModel<mvvm::ApplicationModel>();
 }

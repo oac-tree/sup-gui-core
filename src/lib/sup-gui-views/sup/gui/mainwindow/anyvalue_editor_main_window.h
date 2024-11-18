@@ -79,10 +79,7 @@ private:
    */
   void OnProjectLoad();
 
-  /**
-   * @brief Perform widgets setup on project modification.
-   */
-  void OnProjectModified();
+  void UpdateProjectNames();
 
   /**
    * @brief Creates main application project agent.

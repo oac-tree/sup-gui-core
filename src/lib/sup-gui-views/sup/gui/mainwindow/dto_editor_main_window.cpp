@@ -148,18 +148,22 @@ void DtoEditorMainWindow::OnProjectLoad()
 {
   m_composer_view->SetModel(m_project->GetSupDtoModel());
   m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
+  UpdateProjectNames();
 }
 
-void DtoEditorMainWindow::OnProjectModified()
+void DtoEditorMainWindow::UpdateProjectNames()
 {
-  m_action_manager->OnProjectModified();
+  m_action_manager->UpdateProjectNames();
 }
 
 std::unique_ptr<DtoEditorProject> DtoEditorMainWindow::CreateProject()
 {
-  auto modified_callback = [this]() { OnProjectModified(); };
-  auto loaded_callback = [this]() { OnProjectLoad(); };
-  return std::make_unique<DtoEditorProject>(modified_callback, loaded_callback);
+  mvvm::ProjectContext context;
+  context.modified_callback = [this]() { UpdateProjectNames(); };
+  context.loaded_callback = [this]() { OnProjectLoad(); };
+  context.saved_callback = [this]() { UpdateProjectNames(); };
+  context.application_type = constants::kDtoEditorApplicationType.toStdString();
+  return std::make_unique<DtoEditorProject>(context);
 }
 
 }  // namespace sup::gui

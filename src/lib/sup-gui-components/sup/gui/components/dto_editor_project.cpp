@@ -28,23 +28,8 @@
 namespace sup::gui
 {
 
-namespace
-{
-
-/**
- * @brief Creates context to pass to AbstractProject.
- */
-mvvm::ProjectContext CreateContext(DtoEditorProject::callback_t modified_callback,
-                                   DtoEditorProject::callback_t loaded_callback)
-{
-  return {std::move(modified_callback), std::move(loaded_callback),
-          constants::kDtoEditorApplicationType.toStdString()};
-}
-
-}  // namespace
-
-DtoEditorProject::DtoEditorProject(callback_t modified_callback, callback_t loaded_callback)
-    : mvvm::AppProject(CreateContext(std::move(modified_callback), std::move(loaded_callback)))
+DtoEditorProject::DtoEditorProject(const mvvm::ProjectContext &context)
+    : mvvm::AppProject(context)
     , m_sup_dto_model_index(RegisterModel<SupDtoModel>())
     , m_waveform_model_index(RegisterModel<WaveformModel>())
 {

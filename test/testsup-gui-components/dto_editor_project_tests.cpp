@@ -26,6 +26,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/file_utils.h>
+#include <mvvm/test/mock_project_context.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -43,12 +44,11 @@ public:
 
   std::unique_ptr<DtoEditorProject> CreateProject()
   {
-    return std::make_unique<DtoEditorProject>(m_modified_callback.AsStdFunction(),
-                                              m_loaded_callback.AsStdFunction());
+    return std::make_unique<DtoEditorProject>(m_mock_project_context.CreateContext(
+        constants::kDtoEditorApplicationType.toStdString()));
   }
 
-  ::testing::MockFunction<void(void)> m_modified_callback;
-  ::testing::MockFunction<void(void)> m_loaded_callback;
+  mvvm::test::MockProjectContext m_mock_project_context;
 };
 
 TEST_F(DtoEditorProjectTest, InitialState)
@@ -69,7 +69,7 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   auto project = CreateProject();
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
@@ -79,7 +79,7 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_FALSE(project->IsModified());
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   // modifying a project
   project->GetWaveformModel()->InsertItem<mvvm::SessionItem>();

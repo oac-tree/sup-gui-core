@@ -141,18 +141,22 @@ void AnyValueEditorMainWindow::OnProjectLoad()
   }
 
   m_anyvalue_editor->SetAnyValueItemContainer(m_project->GetApplicationModel()->GetRootItem());
+  UpdateProjectNames();
 }
 
-void AnyValueEditorMainWindow::OnProjectModified()
+void AnyValueEditorMainWindow::UpdateProjectNames()
 {
-  m_action_manager->OnProjectModified();
+  m_action_manager->UpdateProjectNames();
 }
 
 std::unique_ptr<AnyValueEditorProject> AnyValueEditorMainWindow::CreateProject()
 {
-  auto modified_callback = [this]() { OnProjectModified(); };
-  auto loaded_callback = [this]() { OnProjectLoad(); };
-  return std::make_unique<AnyValueEditorProject>(modified_callback, loaded_callback);
+  mvvm::ProjectContext context;
+  context.modified_callback = [this]() { UpdateProjectNames(); };
+  context.loaded_callback = [this]() { OnProjectLoad(); };
+  context.saved_callback = [this]() { UpdateProjectNames(); };
+  context.application_type = constants::kAnyValueEditorApplicationType.toStdString();
+  return std::make_unique<AnyValueEditorProject>(context);
 }
 
 }  // namespace sup::gui

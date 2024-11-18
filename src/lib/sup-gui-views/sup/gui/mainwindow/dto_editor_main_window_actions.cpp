@@ -60,7 +60,7 @@ bool DtoEditorMainWindowActions::CloseCurrentProject() const
   return m_project_handler->CloseProject();
 }
 
-void DtoEditorMainWindowActions::OnProjectModified()
+void DtoEditorMainWindowActions::UpdateProjectNames()
 {
   m_project_handler->UpdateNames();
 }

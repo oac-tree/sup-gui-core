@@ -39,10 +39,9 @@ public:
   /**
    * @brief Main c-tor.
    *
-   * @param modified_callback A callback to report when project was modified.
-   * @param loaded_callback A callback to report when project was reloaded.
+   * @param context Project context.
    */
-  explicit DtoEditorProject(callback_t modified_callback, callback_t loaded_callback);
+  explicit DtoEditorProject(const mvvm::ProjectContext& context);
 
   ~DtoEditorProject() override;
 
