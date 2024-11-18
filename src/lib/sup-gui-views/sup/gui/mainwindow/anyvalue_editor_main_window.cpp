@@ -115,8 +115,6 @@ void AnyValueEditorMainWindow::WriteSettings()
 
 bool AnyValueEditorMainWindow::CanCloseApplication()
 {
-  WriteSettings();
-
   if (m_action_manager->CloseCurrentProject())
   {
     WriteSettings();
