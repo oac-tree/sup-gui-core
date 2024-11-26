@@ -55,7 +55,7 @@ AnyValueItem::AnyValueItem(const std::string& item_type) : CompoundItem(item_typ
   SetFlag(mvvm::Appearance::kProperty, true);
 }
 
-std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone(bool make_unique_id) const
+std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone() const
 {
   // This base is not intended to be used directly
   throw sup::gui::NotImplementedException("Clone for AnyValueItem is not implemented");
@@ -108,9 +108,9 @@ AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type)
   SetToolTip(constants::kEmptyTypeName);
 }
 
-std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone(bool make_unique_id) const
+std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
 {
-  return std::make_unique<AnyValueEmptyItem>(*this, make_unique_id);
+  return std::make_unique<AnyValueEmptyItem>(*this);
 }
 
 // ----------------------------------------------------------------------------
@@ -123,9 +123,9 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(Type)
   SetToolTip(constants::kScalarTypeName);
 }
 
-std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone(bool make_unique_id) const
+std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 {
-  return std::make_unique<AnyValueScalarItem>(*this, make_unique_id);
+  return std::make_unique<AnyValueScalarItem>(*this);
 }
 
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
@@ -153,9 +153,9 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
-std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone(bool make_unique_id) const
+std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone() const
 {
-  return std::make_unique<AnyValueStructItem>(*this, make_unique_id);
+  return std::make_unique<AnyValueStructItem>(*this);
 }
 
 bool AnyValueStructItem::IsStruct() const
@@ -192,9 +192,9 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
-std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone(bool make_unique_id) const
+std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone() const
 {
-  return std::make_unique<AnyValueArrayItem>(*this, make_unique_id);
+  return std::make_unique<AnyValueArrayItem>(*this);
 }
 
 bool AnyValueArrayItem::IsArray() const

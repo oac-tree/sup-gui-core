@@ -78,7 +78,7 @@ TEST_F(WaveformHelperTest, CreateFromWaveform)
 
 TEST_F(WaveformHelperTest, GetXY)
 {
-  sup::gui::AnyValueItem item;
+  sup::gui::AnyValueItem item("Base");
   EXPECT_THROW(GetPoint(item), std::runtime_error);
 
   auto point = CreateFromPoint(1, 2);
