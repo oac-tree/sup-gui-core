@@ -19,13 +19,21 @@
 
 #include "anyvalue_viewmodel.h"
 
-#include "custom_children_strategies.h"
 #include "custom_row_strategies.h"
 
+#include <sup/gui/model/anyvalue_item_utils.h>
+
+#include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/viewmodel_controller_factory.h>
 
 namespace sup::gui
 {
+
+class AnyValueChildrenStrategy : public mvvm::FixedItemTypeStrategy
+{
+public:
+  AnyValueChildrenStrategy() : mvvm::FixedItemTypeStrategy(GetAnyValueItemTypes()) {}
+};
 
 AnyValueViewModel::AnyValueViewModel(mvvm::ISessionModel *model, QObject *parent)
     : ViewModel(parent)

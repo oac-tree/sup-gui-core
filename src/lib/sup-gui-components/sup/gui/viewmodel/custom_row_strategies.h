@@ -32,7 +32,7 @@ namespace sup::gui
 class AnyValueRowStrategy : public mvvm::AbstractRowStrategy
 {
 public:
-  int GetSize() const;
+  int GetSize() const override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 
