@@ -17,6 +17,7 @@ find_package_message(
 include(GoogleTest)
 
 add_subdirectory(libtest-utils)
+add_subdirectory(parasoft)
 add_subdirectory(testsup-gui-core)
 add_subdirectory(testsup-gui-components)
 add_subdirectory(testsup-gui-components-app)
