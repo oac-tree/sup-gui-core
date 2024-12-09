@@ -60,7 +60,6 @@ DtoComposerView::DtoComposerView(QWidget *parent)
     , m_action_handler(new DtoComposerActionHandler(this))
 {
   auto layout = new QVBoxLayout(this);
-  layout->setMargin(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
   layout->addWidget(m_tab_widget);
