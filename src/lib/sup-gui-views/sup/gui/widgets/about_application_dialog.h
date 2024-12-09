@@ -22,12 +22,14 @@
 
 #include <QDialog>
 #include <QLabel>
+#include <memory>
 
 namespace sup::gui
 {
 
-//! About application dialog.
-
+/**
+ * @brief The AboutApplicationDialog class is the main dialog
+ */
 class AboutApplicationDialog : public QDialog
 {
   Q_OBJECT
@@ -44,12 +46,12 @@ public:
   static QString GetCopyRight();
 
 private:
-  QLabel *CreateLinkLabel(const QString &link, const QString &name);
+  std::unique_ptr<QLabel> CreateLinkLabel(const QString &link, const QString &name);
 
-  QLayout *CreateLogoLayout();
-  QLayout *CreateTextLayout(const QString &app_name, const QString &description,
-                            const QString &version);
-  QLayout *CreateButtonLayout();
+  std::unique_ptr<QLayout> CreateLogoLayout();
+  std::unique_ptr<QLayout> CreateTextLayout(const QString &app_name, const QString &description,
+                                            const QString &version);
+  std::unique_ptr<QLayout> CreateButtonLayout();
 };
 
 }  // namespace sup::gui

@@ -36,14 +36,12 @@ AboutApplicationDialog::AboutApplicationDialog(QWidget* parent, const QString& a
   setWindowTitle("About " + app_name);
 
   auto details_layout = new QHBoxLayout;
-  details_layout->addLayout(CreateLogoLayout());
-  details_layout->addLayout(CreateTextLayout(app_name, description, version));
+  details_layout->addLayout(CreateLogoLayout().release());
+  details_layout->addLayout(CreateTextLayout(app_name, description, version).release());
 
-  auto main_layout = new QVBoxLayout;
+  auto main_layout = new QVBoxLayout(this);
   main_layout->addLayout(details_layout);
-  main_layout->addLayout(CreateButtonLayout());
-
-  setLayout(main_layout);
+  main_layout->addLayout(CreateButtonLayout().release());
 }
 
 void AboutApplicationDialog::ShowDialog(QWidget* parent, const QString& app_name,
@@ -59,9 +57,10 @@ QString AboutApplicationDialog::GetCopyRight()
   return QString("Copyright: 2010-%1 ITER Organization ").arg(date.toString("yyyy"));
 }
 
-QLabel* AboutApplicationDialog::CreateLinkLabel(const QString& link, const QString& name)
+std::unique_ptr<QLabel> AboutApplicationDialog::CreateLinkLabel(const QString& link,
+                                                                const QString& name)
 {
-  auto link_label = new QLabel();
+  auto link_label = std::make_unique<QLabel>();
   link_label->setTextFormat(Qt::RichText);
   link_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
   link_label->setOpenExternalLinks(true);
@@ -69,9 +68,9 @@ QLabel* AboutApplicationDialog::CreateLinkLabel(const QString& link, const QStri
   return link_label;
 }
 
-QLayout* AboutApplicationDialog::CreateLogoLayout()
+std::unique_ptr<QLayout> AboutApplicationDialog::CreateLogoLayout()
 {
-  auto layout = new QVBoxLayout;
+  auto layout = std::make_unique<QVBoxLayout>();
   auto label = new QLabel;
 
   label->setPixmap(
@@ -87,11 +86,11 @@ QLayout* AboutApplicationDialog::CreateLogoLayout()
   return layout;
 }
 
-QLayout* AboutApplicationDialog::CreateTextLayout(const QString& app_name,
-                                                  const QString& description,
-                                                  const QString& version)
+std::unique_ptr<QLayout> AboutApplicationDialog::CreateTextLayout(const QString& app_name,
+                                                                  const QString& description,
+                                                                  const QString& version)
 {
-  auto layout = new QVBoxLayout;
+  auto layout = std::make_unique<QVBoxLayout>();
 
   // Title
   auto about_title_label = new QLabel(app_name + " version " + version);
@@ -112,7 +111,8 @@ QLayout* AboutApplicationDialog::CreateTextLayout(const QString& app_name,
   // Copyright
   layout->addWidget(copyright_label);
   layout->addWidget(
-      CreateLinkLabel("https://git.iter.org/projects/COA/repos", "CODAC Operational Applications"));
+      CreateLinkLabel("https://git.iter.org/projects/COA/repos", "CODAC Operational Applications")
+          .release());
   layout->addStretch(1);
 
   auto gap = mvvm::utils::UnitSize(1.0);
@@ -121,9 +121,9 @@ QLayout* AboutApplicationDialog::CreateTextLayout(const QString& app_name,
   return layout;
 }
 
-QLayout* AboutApplicationDialog::CreateButtonLayout()
+std::unique_ptr<QLayout> AboutApplicationDialog::CreateButtonLayout()
 {
-  auto layout = new QHBoxLayout;
+  auto layout = std::make_unique<QVBoxLayout>();
 
   auto closeButton = new QPushButton("Close");
   connect(closeButton, &QPushButton::clicked, this, &QDialog::reject);
