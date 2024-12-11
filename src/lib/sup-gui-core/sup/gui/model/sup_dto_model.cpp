@@ -46,7 +46,7 @@ std::vector<mvvm::ContainerItem*> SupDtoModel::GetContainers() const
 
 void SupDtoModel::PopulateModel()
 {
-  InsertItem<mvvm::ContainerItem>();
+  (void)InsertItem<mvvm::ContainerItem>();
   if (auto command_stack = GetCommandStack(); command_stack)
   {
     command_stack->Clear();  // to disallow "undo" of our main container
