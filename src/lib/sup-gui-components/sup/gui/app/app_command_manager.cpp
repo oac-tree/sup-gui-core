@@ -39,7 +39,7 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
   }
 
   auto command = new AppCommand(command_text, this);  // ownership belongs to the manager
-  m_commands.insert({command_id, command});
+  (void)m_commands.insert({command_id, command});
   return command;
 }
 

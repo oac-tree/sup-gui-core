@@ -76,7 +76,7 @@ void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
                            + "], context name [" + context.GetContextName().toStdString() + "]");
   }
 
-  m_context_to_action.insert(iter, {context, action});
+  (void)m_context_to_action.insert(iter, {context, action});
 }
 
 AppCommand &AppCommand::SetText(const QString &text)

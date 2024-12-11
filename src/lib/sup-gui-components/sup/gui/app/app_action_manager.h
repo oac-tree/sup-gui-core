@@ -89,7 +89,7 @@ class IActionManager
 {
 public:
   virtual ~IActionManager() = default;
-  virtual bool RegisterAction(const QString& group_name, QAction* action) = 0;
+  virtual bool RegisterAction(const QString& menu_name, QAction* action) = 0;
 };
 
 /**

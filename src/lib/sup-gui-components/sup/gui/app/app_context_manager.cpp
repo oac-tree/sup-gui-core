@@ -42,7 +42,7 @@ AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
   const auto context_name = widget->metaObject()->className();
 
   AppContext context(unique_id, context_name);
-  m_widget_to_context.insert(iter, {widget, context});
+  (void)m_widget_to_context.insert(iter, {widget, context});
   return context;
 }
 
@@ -54,7 +54,7 @@ void AppContextManager::UnregisterWidgetUniqueId(const QWidget *widget)
     throw RuntimeException("This widget wasn't registered");
   }
 
-  m_widget_to_context.erase(iter);
+  (void)m_widget_to_context.erase(iter);
 }
 
 AppContext AppContextManager::GetContext(const QWidget *widget) const

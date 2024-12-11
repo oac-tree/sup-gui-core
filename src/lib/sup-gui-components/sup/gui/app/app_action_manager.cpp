@@ -94,7 +94,7 @@ IActionContainer *ActionManager::AddMenu(const QString &menu_name)
   menu->setToolTipsVisible(true);
   auto container = std::make_unique<MenuActionContainer>(menu_name, menu);
   auto container_ptr = container.get();
-  m_action_storage.insert({menu_name, std::move(container)});
+  (void)m_action_storage.insert({menu_name, std::move(container)});
   return container_ptr;
 }
 
