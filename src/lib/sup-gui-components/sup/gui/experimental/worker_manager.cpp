@@ -32,8 +32,8 @@ Worker* WorkerManager::Start(std::unique_ptr<ITask> task)
 
   auto worker_status_changed = [this, &worker_it](int status)
   { emit WorkerStatusChanged(worker_it.get(), status); };
-  connect(worker_it.get(), &Worker::StatusChanged, this, worker_status_changed,
-          Qt::QueuedConnection);
+  (void)connect(worker_it.get(), &Worker::StatusChanged, this, worker_status_changed,
+                Qt::QueuedConnection);
 
   worker_it->Run();
 
@@ -51,7 +51,7 @@ std::unique_ptr<ITask> WorkerManager::TakeResult(Worker* worker)
 
   // removes worker
   auto index = mvvm::utils::IndexOfItem(m_workers, worker);
-  m_workers.erase(std::next(m_workers.begin(), index));
+  (void)m_workers.erase(std::next(m_workers.begin(), index));
 
   // returns completed task
   return std::move(result);

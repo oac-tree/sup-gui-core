@@ -58,7 +58,7 @@ public:
   };
 
   explicit Worker(std::unique_ptr<ITask> task);
-  ~Worker();
+  ~Worker() override;
 
   /**
    * @brief Runs a task in a thread.

@@ -41,8 +41,8 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem &
     throw std::runtime_error("Error in TwoColumRowStrategy: not intended for this type of item");
   }
 
-  result.emplace_back(mvvm::CreateDataViewItem(scalar_items.at(0)));
-  result.emplace_back(mvvm::CreateDataViewItem(scalar_items.at(1)));
+  (void)result.emplace_back(mvvm::CreateDataViewItem(scalar_items.at(0)));
+  (void)result.emplace_back(mvvm::CreateDataViewItem(scalar_items.at(1)));
 
   return result;
 }
