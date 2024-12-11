@@ -133,7 +133,7 @@ AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command
  * @param command_id An identifier under which command is registered in AppCommandManager.
  * @param context The context of this command.
  */
-void AppAddActionToCommand(QAction* action, const QString& command_id, const AppContext& context);
+bool AppAddActionToCommand(QAction* action, const QString& command_id, const AppContext& context);
 
 }  // namespace sup::gui
 

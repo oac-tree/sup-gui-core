@@ -123,11 +123,11 @@ AppCommand *AppAddCommandToMenu(const QString &menu_name, const QString &command
   return command;
 }
 
-void AppAddActionToCommand(QAction *action, const QString &command_id, const AppContext &context)
+bool AppAddActionToCommand(QAction *action, const QString &command_id, const AppContext &context)
 {
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.
-  sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
+  return sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
 }
 
 }  // namespace sup::gui
