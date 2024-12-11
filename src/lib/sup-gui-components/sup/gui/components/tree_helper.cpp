@@ -43,19 +43,19 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   {
     auto action = expand_to_depth_menu->addAction(QString("depth %1").arg(depth + 1));
     auto on_action = [&tree_view, depth]() { tree_view.expandToDepth(depth); };
-    QObject::connect(action, &QAction::triggered, &tree_view, on_action);
+    (void)QObject::connect(action, &QAction::triggered, &tree_view, on_action);
   }
 
   // collapse all
   auto collapse_all_action = menu.addAction("Collapse all");
-  QObject::connect(collapse_all_action, &QAction::triggered, &tree_view, &QTreeView::collapseAll);
+  (void)QObject::connect(collapse_all_action, &QAction::triggered, &tree_view, &QTreeView::collapseAll);
 
   menu.addSeparator();
 
   // expand selected
   auto expand_selected_action = menu.addAction("Expand selected");
   auto on_expand_selected = [&tree_view, &point]() { tree_view.expand(tree_view.indexAt(point)); };
-  QObject::connect(expand_selected_action, &QAction::triggered, &tree_view, on_expand_selected);
+  (void)QObject::connect(expand_selected_action, &QAction::triggered, &tree_view, on_expand_selected);
 
   // expand selected depth
 
@@ -71,21 +71,21 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
     auto action = expand_selected_to_depth_menu->addAction(QString("depth %1").arg(depth + 1));
     auto on_action = [&tree_view, depth, point]()
     { tree_view.expandRecursively(tree_view.indexAt(point), depth); };
-    QObject::connect(action, &QAction::triggered, &tree_view, on_action);
+    (void)QObject::connect(action, &QAction::triggered, &tree_view, on_action);
   }
 
   // collapse selected
   auto collapse_selected_action = menu.addAction("Collapse selected");
   auto on_collapse_selected = [&tree_view, point]()
   { tree_view.collapse(tree_view.indexAt(point)); };
-  QObject::connect(collapse_selected_action, &QAction::triggered, &tree_view, on_collapse_selected);
+  (void)QObject::connect(collapse_selected_action, &QAction::triggered, &tree_view, on_collapse_selected);
 }
 
 void SummonCollapseExpandMenu(const QPoint &point, QTreeView &tree_view)
 {
   QMenu menu;
   SetupCollapseExpandMenu(point, menu, tree_view);
-  menu.exec(tree_view.mapToGlobal(point));
+  (void)menu.exec(tree_view.mapToGlobal(point));
 }
 
 std::function<void(const QPoint &)> CreateOnCustomMenuCallback(QTreeView &tree_view)
@@ -99,11 +99,11 @@ void AdjustWidthOfColumns(QHeaderView *header, std::vector<int> stretch_factors)
 {
   // adjust array of stretch factors so it matches number of columns
   const int default_stretch{1};
-  stretch_factors.resize(header->count(), default_stretch);
+  stretch_factors.resize(static_cast<size_t>(header->count()), default_stretch);
   auto stretch_factor_sum = std::accumulate(stretch_factors.begin(), stretch_factors.end(), 0);
 
   const auto width = header->width();
-  for (int i = 0; i < header->count(); ++i)
+  for (size_t i = 0; i < header->count(); ++i)
   {
     // set column width proportional to stretch factors
     header->resizeSection(i, width * stretch_factors[i] / stretch_factor_sum);
