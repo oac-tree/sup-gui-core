@@ -28,9 +28,8 @@ namespace sup::gui
 
 WaveformDisplayController::WaveformDisplayController(mvvm::ChartViewportItem* chart_viewport)
     : m_chart_viewport(chart_viewport)
+    , m_listener(std::make_unique<mvvm::ModelListener>(chart_viewport->GetModel()))
 {
-  m_listener = std::make_unique<mvvm::ModelListener>(chart_viewport->GetModel());
-
   m_listener->Connect<mvvm::ItemInsertedEvent>(this, &WaveformDisplayController::OnModelEvent);
   m_listener->Connect<mvvm::ItemRemovedEvent>(this, &WaveformDisplayController::OnModelEvent);
   UpdateDisplayStatus();
@@ -70,7 +69,7 @@ void WaveformDisplayController::UpdateDisplayStatus()
   }
 }
 
-void WaveformDisplayController::OnModelEvent(const mvvm::ItemInsertedEvent &event)
+void WaveformDisplayController::OnModelEvent(const mvvm::ItemInsertedEvent& event)
 {
   if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
   {
@@ -80,7 +79,7 @@ void WaveformDisplayController::OnModelEvent(const mvvm::ItemInsertedEvent &even
   UpdateDisplayStatus();
 }
 
-void WaveformDisplayController::OnModelEvent(const mvvm::ItemRemovedEvent &event)
+void WaveformDisplayController::OnModelEvent(const mvvm::ItemRemovedEvent& event)
 {
   if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
   {
