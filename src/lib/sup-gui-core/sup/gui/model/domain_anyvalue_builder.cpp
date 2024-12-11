@@ -150,7 +150,8 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
     {
       m_builder.StartField(node.m_name);
     }
-    else if (node.IsArrayContext())
+
+    if (node.IsArrayContext())
     {
       m_builder.StartArrayElement();
     }
@@ -165,10 +166,12 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
     {
       m_builder.EndField();
     }
-    else if (node.IsArrayContext())
+
+    if (node.IsArrayContext())
     {
       m_builder.EndArrayElement();
     }
+
     m_stack.pop();  // we don't need the node anymore
   }
 
