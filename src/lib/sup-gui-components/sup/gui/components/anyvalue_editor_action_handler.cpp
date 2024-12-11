@@ -337,20 +337,20 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
 {
   auto selected_item = GetSelectedItem();
 
-  auto parent = selected_item ? selected_item->GetParent() : GetAnyValueItemContainer();
+  auto parent_item = selected_item ? selected_item->GetParent() : GetAnyValueItemContainer();
   auto tagindex = selected_item ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
 
-  UpdateChildAppearance(*parent, *item);
-  InsertItem(std::move(item), parent, tagindex);
+  UpdateChildAppearance(*parent_item, *item);
+  (void)InsertItem(std::move(item), parent_item, tagindex);
 }
 
 void AnyValueEditorActionHandler::InsertIntoCurrentSelection(
     std::unique_ptr<mvvm::SessionItem> item)
 {
-  if (auto parent = GetParent(); parent)
+  if (auto parent_item = GetParent(); parent_item)
   {
-    UpdateChildAppearance(*parent, *item);
-    InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
+    UpdateChildAppearance(*parent_item, *item);
+    (void)InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
   }
 }
 
@@ -436,7 +436,7 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm::SessionItem> item,
-                                                           mvvm::SessionItem* parent,
+                                                           mvvm::SessionItem* parent_item,
                                                            const mvvm::TagIndex& index)
 {
   if (!GetModel())
@@ -444,7 +444,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
     throw RuntimeException("Uninitialised model");
   }
 
-  if (parent == nullptr)
+  if (parent_item == nullptr)
   {
     throw RuntimeException("Uninitialised parent");
   }
@@ -453,13 +453,14 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
   const auto item_type = item->GetType();
   try
   {
-    result = GetModel()->InsertItem(std::move(item), parent, index);
+    result = GetModel()->InsertItem(std::move(item), parent_item, index);
     emit SelectItemRequest(result);
   }
   catch (const std::exception& ex)
   {
     std::ostringstream ostr;
-    ostr << "Can't insert child [" << item_type << "] into parent [" << parent->GetType() << "].";
+    ostr << "Can't insert child [" << item_type << "] into parent [" << parent_item->GetType()
+         << "].";
     SendMessage(ostr.str());
   }
   return result;

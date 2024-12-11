@@ -276,8 +276,8 @@ private:
   /**
    * @brief Inserts given item in the given parent.
    */
-  mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem* parent,
-                                const mvvm::TagIndex& index);
+  mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item,
+                                mvvm::SessionItem* parent_item, const mvvm::TagIndex& index);
 
   /**
    * @brief Returns mime data stored in the clipboar.

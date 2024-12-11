@@ -29,7 +29,7 @@ namespace sup::gui
 AnyValueEditorProject::AnyValueEditorProject(const mvvm::ProjectContext &context)
     : AppProject(context)
 {
-  RegisterModel<mvvm::ApplicationModel>();
+  (void)RegisterModel<mvvm::ApplicationModel>();
 }
 
 AnyValueEditorProject::~AnyValueEditorProject() = default;

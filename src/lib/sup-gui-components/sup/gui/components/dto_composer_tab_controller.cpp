@@ -108,10 +108,10 @@ void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem 
 {
   auto widget = m_create_widget_callback(container);
 
-  m_widget_map.insert({container, widget.get()});
+  (void)m_widget_map.insert({container, widget.get()});
 
   // ownership is taken by QTabWidget
-  m_tab_widget->insertTab(index, widget.release(), "AnyValue");
+  (void)m_tab_widget->insertTab(index, widget.release(), "AnyValue");
 }
 
 void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent &event)

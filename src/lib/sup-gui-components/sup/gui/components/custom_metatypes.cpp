@@ -27,8 +27,8 @@ namespace sup::gui
 
 void RegisterCustomMetaTypes()
 {
-  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
-  qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
+  (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  (void)qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
 }
 
 }  // namespace sup::gui

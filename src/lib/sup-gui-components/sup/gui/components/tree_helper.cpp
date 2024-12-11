@@ -34,7 +34,7 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
 
   // expand all
   auto expand_all_action = menu.addAction("Expand all");
-  QObject::connect(expand_all_action, &QAction::triggered, &tree_view, &QTreeView::expandAll);
+  (void)QObject::connect(expand_all_action, &QAction::triggered, &tree_view, &QTreeView::expandAll);
 
   // expand to depth
   auto expand_to_depth_menu = menu.addMenu("Expand all to depth");
