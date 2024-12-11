@@ -46,8 +46,8 @@ std::vector<std::string> CreateScalarTypeNames()
 
   static const auto scalar_definitions = sup::dto::ScalarTypeDefinitions();
   auto on_element = [](const auto& pair) { return pair.second; };
-  std::transform(scalar_definitions.begin(), scalar_definitions.end(), std::back_inserter(result),
-                 on_element);
+  (void)std::transform(scalar_definitions.begin(), scalar_definitions.end(),
+                       std::back_inserter(result), on_element);
   return result;
 }
 
@@ -60,7 +60,7 @@ std::map<sup::dto::TypeCode, std::string> CreateScalarTypeCodeNameMap()
 
   static const auto scalar_definitions = sup::dto::ScalarTypeDefinitions();
   auto on_element = [&result](const auto& pair) { return result.insert(pair); };
-  std::for_each(scalar_definitions.begin(), scalar_definitions.end(), on_element);
+  (void)std::for_each(scalar_definitions.begin(), scalar_definitions.end(), on_element);
   return result;
 }
 }  // namespace
