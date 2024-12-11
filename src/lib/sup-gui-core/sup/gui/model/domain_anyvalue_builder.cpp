@@ -181,9 +181,9 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
     // iteration in reverse order
     for (auto it = children.rbegin(); it != children.rend(); ++it)
     {
-      Node node{const_cast<const AnyValueItem*>(*it), context};
-      node.m_name = (*it)->GetDisplayName();
-      m_stack.push(node);
+      Node child_node{const_cast<const AnyValueItem*>(*it), context};
+      child_node.m_name = (*it)->GetDisplayName();
+      m_stack.push(child_node);
     }
   }
 
