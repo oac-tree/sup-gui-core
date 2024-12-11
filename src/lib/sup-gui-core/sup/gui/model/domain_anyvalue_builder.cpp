@@ -45,7 +45,10 @@ struct Node
   bool m_is_visited{false};  //!< True if `value` is a struct and all children are processed.
   NodeContext m_context;
 
-  Node(const AnyValueItem* item, NodeContext context = kRoot) : m_item(item), m_context(context) {}
+  explicit Node(const AnyValueItem* item, NodeContext context = kRoot)
+      : m_item(item), m_context(context)
+  {
+  }
 
   bool IsArrayContext() const { return m_context == kArrayElement; }
 
@@ -59,7 +62,7 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
 
   explicit DomainAnyValueBuilderImpl(const AnyValueItem& item)
   {
-    m_stack.push({&item});
+    m_stack.push(Node{&item, kRoot});
     ProcessItemStack();
   }
 

@@ -88,6 +88,7 @@ void AnyValueItemBuilder::ArrayElementSeparator()
 
 void AnyValueItemBuilder::ArrayEpilog(const anyvalue_t *anyvalue)
 {
+  (void)anyvalue;
   m_index = -1;
   m_current_item = m_current_item->GetParent();
 }
@@ -100,7 +101,10 @@ void AnyValueItemBuilder::ScalarProlog(const anyvalue_t *anyvalue)
   AddItem(std::move(scalar));
 }
 
-void AnyValueItemBuilder::ScalarEpilog(const anyvalue_t *anyvalue) {}
+void AnyValueItemBuilder::ScalarEpilog(const anyvalue_t *anyvalue)
+{
+  (void)anyvalue;
+}
 
 void AnyValueItemBuilder::AddItem(std::unique_ptr<AnyValueItem> item)
 {
