@@ -55,8 +55,8 @@ std::unique_ptr<AppContextFocusController> CreateGlobalFocusController()
 {
   auto result = std::make_unique<AppContextFocusController>(GetGlobalContextManager(),
                                                             GetGlobalCommandManager(), nullptr);
-  QObject::connect(qApp, &QApplication::focusChanged, result.get(),
-                   &sup::gui::AppContextFocusController::OnFocusWidgetUpdate);
+  (void)QObject::connect(qApp, &QApplication::focusChanged, result.get(),
+                         &sup::gui::AppContextFocusController::OnFocusWidgetUpdate);
   return result;
 }
 
