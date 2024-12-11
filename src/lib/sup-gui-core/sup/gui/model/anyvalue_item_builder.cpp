@@ -60,14 +60,16 @@ void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue) {}
 
 void AnyValueItemBuilder::MemberProlog(const anyvalue_t *anyvalue, const std::string &member_name)
 {
+  (void)anyvalue;
   m_member_name = member_name;
 }
 
 void AnyValueItemBuilder::MemberEpilog(const anyvalue_t *anyvalue, const std::string &member_name)
 {
   (void)anyvalue;
+  (void)member_name;
   m_member_name.clear();
-  m_current_item = static_cast<AnyValueItem *>(m_current_item->GetParent());
+  m_current_item = m_current_item->GetParent();
 }
 
 void AnyValueItemBuilder::ArrayProlog(const anyvalue_t *anyvalue)
@@ -81,13 +83,13 @@ void AnyValueItemBuilder::ArrayProlog(const anyvalue_t *anyvalue)
 void AnyValueItemBuilder::ArrayElementSeparator()
 {
   m_index++;
-  m_current_item = static_cast<AnyValueItem *>(m_current_item->GetParent());
+  m_current_item = m_current_item->GetParent();
 }
 
 void AnyValueItemBuilder::ArrayEpilog(const anyvalue_t *anyvalue)
 {
   m_index = -1;
-  m_current_item = static_cast<AnyValueItem *>(m_current_item->GetParent());
+  m_current_item = m_current_item->GetParent();
 }
 
 void AnyValueItemBuilder::ScalarProlog(const anyvalue_t *anyvalue)

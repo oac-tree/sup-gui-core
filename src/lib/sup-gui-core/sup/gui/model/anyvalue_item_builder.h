@@ -26,6 +26,11 @@
 
 #include <memory>
 
+namespace mvvm
+{
+class SessionItem;
+}
+
 namespace sup::gui
 {
 
@@ -57,7 +62,7 @@ private:
   void AddItem(std::unique_ptr<AnyValueItem> item);
 
   std::unique_ptr<AnyValueItem> m_result;
-  AnyValueItem* m_current_item{nullptr};
+  mvvm::SessionItem* m_current_item{nullptr};
   int m_index{-1};
   std::string m_member_name;
 };
