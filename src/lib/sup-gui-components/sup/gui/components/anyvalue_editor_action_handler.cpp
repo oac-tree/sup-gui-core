@@ -259,7 +259,7 @@ void AnyValueEditorActionHandler::PasteInto()
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 {
-  if (auto item = GetTopItem(); item)
+  if (auto top_item = GetTopItem(); top_item)
   {
     SendMessage("Only one top item is allowed");
     return;
