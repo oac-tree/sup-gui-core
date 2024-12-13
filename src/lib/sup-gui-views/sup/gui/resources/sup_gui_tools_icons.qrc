@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>icons</file>
-        <file>icons/animation-outline-light.svg</file>
         <file>icons/animation-outline.svg</file>
-        <file>icons/application-brackets-outline-light.svg</file>
         <file>icons/application-brackets-outline.svg</file>
         <file>icons/arrow-down-thin-circle-outline.svg</file>
         <file>icons/arrow-top-left.svg</file>
