@@ -24,10 +24,10 @@
 #include <QPainter>
 #include <QPixmap>
 
-namespace pspsconfig
+namespace sup::gui
 {
 
-bool ColoredIconEngine::m_use_colored_icons = true;
+// bool ColoredIconEngine::m_use_colored_icons = true;
 
 ColoredIconEngine::ColoredIconEngine(const QIcon& icon, const QColor& icon_color_on,
                                      const QColor& icon_color_off,
@@ -66,10 +66,10 @@ ColoredIconEngine::ColoredIconEngine(const ColoredIconEngine& other)
 {
 }
 
-void ColoredIconEngine::SetUseColoredIcons(bool use_colored_icons)
-{
-  m_use_colored_icons = use_colored_icons;
-}
+// void ColoredIconEngine::SetUseColoredIcons(bool use_colored_icons)
+// {
+//   m_use_colored_icons = use_colored_icons;
+// }
 
 void ColoredIconEngine::AddMapping(const QColor& color, QIcon::Mode mode, QIcon::State state)
 {
@@ -111,10 +111,10 @@ QPixmap ColoredIconEngine::pixmap(const QSize& size, QIcon::Mode mode, QIcon::St
     return QPixmap();
   }
 
-  if (!m_use_colored_icons)
-  {
-    return m_icon.pixmap(size, mode, state);
-  }
+  // if (!m_use_colored_icons)
+  // {
+  //   return m_icon.pixmap(size, mode, state);
+  // }
 
   QPixmap pix{size};
   pix.fill(Qt::transparent);
@@ -144,32 +144,32 @@ QIconEngine* ColoredIconEngine::clone() const
   return new ColoredIconEngine(*this);
 }
 
-void ColoredIconEngine::virtual_hook(int id, void* data)
-{
-  switch (id)
-  {
-  case QIconEngine::AvailableSizesHook:
-  {
-    QIconEngine::AvailableSizesArgument& arg =
-        *reinterpret_cast<QIconEngine::AvailableSizesArgument*>(data);
-    arg.sizes = m_icon.availableSizes(arg.mode, arg.state);
-    break;
-  }
-  case QIconEngine::IconNameHook:
-  {
-    QString& arg = *reinterpret_cast<QString*>(data);
-    arg = m_icon.name();
-    break;
-  }
-  case QIconEngine::IsNullHook:
-  {
-    bool& arg = *reinterpret_cast<bool*>(data);
-    arg = m_icon.isNull();
-    break;
-  }
-  default:
-    QIconEngine::virtual_hook(id, data);
-  }
-}
+// void ColoredIconEngine::virtual_hook(int id, void* data)
+// {
+//   switch (id)
+//   {
+//   case QIconEngine::AvailableSizesHook:
+//   {
+//     QIconEngine::AvailableSizesArgument& arg =
+//         *reinterpret_cast<QIconEngine::AvailableSizesArgument*>(data);
+//     arg.sizes = m_icon.availableSizes(arg.mode, arg.state);
+//     break;
+//   }
+//   case QIconEngine::IconNameHook:
+//   {
+//     QString& arg = *reinterpret_cast<QString*>(data);
+//     arg = m_icon.name();
+//     break;
+//   }
+//   case QIconEngine::IsNullHook:
+//   {
+//     bool& arg = *reinterpret_cast<bool*>(data);
+//     arg = m_icon.isNull();
+//     break;
+//   }
+//   default:
+//     QIconEngine::virtual_hook(id, data);
+//   }
+// }
 
 }  // namespace pspsconfig

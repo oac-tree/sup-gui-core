@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : PSPS editor
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : Graphical user interface for pulse schedule preparation system
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Rafael Silva (EXT)
  *
@@ -17,15 +17,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef PSPS_CONFIG_CORE_UTILS_STYLED_ICON_ENGINE_H_
-#define PSPS_CONFIG_CORE_UTILS_STYLED_ICON_ENGINE_H_
+#ifndef SUP_GUI_WIDGETS_STYLED_ICON_ENGINE_H_
+#define SUP_GUI_WIDGETS_STYLED_ICON_ENGINE_H_
 
 #include <QColor>
 #include <QIcon>
 #include <QIconEngine>
 #include <QPalette>
+#include <QHash>
 
-namespace pspsconfig
+namespace sup::gui
 {
 
 //! ColoredIconEngine allows the user to create icons with custom colors by specifying
@@ -43,7 +44,7 @@ public:
   ColoredIconEngine(const ColoredIconEngine& other);
   ~ColoredIconEngine() override = default;
 
-  static void SetUseColoredIcons(bool use_colored_icons);
+  // static void SetUseColoredIcons(bool use_colored_icons);
 
   void AddMapping(const QColor& color, QIcon::Mode mode, QIcon::State state);
   void AddMappings(const QColor& color, const QList<QIcon::Mode>& modes,
@@ -57,14 +58,14 @@ public:
   QString key() const override;
   QIconEngine* clone() const override;
 
-  void virtual_hook(int id, void* data) override;
+  // void virtual_hook(int id, void* data) override;
 
 private:
-  static bool m_use_colored_icons;
+  // static bool m_use_colored_icons;
   QHash<QPair<QIcon::Mode, QIcon::State>, QColor> m_color_map;
   QIcon m_icon;
 };
 
 }  // namespace pspsconfig
 
-#endif  // PSPS_CONFIG_CORE_UTILS_STYLED_ICON_ENGINE_H_
+#endif  // SUP_GUI_WIDGETS_STYLED_ICON_ENGINE_H_
