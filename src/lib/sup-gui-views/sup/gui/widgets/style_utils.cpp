@@ -19,6 +19,9 @@
 
 #include "style_utils.h"
 
+#include "colored_icon_engine.h"
+
+#include <mvvm/core/exceptions.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
@@ -27,9 +30,19 @@
 #include <QTreeView>
 #include <cmath>
 
+namespace sup::gui::utils
+{
+
 namespace
 {
-const QString DefaultIconExtension("svg");
+
+const bool kUseColorEngine = true;
+
+// FIXME deduce color from paletter
+const QString kLightIconColor("#e6e6e6");
+const QString kDarkIconColor("#4d4d4d");
+
+const QString kDefaultIconExtension("svg");
 
 /**
  * @brief Generate style string for the tree with vertical lines connecting parent and children.
@@ -64,10 +77,59 @@ QString CreatePopertyTreeStyleString()
   return result;
 }
 
+/**
+ * @brief Creates color engine necessary to render given icon.
+ */
+std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, AppIconColorFlavor icon_flavor)
+{
+  return std::make_unique<ColoredIconEngine>(icon, GetIconBaseColor(icon_flavor));
+}
+
+/**
+ * @brief Creates icon colored in given flavor.
+ */
+QIcon CreateColoredIcon(const QIcon &icon, AppIconColorFlavor icon_flavor)
+{
+  return QIcon(CreateColorEngine(icon, icon_flavor).release()); // icon takes ownership over engine
+}
+
 }  // namespace
 
-namespace sup::gui::utils
+bool IsDarkTheme()
 {
+  // FIXME switch to Qt6 way
+  return QApplication::palette().color(QPalette::Base).lightness() < 128;
+}
+
+QString GetResourceName(const QString &icon_name)
+{
+  auto resource_path = QString(":/icons/%1").arg(icon_name);
+  // append .svg if there is no any extention
+  return resource_path.contains(".") ? resource_path
+                                     : QString("%1.%2").arg(resource_path, kDefaultIconExtension);
+}
+
+QColor GetIconBaseColor(AppIconColorFlavor icon_flavor)
+{
+  // if icon flavor is specified, return fixed flavor's color
+  if (icon_flavor == AppIconColorFlavor::kForDarkThemes)
+  {
+    return kLightIconColor;
+  }
+
+  if (icon_flavor == AppIconColorFlavor::kForLightThemes)
+  {
+    return kDarkIconColor;
+  }
+
+  // if flavor is unspecified, return color depending on theme itself
+  if (icon_flavor == AppIconColorFlavor::kUnspecified)
+  {
+    return IsDarkTheme() ? kLightIconColor : kDarkIconColor;
+  }
+
+  throw mvvm::RuntimeException("Unknown icon flavor");
+}
 
 QSize ToolBarIconSize()
 {
@@ -83,11 +145,8 @@ QSize NarrowToolBarIconSize()
 
 QIcon GetIcon(const QString &icon_name, AppIconColorFlavor icon_flavor)
 {
-  (void)(icon_flavor);
-  const QString resource_name = icon_name.contains(".")
-                                    ? QString(":/icons/%1").arg(icon_name)
-                                    : QString(":/icons/%1.%2").arg(icon_name, DefaultIconExtension);
-  return QIcon(resource_name);
+  QIcon icon(GetResourceName(icon_name));
+  return kUseColorEngine ? CreateColoredIcon(icon, icon_flavor) : icon;
 }
 
 void BeautifyTreeStyle(QTreeView *tree)
