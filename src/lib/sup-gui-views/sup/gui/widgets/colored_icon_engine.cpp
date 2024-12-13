@@ -27,26 +27,23 @@
 namespace sup::gui
 {
 
-// bool ColoredIconEngine::m_use_colored_icons = true;
-
-ColoredIconEngine::ColoredIconEngine(const QIcon& icon, const QColor& icon_color_on,
-                                     const QColor& icon_color_off,
-                                     const QColor& icon_color_disabled)
+ColoredIconEngine::ColoredIconEngine(const QIcon& icon, const QColor& color_on,
+                                     const QColor& color_off, const QColor& color_disabled)
     : m_icon{icon}
 {
-  AddMappings(icon_color_disabled, {QIcon::Disabled});
+  AddMappings(color_disabled, {QIcon::Disabled});
 
-  AddMappings(icon_color_on, {QIcon::Normal, QIcon::Active}, {QIcon::On});
-  AddMappings(icon_color_off, {QIcon::Normal, QIcon::Active}, {QIcon::Off});
+  AddMappings(color_on, {QIcon::Normal, QIcon::Active}, {QIcon::On});
+  AddMappings(color_off, {QIcon::Normal, QIcon::Active}, {QIcon::Off});
 
   // Make selected icon 20% lighter when selected
-  AddMapping(icon_color_on.lighter(120), QIcon::Selected, QIcon::On);
-  AddMapping(icon_color_off.lighter(120), QIcon::Selected, QIcon::Off);
+  AddMapping(color_on.lighter(120), QIcon::Selected, QIcon::On);
+  AddMapping(color_off.lighter(120), QIcon::Selected, QIcon::Off);
 }
 
-ColoredIconEngine::ColoredIconEngine(const QIcon& icon, const QColor& icon_color_on,
-                                     const QColor& icon_color_off)
-    : ColoredIconEngine(icon, icon_color_on, icon_color_off,
+ColoredIconEngine::ColoredIconEngine(const QIcon& icon, const QColor& color_on,
+                                     const QColor& color_off)
+    : ColoredIconEngine(icon, color_on, color_off,
                         QApplication::palette().color(QPalette::Disabled, QPalette::WindowText))
 {
 }
@@ -64,28 +61,6 @@ ColoredIconEngine::ColoredIconEngine(const QIcon& icon)
 ColoredIconEngine::ColoredIconEngine(const ColoredIconEngine& other)
     : QIconEngine(other), m_icon{other.m_icon}, m_color_map{other.m_color_map}
 {
-}
-
-// void ColoredIconEngine::SetUseColoredIcons(bool use_colored_icons)
-// {
-//   m_use_colored_icons = use_colored_icons;
-// }
-
-void ColoredIconEngine::AddMapping(const QColor& color, QIcon::Mode mode, QIcon::State state)
-{
-  m_color_map.insert({mode, state}, color);
-}
-
-void ColoredIconEngine::AddMappings(const QColor& color, const QList<QIcon::Mode>& modes,
-                                    const QList<QIcon::State>& states)
-{
-  for (const auto& mode : modes)
-  {
-    for (const auto& state : states)
-    {
-      AddMapping(color, mode, state);
-    }
-  }
 }
 
 void ColoredIconEngine::paint(QPainter* painter, const QRect& rect, QIcon::Mode mode,
@@ -110,11 +85,6 @@ QPixmap ColoredIconEngine::pixmap(const QSize& size, QIcon::Mode mode, QIcon::St
   {
     return QPixmap();
   }
-
-  // if (!m_use_colored_icons)
-  // {
-  //   return m_icon.pixmap(size, mode, state);
-  // }
 
   QPixmap pix{size};
   pix.fill(Qt::transparent);
@@ -144,32 +114,21 @@ QIconEngine* ColoredIconEngine::clone() const
   return new ColoredIconEngine(*this);
 }
 
-// void ColoredIconEngine::virtual_hook(int id, void* data)
-// {
-//   switch (id)
-//   {
-//   case QIconEngine::AvailableSizesHook:
-//   {
-//     QIconEngine::AvailableSizesArgument& arg =
-//         *reinterpret_cast<QIconEngine::AvailableSizesArgument*>(data);
-//     arg.sizes = m_icon.availableSizes(arg.mode, arg.state);
-//     break;
-//   }
-//   case QIconEngine::IconNameHook:
-//   {
-//     QString& arg = *reinterpret_cast<QString*>(data);
-//     arg = m_icon.name();
-//     break;
-//   }
-//   case QIconEngine::IsNullHook:
-//   {
-//     bool& arg = *reinterpret_cast<bool*>(data);
-//     arg = m_icon.isNull();
-//     break;
-//   }
-//   default:
-//     QIconEngine::virtual_hook(id, data);
-//   }
-// }
+void ColoredIconEngine::AddMapping(const QColor& color, QIcon::Mode mode, QIcon::State state)
+{
+  m_color_map.insert({mode, state}, color);
+}
 
-}  // namespace pspsconfig
+void ColoredIconEngine::AddMappings(const QColor& color, const QList<QIcon::Mode>& modes,
+                                    const QList<QIcon::State>& states)
+{
+  for (const auto& mode : modes)
+  {
+    for (const auto& state : states)
+    {
+      AddMapping(color, mode, state);
+    }
+  }
+}
+
+}  // namespace sup::gui
