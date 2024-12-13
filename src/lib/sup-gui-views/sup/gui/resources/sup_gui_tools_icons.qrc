@@ -10,21 +10,16 @@
         <file>icons/branch-end.svg</file>
         <file>icons/branch-more.svg</file>
         <file>icons/camera-metering-center.svg</file>
-        <file>icons/chart-timeline-variant-shimmer-light.svg</file>
         <file>icons/checkbox-blank-circle-outline.svg</file>
         <file>icons/checkbox-marked-circle-outline.svg</file>
         <file>icons/chevron-down.svg</file>
         <file>icons/chevron-right.svg</file>
         <file>icons/code-json.svg</file>
-        <file>icons/compare-light.svg</file>
-        <file>icons/compare.svg</file>
         <file>icons/dock-right.svg</file>
         <file>icons/dots-horizontal.svg</file>
         <file>icons/dots-vertical.svg</file>
         <file>icons/file-export-outline.svg</file>
-        <file>icons/file-tree-outline-light.svg</file>
         <file>icons/file-tree-outline.svg</file>
-        <file>icons/graph-outline-light.svg</file>
         <file>icons/hand-back-right-outline.svg</file>
         <file>icons/iter_logo.png</file>
         <file>icons/magnify-minus-outline.svg</file>
@@ -32,12 +27,12 @@
         <file>icons/menu.svg</file>
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
-        <file>icons/table-column-plus-after-narrow.svg</file>
         <file>icons/table-column-plus-after.svg</file>
-        <file>icons/table-column-plus-before-narrow.svg</file>
         <file>icons/table-column-plus-before.svg</file>
-        <file>icons/table-column-remove-narrow.svg</file>
         <file>icons/table-column-remove.svg</file>
         <file>icons/vline.svg</file>
+        <file>icons/chart-timeline-variant-shimmer.svg</file>
+        <file>icons/dock-left.svg</file>
+        <file>icons/dots-triangle.svg</file>
     </qresource>
 </RCC>
