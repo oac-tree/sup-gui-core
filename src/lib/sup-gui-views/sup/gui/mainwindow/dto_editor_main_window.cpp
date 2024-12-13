@@ -81,18 +81,27 @@ void DtoEditorMainWindow::InitComponents()
   m_action_manager = new DtoEditorMainWindowActions(m_project.get(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
+
+  // Our toolbar backgound is always dark and needs bright icons
   m_tab_widget->SetBaseColor("#008a65");
 
   m_composer_view = new DtoComposerView;
-  m_tab_widget->AddWidget(m_composer_view, "Compose",
-                          utils::GetIcon("file-tree-outline-light.svg"));
-  m_waveform_view = new DtoWaveformView;
-  m_tab_widget->AddWidget(m_waveform_view, "Waveforms",
-                          utils::GetIcon("chart-timeline-variant-shimmer-light.svg"));
+  m_tab_widget->AddWidget(
+      m_composer_view, "Compose",
+      utils::GetIcon("file-tree-outline", utils::AppIconColorFlavor::kForDarkThemes));
 
-  m_tab_widget->AddWidget(new QWidget, "Compare",
-                          utils::GetIcon("application-brackets-outline-light.svg"));
-  m_tab_widget->AddWidget(new QWidget, "Bulk Edit", utils::GetIcon("animation-outline-light.svg"));
+  m_waveform_view = new DtoWaveformView;
+  m_tab_widget->AddWidget(
+      m_waveform_view, "Waveforms",
+      utils::GetIcon("chart-timeline-variant-shimmer", utils::AppIconColorFlavor::kForDarkThemes));
+
+  m_tab_widget->AddWidget(
+      new QWidget, "Compare",
+      utils::GetIcon("application-brackets-outline", utils::AppIconColorFlavor::kForDarkThemes));
+
+  m_tab_widget->AddWidget(
+      new QWidget, "Bulk Edit",
+      utils::GetIcon("animation-outline", utils::AppIconColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddSpacer();
   m_tab_widget->SetCurrentIndex(0);

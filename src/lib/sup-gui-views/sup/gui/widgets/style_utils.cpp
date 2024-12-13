@@ -81,8 +81,9 @@ QSize NarrowToolBarIconSize()
   return {width, width};
 }
 
-QIcon GetIcon(const QString &icon_name)
+QIcon GetIcon(const QString &icon_name, AppIconColorFlavor icon_flavor)
 {
+  (void)(icon_flavor);
   const QString resource_name = icon_name.contains(".")
                                     ? QString(":/icons/%1").arg(icon_name)
                                     : QString(":/icons/%1.%2").arg(icon_name, DefaultIconExtension);
