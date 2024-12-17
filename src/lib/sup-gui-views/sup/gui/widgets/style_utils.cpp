@@ -38,7 +38,6 @@ namespace
 
 const bool kUseColorEngine = true;
 
-// FIXME deduce color from paletter
 const QString kLightIconColor("#e6e6e6");
 const QString kDarkIconColor("#4d4d4d");
 

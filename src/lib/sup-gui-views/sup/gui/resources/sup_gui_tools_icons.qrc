@@ -32,7 +32,5 @@
         <file>icons/table-column-remove.svg</file>
         <file>icons/vline.svg</file>
         <file>icons/chart-timeline-variant-shimmer.svg</file>
-        <file>icons/dock-left.svg</file>
-        <file>icons/dots-triangle.svg</file>
     </qresource>
 </RCC>
