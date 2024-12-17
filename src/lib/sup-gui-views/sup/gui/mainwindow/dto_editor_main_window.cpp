@@ -19,9 +19,9 @@
 
 #include "dto_editor_main_window.h"
 
+#include "color_palette.h"
 #include "dto_editor_main_window_actions.h"
 
-#include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/sup_dto_model.h>
@@ -30,8 +30,6 @@
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 #include <sup/gui/widgets/style_utils.h>
 
-#include <mvvm/model/application_model.h>
-#include <mvvm/standarditems/container_item.h>
 #include <mvvm/widgets/main_vertical_bar_widget.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -82,8 +80,7 @@ void DtoEditorMainWindow::InitComponents()
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
 
-  // Our toolbar backgound is always dark and needs bright icons
-  m_tab_widget->SetBaseColor("#008a65");
+  m_tab_widget->SetBaseColor(GetMainToolBarColor());
 
   m_composer_view = new DtoComposerView;
   m_tab_widget->AddWidget(

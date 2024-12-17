@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_main_window.h
   anyvalue_editor_main_window_actions.cpp
   anyvalue_editor_main_window_actions.h
+  color_palette.cpp
+  color_palette.h
   dto_editor_main_window.cpp
   dto_editor_main_window.h
   dto_editor_main_window_actions.cpp
