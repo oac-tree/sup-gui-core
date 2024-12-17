@@ -21,6 +21,8 @@
 
 #include "code_editor_sidebar.h"
 
+#include <sup/gui/widgets/style_utils.h>
+
 #include <definition.h>
 #include <repository.h>
 #include <syntaxhighlighter.h>
@@ -54,11 +56,6 @@ struct CodeEditor::CodeEditorImpl
   }
 
   /**
-   * @brief Returns true if currently we have dark desktop theme.
-   */
-  bool IsDarkMode() { return m_self->palette().color(QPalette::Base).lightness() < 128; }
-
-  /**
    * @brief Sets editor main highlighting theme.
    */
   void SetTheme(const KSyntaxHighlighting::Theme& theme)
@@ -82,8 +79,9 @@ struct CodeEditor::CodeEditorImpl
    */
   void SetDefaultTheme()
   {
-    SetTheme(IsDarkMode() ? m_repository.defaultTheme(KSyntaxHighlighting::Repository::DarkTheme)
-                          : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
+    SetTheme(utils::IsDarkTheme()
+                 ? m_repository.defaultTheme(KSyntaxHighlighting::Repository::DarkTheme)
+                 : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
   }
 
   void highlightCurrentLine()

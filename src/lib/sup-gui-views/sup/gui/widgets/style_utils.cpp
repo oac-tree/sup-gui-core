@@ -90,15 +90,16 @@ std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, AppIconColorFl
  */
 QIcon CreateColoredIcon(const QIcon &icon, AppIconColorFlavor icon_flavor)
 {
-  return QIcon(CreateColorEngine(icon, icon_flavor).release()); // icon takes ownership over engine
+  return QIcon(CreateColorEngine(icon, icon_flavor).release());  // icon takes ownership over engine
 }
 
 }  // namespace
 
 bool IsDarkTheme()
 {
-  // FIXME switch to Qt6 way
-  return QApplication::palette().color(QPalette::Base).lightness() < 128;
+  const auto palette = QApplication::palette();
+  return palette.color(QPalette::WindowText).lightness()
+         > palette.color(QPalette::Window).lightness();
 }
 
 QString GetResourceName(const QString &icon_name)
