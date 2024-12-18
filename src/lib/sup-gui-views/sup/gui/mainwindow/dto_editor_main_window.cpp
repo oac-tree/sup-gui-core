@@ -83,22 +83,20 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget->SetBaseColor(GetMainToolBarColor());
 
   m_composer_view = new DtoComposerView;
-  m_tab_widget->AddWidget(
-      m_composer_view, "Compose",
-      utils::FindIcon("file-tree-outline", utils::AppIconColorFlavor::kForDarkThemes));
+  m_tab_widget->AddWidget(m_composer_view, "Compose",
+                          utils::FindIcon("file-tree-outline", IconColorFlavor::kForDarkThemes));
 
   m_waveform_view = new DtoWaveformView;
   m_tab_widget->AddWidget(
       m_waveform_view, "Waveforms",
-      utils::FindIcon("chart-timeline-variant-shimmer", utils::AppIconColorFlavor::kForDarkThemes));
+      utils::FindIcon("chart-timeline-variant-shimmer", IconColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddWidget(
       new QWidget, "Compare",
-      utils::FindIcon("application-brackets-outline", utils::AppIconColorFlavor::kForDarkThemes));
+      utils::FindIcon("application-brackets-outline", IconColorFlavor::kForDarkThemes));
 
-  m_tab_widget->AddWidget(
-      new QWidget, "Bulk Edit",
-      utils::FindIcon("animation-outline", utils::AppIconColorFlavor::kForDarkThemes));
+  m_tab_widget->AddWidget(new QWidget, "Bulk Edit",
+                          utils::FindIcon("animation-outline", IconColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddSpacer();
   m_tab_widget->SetCurrentIndex(0);

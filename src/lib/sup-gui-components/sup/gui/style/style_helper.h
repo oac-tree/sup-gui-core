@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_STYLE_STYLE_HELPER_H_
 #define SUP_GUI_STYLE_STYLE_HELPER_H_
 
+#include <sup/gui/style/icon_color_flavor.h>
+
 #include <QWidget>
 
 class QIcon;
@@ -30,16 +32,6 @@ namespace sup::gui::utils
 {
 
 const QString kIconDefaultPathAlias = "icons";
-
-/**
- * @brief The AppIconColorFlavor enum defines the dark/light type of the icon.
- */
-enum AppIconColorFlavor
-{
-  kUnspecified,    //!< dark or light will be automatically deduced from current theme
-  kForDarkThemes,  //!< icon is intended for dark background
-  kForLightThemes  //!< icon is intended for light background
-};
 
 /**
  * @brief Registers given resource file name, and path in it, under the given alias name.
@@ -78,7 +70,7 @@ bool IsDarkTheme();
 /**
  * @brief Returns icon color corresponding to a given icon flavor.
  */
-QColor GetIconBaseColor(AppIconColorFlavor icon_flavor);
+QColor GetIconBaseColor(IconColorFlavor icon_flavor);
 
 /**
  * @brief Returns an icon for a given resource name and dark/light color flavor.
@@ -96,7 +88,7 @@ QColor GetIconBaseColor(AppIconColorFlavor icon_flavor);
  * still specify the desired icon_flavor thus overriding the current theme's dark/light style.
  */
 QIcon GetIcon(const QString& resource_name,
-              AppIconColorFlavor icon_flavor = AppIconColorFlavor::kUnspecified);
+              IconColorFlavor icon_flavor = IconColorFlavor::kUnspecified);
 
 /**
  * @brief Finds an icon for a given icon name  and dark/light color flavor.
@@ -109,7 +101,7 @@ QIcon GetIcon(const QString& resource_name,
  * @see RegisterResource()
  */
 QIcon FindIcon(const QString& icon_name,
-               AppIconColorFlavor icon_flavor = AppIconColorFlavor::kUnspecified);
+               IconColorFlavor icon_flavor = IconColorFlavor::kUnspecified);
 
 /**
  * @brief Size of main tolbar icons.

@@ -81,7 +81,7 @@ QString CreatePopertyTreeStyleString()
 /**
  * @brief Creates color engine necessary to render given icon.
  */
-std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, AppIconColorFlavor icon_flavor)
+std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, IconColorFlavor icon_flavor)
 {
   return std::make_unique<ColoredIconEngine>(icon, GetIconBaseColor(icon_flavor));
 }
@@ -89,7 +89,7 @@ std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, AppIconColorFl
 /**
  * @brief Creates icon colored in given flavor.
  */
-QIcon CreateColoredIcon(const QIcon &icon, AppIconColorFlavor icon_flavor)
+QIcon CreateColoredIcon(const QIcon &icon, IconColorFlavor icon_flavor)
 {
   return QIcon(CreateColorEngine(icon, icon_flavor).release());  // icon takes ownership over engine
 }
@@ -135,21 +135,21 @@ bool IsDarkTheme()
   return false;
 }
 
-QColor GetIconBaseColor(AppIconColorFlavor icon_flavor)
+QColor GetIconBaseColor(IconColorFlavor icon_flavor)
 {
   // if icon flavor is specified, return fixed flavor's color
-  if (icon_flavor == AppIconColorFlavor::kForDarkThemes)
+  if (icon_flavor == IconColorFlavor::kForDarkThemes)
   {
     return kLightIconColor;
   }
 
-  if (icon_flavor == AppIconColorFlavor::kForLightThemes)
+  if (icon_flavor == IconColorFlavor::kForLightThemes)
   {
     return kDarkIconColor;
   }
 
   // if flavor is unspecified, return color depending on theme itself
-  if (icon_flavor == AppIconColorFlavor::kUnspecified)
+  if (icon_flavor == IconColorFlavor::kUnspecified)
   {
     return IsDarkTheme() ? kLightIconColor : kDarkIconColor;
   }
@@ -169,13 +169,13 @@ QSize NarrowToolBarIconSize()
   return {width, width};
 }
 
-QIcon GetIcon(const QString &resource_name, AppIconColorFlavor icon_flavor)
+QIcon GetIcon(const QString &resource_name, IconColorFlavor icon_flavor)
 {
   QIcon icon(resource_name);
   return kUseColorEngine ? CreateColoredIcon(icon, icon_flavor) : icon;
 }
 
-QIcon FindIcon(const QString &icon_name, AppIconColorFlavor icon_flavor)
+QIcon FindIcon(const QString &icon_name, IconColorFlavor icon_flavor)
 {
   return GetIcon(GetAliasBasedResourceName(icon_name), icon_flavor);
 }
