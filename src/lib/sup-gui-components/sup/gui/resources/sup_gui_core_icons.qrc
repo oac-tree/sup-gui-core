@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/sup-gui-core">
         <file>icons</file>
         <file>icons/animation-outline.svg</file>
         <file>icons/application-brackets-outline.svg</file>

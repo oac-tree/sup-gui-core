@@ -96,14 +96,19 @@ QIcon CreateColoredIcon(const QIcon &icon, AppIconColorFlavor icon_flavor)
 
 bool IsDarkTheme()
 {
-  const auto palette = QApplication::palette();
-  return palette.color(QPalette::WindowText).lightness()
-         > palette.color(QPalette::Window).lightness();
+  if (QApplication::instance())
+  {
+    const auto palette = QApplication::palette();
+    return palette.color(QPalette::WindowText).lightness()
+           > palette.color(QPalette::Window).lightness();
+  }
+
+  return false;
 }
 
 QString GetResourceName(const QString &icon_name)
 {
-  auto resource_path = QString(":/icons/%1").arg(icon_name);
+  auto resource_path = QString(":/sup-gui-core/icons/%1").arg(icon_name);
   // append .svg if there is no any extention
   return resource_path.contains(".") ? resource_path
                                      : QString("%1.%2").arg(resource_path, kDefaultIconExtension);
