@@ -25,7 +25,9 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
+#include <QDir>
 #include <QIcon>
+#include <QResource>
 #include <QSize>
 #include <QTreeView>
 #include <cmath>
@@ -93,6 +95,20 @@ QIcon CreateColoredIcon(const QIcon &icon, AppIconColorFlavor icon_flavor)
 }
 
 }  // namespace
+
+void RegisterResource(const QString &file_name, const QString &path, const QString &alias)
+{
+  QResource::registerResource("sup_gui_tools_icons.rcc", alias);
+  QDir::addSearchPath(alias, path);
+}
+
+void RegisterCoreIconAlias(const QString &alias)
+{
+  // as defined in sup_gui_core_icons.qrc
+  const QString sup_gui_core_icons_resource = "sup_gui_core_icons.qrc";
+  const QString sup_gui_core_resource_path = ":/sup-gui-core/icons";
+  RegisterResource(sup_gui_core_icons_resource, sup_gui_core_resource_path, alias);
+}
 
 bool IsDarkTheme()
 {
