@@ -1,5 +1,6 @@
 add_subdirectory(app)
-add_subdirectory(experimental)
 add_subdirectory(components)
+add_subdirectory(experimental)
 add_subdirectory(plotting)
+add_subdirectory(resources)
 add_subdirectory(viewmodel)
