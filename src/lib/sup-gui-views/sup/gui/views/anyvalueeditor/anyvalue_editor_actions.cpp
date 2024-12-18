@@ -112,7 +112,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
 {
   // insert after
   m_insert_after_action = new ActionMenu("Add", this);
-  m_insert_after_action->setIcon(utils::FindIcon("plus-circle-outline.svg"));
+  m_insert_after_action->setIcon(utils::FindIcon("plus-circle-outline"));
   m_insert_after_action->setToolTip(
       "Add a new AnyValue after the current selection.\n\n"
       "Used to create a new AnyValue if the view is empty,\n"
@@ -123,7 +123,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
 
   // insert into
   m_insert_into_action = new ActionMenu("Insert", this);
-  m_insert_into_action->setIcon(utils::FindIcon("plus-circle-multiple-outline.svg"));
+  m_insert_into_action->setIcon(utils::FindIcon("plus-circle-multiple-outline"));
   m_insert_into_action->setToolTip(
       "Insert new AnyValue into the current selection.\n\n"
       "Used to append a new field to the structure or an element to the array");
@@ -132,7 +132,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
 
   // Remove selected
   m_remove_action = new QAction("Remove", this);
-  m_remove_action->setIcon(utils::FindIcon("beaker-remove-outline.svg"));
+  m_remove_action->setIcon(utils::FindIcon("beaker-remove-outline"));
   m_remove_action->setToolTip("Remove selected item and all it's children");
   connect(m_remove_action, &QAction::triggered, this,
           [this]() { m_action_handler->OnRemoveSelected(); });
@@ -144,7 +144,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
 
   // MoveUp button
   m_move_up_action = new QAction("Move Up", this);
-  m_move_up_action->setIcon(utils::FindIcon("arrow-up-thin-circle-outline.svg"));
+  m_move_up_action->setIcon(utils::FindIcon("arrow-up-thin-circle-outline"));
   m_move_up_action->setToolTip("Move currently selected field up (works within the same parent)");
   connect(m_move_up_action, &QAction::triggered, this,
           [this]() { m_action_handler->OnMoveUpRequest(); });
@@ -152,7 +152,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
 
   // MoveDown button
   m_move_down_action = new QAction("Move Down", this);
-  m_move_down_action->setIcon(utils::FindIcon("arrow-down-thin-circle-outline.svg"));
+  m_move_down_action->setIcon(utils::FindIcon("arrow-down-thin-circle-outline"));
   m_move_down_action->setToolTip(
       "Move currently selected field down (works within the same parent)");
   connect(m_move_down_action, &QAction::triggered, this,

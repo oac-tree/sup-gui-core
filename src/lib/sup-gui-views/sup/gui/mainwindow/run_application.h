@@ -24,8 +24,8 @@
 //! Collection of helper methods common for all sequencer main windows.
 
 #include <sup/gui/app/main_window_types.h>
+#include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
 #include <mvvm/widgets/widget_utils.h>
@@ -47,8 +47,9 @@ int RunApplication(int argc, char** argv)
   auto options = ParseOptions(argc, argv);
   sup::gui::SetupHighDpiScaling(options.scale);
 
+  sup::gui::RegisterCustomMetaTypes();
+
   QApplication app(argc, argv);
-  utils::RegisterPackageIcons();
 
   const auto default_font = app.font();
 

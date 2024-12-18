@@ -43,8 +43,6 @@ const bool kUseColorEngine = true;
 const QString kLightIconColor("#e6e6e6");
 const QString kDarkIconColor("#4d4d4d");
 
-const QString kDefaultIconExtension("svg");
-
 /**
  * @brief Generate style string for the tree with vertical lines connecting parent and children.
  */
@@ -94,41 +92,7 @@ QIcon CreateColoredIcon(const QIcon &icon, IconColorFlavor icon_flavor)
   return QIcon(CreateColorEngine(icon, icon_flavor).release());  // icon takes ownership over engine
 }
 
-/**
- * @brief Returns alias based resource name for given icon name.
- *
- * Example: "menu" -> "icons:menu.svg"
- */
-QString GetAliasBasedResourceName(const QString &icon_name)
-{
-  auto resource_path = QString("%1:%2").arg(GetDefaultIconPathAlias(), icon_name);
-  // append .svg if there is no any extention
-  return resource_path.contains(".") ? resource_path
-                                     : QString("%1.%2").arg(resource_path, kDefaultIconExtension);
-}
-
 }  // namespace
-
-QString GetDefaultIconPathAlias()
-{
-  const QString result = "icons";
-  return result;
-}
-
-void RegisterResource(const QString &file_name, const QString &path, const QString &alias)
-{
-  QResource::registerResource("sup_gui_tools_icons.rcc", "/" + alias);
-  QDir::addSearchPath(alias, path);
-}
-
-void RegisterPackageIcons()
-{
-  const QString sup_gui_core_icons_resource = "sup_gui_core_icons.qrc";
-  const QString sup_gui_core_resource_path = ":/sup-gui-core/icons";  // as defined in file
-
-  RegisterResource(sup_gui_core_icons_resource, sup_gui_core_resource_path,
-                   GetDefaultIconPathAlias());
-}
 
 bool IsDarkTheme()
 {
@@ -184,7 +148,7 @@ QIcon GetIcon(const QString &resource_name, IconColorFlavor icon_flavor)
 
 QIcon FindIcon(const QString &icon_name, IconColorFlavor icon_flavor)
 {
-  return GetIcon(GetAliasBasedResourceName(icon_name), icon_flavor);
+  return GetIcon(QString(":/sup-gui-core/icons/%1.svg").arg(icon_name), icon_flavor);
 }
 
 void BeautifyTreeStyle(QTreeView *tree)

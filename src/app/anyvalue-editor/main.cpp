@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window.h>
 #include <sup/gui/mainwindow/run_application.h>
@@ -26,8 +25,6 @@ int main(int argc, char** argv)
 {
   auto version = QString::fromStdString(sup::gui::ProjectVersion());
   sup::gui::InitCoreApplication("anyvalue-editor", version);
-
-  sup::gui::RegisterCustomMetaTypes();
 
   return sup::gui::RunApplication<sup::gui::AnyValueEditorMainWindow>(argc, argv);
 }
