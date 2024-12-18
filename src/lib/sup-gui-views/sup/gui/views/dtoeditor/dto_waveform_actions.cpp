@@ -40,7 +40,7 @@ void DtoWaveformActions::SetupActions()
 {
   // add waveform
   m_add_waveform_action = new QAction("Add", this);
-  m_add_waveform_action->setIcon(sup::gui::utils::GetIcon("plus-circle-outline.svg"));
+  m_add_waveform_action->setIcon(sup::gui::utils::FindIcon("plus-circle-outline.svg"));
   m_add_waveform_action->setToolTip(
       "Creates new empty waveform.\n"
       "Waveform will be added to the list after current selection");
@@ -50,7 +50,7 @@ void DtoWaveformActions::SetupActions()
 
   // remove waveform
   m_remove_waveform_action = new QAction("Remove", this);
-  m_remove_waveform_action->setIcon(sup::gui::utils::GetIcon("beaker-remove-outline.svg"));
+  m_remove_waveform_action->setIcon(sup::gui::utils::FindIcon("beaker-remove-outline.svg"));
   m_remove_waveform_action->setToolTip("Remove currently selected waveform");
   connect(m_remove_waveform_action, &QAction::triggered, this,
           [this]() { m_action_handler->RemoveWaveform(); });

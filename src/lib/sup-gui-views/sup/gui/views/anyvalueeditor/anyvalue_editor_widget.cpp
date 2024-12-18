@@ -227,7 +227,7 @@ void AnyValueEditorWidget::SetupWidgetActions()
   m_show_right_sidebar = new QAction("Show/hide Right Sidebar", this);
   m_show_right_sidebar->setShortcut(QKeySequence(QString("Ctrl+Shift+0")));
   m_show_right_sidebar->setStatusTip("Show/hide Right Sidebar");
-  m_show_right_sidebar->setIcon(utils::GetIcon("dock-right"));
+  m_show_right_sidebar->setIcon(utils::FindIcon("dock-right"));
   connect(m_show_right_sidebar, &QAction::triggered, this,
           [this](auto)
           {

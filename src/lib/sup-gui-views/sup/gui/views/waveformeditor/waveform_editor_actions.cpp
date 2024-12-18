@@ -65,7 +65,7 @@ void WaveformEditorActions::SetPointerButtonGroup(int button_id)
 void WaveformEditorActions::SetupCanvasActions()
 {
   m_pointer_button->setText("Select");
-  m_pointer_button->setIcon(sup::gui::utils::GetIcon("arrow-top-left.svg"));
+  m_pointer_button->setIcon(sup::gui::utils::FindIcon("arrow-top-left.svg"));
   m_pointer_button->setToolTip("Scene in edit mode");
   m_pointer_button->setCheckable(true);
   m_pointer_button->setChecked(true);
@@ -74,7 +74,7 @@ void WaveformEditorActions::SetupCanvasActions()
   m_action_map.Add(ActionKey::kPointer, m_pointer_action);
 
   m_pan_button->setText("Pan");
-  m_pan_button->setIcon(sup::gui::utils::GetIcon("hand-back-right-outline.svg"));
+  m_pan_button->setIcon(sup::gui::utils::FindIcon("hand-back-right-outline.svg"));
   m_pan_button->setToolTip("Scene in pan mode (space)");
   m_pan_button->setCheckable(true);
   m_pan_button->setToolButtonStyle(Qt::ToolButtonFollowStyle);
@@ -90,19 +90,19 @@ void WaveformEditorActions::SetupCanvasActions()
           &WaveformEditorActions::ChangeOperationModeRequest);
 
   m_zoom_in_action = new QAction("Zoom In", this);
-  m_zoom_in_action->setIcon(sup::gui::utils::GetIcon("magnify-plus-outline.svg"));
+  m_zoom_in_action->setIcon(sup::gui::utils::FindIcon("magnify-plus-outline.svg"));
   m_zoom_in_action->setToolTip("Zoom in");
   connect(m_zoom_in_action, &QAction::triggered, this, &WaveformEditorActions::ZoomInRequest);
   m_action_map.Add(ActionKey::kZoomIn, m_zoom_in_action);
 
   m_zoom_out_action = new QAction("Zoom Out", this);
-  m_zoom_out_action->setIcon(sup::gui::utils::GetIcon("magnify-minus-outline.svg"));
+  m_zoom_out_action->setIcon(sup::gui::utils::FindIcon("magnify-minus-outline.svg"));
   m_zoom_out_action->setToolTip("Zoom out");
   connect(m_zoom_out_action, &QAction::triggered, this, &WaveformEditorActions::ZoomOutRequest);
   m_action_map.Add(ActionKey::kZoomOut, m_zoom_out_action);
 
   m_center_canvas_action = new QAction("Center", this);
-  m_center_canvas_action->setIcon(sup::gui::utils::GetIcon("camera-metering-center.svg"));
+  m_center_canvas_action->setIcon(sup::gui::utils::FindIcon("camera-metering-center.svg"));
   m_center_canvas_action->setToolTip("Reset viewport to default axes range");
   connect(m_center_canvas_action, &QAction::triggered, this,
           &WaveformEditorActions::SetViewportToContentRequest);
@@ -110,7 +110,7 @@ void WaveformEditorActions::SetupCanvasActions()
 
   m_more_settings_action = new sup::gui::ActionMenu("Other", this);
   m_more_settings_action->setToolTip("More settings");
-  m_more_settings_action->setIcon(sup::gui::utils::GetIcon("menu.svg"));
+  m_more_settings_action->setIcon(sup::gui::utils::FindIcon("menu.svg"));
   m_more_settings_action->setMenu(m_more_settings_menu.get());
   m_action_map.Add(ActionKey::kMoreSettings, m_more_settings_action);
 }
@@ -118,7 +118,7 @@ void WaveformEditorActions::SetupCanvasActions()
 void WaveformEditorActions::SetupTableActions()
 {
   m_add_column_before = new QAction("Add before", this);
-  m_add_column_before->setIcon(sup::gui::utils::GetIcon("table-column-plus-before.svg"));
+  m_add_column_before->setIcon(sup::gui::utils::FindIcon("table-column-plus-before.svg"));
   m_add_column_before->setText("Add before");
   m_add_column_before->setToolTip("Insert point before selected column");
   connect(m_add_column_before, &QAction::triggered, this,
@@ -126,7 +126,7 @@ void WaveformEditorActions::SetupTableActions()
   m_action_map.Add(ActionKey::kAddColumnBefore, m_add_column_before);
 
   m_add_column_after = new QAction("Add after", this);
-  m_add_column_after->setIcon(sup::gui::utils::GetIcon("table-column-plus-after.svg"));
+  m_add_column_after->setIcon(sup::gui::utils::FindIcon("table-column-plus-after.svg"));
   m_add_column_after->setText("Add after");
   m_add_column_after->setToolTip("Insert point after selected column");
   connect(m_add_column_after, &QAction::triggered, this,
@@ -134,7 +134,7 @@ void WaveformEditorActions::SetupTableActions()
   m_action_map.Add(ActionKey::kAddColumnAfter, m_add_column_after);
 
   m_remove_column = new QAction("Remove", this);
-  m_remove_column->setIcon(sup::gui::utils::GetIcon("table-column-remove.svg"));
+  m_remove_column->setIcon(sup::gui::utils::FindIcon("table-column-remove.svg"));
   m_remove_column->setToolTip("Remove selected column");
   connect(m_remove_column, &QAction::triggered, this,
           [this]() { m_action_handler->OnRemoveColumnRequest(); });

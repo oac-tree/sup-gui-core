@@ -29,6 +29,8 @@ class QIconEngine;
 namespace sup::gui::utils
 {
 
+const QString kIconDefaultPathAlias = "icons";
+
 /**
  * @brief The AppIconColorFlavor enum defines the dark/light type of the icon.
  */
@@ -66,7 +68,7 @@ void RegisterResource(const QString& file_name, const QString& path, const QStri
  *
  * Icons can be used via path alias, @see RegisterResource() comments.
  */
-void RegisterCoreIconAlias(const QString& alias = "icons");
+void RegisterCoreIconAlias(const QString& alias = kIconDefaultPathAlias);
 
 /**
  * @brief Checks if main application theme is dark.
@@ -74,36 +76,40 @@ void RegisterCoreIconAlias(const QString& alias = "icons");
 bool IsDarkTheme();
 
 /**
- * @brief Returns resource name for given icon name.
- *
- * Example:
- * for "menu" -> ":/icons/menu.svg"
- * for "menu.svg" -> ":/icons/menu.svg"
- * for "menu.png" -> ":/icons/menu.png"
- */
-QString GetResourceName(const QString& icon_name);
-
-/**
  * @brief Returns icon color corresponding to a given icon flavor.
  */
 QColor GetIconBaseColor(AppIconColorFlavor icon_flavor);
 
 /**
- * @brief Returns an icon for a given icon name.
+ * @brief Returns an icon for a given resource name and dark/light color flavor.
  *
- * If the name doesn't contain an extension, will assume an existence of svg file in the resource
- * folder.
+ * Works only for svg resources.
+ * Example
+ * GetIcon(:/sup-gui-core/icons/animation.svg", AppIconColorFlavor::kForDarkThemes)
  *
+ * @param Full path to svg icon as defined in application resource file.
  * @param icon_type The desired dark/light type of the icon.
  *
- * @note Svg icons are special. We use flat-style monochrome icons. When icon_type is
- * unspecified, icons will be rendered according to the current theme's dark/light flavor. Icons
- * for the dark theme will be rendered as almost white, icons for the light theme will be rendered
- * as almost black. User can still specify the desired icon_flavor thus overriding the current
- * theme's dark/light style.
+ * @note We use flat-style monochrome SVG icons. When icon_type is unspecified, icons will be
+ * rendered according to the current theme's dark/light flavor. Icons for the dark theme will be
+ * rendered as almost white, icons for the light theme will be rendered as almost black. User can
+ * still specify the desired icon_flavor thus overriding the current theme's dark/light style.
  */
-QIcon GetIcon(const QString& icon_name,
+QIcon GetIcon(const QString& resource_name,
               AppIconColorFlavor icon_flavor = AppIconColorFlavor::kUnspecified);
+
+/**
+ * @brief Finds an icon for a given icon name  and dark/light color flavor.
+ *
+ * Example: FindIcon("animation", AppIconColorFlavor::kForDarkThemes)
+ *
+ * Is assumes an existence of svg file in the resource folder, and that the resource is registered
+ * with the kIconDefaultPathAlias alias.
+ *
+ * @see RegisterResource()
+ */
+QIcon FindIcon(const QString& icon_name,
+               AppIconColorFlavor icon_flavor = AppIconColorFlavor::kUnspecified);
 
 /**
  * @brief Size of main tolbar icons.

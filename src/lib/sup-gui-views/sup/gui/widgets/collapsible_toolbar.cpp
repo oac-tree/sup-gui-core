@@ -48,7 +48,7 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget *parent)
       "QToolBar { padding-bottom: 0px; margin-bottom: 0px; } QToolButton { padding: 0px; margin: "
       "0px; }");
 
-  m_expand_button->setIcon(utils::GetIcon("chevron-down.svg"));
+  m_expand_button->setIcon(utils::FindIcon("chevron-down.svg"));
   auto on_expand_click = [this]()
   {
     m_expanded = !m_expanded;
@@ -120,12 +120,12 @@ void CollapsibleToolBar::UpdateIcon()
 {
   if (m_expanded)
   {
-    m_expand_button->setIcon(utils::GetIcon("chevron-down.svg"));
+    m_expand_button->setIcon(utils::FindIcon("chevron-down.svg"));
     setFrameStyle(QFrame::StyledPanel);
   }
   else
   {
-    m_expand_button->setIcon(utils::GetIcon("chevron-right.svg"));
+    m_expand_button->setIcon(utils::FindIcon("chevron-right.svg"));
     setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
   }
 }

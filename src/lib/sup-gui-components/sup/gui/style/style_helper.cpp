@@ -94,19 +94,32 @@ QIcon CreateColoredIcon(const QIcon &icon, AppIconColorFlavor icon_flavor)
   return QIcon(CreateColorEngine(icon, icon_flavor).release());  // icon takes ownership over engine
 }
 
+/**
+ * @brief Returns alias based resource name for given icon name.
+ *
+ * Example: "menu" -> "icons:menu.svg"
+ */
+QString GetAliasBasedResourceName(const QString &icon_name)
+{
+  auto resource_path = QString("%1:%2").arg(kIconDefaultPathAlias, icon_name);
+  // append .svg if there is no any extention
+  return resource_path.contains(".") ? resource_path
+                                     : QString("%1.%2").arg(resource_path, kDefaultIconExtension);
+}
+
 }  // namespace
 
 void RegisterResource(const QString &file_name, const QString &path, const QString &alias)
 {
-  QResource::registerResource("sup_gui_tools_icons.rcc", alias);
+  QResource::registerResource("sup_gui_tools_icons.rcc", "/" + alias);
   QDir::addSearchPath(alias, path);
 }
 
 void RegisterCoreIconAlias(const QString &alias)
 {
-  // as defined in sup_gui_core_icons.qrc
   const QString sup_gui_core_icons_resource = "sup_gui_core_icons.qrc";
-  const QString sup_gui_core_resource_path = ":/sup-gui-core/icons";
+  const QString sup_gui_core_resource_path = ":/sup-gui-core/icons"; // as defined in file
+
   RegisterResource(sup_gui_core_icons_resource, sup_gui_core_resource_path, alias);
 }
 
@@ -120,14 +133,6 @@ bool IsDarkTheme()
   }
 
   return false;
-}
-
-QString GetResourceName(const QString &icon_name)
-{
-  auto resource_path = QString(":/sup-gui-core/icons/%1").arg(icon_name);
-  // append .svg if there is no any extention
-  return resource_path.contains(".") ? resource_path
-                                     : QString("%1.%2").arg(resource_path, kDefaultIconExtension);
 }
 
 QColor GetIconBaseColor(AppIconColorFlavor icon_flavor)
@@ -164,10 +169,15 @@ QSize NarrowToolBarIconSize()
   return {width, width};
 }
 
-QIcon GetIcon(const QString &icon_name, AppIconColorFlavor icon_flavor)
+QIcon GetIcon(const QString &resource_name, AppIconColorFlavor icon_flavor)
 {
-  QIcon icon(GetResourceName(icon_name));
+  QIcon icon(resource_name);
   return kUseColorEngine ? CreateColoredIcon(icon, icon_flavor) : icon;
+}
+
+QIcon FindIcon(const QString &icon_name, AppIconColorFlavor icon_flavor)
+{
+  return GetIcon(GetAliasBasedResourceName(icon_name), icon_flavor);
 }
 
 void BeautifyTreeStyle(QTreeView *tree)

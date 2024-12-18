@@ -80,8 +80,8 @@ void AnyValueEditorTextPanel::SetJSONPretty(bool value)
   if (m_pretty_json != value)
   {
     m_pretty_json = value;
-    m_pretty_action->setIcon(m_pretty_json ? utils::GetIcon("checkbox-marked-circle-outline")
-                                           : utils::GetIcon("checkbox-blank-circle-outline"));
+    m_pretty_action->setIcon(m_pretty_json ? utils::FindIcon("checkbox-marked-circle-outline")
+                                           : utils::FindIcon("checkbox-blank-circle-outline"));
     UpdateJson();
   }
 }
@@ -95,7 +95,7 @@ void AnyValueEditorTextPanel::SetupActions()
 {
   m_pretty_action = new QAction(this);
   m_pretty_action->setText("Pretty");
-  m_pretty_action->setIcon(utils::GetIcon("checkbox-marked-circle-outline"));
+  m_pretty_action->setIcon(utils::FindIcon("checkbox-marked-circle-outline"));
   m_pretty_action->setToolTip("Make JSON pretty");
   auto on_action = [this]() { SetJSONPretty(!m_pretty_json); };
   connect(m_pretty_action, &QAction::triggered, this, on_action);
@@ -103,7 +103,7 @@ void AnyValueEditorTextPanel::SetupActions()
 
   m_export_action = new QAction(this);
   m_export_action->setText("Export");
-  m_export_action->setIcon(utils::GetIcon("file-export-outline"));
+  m_export_action->setIcon(utils::FindIcon("file-export-outline"));
   m_export_action->setToolTip("Export AnyValue to JSON file");
   connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorTextPanel::ExportToFileRequest);
