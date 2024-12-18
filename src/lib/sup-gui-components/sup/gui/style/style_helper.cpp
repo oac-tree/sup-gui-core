@@ -101,7 +101,7 @@ QIcon CreateColoredIcon(const QIcon &icon, IconColorFlavor icon_flavor)
  */
 QString GetAliasBasedResourceName(const QString &icon_name)
 {
-  auto resource_path = QString("%1:%2").arg(kIconDefaultPathAlias, icon_name);
+  auto resource_path = QString("%1:%2").arg(GetDefaultIconPathAlias(), icon_name);
   // append .svg if there is no any extention
   return resource_path.contains(".") ? resource_path
                                      : QString("%1.%2").arg(resource_path, kDefaultIconExtension);
@@ -109,18 +109,25 @@ QString GetAliasBasedResourceName(const QString &icon_name)
 
 }  // namespace
 
+QString GetDefaultIconPathAlias()
+{
+  const QString result = "icons";
+  return result;
+}
+
 void RegisterResource(const QString &file_name, const QString &path, const QString &alias)
 {
   QResource::registerResource("sup_gui_tools_icons.rcc", "/" + alias);
   QDir::addSearchPath(alias, path);
 }
 
-void RegisterCoreIconAlias(const QString &alias)
+void RegisterPackageIcons()
 {
   const QString sup_gui_core_icons_resource = "sup_gui_core_icons.qrc";
-  const QString sup_gui_core_resource_path = ":/sup-gui-core/icons"; // as defined in file
+  const QString sup_gui_core_resource_path = ":/sup-gui-core/icons";  // as defined in file
 
-  RegisterResource(sup_gui_core_icons_resource, sup_gui_core_resource_path, alias);
+  RegisterResource(sup_gui_core_icons_resource, sup_gui_core_resource_path,
+                   GetDefaultIconPathAlias());
 }
 
 bool IsDarkTheme()

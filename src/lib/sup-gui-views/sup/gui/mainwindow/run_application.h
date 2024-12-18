@@ -48,7 +48,7 @@ int RunApplication(int argc, char** argv)
   sup::gui::SetupHighDpiScaling(options.scale);
 
   QApplication app(argc, argv);
-  utils::RegisterCoreIconAlias();
+  utils::RegisterPackageIcons();
 
   const auto default_font = app.font();
 

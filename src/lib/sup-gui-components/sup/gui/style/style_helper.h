@@ -31,7 +31,11 @@ class QIconEngine;
 namespace sup::gui::utils
 {
 
-const QString kIconDefaultPathAlias = "icons";
+
+/**
+ * @brief Returns default icon path that can be used to access icons.
+ */
+QString GetDefaultIconPathAlias();
 
 /**
  * @brief Registers given resource file name, and path in it, under the given alias name.
@@ -58,9 +62,11 @@ void RegisterResource(const QString& file_name, const QString& path, const QStri
 /**
  * @brief Register icons of sup-gui-core package for global usage.
  *
- * Icons can be used via path alias, @see RegisterResource() comments.
+ * Icons can should used via path alias as "icons:animation".
+ *
+ * @see RegisterResource()
  */
-void RegisterCoreIconAlias(const QString& alias = kIconDefaultPathAlias);
+void RegisterPackageIcons();
 
 /**
  * @brief Checks if main application theme is dark.
