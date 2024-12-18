@@ -60,14 +60,10 @@ QIcon GetIcon(const QString& resource_name,
               IconColorFlavor icon_flavor = IconColorFlavor::kUnspecified);
 
 /**
- * @brief Finds an icon for a given icon name  and dark/light color flavor.
+ * @brief Finds an icon with the given name and dark/light color flavor.
  *
  * Example: FindIcon("animation", AppIconColorFlavor::kForDarkThemes)
- *
- * Is assumes an existence of svg file in the resource folder, and that the resource is registered
- * with the kIconDefaultPathAlias alias.
- *
- * @see RegisterResource()
+ * Is assumes an existence of animation.svg file in the resource folder of sup-gui-core package.
  */
 QIcon FindIcon(const QString& icon_name,
                IconColorFlavor icon_flavor = IconColorFlavor::kUnspecified);
