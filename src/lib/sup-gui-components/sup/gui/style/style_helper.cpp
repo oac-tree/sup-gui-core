@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "style_utils.h"
+#include "style_helper.h"
 
 #include "colored_icon_engine.h"
 

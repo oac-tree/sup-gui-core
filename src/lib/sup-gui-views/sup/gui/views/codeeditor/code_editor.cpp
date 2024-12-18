@@ -21,7 +21,7 @@
 
 #include "code_editor_sidebar.h"
 
-#include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <definition.h>
 #include <repository.h>

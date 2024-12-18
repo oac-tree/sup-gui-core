@@ -25,8 +25,8 @@
 #include <sup/gui/components/proxy_action.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
+#include <sup/gui/style/style_helper.h>
 #include <sup/gui/widgets/action_menu.h>
-#include <sup/gui/widgets/style_utils.h>
 
 #include <QMenu>
 #include <QToolButton>

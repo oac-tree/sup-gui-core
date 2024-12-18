@@ -21,7 +21,7 @@
 
 #include "waveform_editor_widget.h"
 
-#include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/chart_viewport_item.h>

@@ -19,7 +19,7 @@
 
 #include "panel_toolbar.h"
 
-#include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <QLabel>
 #include <QToolButton>

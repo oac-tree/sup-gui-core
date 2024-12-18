@@ -25,7 +25,7 @@
 #include <sup/gui/components/waveform_display_controller.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
-#include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/point_item.h>

@@ -20,7 +20,7 @@
 #include "dto_waveform_actions.h"
 
 #include <sup/gui/components/dto_waveform_action_handler.h>
-#include <sup/gui/widgets/style_utils.h>
+#include <sup/gui/style/style_helper.h>
 
 namespace sup::gui
 {

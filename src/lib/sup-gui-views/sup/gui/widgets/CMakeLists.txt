@@ -11,8 +11,6 @@ target_sources(${library_name} PRIVATE
   collapsible_toolbar.h
   collapsible_widget.cpp
   collapsible_widget.h
-  colored_icon_engine.cpp
-  colored_icon_engine.h
   custom_header_view.cpp
   custom_header_view.h
   dialog_helper.cpp
@@ -25,8 +23,6 @@ target_sources(${library_name} PRIVATE
   panel_toolbar.h
   steady_menu.cpp
   steady_menu.h
-  style_utils.cpp
-  style_utils.h
   visibility_agent_base.cpp
   visibility_agent_base.h
   )

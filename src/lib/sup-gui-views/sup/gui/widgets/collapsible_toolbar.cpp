@@ -19,7 +19,7 @@
 
 #include "sup/gui/widgets/collapsible_toolbar.h"
 
-#include "style_utils.h"
+#include <sup/gui/style/style_helper.h>
 
 #include <mvvm/widgets/widget_utils.h>
 

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_STYLE_UTILS_H_
-#define SUP_GUI_WIDGETS_STYLE_UTILS_H_
+#ifndef SUP_GUI_STYLE_STYLE_HELPER_H_
+#define SUP_GUI_STYLE_STYLE_HELPER_H_
 
 #include <QWidget>
 
@@ -96,4 +96,4 @@ void BeautifyTreeStyle(QTreeView* tree);
 
 }  // namespace sup::gui::utils
 
-#endif  // SUP_GUI_WIDGETS_STYLE_UTILS_H_
+#endif  // SUP_GUI_STYLE_STYLE_HELPER_H_

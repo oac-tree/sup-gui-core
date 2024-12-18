@@ -21,8 +21,8 @@
 
 #include <sup/gui/components/component_types.h>
 #include <sup/gui/plotting/waveform_editor_action_handler.h>
+#include <sup/gui/style/style_helper.h>
 #include <sup/gui/widgets/action_menu.h>
-#include <sup/gui/widgets/style_utils.h>
 
 #include <mvvm/plotting/plot_types.h>
 #include <mvvm/widgets/widget_utils.h>
