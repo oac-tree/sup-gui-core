@@ -63,11 +63,9 @@ public:
    */
   void ReadSettings();
 
-protected:
-  void childEvent(QChildEvent* event) override;
-  bool eventFilter(QObject* obj, QEvent* event) override;
-  void showEvent(QShowEvent* event) override;
-  void hideEvent(QHideEvent* event) override;
+  void ToggleVisibility(QWidget* widget);
+
+  void SetVisible(bool value, QWidget* widget);
 
 private:
   /**
@@ -77,7 +75,8 @@ private:
    */
   void WriteSettings();
 
-  QString m_setting_name;
+  QString m_group_name; //!< group name in QSettings file
+  QList<int> m_hidden_widget_index;
 };
 
 }  // namespace sup::gui
