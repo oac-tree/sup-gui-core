@@ -31,6 +31,7 @@
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog_factory.h>
+#include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
 
@@ -46,7 +47,6 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QSettings>
-#include <QSplitter>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -81,7 +81,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent)
     , m_tree_panel(new AnyValueEditorTreePanel)
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
-    , m_splitter(new QSplitter)
+    , m_splitter(new CustomSplitter)
 {
   auto layout = new QVBoxLayout(this);
 

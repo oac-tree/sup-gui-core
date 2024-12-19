@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   collapsible_widget.h
   custom_header_view.cpp
   custom_header_view.h
+  custom_splitter.cpp
+  custom_splitter.h
   dialog_helper.cpp
   dialog_helper.h
   item_stack_widget.cpp

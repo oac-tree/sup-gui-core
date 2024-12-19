@@ -27,8 +27,6 @@
 #include <QString>
 #include <QWidget>
 
-class QSplitter;
-
 namespace mvvm
 {
 class SessionItem;
@@ -42,6 +40,7 @@ class AnyValueEditorActionHandler;
 class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
 class AnyValueEditorActions;
+class CustomSplitter;
 
 /**
  * @brief The AnyValueEditorWidget class is a main widget of AnyValueEditor.
@@ -140,7 +139,7 @@ private:
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
   QWidget* m_left_panel{nullptr};
   QWidget* m_right_panel{nullptr};
-  QSplitter* m_splitter{nullptr};
+  CustomSplitter* m_splitter{nullptr};
 
   QString m_current_workdir;  //! directory used during import/export operations
   bool m_text_panel_is_visible{true};
