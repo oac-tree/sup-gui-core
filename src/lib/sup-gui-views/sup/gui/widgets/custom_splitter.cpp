@@ -19,17 +19,19 @@
 
 #include "custom_splitter.h"
 
+#include <QChildEvent>
+#include <QDebug>
 #include <QSettings>
 
 namespace sup::gui
 {
 
-QString GetMainStateName(const QString& setting_name)
+QString GetMainStateName(const QString &setting_name)
 {
   return setting_name + "_state";
 }
 
-CustomSplitter::CustomSplitter(const QString& setting_name, QWidget* parent_widget)
+CustomSplitter::CustomSplitter(const QString &setting_name, QWidget *parent_widget)
     : QSplitter(parent_widget), m_setting_name(setting_name)
 {
 }
@@ -52,6 +54,39 @@ void CustomSplitter::ReadSettings()
   {
     restoreState(settings.value(GetMainStateName(m_setting_name)).toByteArray());
   }
+}
+
+void CustomSplitter::childEvent(QChildEvent *event)
+{
+  if (event->added())
+  {
+    qDebug() << "added child" << (this) << event->child() << event->child()->parent();
+    event->child()->installEventFilter(this);
+  }
+}
+
+bool CustomSplitter::eventFilter(QObject *obj, QEvent *event)
+{
+  if (event->type() == QEvent::Show)
+  {
+    qDebug() << "eventFilter show" << obj << event;
+  }
+  else if (event->type() == QEvent::Hide)
+  {
+    qDebug() << "eventFilter hide" << obj << event;
+  }
+
+  return false;  // let the parent handle it normally
+}
+
+void CustomSplitter::showEvent(QShowEvent *event)
+{
+  qDebug() << "XXX showEvent " << event << this;
+}
+
+void CustomSplitter::hideEvent(QHideEvent *event)
+{
+  qDebug() << "XXX hideEvent " << event << this;
 }
 
 void CustomSplitter::WriteSettings()

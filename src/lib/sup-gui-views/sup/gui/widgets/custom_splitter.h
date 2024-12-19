@@ -35,7 +35,7 @@ namespace sup::gui
  * The persistent state consists of two parts:
  * 1) The normal state of the splitter, i.e. panel sizes and collapsed status, as provided by
  * QSplitter::saveState method.
- * 2) Additional status shown/hidden for widgets.
+ * 2) Additional hidden status for widgets.
  */
 class CustomSplitter : public QSplitter
 {
@@ -58,12 +58,22 @@ public:
 
   /**
    * @brief Reads splitter state from disk.
+   *
+   * This method shall be called after all widgets have been already added.
    */
   void ReadSettings();
+
+protected:
+  void childEvent(QChildEvent* event) override;
+  bool eventFilter(QObject* obj, QEvent* event) override;
+  void showEvent(QShowEvent* event) override;
+  void hideEvent(QHideEvent* event) override;
 
 private:
   /**
    * @brief Writes splitter state.
+   *
+   * The method called automatically on widget
    */
   void WriteSettings();
 
