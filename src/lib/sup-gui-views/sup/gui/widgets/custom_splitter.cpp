@@ -19,12 +19,50 @@
 
 #include "custom_splitter.h"
 
+#include <QSettings>
+
 namespace sup::gui
 {
 
-CustomSplitter::CustomSplitter(QWidget *parent_widget) : QSplitter(parent_widget)
+QString GetMainStateName(const QString& setting_name)
 {
+  return setting_name + "_state";
+}
 
+CustomSplitter::CustomSplitter(const QString& setting_name, QWidget* parent_widget)
+    : QSplitter(parent_widget), m_setting_name(setting_name)
+{
+}
+
+CustomSplitter::~CustomSplitter()
+{
+  WriteSettings();
+}
+
+void CustomSplitter::ReadSettings()
+{
+  if (m_setting_name.isEmpty())
+  {
+    return;
+  }
+
+  const QSettings settings;
+
+  if (settings.contains(GetMainStateName(m_setting_name)))
+  {
+    restoreState(settings.value(GetMainStateName(m_setting_name)).toByteArray());
+  }
+}
+
+void CustomSplitter::WriteSettings()
+{
+  if (m_setting_name.isEmpty())
+  {
+    return;
+  }
+
+  QSettings settings;
+  settings.setValue(GetMainStateName(m_setting_name), saveState());
 }
 
 }  // namespace sup::gui

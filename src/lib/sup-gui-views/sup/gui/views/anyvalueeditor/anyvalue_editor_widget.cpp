@@ -81,7 +81,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent)
     , m_tree_panel(new AnyValueEditorTreePanel)
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
-    , m_splitter(new CustomSplitter)
+    , m_splitter(new CustomSplitter(kSplitterSettingName))
 {
   auto layout = new QVBoxLayout(this);
 
@@ -181,11 +181,7 @@ void AnyValueEditorWidget::ReadSettings()
   const QSettings settings;
   m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
 
-  if (settings.contains(kSplitterSettingName))
-  {
-    m_splitter->restoreState(settings.value(kSplitterSettingName).toByteArray());
-  }
-
+  m_splitter->ReadSettings();
   m_text_panel_is_visible = settings.value(kIsVisiblePanelSettingName, true).toBool();
   m_right_panel->setVisible(m_text_panel_is_visible);
 }
@@ -194,7 +190,6 @@ void AnyValueEditorWidget::WriteSettings()
 {
   QSettings settings;
   settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
-  settings.setValue(kSplitterSettingName, m_splitter->saveState());
   settings.setValue(kIsVisiblePanelSettingName, m_text_panel_is_visible);
 }
 

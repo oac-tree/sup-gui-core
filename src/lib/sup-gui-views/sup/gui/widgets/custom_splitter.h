@@ -25,12 +25,49 @@
 namespace sup::gui
 {
 
+/**
+ * @brief The CustomSplitter class is a normal splitter that remembers the size of panels and hidden
+ * status of widgets.
+ *
+ * It can save its state on disk in persistent settings and can restore that state on the next
+ * construction.
+ *
+ * The persistent state consists of two parts:
+ * 1) The normal state of the splitter, i.e. panel sizes and collapsed status, as provided by
+ * QSplitter::saveState method.
+ * 2) Additional status shown/hidden for widgets.
+ */
 class CustomSplitter : public QSplitter
 {
   Q_OBJECT
 
 public:
-  explicit CustomSplitter(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor
+   *
+   * For any non-empty setting name, the class will write its favorite state on destruction using
+   * QSettings machinery. It will be used during the next splitter construction. The setting's name
+   * can be "WidgetName/splitter" so the splitter state would be grouped with other settings of
+   * certain widget in QSetting file.
+   *
+   * @param setting_name The name of this splitter related settings in the setting file.
+   * @param parent_widget The parent widget of this splitter.
+   */
+  explicit CustomSplitter(const QString& setting_name, QWidget* parent_widget = nullptr);
+  ~CustomSplitter() override;
+
+  /**
+   * @brief Reads splitter state from disk.
+   */
+  void ReadSettings();
+
+private:
+  /**
+   * @brief Writes splitter state.
+   */
+  void WriteSettings();
+
+  QString m_setting_name;
 };
 
 }  // namespace sup::gui
