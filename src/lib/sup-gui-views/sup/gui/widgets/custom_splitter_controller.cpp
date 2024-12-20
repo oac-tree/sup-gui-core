@@ -96,7 +96,7 @@ void CustomSplitterController::WriteSettings(const write_variant_func_t &write_f
 {
   write_func(GetMainStateKey(), m_splitter->saveState());
 
-  if (auto flags = GetChildrenVisibilityFlags(m_splitter); !flags.empty())
+  if (auto flags = m_children_visibility_flags; !flags.empty())
   {
     write_func(GetChildrenStateKey(), QVariant::fromValue(flags));
   }
@@ -112,27 +112,37 @@ QString CustomSplitterController::GetChildrenStateKey()
   return m_settings_group_name + "_widgets";
 }
 
-void CustomSplitterController::SetupListener()
+void CustomSplitterController::StartChildrenListening()
 {
+  // installing myself as an event filter
   for (int index = 0; index < m_splitter->count(); ++index)
   {
     m_splitter->widget(index)->installEventFilter(this);
   }
 }
 
+void CustomSplitterController::UpdateChildrenVisibilityCache()
+{
+  m_children_visibility_flags = GetChildrenVisibilityFlags(m_splitter);
+}
+
 bool CustomSplitterController::eventFilter(QObject *obj, QEvent *event)
 {
+  // We update the visibility cache each time the children's visibility flag changes wrt visibility
+  // flag of splitter itself. This excludes subtle moment of destruction when all widgets are
+  // changing to invisible state.
+
   if (event->type() == QEvent::HideToParent)
   {
-    qDebug() << "HideToParent hide" << event << event;
+    UpdateChildrenVisibilityCache();
   }
 
   if (event->type() == QEvent::ShowToParent)
   {
-    qDebug() << "ShowToParent hide" << event << event;
+    UpdateChildrenVisibilityCache();
   }
 
-  // let other possibly handle all events
+  // let all events go through so others can handle them
   return false;
 }
 

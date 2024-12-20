@@ -38,9 +38,14 @@ namespace sup::gui
  * splitter settings from persistent storage and sets it to a splitter. At the end of work, the
  * controller saves persistent settings.
  *
- * Settings save and load is done on user request since only the user knows when the splitter is
- * fully populated with the content and when the application is about to finish its work. We
- * deliberately do not rely on showEvent and hideEvent in that because of their spurious nature.
+ * The class has a listening mechanism to update children's visibility flag to properly handle
+ * show/hide panel user request. This assures that even in the destruction phase all last known
+ * children's visibility status will be correctly recorded.
+ *
+ * A load of settings is done on user request since only the user knows when the splitter is fully
+ * populated with the content. Also, it is required to call the StartChildrenListening() method to
+ * handle show/hide events. The save of the settings can be done at any time, even on application
+ * destruction.
  */
 class CustomSplitterController : public QObject
 {
@@ -65,6 +70,9 @@ public:
 
   /**
    * @brief Write settings to persistent storage using function provided.
+   *
+   * This method can be safely called on own destruction, all last known visibility flags of
+   * widgets populating a splitter will be correctly preserved.
    */
   void WriteSettings(const write_variant_func_t& write_func);
 
@@ -78,17 +86,29 @@ public:
    */
   QString GetChildrenStateKey();
 
+  /**
+   * @brief Will listen children for HideToParent and ShowToParent events to update children
+   * visibility cache.
+   *
+   * This method shall be called after all children have been added to a splitter.
+   */
+  void StartChildrenListening();
 
-  void SetupListener();
+  /**
+   * @brief Update cache for children visibility flags.
+   */
+  void UpdateChildrenVisibilityCache();
 
 protected:
+  /**
+   * @brief Updates children visibility flag.
+   */
   bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
-  void UpdateChildrenVisibilityFlags();
-
   QSplitter* m_splitter{nullptr};
-  QString m_settings_group_name;  //!< group name in QSettings file
+  QString m_settings_group_name;           //!< group name in QSettings file
+  QList<int> m_children_visibility_flags;  //!< children widget visibility flags
 };
 
 }  // namespace sup::gui

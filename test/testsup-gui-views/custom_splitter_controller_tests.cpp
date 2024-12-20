@@ -100,6 +100,7 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
   EXPECT_CALL(m_mock_write_func, Call(controller.GetChildrenStateKey(), expected_children_state))
       .Times(1);
 
+  controller.UpdateChildrenVisibilityCache();
   controller.WriteSettings(m_mock_write_func.AsStdFunction());
 }
 
@@ -134,6 +135,7 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgetsWhenOneI
   EXPECT_CALL(m_mock_write_func, Call(controller.GetChildrenStateKey(), expected_children_state))
       .Times(1);
 
+  controller.UpdateChildrenVisibilityCache();
   controller.WriteSettings(m_mock_write_func.AsStdFunction());
 }
 

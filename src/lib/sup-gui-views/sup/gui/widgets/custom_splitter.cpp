@@ -39,7 +39,7 @@ CustomSplitter::~CustomSplitter() = default;
 void CustomSplitter::ReadSettings()
 {
   m_controller->ReadSettings(GetSettingsReadFunc());
-  m_controller->SetupListener();
+  m_controller->StartChildrenListening();
 }
 
 void CustomSplitter::WriteSettings()
