@@ -19,8 +19,10 @@
 
 #include "custom_splitter_controller.h"
 
+#include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/exceptions.h>
 
+#include <QDebug>
 #include <QEvent>
 #include <QSplitter>
 
@@ -114,7 +116,7 @@ QString CustomSplitterController::GetChildrenStateKey()
 
 void CustomSplitterController::StartChildrenListening()
 {
-  // installing myself as an event filter
+  // installing myself as an event filter to all widgets in panels
   for (int index = 0; index < m_splitter->count(); ++index)
   {
     m_splitter->widget(index)->installEventFilter(this);

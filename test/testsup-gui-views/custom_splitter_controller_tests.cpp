@@ -19,6 +19,7 @@
 
 #include "sup/gui/widgets/custom_splitter_controller.h"
 
+#include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/exceptions.h>
 
 #include <gmock/gmock.h>
@@ -49,6 +50,19 @@ public:
     return false;
   }
 };
+
+//! Checking that Qt5 setup can handle QList<int>
+TEST_F(CustomSplitterControllerTest, VariantForList)
+{
+  QList<int> list{{1, 2, 3}};
+
+  auto variant1 = QVariant::fromValue(list);
+  auto variant2 = QVariant::fromValue(list);
+  EXPECT_EQ(variant1, variant2);
+
+  auto list_from_variant = variant1.value<QList<int>>();
+  EXPECT_EQ(list, list_from_variant);
+}
 
 TEST_F(CustomSplitterControllerTest, InitialState)
 {

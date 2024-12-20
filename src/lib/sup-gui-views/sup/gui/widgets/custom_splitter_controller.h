@@ -33,12 +33,14 @@ namespace sup::gui
  * state from/to application persistent settings.
  *
  * The state includes the usual splitter panel size and collapsed/expanded status of panels,
- * as well as the hidden status of widgets embedded in panels. It is used in the following scenario.
+ * as well as the hidden status of widgets embedded in panels.
+ *
+ * Possible usage scenario:
  * The user constructs a splitter and adds necessary widgets to it. Then, the controller reads
  * splitter settings from persistent storage and sets it to a splitter. At the end of work, the
  * controller saves persistent settings.
  *
- * The class has a listening mechanism to update children's visibility flag to properly handle
+ * The class has a listening mechanism to update children's visibility flag and to properly handle
  * show/hide panel user request. This assures that even in the destruction phase all last known
  * children's visibility status will be correctly recorded.
  *

@@ -35,4 +35,5 @@ TEST_F(ContainerHelperTest, ListToByteArray)
 
   EXPECT_EQ(GetList(byte_array), list);
 }
+
 }  // namespace sup::gui
