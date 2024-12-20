@@ -28,8 +28,8 @@ namespace sup::gui
 {
 
 /**
- * @brief The CustomSplitterController class assists QSplitter in saving and loading the preferred
- * state from persistent settings.
+ * @brief The CustomSplitterController class assists QSplitter in reading/writing the preferred
+ * state from/to application persistent settings.
  *
  * The state includes the usual splitter panel size and collapsed/expanded status of panels,
  * as well as the hidden status of widgets embedded in panels. It is used in the following scenario.
@@ -38,20 +38,46 @@ namespace sup::gui
  * controller saves persistent settings.
  *
  * Settings save and load is done on user request since only the user knows when the splitter is
- * fully populated with the content and when the work has finished. We deliberately do not rely on
- * showEvent and hideEvent in that because of their spurious nature.
+ * fully populated with the content and when the application is about to finish its work. We
+ * deliberately do not rely on showEvent and hideEvent in that because of their spurious nature.
  */
 class CustomSplitterController
 {
 public:
-  explicit CustomSplitterController(QSplitter* splitter);
+  /**
+   * @brief Main c-tor to construct controller.
+   *
+   * The setting's group name can be in a form "WidgetName/splitter" so all settings related to
+   * WidgetName are grouped in the same place of QSetting file.
+   *
+   * @param setting_group_name The name of the setting group in persistenf storage.
+   * @param splitter The splitter under control.
+   */
+  explicit CustomSplitterController(const QString& setting_group_name, QSplitter* splitter);
 
+  /**
+   * @brief Read settings from storage using function provided.
+   */
   void ReadSettings(const read_variant_func_t& read_func);
 
+  /**
+   * @brief Write settings to persistent storage using function provided.
+   */
   void WriteSettings(const write_variant_func_t& write_func);
+
+  /**
+   * @brief Get setting name used to store the main state of the splitter.
+   */
+  QString GetMainStateKey();
+
+  /**
+   * @brief Get setting name used to store children visibility information.
+   */
+  QString GetChildrenStateKey();
 
 private:
   QSplitter* m_splitter{nullptr};
+  QString m_settings_group_name;  //!< group name in QSettings file
 };
 
 }  // namespace sup::gui

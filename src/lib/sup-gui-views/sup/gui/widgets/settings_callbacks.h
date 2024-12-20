@@ -32,7 +32,7 @@ namespace sup::gui
 {
 
 //! A function to write variant in a persistent storage using a given key.
-using write_variant_func_t = std::function<void(const QString& key, const QString& value)>;
+using write_variant_func_t = std::function<void(const QString& key, const QVariant& value)>;
 
 //! A function to read variant from a persistent storage using a given key.
 using read_variant_func_t = std::function<QVariant(const QString& key)>;
