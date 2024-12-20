@@ -21,6 +21,7 @@
 
 #include <sup/gui/core/exceptions.h>
 
+#include <QEvent>
 #include <QSplitter>
 
 namespace sup::gui
@@ -63,7 +64,7 @@ void ApplyChildrenVisibilityFlags(const QList<int> &flags, QSplitter *splitter)
 
 CustomSplitterController::CustomSplitterController(const QString &setting_group_name,
                                                    QSplitter *splitter)
-    : m_splitter(splitter), m_settings_group_name(setting_group_name)
+    : QObject(splitter), m_splitter(splitter), m_settings_group_name(setting_group_name)
 {
   if (!m_splitter)
   {
@@ -109,6 +110,30 @@ QString CustomSplitterController::GetMainStateKey()
 QString CustomSplitterController::GetChildrenStateKey()
 {
   return m_settings_group_name + "_widgets";
+}
+
+void CustomSplitterController::SetupListener()
+{
+  for (int index = 0; index < m_splitter->count(); ++index)
+  {
+    m_splitter->widget(index)->installEventFilter(this);
+  }
+}
+
+bool CustomSplitterController::eventFilter(QObject *obj, QEvent *event)
+{
+  if (event->type() == QEvent::HideToParent)
+  {
+    qDebug() << "HideToParent hide" << event << event;
+  }
+
+  if (event->type() == QEvent::ShowToParent)
+  {
+    qDebug() << "ShowToParent hide" << event << event;
+  }
+
+  // let other possibly handle all events
+  return false;
 }
 
 }  // namespace sup::gui

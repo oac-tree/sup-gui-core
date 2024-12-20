@@ -22,6 +22,7 @@
 #include "custom_splitter_controller.h"
 
 #include <QChildEvent>
+#include <QDebug>
 #include <QSettings>
 
 namespace sup::gui
@@ -38,6 +39,7 @@ CustomSplitter::~CustomSplitter() = default;
 void CustomSplitter::ReadSettings()
 {
   m_controller->ReadSettings(GetSettingsReadFunc());
+  m_controller->SetupListener();
 }
 
 void CustomSplitter::WriteSettings()

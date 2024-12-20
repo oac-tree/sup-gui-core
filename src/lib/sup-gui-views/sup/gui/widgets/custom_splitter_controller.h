@@ -23,6 +23,7 @@
 #include <sup/gui/widgets/settings_callbacks.h>
 
 class QSplitter;
+#include <QObject>
 
 namespace sup::gui
 {
@@ -41,8 +42,10 @@ namespace sup::gui
  * fully populated with the content and when the application is about to finish its work. We
  * deliberately do not rely on showEvent and hideEvent in that because of their spurious nature.
  */
-class CustomSplitterController
+class CustomSplitterController : public QObject
 {
+  Q_OBJECT
+
 public:
   /**
    * @brief Main c-tor to construct controller.
@@ -75,7 +78,15 @@ public:
    */
   QString GetChildrenStateKey();
 
+
+  void SetupListener();
+
+protected:
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
 private:
+  void UpdateChildrenVisibilityFlags();
+
   QSplitter* m_splitter{nullptr};
   QString m_settings_group_name;  //!< group name in QSettings file
 };
