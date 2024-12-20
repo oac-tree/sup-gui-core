@@ -44,6 +44,22 @@ QList<int> GetChildrenVisibilityFlags(QSplitter *splitter)
   return result;
 }
 
+/**
+ * @brief Set children visibility according to given flags.
+ */
+void ApplyChildrenVisibilityFlags(const QList<int> &flags, QSplitter *splitter)
+{
+  if (flags.size() != splitter->count())
+  {
+    throw RuntimeException("Flags doesn't match widget count");
+  }
+
+  for (int index = 0; index < flags.size(); ++index)
+  {
+    splitter->widget(index)->setVisible(static_cast<bool>(flags.at(index)));
+  }
+}
+
 }  // namespace
 
 CustomSplitterController::CustomSplitterController(const QString &setting_group_name,
@@ -61,7 +77,20 @@ CustomSplitterController::CustomSplitterController(const QString &setting_group_
   }
 }
 
-void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func) {}
+void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func)
+{
+  auto splitter_state = read_func(GetMainStateKey());
+  if (splitter_state.isValid())
+  {
+    m_splitter->restoreState(splitter_state.toByteArray());
+  }
+
+  auto widget_state = read_func(GetChildrenStateKey());
+  if (widget_state.isValid())
+  {
+    ApplyChildrenVisibilityFlags(widget_state.value<QList<int>>(), m_splitter);
+  }
+}
 
 void CustomSplitterController::WriteSettings(const write_variant_func_t &write_func)
 {
