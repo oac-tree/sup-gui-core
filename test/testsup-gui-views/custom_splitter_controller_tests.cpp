@@ -24,9 +24,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <QDebug>
 #include <QSplitter>
 #include <QTest>
+#include <cstdlib>
 
 namespace sup::gui
 {
@@ -39,6 +39,15 @@ class CustomSplitterControllerTest : public ::testing::Test
 public:
   ::testing::MockFunction<read_variant_func_t> m_mock_read_func;
   ::testing::MockFunction<write_variant_func_t> m_mock_write_func;
+
+  static bool IsHeadlessMode()
+  {
+    if (const char* var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
+    {
+      return std::string(var) == std::string("offscreen");
+    }
+    return false;
+  }
 };
 
 TEST_F(CustomSplitterControllerTest, InitialState)
@@ -74,6 +83,11 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsOfEmptySplitter)
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 {
+  if (IsHeadlessMode())
+  {
+    GTEST_SKIP();
+  }
+
   auto widget1 = new QWidget;
   auto widget2 = new QWidget;
 
@@ -106,6 +120,11 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgetsWhenOneIsHidden)
 {
+  if (IsHeadlessMode())
+  {
+    GTEST_SKIP();
+  }
+
   auto widget1 = new QWidget;
   auto widget2 = new QWidget;
 
@@ -214,7 +233,7 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
   // restoring new splitter using the state of old splitter
   CustomSplitterController controller(group_name, &splitter);
 
-  QList<int> flags({1, 0}); // pretending second widget is hidden
+  QList<int> flags({1, 0});  // pretending second widget is hidden
 
   // setting up callbacks so they returns widget settings and splitter state
   ON_CALL(m_mock_read_func, Call(controller.GetMainStateKey()))
