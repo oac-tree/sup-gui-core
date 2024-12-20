@@ -66,7 +66,6 @@ std::vector<sup::gui::AnyValueEditorActions::ActionKey> GetToolBarActionKeys()
 const QString kGroupName("AnyValueEditor/");
 const QString kCurrentWorkdirSettingName = kGroupName + "workdir";
 const QString kSplitterSettingName = kGroupName + "splitter";
-// const QString kIsVisiblePanelSettingName = kGroupName + "json_panel";
 
 }  // namespace
 
@@ -182,17 +181,13 @@ void AnyValueEditorWidget::ReadSettings()
 {
   const QSettings settings;
   m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
-
   m_splitter->ReadSettings();
-  // m_text_panel_is_visible = settings.value(kIsVisiblePanelSettingName, true).toBool();
-  // m_right_panel->setVisible(m_text_panel_is_visible);
 }
 
 void AnyValueEditorWidget::WriteSettings()
 {
   QSettings settings;
   settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
-  // settings.setValue(kIsVisiblePanelSettingName, m_text_panel_is_visible);
   m_splitter->WriteSettings();
 }
 
