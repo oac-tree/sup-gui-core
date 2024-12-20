@@ -99,6 +99,8 @@ AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent)
   ReadSettings();
 
   m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
+
+  m_splitter->ReadSettings();
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
@@ -191,6 +193,7 @@ void AnyValueEditorWidget::WriteSettings()
   QSettings settings;
   settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
   // settings.setValue(kIsVisiblePanelSettingName, m_text_panel_is_visible);
+  m_splitter->WriteSettings();
 }
 
 //! Set up all connections.
@@ -224,12 +227,7 @@ void AnyValueEditorWidget::SetupWidgetActions()
   m_show_right_sidebar->setStatusTip("Show/hide Right Sidebar");
   m_show_right_sidebar->setIcon(utils::FindIcon("dock-right"));
   connect(m_show_right_sidebar, &QAction::triggered, this,
-          [this](auto)
-          {
-            m_splitter->ToggleVisibility(m_right_panel);
-            // m_text_panel_is_visible = !m_text_panel_is_visible;
-            // m_right_panel->setVisible(m_text_panel_is_visible);
-          });
+          [this](auto) { m_right_panel->setVisible(!m_right_panel->isVisible()); });
 
   sup::gui::AppRegisterAction(sup::gui::constants::kViewMenu, m_show_right_sidebar);
 }

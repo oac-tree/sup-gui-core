@@ -21,9 +21,12 @@
 #define SUP_GUI_WIDGETS_CUSTOM_SPLITTER_H_
 
 #include <QSplitter>
+#include <memory>
 
 namespace sup::gui
 {
+
+class CustomSplitterController;
 
 /**
  * @brief The CustomSplitter class is a normal splitter that remembers the size of panels and hidden
@@ -63,11 +66,6 @@ public:
    */
   void ReadSettings();
 
-  void ToggleVisibility(QWidget* widget);
-
-  void SetVisible(bool value, QWidget* widget);
-
-private:
   /**
    * @brief Writes splitter state.
    *
@@ -75,8 +73,8 @@ private:
    */
   void WriteSettings();
 
-  QString m_group_name; //!< group name in QSettings file
-  QList<int> m_hidden_widget_index;
+private:
+  std::unique_ptr<CustomSplitterController> m_controller;
 };
 
 }  // namespace sup::gui

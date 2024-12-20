@@ -21,7 +21,6 @@
 
 #include <sup/gui/core/exceptions.h>
 
-#include <QDebug>
 #include <QSplitter>
 
 namespace sup::gui
