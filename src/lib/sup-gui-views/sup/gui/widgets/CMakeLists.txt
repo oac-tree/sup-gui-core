@@ -13,10 +13,10 @@ target_sources(${library_name} PRIVATE
   collapsible_widget.h
   custom_header_view.cpp
   custom_header_view.h
-  custom_splitter_controller.cpp
-  custom_splitter_controller.h
   custom_splitter.cpp
   custom_splitter.h
+  custom_splitter_controller.cpp
+  custom_splitter_controller.h
   dialog_helper.cpp
   dialog_helper.h
   item_stack_widget.cpp
@@ -25,6 +25,8 @@ target_sources(${library_name} PRIVATE
   message_helper.h
   panel_toolbar.cpp
   panel_toolbar.h
+  settings_callbacks.cpp
+  settings_callbacks.h
   steady_menu.cpp
   steady_menu.h
   visibility_agent_base.cpp

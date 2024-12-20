@@ -17,15 +17,29 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "custom_splitter_controller.h"
+#include "settings_callbacks.h"
+
+#include <QSettings>
 
 namespace sup::gui
 {
 
-CustomSplitterController::CustomSplitterController(QSplitter *splitter) : m_splitter(splitter) {}
+write_variant_func_t GetSettingsWriteFunc()
+{
+  return [](const QString& key, const QVariant& value)
+  {
+    QSettings settings;
+    settings.setValue(key, value);
+  };
+}
 
-void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func) {}
-
-void CustomSplitterController::WriteSettings(const write_variant_func_t &write_func) {}
+read_variant_func_t GetSettingsReadFunc()
+{
+  return [](const QString& key) -> QVariant
+  {
+    const QSettings settings;
+    return settings.value(key);
+  };
+}
 
 }  // namespace sup::gui

@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_WIDGETS_CUSTOM_SPLITTER_CONTROLLER_H_
 #define SUP_GUI_WIDGETS_CUSTOM_SPLITTER_CONTROLLER_H_
 
+#include <sup/gui/widgets/settings_callbacks.h>
+
 class QSplitter;
 
 namespace sup::gui
@@ -27,7 +29,7 @@ namespace sup::gui
 
 /**
  * @brief The CustomSplitterController class assists QSplitter in saving and loading the preferred
- * state.
+ * state from persistent settings.
  *
  * The state includes the usual splitter panel size and collapsed/expanded status of panels,
  * as well as the hidden status of widgets embedded in panels. It is used in the following scenario.
@@ -44,9 +46,9 @@ class CustomSplitterController
 public:
   explicit CustomSplitterController(QSplitter* splitter);
 
-  void ReadSettings();
+  void ReadSettings(const read_variant_func_t& read_func);
 
-  void WriteSettings();
+  void WriteSettings(const write_variant_func_t& write_func);
 
 private:
   QSplitter* m_splitter{nullptr};
