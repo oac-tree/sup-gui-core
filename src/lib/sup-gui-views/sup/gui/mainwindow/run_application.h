@@ -47,8 +47,6 @@ int RunApplication(int argc, char** argv)
   auto options = ParseOptions(argc, argv);
   sup::gui::SetupHighDpiScaling(options.scale);
 
-  sup::gui::RegisterCustomMetaTypes();
-
   QApplication app(argc, argv);
 
   const auto default_font = app.font();

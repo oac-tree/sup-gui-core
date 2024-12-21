@@ -27,8 +27,19 @@ namespace sup::gui
 
 void RegisterCustomMetaTypes()
 {
-  (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
-  (void)qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
+  bool is_registered = false;
+  if (!is_registered)
+  {
+    (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+    (void)qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
+    (void)qRegisterMetaType<QList<int>>("QList<int>");
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
+#endif
+
+    is_registered = true;
+  }
 }
 
 }  // namespace sup::gui

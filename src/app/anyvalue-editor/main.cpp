@@ -26,5 +26,7 @@ int main(int argc, char** argv)
   auto version = QString::fromStdString(sup::gui::ProjectVersion());
   sup::gui::InitCoreApplication("anyvalue-editor", version);
 
+  sup::gui::RegisterCustomMetaTypes();
+
   return sup::gui::RunApplication<sup::gui::AnyValueEditorMainWindow>(argc, argv);
 }

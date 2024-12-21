@@ -43,5 +43,4 @@ QList<int> GetList(const QByteArray &array)
   return result;
 }
 
-
 }

@@ -53,7 +53,7 @@ public:
    * can be "WidgetName/splitter" so the splitter state would be grouped with other settings of
    * certain widget in QSetting file.
    *
-   * @param setting_name The name of this splitter related settings in the setting file.
+   * @param setting_name The name of a setting key in QSettings file.
    * @param parent_widget The parent widget of this splitter.
    */
   explicit CustomSplitter(const QString& setting_name, QWidget* parent_widget = nullptr);
@@ -69,7 +69,7 @@ public:
   /**
    * @brief Writes splitter state.
    *
-   * The method called automatically on widget
+   * This method can be called any time, also on the destruction of parent widget.
    */
   void WriteSettings();
 

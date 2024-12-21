@@ -36,8 +36,9 @@
 
 using namespace sup::gui;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
-
+#endif
 //! Testing TreeViewComponentProvider class.
 
 class TreeViewComponentProviderTests : public ::testing::Test

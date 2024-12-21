@@ -39,7 +39,9 @@
 using namespace sup::gui;
 using ::testing::_;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
+#endif
 
 //! Extended tests for AnyValueEditorActionHandler.
 

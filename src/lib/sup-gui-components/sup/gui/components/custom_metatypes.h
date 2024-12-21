@@ -20,10 +20,12 @@
 #ifndef SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
 #define SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
 
+//! file
 //! Registration of custom types in Qt meta type system to provide support in signal/slot and
 //! QVariant.
 
 #include <QMetaType>
+#include <QList>
 
 namespace sup::gui
 {
@@ -31,5 +33,9 @@ namespace sup::gui
 void RegisterCustomMetaTypes();
 
 }  // namespace sup::gui
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(QList<int>)
+#endif
 
 #endif  // SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
