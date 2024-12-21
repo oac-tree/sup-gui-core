@@ -31,6 +31,11 @@ QByteArray GetArray(const QList<int> &list);
 
 QList<int> GetList(const QByteArray &array);
 
+/**
+ * @brief Returns QVariantList from list of integers.
+ *
+ * This is to be able to keep QList<int> in QSettings file in human-readable format.
+ */
 template <typename T>
 QVariant GetVariantFromList(const QList<T> &list)
 {
@@ -43,6 +48,11 @@ QVariant GetVariantFromList(const QList<T> &list)
   return variantList;
 }
 
+/**
+ * @brief Returns list of integer from QVariantList.
+ *
+ * This is to be able to keep QList<int> in QSettings file in human-readable format.
+ */
 template <typename T>
 QList<T> GetListFromVariant(const QVariant &variant_list)
 {

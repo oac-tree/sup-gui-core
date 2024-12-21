@@ -22,6 +22,8 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 
+#include <QDataStream>
+
 namespace sup::gui
 {
 
