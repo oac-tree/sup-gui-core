@@ -22,6 +22,7 @@
 
 #include <QByteArray>
 #include <QList>
+#include <QVariant>
 
 namespace sup::gui
 {
@@ -29,6 +30,29 @@ namespace sup::gui
 QByteArray GetArray(const QList<int> &list);
 
 QList<int> GetList(const QByteArray &array);
+
+template <typename T>
+QVariant GetVariantFromList(const QList<T> &list)
+{
+  QVariantList variantList;
+  variantList.reserve(list.size());
+  for (const auto &v : list)
+  {
+    variantList.append(v);
+  }
+  return variantList;
+}
+
+template <typename T>
+QList<T> GetListFromVariant(const QVariant &variant_list)
+{
+  QList<T> result;
+  foreach (QVariant variant, variant_list.value<QVariantList>())
+  {
+    result << variant.value<T>();
+  }
+  return result;
+}
 
 }  // namespace sup::gui
 

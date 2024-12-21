@@ -36,4 +36,15 @@ TEST_F(ContainerHelperTest, ListToByteArray)
   EXPECT_EQ(GetList(byte_array), list);
 }
 
+TEST_F(ContainerHelperTest, VariantFromList)
+{
+  QList<int> list({1, 2, 3});
+
+  auto variant = GetVariantFromList<int>(list);
+
+  auto list_from_variant = GetListFromVariant<int>(variant);
+
+  EXPECT_EQ(list, list_from_variant);
+}
+
 }  // namespace sup::gui
