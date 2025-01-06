@@ -48,13 +48,11 @@ public:
   /**
    * @brief Main c-tor
    *
-   * For any non-empty setting name, the class will write its favorite state on destruction using
-   * QSettings machinery. It will be used during the next splitter construction. The setting's name
-   * can be "WidgetName/splitter" so the splitter state would be grouped with other settings of
-   * certain widget in QSetting file.
-   *
    * @param setting_name The name of a setting key in QSettings file.
    * @param parent_widget The parent widget of this splitter.
+   *
+   * @note The setting's name can be "WidgetName/splitter" so the splitter state would be grouped
+   * with other settings of certain widget in QSetting file.
    */
   explicit CustomSplitter(const QString& setting_name, QWidget* parent_widget = nullptr);
   ~CustomSplitter() override;
