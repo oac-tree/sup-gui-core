@@ -24,8 +24,8 @@
 //! Registration of custom types in Qt meta type system to provide support in signal/slot and
 //! QVariant.
 
-#include <QMetaType>
 #include <QList>
+#include <QMetaType>
 
 namespace sup::gui
 {

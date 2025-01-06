@@ -21,6 +21,7 @@
 #define SUP_GUI_MODEL_SUP_DTO_MODEL_H_
 
 #include <mvvm/model/application_model.h>
+
 #include <vector>
 
 namespace mvvm

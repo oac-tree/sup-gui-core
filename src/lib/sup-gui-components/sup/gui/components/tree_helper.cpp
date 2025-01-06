@@ -48,14 +48,16 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
 
   // collapse all
   auto collapse_all_action = menu.addAction("Collapse all");
-  (void)QObject::connect(collapse_all_action, &QAction::triggered, &tree_view, &QTreeView::collapseAll);
+  (void)QObject::connect(collapse_all_action, &QAction::triggered, &tree_view,
+                         &QTreeView::collapseAll);
 
   menu.addSeparator();
 
   // expand selected
   auto expand_selected_action = menu.addAction("Expand selected");
   auto on_expand_selected = [&tree_view, &point]() { tree_view.expand(tree_view.indexAt(point)); };
-  (void)QObject::connect(expand_selected_action, &QAction::triggered, &tree_view, on_expand_selected);
+  (void)QObject::connect(expand_selected_action, &QAction::triggered, &tree_view,
+                         on_expand_selected);
 
   // expand selected depth
 
@@ -78,7 +80,8 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   auto collapse_selected_action = menu.addAction("Collapse selected");
   auto on_collapse_selected = [&tree_view, point]()
   { tree_view.collapse(tree_view.indexAt(point)); };
-  (void)QObject::connect(collapse_selected_action, &QAction::triggered, &tree_view, on_collapse_selected);
+  (void)QObject::connect(collapse_selected_action, &QAction::triggered, &tree_view,
+                         on_collapse_selected);
 }
 
 void SummonCollapseExpandMenu(const QPoint &point, QTreeView &tree_view)

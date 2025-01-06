@@ -24,9 +24,9 @@
 #include <sup/gui/model/waveform_model.h>
 
 #include <mvvm/model/session_item.h>
+#include <mvvm/test/mock_project_context.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/file_utils.h>
-#include <mvvm/test/mock_project_context.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -44,8 +44,8 @@ public:
 
   std::unique_ptr<DtoEditorProject> CreateProject()
   {
-    return std::make_unique<DtoEditorProject>(m_mock_project_context.CreateContext(
-        constants::kDtoEditorApplicationType.toStdString()));
+    return std::make_unique<DtoEditorProject>(
+        m_mock_project_context.CreateContext(constants::kDtoEditorApplicationType.toStdString()));
   }
 
   mvvm::test::MockProjectContext m_mock_project_context;

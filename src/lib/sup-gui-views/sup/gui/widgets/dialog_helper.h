@@ -20,8 +20,8 @@
 #ifndef SUP_GUI_WIDGETS_DIALOG_HELPER_H_
 #define SUP_GUI_WIDGETS_DIALOG_HELPER_H_
 
-#include <memory>
 #include <QString>
+#include <memory>
 
 class QVBoxLayout;
 class QDialog;
@@ -34,7 +34,6 @@ namespace sup::gui
  */
 std::unique_ptr<QVBoxLayout> CreateButtonLayout(QDialog* dialog, const QString& ok_text = "OK",
                                                 const QString& cancel_text = "Cancel");
-
 
 }  // namespace sup::gui
 

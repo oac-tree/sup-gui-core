@@ -21,7 +21,6 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/abstract_anyvalue_editor.h>
-
 #include <sup/gui/widgets/dialog_helper.h>
 
 #include <QKeyEvent>

@@ -26,7 +26,7 @@ namespace mvvm
 {
 class LineSeriesItem;
 class ChartViewportItem;
-}
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -50,7 +50,7 @@ public:
   /**
    * @brief Sets main viewport with waveforms.
    */
-  void SetViewport(mvvm::ChartViewportItem *viewport);
+  void SetViewport(mvvm::ChartViewportItem* viewport);
 
   /**
    * @brief Set waveform to show in waveform editor.

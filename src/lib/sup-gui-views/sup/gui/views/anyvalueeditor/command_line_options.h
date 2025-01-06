@@ -20,8 +20,8 @@
 #ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_COMMAND_LINE_OPTIONS_H_
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_COMMAND_LINE_OPTIONS_H_
 
-#include <QString>
 #include <QSize>
+#include <QString>
 #include <optional>
 
 namespace sup::gui

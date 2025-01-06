@@ -124,7 +124,6 @@ bool ShouldResetSettingsAndRestart();
  */
 bool SummonChangeSystemFontDialog();
 
-
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_APP_MAIN_WINDOW_HELPER_H_

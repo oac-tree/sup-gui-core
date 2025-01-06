@@ -19,9 +19,9 @@
 
 #include "container_helper.h"
 
-#include <QIODevice>
 #include <QByteArray>
 #include <QDataStream>
+#include <QIODevice>
 
 namespace sup::gui
 {
@@ -43,4 +43,4 @@ QList<int> GetListFromByteArray(const QByteArray &array)
   return result;
 }
 
-}
+}  // namespace sup::gui

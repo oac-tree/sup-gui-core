@@ -22,10 +22,10 @@
 #include <sup/gui/core/exceptions.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
-#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>

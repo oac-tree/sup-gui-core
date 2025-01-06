@@ -21,6 +21,7 @@
 #define SUP_GUI_COMPONENTS_WAVEFORM_DISPLAY_CONTROLLER_H_
 
 #include <sup/gui/components/component_types.h>
+
 #include <mvvm/signals/event_types.h>
 
 #include <memory>

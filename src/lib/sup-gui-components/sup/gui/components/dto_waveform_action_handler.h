@@ -31,7 +31,7 @@ class ISessionModel;
 class LineSeriesDataItem;
 class LineSeriesItem;
 class ChartViewportItem;
-}
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -82,7 +82,7 @@ private:
   /**
    * @brief Returns container used to store LineSeriesItem.
    */
-  mvvm::ChartViewportItem *GetWaveformContainer() const;
+  mvvm::ChartViewportItem* GetWaveformContainer() const;
 
   /**
    * @brief Returns container used to store LineSeriesDataItem.
