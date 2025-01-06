@@ -26,7 +26,7 @@
 namespace sup::gui
 {
 
-QByteArray GetArray(const QList<int> &list)
+QByteArray GetByteArrayFromList(const QList<int> &list)
 {
   QByteArray data;
   QDataStream stream(&data, QIODevice::WriteOnly);
@@ -34,7 +34,7 @@ QByteArray GetArray(const QList<int> &list)
   return data;
 }
 
-QList<int> GetList(const QByteArray &array)
+QList<int> GetListFromByteArray(const QByteArray &array)
 {
   QByteArray sd = array;
   QDataStream stream(&sd, QIODevice::ReadOnly);

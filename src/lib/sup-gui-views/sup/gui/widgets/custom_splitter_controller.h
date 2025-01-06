@@ -73,8 +73,8 @@ public:
   /**
    * @brief Write settings to persistent storage using function provided.
    *
-   * This method can be safely called on own destruction, all last known visibility flags of
-   * widgets populating a splitter will be correctly preserved.
+   * This method can be safely called at any moment, even on the main window destruction. All last
+   * known visibility flags of widgets populating a splitter will be correctly preserved.
    */
   void WriteSettings(const write_variant_func_t& write_func);
 

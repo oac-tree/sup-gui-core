@@ -195,7 +195,7 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsOfEmptySplitter)
   EXPECT_CALL(m_mock_read_func, Call(controller.GetMainStateKey())).Times(1);
   EXPECT_CALL(m_mock_read_func, Call(controller.GetChildrenStateKey())).Times(1);
 
-  EXPECT_THROW(controller.ReadSettings(m_mock_read_func.AsStdFunction()), RuntimeException);
+  EXPECT_NO_THROW(controller.ReadSettings(m_mock_read_func.AsStdFunction()));
 }
 
 //! We are validating settings restore mechanism. We can't check exact panel sizes of the splitter
@@ -203,6 +203,11 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsOfEmptySplitter)
 //! large and vice versa.
 TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
 {
+  if (IsHeadlessMode())
+  {
+    GTEST_SKIP();
+  }
+
   QByteArray splitter_state;
 
   // preparing splitter to use its state

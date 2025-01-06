@@ -98,8 +98,6 @@ AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent)
   ReadSettings();
 
   m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
-
-  m_splitter->ReadSettings();
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()

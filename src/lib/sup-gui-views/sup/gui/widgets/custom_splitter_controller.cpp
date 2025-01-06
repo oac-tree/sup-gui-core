@@ -53,7 +53,9 @@ void ApplyChildrenVisibilityFlags(const QList<int> &flags, QSplitter *splitter)
 {
   if (flags.size() != splitter->count())
   {
-    throw RuntimeException("Flags doesn't match widget count");
+    qInfo() << "Flags stored in persistent storage doesn't match number of widgets "
+               "populating the splitter";
+    return;
   }
 
   for (int index = 0; index < flags.size(); ++index)

@@ -31,9 +31,9 @@ class ContainerHelperTest : public ::testing::Test
 TEST_F(ContainerHelperTest, ListToByteArray)
 {
   QList<int> list({1, 2, 3});
-  auto byte_array = GetArray(list);
+  auto byte_array = GetByteArrayFromList(list);
 
-  EXPECT_EQ(GetList(byte_array), list);
+  EXPECT_EQ(GetListFromByteArray(byte_array), list);
 }
 
 TEST_F(ContainerHelperTest, VariantFromList)

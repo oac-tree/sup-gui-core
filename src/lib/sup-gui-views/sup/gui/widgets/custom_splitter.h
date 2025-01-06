@@ -69,7 +69,8 @@ public:
   /**
    * @brief Writes splitter state.
    *
-   * This method can be called any time, also on the destruction of parent widget.
+   * This method can be safely called at any moment, even on the main window destruction. All last
+   * known visibility flags of widgets populating a splitter will be correctly preserved.
    */
   void WriteSettings();
 
