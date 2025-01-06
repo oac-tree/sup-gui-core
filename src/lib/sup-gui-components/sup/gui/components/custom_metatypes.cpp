@@ -23,14 +23,16 @@
 #include <mvvm/standarditems/line_series_item.h>
 
 #include <QDataStream>
+#include <mutex>
 
 namespace sup::gui
 {
 
 void RegisterCustomMetaTypes()
 {
-  bool is_registered = false;
-  if (!is_registered)
+  static std::once_flag register_once_flag;
+
+  auto register_func = []()
   {
     (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
     (void)qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
@@ -39,9 +41,9 @@ void RegisterCustomMetaTypes()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
 #endif
+  };
 
-    is_registered = true;
-  }
+  std::call_once(register_once_flag, register_func);
 }
 
 }  // namespace sup::gui
