@@ -36,6 +36,6 @@ void RegisterCustomMetaTypes();
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(QList<int>)
-#endif
+#endif  // SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
 
 #endif  // SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_

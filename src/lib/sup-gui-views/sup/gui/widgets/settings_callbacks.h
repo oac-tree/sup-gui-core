@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_CUSTOM_SETTINGS_CALLBACKS_H_
-#define SUP_GUI_WIDGETS_CUSTOM_SETTINGS_CALLBACKS_H_
+#ifndef SUP_GUI_WIDGETS_SETTINGS_CALLBACKS_H_
+#define SUP_GUI_WIDGETS_SETTINGS_CALLBACKS_H_
 
 //! @file
 //! Defines callbacks to talk with QSettings machinery. Introduced to decouple all classes whishing
@@ -55,4 +55,4 @@ read_variant_func_t GetSettingsReadFunc();
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_CUSTOM_SETTINGS_CALLBACKS_H_
+#endif  // SUP_GUI_WIDGETS_SETTINGS_CALLBACKS_H_

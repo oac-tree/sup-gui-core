@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_PLOTTING_CUSTOM_ROW_STRATEGIES_H_
-#define SUP_GUI_PLOTTING_CUSTOM_ROW_STRATEGIES_H_
+#ifndef SUP_GUI_PLOTTING_CUSTOM_ROW_WAVEFORM_STRATEGIES_H_
+#define SUP_GUI_PLOTTING_CUSTOM_ROW_WAVEFORM_STRATEGIES_H_
 
 #include <mvvm/viewmodel/abstract_row_strategy.h>
 
@@ -44,4 +44,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_PLOTTING_CUSTOM_ROW_STRATEGIES_H_
+#endif  // SUP_GUI_PLOTTING_CUSTOM_ROW_WAVEFORM_STRATEGIES_H_

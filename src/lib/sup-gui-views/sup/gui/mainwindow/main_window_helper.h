@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
-#define SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
+#ifndef SUP_GUI_MAINWINDOW_MAIN_WINDOW_HELPER_H_
+#define SUP_GUI_MAINWINDOW_MAIN_WINDOW_HELPER_H_
 
 //! @file
 //! Helper functions to start application.
@@ -126,4 +126,4 @@ bool SummonChangeSystemFontDialog();
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_MAIN_WINDOW_HELPER_H_
+#endif  // SUP_GUI_MAINWINDOW_MAIN_WINDOW_HELPER_H_
