@@ -23,6 +23,7 @@
 #include <QList>
 #include <QWidget>
 #include <memory>
+#include <sup/gui/widgets/settings_callbacks.h>
 
 class QStackedWidget;
 class QAction;
@@ -46,7 +47,11 @@ class ItemStackWidget : public QWidget
   Q_OBJECT
 
 public:
+
   explicit ItemStackWidget(QWidget* parent = nullptr);
+
+  explicit ItemStackWidget(const QString& settings_group_name, QWidget* parent = nullptr);
+
   ~ItemStackWidget() override;
 
   /**
@@ -83,6 +88,16 @@ public:
    * @brief Sets given widget visible.
    */
   void SetCurrentWidget(QWidget* widget);
+
+  /**
+   * @brief Read settings from storage using function provided.
+   */
+  void ReadSettings(const read_variant_func_t& read_func);
+
+  /**
+   * @brief Write settings to persistent storage using function provided.
+   */
+  void WriteSettings(const write_variant_func_t& write_func);
 
 private:
   /**
@@ -124,6 +139,8 @@ private:
 
   //!< action group for corner menu to show bullet list with currently selected widget marked
   QActionGroup* m_action_group{nullptr};
+
+  QString m_settings_group_name;
 };
 
 }  // namespace sup::gui

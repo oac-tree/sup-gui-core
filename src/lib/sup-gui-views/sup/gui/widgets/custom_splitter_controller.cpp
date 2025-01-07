@@ -66,9 +66,9 @@ void ApplyChildrenVisibilityFlags(const QList<int> &flags, QSplitter *splitter)
 
 }  // namespace
 
-CustomSplitterController::CustomSplitterController(const QString &setting_group_name,
+CustomSplitterController::CustomSplitterController(const QString &settings_group_name,
                                                    QSplitter *splitter)
-    : QObject(splitter), m_splitter(splitter), m_settings_group_name(setting_group_name)
+    : QObject(splitter), m_splitter(splitter), m_settings_group_name(settings_group_name)
 {
   if (!m_splitter)
   {

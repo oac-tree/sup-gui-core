@@ -22,7 +22,6 @@
 
 #include <QToolBar>
 
-class QToolBar;
 class QLabel;
 class QAction;
 class QToolButton;
@@ -48,45 +47,45 @@ public:
   /**
    * @brief Sets toolbar label.
    */
-  void setText(const QString& text);
-
-  void AddDotsMenu();
+  void SetText(const QString& text);
 
   /**
    * @brief Insert element after the label, or last insert element.
    *
+   * Push button representing dots and spacer will always stay at the right.
+   *
    * @param widget The widget to insert.
    * @return Associated action to controlor widget visibility.
-   *
-   * @details Push button representing dots and spacer will always stay at the right.
    */
   QAction* InsertElement(QWidget* widget);
 
   /**
    * @brief Insert element after the label, or last insert element.
    *
+   * Push button representing dots and spacer will always stay at the right.
+   *
    * @param widget The widget to insert.
    * @return Associated action to controlor widget visibility.
-   *
-   * @details Push button representing dots and spacer will always stay at the right.
    */
   QAction* InsertElement(QAction* action);
 
   /**
    * @brief Assign given menu to 3-dot button on the right.
    *
-   * @details The ownership for menu will remain on the user side.
+   * The ownership for menu will remain on the user side.
    */
   void SetDotsMenu(QMenu* dots_menu);
 
   /**
    * @brief Appends separator to the last guest element, but before 3-dots menu.
+   *
    * @return Associated action to hide separator.
    */
   QAction* AppendSeparator();
 
 private:
   void InsertStrech();
+  void SetupDotsButton();
 
   QLabel* m_label{nullptr};
   QAction* m_label_action{nullptr};

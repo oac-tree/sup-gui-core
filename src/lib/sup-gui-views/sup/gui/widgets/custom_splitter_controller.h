@@ -60,10 +60,10 @@ public:
    * The setting's group name can be in a form "WidgetName/splitter" so all settings related to
    * WidgetName are grouped in the same place of QSetting file.
    *
-   * @param setting_group_name The name of the setting group in persistenf storage.
+   * @param settings_group_name The name of the setting group in persistenf storage.
    * @param splitter The splitter under control.
    */
-  explicit CustomSplitterController(const QString& setting_group_name, QSplitter* splitter);
+  explicit CustomSplitterController(const QString& settings_group_name, QSplitter* splitter);
 
   /**
    * @brief Read settings from storage using function provided.

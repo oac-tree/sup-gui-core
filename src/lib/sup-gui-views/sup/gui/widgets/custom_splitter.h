@@ -48,13 +48,13 @@ public:
   /**
    * @brief Main c-tor
    *
-   * @param setting_name The name of a setting key in QSettings file.
+   * @param settings_group_name The name of a setting key in QSettings file.
    * @param parent_widget The parent widget of this splitter.
    *
    * @note The setting's name can be "WidgetName/splitter" so the splitter state would be grouped
    * with other settings of certain widget in QSetting file.
    */
-  explicit CustomSplitter(const QString& setting_name, QWidget* parent_widget = nullptr);
+  explicit CustomSplitter(const QString& settings_group_name, QWidget* parent_widget = nullptr);
   ~CustomSplitter() override;
 
   /**

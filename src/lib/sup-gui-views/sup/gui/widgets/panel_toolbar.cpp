@@ -36,23 +36,13 @@ PanelToolBar::PanelToolBar(QWidget *parent) : QToolBar(parent), m_label(new QLab
   m_label_action = addWidget(m_label);
   m_label_action->setVisible(false);
 
-  AddDotsMenu();
+  SetupDotsButton();
 }
 
-void PanelToolBar::setText(const QString &text)
+void PanelToolBar::SetText(const QString &text)
 {
   m_label_action->setVisible(true);
   m_label->setText(text);
-}
-
-void PanelToolBar::AddDotsMenu()
-{
-  InsertStrech();
-
-  m_dots_button = new QToolButton;
-  m_dots_button->setIcon(utils::FindIcon("dots-vertical"));
-  m_dots_button->setIconSize(sup::gui::utils::ToolBarIconSize());
-  addWidget(m_dots_button);
 }
 
 QAction *PanelToolBar::InsertElement(QWidget *widget)
@@ -65,8 +55,6 @@ QAction *PanelToolBar::InsertElement(QAction *action)
   insertAction(m_spacer_action, action);
   return action;
 }
-
-//! Sets a menu to the button with dots. The menu ownership remains on caller side.
 
 void PanelToolBar::SetDotsMenu(QMenu *dots_menu)
 {
@@ -84,6 +72,16 @@ void PanelToolBar::InsertStrech()
   auto empty = new QWidget(this);
   empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   m_spacer_action = addWidget(empty);
+}
+
+void PanelToolBar::SetupDotsButton()
+{
+  InsertStrech();
+
+  m_dots_button = new QToolButton;
+  m_dots_button->setIcon(utils::FindIcon("dots-vertical"));
+  m_dots_button->setIconSize(sup::gui::utils::ToolBarIconSize());
+  addWidget(m_dots_button);
 }
 
 }  // namespace sup::gui
