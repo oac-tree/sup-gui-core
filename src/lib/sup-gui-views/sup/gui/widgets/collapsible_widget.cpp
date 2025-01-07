@@ -48,13 +48,11 @@ CollapsibleWidget::~CollapsibleWidget() = default;
 
 void CollapsibleWidget::AddToSplitter(QSplitter *splitter)
 {
-  // we add to the splitter two widgets:
-  // - a tool bar which will always remain visible
-  // - this panel itself
-
+  // we add to the splitter two widgets: a tool bar and this panel
   splitter->addWidget(m_tool_bar);
   splitter->setCollapsible(splitter->indexOf(m_tool_bar), false);
   splitter->addWidget(this);
+  splitter->setCollapsible(splitter->indexOf(this), false);
 }
 
 void CollapsibleWidget::SetExpanded(bool value)
