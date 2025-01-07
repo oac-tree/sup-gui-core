@@ -74,15 +74,15 @@ CustomSplitterController::CustomSplitterController(const QString &setting_group_
   {
     throw RuntimeException("Not initialised splitter");
   }
-
-  if (m_settings_group_name.isEmpty())
-  {
-    throw RuntimeException("Setting group name can't be empty");
-  }
 }
 
 void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func)
 {
+  if (m_settings_group_name.isEmpty())
+  {
+    throw RuntimeException("Setting group name can't be empty");
+  }
+
   auto splitter_state = read_func(GetMainStateKey());
   if (splitter_state.isValid())
   {
@@ -98,6 +98,11 @@ void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func
 
 void CustomSplitterController::WriteSettings(const write_variant_func_t &write_func)
 {
+  if (m_settings_group_name.isEmpty())
+  {
+    throw RuntimeException("Setting group name can't be empty");
+  }
+
   write_func(GetMainStateKey(), m_splitter->saveState());
 
   if (auto flags = m_children_visibility_flags; !flags.empty())

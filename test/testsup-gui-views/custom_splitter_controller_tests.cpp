@@ -69,7 +69,7 @@ TEST_F(CustomSplitterControllerTest, InitialState)
   EXPECT_THROW(CustomSplitterController("abc", nullptr), RuntimeException);
   QSplitter splitter;
 
-  EXPECT_THROW(CustomSplitterController("", &splitter), RuntimeException);
+  EXPECT_NO_THROW(CustomSplitterController("", &splitter));
 
   CustomSplitterController controller1("group1", &splitter);
   EXPECT_FALSE(controller1.GetMainStateKey().isEmpty());
@@ -93,6 +93,19 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsOfEmptySplitter)
       .Times(1);
 
   controller.WriteSettings(m_mock_write_func.AsStdFunction());
+}
+
+TEST_F(CustomSplitterControllerTest, AttemptToWriteSettingsWhenNoGroupIsDefined)
+{
+  QSplitter splitter;
+  const QString group_name("");
+
+  CustomSplitterController controller(group_name, &splitter);
+
+  EXPECT_CALL(m_mock_read_func, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_write_func, Call(::testing::_, ::testing::_)).Times(0);
+
+  EXPECT_THROW(controller.WriteSettings(m_mock_write_func.AsStdFunction()), RuntimeException);
 }
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
@@ -196,6 +209,21 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsOfEmptySplitter)
   EXPECT_CALL(m_mock_read_func, Call(controller.GetChildrenStateKey())).Times(1);
 
   EXPECT_NO_THROW(controller.ReadSettings(m_mock_read_func.AsStdFunction()));
+}
+
+TEST_F(CustomSplitterControllerTest, AttemptToReadSettingsWhenNoGroupIsDefined)
+{
+  QSplitter splitter;
+  const QString group_name("");
+
+  EXPECT_CALL(m_mock_write_func, Call(::testing::_, ::testing::_)).Times(0);
+
+  CustomSplitterController controller(group_name, &splitter);
+
+  EXPECT_CALL(m_mock_read_func, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_read_func, Call(::testing::_)).Times(0);
+
+  EXPECT_THROW(controller.ReadSettings(m_mock_read_func.AsStdFunction()), RuntimeException);
 }
 
 //! We are validating settings restore mechanism. We can't check exact panel sizes of the splitter
