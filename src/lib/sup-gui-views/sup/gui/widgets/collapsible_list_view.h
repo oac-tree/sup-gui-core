@@ -97,7 +97,6 @@ public:
    */
   void WriteSettings();
 
-
 private:
   CustomSplitter* m_splitter{nullptr};
 };

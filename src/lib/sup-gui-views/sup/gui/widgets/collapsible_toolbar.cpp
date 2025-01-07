@@ -23,6 +23,7 @@
 
 #include <mvvm/widgets/widget_utils.h>
 
+#include <QEvent>
 #include <QLabel>
 #include <QToolBar>
 #include <QToolButton>
@@ -72,6 +73,8 @@ void CollapsibleToolBar::SetText(const QString &text, const QString &text_toolti
 void CollapsibleToolBar::SetControlledWidget(QWidget *widget)
 {
   m_controlled_widget = widget;
+  // install ourself as an event filter to listen for programmatic hide/show events
+  m_controlled_widget->installEventFilter(this);
 }
 
 void CollapsibleToolBar::AddWidget(QWidget *widget)
@@ -100,6 +103,25 @@ void CollapsibleToolBar::SetExpanded(bool value)
 {
   m_is_expanded = value;
   UpdateToolBar();
+}
+
+bool CollapsibleToolBar::eventFilter(QObject *obj, QEvent *event)
+{
+  // We are here because the collapse/expand state of the controlled widget has been changed
+  // programmatically, via ReadSettings mechanism. Have to update icons.
+
+  if (event->type() == QEvent::HideToParent)
+  {
+    SetExpanded(false);
+  }
+
+  if (event->type() == QEvent::ShowToParent)
+  {
+    SetExpanded(true);
+  }
+
+  // let all events go through so others can handle them
+  return false;
 }
 
 void CollapsibleToolBar::UpdateToolBar()

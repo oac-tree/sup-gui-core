@@ -47,7 +47,8 @@ public:
    * @param content The user widget which will be shown in collapsible panel.
    * @param parent_widget The parent widfget.
    */
-  explicit CollapsibleWidget(QWidget* content, const QList<QAction *> &actions, QWidget* parent_widget = nullptr);
+  explicit CollapsibleWidget(QWidget* content, const QList<QAction*>& actions,
+                             QWidget* parent_widget = nullptr);
   ~CollapsibleWidget() override;
 
   /**

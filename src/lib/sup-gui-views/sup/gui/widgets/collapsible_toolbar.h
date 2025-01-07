@@ -79,6 +79,12 @@ public:
    */
   void SetExpanded(bool value);
 
+protected:
+  /**
+   * @brief Handles icon and expand status if controlled widget has been change programmatically
+   */
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
 private:
   /**
    * @brief Updates toolbar appearance depending on collapse/expand status.
