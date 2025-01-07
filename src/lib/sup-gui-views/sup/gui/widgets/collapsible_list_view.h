@@ -28,6 +28,7 @@ namespace sup::gui
 {
 
 class CollapsibleToolBar;
+class CustomSplitter;
 
 /**
  * @brief The CollapsibleListView class represents a column of collapsible panels.
@@ -43,6 +44,17 @@ class CollapsibleListView : public QWidget
 
 public:
   explicit CollapsibleListView(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor.
+   *
+   * @param setting_name The name of a setting key in QSettings file.
+   * @param parent_widget The parent widget of this view.
+   *
+   * @note The setting's name can be "WidgetName/collapsible_list" so the splitter state would be
+   * grouped with other settings of certain widget in QSetting file.
+   */
+  explicit CollapsibleListView(const QString& setting_name, QWidget* parent_widget = nullptr);
 
   /**
    * @brief Adds user widget to the splitter.
@@ -70,8 +82,24 @@ public:
    */
   QSplitter* GetSplitter() const;
 
+  /**
+   * @brief Reads splitter state from disk.
+   *
+   * This method shall be called after all widgets have been already added.
+   */
+  void ReadSettings();
+
+  /**
+   * @brief Writes splitter state.
+   *
+   * This method can be safely called at any moment, even on the main window destruction. All last
+   * known visibility flags of widgets populating a splitter will be correctly preserved.
+   */
+  void WriteSettings();
+
+
 private:
-  QSplitter* m_splitter{nullptr};
+  CustomSplitter* m_splitter{nullptr};
 };
 
 }  // namespace sup::gui

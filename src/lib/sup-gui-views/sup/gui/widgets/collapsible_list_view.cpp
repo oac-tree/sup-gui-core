@@ -21,17 +21,27 @@
 
 #include "collapsible_toolbar.h"
 #include "collapsible_widget.h"
+#include "custom_splitter.h"
 
 #include <sup/gui/core/exceptions.h>
 
-#include <QSplitter>
 #include <QVBoxLayout>
 
 namespace sup::gui
 {
 
+namespace
+{
+const QString kDefaultSettingGroup = "CollapsibleListView";
+}
+
 CollapsibleListView::CollapsibleListView(QWidget *parent_widget)
-    : QWidget(parent_widget), m_splitter(new QSplitter)
+    : CollapsibleListView(kDefaultSettingGroup)
+{
+}
+
+CollapsibleListView::CollapsibleListView(const QString &setting_name, QWidget *parent_widget)
+    : QWidget(parent_widget), m_splitter(new CustomSplitter(setting_name))
 {
   m_splitter->setOrientation(Qt::Vertical);
 
@@ -64,6 +74,16 @@ CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
 QSplitter *CollapsibleListView::GetSplitter() const
 {
   return m_splitter;
+}
+
+void CollapsibleListView::ReadSettings()
+{
+  m_splitter->ReadSettings();
+}
+
+void CollapsibleListView::WriteSettings()
+{
+  m_splitter->WriteSettings();
 }
 
 }  // namespace sup::gui
