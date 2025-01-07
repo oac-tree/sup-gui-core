@@ -30,8 +30,9 @@
 
 namespace sup::gui
 {
-CollapsibleToolBar::CollapsibleToolBar(QWidget *parent)
-    : QFrame(parent)
+
+CollapsibleToolBar::CollapsibleToolBar(QWidget *parent_widget)
+    : QFrame(parent_widget)
     , m_tool_bar(new QToolBar)
     , m_expand_button(new QToolButton)
     , m_label(new QLabel)
@@ -51,7 +52,7 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget *parent)
   m_expand_button->setIcon(utils::FindIcon("chevron-down"));
   auto on_expand_click = [this]()
   {
-    m_expanded = !m_expanded;
+    m_is_expanded = !m_is_expanded;
     UpdateToolBar();
   };
   connect(m_expand_button, &QToolButton::clicked, this, on_expand_click);
@@ -106,19 +107,19 @@ void CollapsibleToolBar::UpdateToolBar()
   // show/hide controlled widget
   if (m_controlled_widget)
   {
-    m_controlled_widget->setVisible(m_expanded);
+    m_controlled_widget->setVisible(m_is_expanded);
   }
 
   // show/hide toolbar elements
   for (auto action : m_toolbar_actions)
   {
-    action->setVisible(m_expanded);
+    action->setVisible(m_is_expanded);
   }
 }
 
 void CollapsibleToolBar::UpdateIcon()
 {
-  if (m_expanded)
+  if (m_is_expanded)
   {
     m_expand_button->setIcon(utils::FindIcon("chevron-down"));
     setFrameStyle(QFrame::StyledPanel);

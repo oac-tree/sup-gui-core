@@ -29,16 +29,19 @@ namespace sup::gui
 
 class CollapsibleToolBar;
 
-//! Wraps user widget and makes it collapsible.
-//! Intended for usage with a QSplitter. The user widget is inserted into the splitter
-//! with a special toolbar, containing widget actions and a collapse/expand button.
-
+/**
+ * @brief The CollapsibleWidget class is an envelope that contains a user widget with a narrow
+ * toolbar on top.
+ *
+ * It is intended to be inserted in a splitter. The toolbar contains a collapse/expand button, which
+ * will hide and show the user widget.
+ */
 class CollapsibleWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit CollapsibleWidget(QWidget* context, QWidget* parent = nullptr);
+  explicit CollapsibleWidget(QWidget* context, QWidget* parent_widget = nullptr);
   ~CollapsibleWidget() override;
 
   void AddToSplitter(QSplitter* splitter);

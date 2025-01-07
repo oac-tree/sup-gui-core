@@ -30,8 +30,8 @@
 namespace sup::gui
 {
 
-CollapsibleListView::CollapsibleListView(QWidget *parent)
-    : QWidget(parent), m_splitter(new QSplitter)
+CollapsibleListView::CollapsibleListView(QWidget *parent_widget)
+    : QWidget(parent_widget), m_splitter(new QSplitter)
 {
   m_splitter->setOrientation(Qt::Vertical);
 

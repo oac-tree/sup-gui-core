@@ -29,8 +29,8 @@
 namespace sup::gui
 {
 
-CollapsibleWidget::CollapsibleWidget(QWidget *context, QWidget *parent)
-    : QWidget(parent), m_tool_bar(new CollapsibleToolBar)
+CollapsibleWidget::CollapsibleWidget(QWidget *context, QWidget *parent_widget)
+    : QWidget(parent_widget), m_tool_bar(new CollapsibleToolBar)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
