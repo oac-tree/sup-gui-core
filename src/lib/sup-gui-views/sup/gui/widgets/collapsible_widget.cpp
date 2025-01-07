@@ -21,7 +21,6 @@
 
 #include <sup/gui/widgets/collapsible_toolbar.h>
 
-#include <QAction>
 #include <QSplitter>
 #include <QToolBar>
 #include <QVBoxLayout>
@@ -29,24 +28,38 @@
 namespace sup::gui
 {
 
-CollapsibleWidget::CollapsibleWidget(QWidget *context, QWidget *parent_widget)
+CollapsibleWidget::CollapsibleWidget(QWidget *content, const QList<QAction *> &actions,
+                                     QWidget *parent_widget)
     : QWidget(parent_widget), m_tool_bar(new CollapsibleToolBar)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
-  layout->addWidget(context);
+  layout->addWidget(content);
+
+  // Please note, that a tool bar doesn't belong to this layout. It will go to the splitter
+  // separately.
+
   m_tool_bar->SetControlledWidget(this);
-  m_tool_bar->SetText(context->windowTitle(), context->toolTip());
+  m_tool_bar->SetText(content->windowTitle(), content->toolTip());
+  m_tool_bar->AddActions(actions);
 }
 
 CollapsibleWidget::~CollapsibleWidget() = default;
 
 void CollapsibleWidget::AddToSplitter(QSplitter *splitter)
 {
+  // we add to the splitter two widgets:
+  // - a tool bar which will always remain visible
+  // - this panel itself
+
   splitter->addWidget(m_tool_bar);
   splitter->setCollapsible(splitter->indexOf(m_tool_bar), false);
-
   splitter->addWidget(this);
+}
+
+void CollapsibleWidget::SetExpanded(bool value)
+{
+  m_tool_bar->SetExpanded(value);
 }
 
 CollapsibleToolBar *CollapsibleWidget::GetToolBar()

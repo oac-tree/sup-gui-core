@@ -45,7 +45,7 @@ public:
   explicit CollapsibleListView(QWidget* parent_widget = nullptr);
 
   /**
-   * @brief Adds widget to the splitter.
+   * @brief Adds user widget to the splitter.
    *
    * Widget is added as it is, without collapsible bar and menus.
    *
@@ -58,10 +58,12 @@ public:
    *
    * @param content User widget to show inside collapsible panel.
    * @param actions Associated widget actions.
+   * @param set_initially_expanded Show widget expanded according at first show.
    *
    * @return A collapsible tool bar which was created for handle panel collapse.
    */
-  CollapsibleToolBar* AddCollapsibleWidget(QWidget* content, const QList<QAction*>& actions);
+  CollapsibleToolBar* AddCollapsibleWidget(QWidget* content, const QList<QAction*>& actions,
+                                           bool set_initially_expanded = true);
 
   /**
    * @brief Returns internal splitter which is the basis of the whole thing.

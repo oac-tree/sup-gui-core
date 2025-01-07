@@ -46,17 +46,18 @@ void CollapsibleListView::AddWidget(QWidget *content)
 }
 
 CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
-                                                              const QList<QAction *> &actions)
+                                                              const QList<QAction *> &actions,
+                                                              bool set_initially_expanded)
 {
   if (!content)
   {
     throw RuntimeException("CollapsibleListView: can't add a null widget");
   }
-  auto collapsible_widget = new CollapsibleWidget(content);
-  collapsible_widget->AddToSplitter(m_splitter);
+  auto collapsible_widget = new CollapsibleWidget(content, actions);
 
-  // To show user actions in a tool bar.
-  collapsible_widget->GetToolBar()->AddActions(actions);
+  collapsible_widget->AddToSplitter(m_splitter);
+  collapsible_widget->SetExpanded(set_initially_expanded);
+
   return collapsible_widget->GetToolBar();
 }
 

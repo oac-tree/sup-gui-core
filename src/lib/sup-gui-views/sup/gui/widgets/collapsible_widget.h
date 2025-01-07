@@ -41,15 +41,35 @@ class CollapsibleWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit CollapsibleWidget(QWidget* context, QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * @param content The user widget which will be shown in collapsible panel.
+   * @param parent_widget The parent widfget.
+   */
+  explicit CollapsibleWidget(QWidget* content, const QList<QAction *> &actions, QWidget* parent_widget = nullptr);
   ~CollapsibleWidget() override;
 
+  /**
+   * @brief Add this collapsible widget to a given splitter.
+   *
+   * @param The splitter
+   */
   void AddToSplitter(QSplitter* splitter);
 
+  /**
+   * @brief Make user widget expanded or collapsed.
+   */
+  void SetExpanded(bool value);
+
+  /**
+   * @brief Returns underlying toolbar.
+   */
   CollapsibleToolBar* GetToolBar();
 
 private:
-  CollapsibleToolBar* m_tool_bar{nullptr};  // ToolBar intended to go to splitter separately
+  //!< a separate tool bar which doesn't belong to this widget
+  CollapsibleToolBar* m_tool_bar{nullptr};
 };
 
 }  // namespace sup::gui

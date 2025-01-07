@@ -35,8 +35,9 @@ namespace sup::gui
  * @brief The CollapsibleToolBar class is a narrow toolbar with the possibility to collapse/expand
  * controlled widget.
  *
- * @details Toolbar buttons are shown only when expanded. Looks like this: > LABEL BUTTON BUTTON
- * BUTTON. This toolbar is intended to function in a splitter as a part of CollapsibleListView.
+ * @details Toolbar buttons are shown only when expanded. Looks like this:
+ * > LABEL <STRETCH> BUTTON BUTTON BUTTON
+ * This toolbar is intended to function in a splitter as a part of CollapsibleListView.
  */
 class CollapsibleToolBar : public QFrame
 {
@@ -59,13 +60,24 @@ public:
   void SetControlledWidget(QWidget* widget);
 
   /**
-   * @brief Adds widget
+   * @brief Adds widget to a toolbar.
    */
   void AddWidget(QWidget* widget);
 
+  /**
+   * @brief Appends list of actions to a toolbar.
+   */
   void AddActions(const QList<QAction*>& actions);
 
+  /**
+   * @brief Returns underlying toolbar.
+   */
   QToolBar* GetToolBar();
+
+  /**
+   * @brief Set expanded state according to the given value.
+   */
+  void SetExpanded(bool value);
 
 private:
   /**

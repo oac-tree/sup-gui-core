@@ -50,12 +50,8 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget *parent_widget)
       "0px; }");
 
   m_expand_button->setIcon(utils::FindIcon("chevron-down"));
-  auto on_expand_click = [this]()
-  {
-    m_is_expanded = !m_is_expanded;
-    UpdateToolBar();
-  };
-  connect(m_expand_button, &QToolButton::clicked, this, on_expand_click);
+  auto on_toggle_expand = [this]() { SetExpanded(!m_is_expanded); };
+  connect(m_expand_button, &QToolButton::clicked, this, on_toggle_expand);
   m_tool_bar->addWidget(m_expand_button);
 
   m_tool_bar->addWidget(m_label);
@@ -98,6 +94,12 @@ void CollapsibleToolBar::AddActions(const QList<QAction *> &actions)
 QToolBar *CollapsibleToolBar::GetToolBar()
 {
   return m_tool_bar;
+}
+
+void CollapsibleToolBar::SetExpanded(bool value)
+{
+  m_is_expanded = value;
+  UpdateToolBar();
 }
 
 void CollapsibleToolBar::UpdateToolBar()
