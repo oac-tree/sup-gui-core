@@ -64,8 +64,8 @@ QList<QAction *> GetTableToolBarActions(WaveformEditorActions *editor_actions)
 
 }  // namespace
 
-WaveformEditorWidget::WaveformEditorWidget(QWidget *parent)
-    : QWidget(parent)
+WaveformEditorWidget::WaveformEditorWidget(QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_action_handler(new WaveformEditorActionHandler(CreateActionContext(), this))
     , m_actions(new WaveformEditorActions(m_action_handler, this))
     , m_splitter(new QSplitter)

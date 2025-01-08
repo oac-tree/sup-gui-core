@@ -22,7 +22,7 @@
 namespace sup::gui
 {
 
-SteadyMenu::SteadyMenu(QWidget *parent) : QMenu(parent) {}
+SteadyMenu::SteadyMenu(QWidget *parent_widget) : QMenu(parent_widget) {}
 
 SteadyMenu::~SteadyMenu() = default;
 

@@ -28,8 +28,8 @@
 namespace sup::gui
 {
 
-DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget *parent)
-    : QWidget(parent)
+DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_stack_widget(new sup::gui::ItemStackWidget)
     , m_waveform_editor(new WaveformEditorWidget)
 {

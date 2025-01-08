@@ -48,7 +48,7 @@ class ItemStackWidget : public QWidget
 
 public:
 
-  explicit ItemStackWidget(QWidget* parent = nullptr);
+  explicit ItemStackWidget(QWidget* parent_widget = nullptr);
 
   explicit ItemStackWidget(const QString& settings_group_name, QWidget* parent = nullptr);
 

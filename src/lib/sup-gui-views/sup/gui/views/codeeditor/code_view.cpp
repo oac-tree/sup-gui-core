@@ -51,8 +51,8 @@ QString LanguageName(sup::gui::CodeView::LanguageDefinition language)
 
 namespace sup::gui
 {
-CodeView::CodeView(LanguageDefinition language, QWidget *parent)
-    : QWidget(parent), m_text_edit(new CodeEditor), m_language(language)
+CodeView::CodeView(LanguageDefinition language, QWidget *parent_widget)
+    : QWidget(parent_widget), m_text_edit(new CodeEditor), m_language(language)
 {
   setWindowTitle(LanguageName(language) + " View");
 

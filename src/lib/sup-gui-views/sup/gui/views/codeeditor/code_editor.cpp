@@ -99,8 +99,8 @@ struct CodeEditor::CodeEditorImpl
   }
 };
 
-CodeEditor::CodeEditor(QWidget* parent)
-    : QPlainTextEdit(parent), p_impl(std::make_unique<CodeEditorImpl>(this))
+CodeEditor::CodeEditor(QWidget* parent_widget)
+    : QPlainTextEdit(parent_widget), p_impl(std::make_unique<CodeEditorImpl>(this))
 {
   setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 

@@ -48,7 +48,7 @@ class DtoComposerView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(QWidget* parent = nullptr);
+  explicit DtoComposerView(QWidget* parent_widget = nullptr);
   ~DtoComposerView() override;
 
   void SetModel(mvvm::ISessionModel* model);

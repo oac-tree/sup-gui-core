@@ -54,7 +54,7 @@ class WaveformEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit WaveformEditorWidget(QWidget* parent = nullptr);
+  explicit WaveformEditorWidget(QWidget* parent_widget = nullptr);
   ~WaveformEditorWidget() override;
 
   /**

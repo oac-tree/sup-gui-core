@@ -29,8 +29,8 @@
 namespace sup::gui
 {
 
-AnyValueWaveformEditor::AnyValueWaveformEditor(QWidget *parent)
-    : AbstractAnyValueEditor(parent), m_waveform_editor(new WaveformEditor(nullptr))
+AnyValueWaveformEditor::AnyValueWaveformEditor(QWidget *parent_widget)
+    : AbstractAnyValueEditor(parent_widget), m_waveform_editor(new WaveformEditor(nullptr))
 
 {
   auto layout = new QVBoxLayout(this);

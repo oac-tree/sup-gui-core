@@ -34,8 +34,8 @@
 namespace sup::gui
 {
 
-WaveformTableWidget::WaveformTableWidget(mvvm::ApplicationModel *model, QWidget *parent)
-    : QWidget(parent), m_table_view(new QTableView)
+WaveformTableWidget::WaveformTableWidget(mvvm::ApplicationModel *model, QWidget *parent_widget)
+    : QWidget(parent_widget), m_table_view(new QTableView)
 {
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   auto layout = new QHBoxLayout(this);

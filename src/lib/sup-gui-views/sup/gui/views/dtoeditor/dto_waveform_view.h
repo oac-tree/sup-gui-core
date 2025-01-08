@@ -48,7 +48,7 @@ class DtoWaveformView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoWaveformView(QWidget* parent = nullptr);
+  explicit DtoWaveformView(QWidget* parent_widget = nullptr);
   ~DtoWaveformView() override;
 
   /**

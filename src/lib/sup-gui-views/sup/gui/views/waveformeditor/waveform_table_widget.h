@@ -50,7 +50,7 @@ class WaveformTableWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit WaveformTableWidget(mvvm::ApplicationModel* model, QWidget* parent = nullptr);
+  explicit WaveformTableWidget(mvvm::ApplicationModel* model, QWidget* parent_widget = nullptr);
   ~WaveformTableWidget() override;
 
   void SetModel(mvvm::ApplicationModel* model);

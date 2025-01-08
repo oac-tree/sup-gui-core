@@ -54,7 +54,7 @@ class WaveformEditor : public QWidget
   Q_OBJECT
 
 public:
-  explicit WaveformEditor(QWidget* parent = nullptr);
+  explicit WaveformEditor(QWidget* parent_widget = nullptr);
   ~WaveformEditor() override;
 
   void SetWaveform(const std::vector<std::pair<double, double>>& waveform,

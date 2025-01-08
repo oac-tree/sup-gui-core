@@ -36,7 +36,7 @@ class SteadyMenu : public QMenu
   Q_OBJECT
 
 public:
-  explicit SteadyMenu(QWidget* parent = nullptr);
+  explicit SteadyMenu(QWidget* parent_widget = nullptr);
   ~SteadyMenu() override;
 
 protected:

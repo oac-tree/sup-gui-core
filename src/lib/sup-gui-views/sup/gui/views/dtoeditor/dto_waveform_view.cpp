@@ -33,8 +33,8 @@
 namespace sup::gui
 {
 
-DtoWaveformView::DtoWaveformView(QWidget* parent)
-    : QWidget(parent)
+DtoWaveformView::DtoWaveformView(QWidget* parent_widget)
+    : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_list_panel(new DtoWaveformListPanel)
     , m_editor_panel(new DtoWaveformEditorPanel)

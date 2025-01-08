@@ -44,7 +44,7 @@ QString GetSettingsKeyForIndex(const QString &settings_group_name)
 
 }  // namespace
 
-ItemStackWidget::ItemStackWidget(QWidget *parent) : ItemStackWidget(QString(), parent) {}
+ItemStackWidget::ItemStackWidget(QWidget *parent_widget) : ItemStackWidget(QString(), parent_widget) {}
 
 ItemStackWidget::ItemStackWidget(const QString &settings_group_name, QWidget *parent)
     : QWidget(parent)

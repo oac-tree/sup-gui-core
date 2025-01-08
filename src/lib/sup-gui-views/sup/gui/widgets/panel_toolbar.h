@@ -42,7 +42,7 @@ class PanelToolBar : public QToolBar
   Q_OBJECT
 
 public:
-  explicit PanelToolBar(QWidget* parent = nullptr);
+  explicit PanelToolBar(QWidget* parent_widget = nullptr);
 
   /**
    * @brief Sets toolbar label.

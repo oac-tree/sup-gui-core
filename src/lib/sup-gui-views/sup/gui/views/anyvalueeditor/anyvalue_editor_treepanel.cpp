@@ -37,8 +37,8 @@ const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 namespace sup::gui
 {
 
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent)
-    : QWidget(parent)
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
     , m_custom_header(

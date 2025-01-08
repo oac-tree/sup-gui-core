@@ -38,7 +38,7 @@ class CodeEditor : public QPlainTextEdit
   Q_OBJECT
 
 public:
-  explicit CodeEditor(QWidget *parent = nullptr);
+  explicit CodeEditor(QWidget *parent_widget = nullptr);
   ~CodeEditor() override;
 
   /**

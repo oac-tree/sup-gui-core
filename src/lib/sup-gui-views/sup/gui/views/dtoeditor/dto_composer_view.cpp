@@ -53,8 +53,8 @@ DtoComposerTabController::create_widget_callback_t CreateCallback()
 
 }  // namespace
 
-DtoComposerView::DtoComposerView(QWidget *parent)
-    : QWidget(parent)
+DtoComposerView::DtoComposerView(QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_tab_widget(new QTabWidget)
     , m_actions(new DtoComposerActions(this))
     , m_action_handler(new DtoComposerActionHandler(this))

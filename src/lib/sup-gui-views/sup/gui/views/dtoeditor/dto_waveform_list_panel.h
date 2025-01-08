@@ -52,7 +52,7 @@ class DtoWaveformListPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformListPanel(QWidget* parent = nullptr);
+  explicit DtoWaveformListPanel(QWidget* parent_widget = nullptr);
   ~DtoWaveformListPanel() override;
 
   /**

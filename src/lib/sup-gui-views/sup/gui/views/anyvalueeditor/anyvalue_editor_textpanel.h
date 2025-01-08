@@ -49,7 +49,7 @@ class AnyValueEditorTextPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTextPanel(QWidget* parent = nullptr);
+  explicit AnyValueEditorTextPanel(QWidget* parent_widget = nullptr);
   ~AnyValueEditorTextPanel() override;
 
   /**

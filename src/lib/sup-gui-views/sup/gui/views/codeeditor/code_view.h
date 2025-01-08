@@ -49,7 +49,7 @@ public:
     kJSON
   };
 
-  explicit CodeView(LanguageDefinition language = kXML, QWidget* parent = nullptr);
+  explicit CodeView(LanguageDefinition language = kXML, QWidget* parent_widget = nullptr);
   ~CodeView() override;
 
   void SetFile(const QString& file_name);

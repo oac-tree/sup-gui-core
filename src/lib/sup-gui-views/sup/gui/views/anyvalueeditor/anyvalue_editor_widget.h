@@ -53,7 +53,7 @@ class AnyValueEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorWidget(QWidget* parent = nullptr);
+  explicit AnyValueEditorWidget(QWidget* parent_widget = nullptr);
   ~AnyValueEditorWidget() override;
 
   /**

@@ -41,8 +41,8 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent)
-    : QWidget(parent), m_json_view(new CodeView(CodeView::kJSON))
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent_widget)
+    : QWidget(parent_widget), m_json_view(new CodeView(CodeView::kJSON))
 {
   setWindowTitle("JSON view");
 

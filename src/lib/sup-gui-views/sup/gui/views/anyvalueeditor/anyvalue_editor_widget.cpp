@@ -72,8 +72,8 @@ const QString kSplitterSettingName = kGroupName + "splitter";
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent)
-    : QWidget(parent)
+AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_action_handler(new AnyValueEditorActionHandler(CreateActionContext(), this))
     , m_actions(new AnyValueEditorActions(m_action_handler, this))
     , m_text_panel(new AnyValueEditorTextPanel)

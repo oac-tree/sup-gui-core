@@ -27,7 +27,7 @@
 namespace sup::gui
 {
 
-PanelToolBar::PanelToolBar(QWidget *parent) : QToolBar(parent), m_label(new QLabel)
+PanelToolBar::PanelToolBar(QWidget *parent_widget) : QToolBar(parent_widget), m_label(new QLabel)
 {
   setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   setIconSize(sup::gui::utils::ToolBarIconSize());

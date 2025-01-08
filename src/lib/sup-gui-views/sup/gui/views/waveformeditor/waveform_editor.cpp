@@ -36,8 +36,8 @@
 namespace sup::gui
 {
 
-WaveformEditor::WaveformEditor(QWidget *parent)
-    : QWidget(parent)
+WaveformEditor::WaveformEditor(QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_tool_bar(new QToolBar)
     , m_editor_widget(new WaveformEditorWidget)

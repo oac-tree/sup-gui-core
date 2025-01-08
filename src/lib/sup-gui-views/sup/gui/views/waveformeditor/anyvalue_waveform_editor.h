@@ -39,7 +39,7 @@ class AnyValueWaveformEditor : public AbstractAnyValueEditor
   Q_OBJECT
 
 public:
-  explicit AnyValueWaveformEditor(QWidget* parent = nullptr);
+  explicit AnyValueWaveformEditor(QWidget* parent_widget = nullptr);
   ~AnyValueWaveformEditor() override;
 
   void SetInitialValue(const sup::gui::AnyValueItem* item) override;
