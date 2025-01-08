@@ -148,7 +148,7 @@ QIcon GetIcon(const QString &resource_name, IconColorFlavor icon_flavor)
 
 QIcon FindIcon(const QString &icon_name, IconColorFlavor icon_flavor)
 {
-  // in accordance with the sup_ugi_core_icons.qrc file
+  // in accordance with the sup_gui_core_icons.qrc file
   return GetIcon(QString(":/sup-gui-core/icons/%1.svg").arg(icon_name), icon_flavor);
 }
 

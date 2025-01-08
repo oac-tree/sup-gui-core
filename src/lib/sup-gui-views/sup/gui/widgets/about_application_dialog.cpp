@@ -74,7 +74,7 @@ std::unique_ptr<QLayout> AboutApplicationDialog::CreateLogoLayout()
   auto label = new QLabel;
 
   label->setPixmap(
-      QPixmap(":/icons/iter_logo.png")
+      QPixmap(":/sup-gui-core/icons/iter_logo.png")
           .scaled(mvvm::utils::UnitSize(10), mvvm::utils::UnitSize(10), Qt::KeepAspectRatio));
 
   layout->addWidget(label);
