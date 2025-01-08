@@ -90,7 +90,7 @@ public:
   void SetCurrentWidget(QWidget* widget);
 
   /**
-   * @brief Read settings from storage using function provided.
+   * @brief Read settings from persistent storage using function provided.
    */
   void ReadSettings(const read_variant_func_t& read_func);
 
@@ -107,6 +107,7 @@ private:
 
   /**
    * @brief Add guest actions to the toolbar.
+   *
    * @param actions The list of action to add.
    * @param is_always_visible The flag which forces actions to be visible for any currently active
    * widget.
