@@ -106,10 +106,10 @@ void AdjustWidthOfColumns(QHeaderView *header, std::vector<int> stretch_factors)
   auto stretch_factor_sum = std::accumulate(stretch_factors.begin(), stretch_factors.end(), 0);
 
   const auto width = header->width();
-  for (size_t i = 0; i < header->count(); ++i)
+  for (int i = 0; i < header->count(); ++i)
   {
     // set column width proportional to stretch factors
-    header->resizeSection(i, width * stretch_factors[i] / stretch_factor_sum);
+    header->resizeSection(i, width * stretch_factors[static_cast<size_t>(i)] / stretch_factor_sum);
   }
 
   // last column might be off by one pixel
