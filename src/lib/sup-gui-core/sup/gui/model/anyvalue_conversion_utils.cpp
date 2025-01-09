@@ -108,7 +108,7 @@ std::unique_ptr<AnyValueItem> CreateItem(const sup::dto::AnyValue& any_value)
 {
   AnyValueItemBuilder builder;
   sup::dto::SerializeAnyValue(any_value, builder);
-  return std::move(builder.MoveAnyValueItem());
+  return builder.MoveAnyValueItem();
 }
 
 void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item)

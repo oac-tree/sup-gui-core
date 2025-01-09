@@ -54,5 +54,5 @@ std::unique_ptr<ITask> WorkerManager::TakeResult(Worker* worker)
   (void)m_workers.erase(std::next(m_workers.begin(), index));
 
   // returns completed task
-  return std::move(result);
+  return result;
 }
