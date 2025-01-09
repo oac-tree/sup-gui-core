@@ -29,7 +29,7 @@ namespace sup::gui
 {
 
 MenuActionContainer::MenuActionContainer(const QString &name, QMenu *menu)
-    : m_menu(menu), m_name(name)
+    : m_name(name), m_menu(menu)
 {
   if (!m_menu)
   {

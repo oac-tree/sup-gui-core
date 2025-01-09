@@ -34,8 +34,8 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
                                                    create_widget_callback_t callback,
                                                    QTabWidget *tab_widget, QObject *parent)
     : QObject(parent)
-    , m_create_widget_callback(std::move(callback))
     , m_model(model)
+    , m_create_widget_callback(std::move(callback))
     , m_tab_widget(tab_widget)
 {
   if (!tab_widget)

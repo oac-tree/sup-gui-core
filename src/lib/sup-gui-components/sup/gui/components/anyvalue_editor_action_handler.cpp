@@ -59,7 +59,7 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
                                                          mvvm::SessionItem* container,
                                                          QObject* parent)
-    : QObject(parent), m_container(container), m_context(std::move(context))
+    : QObject(parent), m_context(std::move(context)), m_container(container)
 {
 }
 
@@ -363,7 +363,7 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   if (!GetAnyValueItemContainer())
   {
     return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "No container exists"});
+        {kFailedActionTitle, kFailedActionText, "No container exists", ""});
   }
 
   const bool top_item_exists = GetTopItem() != nullptr;
@@ -372,13 +372,13 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   if (top_item_exists && (top_item_selected || no_selection))
   {
     return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "There can be only one top-level item"});
+        {kFailedActionTitle, kFailedActionText, "There can be only one top-level item", ""});
   }
 
   if (item_type.empty())
   {
     return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]"});
+        {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]", ""});
   }
 
   // Checking if there is a selection inside another parent. To paste after this selection, the
@@ -389,7 +389,8 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
         item_type, selected_item->GetParent(), selected_item->GetTagIndex().Next());
     if (!success_flag)
     {
-      return sup::gui::QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative});
+      return sup::gui::QueryResult::Failure(
+          {kFailedActionTitle, kFailedActionText, informative, ""});
     }
   }
 
@@ -405,19 +406,19 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
   if (!GetAnyValueItemContainer())
   {
     return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "No container exists"});
+        {kFailedActionTitle, kFailedActionText, "No container exists", ""});
   }
 
   if (!GetSelectedItem())
   {
     return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "No item selected"});
+        {kFailedActionTitle, kFailedActionText, "No item selected", ""});
   }
 
   if (item_type.empty())
   {
     return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]"});
+        {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]", ""});
   }
 
   // Checking if there is a selection inside another parent. To paste after this selection, the
@@ -428,7 +429,8 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
         mvvm::utils::CanInsertType(item_type, selected_item, mvvm::TagIndex::Append());
     if (!success_flag)
     {
-      return sup::gui::QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative});
+      return sup::gui::QueryResult::Failure(
+          {kFailedActionTitle, kFailedActionText, informative, ""});
     }
   }
 

@@ -106,13 +106,12 @@ private:
   void ClearWidgets();
 
   mvvm::ISessionModel* m_model{nullptr};
+  create_widget_callback_t m_create_widget_callback;
   QTabWidget* m_tab_widget{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;
 
   //!< correspondance of AnyValueItem container to AnyValueEditorWidget
   std::map<const mvvm::SessionItem*, QWidget*> m_widget_map;
-
-  create_widget_callback_t m_create_widget_callback;
 };
 
 }  // namespace sup::gui

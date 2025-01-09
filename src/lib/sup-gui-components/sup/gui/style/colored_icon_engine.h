@@ -59,8 +59,8 @@ private:
   void AddMappings(const QColor& color, const QList<QIcon::Mode>& modes,
                    const QList<QIcon::State>& states = {QIcon::On, QIcon::Off});
 
-  QHash<QPair<QIcon::Mode, QIcon::State>, QColor> m_color_map;
   QIcon m_icon;
+  QHash<QPair<QIcon::Mode, QIcon::State>, QColor> m_color_map;
 };
 
 }  // namespace sup::gui
