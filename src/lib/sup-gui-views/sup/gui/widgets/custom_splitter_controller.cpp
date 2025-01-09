@@ -137,6 +137,7 @@ void CustomSplitterController::UpdateChildrenVisibilityCache()
 
 bool CustomSplitterController::eventFilter(QObject *obj, QEvent *event)
 {
+  (void) obj;
   // We update the visibility cache each time the children's visibility flag changes wrt visibility
   // flag of splitter itself. This excludes subtle moment of destruction when all widgets are
   // changing to invisible state.

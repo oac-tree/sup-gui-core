@@ -33,6 +33,8 @@ VisibilityAgentBase::VisibilityAgentBase(QObject *parent, callback_t subscribe,
 
 bool VisibilityAgentBase::eventFilter(QObject *obj, QEvent *event)
 {
+  (void) obj;
+
   if (event->type() == QEvent::Show)
   {
     m_subscribe_callback();

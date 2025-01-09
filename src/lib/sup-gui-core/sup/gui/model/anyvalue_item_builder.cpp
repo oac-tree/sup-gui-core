@@ -39,10 +39,14 @@ std::unique_ptr<AnyValueItem> AnyValueItemBuilder::MoveAnyValueItem()
 
 void AnyValueItemBuilder::EmptyProlog(const anyvalue_t *anyvalue)
 {
+  (void)anyvalue;
   AddItem(std::make_unique<AnyValueEmptyItem>());
 }
 
-void AnyValueItemBuilder::EmptyEpilog(const anyvalue_t *anyvalue) {}
+void AnyValueItemBuilder::EmptyEpilog(const anyvalue_t *anyvalue)
+{
+  (void)anyvalue;
+}
 
 void AnyValueItemBuilder::StructProlog(const anyvalue_t *anyvalue)
 {
@@ -53,7 +57,10 @@ void AnyValueItemBuilder::StructProlog(const anyvalue_t *anyvalue)
 
 void AnyValueItemBuilder::StructMemberSeparator() {}
 
-void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue) {}
+void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue)
+{
+  (void)anyvalue;
+}
 
 //! Append new child with the display name corresponding to `member_name`.
 //! Update

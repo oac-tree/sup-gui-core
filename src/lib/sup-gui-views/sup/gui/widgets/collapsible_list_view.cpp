@@ -36,7 +36,7 @@ const QString kDefaultSettingGroup = "CollapsibleListView";
 }
 
 CollapsibleListView::CollapsibleListView(QWidget *parent_widget)
-    : CollapsibleListView(kDefaultSettingGroup)
+    : CollapsibleListView(kDefaultSettingGroup, parent_widget)
 {
 }
 

@@ -49,7 +49,7 @@ public:
   /**
    * @brief Sets the description of the editor.
    */
-  virtual void SetDescription(const QString& description) {};
+  virtual void SetDescription(const QString& description) {(void)description;};
 
   /**
    * @brief Returns the result of editing.

@@ -107,6 +107,7 @@ void CollapsibleToolBar::SetExpanded(bool value)
 
 bool CollapsibleToolBar::eventFilter(QObject *obj, QEvent *event)
 {
+  (void) obj;
   // We are here because the collapse/expand state of the controlled widget has been changed
   // programmatically, via ReadSettings mechanism. Have to update icons.
 

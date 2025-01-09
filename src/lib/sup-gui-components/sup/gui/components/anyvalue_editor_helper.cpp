@@ -45,6 +45,8 @@ namespace sup::gui
 std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
                                               const mvvm::SessionItem& child)
 {
+  (void)child;
+
   const auto prefix = GetElementPrefix(parent);  // "field" for struct, and "element" for arrays
 
   // if prefix is valid, suggest the name which is based on number of previous children

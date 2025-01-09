@@ -71,6 +71,7 @@ void WaveformDisplayController::UpdateDisplayStatus()
 
 void WaveformDisplayController::OnModelEvent(const mvvm::ItemInsertedEvent& event)
 {
+  (void)event;
   if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
   {
     return;
@@ -81,6 +82,7 @@ void WaveformDisplayController::OnModelEvent(const mvvm::ItemInsertedEvent& even
 
 void WaveformDisplayController::OnModelEvent(const mvvm::ItemRemovedEvent& event)
 {
+  (void)event;
   if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
   {
     return;
