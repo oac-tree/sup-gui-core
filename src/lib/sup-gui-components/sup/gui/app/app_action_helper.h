@@ -135,6 +135,16 @@ AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command
  */
 bool AppAddActionToCommand(QAction* action, const QString& command_id, const AppContext& context);
 
+/**
+ * @brief Find proxy action corresponding to the given comman identifier.
+ *
+ * This action has been added to the main application menu using AppAddCommandToMenu.
+ *
+ * @param command_id An identifier under which command is registered in AppCommandManager.
+ * @return Proxy action in the toolbar.
+ */
+QAction* FindProxyAction(const QString& command_id);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_APP_APP_ACTION_HELPER_H_

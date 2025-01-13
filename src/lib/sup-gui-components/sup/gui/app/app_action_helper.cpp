@@ -130,4 +130,14 @@ bool AppAddActionToCommand(QAction *action, const QString &command_id, const App
   return sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
 }
 
+QAction *FindProxyAction(const QString &command_id)
+{
+  if (auto command = sup::gui::GetGlobalCommandManager().GetCommand(command_id); command)
+  {
+    return command->GetProxyAction();
+  }
+
+  return nullptr;
+}
+
 }  // namespace sup::gui
