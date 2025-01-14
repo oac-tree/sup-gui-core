@@ -1,3 +1,19 @@
+Changes for 1.6.0:
+
+- COA Release v2.3, January 2025
+- Round of Sonar/Misra/Parasoft code quality fixes
+- Switch to Qt6 by default
+- Support for dark themes
+- Provide the saving of persistence settings for ItemStackWidget and CollapsibleListView
+- Implement CustomSplitter
+- Refactoring of icon rendering engine and icon find machinery
+- Switch to new sup-mvvm project save/load machinery
+- New waveform editor on board of sup-dto-editor for multiple waveforms
+- Fix bug with project load when multiple documents are opened
+- Switch to a new sup-mvvm clone machinery
+- Project and user interaction machinery is moved to sup-mvvm
+- Prototype of the persistent setting model
+
 Changes for 1.5.0:
 
 - CODAC Core System Release 7.2.1
