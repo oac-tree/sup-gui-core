@@ -25,6 +25,7 @@
 #include <sup/gui/model/anyvalue_utils.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/codeeditor/code_view.h>
+#include <sup/gui/widgets/message_handler_factory.h>
 #include <sup/gui/widgets/visibility_agent_base.h>
 
 #include <mvvm/model/model_utils.h>
@@ -42,7 +43,9 @@ namespace sup::gui
 {
 
 AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent_widget)
-    : QWidget(parent_widget), m_json_view(new CodeView(CodeView::kJSON))
+    : QWidget(parent_widget)
+    , m_json_view(new CodeView(CodeView::kJSON))
+    , m_message_handler(sup::gui::CreateWidgetOverlayMessageHandler(m_json_view))
 {
   setWindowTitle("JSON view");
 
@@ -61,7 +64,7 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent_widget)
     m_json_view->ClearText();
   };
   // will be deleted as a child of QObject
-  m_visibility_agent = new sup::gui::VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
+  m_visibility_agent = new VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
 }
 
 AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
@@ -89,6 +92,14 @@ void AnyValueEditorTextPanel::SetJSONPretty(bool value)
 mvvm::ISessionModel *AnyValueEditorTextPanel::GetModel()
 {
   return m_container ? m_container->GetModel() : nullptr;
+}
+
+void AnyValueEditorTextPanel::SendMessage(const std::string &what) const
+{
+  const std::string title("JSON generation failed");
+  const std::string text("The AnyValue being edited is in inconsistent state");
+  MessageEvent message{title, text, what, ""};
+  m_message_handler->SendMessage(message);
 }
 
 void AnyValueEditorTextPanel::SetupActions()
@@ -126,6 +137,7 @@ void AnyValueEditorTextPanel::UpdateJson()
     catch (const std::exception &ex)
     {
       m_json_view->ClearText();
+      SendMessage(ex.what());
     }
   }
   else

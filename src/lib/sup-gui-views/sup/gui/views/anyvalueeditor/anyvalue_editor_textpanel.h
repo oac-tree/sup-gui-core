@@ -65,6 +65,7 @@ signals:
 
 private:
   mvvm::ISessionModel* GetModel();
+  void SendMessage(const std::string& what) const;
 
   void SetupActions();
   void UpdateJson();
@@ -78,7 +79,8 @@ private:
   mvvm::SessionItem* m_container{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;
   bool m_pretty_json{true};
-  sup::gui::VisibilityAgentBase* m_visibility_agent{nullptr};
+  VisibilityAgentBase* m_visibility_agent{nullptr};
+  std::unique_ptr<MessageHandlerInterface> m_message_handler;
 };
 
 }  // namespace sup::gui
