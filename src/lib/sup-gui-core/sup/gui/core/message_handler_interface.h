@@ -25,7 +25,7 @@
 namespace sup::gui
 {
 
-class MessageEvent;
+struct MessageEvent;
 
 /**
  * @brief The MessageHandlerInterface class is an interface to send the message to the user.

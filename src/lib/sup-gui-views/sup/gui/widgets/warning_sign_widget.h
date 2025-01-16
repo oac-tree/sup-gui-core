@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_WIDGETS_WARNING_SIGN_WIDGET_H_
 #define SUP_GUI_WIDGETS_WARNING_SIGN_WIDGET_H_
 
+#include <sup/gui/core/message_event.h>
+
 #include <QPixmap>
 #include <QWidget>
 
@@ -37,7 +39,7 @@ class WarningSignWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit WarningSignWidget(const QString& message, QWidget* parent_widget = nullptr);
+  explicit WarningSignWidget(const MessageEvent& message, QWidget* parent_widget = nullptr);
 
   void SetHeader(const QString& header);
 
@@ -49,9 +51,9 @@ protected:
 
 private:
   QString m_header;
-  QString m_message;
   QPixmap m_pixmap;
   bool m_is_busy{false};
+  MessageEvent m_message;
 };
 
 }  // namespace sup::gui

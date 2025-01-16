@@ -33,7 +33,7 @@ WidgetOverlayMessageHandler::~WidgetOverlayMessageHandler() = default;
 
 void WidgetOverlayMessageHandler::SendMessage(const sup::gui::MessageEvent &message)
 {
-  m_message_publisher->AddMessage(QString::fromStdString(message.text));
+  m_message_publisher->AddMessage(message);
 }
 
 }  // namespace sup::gui

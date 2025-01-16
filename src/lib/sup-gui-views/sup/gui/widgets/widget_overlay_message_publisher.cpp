@@ -42,10 +42,10 @@ WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(QWidget *widget)
 
 WidgetOverlayMessagePublisher::~WidgetOverlayMessagePublisher() = default;
 
-void WidgetOverlayMessagePublisher::AddMessage(const QString &text)
+void WidgetOverlayMessagePublisher::AddMessage(const MessageEvent &message)
 {
   // in the current implementation new message replaces the old one
-  m_message = std::make_unique<OverlayMessage>(text, m_target_widget);
+  m_message = std::make_unique<OverlayMessage>(message, m_target_widget);
 
   m_timer->start();  // starting timer to delete a message after a while
 }

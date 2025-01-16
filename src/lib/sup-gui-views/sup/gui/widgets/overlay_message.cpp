@@ -27,9 +27,9 @@ namespace sup::gui
 
 OverlayMessage::~OverlayMessage() = default;
 
-OverlayMessage::OverlayMessage(const QString &text, QWidget *area)
+OverlayMessage::OverlayMessage(const MessageEvent &message, QWidget *area)
 {
-  m_message_widget = std::make_unique<WarningSignWidget>(text, area);
+  m_message_widget = std::make_unique<WarningSignWidget>(message, area);
   m_position_strategy =
       std::make_unique<OverlayWidgetPositionStrategy>(m_message_widget.get(), area);
 }

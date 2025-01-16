@@ -20,8 +20,9 @@
 #ifndef SUP_GUI_WIDGETS_OVERLAY_MESSAGE_H_
 #define SUP_GUI_WIDGETS_OVERLAY_MESSAGE_H_
 
+#include <sup/gui/core/message_event.h>
+
 class QWidget;
-class QString;
 
 #include <memory>
 
@@ -36,9 +37,12 @@ class OverlayWidgetPositionStrategy;
 class OverlayMessage
 {
 public:
-  explicit OverlayMessage(const QString& text, QWidget* area);
+  explicit OverlayMessage(const MessageEvent& message, QWidget* area);
   ~OverlayMessage();
 
+  /**
+   * @brief Checks if given overlay message can be removed from widget.
+   */
   bool CanBeDeleted();
 
 private:

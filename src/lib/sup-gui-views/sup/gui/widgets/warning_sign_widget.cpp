@@ -19,10 +19,11 @@
 
 #include "warning_sign_widget.h"
 
+#include "message_helper.h"
+
 #include <sup/gui/style/style_helper.h>
 
 #include <QIcon>
-#include <QMessageBox>
 #include <QPainter>
 #include <QRect>
 
@@ -43,11 +44,11 @@ QRect GetPixmapRect()
 namespace sup::gui
 {
 
-WarningSignWidget::WarningSignWidget(const QString &message, QWidget *parent_widget)
+WarningSignWidget::WarningSignWidget(const MessageEvent &message, QWidget *parent_widget)
     : QWidget(parent_widget)
     , m_header("Houston, we have a problem.")
-    , m_message(message)
     , m_pixmap(":/sup-gui-core/icons/bell-alert-outline.svg")
+    , m_message(message)
 {
   setAttribute(Qt::WA_NoSystemBackground);
   setToolTip("Click to see details");
@@ -76,14 +77,10 @@ void WarningSignWidget::paintEvent(QPaintEvent *event)
 
 void WarningSignWidget::mousePressEvent(QMouseEvent *event)
 {
-  m_is_busy = true;
   Q_UNUSED(event);
-  QMessageBox box;
-  box.setWindowTitle(m_header);
-  box.setInformativeText(m_message);
-  box.setStandardButtons(QMessageBox::Ok);
-  box.setDefaultButton(QMessageBox::Ok);
-  box.exec();
+
+  m_is_busy = true;
+  SendWarningMessage(m_message);
   m_is_busy = false;
 }
 

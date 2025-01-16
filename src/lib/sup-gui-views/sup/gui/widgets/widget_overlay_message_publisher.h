@@ -20,6 +20,8 @@
 #ifndef SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_PUBLISHER_H_
 #define SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_PUBLISHER_H_
 
+#include <sup/gui/core/message_event.h>
+
 #include <QObject>
 #include <memory>
 
@@ -45,7 +47,7 @@ public:
   explicit WidgetOverlayMessagePublisher(QWidget* target_widget);
   ~WidgetOverlayMessagePublisher() override;
 
-  void AddMessage(const QString& text);
+  void AddMessage(const MessageEvent& message);
 
 private:
   void RemoveMessageOnTimeout();
