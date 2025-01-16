@@ -31,11 +31,19 @@ namespace
 {
 
 /**
+ * @brief Returns size of pixmap
+ */
+QSize GetPixmapSize()
+{
+  return sup::gui::utils::ToolBarIconSize();
+}
+
+/**
  * @brief Returns rectangle to draw a pixmap.
  */
 QRect GetPixmapRect()
 {
-  auto size = sup::gui::utils::ToolBarIconSize();
+  auto size = GetPixmapSize();
   return {0, 0, size.width(), size.width()};
 }
 
@@ -45,13 +53,13 @@ namespace sup::gui
 {
 
 WarningSignWidget::WarningSignWidget(const MessageEvent &message, QWidget *parent_widget)
-    : QWidget(parent_widget)
-    , m_header("Houston, we have a problem.")
-    , m_pixmap(":/sup-gui-core/icons/bell-alert-outline.svg")
-    , m_message(message)
+    : QWidget(parent_widget), m_header("Houston, we have a problem."), m_message(message)
 {
   setAttribute(Qt::WA_NoSystemBackground);
   setToolTip("Click to see details");
+
+  auto icon = utils::FindIcon("bell-alert-outline");
+  m_pixmap = icon.pixmap(GetPixmapSize());
 
   auto rect = GetPixmapRect();
   setGeometry(0, 0, rect.width(), rect.height());
