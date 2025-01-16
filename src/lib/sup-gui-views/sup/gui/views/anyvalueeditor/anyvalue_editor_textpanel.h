@@ -39,6 +39,7 @@ namespace sup::gui
 class CodeView;
 class VisibilityAgentBase;
 class AnyValueItem;
+class MessageHandlerInterface;
 
 /**
  * @brief The AnyValueEditorTextPanel class represents a collapsible panel on the right of

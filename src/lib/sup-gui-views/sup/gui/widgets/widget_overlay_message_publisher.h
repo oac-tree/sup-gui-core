@@ -33,7 +33,7 @@ class OverlayMessage;
 
 /**
  * @brief The WidgetOverlayMessagePublisher class controls the appearance of the overlay messages on
- * top of arbitrary widget.
+ * top of arbitrary widgets.
  *
  * The current simplified implementation allows a single message at the corner of the target widget.
  */

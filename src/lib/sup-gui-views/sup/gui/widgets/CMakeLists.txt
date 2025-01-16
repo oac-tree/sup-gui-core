@@ -21,6 +21,8 @@ target_sources(${library_name} PRIVATE
   dialog_helper.h
   item_stack_widget.cpp
   item_stack_widget.h
+  message_handler_factory.cpp
+  message_handler_factory.h
   message_helper.cpp
   message_helper.h
   overlay_message.cpp
