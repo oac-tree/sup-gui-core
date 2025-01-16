@@ -19,6 +19,8 @@
 
 #include "anyvalue_editor_main_window_actions.h"
 
+#include "about_application_dialog.h"
+
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/app_command.h>
@@ -26,7 +28,6 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/widgets/about_application_dialog.h>
 
 #include <mvvm/project/project_handler.h>
 #include <mvvm/project/project_handler_utils.h>

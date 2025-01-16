@@ -1,8 +1,6 @@
 # Collection of general purpose widgets with the dependency on Qt only.
 
 target_sources(${library_name} PRIVATE
-  about_application_dialog.cpp
-  about_application_dialog.h
   action_menu.cpp
   action_menu.h
   collapsible_list_view.cpp

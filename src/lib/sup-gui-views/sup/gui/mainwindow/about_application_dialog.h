@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_WIDGETS_ABOUT_APPLICATION_DIALOG_H_
-#define SUP_GUI_WIDGETS_ABOUT_APPLICATION_DIALOG_H_
+#ifndef SUP_GUI_MAINWINDOW_ABOUT_APPLICATION_DIALOG_H_
+#define SUP_GUI_MAINWINDOW_ABOUT_APPLICATION_DIALOG_H_
 
 #include <QDialog>
 #include <QLabel>
@@ -56,4 +56,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_WIDGETS_ABOUT_APPLICATION_DIALOG_H_
+#endif  // SUP_GUI_MAINWINDOW_ABOUT_APPLICATION_DIALOG_H_
