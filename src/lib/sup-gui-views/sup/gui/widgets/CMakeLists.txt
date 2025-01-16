@@ -41,6 +41,8 @@ target_sources(${library_name} PRIVATE
   visibility_agent_base.h
   warning_sign_widget.cpp
   warning_sign_widget.h
+  widget_overlay_message_handler.cpp
+  widget_overlay_message_handler.h
   widget_overlay_message_publisher.cpp
   widget_overlay_message_publisher.h
   )
