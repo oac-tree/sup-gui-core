@@ -47,7 +47,7 @@ WarningSignWidget::WarningSignWidget(const QString &message, QWidget *parent_wid
     : QWidget(parent_widget)
     , m_header("Houston, we have a problem.")
     , m_message(message)
-    , m_pixmap(":/sup-gui/icons/bell-alert-outline.svg")
+    , m_pixmap(":/sup-gui-core/icons/bell-alert-outline.svg")
 {
   setAttribute(Qt::WA_NoSystemBackground);
   setToolTip("Click to see details");

@@ -25,6 +25,8 @@ target_sources(${library_name} PRIVATE
   item_stack_widget.h
   message_helper.cpp
   message_helper.h
+  overlay_message.cpp
+  overlay_message.h
   overlay_message_frame.cpp
   overlay_message_frame.h
   overlay_widget_position_strategy.cpp
@@ -39,6 +41,6 @@ target_sources(${library_name} PRIVATE
   visibility_agent_base.h
   warning_sign_widget.cpp
   warning_sign_widget.h
-  overlay_message.cpp
-  overlay_message.h
+  widget_overlay_message_publisher.cpp
+  widget_overlay_message_publisher.h
   )
