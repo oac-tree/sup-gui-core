@@ -50,8 +50,8 @@ private:
   void UpdateOverlayWidgetGeometry();
 
   /**
-   * @brief Calculates position of the message widget to be approximately at the lower right corner
-   * of the area.
+   * @brief Calculates the position of the message widget to be approximately at the lower right
+   * corner of the area.
    *
    * Takes into account scroll bars if exist.
    */
