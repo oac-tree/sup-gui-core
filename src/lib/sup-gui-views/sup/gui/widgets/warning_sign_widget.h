@@ -41,8 +41,6 @@ class WarningSignWidget : public QWidget
 public:
   explicit WarningSignWidget(const MessageEvent& message, QWidget* parent_widget = nullptr);
 
-  void SetHeader(const QString& header);
-
   bool IsBusy() const;
 
 protected:
@@ -50,7 +48,6 @@ protected:
   void mousePressEvent(QMouseEvent* event) override;
 
 private:
-  QString m_header;
   QPixmap m_pixmap;
   bool m_is_busy{false};
   MessageEvent m_message;

@@ -53,7 +53,7 @@ namespace sup::gui
 {
 
 WarningSignWidget::WarningSignWidget(const MessageEvent &message, QWidget *parent_widget)
-    : QWidget(parent_widget), m_header("Houston, we have a problem."), m_message(message)
+    : QWidget(parent_widget), m_message(message)
 {
   setAttribute(Qt::WA_NoSystemBackground);
   setToolTip("Click to see details");
@@ -63,11 +63,6 @@ WarningSignWidget::WarningSignWidget(const MessageEvent &message, QWidget *paren
 
   auto rect = GetPixmapRect();
   setGeometry(0, 0, rect.width(), rect.height());
-}
-
-void WarningSignWidget::SetHeader(const QString &header)
-{
-  m_header = header;
 }
 
 bool WarningSignWidget::IsBusy() const
