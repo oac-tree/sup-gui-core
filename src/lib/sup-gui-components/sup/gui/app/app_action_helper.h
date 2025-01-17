@@ -86,7 +86,13 @@ IActionContainer* AppAddMenu(const QString& menu_name);
 QMenu* AppGetMenu(const QString& menu_name);
 
 /**
- * @brief Register and add action to the menu.
+ * @brief Registers action and add it to the menu.
+ *
+ * The ownership of the action is not taken.
+ *
+ * @param menu_name The name of already existing menu added via AddMenu call.
+ * @param action User action to add.
+ * @return True if action was added, or false if no such menu was registered.
  */
 bool AppRegisterAction(const QString& menu_name, QAction* action);
 

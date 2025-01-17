@@ -96,8 +96,6 @@ AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent_widget)
   SetupConnections();
   SetupWidgetActions();
   ReadSettings();
-
-  m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
@@ -222,7 +220,10 @@ void AnyValueEditorWidget::SetupWidgetActions()
   connect(m_show_right_sidebar, &QAction::triggered, this,
           [this](auto) { m_right_panel->setVisible(!m_right_panel->isVisible()); });
 
-  sup::gui::AppRegisterAction(sup::gui::constants::kViewMenu, m_show_right_sidebar);
+  auto context = AppRegisterWidgetUniqueId(this);
+  m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
+  AppAddActionToCommand(m_show_right_sidebar, sup::gui::constants::kToggleRightPanelCommandId,
+                        context);
 }
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const

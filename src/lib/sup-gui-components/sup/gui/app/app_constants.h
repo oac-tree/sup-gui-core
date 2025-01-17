@@ -46,6 +46,8 @@ const QString kPasteCommandId = "Paste";
 const QString kPasteSpecialCommandId = "Paste Special";
 const QString kUndoCommandId = "Undo";
 const QString kRedoCommandId = "Redo";
+const QString kToggleLeftPanelCommandId = "Show/hide left panel";
+const QString kToggleRightPanelCommandId = "Show/hide right panel";
 
 //! identifiers to distinguish XML projects from different applications
 const QString kAnyValueEditorApplicationType = "AnyValueEditor";

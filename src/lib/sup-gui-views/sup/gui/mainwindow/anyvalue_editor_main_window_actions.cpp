@@ -28,6 +28,8 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/mainwindow/status_bar_helper.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <mvvm/project/project_handler.h>
 #include <mvvm/project/project_handler_utils.h>
@@ -36,6 +38,8 @@
 #include <QAction>
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QStatusBar>
+#include <QToolButton>
 
 namespace sup::gui
 {
@@ -51,6 +55,7 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::IProject 
 
   CreateActions(mainwindow);
   SetupMenus();
+  SetupStatusBar(mainwindow->statusBar());
 }
 
 AnyValueEditorMainWindowActions::~AnyValueEditorMainWindowActions() = default;
@@ -63,6 +68,17 @@ bool AnyValueEditorMainWindowActions::CloseCurrentProject() const
 void AnyValueEditorMainWindowActions::UpdateProjectNames()
 {
   m_project_handler->UpdateNames();
+}
+
+void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
+{
+  m_toggle_right_sidebar_button = new QToolButton;
+  m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
+  m_toggle_right_sidebar_button->setIcon(utils::FindIcon("dock-right"));
+  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button,
+                                 sup::gui::constants::kToggleRightPanelCommandId);
+
+  status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
 }
 
 void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
@@ -171,7 +187,12 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
   menu->addAction(m_import_waveform_action);
 }
 
-void AnyValueEditorMainWindowActions::SetupViewMenu() {}
+void AnyValueEditorMainWindowActions::SetupViewMenu()
+{
+  auto command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kViewMenu,
+                                               sup::gui::constants::kToggleRightPanelCommandId);
+  command->SetShortcut(QKeySequence("Alt+Shift+0"));
+}
 
 void AnyValueEditorMainWindowActions::SetupHelpMenu()
 {
