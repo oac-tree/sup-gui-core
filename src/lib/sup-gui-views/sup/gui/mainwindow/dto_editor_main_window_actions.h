@@ -29,6 +29,8 @@ class QMainWindow;
 class QMenuBar;
 class QAction;
 class QMenu;
+class QStatusBar;
+class QToolButton;
 
 namespace mvvm
 {
@@ -64,7 +66,17 @@ public:
    */
   bool CloseCurrentProject() const;
 
+  /**
+   * @brief Update currently opened project name.
+   *
+   * Handles modified status of project name, updates recent project list.
+   */
   void UpdateProjectNames();
+
+  /**
+   * @brief Populates external status bar with actions.
+   */
+  void SetupStatusBar(QStatusBar* status_bar);
 
 signals:
   void RestartApplicationRequest(sup::gui::AppExitCode);
@@ -88,6 +100,9 @@ private:
   QAction* m_about_action{nullptr};
 
   QMenu* m_recent_project_menu{nullptr};
+
+  QToolButton* m_toggle_left_sidebar_button{nullptr};
+  QToolButton* m_toggle_right_sidebar_button{nullptr};
 
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
   std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;

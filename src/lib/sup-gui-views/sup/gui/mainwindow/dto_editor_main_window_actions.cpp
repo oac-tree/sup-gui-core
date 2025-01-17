@@ -28,6 +28,8 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/mainwindow/status_bar_helper.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <mvvm/project/project_handler.h>
 #include <mvvm/project/project_handler_utils.h>
@@ -36,6 +38,8 @@
 #include <QAction>
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QStatusBar>
+#include <QToolButton>
 
 namespace sup::gui
 {
@@ -64,6 +68,27 @@ bool DtoEditorMainWindowActions::CloseCurrentProject() const
 void DtoEditorMainWindowActions::UpdateProjectNames()
 {
   m_project_handler->UpdateNames();
+}
+
+void DtoEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
+{
+  status_bar->setVisible(true);
+
+  m_toggle_left_sidebar_button = new QToolButton;
+  m_toggle_left_sidebar_button->setToolTip("Show/hide left panel");
+  m_toggle_left_sidebar_button->setIcon(utils::FindIcon("dock-left"));
+  sup::gui::SetupStatusBarButton(m_toggle_left_sidebar_button,
+                                 sup::gui::constants::kToggleLeftPanelCommandId);
+
+  m_toggle_right_sidebar_button = new QToolButton;
+  m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
+  m_toggle_right_sidebar_button->setIcon(utils::FindIcon("dock-right"));
+  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button,
+                                 sup::gui::constants::kToggleRightPanelCommandId);
+
+  status_bar->addPermanentWidget(m_toggle_left_sidebar_button, 0);
+  AddPermanentStretch(status_bar);
+  status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
 }
 
 void DtoEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
@@ -149,7 +174,16 @@ void DtoEditorMainWindowActions::SetupEditMenu()
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
 }
 
-void DtoEditorMainWindowActions::SetupViewMenu() {}
+void DtoEditorMainWindowActions::SetupViewMenu()
+{
+  auto command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kViewMenu,
+                                               sup::gui::constants::kToggleLeftPanelCommandId);
+  command->SetShortcut(QKeySequence("Alt+0"));
+
+  command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kViewMenu,
+                                          sup::gui::constants::kToggleRightPanelCommandId);
+  command->SetShortcut(QKeySequence("Alt+Shift+0"));
+}
 
 void DtoEditorMainWindowActions::SetupHelpMenu()
 {

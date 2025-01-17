@@ -107,6 +107,8 @@ void DtoEditorMainWindow::InitComponents()
           &DtoEditorMainWindow::OnRestartRequest);
   connect(m_action_manager, &DtoEditorMainWindowActions::ProjectLoaded, this,
           &DtoEditorMainWindow::OnProjectLoad);
+
+  m_action_manager->SetupStatusBar(m_tab_widget->GetStatusBar());
 }
 
 void DtoEditorMainWindow::ReadSettings()
