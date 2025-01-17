@@ -221,7 +221,7 @@ void AnyValueEditorWidget::SetupWidgetActions()
           [this](auto) { m_right_panel->setVisible(!m_right_panel->isVisible()); });
 
   auto context = AppRegisterWidgetUniqueId(this);
-  m_actions->RegisterActionsForContext(AppRegisterWidgetUniqueId(this));
+  m_actions->RegisterActionsForContext(context);
   AppAddActionToCommand(m_show_right_sidebar, sup::gui::constants::kToggleRightPanelCommandId,
                         context);
 }
