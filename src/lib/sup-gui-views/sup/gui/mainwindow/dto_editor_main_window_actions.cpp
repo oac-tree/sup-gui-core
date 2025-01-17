@@ -153,7 +153,7 @@ void DtoEditorMainWindowActions::SetupViewMenu() {}
 
 void DtoEditorMainWindowActions::SetupHelpMenu()
 {
-  AppRegisterAction(constants::kHelpMenu, m_about_action);
+  AppAddActionToMenuBar(constants::kHelpMenu, m_about_action);
 }
 
 void DtoEditorMainWindowActions::OnChangeSystemFont()

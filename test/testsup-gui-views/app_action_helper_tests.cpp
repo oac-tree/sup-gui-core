@@ -51,5 +51,5 @@ TEST_F(AppActionHelperTest, ActionManagerAddMenu)
   EXPECT_EQ(container->GetActionCount(), 0);
 
   QAction action;
-  EXPECT_TRUE(AppRegisterAction("File", &action));
+  EXPECT_TRUE(AppAddActionToMenuBar("File", &action));
 }

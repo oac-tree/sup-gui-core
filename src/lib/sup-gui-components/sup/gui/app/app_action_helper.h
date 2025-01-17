@@ -71,7 +71,7 @@ void AppRegisterMenuBar(QMenuBar* menubar);
  * @brief Registers main menubar and create top level menus.
  *
  * @param menubar Main main window menubar.
- * @param names Vector of top level menus.
+ * @param names Vector of top level menu names.
  */
 void AppRegisterMenuBar(QMenuBar* menubar, const QStringList& names);
 
@@ -86,20 +86,21 @@ IActionContainer* AppAddMenu(const QString& menu_name);
 QMenu* AppGetMenu(const QString& menu_name);
 
 /**
- * @brief Registers action and add it to the menu.
+ * @brief Add action to the global menu bar.
  *
- * The ownership of the action is not taken.
+ * The action will be appended to menu with the given name. The ownership of the action
+ * is not taken.
  *
  * @param menu_name The name of already existing menu added via AddMenu call.
  * @param action User action to add.
  * @return True if action was added, or false if no such menu was registered.
  */
-bool AppRegisterAction(const QString& menu_name, QAction* action);
+bool AppAddActionToMenuBar(const QString& menu_name, QAction* action);
 
 /**
  * @brief Register and add action to the menu.
  */
-bool AppRegisterActions(const QString& menu_name, const QList<QAction*>& actions);
+bool AppAddActionsToMenuBar(const QString& menu_name, const QList<QAction*>& actions);
 
 /**
  * @brief Registers given widget using unique identifier.

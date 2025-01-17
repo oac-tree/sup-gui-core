@@ -73,7 +73,7 @@ DtoComposerView::DtoComposerView(QWidget *parent_widget)
           &DtoComposerView::SummonContextMenu);
 
   // Actions for main window's tools menu
-  sup::gui::AppRegisterActions(sup::gui::constants::kToolsMenu, m_actions->GetActions());
+  sup::gui::AppAddActionsToMenuBar(sup::gui::constants::kToolsMenu, m_actions->GetActions());
 
   SetupConnections();
 }

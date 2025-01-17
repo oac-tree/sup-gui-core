@@ -85,17 +85,17 @@ QMenu *AppGetMenu(const QString &menu_name)
   return container ? container->GetMenu() : nullptr;
 }
 
-bool AppRegisterAction(const QString &menu_name, QAction *action)
+bool AppAddActionToMenuBar(const QString &menu_name, QAction *action)
 {
   return GetGlobalActionManager().RegisterAction(menu_name, action);
 }
 
-bool AppRegisterActions(const QString &menu_name, const QList<QAction *> &actions)
+bool AppAddActionsToMenuBar(const QString &menu_name, const QList<QAction *> &actions)
 {
   bool result = true;
   for (auto action : actions)
   {
-    result &= AppRegisterAction(menu_name, action);
+    result &= AppAddActionToMenuBar(menu_name, action);
   }
   return result;
 }
@@ -116,7 +116,7 @@ AppCommand *AppAddCommandToMenu(const QString &menu_name, const QString &command
   auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, command_id);
 
   // add underlying proxy action to the menu
-  if (!sup::gui::AppRegisterAction(menu_name, command->GetProxyAction()))
+  if (!sup::gui::AppAddActionToMenuBar(menu_name, command->GetProxyAction()))
   {
     throw RuntimeException("Global menu [" + menu_name.toStdString() + "] doesn't exist");
   }
