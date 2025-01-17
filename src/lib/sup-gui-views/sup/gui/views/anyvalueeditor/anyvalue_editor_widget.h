@@ -142,7 +142,6 @@ private:
   CustomSplitter* m_splitter{nullptr};
 
   QString m_current_workdir;  //! directory used during import/export operations
-  // bool m_text_panel_is_visible{true};
 };
 
 }  // namespace sup::gui

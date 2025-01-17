@@ -14,9 +14,12 @@ target_sources(${library_name} PRIVATE
   main_window_helper.cpp
   main_window_helper.h
   run_application.h
+  status_bar_helper.cpp
+  status_bar_helper.h
 )
 
 install(FILES
   main_window_helper.h
+  status_bar_helper.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/mainwindow
 )
