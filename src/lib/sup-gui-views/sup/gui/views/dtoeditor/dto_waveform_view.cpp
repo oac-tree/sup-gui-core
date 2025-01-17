@@ -32,6 +32,7 @@
 
 #include <QSplitter>
 #include <QVBoxLayout>
+#include <QAction>
 
 namespace sup::gui
 {

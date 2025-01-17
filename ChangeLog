@@ -1,5 +1,6 @@
 To the next Release:
 
+- Implement collapse/expand status bar buttons for left and right panels
 - Show overlay error message on JSON generation failure
 - Implement machinery for overlay error messages
 
