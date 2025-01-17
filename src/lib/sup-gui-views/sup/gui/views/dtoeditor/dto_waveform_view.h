@@ -36,6 +36,7 @@ class DtoWaveformListPanel;
 class DtoWaveformEditorPanel;
 class DtoWaveformPropertyPanel;
 class WaveformModel;
+class AppContext;
 
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
@@ -61,8 +62,19 @@ public:
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
+  /**
+   * @brief Registers actions for given context.
+   */
+  void RegisterActionsForContext(const sup::gui::AppContext& context);
+
 private:
+  void SetupWidgetActions();
+
   QSplitter* m_splitter{nullptr};
+
+  QAction* m_toggle_left_sidebar{nullptr};
+  QAction* m_toggle_right_sidebar{nullptr};
+
   DtoWaveformListPanel* m_list_panel{nullptr};
   DtoWaveformEditorPanel* m_editor_panel{nullptr};
   DtoWaveformPropertyPanel* m_property_panel{nullptr};

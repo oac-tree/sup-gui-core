@@ -23,7 +23,10 @@
 #include "dto_waveform_list_panel.h"
 #include "dto_waveform_property_panel.h"
 
+#include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_constants.h>
 #include <sup/gui/model/waveform_model.h>
+#include <sup/gui/style/style_helper.h>
 
 #include <mvvm/standarditems/line_series_item.h>
 
@@ -50,6 +53,8 @@ DtoWaveformView::DtoWaveformView(QWidget* parent_widget)
 
   layout->addWidget(m_splitter);
 
+  SetupWidgetActions();
+
   connect(m_list_panel, &DtoWaveformListPanel::WaveformSelected, this,
           &DtoWaveformView::SetLineSeriesItem);
 }
@@ -60,6 +65,25 @@ void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_editor_panel->SetLineSeriesItem(line_series_item);
   m_property_panel->SetLineSeriesItem(line_series_item);
+}
+
+void DtoWaveformView::SetupWidgetActions()
+{
+  m_toggle_left_sidebar = new QAction("Show/hide left panel", this);
+  m_toggle_left_sidebar->setToolTip("Show/hide left panel");
+  m_toggle_left_sidebar->setIcon(utils::FindIcon("dock-left"));
+  connect(m_toggle_left_sidebar, &QAction::triggered, this,
+          [this](auto) { m_list_panel->setVisible(!m_list_panel->isVisible()); });
+
+  m_toggle_right_sidebar = new QAction("Show/hide right panel", this);
+  m_toggle_right_sidebar->setToolTip("Show/hide right panel");
+  m_toggle_right_sidebar->setIcon(utils::FindIcon("dock-right"));
+  connect(m_toggle_right_sidebar, &QAction::triggered, this,
+          [this](auto) { m_property_panel->setVisible(!m_property_panel->isVisible()); });
+
+  const auto context = sup::gui::AppRegisterWidgetUniqueId(this);
+  AppAddActionToCommand(m_toggle_left_sidebar, constants::kToggleLeftPanelCommandId, context);
+  AppAddActionToCommand(m_toggle_right_sidebar, constants::kToggleRightPanelCommandId, context);
 }
 
 void DtoWaveformView::SetWaveformModel(WaveformModel* model)
