@@ -27,14 +27,36 @@
 #include <QAction>
 #include <QApplication>
 #include <QPalette>
+#include <QStatusBar>
 #include <QToolButton>
 
 namespace sup::gui
 {
 
+namespace
+{
+
+/**
+ * @brief Returns characteristic size of the button inside status bar.
+ */
+int GetButtonSize()
+{
+  return mvvm::utils::UnitSize(1.3);
+}
+
+}  // namespace
+
+void AddPermanentStretch(QStatusBar *status_bar, int stretch)
+{
+  auto expander = new QWidget;
+  expander->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  expander->setFixedHeight(GetButtonSize());
+  status_bar->addPermanentWidget(expander, stretch);
+}
+
 void SetupStatusBarButton(QToolButton *button, const QString &command_id)
 {
-  const int size = mvvm::utils::UnitSize(1.3);  // size of the button
+  const int size = GetButtonSize();
   const auto palette = QApplication::palette();
   const auto background_color = palette.color(QPalette::Window);
 
@@ -42,7 +64,7 @@ void SetupStatusBarButton(QToolButton *button, const QString &command_id)
   button->setText("");
   button->setToolButtonStyle(Qt::ToolButtonIconOnly);
   button->setStyleSheet(mvvm::GetFlatButtonStyleString(background_color));
-  button->setFixedSize(size, size);
+  button->setFixedSize(GetButtonSize(), size);
   button->setIconSize(QSize(size, size));
 
   // connect button with the proxy action in the toolbar

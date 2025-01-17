@@ -26,9 +26,15 @@
 #include <QString>
 
 class QToolButton;
+class QStatusBar;
 
 namespace sup::gui
 {
+
+/**
+ * @brief Add stretch widget to permanent section of the given QStatusBar.
+ */
+void AddPermanentStretch(QStatusBar* status_bar, int stretch = 1);
 
 /**
  * @brief Setup status bar button.
@@ -40,6 +46,8 @@ namespace sup::gui
  * @param command_id The id of the command corresponding to the action in the main menubar.
  */
 void SetupStatusBarButton(QToolButton* button, const QString& command_id);
+
+
 
 }  // namespace sup::gui
 
