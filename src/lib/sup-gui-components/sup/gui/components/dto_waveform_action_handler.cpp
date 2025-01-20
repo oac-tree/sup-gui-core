@@ -137,7 +137,7 @@ void DtoWaveformActionHandler::InsertDataForWaveform(mvvm::LineSeriesItem *wavef
 
   // data will be located in the data container nearby, the index of data items matches the index of
   // waveform items
-  auto data_tag_index = mvvm::TagIndex::Default(waveform_tag_index.index);
+  auto data_tag_index = mvvm::TagIndex::Default(waveform_tag_index.GetIndex());
 
   auto waveform_data =
       GetModel()->InsertItem<mvvm::LineSeriesDataItem>(GetDataContainer(), data_tag_index);

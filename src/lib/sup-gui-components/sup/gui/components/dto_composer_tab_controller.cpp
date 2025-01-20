@@ -64,7 +64,7 @@ void DtoComposerTabController::InitTabs()
   m_tab_widget->clear();
   for (auto child : m_model->GetRootItem()->GetAllItems())
   {
-    InsertAnyValueItemContainerTab(child, child->GetTagIndex().index);
+    InsertAnyValueItemContainerTab(child, child->GetTagIndex().GetIndex());
   }
 }
 
@@ -78,7 +78,7 @@ void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent
   if (parent == m_model->GetRootItem())
   {
     auto container = parent->GetItem(tag_index);
-    InsertAnyValueItemContainerTab(container, tag_index.index);
+    InsertAnyValueItemContainerTab(container, tag_index.GetIndex());
   }
 }
 
@@ -91,7 +91,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
     auto container = parent->GetItem(tag_index);
     if (auto widget = GetWidgetForItem(container); widget)
     {
-      m_tab_widget->removeTab(tag_index.index);
+      m_tab_widget->removeTab(tag_index.GetIndex());
       delete widget;
 
       m_widget_map.erase(container);
