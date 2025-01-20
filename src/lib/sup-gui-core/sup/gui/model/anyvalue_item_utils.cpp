@@ -169,7 +169,8 @@ std::vector<std::string> GetAnyValueItemTypes()
           AnyValueArrayItem::Type};
 }
 
-mvvm::TagInfo CreateAnyValueTag(std::string name, int min, int max)
+mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<size_t> &min,
+                                const std::optional<size_t> &max)
 {
   return {std::move(name), min, max, GetAnyValueItemTypes()};
 }

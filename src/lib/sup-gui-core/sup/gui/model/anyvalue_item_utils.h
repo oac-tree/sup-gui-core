@@ -95,7 +95,8 @@ std::vector<std::string> GetAnyValueItemTypes();
  * @param max Maximum allowed number of items.
  * @return TagInfo object containing necessary information.
  */
-mvvm::TagInfo CreateAnyValueTag(std::string name, int min = 0, int max = -1);
+mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<size_t>& min = {},
+                                const std::optional<size_t>& max = {});
 
 }  // namespace sup::gui
 
