@@ -28,6 +28,8 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/mainwindow/settings_editor_dialog.h>
+#include <sup/gui/mainwindow/settings_helper.h>
 #include <sup/gui/mainwindow/status_bar_helper.h>
 #include <sup/gui/style/style_helper.h>
 
@@ -98,6 +100,11 @@ void DtoEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
   connect(m_system_font_action, &QAction::triggered, this,
           &DtoEditorMainWindowActions::OnChangeSystemFont);
 
+  m_settings_dialog_action = new QAction("Application settings", this);
+  m_settings_dialog_action->setStatusTip("Summon application settings dialog");
+  connect(m_settings_dialog_action, &QAction::triggered, this,
+          &DtoEditorMainWindowActions::OnApplicationSettingsDialog);
+
   m_reset_settings_action = new QAction("Reset settings to defaults", this);
   m_reset_settings_action->setStatusTip(
       "Reset persistent application settings on disk to their defaults");
@@ -144,6 +151,7 @@ void DtoEditorMainWindowActions::SetupFileMenu()
   auto preferences_menu = file_menu->addMenu("Preferences");
   preferences_menu->setToolTipsVisible(true);
   preferences_menu->addAction(m_system_font_action);
+  preferences_menu->addAction(m_settings_dialog_action);
   preferences_menu->addSeparator();
   preferences_menu->addAction(m_reset_settings_action);
 
@@ -195,6 +203,16 @@ void DtoEditorMainWindowActions::OnChangeSystemFont()
   if (SummonChangeSystemFontDialog())
   {
     emit RestartApplicationRequest(Restart);
+  }
+}
+
+void DtoEditorMainWindowActions::OnApplicationSettingsDialog()
+{
+  sup::gui::SettingsEditorDialog dialog;
+  dialog.SetInitialValues(sup::gui::GetGlobalSettings());
+  if (dialog.exec() == QDialog::Accepted)
+  {
+    SaveSettingsInPersistentStorage(*dialog.GetResult());
   }
 }
 

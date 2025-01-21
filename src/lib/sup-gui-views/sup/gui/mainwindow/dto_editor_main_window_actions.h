@@ -91,10 +91,12 @@ private:
   void SetupHelpMenu();
 
   void OnChangeSystemFont();
+  void OnApplicationSettingsDialog();
   void OnResetSettings();
   void OnAbout();
 
   QAction* m_system_font_action{nullptr};
+  QAction* m_settings_dialog_action{nullptr};
   QAction* m_reset_settings_action{nullptr};
   QAction* m_exit_action{nullptr};
   QAction* m_about_action{nullptr};

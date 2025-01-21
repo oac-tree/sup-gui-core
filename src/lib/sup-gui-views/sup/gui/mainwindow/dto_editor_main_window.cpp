@@ -21,9 +21,12 @@
 
 #include "color_palette.h"
 #include "dto_editor_main_window_actions.h"
+#include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/model/settings_constants.h>
+#include <sup/gui/model/settings_model.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
@@ -119,6 +122,8 @@ void DtoEditorMainWindow::ReadSettings()
 
   const auto default_pos = QPoint(mvvm::utils::UnitSize(20), mvvm::utils::UnitSize(40));
   move(settings.value(kWindowPosSettingName, default_pos).toPoint());
+  // global persistent setting stored in SettingsModel
+  sup::gui::ReadGlobalSettings();
 }
 
 void DtoEditorMainWindow::WriteSettings()
@@ -152,6 +157,13 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
+  const auto enable_undo =
+      sup::gui::GetGlobalSettings().Data<bool>(sup::gui::constants::kUseUndoSetting);
+  const auto undo_limit =
+      sup::gui::GetGlobalSettings().Data<int>(sup::gui::constants::kUndoLimitSetting);
+  m_project->GetWaveformModel()->SetUndoEnabled(enable_undo, undo_limit);
+  m_project->GetSupDtoModel()->SetUndoEnabled(enable_undo, undo_limit);
+
   m_composer_view->SetModel(m_project->GetSupDtoModel());
   m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
   UpdateProjectNames();
