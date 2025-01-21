@@ -19,11 +19,15 @@
 
 #include "anyvalue_editor_main_window.h"
 
+#include "settings_helper.h"
+
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_project.h>
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/model/settings_constants.h>
+#include <sup/gui/model/settings_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/application_model.h>
@@ -104,6 +108,8 @@ void AnyValueEditorMainWindow::ReadSettings()
   const QSettings settings;
   resize(settings.value(GetWindowSizeSettingName(), QSize(800, 600)).toSize());
   move(settings.value(GetWindowPosSettingName(), QPoint(200, 200)).toPoint());
+  // global persistent setting stored in SettingsModel
+  sup::gui::ReadGlobalSettings();
 }
 
 void AnyValueEditorMainWindow::WriteSettings()
@@ -139,6 +145,12 @@ void AnyValueEditorMainWindow::OnProjectLoad()
   {
     throw RuntimeException("No model exists");
   }
+
+  const auto enable_undo =
+      sup::gui::GetGlobalSettings().Data<bool>(sup::gui::constants::kUseUndoSetting);
+  const auto undo_limit =
+      sup::gui::GetGlobalSettings().Data<int>(sup::gui::constants::kUndoLimitSetting);
+  m_project->GetApplicationModel()->SetUndoEnabled(enable_undo, undo_limit);
 
   m_anyvalue_editor->SetAnyValueItemContainer(m_project->GetApplicationModel()->GetRootItem());
   UpdateProjectNames();

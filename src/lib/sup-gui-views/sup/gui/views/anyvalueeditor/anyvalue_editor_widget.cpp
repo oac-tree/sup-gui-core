@@ -109,6 +109,7 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container
   m_action_handler->SetAnyValueItemContainer(container);
   m_tree_panel->SetAnyValueItemContainer(container);
   m_text_panel->SetAnyValueItemContainer(container);
+  m_actions->UpdateEnabledStatus();
 }
 
 void AnyValueEditorWidget::OnImportFromFileRequest()
