@@ -1,5 +1,6 @@
 To the next Release:
 
+- Implement machinery for global application settings
 - Implement collapse/expand status bar buttons for left and right panels
 - Show overlay error message on JSON generation failure
 - Implement machinery for overlay error messages
@@ -85,4 +86,3 @@ Changes for 1.0.0:
 Changes for 0.4.0:
 
 - Base version
-

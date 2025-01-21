@@ -14,6 +14,12 @@ target_sources(${library_name} PRIVATE
   main_window_helper.cpp
   main_window_helper.h
   run_application.h
+  settings_editor.cpp
+  settings_editor.h
+  settings_editor_dialog.cpp
+  settings_editor_dialog.h
+  settings_helper.cpp
+  settings_helper.h
   status_bar_helper.cpp
   status_bar_helper.h
 )
