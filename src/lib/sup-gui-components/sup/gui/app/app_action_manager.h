@@ -41,7 +41,7 @@ public:
   /**
    * @brief Returns number of actions registered in this container.
    */
-  virtual size_t GetActionCount() = 0;
+  virtual std::size_t GetActionCount() = 0;
 
   /**
    * @brief The menu associated with this container, where actionms are added.
@@ -77,7 +77,7 @@ public:
 
   bool AddAction(QAction* action) override;
 
-  size_t GetActionCount() override;
+  std::size_t GetActionCount() override;
 
 private:
   QString m_name;
@@ -141,7 +141,7 @@ public:
   /**
    * @brief Returns the number of registered main containers.
    */
-  size_t GetContainerCount() const;
+  std::size_t GetContainerCount() const;
 
   /**
    * @brief Resets all information about registered menus and main menubar.

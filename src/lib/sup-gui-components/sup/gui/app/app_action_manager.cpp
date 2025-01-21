@@ -44,7 +44,7 @@ bool MenuActionContainer::AddAction(QAction *action)
   return true;
 }
 
-size_t MenuActionContainer::GetActionCount()
+std::size_t MenuActionContainer::GetActionCount()
 {
   return m_actions.size();
 }
@@ -114,7 +114,7 @@ IActionContainer *ActionManager::GetContainer(const QString &menu_name)
   return iter == m_action_storage.end() ? nullptr : iter->second.get();
 }
 
-size_t ActionManager::GetContainerCount() const
+std::size_t ActionManager::GetContainerCount() const
 {
   return m_action_storage.size();
 }

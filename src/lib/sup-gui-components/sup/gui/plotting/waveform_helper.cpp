@@ -67,7 +67,7 @@ mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
  *
  * First 6 items will get always the same color, then we will use random color.
  */
-std::string GetNextNamedColor(size_t index)
+std::string GetNextNamedColor(std::size_t index)
 {
   // Colors from https://www.w3.org/TR/css-color-3/#svg-color
   static std::vector<std::string> colors = {"dodgerblue", "green",   "darkorange",

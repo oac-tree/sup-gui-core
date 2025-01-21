@@ -31,7 +31,7 @@ namespace
 {
 
 const bool kEnableUndo = true;
-const size_t kUndoLimit = 100;
+const std::size_t kUndoLimit = 100;
 
 }  // namespace
 

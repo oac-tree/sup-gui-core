@@ -94,7 +94,7 @@ public:
   /**
    * @brief Returns number of flags.
    */
-  size_t GetFlagCount() const { return m_flags.size(); }
+  std::size_t GetFlagCount() const { return m_flags.size(); }
 
 private:
   std::vector<EnumT> m_flags;

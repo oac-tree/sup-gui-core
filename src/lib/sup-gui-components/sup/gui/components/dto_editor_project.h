@@ -50,8 +50,8 @@ public:
   WaveformModel* GetWaveformModel();
 
 private:
-  size_t m_sup_dto_model_index;
-  size_t m_waveform_model_index;
+  std::size_t m_sup_dto_model_index;
+  std::size_t m_waveform_model_index;
 };
 
 }  // namespace sup::gui

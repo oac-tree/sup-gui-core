@@ -72,7 +72,7 @@ public:
   /**
    * @brief Returns a number of registered widgets.
    */
-  size_t GetNumberOfRegistrations() const;
+  std::size_t GetNumberOfRegistrations() const;
 
 private:
   std::map<const QWidget*, AppContext> m_widget_to_context;

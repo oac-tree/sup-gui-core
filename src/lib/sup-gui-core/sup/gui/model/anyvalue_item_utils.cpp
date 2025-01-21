@@ -138,7 +138,7 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
 
       // preparing vector containing pairs of children
       std::vector<Node> new_children;
-      auto on_transform = [&nodes](const AnyValueItem *source, AnyValueItem *target)
+      auto on_transform = [](const AnyValueItem *source, AnyValueItem *target)
       { return Node{source, target}; };
       std::transform(source_children.begin(), source_children.end(), target_children.begin(),
                      std::back_inserter(new_children), on_transform);
@@ -169,8 +169,8 @@ std::vector<std::string> GetAnyValueItemTypes()
           AnyValueArrayItem::Type};
 }
 
-mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<size_t> &min,
-                                const std::optional<size_t> &max)
+mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_t> &min,
+                                const std::optional<std::size_t> &max)
 {
   return {std::move(name), min, max, GetAnyValueItemTypes()};
 }

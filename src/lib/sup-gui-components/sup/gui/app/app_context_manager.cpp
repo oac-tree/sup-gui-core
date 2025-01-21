@@ -77,7 +77,7 @@ bool AppContextManager::HasContext(const QWidget *widget) const
   return iter != m_widget_to_context.end();
 }
 
-size_t AppContextManager::GetNumberOfRegistrations() const
+std::size_t AppContextManager::GetNumberOfRegistrations() const
 {
   return m_widget_to_context.size();
 }
