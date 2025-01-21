@@ -14,6 +14,11 @@ target_sources(${library_name} PRIVATE
   domain_anyvalue_builder.h
   scalar_conversion_utils.cpp
   scalar_conversion_utils.h
+  settings_constants.h
+  settings_item.cpp
+  settings_item.h
+  settings_model.cpp
+  settings_model.h
   sup_dto_model.cpp
   sup_dto_model.h
   waveform_model.cpp
