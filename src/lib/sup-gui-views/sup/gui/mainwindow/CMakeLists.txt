@@ -27,5 +27,7 @@ target_sources(${library_name} PRIVATE
 install(FILES
   main_window_helper.h
   status_bar_helper.h
+  settings_helper.h
+  settings_editor_dialog.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/mainwindow
 )
