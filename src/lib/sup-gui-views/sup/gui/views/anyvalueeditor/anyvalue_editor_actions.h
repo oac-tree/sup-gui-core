@@ -107,6 +107,11 @@ private:
   void SetupCutCopyPasteActions();
 
   /**
+   * @brief Setups undo/erdo actions.
+   */
+  void SetupUndoRedoActions();
+
+  /**
    * @brief Creates a menu intended for insert actions.
    */
   std::unique_ptr<QMenu> CreateInsertMenu();

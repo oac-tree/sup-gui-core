@@ -300,13 +300,35 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
   return m_container;
 }
 
+bool AnyValueEditorActionHandler::CanUndo() const
+{
+  auto command_stack = GetModel() ? GetModel()->GetCommandStack() : nullptr;
+  return command_stack && command_stack->CanUndo();
+}
+
 void AnyValueEditorActionHandler::Undo()
 {
+  if (!CanUndo())
+  {
+    return;
+  }
+
   GetModel()->GetCommandStack()->Undo();
+}
+
+bool AnyValueEditorActionHandler::CanRedo() const
+{
+  auto command_stack = GetModel() ? GetModel()->GetCommandStack() : nullptr;
+  return command_stack && command_stack->CanRedo();
 }
 
 void AnyValueEditorActionHandler::Redo()
 {
+  if (!CanRedo())
+  {
+    return;
+  }
+
   GetModel()->GetCommandStack()->Redo();
 }
 

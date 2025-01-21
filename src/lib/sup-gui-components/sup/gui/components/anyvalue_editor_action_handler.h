@@ -219,9 +219,19 @@ public:
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
   /**
+   * @brief Checks if it is possible to undo last change.
+   */
+  bool CanUndo() const;
+
+  /**
    * @brief Unddo last change.
    */
   void Undo();
+
+  /**
+   * @brief Checks if it is possible to redo last change.
+   */
+  bool CanRedo() const;
 
   /**
    * @brief Redo last undo.

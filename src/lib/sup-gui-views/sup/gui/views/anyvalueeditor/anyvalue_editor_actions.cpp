@@ -63,6 +63,7 @@ AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorActionHandler *action
 {
   SetupInsertRemoveActions();
   SetupCutCopyPasteActions();
+  SetupUndoRedoActions();
 }
 
 AnyValueEditorActions::~AnyValueEditorActions() = default;
@@ -197,7 +198,10 @@ void AnyValueEditorActions::SetupCutCopyPasteActions()
   m_action_map.Add(ActionKey::kPasteInto, m_paste_into_action);
   connect(m_paste_into_action, &QAction::triggered, this,
           [this]() { m_action_handler->PasteInto(); });
+}
 
+void AnyValueEditorActions::SetupUndoRedoActions()
+{
   m_undo_action = new QAction("Undo", this);
   m_action_map.Add(ActionKey::kUndo, m_undo_action);
   connect(m_undo_action, &QAction::triggered, this, [this]() { m_action_handler->Undo(); });
