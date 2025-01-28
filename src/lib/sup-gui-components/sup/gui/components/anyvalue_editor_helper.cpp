@@ -30,8 +30,8 @@ namespace
 std::string GetElementPrefix(const mvvm::SessionItem& parent)
 {
   const static std::map<std::string, std::string> type_to_prefix{
-      {sup::gui::AnyValueStructItem::Type, sup::gui::constants::kFieldNamePrefix},
-      {sup::gui::AnyValueArrayItem::Type, sup::gui::constants::kElementNamePrefix}};
+      {sup::gui::AnyValueStructItem::GetStaticType(), sup::gui::constants::kFieldNamePrefix},
+      {sup::gui::AnyValueArrayItem::GetStaticType(), sup::gui::constants::kElementNamePrefix}};
 
   auto iter = type_to_prefix.find(parent.GetType());
   return iter == type_to_prefix.end() ? std::string() : iter->second;
@@ -61,8 +61,8 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
   (void)parent;
 
   const static std::map<std::string, std::string> type_to_name{
-      {AnyValueStructItem::Type, constants::kStructTypeName},
-      {AnyValueArrayItem::Type, constants::kArrayTypeName}};
+      {AnyValueStructItem::GetStaticType(), constants::kStructTypeName},
+      {AnyValueArrayItem::GetStaticType(), constants::kArrayTypeName}};
 
   // scalars has type name already
   auto iter = type_to_name.find(child.GetType());

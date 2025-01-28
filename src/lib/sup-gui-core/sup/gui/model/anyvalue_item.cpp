@@ -101,11 +101,16 @@ int AnyValueItem::GetChildrenCount() const
 // AnyValueEmptyItem
 // ----------------------------------------------------------------------------
 
-AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(Type)
+AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
 {
   SetDisplayName(constants::kEmptyTypeName);
   SetAnyTypeName(constants::kEmptyTypeName);
   SetToolTip(constants::kEmptyTypeName);
+}
+
+std::string AnyValueEmptyItem::GetStaticType()
+{
+  return "AnyValueEmpty";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
@@ -117,10 +122,15 @@ std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
 // AnyValueScalarItem
 // ----------------------------------------------------------------------------
 
-AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(Type)
+AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
 {
   SetDisplayName(constants::kScalarTypeName);
   SetToolTip(constants::kScalarTypeName);
+}
+
+std::string AnyValueScalarItem::GetStaticType()
+{
+  return "AnyValueScalar";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
@@ -145,12 +155,17 @@ bool AnyValueScalarItem::IsScalar() const
 // AnyValueStructItem
 // ----------------------------------------------------------------------------
 
-AnyValueStructItem::AnyValueStructItem() : AnyValueItem(Type)
+AnyValueStructItem::AnyValueStructItem() : AnyValueItem(GetStaticType())
 {
   SetDisplayName(constants::kStructTypeName);
   SetAnyTypeName("");
   SetToolTip(constants::kStructTypeName);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
+}
+
+std::string AnyValueStructItem::GetStaticType()
+{
+  return "AnyValueStruct";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone() const
@@ -184,12 +199,17 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 // AnyValueArrayItem
 // ----------------------------------------------------------------------------
 
-AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(Type)
+AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(GetStaticType())
 {
   SetDisplayName(constants::kArrayTypeName);
   SetAnyTypeName("");
   SetToolTip(constants::kArrayTypeName);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
+}
+
+std::string AnyValueArrayItem::GetStaticType()
+{
+  return "AnyValueArray";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone() const

@@ -205,7 +205,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   ASSERT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
 
   auto items = GetAnyValueItemContainer()->GetAllItems();
-  EXPECT_EQ(items.at(0)->GetType(), AnyValueScalarItem::Type);
+  EXPECT_EQ(items.at(0)->GetType(), AnyValueScalarItem::GetStaticType());
 
   // for the moment paste operation changes display name, it might change in the future
   EXPECT_EQ(items.at(0)->GetDisplayName(), constants::kAnyValueDefaultDisplayName);

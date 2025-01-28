@@ -57,9 +57,9 @@ public:
 class AnyValueEmptyItem : public AnyValueItem
 {
 public:
-  static inline const std::string Type = "AnyValueEmpty";
-
   AnyValueEmptyItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 };
@@ -70,9 +70,9 @@ public:
 class AnyValueScalarItem : public AnyValueItem
 {
 public:
-  static inline const std::string Type = "AnyValueScalar";
-
   AnyValueScalarItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -87,9 +87,9 @@ public:
 class AnyValueStructItem : public AnyValueItem
 {
 public:
-  static inline const std::string Type = "AnyValueStruct";
-
   AnyValueStructItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -107,9 +107,9 @@ public:
 class AnyValueArrayItem : public AnyValueItem
 {
 public:
-  static inline const std::string Type = "AnyValueArray";
-
   AnyValueArrayItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

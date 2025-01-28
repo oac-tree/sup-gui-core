@@ -58,15 +58,15 @@ namespace sup::gui
 std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
 {
   static const std::map<std::string, std::string> kTypeNameToAnyValueItemType = {
-      {sup::gui::constants::kEmptyTypeName, sup::gui::AnyValueEmptyItem::Type},
-      {sup::gui::constants::kScalarTypeName, sup::gui::AnyValueScalarItem::Type},
-      {sup::gui::constants::kArrayTypeName, sup::gui::AnyValueArrayItem::Type},
-      {sup::gui::constants::kStructTypeName, sup::gui::AnyValueStructItem::Type},
+      {sup::gui::constants::kEmptyTypeName, sup::gui::AnyValueEmptyItem::GetStaticType()},
+      {sup::gui::constants::kScalarTypeName, sup::gui::AnyValueScalarItem::GetStaticType()},
+      {sup::gui::constants::kArrayTypeName, sup::gui::AnyValueArrayItem::GetStaticType()},
+      {sup::gui::constants::kStructTypeName, sup::gui::AnyValueStructItem::GetStaticType()},
   };
 
   if (IsScalarTypeName(type_name))
   {
-    return sup::gui::AnyValueScalarItem::Type;
+    return sup::gui::AnyValueScalarItem::GetStaticType();
   }
 
   auto iter = kTypeNameToAnyValueItemType.find(type_name);
@@ -79,7 +79,7 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string &
 
   if (IsScalarTypeName(type_name))
   {
-    auto result = item_catalogue->Create(AnyValueScalarItem::Type);
+    auto result = item_catalogue->Create(AnyValueScalarItem::GetStaticType());
     result->SetAnyTypeName(type_name);
     return result;
   }
@@ -165,8 +165,8 @@ bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &sca
 
 std::vector<std::string> GetAnyValueItemTypes()
 {
-  return {AnyValueEmptyItem::Type, AnyValueScalarItem::Type, AnyValueStructItem::Type,
-          AnyValueArrayItem::Type};
+  return {AnyValueEmptyItem::GetStaticType(), AnyValueScalarItem::GetStaticType(),
+          AnyValueStructItem::GetStaticType(), AnyValueArrayItem::GetStaticType()};
 }
 
 mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_t> &min,

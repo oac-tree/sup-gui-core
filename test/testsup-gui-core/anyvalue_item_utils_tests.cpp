@@ -48,13 +48,19 @@ TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
   EXPECT_TRUE(GetAnyValueItemTypeFromTypeName(std::string()).empty());
   EXPECT_TRUE(GetAnyValueItemTypeFromTypeName(std::string("not-anyvalue-item-type")).empty());
 
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kEmptyTypeName), AnyValueEmptyItem::Type);
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kScalarTypeName), AnyValueScalarItem::Type);
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kArrayTypeName), AnyValueArrayItem::Type);
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kStructTypeName), AnyValueStructItem::Type);
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kEmptyTypeName),
+            AnyValueEmptyItem::GetStaticType());
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kScalarTypeName),
+            AnyValueScalarItem::GetStaticType());
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kArrayTypeName),
+            AnyValueArrayItem::GetStaticType());
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kStructTypeName),
+            AnyValueStructItem::GetStaticType());
 
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kInt32TypeName), AnyValueScalarItem::Type);
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kBooleanTypeName), AnyValueScalarItem::Type);
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kInt32TypeName),
+            AnyValueScalarItem::GetStaticType());
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kBooleanTypeName),
+            AnyValueScalarItem::GetStaticType());
 }
 
 //! Testing CreateAnyValueItemFromTypeName function.
@@ -62,17 +68,17 @@ TEST_F(AnyValueItemUtilsTest, CreateAnyValueItemFromTypeName)
 {
   // basic items
   EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kEmptyTypeName)->GetType(),
-            AnyValueEmptyItem::Type);
+            AnyValueEmptyItem::GetStaticType());
   EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kScalarTypeName)->GetType(),
-            AnyValueScalarItem::Type);
+            AnyValueScalarItem::GetStaticType());
   EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kArrayTypeName)->GetType(),
-            AnyValueArrayItem::Type);
+            AnyValueArrayItem::GetStaticType());
   EXPECT_EQ(CreateAnyValueItemFromTypeName(constants::kStructTypeName)->GetType(),
-            AnyValueStructItem::Type);
+            AnyValueStructItem::GetStaticType());
 
   // scalar items
   auto scalar = CreateAnyValueItemFromTypeName("int32");
-  EXPECT_EQ(scalar->GetType(), AnyValueScalarItem::Type);
+  EXPECT_EQ(scalar->GetType(), AnyValueScalarItem::GetStaticType());
   EXPECT_EQ(scalar->GetAnyTypeName(), "int32");
 
   EXPECT_THROW(CreateAnyValueItemFromTypeName("int42"), mvvm::KeyNotFoundException);
@@ -259,23 +265,25 @@ TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypes)
 
   EXPECT_EQ(types.size(), 4);
 
-  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueEmptyItem::Type), types.end());
-  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueScalarItem::Type), types.end());
-  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueStructItem::Type), types.end());
-  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueArrayItem::Type), types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueEmptyItem::GetStaticType()), types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueScalarItem::GetStaticType()),
+            types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueStructItem::GetStaticType()),
+            types.end());
+  EXPECT_NE(std::find(types.begin(), types.end(), AnyValueArrayItem::GetStaticType()), types.end());
 
-  EXPECT_EQ(std::find(types.begin(), types.end(), AnyValueItem::Type), types.end());
+  EXPECT_EQ(std::find(types.begin(), types.end(), AnyValueItem::GetStaticType()), types.end());
 }
 
 TEST_F(AnyValueItemUtilsTest, CreateAnyValueTag)
 {
   auto tag = CreateAnyValueTag("tag");
 
-  EXPECT_TRUE(tag.IsValidType(AnyValueEmptyItem::Type));
-  EXPECT_TRUE(tag.IsValidType(AnyValueScalarItem::Type));
-  EXPECT_TRUE(tag.IsValidType(AnyValueStructItem::Type));
-  EXPECT_TRUE(tag.IsValidType(AnyValueArrayItem::Type));
+  EXPECT_TRUE(tag.IsValidType(AnyValueEmptyItem::GetStaticType()));
+  EXPECT_TRUE(tag.IsValidType(AnyValueScalarItem::GetStaticType()));
+  EXPECT_TRUE(tag.IsValidType(AnyValueStructItem::GetStaticType()));
+  EXPECT_TRUE(tag.IsValidType(AnyValueArrayItem::GetStaticType()));
 
-  EXPECT_FALSE(tag.IsValidType(AnyValueItem::Type));
-  EXPECT_FALSE(tag.IsValidType(mvvm::SessionItem::Type));
+  EXPECT_FALSE(tag.IsValidType(AnyValueItem::GetStaticType()));
+  EXPECT_FALSE(tag.IsValidType(mvvm::SessionItem::GetStaticType()));
 }
