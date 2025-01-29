@@ -20,6 +20,7 @@
 #include "register_items.h"
 
 #include "anyvalue_item.h"
+#include "settings_item.h"
 
 #include <mvvm/model/item_factory.h>
 
@@ -32,6 +33,7 @@ void RegisterSessionItems()
   (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueScalarItem>();
   (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueStructItem>();
   (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueArrayItem>();
+  (void)mvvm::RegisterGlobalItem<sup::gui::CommonSettingsItem>();
 }
 
 }  // namespace sup::gui

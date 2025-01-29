@@ -38,9 +38,9 @@ namespace sup::gui
 class CommonSettingsItem : public mvvm::CompoundItem
 {
 public:
-  static inline const std::string Type = "CommonSettings";
-
   CommonSettingsItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

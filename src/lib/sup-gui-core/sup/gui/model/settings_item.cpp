@@ -21,26 +21,12 @@
 
 #include "settings_constants.h"
 
-#include <mvvm/model/item_factory.h>
 #include <mvvm/signals/item_connect.h>
 
 namespace sup::gui
 {
 
-namespace
-{
-
-bool RegisterItems()
-{
-  (void)mvvm::RegisterGlobalItem<CommonSettingsItem>();
-  return true;
-}
-
-const bool settings_item_registered_flag = RegisterItems();
-
-}  // namespace
-
-CommonSettingsItem::CommonSettingsItem() : CompoundItem(Type)
+CommonSettingsItem::CommonSettingsItem() : CompoundItem(GetStaticType())
 {
   SetDisplayName("Common Settings");
 
@@ -48,6 +34,11 @@ CommonSettingsItem::CommonSettingsItem() : CompoundItem(Type)
       .SetDisplayName("Enable undo/redo");
   AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
       .SetDisplayName("Undo limit");
+}
+
+std::string CommonSettingsItem::GetStaticType()
+{
+  return "CommonSettings";
 }
 
 std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
