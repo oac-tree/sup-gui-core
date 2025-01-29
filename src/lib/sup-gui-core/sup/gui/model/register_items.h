@@ -17,18 +17,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/core/version.h>
-#include <sup/gui/mainwindow/anyvalue_editor_main_window.h>
-#include <sup/gui/mainwindow/run_application.h>
-#include <sup/gui/model/register_items.h>
+#ifndef SUP_GUI_MODEL_REGISTER_ITEMS_H_
+#define SUP_GUI_MODEL_REGISTER_ITEMS_H_
 
-int main(int argc, char** argv)
+//! @file
+//! Contains utility function to register items in global factory.
+
+namespace sup::gui
 {
-  auto version = QString::fromStdString(sup::gui::ProjectVersion());
-  sup::gui::InitCoreApplication("anyvalue-editor", version);
 
-  sup::gui::RegisterCustomMetaTypes();
-  sup::gui::RegisterSessionItems();
+/**
+ * @brief Register all items in global factory.
+ */
+void RegisterSessionItems();
 
-  return sup::gui::RunApplication<sup::gui::AnyValueEditorMainWindow>(argc, argv);
-}
+}  // namespace sup::gui
+
+#endif  // SUP_GUI_MODEL_REGISTER_ITEMS_H_

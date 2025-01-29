@@ -12,6 +12,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_utils.h
   domain_anyvalue_builder.cpp
   domain_anyvalue_builder.h
+  register_items.cpp
+  register_items.h
   scalar_conversion_utils.cpp
   scalar_conversion_utils.h
   settings_constants.h

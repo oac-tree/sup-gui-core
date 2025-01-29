@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include <sup/gui/components/custom_metatypes.h>
+#include <sup/gui/model/register_items.h>
 
 #include <gtest/gtest.h>
 
@@ -31,6 +32,7 @@ int main(int argc, char** argv)
   Q_UNUSED(app)
 
   sup::gui::RegisterCustomMetaTypes();
+  sup::gui::RegisterSessionItems();
 
   // run all google tests
   return RUN_ALL_TESTS();

@@ -17,18 +17,21 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/core/version.h>
-#include <sup/gui/mainwindow/anyvalue_editor_main_window.h>
-#include <sup/gui/mainwindow/run_application.h>
-#include <sup/gui/model/register_items.h>
+#include "register_items.h"
 
-int main(int argc, char** argv)
+#include "anyvalue_item.h"
+
+#include <mvvm/model/item_factory.h>
+
+namespace sup::gui
 {
-  auto version = QString::fromStdString(sup::gui::ProjectVersion());
-  sup::gui::InitCoreApplication("anyvalue-editor", version);
 
-  sup::gui::RegisterCustomMetaTypes();
-  sup::gui::RegisterSessionItems();
-
-  return sup::gui::RunApplication<sup::gui::AnyValueEditorMainWindow>(argc, argv);
+void RegisterSessionItems()
+{
+  (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueEmptyItem>();
+  (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueScalarItem>();
+  (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueStructItem>();
+  (void)mvvm::RegisterGlobalItem<sup::gui::AnyValueArrayItem>();
 }
+
+}  // namespace sup::gui
