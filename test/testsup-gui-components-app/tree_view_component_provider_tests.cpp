@@ -21,6 +21,7 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 
+#include <mvvm/editors/allint_spinbox_editor.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
@@ -226,4 +227,44 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainerAfterModelReset)
   EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             std::string("scalar"));
   EXPECT_EQ(proxymodel->data(item_value_index, Qt::DisplayRole).toInt(), 42);
+}
+
+//! Testing if cell editor is created with correct limits after struct is filtered
+TEST_F(TreeViewComponentProviderTests, CheckCellEditorInFilteredStruct)
+{
+  auto struct_item = m_model.InsertItem<AnyValueStructItem>();
+  auto scalar_item0 = struct_item->AddScalarField("scalar", sup::dto::kInt32TypeName, 42);
+  auto scalar_item1 = struct_item->AddScalarField("abc", sup::dto::kInt8TypeName, mvvm::int8{43});
+
+  TreeViewComponentProvider provider(&m_model, &m_tree);
+
+  // to test tree view we will be looking at proxy model.
+  auto proxymodel = provider.GetLastProxyModel();
+
+  // we see both children beneath
+  auto struct_index = proxymodel->index(0, 0);
+
+  // filtering out a child with "scalar" display name
+  provider.SetFilterPattern("ab");
+  EXPECT_EQ(proxymodel->rowCount(struct_index), 1);
+  EXPECT_EQ(proxymodel->columnCount(struct_index), 3);
+
+  // our indices at row=0 are actually looking to scalar_item1
+  auto scalar_displayname_index = proxymodel->index(0, 0, struct_index);
+  auto scalar_value_index = proxymodel->index(0, 1, struct_index);
+
+  EXPECT_EQ(provider.GetItemFromViewIndex(scalar_displayname_index), scalar_item1);
+  EXPECT_EQ(provider.GetItemFromViewIndex(scalar_value_index), scalar_item1);
+
+  // pretending we are editing the value
+  auto delegate = m_tree.itemDelegate();
+  auto editor = std::unique_ptr<QWidget>(delegate->createEditor(nullptr, {}, scalar_value_index));
+  delegate->setEditorData(editor.get(), scalar_value_index);
+
+  // cell editor should get limits as in "abc" scalar field
+  auto int_editor = dynamic_cast<mvvm::AllIntSpinBoxEditor*>(editor.get());
+  ASSERT_NE(int_editor, nullptr);
+  const auto expected_min = std::numeric_limits<mvvm::int8>::lowest();
+  const auto expected_max = std::numeric_limits<mvvm::int8>::max();
+  EXPECT_EQ(int_editor->GetLowerLimit(), mvvm::variant_t(expected_min));
 }
