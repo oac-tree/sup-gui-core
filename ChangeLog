@@ -1,5 +1,6 @@
 To the next Release:
 
+- Fix bug with two digits only while editing integers and floats.
 - Implement machinery for global application settings
 - Implement collapse/expand status bar buttons for left and right panels
 - Show overlay error message on JSON generation failure
