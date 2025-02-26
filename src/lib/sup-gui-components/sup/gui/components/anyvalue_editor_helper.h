@@ -37,6 +37,11 @@ namespace sup::gui
 class AnyValueItem;
 
 /**
+ * @brief Checks if given item has one of default display names.
+ */
+bool HasOneOfDefaultDisplayNames(const mvvm::SessionItem& child);
+
+/**
  * @brief Suggests appropriate display name for a child.
  *
  * Method is used in the context of AnyValue editor action handler when an item is inserted in the

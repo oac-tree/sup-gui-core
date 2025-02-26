@@ -218,10 +218,12 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
 //! selected, paste operation should lead to appearance of a new field in between.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
 {
+  const std::string expected_field_name("abc");
+
   AnyValueScalarItem item_to_paste;
   item_to_paste.SetAnyTypeName(sup::dto::kInt16TypeName);
   item_to_paste.SetData(mvvm::int16{42});
-  item_to_paste.SetDisplayName("abc");
+  item_to_paste.SetDisplayName(expected_field_name);
   auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
 
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -242,7 +244,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   ASSERT_EQ(parent->GetChildren().size(), 3);
 
   auto inserted_item = parent->GetChildren().at(1);
-  const std::string expected_field_name(constants::kFieldNamePrefix + "2");
+
+  // current implementation: pasted item will have the same field name as original display name
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt16TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
@@ -259,10 +262,12 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
 //! Struct itself is selected, paste-into a field will lead to field append.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
 {
+  const std::string expected_field_name("abc");
+
   AnyValueScalarItem item_to_paste;
   item_to_paste.SetAnyTypeName(sup::dto::kInt16TypeName);
   item_to_paste.SetData(mvvm::int16{42});
-  item_to_paste.SetDisplayName("abc");
+  item_to_paste.SetDisplayName(expected_field_name);
   auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
 
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
@@ -282,7 +287,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   auto inserted_item = parent->GetChildren().at(1);
-  const std::string expected_field_name(constants::kFieldNamePrefix + "1");
+  // current implementation: pasted item will have the same field name as original display name
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt16TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);

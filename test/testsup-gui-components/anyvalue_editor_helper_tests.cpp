@@ -34,37 +34,61 @@ const std::string kUndefined("undefined");
 }
 
 //! Testing utility methods in anyvalue_editor_helper.h
-
 class AnyValueEditorHelperTest : public ::testing::Test
 {
 };
 
-//! Simulating case when AnyValueItem is a top-level item.
+TEST_F(AnyValueEditorHelperTest, HasOneOfDefaultDisplayNames)
+{
+  {
+    const AnyValueStructItem item;
+    EXPECT_TRUE(HasOneOfDefaultDisplayNames(item));
+  }
+  {
+    AnyValueArrayItem item;
+    EXPECT_TRUE(HasOneOfDefaultDisplayNames(item));
 
+    item.SetDisplayName(constants::kAnyValueDefaultDisplayName);
+    EXPECT_TRUE(HasOneOfDefaultDisplayNames(item));
+
+    item.SetDisplayName("abc");
+    EXPECT_FALSE(HasOneOfDefaultDisplayNames(item));
+  }
+  {
+    const AnyValueScalarItem item;
+    EXPECT_TRUE(HasOneOfDefaultDisplayNames(item));
+  }
+  {
+    const AnyValueEmptyItem item;
+    EXPECT_TRUE(HasOneOfDefaultDisplayNames(item));
+  }
+}
+
+//! Simulating case when AnyValueItem is a top-level item.
 TEST_F(AnyValueEditorHelperTest, SuggestDisplayNameForTopLevelItem)
 {
-  mvvm::ContainerItem container;
+  const mvvm::ContainerItem container;
 
   {  // empty
-    AnyValueEmptyItem item;
+    const AnyValueEmptyItem item;
     auto name = SuggestDisplayName(container, item);
     EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 
   {  // scalar
-    AnyValueScalarItem item;
+    const AnyValueScalarItem item;
     auto name = SuggestDisplayName(container, item);
     EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 
   {  // struct
-    AnyValueStructItem item;
+    const AnyValueStructItem item;
     auto name = SuggestDisplayName(container, item);
     EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
 
   {  // array
-    AnyValueArrayItem item;
+    const AnyValueArrayItem item;
     auto name = SuggestDisplayName(container, item);
     EXPECT_EQ(name.value_or(kUndefined), constants::kAnyValueDefaultDisplayName);
   }
@@ -72,17 +96,29 @@ TEST_F(AnyValueEditorHelperTest, SuggestDisplayNameForTopLevelItem)
 
 TEST_F(AnyValueEditorHelperTest, SuggestNameForStructField)
 {
-  AnyValueStructItem parent;
-  AnyValueScalarItem child;
+  {
+    const AnyValueStructItem parent;
+    const AnyValueScalarItem child;
 
-  auto name = SuggestDisplayName(parent, child);
-  EXPECT_EQ(name.value_or(kUndefined), constants::kFieldNamePrefix + "0");
+    auto name = SuggestDisplayName(parent, child);
+    EXPECT_EQ(name.value_or(kUndefined), constants::kFieldNamePrefix + "0");
+  }
+
+  {
+    // existing original name will be used as a field name
+    const AnyValueStructItem parent;
+    AnyValueScalarItem child;
+    child.SetDisplayName("width");
+
+    auto name = SuggestDisplayName(parent, child);
+    EXPECT_EQ(name.value_or(kUndefined), kUndefined);
+  }
 }
 
 TEST_F(AnyValueEditorHelperTest, SuggestNameForArrayElement)
 {
-  AnyValueArrayItem parent;
-  AnyValueScalarItem child;
+  const AnyValueArrayItem parent;
+  const AnyValueScalarItem child;
 
   auto name = SuggestDisplayName(parent, child);
   EXPECT_EQ(name.value_or(kUndefined), constants::kElementNamePrefix + "0");

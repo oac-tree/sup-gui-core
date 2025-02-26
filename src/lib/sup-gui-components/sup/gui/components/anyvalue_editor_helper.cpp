@@ -22,37 +22,45 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
+#include <mvvm/utils/container_utils.h>
+
 #include <map>
-
-namespace
-{
-
-std::string GetElementPrefix(const mvvm::SessionItem& parent)
-{
-  const static std::map<std::string, std::string> type_to_prefix{
-      {sup::gui::AnyValueStructItem::GetStaticType(), sup::gui::constants::kFieldNamePrefix},
-      {sup::gui::AnyValueArrayItem::GetStaticType(), sup::gui::constants::kElementNamePrefix}};
-
-  auto iter = type_to_prefix.find(parent.GetType());
-  return iter == type_to_prefix.end() ? std::string() : iter->second;
-}
-
-}  // namespace
 
 namespace sup::gui
 {
 
+bool HasOneOfDefaultDisplayNames(const mvvm::SessionItem& child)
+{
+  static const std::vector<std::string> default_names = {
+      constants::kAnyValueDefaultDisplayName, constants::kStructTypeName, constants::kArrayTypeName,
+      constants::kScalarTypeName, constants::kEmptyTypeName};
+  return mvvm::utils::Contains(default_names, child.GetDisplayName());
+}
+
 std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
                                               const mvvm::SessionItem& child)
 {
-  (void)child;
+  // For struct field we are suggesting names: field0, field1, etc, unless there is already
+  // non-default field name, which came probably from another copy-and-paste operation.
+  if (parent.GetType() == sup::gui::AnyValueStructItem::GetStaticType())
+  {
+    if (HasOneOfDefaultDisplayNames(child))
+    {
+      return sup::gui::constants::kFieldNamePrefix
+             + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
+    }
 
-  const auto prefix = GetElementPrefix(parent);  // "field" for struct, and "element" for arrays
+    return {};  // item has good name already
+  }
 
-  // if prefix is valid, suggest the name which is based on number of previous children
-  return prefix.empty()
-             ? constants::kAnyValueDefaultDisplayName
-             : prefix + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
+  // For arry element we suggest names: element0, element1, etc.
+  if (parent.GetType() == sup::gui::AnyValueArrayItem::GetStaticType())
+  {
+    return sup::gui::constants::kElementNamePrefix
+           + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
+  }
+
+  return constants::kAnyValueDefaultDisplayName;
 }
 
 std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,
