@@ -21,6 +21,7 @@
 
 #include "anyvalue_conversion_utils.h"
 #include "anyvalue_item.h"
+#include "anyvalue_item_constants.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/tagindex.h>
@@ -139,7 +140,7 @@ void AnyValueItemBuilder::AddItem(std::unique_ptr<AnyValueItem> item)
   }
   else if (m_index >= 0)
   {
-    child->SetDisplayName("index" + std::to_string(m_index));
+    child->SetDisplayName(constants::kElementNamePrefix + std::to_string(m_index));
   }
   else
   {

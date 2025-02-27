@@ -36,7 +36,7 @@ class AnyValueItemBuilderTest : public testutils::FolderTest
 public:
   AnyValueItemBuilderTest() : FolderTest("test_AnyValueItemBuilder") {}
 
-  std::unique_ptr<AnyValueItem> GetAnyValueItem(const sup::dto::AnyValue& value)
+  static std::unique_ptr<AnyValueItem> GetAnyValueItem(const sup::dto::AnyValue& value)
   {
     AnyValueItemBuilder builder;
     sup::dto::SerializeAnyValue(value, builder);
@@ -51,10 +51,9 @@ public:
 };
 
 //! Building AnyValueItem from AnyValue containing a scalar.
-
 TEST_F(AnyValueItemBuilderTest, FromEmptyAnyValue)
 {
-  sup::dto::AnyValue anyvalue;
+  const sup::dto::AnyValue anyvalue;
   WriteJson(anyvalue, "Empty.json");
 
   auto item = GetAnyValueItem(anyvalue);
@@ -67,11 +66,10 @@ TEST_F(AnyValueItemBuilderTest, FromEmptyAnyValue)
 }
 
 //! Building AnyValueItem from AnyValue containing a scalar.
-
 TEST_F(AnyValueItemBuilderTest, FromScalar)
 {
   {  // bool
-    sup::dto::AnyValue anyvalue{sup::dto::BooleanType, true};
+    const sup::dto::AnyValue anyvalue{sup::dto::BooleanType, true};
     WriteJson(anyvalue, "ScalarBool.json");
 
     auto item = GetAnyValueItem(anyvalue);
@@ -86,7 +84,7 @@ TEST_F(AnyValueItemBuilderTest, FromScalar)
   }
 
   {  // int
-    sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
+    const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
     WriteJson(anyvalue, "ScalarInt32.json");
 
     auto item = GetAnyValueItem(anyvalue);
@@ -102,10 +100,9 @@ TEST_F(AnyValueItemBuilderTest, FromScalar)
 }
 
 //! Building AnyValueItem from AnyValue with an empty struct.
-
 TEST_F(AnyValueItemBuilderTest, FromEmptyStruct)
 {
-  sup::dto::AnyValue anyvalue = ::sup::dto::EmptyStruct();
+  const sup::dto::AnyValue anyvalue = ::sup::dto::EmptyStruct();
   WriteJson(anyvalue, "EmptyStruct.json");
 
   auto item = GetAnyValueItem(anyvalue);
@@ -120,10 +117,9 @@ TEST_F(AnyValueItemBuilderTest, FromEmptyStruct)
 }
 
 //! Building AnyValueItem from AnyValue with an empty struct.
-
 TEST_F(AnyValueItemBuilderTest, FromEmptyNamedStruct)
 {
-  sup::dto::AnyValue anyvalue = ::sup::dto::EmptyStruct("mystruct");
+  const sup::dto::AnyValue anyvalue = ::sup::dto::EmptyStruct("mystruct");
   WriteJson(anyvalue, "EmptyNamedStruct.json");
 
   auto item = GetAnyValueItem(anyvalue);
@@ -138,10 +134,9 @@ TEST_F(AnyValueItemBuilderTest, FromEmptyNamedStruct)
 }
 
 //! Building AnyValueItem from AnyValue with a struct containing a single scalar.
-
 TEST_F(AnyValueItemBuilderTest, FromStructWithSingleScalar)
 {
-  sup::dto::AnyValue anyvalue = {{{"signed", {sup::dto::SignedInteger32Type, 42}}}};
+  const sup::dto::AnyValue anyvalue = {{{"signed", {sup::dto::SignedInteger32Type, 42}}}};
   WriteJson(anyvalue, "StructWithSingleScalar.json");
 
   auto item = GetAnyValueItem(anyvalue);
@@ -166,10 +161,9 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithSingleScalar)
 }
 
 //! Building AnyValueItem from AnyValue with a struct containing  two named scalars.
-
 TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
 {
-  sup::dto::AnyValue anyvalue = {
+  const sup::dto::AnyValue anyvalue = {
       {{"signed", {sup::dto::SignedInteger32Type, 42}}, {"bool", {sup::dto::BooleanType, true}}}};
   WriteJson(anyvalue, "StructWithTwoScalars.json");
 
@@ -203,12 +197,11 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
 }
 
 //! Building AnyValueItem from AnyValue containing a structure with nested structure.
-
 TEST_F(AnyValueItemBuilderTest, FromNestedStruct)
 {
-  sup::dto::AnyValue two_scalars = {
+  const sup::dto::AnyValue two_scalars = {
       {{"signed", {sup::dto::SignedInteger8Type, 1}}, {"bool", {sup::dto::BooleanType, true}}}};
-  sup::dto::AnyValue anyvalue{{
+  const sup::dto::AnyValue anyvalue{{
       {"scalars", two_scalars},
   }};
   WriteJson(anyvalue, "NestedStruct.json");
@@ -237,17 +230,16 @@ TEST_F(AnyValueItemBuilderTest, FromNestedStruct)
 }
 
 //! Building AnyValueItem from AnyValue containing a structure with two nested structures.
-
 TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
 {
   const std::string nested_name = "nested_struct";
-  sup::dto::AnyValue two_scalars = {{{"signed", {sup::dto::SignedInteger8Type, 1}},
-                                     {"unsigned", {sup::dto::UnsignedInteger8Type, 12}}}};
-  sup::dto::AnyValue anyvalue{{{"struct0", two_scalars},
-                               {"struct1",
-                                {{"first", {sup::dto::SignedInteger8Type, 0}},
-                                 {"second", {sup::dto::SignedInteger8Type, 5}}}}},
-                              nested_name};
+  const sup::dto::AnyValue two_scalars = {{{"signed", {sup::dto::SignedInteger8Type, 1}},
+                                           {"unsigned", {sup::dto::UnsignedInteger8Type, 12}}}};
+  const sup::dto::AnyValue anyvalue{{{"struct0", two_scalars},
+                                     {"struct1",
+                                      {{"first", {sup::dto::SignedInteger8Type, 0}},
+                                       {"second", {sup::dto::SignedInteger8Type, 5}}}}},
+                                    nested_name};
   WriteJson(anyvalue, "TwoNestedStructs.json");
 
   auto item = GetAnyValueItem(anyvalue);
@@ -291,10 +283,9 @@ TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
 }
 
 //! Building AnyValueItem from AnyValue containing an array of integers.
-
 TEST_F(AnyValueItemBuilderTest, FromArrayOfIntegers)
 {
-  sup::dto::AnyValue anyvalue =
+  const sup::dto::AnyValue anyvalue =
       sup::dto::ArrayValue({{sup::dto::SignedInteger64Type, 1}, 2}, "my_array_t");
   WriteJson(anyvalue, "ArrayOfIntegers.json");
 
@@ -309,26 +300,25 @@ TEST_F(AnyValueItemBuilderTest, FromArrayOfIntegers)
   // first branch
   auto child0 = item->GetItem({"", 0});
   EXPECT_EQ(child0->GetTotalItemCount(), 0);
-  EXPECT_EQ(child0->GetDisplayName(), "index0");
+  EXPECT_EQ(child0->GetDisplayName(), constants::kElementNamePrefix + "0");
   EXPECT_EQ(mvvm::utils::TypeName(child0->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(child0->Data<mvvm::int64>(), 1);
 
   // second branch
   auto child1 = item->GetItem({"", 1});
   EXPECT_EQ(child1->GetTotalItemCount(), 0);
-  EXPECT_EQ(child1->GetDisplayName(), "index1");
+  EXPECT_EQ(child1->GetDisplayName(), constants::kElementNamePrefix + "1");
   EXPECT_EQ(mvvm::utils::TypeName(child0->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(child1->Data<mvvm::int64>(), 2);
 }
 
 //! Building AnyValueItem from AnyValue structure containing an array of integers.
-
 TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
 {
   sup::dto::AnyValue array =
       sup::dto::ArrayValue({{sup::dto::SignedInteger64Type, 1}, 2}, "my_array");
 
-  sup::dto::AnyValue anyvalue{{{"field", array}}};
+  const sup::dto::AnyValue anyvalue{{{"field", array}}};
   WriteJson(anyvalue, "StructWithArrayOfIntegers.json");
 
   auto item = GetAnyValueItem(anyvalue);
@@ -348,13 +338,13 @@ TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
   // elements
   auto element0 = child0->GetItem({"", 0});
   EXPECT_EQ(element0->GetTotalItemCount(), 0);
-  EXPECT_EQ(element0->GetDisplayName(), "index0");
+  EXPECT_EQ(element0->GetDisplayName(), constants::kElementNamePrefix + "0");
   EXPECT_EQ(mvvm::utils::TypeName(element0->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(element0->Data<mvvm::int64>(), 1);
 
   auto element1 = child0->GetItem({"", 1});
   EXPECT_EQ(element1->GetTotalItemCount(), 0);
-  EXPECT_EQ(element1->GetDisplayName(), "index1");
+  EXPECT_EQ(element1->GetDisplayName(), constants::kElementNamePrefix + "1");
   EXPECT_EQ(mvvm::utils::TypeName(element1->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(element1->Data<mvvm::int64>(), 2);
 }
@@ -363,12 +353,12 @@ TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
 
 TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
 {
-  sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
-                                 {"second", {sup::dto::UnsignedInteger8Type, 44}}},
-                                "struct_name"};
-  sup::dto::AnyValue struct2 = {{{"first", {sup::dto::SignedInteger8Type, 42}},
-                                 {"second", {sup::dto::UnsignedInteger8Type, 43}}},
-                                "struct_name"};
+  const sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
+                                       {"second", {sup::dto::UnsignedInteger8Type, 44}}},
+                                      "struct_name"};
+  const sup::dto::AnyValue struct2 = {{{"first", {sup::dto::SignedInteger8Type, 42}},
+                                       {"second", {sup::dto::UnsignedInteger8Type, 43}}},
+                                      "struct_name"};
 
   auto array_value = sup::dto::ArrayValue({{struct1}, struct2}, "array_name");
   WriteJson(array_value, "ArrayWithTwoStructureElements.json");
@@ -383,7 +373,7 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   // first element in array is a structure
   auto child0 = item->GetItem({"", 0});
   EXPECT_EQ(child0->GetTotalItemCount(), 2);
-  EXPECT_EQ(child0->GetDisplayName(), "index0");
+  EXPECT_EQ(child0->GetDisplayName(), constants::kElementNamePrefix + "0");
   EXPECT_EQ(child0->GetType(), AnyValueStructItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(child0->Data()));
 
@@ -402,7 +392,7 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   // second element in array is a structure
   auto child1 = item->GetItem({"", 1});
   EXPECT_EQ(child1->GetTotalItemCount(), 2);
-  EXPECT_EQ(child1->GetDisplayName(), "index1");
+  EXPECT_EQ(child1->GetDisplayName(), constants::kElementNamePrefix + "1");
   EXPECT_EQ(child1->GetType(), AnyValueStructItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(child1->Data()));
 
