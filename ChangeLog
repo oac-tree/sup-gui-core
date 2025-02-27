@@ -1,6 +1,9 @@
-To the next Release:
+Changes for 1.7.0:
 
-- Fix bug with two digits only while editing integers and floats.
+- COA Release v3.0, CODAC Core System Release 7.3, March 2025
+- Preserve field name while copy-and-paste structure fields
+- Fix crash on attempt to copy-and-paste arrays containing int64
+- Fix bug with two digits only while editing integers and floats
 - Implement machinery for global application settings
 - Implement collapse/expand status bar buttons for left and right panels
 - Show overlay error message on JSON generation failure
