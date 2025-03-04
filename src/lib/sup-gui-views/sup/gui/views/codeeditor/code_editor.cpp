@@ -23,6 +23,8 @@
 
 #include <sup/gui/style/style_helper.h>
 
+#include <mvvm/widgets/widget_utils.h>
+
 #include <definition.h>
 #include <repository.h>
 #include <syntaxhighlighter.h>
@@ -102,7 +104,9 @@ struct CodeEditor::CodeEditorImpl
 CodeEditor::CodeEditor(QWidget* parent_widget)
     : QPlainTextEdit(parent_widget), p_impl(std::make_unique<CodeEditorImpl>(this))
 {
-  setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+  auto font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+  font.setPointSizeF(mvvm::utils::SystemPointSize());
+  setFont(font);
 
   setLineWrapMode(QPlainTextEdit::NoWrap);
   p_impl->SetDefaultTheme();
@@ -307,8 +311,8 @@ void CodeEditor::toggleFold(const QTextBlock& startBlock)
                                 endBlock.position() - startBlock.position() + 1);
 
   // update scrollbars
-  Q_EMIT document() -> documentLayout()->documentSizeChanged(
-                        document()->documentLayout()->documentSize());
+  Q_EMIT document()->documentLayout()->documentSizeChanged(
+      document()->documentLayout()->documentSize());
 }
 
 }  // namespace sup::gui
