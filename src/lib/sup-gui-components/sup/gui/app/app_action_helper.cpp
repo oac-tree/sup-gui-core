@@ -29,6 +29,7 @@
 #include <sup/gui/core/exceptions.h>
 
 #include <QApplication>
+#include <QWidget>
 
 namespace sup::gui
 {
