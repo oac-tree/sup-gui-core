@@ -41,11 +41,26 @@ std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_f
 std::unique_ptr<QMimeData> CreateCopyMimeData(const mvvm::SessionItem& item,
                                               const QString& mime_format)
 {
+  return CreateCopyMimeData({&item}, mime_format);
+}
+
+std::unique_ptr<QMimeData> CreateCopyMimeData(const std::vector<const mvvm::SessionItem*>& items,
+                                              const QString& mime_format)
+{
+  if (items.empty())
+  {
+    return {};
+  }
+
   auto result = std::make_unique<QMimeData>();
-  auto xml_str = mvvm::utils::ToXMLString(item);
-  result->setData(mime_format, mvvm::utils::GetByteArray({QString::fromStdString(xml_str)}));
-  QString clipboard_text =
-      QString("Copy of item '%1'").arg(QString::fromStdString(item.GetDisplayName()));
+  QStringList xml_representation;
+  QString clipboard_text("Copy of item");
+  for (auto item : items)
+  {
+    xml_representation.push_back(QString::fromStdString(mvvm::utils::ToXMLString(*item)));
+    clipboard_text.append(" " + QString::fromStdString(item->GetDisplayName()));
+  }
+  result->setData(mime_format, mvvm::utils::GetByteArray(xml_representation));
   result->setText(clipboard_text);
   return result;
 }
@@ -53,6 +68,15 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(const mvvm::SessionItem& item,
 std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
                                                      const QString& mime_format)
 {
+  auto items = CreateSessionItems(mime_data, mime_format);
+  return items.empty() ? std::unique_ptr<mvvm::SessionItem>() : std::move(items.front());
+}
+
+std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItems(const QMimeData* mime_data,
+                                                                    const QString& mime_format)
+{
+  std::vector<std::unique_ptr<mvvm::SessionItem> > result;
+
   if (!mime_data || !mime_data->hasFormat(mime_format))
   {
     return {};
@@ -60,13 +84,12 @@ std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
 
   auto binary_data = mime_data->data(mime_format);
   auto list = mvvm::utils::GetStringList(binary_data);
-  if (!list.empty())
+  for (const auto& xml_str : mvvm::utils::GetStringList(binary_data))
   {
-    auto xml_str = list.front().toStdString();
-    return mvvm::utils::SessionItemFromXMLString(xml_str);
+    result.emplace_back(mvvm::utils::SessionItemFromXMLString(xml_str.toStdString()));
   }
 
-  return {};
+  return result;
 }
 
 }  // namespace sup::gui

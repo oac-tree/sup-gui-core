@@ -33,11 +33,36 @@ class MimeConverionHelperTests : public ::testing::Test
 {
 };
 
+TEST_F(MimeConverionHelperTests, CreateCopyMimeData)
+{
+  {  // empty list
+    auto mime_data = CreateCopyMimeData(std::vector<const mvvm::SessionItem*>{}, QString());
+    EXPECT_EQ(mime_data.get(), nullptr);
+  }
+
+  {  // two items
+    AnyValueStructItem item1;
+    AnyValueArrayItem item2;
+
+    const std::vector<const mvvm::SessionItem*> items({&item1, &item2});
+
+    auto mime_data = CreateCopyMimeData(items, kCopyAnyValueMimeType);
+    // current implementation returns type of the first element only
+    EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item1.GetType());
+  }
+
+  EXPECT_TRUE(GetSessionItemType(nullptr, QString()).empty());
+
+  const AnyValueStructItem item;
+  auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
+  EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
+}
+
 TEST_F(MimeConverionHelperTests, GetSessionItemType)
 {
   EXPECT_TRUE(GetSessionItemType(nullptr, QString()).empty());
 
-  AnyValueStructItem item;
+  const AnyValueStructItem item;
   auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
   EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
 }
@@ -68,4 +93,33 @@ TEST_F(MimeConverionHelperTests, CreatePropertyFromMime)
     ASSERT_NE(reconstructed_property, nullptr);
     EXPECT_EQ(reconstructed_property->Data<int>(), 42);
   }
+}
+
+TEST_F(MimeConverionHelperTests, CreateTwoItemsFromMime)
+{
+  const QString mime_type = "application.coa.tests";
+  const std::string expected_name1("abc");
+  const std::string expected_name2("def");
+
+  mvvm::PropertyItem property;
+  property.SetDisplayName(expected_name1);
+  property.SetData(42);
+
+  mvvm::CompoundItem compound;
+  compound.SetDisplayName(expected_name2);
+
+  auto data = CreateCopyMimeData({&property, &compound}, mime_type);
+  EXPECT_TRUE(data->hasFormat(mime_type));
+
+  auto reconstructed_items = CreateSessionItems(data.get(), mime_type);
+  ASSERT_EQ(reconstructed_items.size(), 2);
+
+  auto reconstructed_property = reconstructed_items.at(0).get();
+  auto reconstructed_compound = reconstructed_items.at(1).get();
+
+  EXPECT_EQ(reconstructed_property->GetDisplayName(), expected_name1);
+  EXPECT_EQ(reconstructed_property->GetType(), mvvm::PropertyItem::GetStaticType());
+  EXPECT_EQ(reconstructed_property->Data<int>(), 42);
+  EXPECT_EQ(reconstructed_compound->GetDisplayName(), expected_name2);
+  EXPECT_EQ(reconstructed_compound->GetType(), mvvm::CompoundItem::GetStaticType());
 }
