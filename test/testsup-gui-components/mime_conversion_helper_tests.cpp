@@ -141,10 +141,10 @@ TEST_F(MimeConverionHelperTests, CoopyAndPasteWithFiltering)
       compound.InsertItem(std::make_unique<mvvm::PropertyItem>(), mvvm::TagIndex::Append());
   child1->SetDisplayName("child_name1");
 
-  auto filter_func = [](const auto& item) -> bool
-  { return item.GetDisplayName() == "child_name0"; };
+  auto item_accept_func = [](const auto& item) -> bool
+  { return item.GetDisplayName() != "child_name0"; };
 
-  auto data = CreateCopyMimeData(compound, mime_type, filter_func);
+  auto data = CreateCopyMimeData(compound, mime_type, item_accept_func);
 
   auto reconstructed_items = CreateSessionItems(data.get(), mime_type);
   ASSERT_EQ(reconstructed_items.size(), 1);
