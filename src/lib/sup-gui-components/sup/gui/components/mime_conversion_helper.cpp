@@ -38,14 +38,16 @@ std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_f
   return item ? item->GetType() : std::string();
 }
 
-std::unique_ptr<QMimeData> CreateCopyMimeData(const mvvm::SessionItem& item,
-                                              const QString& mime_format)
+std::unique_ptr<QMimeData> CreateCopyMimeData(
+    const mvvm::SessionItem& item, const QString& mime_format,
+    const std::function<bool(const mvvm::SessionItem&)>& filter_func)
 {
-  return CreateCopyMimeData({&item}, mime_format);
+  return CreateCopyMimeData({&item}, mime_format, filter_func);
 }
 
-std::unique_ptr<QMimeData> CreateCopyMimeData(const std::vector<const mvvm::SessionItem*>& items,
-                                              const QString& mime_format)
+std::unique_ptr<QMimeData> CreateCopyMimeData(
+    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format,
+    const std::function<bool(const mvvm::SessionItem&)>& filter_func)
 {
   if (items.empty())
   {
@@ -57,7 +59,8 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(const std::vector<const mvvm::Sess
   QString clipboard_text("Copy of item");
   for (auto item : items)
   {
-    xml_representation.push_back(QString::fromStdString(mvvm::utils::ToXMLString(*item)));
+    xml_representation.push_back(
+        QString::fromStdString(mvvm::utils::ToXMLString(*item, filter_func)));
     clipboard_text.append(" " + QString::fromStdString(item->GetDisplayName()));
   }
   result->setData(mime_format, mvvm::utils::GetByteArray(xml_representation));

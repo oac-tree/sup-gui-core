@@ -123,3 +123,34 @@ TEST_F(MimeConverionHelperTests, CreateTwoItemsFromMime)
   EXPECT_EQ(reconstructed_compound->GetDisplayName(), expected_name2);
   EXPECT_EQ(reconstructed_compound->GetType(), mvvm::CompoundItem::GetStaticType());
 }
+
+TEST_F(MimeConverionHelperTests, CoopyAndPasteWithFiltering)
+{
+  const QString mime_type = "application.coa.tests";
+  const std::string expected_name1("abc");
+  const std::string expected_name2("def");
+
+  mvvm::CompoundItem compound;
+  compound.SetDisplayName(expected_name1);
+  compound.RegisterTag(mvvm::TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child0 =
+      compound.InsertItem(std::make_unique<mvvm::PropertyItem>(), mvvm::TagIndex::Append());
+  child0->SetDisplayName("child_name0");
+  auto child1 =
+      compound.InsertItem(std::make_unique<mvvm::PropertyItem>(), mvvm::TagIndex::Append());
+  child1->SetDisplayName("child_name1");
+
+  auto filter_func = [](const auto& item) -> bool
+  { return item.GetDisplayName() == "child_name0"; };
+
+  auto data = CreateCopyMimeData(compound, mime_type, filter_func);
+
+  auto reconstructed_items = CreateSessionItems(data.get(), mime_type);
+  ASSERT_EQ(reconstructed_items.size(), 1);
+
+  auto reconstructed_compound = reconstructed_items.at(0).get();
+  EXPECT_EQ(reconstructed_compound->GetItemCount("defaultTag"), 1);
+  EXPECT_EQ(reconstructed_compound->GetItem("defaultTag")->GetDisplayName(),
+            std::string("child_name1"));
+}

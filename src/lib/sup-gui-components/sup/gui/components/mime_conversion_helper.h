@@ -24,6 +24,7 @@
 //! Helper methods to convert item from/to QMimeData.
 
 #include <QString>
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -55,18 +56,22 @@ std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_f
  *
  * @param item The item to copy.
  * @param mime_format String representing format.
+ * @param filter_func Predicate to filter out some children.
  */
-std::unique_ptr<QMimeData> CreateCopyMimeData(const mvvm::SessionItem& item,
-                                              const QString& mime_format);
+std::unique_ptr<QMimeData> CreateCopyMimeData(
+    const mvvm::SessionItem& item, const QString& mime_format,
+    const std::function<bool(const mvvm::SessionItem&)>& filter_func = {});
 
 /**
  * @brief Creates mime data to copy given list of items.
  *
  * @param item Items to copy.
  * @param mime_format String representing format.
+ * @param filter_func Predicate to filter out some children.
  */
-std::unique_ptr<QMimeData> CreateCopyMimeData(const std::vector<const mvvm::SessionItem*>& items,
-                                              const QString& mime_format);
+std::unique_ptr<QMimeData> CreateCopyMimeData(
+    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format,
+    const std::function<bool(const mvvm::SessionItem&)>& filter_func = {});
 
 /**
  * @brief Creates item from given mime data.
