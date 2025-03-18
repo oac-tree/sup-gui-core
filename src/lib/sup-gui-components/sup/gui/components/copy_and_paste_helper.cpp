@@ -27,34 +27,61 @@
 namespace sup::gui
 {
 
-std::vector<mvvm::SessionItem *> GetTopLevelSelection(const std::vector<mvvm::SessionItem *> &items)
+namespace
 {
-  std::vector<std::pair<mvvm::SessionItem *, int>> item_to_depth;
 
+/**
+ * @brief Creates vector of pairs containing item and its depth level in items' hierarchy.
+ */
+std::vector<std::pair<mvvm::SessionItem *, int>> GetItemDepthInfo(
+    const std::vector<mvvm::SessionItem *> &items)
+{
+  std::vector<std::pair<mvvm::SessionItem *, int>> result;
+
+  auto on_element = [](auto element) -> std::pair<mvvm::SessionItem *, int>
+  { return {element, mvvm::utils::GetNestingDepth(element)}; };
+  std::transform(items.begin(), items.end(), std::back_inserter(result), on_element);
+  return result;
+}
+
+/**
+ * @brief Returns min depth level.
+ */
+int GetMinDepth(const std::vector<std::pair<mvvm::SessionItem *, int>> &depth_info)
+{
   int min_depth = std::numeric_limits<int>::max();
-  auto on_element = [&min_depth](auto element) -> std::pair<mvvm::SessionItem *, int>
-  {
-    int depth = mvvm::utils::GetNestingDepth(element);
-    if (depth >= 0)
-    {
-      min_depth = std::min(min_depth, depth);
-    }
-    return {element, depth};
-  };
-  std::transform(items.begin(), items.end(), std::back_inserter(item_to_depth), on_element);
+  auto on_element = [&min_depth](auto element) { min_depth = std::min(element.second, min_depth); };
+  std::for_each(depth_info.begin(), depth_info.end(), on_element);
+  return min_depth;
+}
 
+/**
+ * @brief Returns items which have given depth in the hierarchy.
+ */
+std::vector<mvvm::SessionItem *> GetItemsWithDepth(
+    const std::vector<std::pair<mvvm::SessionItem *, int>> &depth_info, int depth)
+{
   std::vector<mvvm::SessionItem *> result;
 
-  auto on_pair_element = [min_depth, &result](auto element)
+  auto on_pair_element = [depth, &result](auto element)
   {
-    if (element.second == min_depth)
+    if (element.second == depth)
     {
       result.push_back(element.first);
     }
   };
-  std::for_each(item_to_depth.begin(), item_to_depth.end(), on_pair_element);
+  std::for_each(depth_info.begin(), depth_info.end(), on_pair_element);
 
   return result;
+}
+
+}  // namespace
+
+std::vector<mvvm::SessionItem *> GetTopLevelSelection(const std::vector<mvvm::SessionItem *> &items)
+{
+  const auto item_to_depth = GetItemDepthInfo(items);
+  const int min_depth = GetMinDepth(item_to_depth);
+  return GetItemsWithDepth(item_to_depth, min_depth);
 }
 
 }  // namespace sup::gui
