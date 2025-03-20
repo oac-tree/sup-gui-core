@@ -56,13 +56,14 @@ namespace sup::gui
 std::vector<mvvm::SessionItem*> GetTopLevelSelection(const std::vector<mvvm::SessionItem*>& items);
 
 /**
- * @brief Filter out all items whose parents are located in the same list and returns the
- * parent list to the user.
+ * @brief Removes all children from the given list.
  *
- * The method is used in the cut/remove scenario when the user removes an arbitrary selection from a
- * tree. There is no sense in removing children if their parents have been already removed.
+ * Assuming that the list contains a mixture of parents and their children, we will remove all items
+ * that have their parents/grandparents located in the same list.  The method is used in the
+ * cut/remove scenario when the user removes an arbitrary selection from a tree. We want to delete
+ * only top-level items since all children will be removed anyway.
  *
- * @param items Mixtuer of parents and their children in the same container.
+ * @param items Mixture of parents and their children.
  * @return List of parent items.
  */
 std::vector<mvvm::SessionItem*> FilterOutChildren(const std::vector<mvvm::SessionItem*>& items);
