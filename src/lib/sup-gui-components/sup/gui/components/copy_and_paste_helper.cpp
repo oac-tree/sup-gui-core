@@ -84,4 +84,17 @@ std::vector<mvvm::SessionItem *> GetTopLevelSelection(const std::vector<mvvm::Se
   return GetItemsWithDepth(item_to_depth, min_depth);
 }
 
+std::vector<mvvm::SessionItem *> FilterOutChildren(const std::vector<mvvm::SessionItem *> &items)
+{
+  std::vector<mvvm::SessionItem *> result;
+
+  auto on_element = [&items](auto current_item) -> bool
+  {
+    return std::all_of(items.begin(), items.end(), [current_item](auto possible_parrent)
+                       { return !mvvm::utils::IsItemAncestor(current_item, possible_parrent); });
+  };
+  std::copy_if(items.begin(), items.end(), std::back_inserter(result), on_element);
+  return result;
+}
+
 }  // namespace sup::gui

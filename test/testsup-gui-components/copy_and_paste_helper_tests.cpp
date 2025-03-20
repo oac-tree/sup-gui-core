@@ -96,3 +96,50 @@ TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren
   const std::vector<mvvm::SessionItem*> expected({parent1, parent2, parent3});
   EXPECT_EQ(GetTopLevelSelection(selection), expected);
 }
+
+TEST_F(CopyAndPasteHelperTest, FilterOutChildren)
+{
+  mvvm::SessionModel model;
+
+  auto parent0 = model.InsertItem<AnyValueStructItem>();
+  auto child0 = model.InsertItem<AnyValueScalarItem>(parent0);
+
+  auto parent1 = model.InsertItem<AnyValueStructItem>();
+  auto child1 = model.InsertItem<AnyValueScalarItem>(parent1);
+  auto child2 = model.InsertItem<AnyValueScalarItem>(parent1);
+
+  auto parent2 = model.InsertItem<AnyValueStructItem>();
+  auto child3 = model.InsertItem<AnyValueScalarItem>(parent2);
+
+  auto parent3 = model.InsertItem<AnyValueStructItem>();
+
+  {
+    const std::vector<mvvm::SessionItem*> selection;
+    EXPECT_TRUE(FilterOutChildren(selection).empty());
+  }
+
+  {
+    const std::vector<mvvm::SessionItem*> selection({child0});
+    const std::vector<mvvm::SessionItem*> expected({child0});
+    EXPECT_EQ(FilterOutChildren(selection), expected);
+  }
+
+  {
+    const std::vector<mvvm::SessionItem*> selection({child0, parent0});
+    const std::vector<mvvm::SessionItem*> expected({parent0});
+    EXPECT_EQ(FilterOutChildren(selection), expected);
+  }
+
+  {
+    const std::vector<mvvm::SessionItem*> selection({parent0, child0});
+    const std::vector<mvvm::SessionItem*> expected({parent0});
+    EXPECT_EQ(FilterOutChildren(selection), expected);
+  }
+
+  {
+    const std::vector<mvvm::SessionItem*> selection(
+        {child0, parent1, child1, parent2, child3, parent3});
+    const std::vector<mvvm::SessionItem*> expected({child0, parent1, parent2, parent3});
+    EXPECT_EQ(FilterOutChildren(selection), expected);
+  }
+}
