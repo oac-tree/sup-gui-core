@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_PLOTTING_WAVEFORM_TABLE_COMPONENT_PROVIDER_H_
-#define SUP_GUI_PLOTTING_WAVEFORM_TABLE_COMPONENT_PROVIDER_H_
+#ifndef SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_TABLE_COMPONENT_PROVIDER_H_
+#define SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_TABLE_COMPONENT_PROVIDER_H_
 
-#include <mvvm/providers/item_view_component_provider.h>
+#include <mvvm/views/item_view_component_provider.h>
 
 class QTableView;
 
@@ -51,4 +51,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_PLOTTING_WAVEFORM_TABLE_COMPONENT_PROVIDER_H_
+#endif  // SUP_GUI_VIEWS_WAVEFORMEDITOR_WAVEFORM_TABLE_COMPONENT_PROVIDER_H_

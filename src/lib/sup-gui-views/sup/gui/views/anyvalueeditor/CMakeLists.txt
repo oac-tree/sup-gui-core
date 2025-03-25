@@ -16,6 +16,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_widget.h
   command_line_options.cpp
   command_line_options.h
+  tree_view_component_provider.cpp
+  tree_view_component_provider.h
 )
 
 install(FILES

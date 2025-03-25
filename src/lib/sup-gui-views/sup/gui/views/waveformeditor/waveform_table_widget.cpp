@@ -19,7 +19,7 @@
 
 #include "waveform_table_widget.h"
 
-#include <sup/gui/plotting/waveform_table_component_provider.h>
+#include <sup/gui/views/waveformeditor/waveform_table_component_provider.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/line_series_data_item.h>

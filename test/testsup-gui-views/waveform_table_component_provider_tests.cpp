@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/plotting/waveform_table_component_provider.h"
+#include "sup/gui/views/waveformeditor/waveform_table_component_provider.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_constants.h>

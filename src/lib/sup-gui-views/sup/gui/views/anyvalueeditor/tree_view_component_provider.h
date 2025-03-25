@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
 #define SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
 
-#include <mvvm/providers/item_view_component_provider.h>
+#include <mvvm/views/item_view_component_provider.h>
 
 class QTreeView;
 

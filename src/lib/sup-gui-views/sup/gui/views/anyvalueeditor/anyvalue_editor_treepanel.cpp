@@ -20,7 +20,7 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/viewmodel/tree_view_component_provider.h>
+#include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
 
 #include <QLineEdit>

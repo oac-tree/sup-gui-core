@@ -8,6 +8,8 @@ target_sources(${library_name} PRIVATE
   waveform_editor_actions.h
   waveform_editor_widget.cpp
   waveform_editor_widget.h
+  waveform_table_component_provider.cpp
+  waveform_table_component_provider.h
   waveform_table_widget.cpp
   waveform_table_widget.h
 )
