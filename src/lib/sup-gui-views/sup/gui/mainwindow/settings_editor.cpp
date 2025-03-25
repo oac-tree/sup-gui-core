@@ -21,9 +21,9 @@
 
 #include <sup/gui/model/settings_model.h>
 
-#include <mvvm/providers/item_view_component_provider.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
+#include <mvvm/views/component_provider_helper.h>
 #include <mvvm/views/property_flat_view.h>
 #include <mvvm/widgets/widget_utils.h>
 
