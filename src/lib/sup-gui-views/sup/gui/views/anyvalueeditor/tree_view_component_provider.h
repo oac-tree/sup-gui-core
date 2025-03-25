@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
-#define SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
+#ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_TREE_VIEW_COMPONENT_PROVIDER_H_
+#define SUP_GUI_VIEWS_ANYVALUEEDITOR_TREE_VIEW_COMPONENT_PROVIDER_H_
 
 #include <mvvm/views/item_view_component_provider.h>
 
@@ -60,4 +60,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWMODEL_TREE_VIEW_COMPONENT_PROVIDER_H_
+#endif  // SUP_GUI_VIEWS_ANYVALUEEDITOR_TREE_VIEW_COMPONENT_PROVIDER_H_

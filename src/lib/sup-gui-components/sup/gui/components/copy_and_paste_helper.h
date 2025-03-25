@@ -70,4 +70,4 @@ std::vector<mvvm::SessionItem*> FilterOutChildren(const std::vector<mvvm::Sessio
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_SELECTION_HELPER_H_
+#endif  // SUP_GUI_COMPONENTS_COPY_AND_PASTE_HELPER_H_

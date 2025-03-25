@@ -65,4 +65,4 @@ inline T SettingsModel::Data(const std::string& setting_name) const
 
 }  // namespace sup::gui
 
-#endif  // SEQUENCERGUI_MODEL_SETTINGS_MODEL_H_
+#endif  // SUP_GUI_MODEL_SETTINGS_MODEL_H_

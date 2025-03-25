@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SEQUENCERGUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
-#define SEQUENCERGUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
+#ifndef SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
+#define SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
 
 #include <sup/gui/core/message_handler_interface.h>
 
@@ -48,4 +48,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SEQUENCERGUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
+#endif  // SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
