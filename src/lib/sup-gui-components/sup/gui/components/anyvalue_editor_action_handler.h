@@ -20,24 +20,17 @@
 #ifndef SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_ACTION_HANDLER_H_
 #define SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_ACTION_HANDLER_H_
 
-#include "anyvalue_editor_context.h"
+#include <sup/gui/components/anyvalue_editor_context.h>
+#include <sup/gui/components/i_anyvalue_editor_action_handler.h>
 
 #include <QObject>
 #include <memory>
 
 class QMimeData;
 
-namespace mvvm
-{
-class SessionItem;
-class ISessionModel;
-class TagIndex;
-}  // namespace mvvm
-
 namespace sup::gui
 {
 
-class AnyValueItem;
 class QueryResult;
 
 /**
@@ -53,7 +46,7 @@ class QueryResult;
  * AnyValueItem at a time. Thus, it is assumed that there is only a single top-level AnyValueItem
  * and it is located in its own container.
  */
-class AnyValueEditorActionHandler : public QObject
+class AnyValueEditorActionHandler : public QObject, public IAnyValueEditorActionHandler
 {
   Q_OBJECT
 
@@ -64,179 +57,61 @@ public:
                               QObject* parent);
   ~AnyValueEditorActionHandler() override;
 
-  /**
-   * @brief Sets an item that represents a container to store top-level AnyValueItem.
-   */
-  void SetAnyValueItemContainer(mvvm::SessionItem* container);
+  void SetAnyValueItemContainer(mvvm::SessionItem* container) override;
 
-  /**
-   * @brief Checks if AnyValueItem with the given type name can be inserted after currently selected
-   * AnyValueItem.
-   *
-   * Method uses AnyValueItem type names as provided by menu labels ("struct", "int32", etc...)
-   *
-   * @param type_name The type name.
-   */
-  bool CanInsertAfter(const std::string& type_name) const;
+  bool CanInsertAfter(const std::string& type_name) const override;
 
-  /**
-   * @brief Inserts new AnyValueItem of the given type after current selection.
-   */
-  void OnInsertAnyValueItemAfter(const std::string& type_name);
+  void OnInsertAnyValueItemAfter(const std::string& type_name) override;
 
-  /**
-   * @brief Checks if AnyValueItem with the given type name can be inserted into currently selected
-   * AnyValueItem.
-   *
-   * Method uses AnyValueItem type names as provided by menu labels ("struct", "int32", etc...)
-   *
-   * @param type_name The type name.
-   */
-  bool CanInsertInto(const std::string& type_name) const;
+  bool CanInsertInto(const std::string& type_name) const override;
 
-  /**
-   * @brief Inserts new AnyValueItem of the given type into current selection.
-   */
-  void OnInsertAnyValueItemInto(const std::string& type_name);
+  void OnInsertAnyValueItemInto(const std::string& type_name) override;
 
-  /**
-   * @brief Checks if currently selected AnyValue can be removed.
-   */
-  bool CanRemove() const;
+  bool CanRemove() const override;
 
-  /**
-   * @brief Removes currently selected item.
-   */
-  void OnRemoveSelected();
+  void OnRemoveSelected() override;
 
-  /**
-   * @brief Imports AnyValue from file.
-   *
-   * Depending on the current selection, it can become either a top-level item, a field in a
-   * structure, or array element.
-   */
-  void OnImportFromFileRequest(const std::string& file_name);
+  void OnImportFromFileRequest(const std::string& file_name) override;
 
-  /**
-   * @brief Exports top-level AnyValue to file.
-   */
-  void OnExportToFileRequest(const std::string& file_name);
+  void OnExportToFileRequest(const std::string& file_name) override;
 
-  /**
-   * @brief Moves a structure field, or array element up.
-   */
-  void OnMoveUpRequest();
+  void OnMoveUpRequest() override;
 
-  /**
-   * @brief Moves a structure field, or array element down.
-   */
-  void OnMoveDownRequest();
+  void OnMoveDownRequest() override;
 
-  /**
-   * @brief Checks if cut operation is possible.
-   */
-  bool CanCut() const;
+  bool CanCut() const override;
 
-  /**
-   * @brief Cut selected AnyValue.
-   */
-  void Cut();
+  void Cut() override;
 
-  /**
-   * @brief Checks if copy operation is possible.
-   */
-  bool CanCopy() const;
+  bool CanCopy() const override;
 
-  /**
-   * @brief Copy selected AnyValue.
-   */
-  void Copy();
+  void Copy() override;
 
-  /**
-   * @brief Checks if paste-after operation is possible.
-   *
-   * Paste-after operation inserts new item after the current selection. If current selection
-   * represent a field of a struct, a new field will be inserted right after. If current selection
-   * represent an array element, the new element will be inserted right after.
-   *
-   * Paste-after operation is not possible for top-level items, since the editor allows to have only
-   * a single top-level item.
-   */
-  bool CanPasteAfter() const;
+  bool CanPasteAfter() const override;
 
-  /**
-   * @brief Paste new AnyValue after the current selection.
-   */
-  void PasteAfter();
+  void PasteAfter() override;
 
-  /**
-   * @brief Checks if paste-into operation is possible.
-   *
-   * Paste-into operation appends a new child to existing children of currently selected
-   * AnyValue.
-   *
-   * If the current selection represents a struct, pasted AnyValue will be appended as a new field
-   * to the list of existing fields. If the current selection represents an array, pasted AnyValue
-   * will be appended to the list of current array elements.
-   *
-   * It is not possible to paste-into a scalar.
-   */
-  bool CanPasteInto() const;
+  bool CanPasteInto() const override;
 
-  /**
-   * @brief Paste AnyValue as a child into currently selected AnyValue.
-   */
-  void PasteInto();
+  void PasteInto() override;
 
-  /**
-   * @brief Sets initial value.
-   *
-   * The given value will be cloned inside the editor's model and used as a starting point for
-   * editing.
-   *
-   * @param item The value to set.
-   */
-  void SetInitialValue(const AnyValueItem& item);
+  void SetInitialValue(const AnyValueItem& item) override;
 
-  /**
-   * @brief Returns a top-level AnyValueItem (i.e. the result of the editing).
-   */
-  AnyValueItem* GetTopItem();
+  AnyValueItem* GetTopItem() override;
 
-  /**
-   * @brief Returns a top-level AnyValueItem (i.e. the result of the editing).
-   */
-  const AnyValueItem* GetTopItem() const;
+  const AnyValueItem* GetTopItem() const override;
 
-  /**
-   * @brief Returns currently selected item.
-   */
-  sup::gui::AnyValueItem* GetSelectedItem() const;
+  sup::gui::AnyValueItem* GetSelectedItem() const override;
 
-  /**
-   * @brief Returns container used to store the top-level AnyValueItem.
-   */
-  mvvm::SessionItem* GetAnyValueItemContainer() const;
+  mvvm::SessionItem* GetAnyValueItemContainer() const override;
 
-  /**
-   * @brief Checks if it is possible to undo last change.
-   */
-  bool CanUndo() const;
+  bool CanUndo() const override;
 
-  /**
-   * @brief Unddo last change.
-   */
-  void Undo();
+  void Undo() override;
 
-  /**
-   * @brief Checks if it is possible to redo last change.
-   */
-  bool CanRedo() const;
+  bool CanRedo() const override;
 
-  /**
-   * @brief Redo last undo.
-   */
-  void Redo();
+  void Redo() override;
 
 signals:
   void SelectItemRequest(mvvm::SessionItem* item);
