@@ -53,9 +53,10 @@ public:
   //! Creates context necessary for AnyValueEditActions to function.
   AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)
   {
-    // callback returns given item, pretending it is user's selection
-    auto get_selected_callback = [item]() { return item; };
-    return {get_selected_callback, m_warning_listener.AsStdFunction()};
+    AnyValueEditorContext result;
+    result.selected_items = [item]() { return item; };
+    result.send_message = m_warning_listener.AsStdFunction();
+    return result;
   }
 
   //! Creates AnyValueEditorActions for testing.
