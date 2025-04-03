@@ -30,9 +30,6 @@
 #include <QString>
 #include <QStringListModel>
 #include <QTest>
-#include <thread>
-
-using ::testing::_;
 
 /**
  * @brief The AddLineTask represent a task to add a string line to a model.

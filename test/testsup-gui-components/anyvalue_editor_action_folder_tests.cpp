@@ -36,7 +36,6 @@
 #include <testutils/folder_test.h>
 
 using namespace sup::gui;
-using ::testing::_;
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
@@ -88,7 +87,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
   auto handler = CreateActionHandler(nullptr);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   handler->OnImportFromFileRequest(file_path);
 
@@ -101,7 +100,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 
   // attempt to import again
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   handler->OnImportFromFileRequest(file_path);
   EXPECT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
@@ -124,7 +123,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
   auto handler = CreateActionHandler(structure);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   handler->OnImportFromFileRequest(file_path);
 
@@ -153,7 +152,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
   auto handler = CreateActionHandler(scalar_item);
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   handler->OnImportFromFileRequest(file_path);
 };
@@ -172,7 +171,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ExportToFile)
   // creating action handler when nothing is selected
   auto handler = CreateActionHandler(nullptr);
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // exporting file
   handler->OnExportToFileRequest(file_path);
@@ -196,7 +195,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, AttemptToExportEmptyModelToFile)
   // creating action when nothing is selected
   auto actions = CreateActionHandler(nullptr);
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // exporting file
   actions->OnExportToFileRequest(file_path);

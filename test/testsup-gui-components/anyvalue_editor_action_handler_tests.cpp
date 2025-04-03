@@ -35,7 +35,6 @@
 #include <gtest/gtest.h>
 
 using namespace sup::gui;
-using ::testing::_;
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
@@ -105,7 +104,7 @@ TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
   item.SetData(42);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   auto handler = CreateActionHandler(nullptr);
   handler->SetInitialValue(item);
@@ -134,7 +133,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
   EXPECT_EQ(handler->GetTopItem()->GetIdentifier(), item.GetIdentifier());
   auto prev_top = handler->GetTopItem();
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   const AnyValueScalarItem item2;
   handler->SetInitialValue(item2);
@@ -158,7 +157,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kEmptyTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kEmptyTypeName));
@@ -190,7 +189,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
@@ -221,7 +220,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
 
   // expecting warning
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // attempt to add another top level item
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
@@ -245,7 +244,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
   // expecting warning
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // attempt to add another top level item
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
@@ -265,7 +264,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   EXPECT_EQ(handler->GetSelectedItem(), parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertInto(constants::kStructTypeName));
 
@@ -293,7 +292,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   auto handler = CreateActionHandler(parent);
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
@@ -328,7 +327,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
   // expecting warning callback further down
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -349,7 +348,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -376,7 +375,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   auto handler = CreateActionHandler(field0);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -406,7 +405,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -434,7 +433,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   EXPECT_FALSE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -455,7 +454,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   EXPECT_FALSE(handler->CanInsertAfter(sup::dto::kInt32TypeName));
 
   // expecting warning callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // attempt to add second top level scalar
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -478,7 +477,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   auto handler = CreateActionHandler(parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -488,7 +487,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   // expecting error callback
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // attempt to add mismatching type
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt16TypeName);
@@ -520,7 +519,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kArrayTypeName);
 
   // expecting a callback
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // attempt to add second top-level item
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
@@ -541,7 +540,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
   EXPECT_TRUE(handler->CanInsertInto(constants::kArrayTypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(constants::kArrayTypeName);
@@ -568,7 +567,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
   EXPECT_FALSE(handler->CanInsertAfter(constants::kArrayTypeName));
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field to
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
@@ -589,7 +588,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   EXPECT_FALSE(handler->CanInsertAfter(constants::kArrayTypeName));
 
   // expecting warning callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(1);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
 
   // attempt to add second top level array
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
@@ -652,7 +651,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // moving selected item up
   handler->OnMoveUpRequest();

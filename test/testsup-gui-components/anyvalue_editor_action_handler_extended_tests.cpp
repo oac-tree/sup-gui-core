@@ -37,7 +37,6 @@
 #include <testutils/folder_test.h>
 
 using namespace sup::gui;
-using ::testing::_;
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
@@ -83,7 +82,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
   EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field.
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -102,7 +101,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
   item.SetEditable(false);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   auto handler = CreateActionHandler(nullptr);
   handler->SetInitialValue(item);

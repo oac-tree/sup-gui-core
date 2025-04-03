@@ -34,7 +34,6 @@
 #include <stdexcept>
 
 using namespace sup::gui;
-using ::testing::_;
 
 class AnyValueItemUtilsTest : public ::testing::Test
 {
@@ -160,7 +159,7 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 
   mock_listener_t listener(&model);
 
-  EXPECT_CALL(listener, OnDataChanged(_)).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(::testing::_)).Times(1);
 
   EXPECT_NO_THROW(UpdateAnyValueItemData(*source, *target));
   EXPECT_EQ(target->Data<int>(), 42);
@@ -181,7 +180,7 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScal
 
   mock_listener_t listener(&model);
 
-  EXPECT_CALL(listener, OnDataChanged(_)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(::testing::_)).Times(0);
 
   EXPECT_NO_THROW(UpdateAnyValueItemData(*source, *target));
   EXPECT_EQ(target->Data<int>(), 42);

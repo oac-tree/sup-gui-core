@@ -37,7 +37,6 @@
 #include <QMimeData>
 
 using namespace sup::gui;
-using ::testing::_;
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
@@ -197,7 +196,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   handler->PasteAfter();
@@ -235,7 +234,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   handler->PasteAfter();
@@ -278,7 +277,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteInto());
   handler->PasteInto();
@@ -315,7 +314,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(_)).Times(0);
+  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanCut());
   handler->Cut();
