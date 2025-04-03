@@ -42,10 +42,10 @@ namespace sup::gui
 struct AnyValueEditorContext
 {
   //!< callback to retrieve currently selected AnyValueItem
-  std::function<sup::gui::AnyValueItem*()> get_selected_callback;
+  std::function<sup::gui::AnyValueItem*()> selected_items;
 
   //!< callback to report an error
-  std::function<void(const sup::gui::MessageEvent&)> send_message_callback;
+  std::function<void(const sup::gui::MessageEvent&)> send_message;
 
   //! callback to get mime data from the clipboard
   std::function<const QMimeData*()> get_mime_data;

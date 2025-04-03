@@ -61,8 +61,8 @@ public:
   {
     AnyValueEditorContext result;
     // callback returns given item, pretending it is user's selection
-    result.get_selected_callback = [selection]() { return selection; };
-    result.send_message_callback = m_warning_listener.AsStdFunction();
+    result.selected_items = [selection]() { return selection; };
+    result.send_message = m_warning_listener.AsStdFunction();
     return result;
   }
 

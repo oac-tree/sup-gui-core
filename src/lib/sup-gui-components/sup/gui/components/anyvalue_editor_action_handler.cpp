@@ -292,7 +292,7 @@ const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 
 AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 {
-  return m_context.get_selected_callback ? m_context.get_selected_callback() : nullptr;
+  return m_context.selected_items ? m_context.selected_items() : nullptr;
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
@@ -344,7 +344,7 @@ mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const
 
 void AnyValueEditorActionHandler::SendMessage(const MessageEvent& message)
 {
-  m_context.send_message_callback(message);
+  m_context.send_message(message);
 }
 
 void AnyValueEditorActionHandler::SendMessage(const std::string& text,

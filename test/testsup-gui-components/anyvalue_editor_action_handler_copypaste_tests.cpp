@@ -58,8 +58,8 @@ public:
   {
     AnyValueEditorContext result;
     // callback returns given item, pretending it is user's selection
-    result.get_selected_callback = [selection]() { return selection; };
-    result.send_message_callback = m_warning_listener.AsStdFunction();
+    result.selected_items = [selection]() { return selection; };
+    result.send_message = m_warning_listener.AsStdFunction();
     result.get_mime_data = [current_mime]() { return current_mime; };
     result.set_mime_data = [this](std::unique_ptr<QMimeData> data)
     { m_copy_result = std::move(data); };

@@ -231,8 +231,8 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
 {
   AnyValueEditorContext result;
 
-  result.get_selected_callback = [this]() { return GetSelectedItem(); };
-  result.send_message_callback = [](const auto &event) { sup::gui::SendWarningMessage(event); };
+  result.selected_items = [this]() { return GetSelectedItem(); };
+  result.send_message = [](const auto &event) { sup::gui::SendWarningMessage(event); };
   result.get_mime_data = []() { return QGuiApplication::clipboard()->mimeData(); };
   result.set_mime_data = [](std::unique_ptr<QMimeData> data)
   { QGuiApplication::clipboard()->setMimeData(data.release()); };
