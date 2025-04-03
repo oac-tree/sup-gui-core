@@ -51,10 +51,10 @@ class AnyValueEditorActionHandler : public QObject, public IAnyValueEditorAction
   Q_OBJECT
 
 public:
-  AnyValueEditorActionHandler(AnyValueEditorContext context, QObject* parent);
+  AnyValueEditorActionHandler(AnyValueEditorContext context, QObject* parent_object);
 
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container,
-                              QObject* parent);
+                              QObject* parent_object);
   ~AnyValueEditorActionHandler() override;
 
   void SetAnyValueItemContainer(mvvm::SessionItem* container) override;
