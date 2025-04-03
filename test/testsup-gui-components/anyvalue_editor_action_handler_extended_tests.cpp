@@ -44,10 +44,13 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 //! Extended tests for AnyValueEditorActionHandler.
 
-class AnyValueEditorActionHandlerExtendedTest : public testutils::FolderTest
+class AnyValueEditorActionHandlerExtendedTest : public test::FolderTest
 {
 public:
-  AnyValueEditorActionHandlerExtendedTest() : testutils::FolderTest("test_AnyValueEditorAction") {}
+  AnyValueEditorActionHandlerExtendedTest()
+      : test::FolderTest("AnyValueEditorActionHandlerExtendedTest")
+  {
+  }
 
   //! Creates context necessary for AnyValueEditActions to function.
   AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)

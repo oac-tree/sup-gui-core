@@ -22,7 +22,7 @@
 
 #include <mvvm/test/folder_output_based_test.h>
 
-namespace testutils
+namespace sup::gui::test
 {
 
 class FolderTest : public mvvm::test::FolderOutputBasedTest
@@ -44,6 +44,6 @@ std::string GetTestSuiteOutputDir();
  */
 std::string GetProjectSourceDir();
 
-}  // namespace testutils
+}  // namespace sup::gui::test
 
 #endif  // TESTUTILS_FOLDER_TEST_H_

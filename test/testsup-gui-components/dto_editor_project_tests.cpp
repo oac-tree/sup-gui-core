@@ -37,10 +37,10 @@ using namespace sup::gui;
 /**
  * @brief Tests for DtoEditorProject class.
  */
-class DtoEditorProjectTest : public testutils::FolderTest
+class DtoEditorProjectTest : public test::FolderTest
 {
 public:
-  DtoEditorProjectTest() : FolderTest("test_DtoEditorProjectTest") {}
+  DtoEditorProjectTest() : FolderTest("DtoEditorProjectTest") {}
 
   std::unique_ptr<DtoEditorProject> CreateProject()
   {

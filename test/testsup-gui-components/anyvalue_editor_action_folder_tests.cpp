@@ -43,11 +43,11 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 //! Tests for AnyValueEditorActionHandler related to import/export from/to file.
 
-class AnyValueEditorActionHandlerFolderTest : public testutils::FolderTest
+class AnyValueEditorActionHandlerFolderTest : public test::FolderTest
 {
 public:
   AnyValueEditorActionHandlerFolderTest()
-      : testutils::FolderTest("test_AnyValueEditorActionHandlerFolder")
+      : test::FolderTest("AnyValueEditorActionHandlerFolderTest")
   {
   }
 

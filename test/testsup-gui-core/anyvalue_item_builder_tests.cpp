@@ -31,10 +31,10 @@
 
 using namespace sup::gui;
 
-class AnyValueItemBuilderTest : public testutils::FolderTest
+class AnyValueItemBuilderTest : public test::FolderTest
 {
 public:
-  AnyValueItemBuilderTest() : FolderTest("test_AnyValueItemBuilder") {}
+  AnyValueItemBuilderTest() : FolderTest("AnyValueItemBuilderTest") {}
 
   static std::unique_ptr<AnyValueItem> GetAnyValueItem(const sup::dto::AnyValue& value)
   {

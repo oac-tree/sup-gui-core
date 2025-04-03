@@ -36,10 +36,10 @@ using namespace sup::gui;
 /**
  * @brief Tests for AnyValueEditorProject class.
  */
-class AnyValueEditorProjectTest : public testutils::FolderTest
+class AnyValueEditorProjectTest : public test::FolderTest
 {
 public:
-  AnyValueEditorProjectTest() : FolderTest("test_AnyValueEditorProjectTest") {}
+  AnyValueEditorProjectTest() : FolderTest("AnyValueEditorProjectTest") {}
 
   std::unique_ptr<AnyValueEditorProject> CreateProject()
   {
