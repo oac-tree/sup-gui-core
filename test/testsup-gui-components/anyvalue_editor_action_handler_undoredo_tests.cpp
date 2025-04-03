@@ -60,7 +60,7 @@ public:
   {
     AnyValueEditorContext result;
     // callback returns given item, pretending it is user's selection
-    result.selected_items = [selection]() { return selection; };
+    result.selected_items = [selection]() { return std::vector<AnyValueItem*>({selection}); };
     result.send_message = m_warning_listener.AsStdFunction();
     return result;
   }

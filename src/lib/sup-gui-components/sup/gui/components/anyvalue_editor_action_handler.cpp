@@ -61,6 +61,10 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
                                                          QObject* parent_object)
     : QObject(parent_object), m_context(std::move(context)), m_container(container)
 {
+  if (!m_context.selected_items)
+  {
+    throw RuntimeException("Callback to get selected items is not defined");
+  }
 }
 
 AnyValueEditorActionHandler::~AnyValueEditorActionHandler() = default;
@@ -292,7 +296,8 @@ const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 
 AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 {
-  return m_context.selected_items ? m_context.selected_items() : nullptr;
+  auto items = m_context.selected_items();
+  return items.empty() ? nullptr : items.front();
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const

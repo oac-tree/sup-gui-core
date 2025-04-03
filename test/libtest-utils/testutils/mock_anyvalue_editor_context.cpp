@@ -34,8 +34,7 @@ AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
 
   m_current_selection = current_selection;
 
-  result.selected_items = [this]()
-  { return m_current_selection.empty() ? nullptr : m_current_selection.front(); };
+  result.selected_items = [this]() { return m_current_selection; };
 
   result.notify_request = [this](auto item)
   {

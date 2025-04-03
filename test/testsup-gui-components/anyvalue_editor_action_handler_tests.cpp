@@ -21,6 +21,7 @@
 
 #include <sup/gui/components/anyvalue_editor_context.h>
 #include <sup/gui/components/anyvalue_editor_helper.h>
+#include <sup/gui/core/exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
@@ -56,7 +57,7 @@ public:
   {
     AnyValueEditorContext result;
     // callback returns given item, pretending it is user's selection
-    result.selected_items = [selection]() { return selection; };
+    result.selected_items = [selection]() { return std::vector<AnyValueItem*>({selection}); };
     result.send_message = m_warning_listener.AsStdFunction();
     return result;
   }
@@ -83,7 +84,20 @@ public:
   testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
 };
 
-//! Testing initial state of AnyValueEditorActions object.
+TEST_F(AnyValueEditorActionHandlerTest, AttemptToCreateWhenNoContextIsInitialised)
+{
+  {
+    const AnyValueEditorContext context{};
+    EXPECT_THROW((AnyValueEditorActionHandler{context, nullptr}), RuntimeException);
+  }
+
+  {
+    AnyValueEditorContext context;
+    context.selected_items = []() { return std::vector<AnyValueItem*>(); };
+    EXPECT_NO_THROW((AnyValueEditorActionHandler{context, nullptr}));
+  }
+}
+
 TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 {
   auto handler = CreateActionHandler(nullptr);

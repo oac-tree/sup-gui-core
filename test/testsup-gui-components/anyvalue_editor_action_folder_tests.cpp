@@ -55,7 +55,7 @@ public:
   AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)
   {
     AnyValueEditorContext result;
-    result.selected_items = [item]() { return item; };
+    result.selected_items = [item]() { return std::vector<AnyValueItem*>({item}); };
     result.send_message = m_warning_listener.AsStdFunction();
     return result;
   }
