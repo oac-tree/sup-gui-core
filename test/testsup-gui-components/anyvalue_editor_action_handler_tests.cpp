@@ -92,8 +92,6 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 {
   auto handler = CreateActionHandler({});
   EXPECT_EQ(handler->GetTopItem(), nullptr);
-  EXPECT_EQ(handler->GetSelectedItem(), nullptr);
-  EXPECT_EQ(GetContainer(), handler->GetAnyValueItemContainer());
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanRemove());
@@ -156,8 +154,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({});
 
-  EXPECT_EQ(handler->GetSelectedItem(), nullptr);
-
   // expecting no warnings
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
@@ -185,8 +181,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({});
-
-  EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
@@ -261,7 +255,6 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 
   // creating action for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
-  EXPECT_EQ(handler->GetSelectedItem(), parent);
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);

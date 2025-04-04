@@ -96,10 +96,6 @@ public:
 
   const AnyValueItem* GetTopItem() const override;
 
-  sup::gui::AnyValueItem* GetSelectedItem() const override;
-
-  mvvm::SessionItem* GetAnyValueItemContainer() const override;
-
   bool CanUndo() const override;
 
   void Undo() override;
@@ -109,6 +105,16 @@ public:
   void Redo() override;
 
 private:
+  /**
+   * @brief Returns currently selected item.
+   */
+  sup::gui::AnyValueItem* GetSelectedItem() const;
+
+  /**
+   * @brief Returns container used to store the top-level AnyValueItem.
+   */
+  mvvm::SessionItem* GetAnyValueItemContainer() const;
+
   void RequestNotify(mvvm::SessionItem* item);
 
   /**

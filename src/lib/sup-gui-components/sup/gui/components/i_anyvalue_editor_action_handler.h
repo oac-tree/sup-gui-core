@@ -194,16 +194,6 @@ public:
   virtual const AnyValueItem* GetTopItem() const = 0;
 
   /**
-   * @brief Returns currently selected item.
-   */
-  virtual sup::gui::AnyValueItem* GetSelectedItem() const = 0;
-
-  /**
-   * @brief Returns container used to store the top-level AnyValueItem.
-   */
-  virtual mvvm::SessionItem* GetAnyValueItemContainer() const = 0;
-
-  /**
    * @brief Checks if it is possible to undo last change.
    */
   virtual bool CanUndo() const = 0;

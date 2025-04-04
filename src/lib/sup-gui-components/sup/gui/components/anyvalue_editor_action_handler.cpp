@@ -297,17 +297,6 @@ const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
   return nullptr;
 }
 
-AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
-{
-  auto items = m_context.selected_items();
-  return items.empty() ? nullptr : items.front();
-}
-
-mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
-{
-  return m_container;
-}
-
 bool AnyValueEditorActionHandler::CanUndo() const
 {
   auto command_stack = GetModel() ? GetModel()->GetCommandStack() : nullptr;
@@ -338,6 +327,17 @@ void AnyValueEditorActionHandler::Redo()
   }
 
   GetModel()->GetCommandStack()->Redo();
+}
+
+AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
+{
+  auto items = m_context.selected_items();
+  return items.empty() ? nullptr : items.front();
+}
+
+mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
+{
+  return m_container;
 }
 
 void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item)
