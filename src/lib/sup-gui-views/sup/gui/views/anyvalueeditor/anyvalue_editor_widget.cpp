@@ -27,6 +27,7 @@
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/tree_helper.h>
+#include <sup/gui/mainwindow/clipboard_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
@@ -41,11 +42,8 @@
 #include <sup/dto/anyvalue.h>
 
 #include <QAction>
-#include <QClipboard>
 #include <QFileDialog>
-#include <QGuiApplication>
 #include <QMenu>
-#include <QMimeData>
 #include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -231,9 +229,8 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
   result.selected_items = [this]() { return std::vector<AnyValueItem *>({GetSelectedItem()}); };
   result.send_message = [](const auto &event) { sup::gui::SendWarningMessage(event); };
   result.notify_request = [this](auto item) { m_tree_panel->SetSelected(item); };
-  result.get_mime_data = []() { return QGuiApplication::clipboard()->mimeData(); };
-  result.set_mime_data = [](std::unique_ptr<QMimeData> data)
-  { QGuiApplication::clipboard()->setMimeData(data.release()); };
+  result.get_mime_data = DefaultClipboardGetFunc();
+  result.set_mime_data = DefaultClipboardSetFunc();
 
   return result;
 }

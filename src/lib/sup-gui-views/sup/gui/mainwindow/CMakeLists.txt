@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_main_window.h
   anyvalue_editor_main_window_actions.cpp
   anyvalue_editor_main_window_actions.h
+  clipboard_helper.cpp
+  clipboard_helper.h
   color_palette.cpp
   color_palette.h
   dto_editor_main_window.cpp
@@ -27,6 +29,7 @@ target_sources(${library_name} PRIVATE
 install(FILES
   main_window_helper.h
   status_bar_helper.h
+  clipboard_helper.h
   settings_helper.h
   settings_editor_dialog.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/mainwindow
