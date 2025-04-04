@@ -54,6 +54,7 @@ public:
   AnyValueEditorContext CreateContext(const std::vector<AnyValueItem *> &current_selection);
 
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
+      mvvm::SessionItem* container,
       const std::vector<sup::gui::AnyValueItem *> &current_selection);
 
   QMimeData *GetClipboardContent() const;

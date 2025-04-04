@@ -60,10 +60,12 @@ AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
 }
 
 std::unique_ptr<AnyValueEditorActionHandler> MockAnyValueEditorContext::CreateActionHandler(
-    const std::vector<AnyValueItem*>& current_selection)
+    mvvm::SessionItem* container, const std::vector<AnyValueItem*>& current_selection)
 {
-  return std::make_unique<AnyValueEditorActionHandler>(CreateContext(current_selection), nullptr);
+  return std::make_unique<AnyValueEditorActionHandler>(CreateContext(current_selection), container,
+                                                       nullptr);
 }
+
 
 QMimeData* MockAnyValueEditorContext::GetClipboardContent() const
 {

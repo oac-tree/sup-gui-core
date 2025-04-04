@@ -32,18 +32,17 @@
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
+#include <testutils/mock_anyvalue_editor_context.h>
+
+#include <QMimeData>
 
 using namespace sup::gui;
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(mvvm::SessionItem*)
-#endif
-
-//! Extended tests for AnyValueEditorActionHandler.
-
+/**
+ * @brief Tests for AnyValueEditorActionHandle class covering more scenarios.
+ */
 class AnyValueEditorActionHandlerExtendedTest : public test::FolderTest
 {
 public:
@@ -51,26 +50,21 @@ public:
       : test::FolderTest("AnyValueEditorActionHandlerExtendedTest")
   {
   }
-
-  //! Creates context necessary for AnyValueEditActions to function.
-  AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* item)
-  {
-    AnyValueEditorContext result;
-    result.selected_items = [item]() { return std::vector<AnyValueItem*>({item}); };
-    result.send_message = m_warning_listener.AsStdFunction();
-    return result;
-  }
-
-  //! Creates AnyValueEditorActions for testing.
+  /**
+   * @brief Creates action handler which we will be testing.
+   *
+   * @param selection Currently selected items.
+   * @param clipboard The content of the clipboard.
+   */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      sup::gui::AnyValueItem* selection)
+      const std::vector<AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection),
-                                                         m_model.GetRootItem(), nullptr);
+    m_mock_context.SetClipboardContent(std::move(clipboard));
+    return m_mock_context.CreateActionHandler(m_model.GetRootItem(), selection);
   }
 
   mvvm::ApplicationModel m_model;
-  testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
+  test::MockAnyValueEditorContext m_mock_context;
 };
 
 TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
@@ -80,12 +74,12 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
   auto struct_item = m_model.InsertItem<sup::gui::AnyValueStructItem>(array_item);
 
   // creating action handler for the context, when struct is selected
-  auto handler = CreateActionHandler(struct_item);
+  auto handler = CreateActionHandler({struct_item});
 
   EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field.
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -104,9 +98,9 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
   item.SetEditable(false);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
   handler->SetInitialValue(item);
   ASSERT_NE(handler->GetTopItem(), nullptr);
 

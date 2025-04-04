@@ -31,64 +31,42 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_anyvalue_editor_context.h>
 
 #include <QMimeData>
 
 using namespace sup::gui;
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(mvvm::SessionItem*)
-#endif
-//! Tests for AnyValueEditorActionHandler for copy-and-paste scenario.
-
+/**
+ * @brief Tests for AnyValueEditorActionHandle class in copy-and-paste scenario.
+ */
 class AnyValueEditorActionHandlerCopyPasteTest : public ::testing::Test
 {
 public:
   /**
-   * @brief Test helper to create context mimicking AnyValueEditor widget state.
-   *
-   * @param selection Currently selected item.
-   * @param current_mime The content of the clipboard.
-   */
-  AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* selection,
-                                      const QMimeData* current_mime)
-  {
-    AnyValueEditorContext result;
-    // callback returns given item, pretending it is user's selection
-    result.selected_items = [selection]() { return std::vector<AnyValueItem*>({selection}); };
-    result.send_message = m_warning_listener.AsStdFunction();
-    result.get_mime_data = [current_mime]() { return current_mime; };
-    result.set_mime_data = [this](std::unique_ptr<QMimeData> data)
-    { m_copy_result = std::move(data); };
-    return result;
-  }
-
-  /**
    * @brief Creates action handler which we will be testing.
    *
-   * @param selection Currently selected item.
-   * @param current_mime The content of the clipboard.
+   * @param selection Currently selected items.
+   * @param clipboard The content of the clipboard.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      sup::gui::AnyValueItem* selection, const QMimeData* current_mime)
+      const std::vector<AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection, current_mime),
-                                                         m_model.GetRootItem(), nullptr);
+    m_mock_context.SetClipboardContent(std::move(clipboard));
+    return m_mock_context.CreateActionHandler(GetContainer(), selection);
   }
 
-  mvvm::SessionItem* GetAnyValueItemContainer() { return m_model.GetRootItem(); }
+  mvvm::SessionItem* GetContainer() { return m_model.GetRootItem(); }
 
   mvvm::ApplicationModel m_model;
-  testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
-  std::unique_ptr<QMimeData> m_copy_result;
+  test::MockAnyValueEditorContext m_mock_context;
 };
 
 //! Copy operation when nothing is selected, clipboard is empty.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyPasteWhenNothingIsSelected)
 {
-  auto handler = CreateActionHandler(/*selected instruction*/ nullptr, /*mime*/ nullptr);
+  auto handler = CreateActionHandler(/*selected instruction*/ {}, /*mime*/ {});
 
   EXPECT_FALSE(handler->CanCopy());
   EXPECT_FALSE(handler->CanPasteAfter());
@@ -96,36 +74,33 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyPasteWhenNothingIsSelected)
   EXPECT_FALSE(handler->CanCut());
 }
 
-//! Copy operation when item is selected.
-TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyOperation)
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyOperationWhenItemIsSelected)
 {
   auto item = m_model.InsertItem<sup::gui::AnyValueStructItem>();
 
-  EXPECT_EQ(m_copy_result.get(), nullptr);
-
   // AnyValueItem is selected, no mime
-  auto handler = CreateActionHandler(item, nullptr);
+  auto handler = CreateActionHandler({item}, nullptr);
   EXPECT_TRUE(handler->CanCopy());
 
   handler->Copy();
 
   // As a result of copy QMimeData object was created
-  ASSERT_NE(m_copy_result.get(), nullptr);
-  EXPECT_TRUE(m_copy_result->hasFormat(kCopyAnyValueMimeType));
+  ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);
+  EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kCopyAnyValueMimeType));
 }
 
 //! Testing CanPasteAfter and CanPasteInto methods at different selections.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
 {
   {  // nothing is selected, no mime data
-    auto handler = CreateActionHandler(/*selected instruction*/ nullptr, /*mime*/ nullptr);
+    auto handler = CreateActionHandler(/*selected instruction*/ {}, /*mime*/ {});
     EXPECT_FALSE(handler->CanPasteAfter());
     EXPECT_FALSE(handler->CanPasteInto());
   }
 
   {  // nothing is selected, wrong mime data
-    const QMimeData mime_data;
-    auto handler = CreateActionHandler(nullptr, &mime_data);
+    auto mime_data = std::make_unique<QMimeData>();
+    auto handler = CreateActionHandler({}, std::move(mime_data));
     EXPECT_FALSE(handler->CanPasteAfter());
     EXPECT_FALSE(handler->CanPasteInto());
   }
@@ -133,7 +108,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
   {  // nothing is selected, correct mime data
     const AnyValueStructItem item_to_paste;
     auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
-    auto handler = CreateActionHandler(nullptr, mime_data.get());
+    auto handler = CreateActionHandler({}, std::move(mime_data));
 
     // paste-after when nothing is selected is allowed
     EXPECT_TRUE(handler->CanPasteAfter());
@@ -150,7 +125,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteSecondTopLevelItem)
   auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
 
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
-  auto handler = CreateActionHandler(parent, mime_data.get());
+  auto handler = CreateActionHandler({parent}, std::move(mime_data));
   EXPECT_FALSE(handler->CanPasteAfter());  // only one top-level item is allowed
   EXPECT_TRUE(handler->CanPasteInto());
 }
@@ -158,12 +133,11 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteSecondTopLevelItem)
 //! Testing CanPasteAfter and CanPasteInto methods while trying to paste into a scalar.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteIntoScalar)
 {
-  const AnyValueScalarItem item_to_paste;
-  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
-
   auto parent = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
 
-  auto handler = CreateActionHandler(parent, mime_data.get());
+  const AnyValueScalarItem item_to_paste;
+  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto handler = CreateActionHandler({parent}, std::move(mime_data));
 
   EXPECT_FALSE(handler->CanPasteAfter());
   EXPECT_FALSE(handler->CanPasteInto());
@@ -172,13 +146,12 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteIntoScalar)
 //! Testing CanPasteAfter and CanPasteInto when struct inside struct is selected.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteStructIntoStruct)
 {
-  const AnyValueScalarItem item_to_paste;
-  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
-
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   auto child = m_model.InsertItem<sup::gui::AnyValueStructItem>(parent);
 
-  auto handler = CreateActionHandler(child, mime_data.get());
+  const AnyValueScalarItem item_to_paste;
+  auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto handler = CreateActionHandler({child}, std::move(mime_data));
 
   EXPECT_TRUE(handler->CanPasteAfter());
   EXPECT_TRUE(handler->CanPasteInto());
@@ -192,18 +165,18 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
 
   // nothing is selected, copied item in a buffer
-  auto handler = CreateActionHandler(nullptr, mime_data.get());
+  auto handler = CreateActionHandler({}, std::move(mime_data));
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   handler->PasteAfter();
 
-  ASSERT_EQ(GetAnyValueItemContainer()->GetTotalItemCount(), 1);
+  ASSERT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
-  auto items = GetAnyValueItemContainer()->GetAllItems();
+  auto items = GetContainer()->GetAllItems();
   EXPECT_EQ(items.at(0)->GetType(), AnyValueScalarItem::GetStaticType());
 
   // for the moment paste operation changes display name, it might change in the future
@@ -230,11 +203,11 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{1});
 
   // field0 is selected, copied item in a buffer
-  auto handler = CreateActionHandler(field0, mime_data.get());
+  auto handler = CreateActionHandler({field0}, std::move(mime_data));
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   handler->PasteAfter();
@@ -273,11 +246,11 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
 
   // struct is selected, copied item in a buffer
-  auto handler = CreateActionHandler(parent, mime_data.get());
+  auto handler = CreateActionHandler({parent}, std::move(mime_data));
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteInto());
   handler->PasteInto();
@@ -303,18 +276,16 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
 //! Cut operation should remove selected field.
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
 {
-  EXPECT_EQ(m_copy_result.get(), nullptr);
-
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{0});
 
   // struct is selected, mime buffer is empty
-  auto handler = CreateActionHandler(field0, nullptr);
+  auto handler = CreateActionHandler({field0}, {});
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanCut());
   handler->Cut();
@@ -326,8 +297,9 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), field1);
 
   // as a result of cut operation, QMimeData object was created
-  ASSERT_NE(m_copy_result.get(), nullptr);
-  EXPECT_TRUE(m_copy_result->hasFormat(kCopyAnyValueMimeType));
-  auto removed_field = CreateSessionItem(m_copy_result.get(), kCopyAnyValueMimeType);
+  ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);
+  EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kCopyAnyValueMimeType));
+  auto removed_field =
+      CreateSessionItem(m_mock_context.GetClipboardContent(), kCopyAnyValueMimeType);
   EXPECT_EQ(removed_field->GetDisplayName(), std::string("field0"));
 }

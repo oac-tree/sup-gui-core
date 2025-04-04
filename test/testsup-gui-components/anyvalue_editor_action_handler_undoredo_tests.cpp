@@ -31,14 +31,12 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_anyvalue_editor_context.h>
+
+#include <QMimeData>
 
 using namespace sup::gui;
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(mvvm::SessionItem*)
-#endif
 
 /**
  * @brief Tests of AnyValueEditorActionHandlerUndoRedoTest class in undo/redo scenario.
@@ -52,29 +50,16 @@ public:
   }
 
   /**
-   * @brief Test helper to create context mimicking AnyValueEditor widget state.
-   *
-   * @param selection Currently selected item.
-   */
-  AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* selection)
-  {
-    AnyValueEditorContext result;
-    // callback returns given item, pretending it is user's selection
-    result.selected_items = [selection]() { return std::vector<AnyValueItem*>({selection}); };
-    result.send_message = m_warning_listener.AsStdFunction();
-    return result;
-  }
-
-  /**
    * @brief Creates action handler which we will be testing.
    *
-   * @param selection Currently selected item.
+   * @param selection Currently selected items.
+   * @param clipboard The content of the clipboard.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      sup::gui::AnyValueItem* selection)
+      const std::vector<AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), m_container,
-                                                         nullptr);
+    m_mock_context.SetClipboardContent(std::move(clipboard));
+    return m_mock_context.CreateActionHandler(GetContainer(), selection);
   }
 
   /**
@@ -84,12 +69,12 @@ public:
 
   mvvm::ApplicationModel m_model;
   mvvm::SessionItem* m_container{nullptr};
-  testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
+  test::MockAnyValueEditorContext m_mock_context;
 };
 
 TEST_F(AnyValueEditorActionHandlerUndoRedoTest, InitialState)
 {
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
   EXPECT_FALSE(handler->CanUndo());
   EXPECT_FALSE(handler->CanRedo());
 }
@@ -98,7 +83,7 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoScenario)
 {
   m_model.SetUndoEnabled(true);
 
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
   EXPECT_FALSE(handler->CanUndo());
   EXPECT_FALSE(handler->CanRedo());
 

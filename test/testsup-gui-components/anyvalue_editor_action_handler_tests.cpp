@@ -32,46 +32,30 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_anyvalue_editor_context.h>
+
+#include <QMimeData>
 
 using namespace sup::gui;
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(mvvm::SessionItem*)
-#endif
-
-//! Tests for AnyValueEditorActionHandler.
-
+/**
+ * @brief Tests for AnyValueEditorActionHandler class in basic scenario.
+ */
 class AnyValueEditorActionHandlerTest : public ::testing::Test
 {
 public:
   AnyValueEditorActionHandlerTest() { m_container = m_model.InsertItem<mvvm::ContainerItem>(); }
 
   /**
-   * @brief Test helper to create context mimicking AnyValueEditor widget state.
-   *
-   * @param selection Currently selected item.
-   */
-  AnyValueEditorContext CreateContext(sup::gui::AnyValueItem* selection)
-  {
-    AnyValueEditorContext result;
-    // callback returns given item, pretending it is user's selection
-    result.selected_items = [selection]() { return std::vector<AnyValueItem*>({selection}); };
-    result.send_message = m_warning_listener.AsStdFunction();
-    return result;
-  }
-
-  /**
    * @brief Creates action handler which we will be testing.
    *
-   * @param selection Currently selected item.
+   * @param selection Currently selected items.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      sup::gui::AnyValueItem* selection)
+      const std::vector<AnyValueItem*>& selection)
   {
-    return std::make_unique<AnyValueEditorActionHandler>(CreateContext(selection), m_container,
-                                                         nullptr);
+    return m_mock_context.CreateActionHandler(GetContainer(), selection);
   }
 
   /**
@@ -81,7 +65,7 @@ public:
 
   mvvm::ApplicationModel m_model;
   mvvm::SessionItem* m_container{nullptr};
-  testing::MockFunction<void(const sup::gui::MessageEvent&)> m_warning_listener;
+  test::MockAnyValueEditorContext m_mock_context;
 };
 
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToCreateWhenNoContextIsInitialised)
@@ -100,7 +84,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToCreateWhenNoContextIsInitialise
 
 TEST_F(AnyValueEditorActionHandlerTest, InitialState)
 {
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
   EXPECT_EQ(handler->GetTopItem(), nullptr);
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
   EXPECT_EQ(GetContainer(), handler->GetAnyValueItemContainer());
@@ -118,9 +102,9 @@ TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
   item.SetData(42);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
   handler->SetInitialValue(item);
   ASSERT_NE(handler->GetTopItem(), nullptr);
 
@@ -141,13 +125,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
   item.SetAnyTypeName(sup::dto::kInt32TypeName);
   item.SetData(42);
 
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
   handler->SetInitialValue(item);
   ASSERT_NE(handler->GetTopItem(), nullptr);
   EXPECT_EQ(handler->GetTopItem()->GetIdentifier(), item.GetIdentifier());
   auto prev_top = handler->GetTopItem();
 
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   const AnyValueScalarItem item2;
   handler->SetInitialValue(item2);
@@ -164,14 +148,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kEmptyTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kEmptyTypeName));
@@ -196,14 +180,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 {
   // creating action for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   EXPECT_EQ(handler->GetSelectedItem(), nullptr);
 
   // expecting no warnings
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
@@ -228,13 +212,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
 
   // expecting warning
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add another top level item
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
@@ -251,14 +235,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
       m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   EXPECT_TRUE(handler->CanRemove());
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
   // expecting warning
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add another top level item
   handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
@@ -274,11 +258,11 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
       m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
   EXPECT_EQ(handler->GetSelectedItem(), parent);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanInsertInto(constants::kStructTypeName));
 
@@ -303,10 +287,10 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
       m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
@@ -326,7 +310,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({});
 
   // adding AnyValueItem struct as top level item
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -341,7 +325,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
   // expecting warning callback further down
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -357,12 +341,12 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
       m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -386,10 +370,10 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, 42);
 
   // creating action handler for the context, when field0 is selected
-  auto handler = CreateActionHandler(field0);
+  auto handler = CreateActionHandler({field0});
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -414,12 +398,12 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
       m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -442,12 +426,12 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
       m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   EXPECT_FALSE(handler->CanInsertInto(sup::dto::kInt32TypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -463,12 +447,12 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({nullptr});
 
   EXPECT_FALSE(handler->CanInsertAfter(sup::dto::kInt32TypeName));
 
   // expecting warning callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top level scalar
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -488,10 +472,10 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
       sup::dto::kInt32TypeName);
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -501,7 +485,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   // expecting error callback
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add mismatching type
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt16TypeName);
@@ -518,7 +502,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({nullptr});
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kArrayTypeName));
 
@@ -533,7 +517,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kArrayTypeName);
 
   // expecting a callback
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top-level item
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
@@ -549,12 +533,12 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
       m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   EXPECT_TRUE(handler->CanInsertInto(constants::kArrayTypeName));
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(constants::kArrayTypeName);
@@ -576,12 +560,12 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
       m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler(parent);
+  auto handler = CreateActionHandler({parent});
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kArrayTypeName));
 
   // expecting error callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field to
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
@@ -597,12 +581,12 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({nullptr});
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kArrayTypeName));
 
   // expecting warning callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top level array
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
@@ -622,7 +606,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
       m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler(nullptr);
+  auto handler = CreateActionHandler({nullptr});
 
   EXPECT_FALSE(handler->CanRemove());
   EXPECT_NO_FATAL_FAILURE(handler->OnRemoveSelected());
@@ -639,7 +623,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
   // creating action handler for the context, pretending item is selected
-  auto handler = CreateActionHandler(struct_item);
+  auto handler = CreateActionHandler({struct_item});
 
   EXPECT_TRUE(handler->CanRemove());
 
@@ -660,12 +644,12 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
   // creating action handler for the context, when field1 is selected
-  auto handler = CreateActionHandler(field1);
+  auto handler = CreateActionHandler({field1});
 
   QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
 
   // expecting no callbacks
-  EXPECT_CALL(m_warning_listener, Call(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // moving selected item up
   handler->OnMoveUpRequest();
