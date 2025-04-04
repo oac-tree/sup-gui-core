@@ -21,6 +21,7 @@
 
 #include "anyvalue_editor_helper.h"
 #include "mime_conversion_helper.h"
+#include "anyvalue_item_copy_helper.h"
 
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/core/query_result.h>
@@ -94,7 +95,11 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& t
 
   auto result = CreateAnyValueItemFromTypeName(type_name);
   result->SetToolTip(type_name);
-  InsertAfterCurrentSelection(std::move(result));
+
+  std::vector<std::unique_ptr<mvvm::SessionItem>> items;
+  items.push_back(std::move(result));
+
+  InsertAfterCurrentSelection(std::move(items));
 }
 
 bool AnyValueEditorActionHandler::CanInsertInto(const std::string& type_name) const
@@ -113,7 +118,9 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& ty
 
   auto result = CreateAnyValueItemFromTypeName(type_name);
   result->SetToolTip(type_name);
-  InsertIntoCurrentSelection(std::move(result));
+  std::vector<std::unique_ptr<mvvm::SessionItem>> items;
+  items.push_back(std::move(result));
+  InsertIntoCurrentSelection(std::move(items));
 }
 
 bool AnyValueEditorActionHandler::CanRemove() const
@@ -228,7 +235,9 @@ void AnyValueEditorActionHandler::Copy()
     return;
   }
 
-  m_context.set_mime_data(CreateCopyMimeData(*GetSelectedItem(), kCopyAnyValueMimeType));
+  // auto items =
+
+  m_context.set_mime_data(CreateAnyValueItemSelectionCopyMimeData(GetSelectedItems()));
 }
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
@@ -245,7 +254,7 @@ void AnyValueEditorActionHandler::PasteAfter()
     return;
   }
 
-  InsertAfterCurrentSelection(CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
+  InsertAfterCurrentSelection(CreateAnyValueItems(GetClipboardContent()));
 }
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
@@ -262,7 +271,7 @@ void AnyValueEditorActionHandler::PasteInto()
     return;
   }
 
-  InsertIntoCurrentSelection(CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
+  InsertIntoCurrentSelection(CreateAnyValueItems(GetClipboardContent()));
 }
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
@@ -374,31 +383,20 @@ void AnyValueEditorActionHandler::SendMessage(const std::string& text,
 }
 
 void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
-    std::unique_ptr<mvvm::SessionItem> item)
+    std::vector<std::unique_ptr<mvvm::SessionItem>> items)
 {
   auto selected_item = GetSelectedItem();
 
   auto parent_item = selected_item ? selected_item->GetParent() : GetAnyValueItemContainer();
   auto tagindex = selected_item ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
-
-  UpdateChildAppearance(*parent_item, *item);
-
-  std::vector<std::unique_ptr<mvvm::SessionItem>> items;
-  items.push_back(std::move(item));
-
   InsertItem(std::move(items), parent_item, tagindex);
 }
 
 void AnyValueEditorActionHandler::InsertIntoCurrentSelection(
-    std::unique_ptr<mvvm::SessionItem> item)
+    std::vector<std::unique_ptr<mvvm::SessionItem>> items)
 {
   if (auto parent_item = GetParentToInsert(); parent_item)
   {
-    UpdateChildAppearance(*parent_item, *item);
-
-    std::vector<std::unique_ptr<mvvm::SessionItem>> items;
-    items.push_back(std::move(item));
-
     InsertItem(std::move(items), parent_item, mvvm::TagIndex::Append());
   }
 }
@@ -503,6 +501,8 @@ void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::S
     const auto item_type = item->GetType();
     try
     {
+      UpdateChildAppearance(*parent_item, *item);
+
       auto inserted = GetModel()->InsertItem(std::move(item), parent_item, index);
       to_notify.push_back(inserted);
       last_tag_index = inserted->GetTagIndex().Next();

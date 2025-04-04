@@ -122,9 +122,9 @@ private:
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 
-  void InsertAfterCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
+  void InsertAfterCurrentSelection(std::vector<std::unique_ptr<mvvm::SessionItem>> items);
 
-  void InsertIntoCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
+  void InsertIntoCurrentSelection(std::vector<std::unique_ptr<mvvm::SessionItem>> items);
 
   QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
 
