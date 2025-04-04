@@ -29,11 +29,11 @@
 
 using namespace sup::gui;
 
-class MimeConverionHelperTests : public ::testing::Test
+class MimeConversionHelperTests : public ::testing::Test
 {
 };
 
-TEST_F(MimeConverionHelperTests, CreateCopyMimeData)
+TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 {
   {  // empty list
     auto mime_data = CreateCopyMimeData(std::vector<const mvvm::SessionItem*>{}, QString());
@@ -58,7 +58,7 @@ TEST_F(MimeConverionHelperTests, CreateCopyMimeData)
   EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
 }
 
-TEST_F(MimeConverionHelperTests, GetSessionItemType)
+TEST_F(MimeConversionHelperTests, GetSessionItemType)
 {
   EXPECT_TRUE(GetSessionItemType(nullptr, QString()).empty());
 
@@ -67,7 +67,7 @@ TEST_F(MimeConverionHelperTests, GetSessionItemType)
   EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
 }
 
-TEST_F(MimeConverionHelperTests, CreatePropertyFromMime)
+TEST_F(MimeConversionHelperTests, CreatePropertyFromMime)
 {
   const QString mime_type = "application.coa.tests";
   {
@@ -95,7 +95,7 @@ TEST_F(MimeConverionHelperTests, CreatePropertyFromMime)
   }
 }
 
-TEST_F(MimeConverionHelperTests, CreateTwoItemsFromMime)
+TEST_F(MimeConversionHelperTests, CreateTwoItemsFromMime)
 {
   const QString mime_type = "application.coa.tests";
   const std::string expected_name1("abc");
@@ -124,7 +124,7 @@ TEST_F(MimeConverionHelperTests, CreateTwoItemsFromMime)
   EXPECT_EQ(reconstructed_compound->GetType(), mvvm::CompoundItem::GetStaticType());
 }
 
-TEST_F(MimeConverionHelperTests, CoopyAndPasteWithFiltering)
+TEST_F(MimeConversionHelperTests, CoopyAndPasteWithFiltering)
 {
   const QString mime_type = "application.coa.tests";
   const std::string expected_name1("abc");

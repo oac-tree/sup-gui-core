@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_helper.h
   anyvalue_editor_project.cpp
   anyvalue_editor_project.h
+  anyvalue_item_copy_helper.cpp
+  anyvalue_item_copy_helper.h
   component_types.h
   copy_and_paste_helper.cpp
   copy_and_paste_helper.h
