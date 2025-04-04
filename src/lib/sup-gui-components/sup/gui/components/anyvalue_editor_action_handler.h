@@ -105,26 +105,14 @@ public:
   void Redo() override;
 
 private:
-  /**
-   * @brief Returns currently selected item.
-   */
   sup::gui::AnyValueItem* GetSelectedItem() const;
 
-  /**
-   * @brief Returns container used to store the top-level AnyValueItem.
-   */
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
   void RequestNotify(mvvm::SessionItem* item);
 
-  /**
-   * @brief Returns parent to use while inserting an item.
-   */
-  mvvm::SessionItem* GetParent() const;
+  mvvm::SessionItem* GetParentToInsert() const;
 
-  /**
-   * @brief Returns the model.
-   */
   mvvm::ISessionModel* GetModel() const;
 
   void SendMessage(const sup::gui::MessageEvent& message);
@@ -132,42 +120,18 @@ private:
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
 
-  /**
-   * @brief Inserts given item after currenly selected item.
-   */
   void InsertAfterCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
 
-  /**
-   * @brief Inserts given item into currenly selected item.
-   */
   void InsertIntoCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
 
-  /**
-   * @brief Checks if AnyValueItem of the given type can be inserted after the current selection.
-   *
-   * @param item_type Type of the AnyValueItem to insert.
-   * @return A result of the query with an error flag and message.
-   */
   sup::gui::QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
 
-  /**
-   * @brief Checks if AnyValueItem of the given type can be inserted into the current selection.
-   *
-   * @param item_type Type of the AnyValueItem to insert.
-   * @return A result of the query with an error flag and message.
-   */
   sup::gui::QueryResult CanInsertTypeIntoCurrentSelection(const std::string& item_type) const;
 
-  /**
-   * @brief Inserts given item in the given parent.
-   */
   mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item,
                                 mvvm::SessionItem* parent_item, const mvvm::TagIndex& index);
 
-  /**
-   * @brief Returns mime data stored in the clipboar.
-   */
-  const QMimeData* GetMimeData() const;
+  const QMimeData* GetClipboardContent() const;
 
   AnyValueEditorContext m_context;
   mvvm::SessionItem* m_container{nullptr};

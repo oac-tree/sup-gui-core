@@ -145,13 +145,14 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
 
   auto anyvalue = sup::gui::AnyValueFromJSONFile(file_name);
   auto item = sup::gui::CreateItem(anyvalue);
-  if (auto query = mvvm::utils::CanInsertItem(item.get(), GetParent(), mvvm::TagIndex::Append());
+  if (auto query =
+          mvvm::utils::CanInsertItem(item.get(), GetParentToInsert(), mvvm::TagIndex::Append());
       !query.first)
   {
     SendMessage(query.second);
     return;
   }
-  GetModel()->InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
+  GetModel()->InsertItem(std::move(item), GetParentToInsert(), mvvm::TagIndex::Append());
 }
 
 void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_name)
@@ -232,8 +233,8 @@ void AnyValueEditorActionHandler::Copy()
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
 {
-  auto query =
-      CanInsertTypeAfterCurrentSelection(GetSessionItemType(GetMimeData(), kCopyAnyValueMimeType));
+  auto query = CanInsertTypeAfterCurrentSelection(
+      GetSessionItemType(GetClipboardContent(), kCopyAnyValueMimeType));
   return query.IsSuccess();
 }
 
@@ -244,13 +245,14 @@ void AnyValueEditorActionHandler::PasteAfter()
     return;
   }
 
-  InsertAfterCurrentSelection(sup::gui::CreateSessionItem(GetMimeData(), kCopyAnyValueMimeType));
+  InsertAfterCurrentSelection(
+      sup::gui::CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
 }
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
 {
-  auto query =
-      CanInsertTypeIntoCurrentSelection(GetSessionItemType(GetMimeData(), kCopyAnyValueMimeType));
+  auto query = CanInsertTypeIntoCurrentSelection(
+      GetSessionItemType(GetClipboardContent(), kCopyAnyValueMimeType));
   return query.IsSuccess();
 }
 
@@ -261,7 +263,8 @@ void AnyValueEditorActionHandler::PasteInto()
     return;
   }
 
-  InsertIntoCurrentSelection(sup::gui::CreateSessionItem(GetMimeData(), kCopyAnyValueMimeType));
+  InsertIntoCurrentSelection(
+      sup::gui::CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
 }
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
@@ -345,7 +348,7 @@ void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item)
   m_context.notify_request(item);
 }
 
-mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
+mvvm::SessionItem* AnyValueEditorActionHandler::GetParentToInsert() const
 {
   return GetSelectedItem() ? GetSelectedItem() : GetAnyValueItemContainer();
 }
@@ -382,10 +385,10 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
 void AnyValueEditorActionHandler::InsertIntoCurrentSelection(
     std::unique_ptr<mvvm::SessionItem> item)
 {
-  if (auto parent_item = GetParent(); parent_item)
+  if (auto parent_item = GetParentToInsert(); parent_item)
   {
     UpdateChildAppearance(*parent_item, *item);
-    (void)InsertItem(std::move(item), GetParent(), mvvm::TagIndex::Append());
+    (void)InsertItem(std::move(item), GetParentToInsert(), mvvm::TagIndex::Append());
   }
 }
 
@@ -503,7 +506,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
   return result;
 }
 
-const QMimeData* AnyValueEditorActionHandler::GetMimeData() const
+const QMimeData* AnyValueEditorActionHandler::GetClipboardContent() const
 {
   return m_context.get_mime_data ? m_context.get_mime_data() : nullptr;
 }
