@@ -50,20 +50,23 @@ const std::string kFailedActionTitle = "Invalid Operation";
 namespace sup::gui
 {
 
-AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
-                                                         QObject* parent_object)
-    : AnyValueEditorActionHandler(context, nullptr, parent_object)
+AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context)
+    : AnyValueEditorActionHandler(std::move(context), nullptr)
 {
 }
 
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
-                                                         mvvm::SessionItem* container,
-                                                         QObject* parent_object)
-    : QObject(parent_object), m_context(std::move(context)), m_container(container)
+                                                         mvvm::SessionItem* container)
+    : m_context(std::move(context)), m_container(container)
 {
   if (!m_context.selected_items)
   {
     throw RuntimeException("Callback to get selected items is not defined");
+  }
+
+  if (!m_context.notify_request)
+  {
+    throw RuntimeException("Callback to notify about new items is not defined");
   }
 }
 
@@ -339,7 +342,7 @@ void AnyValueEditorActionHandler::Redo()
 
 void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item)
 {
-  emit SelectItemRequest(item);
+  m_context.notify_request(item);
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const

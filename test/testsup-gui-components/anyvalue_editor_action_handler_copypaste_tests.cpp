@@ -27,7 +27,6 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/test/test_helper.h>
 
 #include <sup/dto/anyvalue.h>
 
@@ -167,8 +166,6 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   // nothing is selected, copied item in a buffer
   auto handler = CreateActionHandler({}, std::move(mime_data));
 
-  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
-
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteAfter());
@@ -183,7 +180,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   EXPECT_EQ(items.at(0)->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
   // validating request to select just inserted item
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), items.at(0));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({items.at(0)}));
 }
 
 //! Testing PasteAfter operation when container has a struct with two fields. First field is
@@ -205,8 +202,6 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   // field0 is selected, copied item in a buffer
   auto handler = CreateActionHandler({field0}, std::move(mime_data));
 
-  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
-
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteAfter());
@@ -227,7 +222,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), inserted_item);
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
 }
 
 //! Testing PasteInto operation when container has a struct with single fields.
@@ -248,8 +243,6 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   // struct is selected, copied item in a buffer
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
 
-  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
-
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanPasteInto());
@@ -269,7 +262,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), inserted_item);
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
 }
 
 //! Testing Cut operation, when structure has two fields, first field is selected.
@@ -283,8 +276,6 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   // struct is selected, mime buffer is empty
   auto handler = CreateActionHandler({field0}, {});
 
-  QSignalSpy spy_selection_request(handler.get(), &AnyValueEditorActionHandler::SelectItemRequest);
-
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   EXPECT_TRUE(handler->CanCut());
@@ -294,7 +285,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select remaining item
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selection_request), field1);
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
 
   // as a result of cut operation, QMimeData object was created
   ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);

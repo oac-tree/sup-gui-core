@@ -193,10 +193,6 @@ void AnyValueEditorWidget::WriteSettings()
 
 void AnyValueEditorWidget::SetupConnections()
 {
-  // selection request from action handler
-  connect(m_action_handler.get(), &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
-          &AnyValueEditorTreePanel::SetSelected);
-
   // main editing request from AnyValueEditorActions
   connect(m_actions, &AnyValueEditorActions::ImportFromFileRequest, this,
           &AnyValueEditorWidget::OnImportFromFileRequest);

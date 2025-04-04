@@ -23,7 +23,6 @@
 #include <sup/gui/components/anyvalue_editor_context.h>
 #include <sup/gui/components/i_anyvalue_editor_action_handler.h>
 
-#include <QObject>
 #include <memory>
 
 class QMimeData;
@@ -46,15 +45,11 @@ class QueryResult;
  * AnyValueItem at a time. Thus, it is assumed that there is only a single top-level AnyValueItem
  * and it is located in its own container.
  */
-class AnyValueEditorActionHandler : public QObject, public IAnyValueEditorActionHandler
+class AnyValueEditorActionHandler : public IAnyValueEditorActionHandler
 {
-  Q_OBJECT
-
 public:
-  AnyValueEditorActionHandler(AnyValueEditorContext context, QObject* parent_object);
-
-  AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container,
-                              QObject* parent_object);
+  AnyValueEditorActionHandler(AnyValueEditorContext context);
+  AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container);
   ~AnyValueEditorActionHandler() override;
 
   void SetAnyValueItemContainer(mvvm::SessionItem* container) override;
@@ -112,9 +107,6 @@ public:
   bool CanRedo() const override;
 
   void Redo() override;
-
-signals:
-  void SelectItemRequest(mvvm::SessionItem* item);
 
 private:
   void RequestNotify(mvvm::SessionItem* item);
