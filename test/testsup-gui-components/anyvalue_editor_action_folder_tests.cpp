@@ -75,7 +75,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
 {
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
+  const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   auto json_content = AnyValueToJSONString(anyvalue);
   mvvm::test::CreateTextFile(file_path, json_content);
 
@@ -108,7 +108,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
 {
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
+  const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   auto json_content = AnyValueToJSONString(anyvalue);
   mvvm::test::CreateTextFile(file_path, json_content);
 
@@ -138,7 +138,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
 {
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
-  sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
+  const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   auto json_content = AnyValueToJSONString(anyvalue);
   mvvm::test::CreateTextFile(file_path, json_content);
 
@@ -178,7 +178,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ExportToFile)
   // reading our exported file for the validation
   auto exported_value = sup::gui::AnyValueFromJSONFile(file_path);
 
-  sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 99};
+  const sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 99};
   EXPECT_EQ(exported_value, expected_anyvalue);
 };
 

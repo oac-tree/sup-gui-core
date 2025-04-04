@@ -74,8 +74,9 @@ namespace sup::gui
 
 AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent_widget)
     : QWidget(parent_widget)
-    , m_action_handler(new AnyValueEditorActionHandler(CreateActionContext(), this))
-    , m_actions(new AnyValueEditorActions(m_action_handler, this))
+    , m_action_handler(
+          std::make_unique<AnyValueEditorActionHandler>(CreateActionContext(), nullptr))
+    , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
     , m_text_panel(new AnyValueEditorTextPanel)
     , m_tree_panel(new AnyValueEditorTreePanel)
     , m_left_panel(CreateLeftPanel())
@@ -193,7 +194,7 @@ void AnyValueEditorWidget::WriteSettings()
 void AnyValueEditorWidget::SetupConnections()
 {
   // selection request from action handler
-  connect(m_action_handler, &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
+  connect(m_action_handler.get(), &AnyValueEditorActionHandler::SelectItemRequest, m_tree_panel,
           &AnyValueEditorTreePanel::SetSelected);
 
   // main editing request from AnyValueEditorActions

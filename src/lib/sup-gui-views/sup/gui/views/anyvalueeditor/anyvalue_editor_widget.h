@@ -27,6 +27,8 @@
 #include <QString>
 #include <QWidget>
 
+#include <memory>
+
 namespace mvvm
 {
 class SessionItem;
@@ -133,7 +135,7 @@ private:
 
   QAction* m_show_right_sidebar{nullptr};
 
-  AnyValueEditorActionHandler* m_action_handler{nullptr};
+  std::unique_ptr<AnyValueEditorActionHandler> m_action_handler;
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
