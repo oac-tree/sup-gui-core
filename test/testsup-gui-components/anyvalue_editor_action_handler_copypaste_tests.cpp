@@ -294,3 +294,24 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
       CreateSessionItem(m_mock_context.GetClipboardContent(), kCopyAnyValueMimeType);
   EXPECT_EQ(removed_field->GetDisplayName(), std::string("field0"));
 }
+
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPaste)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+
+  // struct is selected, mime buffer is empty
+  auto handler = CreateActionHandler({field0}, {});
+
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+
+  handler->Copy();
+  handler->PasteAfter();
+
+  ASSERT_EQ(parent->GetChildren().size(), 2);
+  auto inserted_item = parent->GetChildren().at(1);
+
+  EXPECT_EQ(inserted_item->GetDisplayName(), std::string("field0"));
+  EXPECT_EQ(inserted_item->Data<mvvm::int32>(), mvvm::int32{42});
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
+}

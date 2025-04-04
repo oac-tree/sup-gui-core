@@ -20,8 +20,8 @@
 #include "anyvalue_editor_action_handler.h"
 
 #include "anyvalue_editor_helper.h"
-#include "mime_conversion_helper.h"
 #include "anyvalue_item_copy_helper.h"
+#include "mime_conversion_helper.h"
 
 #include <sup/gui/core/exceptions.h>
 #include <sup/gui/core/query_result.h>
@@ -503,7 +503,7 @@ void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::S
     {
       UpdateChildAppearance(*parent_item, *item);
 
-      auto inserted = GetModel()->InsertItem(std::move(item), parent_item, index);
+      auto inserted = GetModel()->InsertItem(std::move(item), parent_item, last_tag_index);
       to_notify.push_back(inserted);
       last_tag_index = inserted->GetTagIndex().Next();
     }
