@@ -143,8 +143,8 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
     return;
   }
 
-  auto anyvalue = sup::gui::AnyValueFromJSONFile(file_name);
-  auto item = sup::gui::CreateItem(anyvalue);
+  auto anyvalue = AnyValueFromJSONFile(file_name);
+  auto item = CreateItem(anyvalue);
   if (auto query =
           mvvm::utils::CanInsertItem(item.get(), GetParentToInsert(), mvvm::TagIndex::Append());
       !query.first)
@@ -228,7 +228,7 @@ void AnyValueEditorActionHandler::Copy()
     return;
   }
 
-  m_context.set_mime_data(sup::gui::CreateCopyMimeData(*GetSelectedItem(), kCopyAnyValueMimeType));
+  m_context.set_mime_data(CreateCopyMimeData(*GetSelectedItem(), kCopyAnyValueMimeType));
 }
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
@@ -245,8 +245,7 @@ void AnyValueEditorActionHandler::PasteAfter()
     return;
   }
 
-  InsertAfterCurrentSelection(
-      sup::gui::CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
+  InsertAfterCurrentSelection(CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
 }
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
@@ -263,8 +262,7 @@ void AnyValueEditorActionHandler::PasteInto()
     return;
   }
 
-  InsertIntoCurrentSelection(
-      sup::gui::CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
+  InsertIntoCurrentSelection(CreateSessionItem(GetClipboardContent(), kCopyAnyValueMimeType));
 }
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
@@ -334,8 +332,13 @@ void AnyValueEditorActionHandler::Redo()
 
 AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 {
-  auto items = m_context.selected_items();
+  auto items = GetSelectedItems();
   return items.empty() ? nullptr : items.front();
+}
+
+std::vector<AnyValueItem*> AnyValueEditorActionHandler::GetSelectedItems() const
+{
+  return m_context.selected_items();
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
@@ -367,7 +370,7 @@ void AnyValueEditorActionHandler::SendMessage(const std::string& text,
                                               const std::string& informative,
                                               const std::string& details)
 {
-  SendMessage(sup::gui::CreateInvalidOperationMessage(text, informative, details));
+  SendMessage(CreateInvalidOperationMessage(text, informative, details));
 }
 
 void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
@@ -400,8 +403,7 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
 
   if (!GetAnyValueItemContainer())
   {
-    return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "No container exists", ""});
+    return QueryResult::Failure({kFailedActionTitle, kFailedActionText, "No container exists", ""});
   }
 
   const bool top_item_exists = GetTopItem() != nullptr;
@@ -409,13 +411,13 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   const bool no_selection = GetSelectedItem() == nullptr;
   if (top_item_exists && (top_item_selected || no_selection))
   {
-    return sup::gui::QueryResult::Failure(
+    return QueryResult::Failure(
         {kFailedActionTitle, kFailedActionText, "There can be only one top-level item", ""});
   }
 
   if (item_type.empty())
   {
-    return sup::gui::QueryResult::Failure(
+    return QueryResult::Failure(
         {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]", ""});
   }
 
@@ -427,12 +429,11 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
         item_type, selected_item->GetParent(), selected_item->GetTagIndex().Next());
     if (!success_flag)
     {
-      return sup::gui::QueryResult::Failure(
-          {kFailedActionTitle, kFailedActionText, informative, ""});
+      return QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative, ""});
     }
   }
 
-  return sup::gui::QueryResult::Success();
+  return QueryResult::Success();
 }
 
 QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
@@ -443,19 +444,17 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
 
   if (!GetAnyValueItemContainer())
   {
-    return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "No container exists", ""});
+    return QueryResult::Failure({kFailedActionTitle, kFailedActionText, "No container exists", ""});
   }
 
   if (!GetSelectedItem())
   {
-    return sup::gui::QueryResult::Failure(
-        {kFailedActionTitle, kFailedActionText, "No item selected", ""});
+    return QueryResult::Failure({kFailedActionTitle, kFailedActionText, "No item selected", ""});
   }
 
   if (item_type.empty())
   {
-    return sup::gui::QueryResult::Failure(
+    return QueryResult::Failure(
         {kFailedActionTitle, kFailedActionText, "Wrong item type [" + item_type + "]", ""});
   }
 
@@ -467,12 +466,11 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
         mvvm::utils::CanInsertType(item_type, selected_item, mvvm::TagIndex::Append());
     if (!success_flag)
     {
-      return sup::gui::QueryResult::Failure(
-          {kFailedActionTitle, kFailedActionText, informative, ""});
+      return QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative, ""});
     }
   }
 
-  return sup::gui::QueryResult::Success();
+  return QueryResult::Success();
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm::SessionItem> item,

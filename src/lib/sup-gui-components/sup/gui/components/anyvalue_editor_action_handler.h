@@ -105,7 +105,9 @@ public:
   void Redo() override;
 
 private:
-  sup::gui::AnyValueItem* GetSelectedItem() const;
+  AnyValueItem* GetSelectedItem() const;
+
+  std::vector<AnyValueItem*> GetSelectedItems() const;
 
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
@@ -115,7 +117,7 @@ private:
 
   mvvm::ISessionModel* GetModel() const;
 
-  void SendMessage(const sup::gui::MessageEvent& message);
+  void SendMessage(const MessageEvent& message);
 
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});
@@ -124,9 +126,9 @@ private:
 
   void InsertIntoCurrentSelection(std::unique_ptr<mvvm::SessionItem> item);
 
-  sup::gui::QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
+  QueryResult CanInsertTypeAfterCurrentSelection(const std::string& item_type) const;
 
-  sup::gui::QueryResult CanInsertTypeIntoCurrentSelection(const std::string& item_type) const;
+  QueryResult CanInsertTypeIntoCurrentSelection(const std::string& item_type) const;
 
   mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item,
                                 mvvm::SessionItem* parent_item, const mvvm::TagIndex& index);
