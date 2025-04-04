@@ -42,7 +42,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent_widget)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
     , m_custom_header(
-          new sup::gui::CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
+          new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
     , m_component_provider(std::make_unique<TreeViewComponentProvider>(nullptr, m_tree_view))
 {
   setWindowTitle("AnyValue tree");
@@ -62,6 +62,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent_widget)
                                | QAbstractItemView::DoubleClicked);
   m_tree_view->setAlternatingRowColors(true);
   m_tree_view->setContextMenuPolicy(Qt::CustomContextMenu);
+  m_tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
   auto on_text = [this]() { m_component_provider->SetFilterPattern(m_line_edit->text()); };
   connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
@@ -78,10 +79,9 @@ void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem *contai
   AdjustTreeAppearance();
 }
 
-AnyValueItem *AnyValueEditorTreePanel::GetSelectedItem() const
+std::vector<AnyValueItem *> AnyValueEditorTreePanel::GetSelectedItems() const
 {
-  auto item = const_cast<mvvm::SessionItem *>(m_component_provider->GetSelectedItem());
-  return dynamic_cast<AnyValueItem *>(item);
+  return m_component_provider->GetSelectedItems<AnyValueItem>();
 }
 
 void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)

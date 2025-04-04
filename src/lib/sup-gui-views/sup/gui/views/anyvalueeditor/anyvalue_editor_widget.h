@@ -82,17 +82,12 @@ public:
   void OnImportWaveformRequest();
 
   /**
-   * @brief Returns AnyValueItem selected by the user in item tree.
-   */
-  sup::gui::AnyValueItem* GetSelectedItem() const;
-
-  /**
    * @brief Sets initial value.
    *
    * The given value will be cloned inside the editor's model and used as a starting point for
    * editing.
    */
-  void SetInitialValue(const sup::gui::AnyValueItem& item);
+  void SetInitialValue(const AnyValueItem& item);
 
   /**
    * @brief Returns top AnyValueItem, which is our result.
@@ -102,7 +97,7 @@ public:
   /**
    * @brief Returns the result of editing.
    */
-  std::unique_ptr<sup::gui::AnyValueItem> GetResult();
+  std::unique_ptr<AnyValueItem> GetResult();
 
 private:
   void ReadSettings();

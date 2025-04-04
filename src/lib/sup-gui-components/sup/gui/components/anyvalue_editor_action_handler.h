@@ -48,7 +48,7 @@ class QueryResult;
 class AnyValueEditorActionHandler : public IAnyValueEditorActionHandler
 {
 public:
-  AnyValueEditorActionHandler(AnyValueEditorContext context);
+  explicit AnyValueEditorActionHandler(AnyValueEditorContext context);
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container);
   ~AnyValueEditorActionHandler() override;
 

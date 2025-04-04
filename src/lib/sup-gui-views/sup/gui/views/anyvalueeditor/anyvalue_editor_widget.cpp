@@ -148,11 +148,6 @@ void AnyValueEditorWidget::OnImportWaveformRequest()
   }
 }
 
-sup::gui::AnyValueItem *AnyValueEditorWidget::GetSelectedItem() const
-{
-  return m_tree_panel->GetSelectedItem();
-}
-
 void AnyValueEditorWidget::SetInitialValue(const AnyValueItem &item)
 {
   m_action_handler->SetInitialValue(item);
@@ -218,16 +213,15 @@ void AnyValueEditorWidget::SetupWidgetActions()
 
   auto context = AppRegisterWidgetUniqueId(this);
   m_actions->RegisterActionsForContext(context);
-  AppAddActionToCommand(m_show_right_sidebar, sup::gui::constants::kToggleRightPanelCommandId,
-                        context);
+  AppAddActionToCommand(m_show_right_sidebar, constants::kToggleRightPanelCommandId, context);
 }
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
 {
   AnyValueEditorContext result;
 
-  result.selected_items = [this]() { return std::vector<AnyValueItem *>({GetSelectedItem()}); };
-  result.send_message = [](const auto &event) { sup::gui::SendWarningMessage(event); };
+  result.selected_items = [this]() { return m_tree_panel->GetSelectedItems(); };
+  result.send_message = [](const auto &event) { SendWarningMessage(event); };
   result.notify_request = [this](auto item) { m_tree_panel->SetSelected(item); };
   result.get_mime_data = DefaultClipboardGetFunc();
   result.set_mime_data = DefaultClipboardSetFunc();
@@ -250,7 +244,7 @@ void AnyValueEditorWidget::OnContextMenuRequest(const QPoint &point)
   m_actions->SetupMenu(menu);
 
   auto collapse_menu = menu.addMenu("Tree settings");
-  sup::gui::SetupCollapseExpandMenu(point, *collapse_menu, *m_tree_panel->GetTreeView());
+  SetupCollapseExpandMenu(point, *collapse_menu, *m_tree_panel->GetTreeView());
   menu.exec(m_tree_panel->GetTreeView()->mapToGlobal(point));
 }
 

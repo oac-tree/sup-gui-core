@@ -55,7 +55,7 @@ public:
    */
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
-  sup::gui::AnyValueItem* GetSelectedItem() const;
+  std::vector<AnyValueItem*> GetSelectedItems() const;
 
   void SetSelected(mvvm::SessionItem* item);
 
