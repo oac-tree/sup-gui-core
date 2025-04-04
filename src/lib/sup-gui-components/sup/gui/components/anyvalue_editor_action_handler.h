@@ -117,6 +117,8 @@ signals:
   void SelectItemRequest(mvvm::SessionItem* item);
 
 private:
+  void RequestNotify(mvvm::SessionItem* item);
+
   /**
    * @brief Returns parent to use while inserting an item.
    */

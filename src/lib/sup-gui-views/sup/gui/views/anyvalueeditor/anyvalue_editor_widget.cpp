@@ -234,6 +234,7 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
 
   result.selected_items = [this]() { return std::vector<AnyValueItem *>({GetSelectedItem()}); };
   result.send_message = [](const auto &event) { sup::gui::SendWarningMessage(event); };
+  result.notify_request = [this](auto item) { m_tree_panel->SetSelected(item); };
   result.get_mime_data = []() { return QGuiApplication::clipboard()->mimeData(); };
   result.set_mime_data = [](std::unique_ptr<QMimeData> data)
   { QGuiApplication::clipboard()->setMimeData(data.release()); };

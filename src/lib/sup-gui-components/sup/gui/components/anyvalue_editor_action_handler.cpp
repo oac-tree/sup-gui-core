@@ -127,7 +127,7 @@ void AnyValueEditorActionHandler::OnRemoveSelected()
     if (next_to_select)
     {
       // suggest to select something else instead of just deleted instruction
-      emit SelectItemRequest(next_to_select);
+      RequestNotify(next_to_select);
     }
   }
 }
@@ -177,7 +177,7 @@ void AnyValueEditorActionHandler::OnMoveUpRequest()
   {
     if (mvvm::utils::MoveUp(*item))
     {
-      emit SelectItemRequest(item);
+      RequestNotify(item);
     }
   }
 }
@@ -188,7 +188,7 @@ void AnyValueEditorActionHandler::OnMoveDownRequest()
   {
     if (mvvm::utils::MoveDown(*item))
     {
-      emit SelectItemRequest(item);
+      RequestNotify(item);
     }
   }
 }
@@ -337,6 +337,11 @@ void AnyValueEditorActionHandler::Redo()
   GetModel()->GetCommandStack()->Redo();
 }
 
+void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item)
+{
+  emit SelectItemRequest(item);
+}
+
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParent() const
 {
   return GetSelectedItem() ? GetSelectedItem() : GetAnyValueItemContainer();
@@ -483,7 +488,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
   try
   {
     result = GetModel()->InsertItem(std::move(item), parent_item, index);
-    emit SelectItemRequest(result);
+    RequestNotify(result);
   }
   catch (const std::exception& ex)
   {
