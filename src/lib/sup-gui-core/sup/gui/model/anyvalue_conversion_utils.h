@@ -64,7 +64,7 @@ sup::dto::AnyValue CreateAnyValue(const AnyValueItem& item);
 /**
  * @brief Creates AnyValueItem from given AnyValue.
  */
-std::unique_ptr<AnyValueItem> CreateItem(const sup::dto::AnyValue& any_value);
+std::unique_ptr<AnyValueItem> CreateAnyValueItem(const sup::dto::AnyValue& any_value);
 
 /**
  * @brief Sets the data of AnyValueItem using scalar AnyValue.

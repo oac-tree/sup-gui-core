@@ -104,7 +104,7 @@ sup::dto::AnyValue CreateAnyValue(const AnyValueItem& item)
   return builder.GetAnyValue();
 }
 
-std::unique_ptr<AnyValueItem> CreateItem(const sup::dto::AnyValue& any_value)
+std::unique_ptr<AnyValueItem> CreateAnyValueItem(const sup::dto::AnyValue& any_value)
 {
   AnyValueItemBuilder builder;
   sup::dto::SerializeAnyValue(any_value, builder);

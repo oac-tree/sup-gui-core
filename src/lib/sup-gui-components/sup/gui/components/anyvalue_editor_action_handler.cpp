@@ -144,7 +144,7 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
   }
 
   auto anyvalue = AnyValueFromJSONFile(file_name);
-  auto item = CreateItem(anyvalue);
+  auto item = CreateAnyValueItem(anyvalue);
   if (auto query =
           mvvm::utils::CanInsertItem(item.get(), GetParentToInsert(), mvvm::TagIndex::Append());
       !query.first)
@@ -382,7 +382,11 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
   auto tagindex = selected_item ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
 
   UpdateChildAppearance(*parent_item, *item);
-  (void)InsertItem(std::move(item), parent_item, tagindex);
+
+  std::vector<std::unique_ptr<mvvm::SessionItem>> items;
+  items.push_back(std::move(item));
+
+  InsertItem(std::move(items), parent_item, tagindex);
 }
 
 void AnyValueEditorActionHandler::InsertIntoCurrentSelection(
@@ -391,7 +395,11 @@ void AnyValueEditorActionHandler::InsertIntoCurrentSelection(
   if (auto parent_item = GetParentToInsert(); parent_item)
   {
     UpdateChildAppearance(*parent_item, *item);
-    (void)InsertItem(std::move(item), GetParentToInsert(), mvvm::TagIndex::Append());
+
+    std::vector<std::unique_ptr<mvvm::SessionItem>> items;
+    items.push_back(std::move(item));
+
+    InsertItem(std::move(items), parent_item, mvvm::TagIndex::Append());
   }
 }
 
@@ -473,9 +481,9 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
   return QueryResult::Success();
 }
 
-mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm::SessionItem> item,
-                                                           mvvm::SessionItem* parent_item,
-                                                           const mvvm::TagIndex& index)
+void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::SessionItem>> items,
+                                             mvvm::SessionItem* parent_item,
+                                             const mvvm::TagIndex& index)
 {
   if (!GetModel())
   {
@@ -487,21 +495,31 @@ mvvm::SessionItem* AnyValueEditorActionHandler::InsertItem(std::unique_ptr<mvvm:
     throw RuntimeException("Uninitialised parent");
   }
 
-  mvvm::SessionItem* result{nullptr};
-  const auto item_type = item->GetType();
-  try
+  auto last_tag_index = index;
+  std::vector<mvvm::SessionItem*> to_notify;
+
+  for (auto& item : items)
   {
-    result = GetModel()->InsertItem(std::move(item), parent_item, index);
-    RequestNotify(result);
+    const auto item_type = item->GetType();
+    try
+    {
+      auto inserted = GetModel()->InsertItem(std::move(item), parent_item, index);
+      to_notify.push_back(inserted);
+      last_tag_index = inserted->GetTagIndex().Next();
+    }
+    catch (const std::exception& ex)
+    {
+      std::ostringstream ostr;
+      ostr << "Can't insert child [" << item_type << "] into parent [" << parent_item->GetType()
+           << "].";
+      SendMessage(ostr.str());
+    }
   }
-  catch (const std::exception& ex)
+
+  for (auto item : to_notify)
   {
-    std::ostringstream ostr;
-    ostr << "Can't insert child [" << item_type << "] into parent [" << parent_item->GetType()
-         << "].";
-    SendMessage(ostr.str());
+    RequestNotify(item);
   }
-  return result;
 }
 
 const QMimeData* AnyValueEditorActionHandler::GetClipboardContent() const
