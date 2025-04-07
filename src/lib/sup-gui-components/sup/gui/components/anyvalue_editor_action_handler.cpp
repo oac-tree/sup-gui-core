@@ -244,8 +244,6 @@ void AnyValueEditorActionHandler::Copy()
     return;
   }
 
-  // auto items =
-
   m_context.set_mime_data(CreateAnyValueItemSelectionCopyMimeData(GetSelectedItems()));
 }
 
