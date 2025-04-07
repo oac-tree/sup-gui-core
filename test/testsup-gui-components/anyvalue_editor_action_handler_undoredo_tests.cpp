@@ -79,7 +79,7 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, InitialState)
   EXPECT_FALSE(handler->CanRedo());
 }
 
-TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoScenario)
+TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForItemInsert)
 {
   m_model.SetUndoEnabled(true);
 
@@ -104,4 +104,42 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoScenario)
 
   handler->Redo();
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+}
+
+TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForCopyAndPasteTwoFields)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+
+  m_model.SetUndoEnabled(true);
+
+  auto handler = CreateActionHandler({field0, field1});
+
+  EXPECT_FALSE(handler->CanUndo());
+  EXPECT_FALSE(handler->CanRedo());
+
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(2);
+
+  handler->Copy();
+
+  // pasting between field0 and field1
+  m_mock_context.SetAsCurrentSelection({field0});
+
+  EXPECT_FALSE(handler->CanUndo());
+  EXPECT_FALSE(handler->CanRedo());
+
+  handler->PasteAfter();
+  EXPECT_EQ(parent->GetChildrenCount(), 4);
+
+  EXPECT_TRUE(handler->CanUndo());
+  EXPECT_FALSE(handler->CanRedo());
+
+  handler->Undo();
+  EXPECT_EQ(parent->GetChildrenCount(), 2);
+
+  handler->Redo();
+  EXPECT_EQ(parent->GetChildrenCount(), 4);
 }

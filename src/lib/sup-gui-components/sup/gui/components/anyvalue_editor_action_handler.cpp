@@ -501,6 +501,8 @@ void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::S
     throw RuntimeException("Uninitialised parent");
   }
 
+  mvvm::utils::BeginMacro(*GetModel(), "Insert AnyValueItem");
+
   auto last_tag_index = index;
   std::vector<mvvm::SessionItem*> to_notify;
 
@@ -523,6 +525,8 @@ void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::S
       SendMessage(ostr.str());
     }
   }
+
+  mvvm::utils::EndMacro(*GetModel());
 
   for (auto item : to_notify)
   {
