@@ -108,8 +108,6 @@ void AnyValueEditorActions::UpdateEnabledStatus()
   m_copy_action->setEnabled(m_action_handler->CanCopy());
   m_paste_into_action->setEnabled(m_action_handler->CanPasteInto());
   m_paste_after_action->setEnabled(m_action_handler->CanPasteAfter());
-  m_undo_action->setEnabled(m_action_handler->CanUndo());
-  m_redo_action->setEnabled(m_action_handler->CanRedo());
 }
 
 void AnyValueEditorActions::SetupInsertRemoveActions()
