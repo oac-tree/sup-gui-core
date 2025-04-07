@@ -95,6 +95,7 @@ void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)
   AppAddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
   AppAddActionToCommand(m_paste_after_action, constants::kPasteCommandId, context);
   AppAddActionToCommand(m_paste_into_action, constants::kPasteSpecialCommandId, context);
+  AppAddActionToCommand(m_remove_action, constants::kRemoveSelectedCommandId, context);
 
   AppAddActionToCommand(m_undo_action, constants::kUndoCommandId, context);
   AppAddActionToCommand(m_redo_action, constants::kRedoCommandId, context);
