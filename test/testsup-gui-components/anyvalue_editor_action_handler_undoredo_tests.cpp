@@ -101,4 +101,7 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoScenario)
 
   EXPECT_FALSE(handler->CanUndo());
   EXPECT_TRUE(handler->CanRedo());
+
+  handler->Redo();
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 }

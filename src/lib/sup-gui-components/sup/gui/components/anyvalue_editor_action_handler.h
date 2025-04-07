@@ -111,13 +111,13 @@ private:
 
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
-  void RequestNotify(mvvm::SessionItem* item);
+  void RequestNotify(mvvm::SessionItem* item) const;
 
   mvvm::SessionItem* GetParentToInsert() const;
 
   mvvm::ISessionModel* GetModel() const;
 
-  void SendMessage(const MessageEvent& message);
+  void SendMessage(const MessageEvent& message) const;
 
   void SendMessage(const std::string& text, const std::string& informative = {},
                    const std::string& details = {});

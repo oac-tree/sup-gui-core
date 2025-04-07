@@ -98,6 +98,18 @@ TEST_F(AnyValueEditorActionHandlerTest, InitialState)
   EXPECT_FALSE(handler->CanInsertAfter(std::string()));
 }
 
+TEST_F(AnyValueEditorActionHandlerTest, HandlerWithNoContainerDefined)
+{
+  auto handler = std::make_unique<AnyValueEditorActionHandler>(m_mock_context.CreateContext({}));
+
+  EXPECT_EQ(handler->GetTopItem(), nullptr);
+
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(2);
+
+  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->OnInsertAnyValueItemInto(constants::kStructTypeName);
+}
+
 //! Testing AnyValueEditorActions::SetInitialValue method.
 TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
 {
@@ -669,4 +681,32 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
 
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
+};
+
+TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+
+  // creating action handler for the context, when field1 is selected
+  auto handler = CreateActionHandler({field0});
+
+  // expecting no callbacks
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
+  // moving selected item up
+  handler->OnMoveDownRequest();
+
+  // validating that parent got new child
+  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
+
+  // moving selected item up second time doesn't change anything
+  handler->OnMoveDownRequest();
+
+  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
 };

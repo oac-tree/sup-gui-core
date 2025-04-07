@@ -58,7 +58,7 @@ AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext c
 
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context,
                                                          mvvm::SessionItem* container)
-    : m_context(std::move(context)), m_container(container)
+    : IAnyValueEditorActionHandler(), m_context(std::move(context)), m_container(container)
 {
   if (!m_context.selected_items)
   {
@@ -94,7 +94,7 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& t
   }
 
   auto result = CreateAnyValueItemFromTypeName(type_name);
-  result->SetToolTip(type_name);
+  (void)result->SetToolTip(type_name);
 
   std::vector<std::unique_ptr<mvvm::SessionItem>> items;
   items.push_back(std::move(result));
@@ -117,7 +117,7 @@ void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& ty
   }
 
   auto result = CreateAnyValueItemFromTypeName(type_name);
-  result->SetToolTip(type_name);
+  (void)result->SetToolTip(type_name);
   std::vector<std::unique_ptr<mvvm::SessionItem>> items;
   items.push_back(std::move(result));
   InsertIntoCurrentSelection(std::move(items));
@@ -159,7 +159,7 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
     SendMessage(query.second);
     return;
   }
-  GetModel()->InsertItem(std::move(item), GetParentToInsert(), mvvm::TagIndex::Append());
+  (void)GetModel()->InsertItem(std::move(item), GetParentToInsert(), mvvm::TagIndex::Append());
 }
 
 void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_name)
@@ -285,11 +285,11 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
   auto cloned_item = mvvm::utils::CloneItem(item);
 
   // if original item was marked as disabled, we should remove it from clone
-  cloned_item->SetEnabled(true);
-  cloned_item->SetEditable(true);
+  (void)cloned_item->SetEnabled(true);
+  (void)cloned_item->SetEditable(true);
 
-  GetModel()->InsertItem(std::move(cloned_item), GetAnyValueItemContainer(),
-                         mvvm::TagIndex::Append());
+  (void)GetModel()->InsertItem(std::move(cloned_item), GetAnyValueItemContainer(),
+                               mvvm::TagIndex::Append());
 }
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
@@ -300,7 +300,7 @@ AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 {
-  if (GetAnyValueItemContainer() && GetAnyValueItemContainer()->GetTotalItemCount() > 0)
+  if (GetAnyValueItemContainer() && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
   {
     return GetAnyValueItemContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::First());
   }
@@ -355,7 +355,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
   return m_container;
 }
 
-void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item)
+void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item) const
 {
   m_context.notify_request(item);
 }
@@ -370,7 +370,7 @@ mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const
   return m_container->GetModel();
 }
 
-void AnyValueEditorActionHandler::SendMessage(const MessageEvent& message)
+void AnyValueEditorActionHandler::SendMessage(const MessageEvent& message) const
 {
   m_context.send_message(message);
 }
@@ -413,7 +413,8 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   }
 
   const bool top_item_exists = GetTopItem() != nullptr;
-  const bool top_item_selected = GetSelectedItem() && GetSelectedItem() == GetTopItem();
+  const bool top_item_selected =
+      (GetSelectedItem() != nullptr) && (GetSelectedItem() == GetTopItem());
   const bool no_selection = GetSelectedItem() == nullptr;
   if (top_item_exists && (top_item_selected || no_selection))
   {
