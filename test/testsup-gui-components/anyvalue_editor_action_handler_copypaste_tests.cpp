@@ -322,26 +322,42 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   EXPECT_EQ(removed_field->GetDisplayName(), std::string("field0"));
 }
 
-TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPaste)
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteBetweenTwoFields)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
   // struct is selected, mime buffer is empty
-  auto handler = CreateActionHandler({field0}, {});
+  auto handler = CreateActionHandler({field0, field1}, {});
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
   EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
   EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
-  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(2);
 
   handler->Copy();
+
+  // pasting between field0 and field1
+  m_mock_context.SetAsCurrentSelection({field0});
+
   handler->PasteAfter();
 
-  ASSERT_EQ(parent->GetChildren().size(), 2);
-  auto inserted_item = parent->GetChildren().at(1);
+  ASSERT_EQ(parent->GetChildren().size(), 4);
 
-  EXPECT_EQ(inserted_item->GetDisplayName(), std::string("field0"));
-  EXPECT_EQ(inserted_item->Data<mvvm::int32>(), mvvm::int32{42});
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
+  auto orig_field0 = parent->GetChildren().at(0);
+  auto pasted_field0 = parent->GetChildren().at(1);
+  auto pasted_field1 = parent->GetChildren().at(2);
+  auto orig_field1 = parent->GetChildren().at(3);
+
+  EXPECT_EQ(orig_field0, field0);
+  EXPECT_EQ(orig_field1, field1);
+
+  EXPECT_EQ(pasted_field0->GetDisplayName(), std::string("field0"));
+  EXPECT_EQ(pasted_field0->Data<mvvm::int32>(), mvvm::int32{42});
+  EXPECT_EQ(pasted_field1->GetDisplayName(), std::string("field1"));
+  EXPECT_EQ(pasted_field1->Data<mvvm::int32>(), mvvm::int32{43});
+
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(),
+            std::vector<mvvm::SessionItem*>({pasted_field0, pasted_field1}));
 }
