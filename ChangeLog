@@ -1,5 +1,6 @@
 Changes for 1.8.0:
 
+- Repair Ctrl+S shortcut to save projects
 - Remove QObject inheritance from AnyValueActionHandler
 - Provide possibility to filter-out children during copy-and-paste
 - Provide support for copy-paste of several items

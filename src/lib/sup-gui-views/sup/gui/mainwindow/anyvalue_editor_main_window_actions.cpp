@@ -96,7 +96,6 @@ void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
           &AnyValueEditorMainWindowActions::OnImportWaveformRequest);
 
   m_export_action = new QAction("Export", this);
-  m_export_action->setShortcuts(QKeySequence::Save);
   connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorMainWindowActions::OnExportToFileRequest);
 
