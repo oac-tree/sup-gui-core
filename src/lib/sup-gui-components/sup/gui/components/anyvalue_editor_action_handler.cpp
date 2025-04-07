@@ -21,6 +21,7 @@
 
 #include "anyvalue_editor_helper.h"
 #include "anyvalue_item_copy_helper.h"
+#include "copy_and_paste_helper.h"
 #include "mime_conversion_helper.h"
 
 #include <sup/gui/core/exceptions.h>
@@ -130,15 +131,23 @@ bool AnyValueEditorActionHandler::CanRemove() const
 
 void AnyValueEditorActionHandler::OnRemoveSelected()
 {
-  if (auto selected = GetSelectedItem(); selected)
+  mvvm::utils::BeginMacro(*GetModel(), "Remove AnyValueItem");
+
+  // remove children from the selection list to avoid double delete
+  mvvm::SessionItem* next_to_select{nullptr};
+  auto selected = mvvm::utils::CastItems<mvvm::SessionItem>(GetSelectedItems());
+  for (auto item : FilterOutChildren(selected))
   {
-    auto next_to_select = mvvm::utils::FindNextSiblingToSelect(selected);
-    GetModel()->RemoveItem(selected);
-    if (next_to_select)
-    {
-      // suggest to select something else instead of just deleted instruction
-      RequestNotify(next_to_select);
-    }
+    next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
+    GetModel()->RemoveItem(item);
+  }
+
+  mvvm::utils::EndMacro(*GetModel());
+
+  if (next_to_select)
+  {
+    // suggest to select something else instead of just deleted instruction
+    RequestNotify(next_to_select);
   }
 }
 

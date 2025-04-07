@@ -617,7 +617,6 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 // Remove item
 //-------------------------------------------------------------------------------------------------
 
-//! Remove item when nothing is selected.
 TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 {
   auto struct_item =
@@ -633,7 +632,6 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
-//! Remove selected item.
 TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 {
   auto struct_item =
@@ -651,6 +649,49 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
 };
 
+TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
+{
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field2 = parent->AddScalarField("field2", sup::dto::kInt32TypeName, mvvm::int32{44});
+  auto field3 = parent->AddScalarField("field3", sup::dto::kInt32TypeName, mvvm::int32{45});
+
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+
+  auto handler = CreateActionHandler({field1, field2});
+
+  EXPECT_TRUE(handler->CanRemove());
+
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
+  handler->OnRemoveSelected();
+
+  EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field0, field3}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field3}));
+};
+
+TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
+{
+  auto parent =
+      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
+
+  auto handler = CreateActionHandler({field1, parent});
+
+  EXPECT_TRUE(handler->CanRemove());
+
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(0);
+
+  handler->OnRemoveSelected();
+
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
+};
+
 //-------------------------------------------------------------------------------------------------
 // Move Up/Down
 //-------------------------------------------------------------------------------------------------
@@ -661,7 +702,6 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
-  // creating action handler for the context, when field1 is selected
   auto handler = CreateActionHandler({field1});
 
   // expecting no callbacks
