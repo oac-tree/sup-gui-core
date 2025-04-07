@@ -156,6 +156,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 
   // expecting no warnings
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kEmptyTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kEmptyTypeName));
@@ -184,6 +185,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 
   // expecting no warnings
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
@@ -258,6 +260,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanInsertInto(constants::kStructTypeName));
 
@@ -307,6 +310,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({});
 
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
   // adding AnyValueItem struct as top level item
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
@@ -342,6 +347,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -369,6 +375,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
@@ -399,6 +406,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
@@ -501,6 +509,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kArrayTypeName));
 
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
   // adding AnyValueItem struct as top level item
   handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
 
@@ -534,6 +544,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
   handler->OnInsertAnyValueItemInto(constants::kArrayTypeName);
@@ -643,6 +654,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // moving selected item up
   handler->OnMoveUpRequest();

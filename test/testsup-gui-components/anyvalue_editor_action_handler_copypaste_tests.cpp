@@ -67,6 +67,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyPasteWhenNothingIsSelected)
 {
   auto handler = CreateActionHandler(/*selected instruction*/ {}, /*mime*/ {});
 
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+
   EXPECT_FALSE(handler->CanCopy());
   EXPECT_FALSE(handler->CanPasteAfter());
   EXPECT_FALSE(handler->CanPasteInto());
@@ -79,8 +81,10 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyOperationWhenItemIsSelected
 
   // AnyValueItem is selected, no mime
   auto handler = CreateActionHandler({item}, nullptr);
-  EXPECT_TRUE(handler->CanCopy());
 
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+
+  EXPECT_TRUE(handler->CanCopy());
   handler->Copy();
 
   // As a result of copy QMimeData object was created
@@ -93,6 +97,9 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
 {
   {  // nothing is selected, no mime data
     auto handler = CreateActionHandler(/*selected instruction*/ {}, /*mime*/ {});
+
+    EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+
     EXPECT_FALSE(handler->CanPasteAfter());
     EXPECT_FALSE(handler->CanPasteInto());
   }
@@ -100,6 +107,9 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
   {  // nothing is selected, wrong mime data
     auto mime_data = std::make_unique<QMimeData>();
     auto handler = CreateActionHandler({}, std::move(mime_data));
+
+    EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+
     EXPECT_FALSE(handler->CanPasteAfter());
     EXPECT_FALSE(handler->CanPasteInto());
   }
@@ -108,6 +118,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
     const AnyValueStructItem item_to_paste;
     auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
     auto handler = CreateActionHandler({}, std::move(mime_data));
+
+    EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
 
     // paste-after when nothing is selected is allowed
     EXPECT_TRUE(handler->CanPasteAfter());
@@ -125,6 +137,9 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteSecondTopLevelItem)
 
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
+
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+
   EXPECT_FALSE(handler->CanPasteAfter());  // only one top-level item is allowed
   EXPECT_TRUE(handler->CanPasteInto());
 }
@@ -137,6 +152,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteIntoScalar)
   const AnyValueScalarItem item_to_paste;
   auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
+
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
 
   EXPECT_FALSE(handler->CanPasteAfter());
   EXPECT_FALSE(handler->CanPasteInto());
@@ -151,6 +168,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteStructIntoStruct)
   const AnyValueScalarItem item_to_paste;
   auto mime_data = sup::gui::CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
   auto handler = CreateActionHandler({child}, std::move(mime_data));
+
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   EXPECT_TRUE(handler->CanPasteInto());
@@ -167,6 +186,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   auto handler = CreateActionHandler({}, std::move(mime_data));
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(3);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   handler->PasteAfter();
@@ -203,6 +224,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   auto handler = CreateActionHandler({field0}, std::move(mime_data));
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(3);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanPasteAfter());
   handler->PasteAfter();
@@ -218,7 +241,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
   EXPECT_EQ(inserted_item->Data<mvvm::int16>(), 42);
 
-  std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item, field1});
+  const std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item, field1});
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
@@ -244,6 +267,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(3);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanPasteInto());
   handler->PasteInto();
@@ -258,7 +283,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
   EXPECT_EQ(inserted_item->Data<mvvm::int16>(), 42);
 
-  std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item});
+  const std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item});
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
@@ -277,11 +302,13 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   auto handler = CreateActionHandler({field0}, {});
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanCut());
   handler->Cut();
 
-  std::vector<sup::gui::AnyValueItem*> expected_children({field1});
+  const std::vector<sup::gui::AnyValueItem*> expected_children({field1});
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select remaining item
@@ -304,6 +331,9 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPaste)
   auto handler = CreateActionHandler({field0}, {});
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   handler->Copy();
   handler->PasteAfter();

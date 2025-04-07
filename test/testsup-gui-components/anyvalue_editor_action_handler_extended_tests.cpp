@@ -80,6 +80,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field.
   handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
