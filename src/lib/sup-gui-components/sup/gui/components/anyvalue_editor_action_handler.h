@@ -56,23 +56,23 @@ public:
 
   bool CanInsertAfter(const std::string& type_name) const override;
 
-  void OnInsertAnyValueItemAfter(const std::string& type_name) override;
+  void InsertAnyValueItemAfter(const std::string& type_name) override;
 
   bool CanInsertInto(const std::string& type_name) const override;
 
-  void OnInsertAnyValueItemInto(const std::string& type_name) override;
+  void InsertAnyValueItemInto(const std::string& type_name) override;
 
   bool CanRemove() const override;
 
-  void OnRemoveSelected() override;
+  void RemoveSelected() override;
 
   void OnImportFromFileRequest(const std::string& file_name) override;
 
   void OnExportToFileRequest(const std::string& file_name) override;
 
-  void OnMoveUpRequest() override;
+  void MoveUp() override;
 
-  void OnMoveDownRequest() override;
+  void MoveDown() override;
 
   bool CanCut() const override;
 

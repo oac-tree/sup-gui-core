@@ -106,8 +106,8 @@ TEST_F(AnyValueEditorActionHandlerTest, HandlerWithNoContainerDefined)
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(2);
 
-  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
-  handler->OnInsertAnyValueItemInto(constants::kStructTypeName);
+  handler->InsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->InsertAnyValueItemInto(constants::kStructTypeName);
 }
 
 //! Testing AnyValueEditorActions::SetInitialValue method.
@@ -174,7 +174,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_FALSE(handler->CanInsertInto(constants::kEmptyTypeName));
 
   // adding empty AnyValueItem as top level item
-  handler->OnInsertAnyValueItemAfter(constants::kEmptyTypeName);
+  handler->InsertAnyValueItemAfter(constants::kEmptyTypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -203,7 +203,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
 
   // adding AnyValueItem struct as top level item
-  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->InsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -231,7 +231,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddToNonEmptyModel)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add another top level item
-  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->InsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that there is still one item
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -255,7 +255,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelStructure)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add another top level item
-  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->InsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that there is still one item
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -277,7 +277,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   EXPECT_TRUE(handler->CanInsertInto(constants::kStructTypeName));
 
   // adding AnyValueItem struct as a field
-  handler->OnInsertAnyValueItemInto(constants::kStructTypeName);
+  handler->InsertAnyValueItemInto(constants::kStructTypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -305,7 +305,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddStructToScalar)
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
   // adding AnyValueItem struct as a field to
-  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->InsertAnyValueItemAfter(constants::kStructTypeName);
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -325,7 +325,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as top level item
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -340,7 +340,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // the amount of items should stay the same
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -362,7 +362,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -390,7 +390,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   ASSERT_EQ(parent->GetChildren().size(), 3);
@@ -421,7 +421,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -449,7 +449,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that nothing was changed in the model
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -470,7 +470,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top level scalar
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // checking that model still have a single item
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -493,7 +493,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -503,7 +503,7 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add mismatching type
-  handler->OnInsertAnyValueItemAfter(sup::dto::kInt16TypeName);
+  handler->InsertAnyValueItemAfter(sup::dto::kInt16TypeName);
 
   // array still has two element
   EXPECT_EQ(parent->GetChildren().size(), 2);
@@ -524,7 +524,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as top level item
-  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
+  handler->InsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -537,7 +537,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top-level item
-  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
+  handler->InsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // the amount of items should stay the same
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -559,7 +559,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->OnInsertAnyValueItemInto(constants::kArrayTypeName);
+  handler->InsertAnyValueItemInto(constants::kArrayTypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -586,7 +586,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field to
-  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
+  handler->InsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // validating that nothing can changed in the model
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -607,7 +607,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top level array
-  handler->OnInsertAnyValueItemAfter(constants::kArrayTypeName);
+  handler->InsertAnyValueItemAfter(constants::kArrayTypeName);
 
   // checking that model still have a single item
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -626,7 +626,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
   auto handler = CreateActionHandler({nullptr});
 
   EXPECT_FALSE(handler->CanRemove());
-  EXPECT_NO_FATAL_FAILURE(handler->OnRemoveSelected());
+  EXPECT_NO_FATAL_FAILURE(handler->RemoveSelected());
 
   // validating that still has an item
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -643,7 +643,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 
   EXPECT_TRUE(handler->CanRemove());
 
-  handler->OnRemoveSelected();
+  handler->RemoveSelected();
 
   // validating that there is no item anymore
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
@@ -666,7 +666,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
-  handler->OnRemoveSelected();
+  handler->RemoveSelected();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field0, field3}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field3}));
@@ -687,7 +687,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
 
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(0);
 
-  handler->OnRemoveSelected();
+  handler->RemoveSelected();
 
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
 };
@@ -709,7 +709,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // moving selected item up
-  handler->OnMoveUpRequest();
+  handler->MoveUp();
 
   // validating that parent got new child
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
@@ -717,7 +717,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
 
   // moving selected item up second time doesn't change anything
-  handler->OnMoveUpRequest();
+  handler->MoveUp();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
@@ -737,7 +737,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // moving selected item up
-  handler->OnMoveDownRequest();
+  handler->MoveDown();
 
   // validating that parent got new child
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
@@ -745,7 +745,7 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
 
   // moving selected item up second time doesn't change anything
-  handler->OnMoveDownRequest();
+  handler->MoveDown();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));

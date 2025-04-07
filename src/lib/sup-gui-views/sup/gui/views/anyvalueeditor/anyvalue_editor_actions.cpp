@@ -137,7 +137,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_remove_action->setIcon(utils::FindIcon("beaker-remove-outline"));
   m_remove_action->setToolTip("Remove selected item and all it's children");
   connect(m_remove_action, &QAction::triggered, this,
-          [this]() { m_action_handler->OnRemoveSelected(); });
+          [this]() { m_action_handler->RemoveSelected(); });
 
   // remove action (own toolbar version to avoid disabled status)
   m_remove_toolbar_action = new sup::gui::ProxyAction(this);
@@ -149,7 +149,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_move_up_action->setIcon(utils::FindIcon("arrow-up-thin-circle-outline"));
   m_move_up_action->setToolTip("Move currently selected field up (works within the same parent)");
   connect(m_move_up_action, &QAction::triggered, this,
-          [this]() { m_action_handler->OnMoveUpRequest(); });
+          [this]() { m_action_handler->MoveUp(); });
   m_action_map.Add(ActionKey::kMoveUp, m_move_up_action);
 
   // MoveDown button
@@ -158,7 +158,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_move_down_action->setToolTip(
       "Move currently selected field down (works within the same parent)");
   connect(m_move_down_action, &QAction::triggered, this,
-          [this]() { m_action_handler->OnMoveDownRequest(); });
+          [this]() { m_action_handler->MoveDown(); });
   m_action_map.Add(ActionKey::kMoveDown, m_move_down_action);
 }
 
@@ -254,12 +254,12 @@ void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &nam
     if (insert_into)
     {
       connect(action, &QAction::triggered, this,
-              [this, name]() { m_action_handler->OnInsertAnyValueItemInto(name); });
+              [this, name]() { m_action_handler->InsertAnyValueItemInto(name); });
     }
     else
     {
       connect(action, &QAction::triggered, this,
-              [this, name]() { m_action_handler->OnInsertAnyValueItemAfter(name); });
+              [this, name]() { m_action_handler->InsertAnyValueItemAfter(name); });
     }
   }
 }

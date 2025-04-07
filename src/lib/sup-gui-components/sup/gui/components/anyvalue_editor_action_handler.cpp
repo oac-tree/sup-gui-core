@@ -84,7 +84,7 @@ bool AnyValueEditorActionHandler::CanInsertAfter(const std::string& type_name) c
   return CanInsertTypeAfterCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name)).IsSuccess();
 }
 
-void AnyValueEditorActionHandler::OnInsertAnyValueItemAfter(const std::string& type_name)
+void AnyValueEditorActionHandler::InsertAnyValueItemAfter(const std::string& type_name)
 {
   auto query = CanInsertTypeAfterCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name));
 
@@ -108,7 +108,7 @@ bool AnyValueEditorActionHandler::CanInsertInto(const std::string& type_name) co
   return CanInsertTypeIntoCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name)).IsSuccess();
 }
 
-void AnyValueEditorActionHandler::OnInsertAnyValueItemInto(const std::string& type_name)
+void AnyValueEditorActionHandler::InsertAnyValueItemInto(const std::string& type_name)
 {
   auto query = CanInsertTypeIntoCurrentSelection(GetAnyValueItemTypeFromTypeName(type_name));
   if (!query.IsSuccess())
@@ -129,7 +129,7 @@ bool AnyValueEditorActionHandler::CanRemove() const
   return GetSelectedItem() != nullptr;
 }
 
-void AnyValueEditorActionHandler::OnRemoveSelected()
+void AnyValueEditorActionHandler::RemoveSelected()
 {
   mvvm::utils::BeginMacro(*GetModel(), "Remove AnyValueItem");
 
@@ -191,7 +191,7 @@ void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_
   }
 }
 
-void AnyValueEditorActionHandler::OnMoveUpRequest()
+void AnyValueEditorActionHandler::MoveUp()
 {
   if (auto item = GetSelectedItem(); item)
   {
@@ -202,7 +202,7 @@ void AnyValueEditorActionHandler::OnMoveUpRequest()
   }
 }
 
-void AnyValueEditorActionHandler::OnMoveDownRequest()
+void AnyValueEditorActionHandler::MoveDown()
 {
   if (auto item = GetSelectedItem(); item)
   {
@@ -226,7 +226,7 @@ void AnyValueEditorActionHandler::Cut()
   }
 
   Copy();
-  OnRemoveSelected();
+  RemoveSelected();
 }
 
 bool AnyValueEditorActionHandler::CanCopy() const

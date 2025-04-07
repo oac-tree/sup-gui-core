@@ -83,7 +83,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field.
-  handler->OnInsertAnyValueItemInto(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemInto(sup::dto::kInt32TypeName);
 
   EXPECT_EQ(struct_item->GetChildren().size(), 1);
 };

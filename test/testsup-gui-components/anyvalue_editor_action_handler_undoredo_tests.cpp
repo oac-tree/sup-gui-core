@@ -90,7 +90,7 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoScenario)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as top level item
-  handler->OnInsertAnyValueItemAfter(constants::kStructTypeName);
+  handler->InsertAnyValueItemAfter(constants::kStructTypeName);
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
   EXPECT_TRUE(handler->CanUndo());

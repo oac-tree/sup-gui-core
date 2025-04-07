@@ -67,7 +67,7 @@ public:
   /**
    * @brief Inserts new AnyValueItem of the given type after current selection.
    */
-  virtual void OnInsertAnyValueItemAfter(const std::string& type_name) = 0;
+  virtual void InsertAnyValueItemAfter(const std::string& type_name) = 0;
 
   /**
    * @brief Checks if AnyValueItem with the given type name can be inserted into currently selected
@@ -82,7 +82,7 @@ public:
   /**
    * @brief Inserts new AnyValueItem of the given type into current selection.
    */
-  virtual void OnInsertAnyValueItemInto(const std::string& type_name) = 0;
+  virtual void InsertAnyValueItemInto(const std::string& type_name) = 0;
 
   /**
    * @brief Checks if currently selected AnyValue can be removed.
@@ -92,7 +92,7 @@ public:
   /**
    * @brief Removes currently selected item.
    */
-  virtual void OnRemoveSelected() = 0;
+  virtual void RemoveSelected() = 0;
 
   /**
    * @brief Imports AnyValue from file.
@@ -110,12 +110,12 @@ public:
   /**
    * @brief Moves a structure field, or array element up.
    */
-  virtual void OnMoveUpRequest() = 0;
+  virtual void MoveUp() = 0;
 
   /**
    * @brief Moves a structure field, or array element down.
    */
-  virtual void OnMoveDownRequest() = 0;
+  virtual void MoveDown() = 0;
 
   /**
    * @brief Checks if cut operation is possible.
