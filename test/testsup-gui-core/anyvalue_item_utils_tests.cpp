@@ -23,7 +23,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/test/mock_model_listener.h>
 

@@ -21,7 +21,7 @@
 
 #include "colored_icon_engine.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
