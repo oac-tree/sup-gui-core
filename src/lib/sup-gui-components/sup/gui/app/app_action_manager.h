@@ -36,7 +36,13 @@ namespace sup::gui
 class IActionContainer
 {
 public:
+  IActionContainer() = default;
   virtual ~IActionContainer() = default;
+
+  IActionContainer(const IActionContainer&) = delete;
+  IActionContainer& operator=(const IActionContainer&) = delete;
+  IActionContainer(IActionContainer&&) = delete;
+  IActionContainer& operator=(IActionContainer&&) = delete;
 
   /**
    * @brief Returns number of actions registered in this container.
@@ -88,7 +94,14 @@ private:
 class IActionManager
 {
 public:
+  IActionManager() = default;
   virtual ~IActionManager() = default;
+
+  IActionManager(const IActionManager&) = delete;
+  IActionManager& operator=(const IActionManager&) = delete;
+  IActionManager(IActionManager&&) = delete;
+  IActionManager& operator=(IActionManager&&) = delete;
+
   virtual bool RegisterAction(const QString& menu_name, QAction* action) = 0;
 };
 

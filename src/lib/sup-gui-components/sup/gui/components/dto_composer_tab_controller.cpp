@@ -40,7 +40,7 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
 {
   if (!tab_widget)
   {
-    throw NullException("DtoComposerTabController: QTabWidget is not initialised");
+    throw NullArgumentException("DtoComposerTabController: QTabWidget is not initialised");
   }
 
   m_listener = std::make_unique<mvvm::ModelListener>(model);
@@ -94,7 +94,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
       m_tab_widget->removeTab(tag_index.GetIndex());
       delete widget;
 
-      (void) m_widget_map.erase(container);
+      (void)m_widget_map.erase(container);
     }
     else
     {

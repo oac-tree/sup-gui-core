@@ -38,7 +38,9 @@ RuntimeException::RuntimeException(const std::string& message) : MessageExceptio
 
 LogicErrorException::LogicErrorException(const std::string& message) : MessageException{message} {}
 
-NullException::NullException(const std::string& message) : MessageException{message} {}
+NullArgumentException::NullArgumentException(const std::string& message) : MessageException{message}
+{
+}
 
 InvalidOperationException::InvalidOperationException(const std::string& message)
     : MessageException{message}
