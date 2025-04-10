@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_CORE_EXCEPTIONS_H_
-#define SUP_GUI_CORE_EXCEPTIONS_H_
+#ifndef SUP_GUI_CORE_SUP_GUI_CORE_EXCEPTIONS_H_
+#define SUP_GUI_CORE_SUP_GUI_CORE_EXCEPTIONS_H_
 
 #include <exception>
 #include <string>
@@ -119,4 +119,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_CORE_EXCEPTIONS_H_
+#endif  // SUP_GUI_CORE_SUP_GUI_CORE_EXCEPTIONS_H_

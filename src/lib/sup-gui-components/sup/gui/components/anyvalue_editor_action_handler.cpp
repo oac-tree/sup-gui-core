@@ -24,7 +24,7 @@
 #include "copy_and_paste_helper.h"
 #include "mime_conversion_helper.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/core/query_result.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>

@@ -23,7 +23,7 @@
 #include "anyvalue_item_utils.h"
 #include "scalar_conversion_utils.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 namespace sup::gui
 {

@@ -19,7 +19,7 @@
 
 #include "dto_composer_action_handler.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/model_utils.h>

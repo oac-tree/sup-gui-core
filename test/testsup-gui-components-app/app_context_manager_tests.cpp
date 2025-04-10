@@ -20,7 +20,7 @@
 #include "sup/gui/app/app_context_manager.h"
 
 #include <sup/gui/app/app_context.h>
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <gtest/gtest.h>
 

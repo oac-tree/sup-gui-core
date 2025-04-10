@@ -19,7 +19,7 @@
 
 #include "sup/gui/model/anyvalue_utils.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>

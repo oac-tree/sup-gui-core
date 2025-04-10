@@ -19,7 +19,7 @@
 
 #include "version_helper.h"
 
-#include "exceptions.h"
+#include "sup_gui_core_exceptions.h"
 
 #include <mvvm/utils/string_utils.h>
 

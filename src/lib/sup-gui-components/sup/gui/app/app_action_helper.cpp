@@ -26,7 +26,7 @@
 #include "app_context_manager.h"
 
 #include <sup/gui/components/proxy_action.h>
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <QApplication>
 #include <QWidget>

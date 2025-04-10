@@ -21,7 +21,7 @@
 
 #include "widget_overlay_message_handler.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/core/message_handler_decorator.h>
 #include <sup/gui/core/standard_message_handlers.h>
 

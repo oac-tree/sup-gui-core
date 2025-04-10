@@ -25,7 +25,7 @@
 #include "domain_anyvalue_builder.h"
 #include "scalar_conversion_utils.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "exceptions.h"
+#include "sup_gui_core_exceptions.h"
 
 namespace sup::gui
 {

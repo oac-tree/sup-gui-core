@@ -23,7 +23,7 @@
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_project.h>
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/settings_constants.h>

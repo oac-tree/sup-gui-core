@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/core/exceptions.h"
+#include "sup/gui/core/sup_gui_core_exceptions.h"
 
 #include <gtest/gtest.h>
 

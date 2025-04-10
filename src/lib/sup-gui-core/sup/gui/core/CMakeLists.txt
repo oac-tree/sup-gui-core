@@ -1,7 +1,5 @@
 target_sources(${library_name} PRIVATE
   dto_types_fwd.h
-  exceptions.cpp
-  exceptions.h
   flags.h
   message_event.cpp
   message_event.h
@@ -12,6 +10,8 @@ target_sources(${library_name} PRIVATE
   query_result.h
   standard_message_handlers.cpp
   standard_message_handlers.h
+  sup_gui_core_exceptions.cpp
+  sup_gui_core_exceptions.h
   version.cpp
   version.h
   version_helper.cpp

@@ -23,7 +23,7 @@
 #include "collapsible_widget.h"
 #include "custom_splitter.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <QVBoxLayout>
 

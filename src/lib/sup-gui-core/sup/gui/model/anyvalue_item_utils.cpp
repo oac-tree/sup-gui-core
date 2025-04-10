@@ -23,7 +23,7 @@
 #include "anyvalue_item.h"
 #include "anyvalue_item_constants.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <mvvm/model/function_types.h>
 #include <mvvm/model/item_catalogue.h>

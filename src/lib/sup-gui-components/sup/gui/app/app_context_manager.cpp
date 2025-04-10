@@ -21,7 +21,7 @@
 
 #include "app_context.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <mvvm/core/unique_id_generator.h>
 

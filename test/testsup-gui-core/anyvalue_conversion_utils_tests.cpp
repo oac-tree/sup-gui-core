@@ -19,7 +19,7 @@
 
 #include "sup/gui/model/anyvalue_conversion_utils.h"
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/scalar_conversion_utils.h>

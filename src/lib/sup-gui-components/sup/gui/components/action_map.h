@@ -20,7 +20,7 @@
 #ifndef SUP_GUI_COMPONENTS_ACTION_MAP_H_
 #define SUP_GUI_COMPONENTS_ACTION_MAP_H_
 
-#include <sup/gui/core/exceptions.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <QAction>
 #include <algorithm>
