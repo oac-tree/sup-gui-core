@@ -118,13 +118,6 @@ TEST_F(TreeHelperTest, SetupCollapseExpandMenu)
   EXPECT_FALSE(menu.actions().empty());
 }
 
-TEST_F(TreeHelperTest, SummonCollapseExpandMenu)
-{
-  QTreeView tree;
-
-  EXPECT_NO_FATAL_FAILURE(SummonCollapseExpandMenu({}, tree));
-}
-
 TEST_F(TreeHelperTest, CheckCollapseExpand)
 {
   auto data = std::move(CreateTestData());

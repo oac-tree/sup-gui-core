@@ -203,4 +203,13 @@ bool SummonChangeSystemFontDialog()
   return font_was_changed;
 }
 
+bool IsHeadlessMode()
+{
+  if (const char* var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
+  {
+    return std::string(var) == std::string("offscreen");
+  }
+  return false;
+}
+
 }  // namespace sup::gui

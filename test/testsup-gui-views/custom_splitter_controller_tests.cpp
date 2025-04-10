@@ -21,6 +21,7 @@
 
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
+#include <sup/gui/mainwindow/main_window_helper.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -40,15 +41,6 @@ class CustomSplitterControllerTest : public ::testing::Test
 public:
   ::testing::MockFunction<read_variant_func_t> m_mock_read_func;
   ::testing::MockFunction<write_variant_func_t> m_mock_write_func;
-
-  static bool IsHeadlessMode()
-  {
-    if (const char* var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
-    {
-      return std::string(var) == std::string("offscreen");
-    }
-    return false;
-  }
 };
 
 //! Checking that Qt5 setup can handle QList<int>
