@@ -80,20 +80,20 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
   // first column
   if (HasEditableDisplayName(*anyvalue_item))
   {
-    result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(anyvalue_item));
+    (void) result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(anyvalue_item));
   }
   else
   {
-    result.emplace_back(mvvm::CreateDisplayNameViewItem(anyvalue_item));
+    (void) result.emplace_back(mvvm::CreateDisplayNameViewItem(anyvalue_item));
   }
 
   // second column
-  result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
+  (void) result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
 
   // third column
   if (HasEditableTypeName(*anyvalue_item))
   {
-    result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item, constants::kAnyTypeNameRole));
+    (void) result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item, constants::kAnyTypeNameRole));
   }
   else
   {
@@ -101,9 +101,9 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
     // they are not editable. Since type name is not a separate SessionItem, but extra role on board
     // of AnyValueItem, we have have to proceed with more complex approach:
     auto view_item = mvvm::CreateFixedDataViewItem(anyvalue_item);
-    view_item->SetData(QColor(Qt::gray), Qt::ForegroundRole);
-    view_item->SetData(QString::fromStdString(anyvalue_item->GetAnyTypeName()), Qt::DisplayRole);
-    result.emplace_back(std::move(view_item));
+    (void) view_item->SetData(QColor(Qt::gray), Qt::ForegroundRole);
+    (void) view_item->SetData(QString::fromStdString(anyvalue_item->GetAnyTypeName()), Qt::DisplayRole);
+    (void) result.emplace_back(std::move(view_item));
   }
 
   return result;

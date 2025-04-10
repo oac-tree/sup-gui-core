@@ -116,7 +116,7 @@ QIconEngine* ColoredIconEngine::clone() const
 
 void ColoredIconEngine::AddMapping(const QColor& color, QIcon::Mode mode, QIcon::State state)
 {
-  m_color_map.insert({mode, state}, color);
+  (void) m_color_map.insert({mode, state}, color);
 }
 
 void ColoredIconEngine::AddMappings(const QColor& color, const QList<QIcon::Mode>& modes,

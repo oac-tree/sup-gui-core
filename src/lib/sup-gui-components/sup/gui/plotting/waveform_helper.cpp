@@ -85,8 +85,8 @@ std::unique_ptr<AnyValueItem> CreateFromPoint(double x, double y)
 {
   auto result = std::make_unique<AnyValueStructItem>();
 
-  result->AddScalarField(kXFieldName, sup::dto::kFloat64TypeName, x);
-  result->AddScalarField(kYFieldName, sup::dto::kFloat64TypeName, y);
+  (void) result->AddScalarField(kXFieldName, sup::dto::kFloat64TypeName, x);
+  (void) result->AddScalarField(kYFieldName, sup::dto::kFloat64TypeName, y);
 
   return result;
 }
@@ -123,7 +123,7 @@ std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
   for (const auto& [x, y] : data)
   {
     // using utility function to provide notifications
-    mvvm::utils::InsertItem(CreateFromPoint(x, y), result.get(), mvvm::TagIndex::Append());
+    (void) mvvm::utils::InsertItem(CreateFromPoint(x, y), result.get(), mvvm::TagIndex::Append());
   }
 
   return result;
@@ -138,7 +138,7 @@ std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* arra
   std::vector<std::pair<double, double>> result;
   auto points = array_item->GetChildren();
   auto on_point = [](auto item) { return GetPoint(*item); };
-  std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
+  (void) std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
   return result;
 }
 
@@ -160,8 +160,8 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
 
 void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count)
 {
-  item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
-  item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);
+  (void) item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
+  (void) item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);
   item.SetNamedColor(GetNextNamedColor(total_waveform_count));
 }
 

@@ -126,7 +126,7 @@ mvvm::LineSeriesItem *DtoWaveformActionHandler::InsertWaveform(
   auto selected = GetSelectedWaveform();
   auto waveform_tag_index = selected ? selected->GetTagIndex().Next() : mvvm::TagIndex::Append();
 
-  GetModel()->InsertItem(std::move(waveform), GetWaveformContainer(), waveform_tag_index);
+  (void) GetModel()->InsertItem(std::move(waveform), GetWaveformContainer(), waveform_tag_index);
 
   return result_ptr;
 }

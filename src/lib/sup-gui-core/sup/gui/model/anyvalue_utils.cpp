@@ -49,7 +49,7 @@ sup::dto::AnyValue AnyValueFromJSONFile(const std::string &filename,
                                         const anytype_registry_t *registry)
 {
   sup::dto::JSONAnyValueParser parser;
-  parser.ParseFile(filename, registry);
+  (void) parser.ParseFile(filename, registry);
   return parser.MoveAnyValue();
 }
 

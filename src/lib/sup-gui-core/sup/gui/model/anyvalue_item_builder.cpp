@@ -135,12 +135,12 @@ void AnyValueItemBuilder::AddItem(std::unique_ptr<AnyValueItem> item)
   // we are in member mode
   if (!m_member_name.empty())
   {
-    child->SetDisplayName(m_member_name);
+    (void) child->SetDisplayName(m_member_name);
     m_member_name.clear();
   }
   else if (m_index >= 0)
   {
-    child->SetDisplayName(constants::kElementNamePrefix + std::to_string(m_index));
+    (void) child->SetDisplayName(constants::kElementNamePrefix + std::to_string(m_index));
   }
   else
   {

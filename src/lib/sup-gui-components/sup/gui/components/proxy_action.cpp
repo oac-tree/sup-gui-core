@@ -58,13 +58,13 @@ void ProxyAction::SetConnected(bool value)
 
   if (value)
   {
-    connect(this, &ProxyAction::triggered, m_action, &QAction::triggered, Qt::UniqueConnection);
-    connect(m_action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
+    (void) connect(this, &ProxyAction::triggered, m_action, &QAction::triggered, Qt::UniqueConnection);
+    (void) connect(m_action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
   }
   else
   {
-    disconnect(this, &ProxyAction::triggered, m_action, &QAction::triggered);
-    disconnect(m_action, &QAction::changed, this, &ProxyAction::Update);
+    (void) disconnect(this, &ProxyAction::triggered, m_action, &QAction::triggered);
+    (void) disconnect(m_action, &QAction::changed, this, &ProxyAction::Update);
   }
 }
 

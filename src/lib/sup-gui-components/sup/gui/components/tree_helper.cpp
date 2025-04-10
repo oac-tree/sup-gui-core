@@ -51,7 +51,7 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   (void)QObject::connect(collapse_all_action, &QAction::triggered, &tree_view,
                          &QTreeView::collapseAll);
 
-  menu.addSeparator();
+  (void) menu.addSeparator();
 
   // expand selected
   auto expand_selected_action = menu.addAction("Expand selected");

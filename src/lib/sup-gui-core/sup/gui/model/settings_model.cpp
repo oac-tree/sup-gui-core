@@ -44,7 +44,7 @@ std::vector<mvvm::CompoundItem*> SettingsModel::GetSettingsItems() const
 
 void SettingsModel::PopulateModel()
 {
-  InsertItem<CommonSettingsItem>();
+  (void)InsertItem<CommonSettingsItem>();
 }
 
-}  // namespace sequencergui
+}  // namespace sup::gui

@@ -94,7 +94,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
       m_tab_widget->removeTab(tag_index.GetIndex());
       delete widget;
 
-      m_widget_map.erase(container);
+      (void) m_widget_map.erase(container);
     }
     else
     {

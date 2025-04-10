@@ -140,7 +140,7 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
       std::vector<Node> new_children;
       auto on_transform = [](const AnyValueItem *source, AnyValueItem *target)
       { return Node{source, target}; };
-      std::transform(source_children.begin(), source_children.end(), target_children.begin(),
+      (void) std::transform(source_children.begin(), source_children.end(), target_children.begin(),
                      std::back_inserter(new_children), on_transform);
 
       // adding to the stack in reverse order

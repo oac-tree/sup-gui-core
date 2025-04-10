@@ -83,7 +83,7 @@ void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& c
   {
     if (auto name = SuggestDisplayName(parent, child); name.has_value())
     {
-      child.SetDisplayName(name.value());
+      (void) child.SetDisplayName(name.value());
     }
 
     if (auto name = SuggestEditableTypeName(parent, child); name.has_value())

@@ -51,8 +51,8 @@ mvvm::ContainerItem *WaveformModel::GetDataContainer() const
 
 void WaveformModel::PopulateModel()
 {
-  InsertItem<mvvm::ChartViewportItem>();
-  InsertItem<mvvm::ContainerItem>();
+  (void)InsertItem<mvvm::ChartViewportItem>();
+  (void)InsertItem<mvvm::ContainerItem>();
 }
 
 }  // namespace sup::gui

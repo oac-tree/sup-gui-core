@@ -28,11 +28,11 @@ namespace sup::gui
 
 CommonSettingsItem::CommonSettingsItem() : CompoundItem(GetStaticType())
 {
-  SetDisplayName("Common Settings");
+  (void)SetDisplayName("Common Settings");
 
-  AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
+  (void)AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
       .SetDisplayName("Enable undo/redo");
-  AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
+  (void)AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
       .SetDisplayName("Undo limit");
 }
 

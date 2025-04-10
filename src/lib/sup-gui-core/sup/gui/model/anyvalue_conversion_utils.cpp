@@ -117,11 +117,11 @@ void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item)
 
   if (item.GetAnyTypeName() != value.GetTypeName())
   {
-    item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
+    (void) item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
     item.SetAnyTypeName(value.GetTypeName());
   }
 
-  item.SetData(variant);
+  (void) item.SetData(variant);
 }
 
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem& item)

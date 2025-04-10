@@ -71,7 +71,7 @@ void AppRegisterMenuBar(QMenuBar *menubar, const QStringList &names)
   AppRegisterMenuBar(menubar);
   for (const auto &name : names)
   {
-    AppAddMenu(name);
+    (void) AppAddMenu(name);
   }
 }
 

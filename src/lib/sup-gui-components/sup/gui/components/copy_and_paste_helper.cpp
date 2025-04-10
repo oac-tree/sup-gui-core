@@ -40,7 +40,7 @@ std::vector<std::pair<mvvm::SessionItem *, int>> GetItemDepthInfo(
 
   auto on_element = [](auto element) -> std::pair<mvvm::SessionItem *, int>
   { return {element, mvvm::utils::GetNestingDepth(element)}; };
-  std::transform(items.begin(), items.end(), std::back_inserter(result), on_element);
+  (void) std::transform(items.begin(), items.end(), std::back_inserter(result), on_element);
   return result;
 }
 
@@ -51,7 +51,7 @@ int GetMinDepth(const std::vector<std::pair<mvvm::SessionItem *, int>> &depth_in
 {
   int min_depth = std::numeric_limits<int>::max();
   auto on_element = [&min_depth](auto element) { min_depth = std::min(element.second, min_depth); };
-  std::for_each(depth_info.begin(), depth_info.end(), on_element);
+  (void) std::for_each(depth_info.begin(), depth_info.end(), on_element);
   return min_depth;
 }
 
@@ -93,7 +93,7 @@ std::vector<mvvm::SessionItem *> FilterOutChildren(const std::vector<mvvm::Sessi
     return std::all_of(items.begin(), items.end(), [current_item](auto possible_parrent)
                        { return !mvvm::utils::IsItemAncestor(current_item, possible_parrent); });
   };
-  std::copy_if(items.begin(), items.end(), std::back_inserter(result), on_element);
+  (void) std::copy_if(items.begin(), items.end(), std::back_inserter(result), on_element);
   return result;
 }
 
