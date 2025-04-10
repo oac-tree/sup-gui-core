@@ -80,7 +80,7 @@ TEST_F(AnyValueItemUtilsTest, CreateAnyValueItemFromTypeName)
   EXPECT_EQ(scalar->GetType(), AnyValueScalarItem::GetStaticType());
   EXPECT_EQ(scalar->GetAnyTypeName(), "int32");
 
-  EXPECT_THROW(CreateAnyValueItemFromTypeName("int42"), mvvm::KeyNotFoundException);
+  EXPECT_THROW(CreateAnyValueItemFromTypeName("int42"), mvvm::RuntimeException);
 }
 
 //! Testing UpdateAnyValueItemScalarData method.

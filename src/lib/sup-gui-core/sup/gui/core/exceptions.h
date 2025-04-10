@@ -48,20 +48,6 @@ private:
 };
 
 /**
- * @brief The NotImplementedException class shall be used when code is not implemented.
- */
-class NotImplementedException : public MessageException
-{
-public:
-  explicit NotImplementedException(const std::string& message);
-  ~NotImplementedException() override = default;
-  NotImplementedException(const NotImplementedException& other) = default;
-  NotImplementedException& operator=(const NotImplementedException& other) & = default;
-  NotImplementedException(NotImplementedException&&) = default;
-  NotImplementedException& operator=(NotImplementedException&&) = default;
-};
-
-/**
  * @brief The RuntimeException class shall be used for generic errors happening at runtime.
  */
 class RuntimeException : public MessageException
@@ -73,20 +59,6 @@ public:
   RuntimeException& operator=(const RuntimeException& other) & = default;
   RuntimeException(RuntimeException&&) = default;
   RuntimeException& operator=(RuntimeException&&) = default;
-};
-
-/**
- * @brief The LogicErrorException class shall be used when faulty logic is discovered.
- */
-class LogicErrorException : public MessageException
-{
-public:
-  explicit LogicErrorException(const std::string& message);
-  ~LogicErrorException() override = default;
-  LogicErrorException(const LogicErrorException& other) = default;
-  LogicErrorException& operator=(const LogicErrorException& other) & = default;
-  LogicErrorException(LogicErrorException&&) = default;
-  LogicErrorException& operator=(LogicErrorException&&) = default;
 };
 
 /**
@@ -104,6 +76,20 @@ public:
 };
 
 /**
+ * @brief The NotImplementedException class shall be used when code is not implemented.
+ */
+class NotImplementedException : public MessageException
+{
+public:
+  explicit NotImplementedException(const std::string& message);
+  ~NotImplementedException() override = default;
+  NotImplementedException(const NotImplementedException& other) = default;
+  NotImplementedException& operator=(const NotImplementedException& other) & = default;
+  NotImplementedException(NotImplementedException&&) = default;
+  NotImplementedException& operator=(NotImplementedException&&) = default;
+};
+
+/**
  * @brief The InvalidOperationException class shall be used on attempt to perform invalid operation.
  */
 class InvalidOperationException : public MessageException
@@ -115,6 +101,20 @@ public:
   InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
   InvalidOperationException(InvalidOperationException&&) = default;
   InvalidOperationException& operator=(InvalidOperationException&&) = default;
+};
+
+/**
+ * @brief The LogicErrorException class shall be used when faulty logic is discovered.
+ */
+class LogicErrorException : public MessageException
+{
+public:
+  explicit LogicErrorException(const std::string& message);
+  ~LogicErrorException() override = default;
+  LogicErrorException(const LogicErrorException& other) = default;
+  LogicErrorException& operator=(const LogicErrorException& other) & = default;
+  LogicErrorException(LogicErrorException&&) = default;
+  LogicErrorException& operator=(LogicErrorException&&) = default;
 };
 
 }  // namespace sup::gui
