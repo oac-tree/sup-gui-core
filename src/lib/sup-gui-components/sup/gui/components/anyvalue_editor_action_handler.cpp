@@ -301,8 +301,7 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 {
-  return const_cast<AnyValueItem*>(
-      static_cast<const AnyValueEditorActionHandler*>(this)->GetTopItem());
+   return const_cast<AnyValueItem*>(std::as_const(*this).GetTopItem());
 }
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
