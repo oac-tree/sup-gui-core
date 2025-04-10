@@ -38,8 +38,8 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
 
   // expand to depth
   auto expand_to_depth_menu = menu.addMenu("Expand all to depth");
-  const int max_depth_level = 5;
-  for (int depth = 0; depth < max_depth_level; ++depth)
+  const size_t max_depth_level = 5;
+  for (size_t depth = 0; depth < max_depth_level; ++depth)
   {
     auto action = expand_to_depth_menu->addAction(QString("depth %1").arg(depth + 1));
     auto on_action = [&tree_view, depth]() { tree_view.expandToDepth(depth); };
@@ -68,7 +68,7 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   // QTreeView::expandRecursively which is used below.
 
   auto expand_selected_to_depth_menu = menu.addMenu("Expand selected to depth");
-  for (int depth = 0; depth < max_depth_level; ++depth)
+  for (size_t depth = 0; depth < max_depth_level; ++depth)
   {
     auto action = expand_selected_to_depth_menu->addAction(QString("depth %1").arg(depth + 1));
     auto on_action = [&tree_view, depth, point]()
@@ -91,6 +91,7 @@ void SummonCollapseExpandMenu(const QPoint &point, QTreeView &tree_view)
   (void)menu.exec(tree_view.mapToGlobal(point));
 }
 
+// cppcheck-suppress unusedFunction
 std::function<void(const QPoint &)> CreateOnCustomMenuCallback(QTreeView &tree_view)
 {
   tree_view.setContextMenuPolicy(Qt::CustomContextMenu);
@@ -122,6 +123,7 @@ void AdjustWidthOfColumns(QTreeView &tree, std::vector<int> stretch_factors)
   AdjustWidthOfColumns(tree.header(), std::move(stretch_factors));
 }
 
+// cppcheck-suppress unusedFunction
 void ScrollTreeViewportToSelection(QTreeView &tree_view)
 {
   auto indexes = tree_view.selectionModel()->selectedIndexes();
@@ -137,6 +139,7 @@ void ScrollTreeViewportToSelection(QTreeView &tree_view)
   }
 }
 
+// cppcheck-suppress unusedFunction
 QModelIndex FindVisibleCandidate(const QTreeView &tree, const QModelIndex &child)
 {
   if (!child.isValid())
@@ -149,7 +152,7 @@ QModelIndex FindVisibleCandidate(const QTreeView &tree, const QModelIndex &child
   while (current.isValid())
   {
     const int row_count = tree.model()->rowCount(current);
-    if (!tree.isExpanded(current) && row_count > 0)
+    if (!tree.isExpanded(current) && (row_count > 0))
     {
       result = current;
     }

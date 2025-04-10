@@ -24,6 +24,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QHeaderView>
+#include <QMenu>
 #include <QStandardItemModel>
 #include <QTreeView>
 #include <memory>
@@ -88,6 +90,40 @@ public:
     return data;
   }
 };
+
+TEST_F(TreeHelperTest, AdjustWidthOfColumns)
+{
+  QStandardItemModel model;
+
+  QList<QStandardItem*> item_row;
+  item_row.push_back(new QStandardItem("abc"));
+  item_row.push_back(new QStandardItem("abc abc"));
+
+  model.invisibleRootItem()->insertRow(0, item_row);
+
+  QTreeView tree;
+  tree.setModel(&model);
+
+  AdjustWidthOfColumns(tree, {1, 1});
+  ASSERT_NE(tree.header()->sectionSize(1), 0);
+  EXPECT_EQ(tree.header()->sectionSize(0) / tree.header()->sectionSize(1), 1);
+}
+
+TEST_F(TreeHelperTest, SetupCollapseExpandMenu)
+{
+  QTreeView tree;
+  QMenu menu;
+
+  SetupCollapseExpandMenu({}, menu, tree);
+  EXPECT_FALSE(menu.actions().empty());
+}
+
+TEST_F(TreeHelperTest, SummonCollapseExpandMenu)
+{
+  QTreeView tree;
+
+  EXPECT_NO_FATAL_FAILURE(SummonCollapseExpandMenu({}, tree));
+}
 
 TEST_F(TreeHelperTest, CheckCollapseExpand)
 {
