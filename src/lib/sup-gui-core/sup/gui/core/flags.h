@@ -55,51 +55,72 @@ public:
   /**
    * @brief Checks if given flag is present.
    */
-  bool HasFlag(EnumT flag) const
-  {
-    return std::find(m_flags.cbegin(), m_flags.cend(), flag) != m_flags.cend();
-  }
+  bool HasFlag(EnumT flag) const;
 
   /**
    * @brief Sets flags from given values, discards previous flags.
    */
-  void SetFlags(std::vector<EnumT> flags) { m_flags = std::move(flags); }
+  void SetFlags(std::vector<EnumT> flags);
 
   /**
    * @brief Adds a flag to the list of flags.
    *
    * If flag already exists, will do nothing.
    */
-  void SetFlag(EnumT flag)
-  {
-    if (!HasFlag(flag))
-    {
-      m_flags.push_back(flag);
-    }
-  }
+  void SetFlag(EnumT flag);
 
   /**
    * @brief Remove the flag from the list of flags.
    *
    * If the flag didn't exist, will do nothing.
    */
-  void UnsetFlag(EnumT flag)
-  {
-    auto iter = std::find(std::begin(m_flags), std::end(m_flags), flag);
-    if (iter != m_flags.end())
-    {
-      m_flags.erase(iter);
-    }
-  }
+  void UnsetFlag(EnumT flag);
 
   /**
    * @brief Returns number of flags.
    */
-  std::size_t GetFlagCount() const { return m_flags.size(); }
+  std::size_t GetFlagCount() const;
 
 private:
   std::vector<EnumT> m_flags;
 };
+
+template <typename EnumT>
+inline bool Flags<EnumT>::HasFlag(EnumT flag) const
+{
+  return std::find(m_flags.cbegin(), m_flags.cend(), flag) != m_flags.cend();
+}
+
+template <typename EnumT>
+inline void Flags<EnumT>::SetFlags(std::vector<EnumT> flags)
+{
+  m_flags = std::move(flags);
+}
+
+template <typename EnumT>
+inline void Flags<EnumT>::SetFlag(EnumT flag)
+{
+  if (!HasFlag(flag))
+  {
+    m_flags.push_back(flag);
+  }
+}
+
+template <typename EnumT>
+inline void Flags<EnumT>::UnsetFlag(EnumT flag)
+{
+  auto iter = std::find(std::begin(m_flags), std::end(m_flags), flag);
+  if (iter != m_flags.end())
+  {
+    m_flags.erase(iter);
+  }
+}
+
+template <typename EnumT>
+inline std::size_t Flags<EnumT>::GetFlagCount() const
+{
+  return m_flags.size();
+}
 
 }  // namespace sup::gui
 
