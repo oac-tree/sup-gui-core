@@ -54,7 +54,7 @@ public:
   /**
    * @brief Remove container with given index.
    */
-  void OnRemoveContainer(int container_index);
+  void OnRemoveContainer(std::size_t container_index);
 
   /**
    * @brief Adds new container for AnyValueItem editing.
@@ -64,7 +64,7 @@ public:
   /**
    * @brief Duplicate container.
    */
-  void OnDuplicateContainer(int container_index);
+  void OnDuplicateContainer(std::size_t container_index);
 
 private:
   void ValidateModel();

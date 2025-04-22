@@ -32,7 +32,7 @@ namespace
 /**
  * @brief Returns width of the message box.
  */
-int GetMaximumBoxWidth()
+std::int32_t GetMaximumBoxWidth()
 {
   return mvvm::utils::UnitSize(40);
 }
@@ -40,7 +40,7 @@ int GetMaximumBoxWidth()
 /**
  * @brief Returns height of the message box.
  */
-int GetMinimumBoxHeight()
+std::int32_t GetMinimumBoxHeight()
 {
   return mvvm::utils::UnitSize(4);
 }
@@ -61,7 +61,7 @@ OverlayMessageFrame::OverlayMessageFrame(const QString& text, QWidget* parent_wi
   setGeometry(0, 0, m_bounding_rect.width(), m_bounding_rect.height());
 }
 
-void OverlayMessageFrame::SetPosition(int x, int y)
+void OverlayMessageFrame::SetPosition(std::int32_t x, std::int32_t y)
 {
   setGeometry(x, y, m_bounding_rect.width(), m_bounding_rect.height());
 }

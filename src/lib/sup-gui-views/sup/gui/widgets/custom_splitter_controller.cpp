@@ -26,6 +26,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QSplitter>
+#include <cstdint>
 
 namespace sup::gui
 {
@@ -36,10 +37,10 @@ namespace
 /**
  * @brief Returns flags representing children visibility.
  */
-QList<int> GetChildrenVisibilityFlags(QSplitter *splitter)
+QList<std::int32_t> GetChildrenVisibilityFlags(QSplitter *splitter)
 {
-  QList<int> result;
-  for (int index = 0; index < splitter->count(); ++index)
+  QList<std::int32_t> result;
+  for (std::int32_t index = 0; index < splitter->count(); ++index)
   {
     result.append(static_cast<int>(splitter->widget(index)->isVisible()));
   }
@@ -50,7 +51,7 @@ QList<int> GetChildrenVisibilityFlags(QSplitter *splitter)
 /**
  * @brief Set children visibility according to given flags.
  */
-void ApplyChildrenVisibilityFlags(const QList<int> &flags, QSplitter *splitter)
+void ApplyChildrenVisibilityFlags(const QList<std::int32_t> &flags, QSplitter *splitter)
 {
   if (flags.size() != splitter->count())
   {
@@ -59,7 +60,7 @@ void ApplyChildrenVisibilityFlags(const QList<int> &flags, QSplitter *splitter)
     return;
   }
 
-  for (int index = 0; index < flags.size(); ++index)
+  for (std::int32_t index = 0; index < flags.size(); ++index)
   {
     splitter->widget(index)->setVisible(static_cast<bool>(flags.at(index)));
   }
@@ -93,7 +94,7 @@ void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func
   auto widget_state = read_func(GetChildrenStateKey());
   if (widget_state.isValid())
   {
-    ApplyChildrenVisibilityFlags(widget_state.value<QList<int>>(), m_splitter);
+    ApplyChildrenVisibilityFlags(widget_state.value<QList<std::int32_t>>(), m_splitter);
   }
 }
 
@@ -125,7 +126,7 @@ QString CustomSplitterController::GetChildrenStateKey()
 void CustomSplitterController::StartChildrenListening()
 {
   // installing myself as an event filter to all widgets in panels
-  for (int index = 0; index < m_splitter->count(); ++index)
+  for (std::int32_t index = 0; index < m_splitter->count(); ++index)
   {
     m_splitter->widget(index)->installEventFilter(this);
   }

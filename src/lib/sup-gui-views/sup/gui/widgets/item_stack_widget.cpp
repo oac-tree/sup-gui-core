@@ -82,12 +82,12 @@ void ItemStackWidget::AddWidget(QWidget *widget, const QList<QAction *> &actions
   AddGuestActions(actions, is_always_visible);
 }
 
-int ItemStackWidget::GetCurrentIndex() const
+std::int32_t ItemStackWidget::GetCurrentIndex() const
 {
   return m_stacked_widget->currentIndex();
 }
 
-void ItemStackWidget::SetCurrentIndex(int index)
+void ItemStackWidget::SetCurrentIndex(std::int32_t index)
 {
   m_stacked_widget->setCurrentIndex(index);
   m_widget_selection_menu->actions().at(index)->setChecked(true);
@@ -130,7 +130,7 @@ void ItemStackWidget::WriteSettings(const write_variant_func_t &write_func)
 
 void ItemStackWidget::AddMenuEntry(QWidget *widget)
 {
-  int index = m_stacked_widget->count() - 1;
+  std::int32_t index = m_stacked_widget->count() - 1;
   auto action = m_widget_selection_menu->addAction(widget->windowTitle());
   action->setActionGroup(m_action_group);
   action->setCheckable(true);
@@ -157,7 +157,7 @@ void ItemStackWidget::AddGuestActions(const QList<QAction *> &actions, bool is_a
 
 void ItemStackWidget::UpdateControlElementsVisibility()
 {
-  for (int i = 0; i < m_toolbar_data.size(); ++i)
+  for (std::int32_t i = 0; i < m_toolbar_data.size(); ++i)
   {
     bool is_visible = m_stacked_widget->currentIndex() == i || m_toolbar_data[i].is_always_visible;
     for (auto action : m_toolbar_data[i].actions)

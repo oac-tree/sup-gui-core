@@ -27,6 +27,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <cstdint>
 
 class QTabWidget;
 
@@ -90,7 +91,7 @@ private:
   /**
    * @brief Inserts widget tab corresponding to a given container.
    */
-  void InsertAnyValueItemContainerTab(mvvm::SessionItem* container, int index);
+  void InsertAnyValueItemContainerTab(mvvm::SessionItem* container, std::int32_t index);
 
   /**
    * @brief Removes all tabs on model reset.

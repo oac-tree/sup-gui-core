@@ -21,10 +21,12 @@
 #ifndef SUP_GUI_WIDGETS_ITEM_STACK_WIDGET_H_
 #define SUP_GUI_WIDGETS_ITEM_STACK_WIDGET_H_
 
+#include <sup/gui/widgets/settings_callbacks.h>
+
 #include <QList>
 #include <QWidget>
 #include <memory>
-#include <sup/gui/widgets/settings_callbacks.h>
+#include <cstdint>
 
 class QStackedWidget;
 class QAction;
@@ -48,7 +50,6 @@ class ItemStackWidget : public QWidget
   Q_OBJECT
 
 public:
-
   explicit ItemStackWidget(QWidget* parent_widget = nullptr);
 
   explicit ItemStackWidget(const QString& settings_group_name, QWidget* parent_widget = nullptr);
@@ -73,12 +74,12 @@ public:
   /**
    * @brief Returns current widget's index visible in a stack.
    */
-  int GetCurrentIndex() const;
+  std::int32_t GetCurrentIndex() const;
 
   /**
    * @brief Set widget with given index visible in a stack.
    */
-  void SetCurrentIndex(int index);
+  void SetCurrentIndex(std::int32_t index);
 
   /**
    * @brief Returns widget which is currently visible.

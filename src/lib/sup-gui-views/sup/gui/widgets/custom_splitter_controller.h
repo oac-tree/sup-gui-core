@@ -23,8 +23,9 @@
 
 #include <sup/gui/widgets/settings_callbacks.h>
 
-class QSplitter;
 #include <QObject>
+
+class QSplitter;
 
 namespace sup::gui
 {
@@ -111,7 +112,7 @@ protected:
 private:
   QSplitter* m_splitter{nullptr};
   QString m_settings_group_name;           //!< group name in QSettings file
-  QList<int> m_children_visibility_flags;  //!< children widget visibility flags
+  QList<std::int32_t> m_children_visibility_flags;  //!< children widget visibility flags
 };
 
 }  // namespace sup::gui

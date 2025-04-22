@@ -41,9 +41,9 @@ Worker* WorkerManager::Start(std::unique_ptr<ITask> task)
   return worker_it.get();
 }
 
-int WorkerManager::GetWorkerCount() const
+std::size_t WorkerManager::GetWorkerCount() const
 {
-  return static_cast<int>(m_workers.size());
+  return m_workers.size();
 }
 
 std::unique_ptr<ITask> WorkerManager::TakeResult(Worker* worker)

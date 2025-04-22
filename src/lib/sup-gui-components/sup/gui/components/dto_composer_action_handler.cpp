@@ -45,7 +45,7 @@ void DtoComposerActionHandler::SetModel(mvvm::ISessionModel *model)
   m_model = model;
 }
 
-void DtoComposerActionHandler::OnRemoveContainer(int container_index)
+void DtoComposerActionHandler::OnRemoveContainer(std::size_t container_index)
 {
   ValidateModel();
   (void)m_model->TakeItem(m_model->GetRootItem(), mvvm::TagIndex::Default(container_index));
@@ -57,7 +57,7 @@ void DtoComposerActionHandler::OnAddNewContainer()
   (void)m_model->InsertItem<mvvm::ContainerItem>();
 }
 
-void DtoComposerActionHandler::OnDuplicateContainer(int container_index)
+void DtoComposerActionHandler::OnDuplicateContainer(std::size_t container_index)
 {
   ValidateModel();
   auto container_to_copy =

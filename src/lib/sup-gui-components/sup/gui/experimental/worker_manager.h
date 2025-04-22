@@ -22,7 +22,7 @@
 #define SUP_GUI_EXPERIMENTAL_WORKER_MANAGER_H_
 
 #include <QObject>
-#include <map>
+#include <cstddef>
 #include <memory>
 
 class Worker;
@@ -43,7 +43,7 @@ public:
 
   Worker* Start(std::unique_ptr<ITask> task);
 
-  int GetWorkerCount() const;
+  std::size_t GetWorkerCount() const;
 
   /**
    * @brief Takes the result corresponding to a given worker. Removes worker from a queue.
@@ -51,7 +51,7 @@ public:
   std::unique_ptr<ITask> TakeResult(Worker* worker);
 
 signals:
-  void WorkerStatusChanged(Worker*, int status);
+  void WorkerStatusChanged(Worker*, std::size_t status);
 
 private:
   std::vector<std::unique_ptr<Worker>> m_workers;

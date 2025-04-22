@@ -24,6 +24,8 @@
 #include <QFont>
 #include <QFrame>
 
+#include <cstdint>
+
 namespace sup::gui
 {
 
@@ -39,7 +41,7 @@ class OverlayMessageFrame : public QFrame
 public:
   explicit OverlayMessageFrame(const QString& text, QWidget* parent_widget = nullptr);
 
-  void SetPosition(int x, int y);
+  void SetPosition(std::int32_t x, std::int32_t y);
 
 protected:
   void paintEvent(QPaintEvent* event) override;

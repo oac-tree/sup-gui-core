@@ -26,6 +26,7 @@
 
 #include <QFont>
 #include <QString>
+#include <cstdint>
 #include <optional>
 
 namespace sup::gui
@@ -56,7 +57,7 @@ void SetupHighDpiScaling(bool scale_from_environment = false);
  * @param app_style The name of the GUI style from Qt's style factory.
  * @param verbose Provide output to the console regarding desktop geometry.
  */
-void SetupApplication(int font_size_hint, const QString &app_style, bool verbose = false);
+void SetupApplication(std::int32_t font_size_hint, const QString &app_style, bool verbose = false);
 
 /**
  * @brief Cleanup globally registered menus, actions, and exit application.
@@ -81,7 +82,7 @@ void SetWindowStyle(const QString &app_style);
  * @details If font size is negative, will look in application settings. If no font is not found,
  * will proceed without font change.
  */
-void SetApplicationFont(int font_size_hint);
+void SetApplicationFont(std::int32_t font_size_hint);
 
 /**
  * @brief Gets the current system user name.

@@ -52,7 +52,7 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   (void)QObject::connect(collapse_all_action, &QAction::triggered, &tree_view,
                          &QTreeView::collapseAll);
 
-  (void) menu.addSeparator();
+  (void)menu.addSeparator();
 
   // expand selected
   auto expand_selected_action = menu.addAction("Expand selected");
@@ -100,15 +100,15 @@ std::function<void(const QPoint &)> CreateOnCustomMenuCallback(QTreeView &tree_v
   return result;
 }
 
-void AdjustWidthOfColumns(QHeaderView *header, std::vector<int> stretch_factors)
+void AdjustWidthOfColumns(QHeaderView *header, std::vector<std::int32_t> stretch_factors)
 {
   // adjust array of stretch factors so it matches number of columns
-  const int default_stretch{1};
+  const std::int32_t default_stretch{1};
   stretch_factors.resize(static_cast<std::size_t>(header->count()), default_stretch);
   auto stretch_factor_sum = std::accumulate(stretch_factors.begin(), stretch_factors.end(), 0);
 
   const auto width = header->width();
-  for (int i = 0; i < header->count(); ++i)
+  for (std::int32_t i = 0; i < header->count(); ++i)
   {
     // set column width proportional to stretch factors
     header->resizeSection(
@@ -119,7 +119,7 @@ void AdjustWidthOfColumns(QHeaderView *header, std::vector<int> stretch_factors)
   header->setStretchLastSection(true);
 }
 
-void AdjustWidthOfColumns(QTreeView &tree, std::vector<int> stretch_factors)
+void AdjustWidthOfColumns(QTreeView &tree, std::vector<std::int32_t> stretch_factors)
 {
   AdjustWidthOfColumns(tree.header(), std::move(stretch_factors));
 }
@@ -152,7 +152,7 @@ QModelIndex FindVisibleCandidate(const QTreeView &tree, const QModelIndex &child
   QModelIndex current = child;
   while (current.isValid())
   {
-    const int row_count = tree.model()->rowCount(current);
+    const std::int32_t row_count = tree.model()->rowCount(current);
     if (!tree.isExpanded(current) && (row_count > 0))
     {
       result = current;

@@ -71,7 +71,7 @@ void SetupHighDpiScaling(bool scale_from_environment)
   mvvm::utils::SetupHighDpiScaling(scale_from_environment);
 }
 
-void SetupApplication(int font_size_hint, const QString &app_style, bool verbose)
+void SetupApplication(std::int32_t font_size_hint, const QString &app_style, bool verbose)
 {
   SetApplicationFont(font_size_hint);
   SetWindowStyle(app_style);
@@ -104,7 +104,7 @@ void SetWindowStyle(const QString &app_style)
   }
 }
 
-void SetApplicationFont(int font_size_hint)
+void SetApplicationFont(std::int32_t font_size_hint)
 {
   if (font_size_hint > 0)
   {
@@ -123,7 +123,7 @@ void SetApplicationFont(int font_size_hint)
 QString GetUserName()
 {
 #ifdef Q_OS_UNIX
-  const int wait_msec{500};
+  const std::int32_t wait_msec{500};
   QProcess process;
   process.start("whoami", QStringList(), QIODevice::ReadOnly);
   if (process.waitForFinished(wait_msec) && process.exitStatus() == QProcess::NormalExit)

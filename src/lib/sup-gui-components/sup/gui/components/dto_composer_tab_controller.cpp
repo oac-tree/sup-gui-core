@@ -105,7 +105,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
 }
 
 void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem *container,
-                                                              int index)
+                                                              std::int32_t index)
 {
   auto widget = m_create_widget_callback(container);
 

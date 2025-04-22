@@ -24,6 +24,7 @@
 //! @file
 //! Helper methods to deal with Qt trees.
 
+#include <cstdint>
 #include <functional>
 
 class QMenu;
@@ -60,7 +61,7 @@ std::function<void(const QPoint& point)> CreateOnCustomMenuCallback(QTreeView& t
  * @param tree The tree to ajust
  * @param stretch_factors Relative stretch factors
  */
-void AdjustWidthOfColumns(QHeaderView* header, std::vector<int> stretch_factors);
+void AdjustWidthOfColumns(QHeaderView* header, std::vector<std::int32_t> stretch_factors);
 
 /**
  * @brief Adjusts column width so they occupy whole horizontal space available for the tree.
@@ -68,7 +69,7 @@ void AdjustWidthOfColumns(QHeaderView* header, std::vector<int> stretch_factors)
  * @param tree The tree to ajust
  * @param stretch_factors Relative stretch factors
  */
-void AdjustWidthOfColumns(QTreeView& tree, std::vector<int> stretch_factors);
+void AdjustWidthOfColumns(QTreeView& tree, std::vector<int32_t> stretch_factors);
 
 /**
  * @brief Scrolls tree viewport to selection.
