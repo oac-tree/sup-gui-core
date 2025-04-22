@@ -38,7 +38,6 @@ class SteadyMenu : public QMenu
 
 public:
   explicit SteadyMenu(QWidget* parent_widget = nullptr);
-  ~SteadyMenu() override;
 
 protected:
   void mouseReleaseEvent(QMouseEvent* event) override;

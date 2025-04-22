@@ -25,8 +25,6 @@ namespace sup::gui
 
 SteadyMenu::SteadyMenu(QWidget *parent_widget) : QMenu(parent_widget) {}
 
-SteadyMenu::~SteadyMenu() = default;
-
 void SteadyMenu::mouseReleaseEvent(QMouseEvent *event)
 {
   auto action = activeAction();
