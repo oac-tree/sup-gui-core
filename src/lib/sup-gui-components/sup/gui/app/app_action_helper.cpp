@@ -72,7 +72,7 @@ void AppRegisterMenuBar(QMenuBar *menubar, const QStringList &names)
   AppRegisterMenuBar(menubar);
   for (const auto &name : names)
   {
-    (void) AppAddMenu(name);
+    (void)AppAddMenu(name);
   }
 }
 
@@ -129,7 +129,9 @@ bool AppAddActionToCommand(QAction *action, const QString &command_id, const App
 {
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.
-  return sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
+  auto app_command =
+      sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
+  return app_command != nullptr;
 }
 
 QAction *FindProxyAction(const QString &command_id)
