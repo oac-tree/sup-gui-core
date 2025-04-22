@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <map>
+#include <memory>
 
 class QAction;
 
@@ -96,7 +97,7 @@ public:
 
 private:
   //!< correspondence of the command_id to commands
-  std::map<QString, AppCommand*> m_commands;
+  std::map<QString, std::unique_ptr<AppCommand>> m_commands;
 };
 
 }  // namespace sup::gui

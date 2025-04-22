@@ -39,9 +39,10 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
     return command;  // existing command
   }
 
-  auto command = new AppCommand(command_text, this);  // ownership belongs to the manager
-  (void)m_commands.insert({command_id, command});
-  return command;
+  auto command = std::make_unique<AppCommand>(command_text, nullptr);
+  auto command_ptr = command.get();
+  (void)m_commands.insert({command_id, std::move(command)});
+  return command_ptr;
 }
 
 AppCommand *AppCommandManager::RegisterAction(QAction *action, const QString &command_id,
@@ -57,7 +58,7 @@ AppCommand *AppCommandManager::RegisterAction(QAction *action, const QString &co
 AppCommand *AppCommandManager::GetCommand(const QString &command_id)
 {
   auto iter = m_commands.find(command_id);
-  return iter == m_commands.end() ? nullptr : iter->second;
+  return iter == m_commands.end() ? nullptr : iter->second.get();
 }
 
 int AppCommandManager::GetCommandCount() const
