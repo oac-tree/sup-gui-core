@@ -28,13 +28,10 @@
 namespace sup::gui
 {
 
-AppCommand::AppCommand(const QString &text, QObject *parent)
-    : AppCommand(text, QKeySequence(), parent)
-{
-}
+AppCommand::AppCommand(const QString &text) : AppCommand(text, QKeySequence()) {}
 
-AppCommand::AppCommand(const QString &text, const QKeySequence &key, QObject *parent)
-    : QObject(parent), m_proxy_action(new ProxyAction(this)), m_default_text(text)
+AppCommand::AppCommand(const QString &text, const QKeySequence &key)
+    : m_proxy_action(std::make_unique<ProxyAction>()), m_default_text(text)
 {
   m_proxy_action->setText(text);
   m_proxy_action->setShortcut(key);
@@ -45,7 +42,7 @@ AppCommand::~AppCommand() = default;
 
 ProxyAction *AppCommand::GetProxyAction()
 {
-  return m_proxy_action;
+  return m_proxy_action.get();
 }
 
 void AppCommand::SetCurrentContext(const AppContext &current_context)

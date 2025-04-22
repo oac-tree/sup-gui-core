@@ -35,7 +35,7 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
     return command;  // existing command
   }
 
-  auto command = std::make_unique<AppCommand>(command_text, nullptr);
+  auto command = std::make_unique<AppCommand>(command_text);
   auto command_ptr = command.get();
   (void)m_commands.insert({command_id, std::move(command)});
   return command_ptr;

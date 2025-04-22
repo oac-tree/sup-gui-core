@@ -23,8 +23,8 @@
 
 #include <sup/gui/app/app_context.h>
 
-#include <QObject>
 #include <map>
+#include <memory>
 
 class QKeySequence;
 class QAction;
@@ -43,14 +43,17 @@ class ProxyAction;
  *
  * Only one action per context is allowed, i.e. context used for action registration must be unique.
  */
-class AppCommand : public QObject
+class AppCommand
 {
-  Q_OBJECT
-
 public:
-  explicit AppCommand(const QString& text, QObject* parent = nullptr);
-  AppCommand(const QString& text, const QKeySequence& key, QObject* parent = nullptr);
-  ~AppCommand() override;
+  explicit AppCommand(const QString& text);
+  AppCommand(const QString& text, const QKeySequence& key);
+  ~AppCommand();
+
+  AppCommand(const AppCommand&) = delete;
+  AppCommand& operator=(const AppCommand&) = delete;
+  AppCommand(AppCommand&&) = delete;
+  AppCommand& operator=(AppCommand&&) = delete;
 
   /**
    * @brief Returns underying proxy action.
@@ -104,7 +107,7 @@ public:
   QAction* GetActionForContext(const AppContext& context) const;
 
 private:
-  ProxyAction* m_proxy_action{nullptr};
+  std::unique_ptr<ProxyAction> m_proxy_action;
   std::map<AppContext, QAction*> m_context_to_action;
   QString m_default_text;
 };
