@@ -27,10 +27,6 @@
 namespace sup::gui
 {
 
-AppCommandManager::AppCommandManager(QObject *parent) : QObject(parent) {}
-
-AppCommandManager::~AppCommandManager() = default;
-
 AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
                                                const QString &command_text)
 {

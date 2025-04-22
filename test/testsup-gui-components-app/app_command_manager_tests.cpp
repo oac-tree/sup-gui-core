@@ -38,7 +38,7 @@ class AppCommandManagerTest : public ::testing::Test
 
 TEST_F(AppCommandManagerTest, InitialState)
 {
-  AppCommandManager manager(nullptr);
+  AppCommandManager manager;
 
   EXPECT_EQ(manager.GetCommandCount(), 0);
   EXPECT_EQ(manager.GetCommand("Copy"), nullptr);
@@ -46,7 +46,7 @@ TEST_F(AppCommandManagerTest, InitialState)
 
 TEST_F(AppCommandManagerTest, RegisterCommand)
 {
-  AppCommandManager manager(nullptr);
+  AppCommandManager manager;
 
   const QString context_name = "Editor.Copy";
   const QString command_text = "Copy";
@@ -76,7 +76,7 @@ TEST_F(AppCommandManagerTest, RegisterAction)
   const AppContext context1("Editor1.Paste");
   const AppContext context2("Editor2.Paste");
 
-  AppCommandManager manager(nullptr);
+  AppCommandManager manager;
 
   auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
   command1->SetShortcut(key);
@@ -101,7 +101,7 @@ TEST_F(AppCommandManagerTest, SetContextStack)
   const AppContext context1("Editor1.Paste");
   const AppContext context2("Editor2.Paste");
 
-  AppCommandManager manager(nullptr);
+  AppCommandManager manager;
 
   auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
   command1->SetShortcut(key);
@@ -110,7 +110,7 @@ TEST_F(AppCommandManagerTest, SetContextStack)
 
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
 
-  AppContext some_parent_context("parent-context");
+  const AppContext some_parent_context("parent-context");
   manager.SetContextStack({some_parent_context, context1});
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }

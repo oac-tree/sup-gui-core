@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_APP_APP_COMMAND_MANAGER_H_
 #define SUP_GUI_APP_APP_COMMAND_MANAGER_H_
 
-#include <QObject>
+#include <QString>
 #include <map>
 #include <memory>
 
@@ -40,14 +40,9 @@ class AppContext;
  * A command represents a proxy action that can be connected with other actions depending on the
  * current context.
  */
-class AppCommandManager : public QObject
+class AppCommandManager
 {
-  Q_OBJECT
-
 public:
-  explicit AppCommandManager(QObject* parent = nullptr);
-  ~AppCommandManager() override;
-
   /**
    * @brief Registers a new command for a given id.
    *
