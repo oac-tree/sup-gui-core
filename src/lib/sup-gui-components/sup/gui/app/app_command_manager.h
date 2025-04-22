@@ -43,6 +43,14 @@ class AppContext;
 class AppCommandManager
 {
 public:
+  AppCommandManager();
+  ~AppCommandManager();
+
+  AppCommandManager(const AppCommandManager&) = delete;
+  AppCommandManager& operator=(const AppCommandManager&) = delete;
+  AppCommandManager(AppCommandManager&&) = delete;
+  AppCommandManager& operator=(AppCommandManager&&) = delete;
+
   /**
    * @brief Registers a new command for a given id.
    *
@@ -78,7 +86,7 @@ public:
   /**
    * @brief Returns number of registered commands.
    */
-  int GetCommandCount() const;
+  std::size_t GetCommandCount() const;
 
   /**
    * @brief Sets the given context for all registered commands.

@@ -24,6 +24,7 @@
 #include <sup/gui/core/flags.h>
 
 #include <QAction>
+#include <cstdint>
 
 namespace sup::gui
 {
@@ -48,7 +49,7 @@ class ProxyAction : public QAction
   Q_OBJECT
 
 public:
-  enum class Options
+  enum class Options : std::uint8_t
   {
     None,
     SyncEnabledStatus  //!< follow enabled status of underlying action

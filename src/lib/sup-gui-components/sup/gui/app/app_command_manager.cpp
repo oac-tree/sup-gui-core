@@ -27,6 +27,9 @@
 namespace sup::gui
 {
 
+AppCommandManager::AppCommandManager() = default;
+AppCommandManager::~AppCommandManager() = default;
+
 AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
                                                const QString &command_text)
 {
@@ -57,9 +60,9 @@ AppCommand *AppCommandManager::GetCommand(const QString &command_id)
   return iter == m_commands.end() ? nullptr : iter->second.get();
 }
 
-int AppCommandManager::GetCommandCount() const
+std::size_t AppCommandManager::GetCommandCount() const
 {
-  return static_cast<int>(m_commands.size());
+  return m_commands.size();
 }
 
 void AppCommandManager::SetCurrentContext(const AppContext &context)
