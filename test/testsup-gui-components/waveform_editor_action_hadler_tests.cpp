@@ -33,7 +33,8 @@
 
 #include <QSignalSpy>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
@@ -254,3 +255,5 @@ TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeriesWHenNothinIsS
   EXPECT_DOUBLE_EQ(x, 1.0 - kDefaultDx);
   EXPECT_EQ(y, 10.0);
 }
+
+}  // namespace sup::gui::test

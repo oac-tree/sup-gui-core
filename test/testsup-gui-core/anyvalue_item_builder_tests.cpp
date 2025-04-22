@@ -30,7 +30,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AnyValueItemBuilderTest : public test::FolderTest
 {
@@ -409,3 +410,5 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   EXPECT_EQ(mvvm::utils::TypeName(grandchild3->Data()), mvvm::constants::kUInt8TypeName);
   EXPECT_EQ(grandchild3->Data<mvvm::uint8>(), 43);
 }
+
+}  // namespace sup::gui::test

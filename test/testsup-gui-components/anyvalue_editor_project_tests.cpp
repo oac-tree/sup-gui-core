@@ -32,7 +32,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for AnyValueEditorProject class.
@@ -166,3 +167,5 @@ TEST_F(AnyValueEditorProjectTest, SaveAndLoad)
   // expecting old value which we had at the moment of save
   EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
 }
+
+}  // namespace sup::gui::test

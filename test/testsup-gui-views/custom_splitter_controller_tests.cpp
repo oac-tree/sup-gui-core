@@ -31,7 +31,7 @@
 #include <QTest>
 #include <cstdlib>
 
-namespace sup::gui
+namespace sup::gui::test
 {
 
 /**
@@ -295,4 +295,4 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
   EXPECT_FALSE(widget2->isVisible());
 }
 
-}  // namespace sup::gui
+}  // namespace sup::gui::test

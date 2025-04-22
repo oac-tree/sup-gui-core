@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class ActionMapTest : public ::testing::Test
 {
@@ -72,3 +73,5 @@ TEST_F(ActionMapTest, GetKey)
   EXPECT_EQ(action_map.GetKey(&action2), Keys::Key2);
   EXPECT_THROW(action_map.GetKey(nullptr), RuntimeException);
 }
+
+}  // namespace sup::gui::test

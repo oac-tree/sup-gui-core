@@ -23,7 +23,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 //! Tests for SettingsModel class.
 class SettingsModelTest : public ::testing::Test
@@ -53,3 +54,5 @@ TEST_F(SettingsModelTest, Clear)
   EXPECT_EQ(model.Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);
   EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
 }
+
+}  // namespace sup::gui::test

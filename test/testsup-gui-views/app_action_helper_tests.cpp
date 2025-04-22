@@ -28,7 +28,8 @@
 #include <QMenu>
 #include <QMenuBar>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppActionHelperTest : public ::testing::Test
 {
@@ -54,3 +55,5 @@ TEST_F(AppActionHelperTest, ActionManagerAddMenu)
   QAction action;
   EXPECT_TRUE(AppAddActionToMenuBar("File", &action));
 }
+
+}  // namespace sup::gui::test

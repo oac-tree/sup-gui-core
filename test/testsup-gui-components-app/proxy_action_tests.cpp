@@ -24,7 +24,8 @@
 
 #include <QSignalSpy>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class ProxyActionTest : public ::testing::Test
 {
@@ -160,3 +161,5 @@ TEST_F(ProxyActionTest, DoNotTrackEnabled)
   EXPECT_FALSE(real_action.isEnabled());
   EXPECT_TRUE(proxy_action.isEnabled());
 }
+
+}  // namespace sup::gui::test

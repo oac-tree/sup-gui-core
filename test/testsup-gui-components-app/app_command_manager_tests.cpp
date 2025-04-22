@@ -29,7 +29,8 @@
 #include <QMenu>
 #include <QMenuBar>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppCommandManagerTest : public ::testing::Test
 {
@@ -113,3 +114,5 @@ TEST_F(AppCommandManagerTest, SetContextStack)
   manager.SetContextStack({some_parent_context, context1});
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }
+
+}  // namespace sup::gui::test

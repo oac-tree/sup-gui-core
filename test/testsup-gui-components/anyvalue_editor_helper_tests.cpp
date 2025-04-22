@@ -27,7 +27,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 namespace
 {
@@ -124,3 +125,5 @@ TEST_F(AnyValueEditorHelperTest, SuggestNameForArrayElement)
   auto name = SuggestDisplayName(parent, child);
   EXPECT_EQ(name.value_or(kUndefined), constants::kElementNamePrefix + "0");
 }
+
+}  // namespace sup::gui::test

@@ -27,7 +27,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 //! Testing methods from AnyValueUtils.
 
@@ -119,3 +120,5 @@ TEST_F(AnyValueUtilsTest, AnyValueFromJSONString)
     EXPECT_THROW(AnyValueFromJSONString(json_value), RuntimeException);
   }
 }
+
+}  // namespace sup::gui::test

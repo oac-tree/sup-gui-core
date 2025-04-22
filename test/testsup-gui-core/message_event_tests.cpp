@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class MessageEventTest : public ::testing::Test
 {
@@ -48,3 +49,5 @@ TEST_F(MessageEventTest, CreateInvalidOperationMessage)
   EXPECT_EQ(message.informative, std::string("informative"));
   EXPECT_EQ(message.detailed, std::string("details"));
 }
+
+}  // namespace sup::gui::test

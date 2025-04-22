@@ -38,7 +38,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for AnyValueEditorActionHandlerFolderTest class for import/export scenario.
@@ -201,3 +202,5 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, AttemptToExportEmptyModelToFile)
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
   EXPECT_FALSE(mvvm::utils::IsExists(file_path));
 };
+
+}  // namespace sup::gui::test

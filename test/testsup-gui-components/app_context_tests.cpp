@@ -24,7 +24,8 @@
 
 #include <QWidget>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppContextTest : public ::testing::Test
 {
@@ -71,3 +72,5 @@ TEST_F(AppContextTest, ComparisonOperators)
   EXPECT_TRUE(context1 < context2);
   EXPECT_FALSE(context1 >= context2);
 }
+
+}  // namespace sup::gui::test

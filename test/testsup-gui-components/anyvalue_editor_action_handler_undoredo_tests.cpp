@@ -37,7 +37,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests of AnyValueEditorActionHandlerUndoRedoTest class in undo/redo scenario.
@@ -144,3 +145,5 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForCopyAndPasteTwoFields
   handler->Redo();
   EXPECT_EQ(parent->GetChildrenCount(), 4);
 }
+
+}  // namespace sup::gui::test

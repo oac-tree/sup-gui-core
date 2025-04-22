@@ -30,7 +30,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class DtoComposerActionHandlerTest : public ::testing::Test
 {
@@ -89,3 +90,5 @@ TEST_F(DtoComposerActionHandlerTest, OnDuplicateContainer)
   auto copied_scalar = container2->GetItem<AnyValueScalarItem>(mvvm::TagIndex::Default(0));
   EXPECT_EQ(copied_scalar->Data<mvvm::int8>(), 42);
 }
+
+}  // namespace sup::gui::test

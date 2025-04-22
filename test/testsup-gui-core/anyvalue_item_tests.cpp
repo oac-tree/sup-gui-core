@@ -28,7 +28,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AnyValueItemTest : public ::testing::Test
 {
@@ -160,3 +161,5 @@ TEST_F(AnyValueItemTest, Clone)
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueStructItem>());
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueArrayItem>());
 }
+
+}  // namespace sup::gui::test

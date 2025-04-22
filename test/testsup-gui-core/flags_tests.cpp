@@ -24,7 +24,8 @@
 
 #include <QFlags>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class FlagsTest : public ::testing::Test
 {
@@ -80,3 +81,5 @@ TEST_F(FlagsTest, SetUnset)
   flags.UnsetFlag(Option::kLength);
   EXPECT_EQ(flags.GetFlagCount(), 0);
 }
+
+}  // namespace sup::gui::test

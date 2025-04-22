@@ -33,7 +33,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for DtoEditorProject class.
@@ -93,3 +94,5 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_EQ(project->GetSupDtoModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
 }
+
+}  // namespace sup::gui::test

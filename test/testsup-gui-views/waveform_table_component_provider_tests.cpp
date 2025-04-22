@@ -30,7 +30,8 @@
 #include <QTableView>
 #include <QTransposeProxyModel>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class WaveformTableComponentProviderTest : public ::testing::Test
 {
@@ -150,3 +151,5 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   // should report correct index of selected point
   EXPECT_EQ(provider.GetSelectedPointIndex(), 1);
 }
+
+}  // namespace sup::gui::test

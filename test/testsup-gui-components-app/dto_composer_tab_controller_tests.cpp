@@ -28,7 +28,8 @@
 
 #include <QTabWidget>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for DtoComposerTabController class.
@@ -182,3 +183,5 @@ TEST_F(DtoComposerTabControllerTest, ReplaceRootItem)
   controller.InitTabs();
   EXPECT_EQ(tab_widget.count(), 2);
 }
+
+}  // namespace sup::gui::test

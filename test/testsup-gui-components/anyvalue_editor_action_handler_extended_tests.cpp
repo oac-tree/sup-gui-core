@@ -39,7 +39,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for AnyValueEditorActionHandle class covering more scenarios.
@@ -116,3 +117,5 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
   EXPECT_TRUE(copied_item->IsEditable());
   EXPECT_TRUE(copied_item->IsEnabled());
 }
+
+}  // namespace sup::gui::test

@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class CustomRowStategiesTest : public ::testing::Test
 {
@@ -53,3 +54,5 @@ TEST_F(CustomRowStategiesTest, WaveformChildrenStrategy)
   EXPECT_EQ(view_items.at(1)->Data(Qt::DisplayRole).toDouble(), 10.0);
   EXPECT_EQ(view_items.at(1)->Data(Qt::EditRole).toDouble(), 10.0);
 }
+
+}  // namespace sup::gui::test

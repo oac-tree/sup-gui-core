@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for SettingsItem class.
@@ -52,3 +53,5 @@ TEST_F(SettingsItemTest, CommonSettingsItemActivate)
   EXPECT_TRUE(item->GetItem(constants::kUseUndoSetting)->IsEnabled());
   EXPECT_FALSE(item->GetItem(constants::kUndoLimitSetting)->IsEnabled());
 }
+
+}  // namespace sup::gui::test

@@ -30,7 +30,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class ScalarConversionUtilsTest : public ::testing::Test
 {
@@ -281,3 +282,5 @@ TEST_F(ScalarConversionUtilsTest, GetVariantFromScalarTypeName)
   EXPECT_TRUE(IsValidVariantForName<mvvm::float64>(sup::dto::kFloat64TypeName));
   EXPECT_TRUE(IsValidVariantForName<std::string>(sup::dto::kStringTypeName));
 }
+
+}  // namespace sup::gui::test

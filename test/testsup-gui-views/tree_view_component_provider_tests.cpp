@@ -36,7 +36,8 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
@@ -269,3 +270,5 @@ TEST_F(TreeViewComponentProviderTests, CheckCellEditorInFilteredStruct)
   const auto expected_max = std::numeric_limits<mvvm::int8>::max();
   EXPECT_EQ(int_editor->GetLowerLimit(), mvvm::variant_t(expected_min));
 }
+
+}  // namespace sup::gui::test

@@ -34,7 +34,8 @@
 
 #include <stdexcept>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AnyValueItemUtilsTest : public ::testing::Test
 {
@@ -287,3 +288,5 @@ TEST_F(AnyValueItemUtilsTest, CreateAnyValueTag)
   EXPECT_FALSE(tag.IsValidType(AnyValueItem::GetStaticType()));
   EXPECT_FALSE(tag.IsValidType(mvvm::SessionItem::GetStaticType()));
 }
+
+}  // namespace sup::gui::test

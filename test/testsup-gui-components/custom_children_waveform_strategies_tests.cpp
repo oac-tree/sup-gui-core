@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 //! Tests for WaveformChildrenStrategy class.
 
@@ -51,3 +52,5 @@ TEST_F(CustomChildrenStategiesTest, WaveformChildrenStrategy)
   // strategy doesn't see x,y below each point
   EXPECT_TRUE(strategy.GetChildren(points.at(0)).empty());
 }
+
+}  // namespace sup::gui::test

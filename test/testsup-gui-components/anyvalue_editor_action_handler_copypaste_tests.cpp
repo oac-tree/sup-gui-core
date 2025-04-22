@@ -36,7 +36,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for AnyValueEditorActionHandle class in copy-and-paste scenario.
@@ -420,5 +421,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
 
   EXPECT_EQ(pasted_scalar2->GetDisplayName(), "scalar2");
 
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({struct2, pasted_struct1}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(),
+            std::vector<mvvm::SessionItem*>({struct2, pasted_struct1}));
 }
+
+}  // namespace sup::gui::test

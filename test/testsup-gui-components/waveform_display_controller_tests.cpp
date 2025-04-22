@@ -28,7 +28,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class WaveformDisplayControllerTest : public ::testing::Test
 {
@@ -129,3 +130,5 @@ TEST_F(WaveformDisplayControllerTest, DisplaySelectedMode)
   EXPECT_TRUE(waveform0->IsDisplayed());
   EXPECT_FALSE(waveform1->IsDisplayed());
 }
+
+}  // namespace sup::gui::test

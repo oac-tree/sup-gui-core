@@ -23,7 +23,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class VersionHelperTest : public ::testing::Test
 {
@@ -44,3 +45,5 @@ TEST_F(VersionHelperTest, HasSameMajorMinorVersion)
   EXPECT_TRUE(HasSameMajorMinorVersion("1.2.0", "1.2.1"));
   EXPECT_FALSE(HasSameMajorMinorVersion("1.3.1", "1.2.2"));
 }
+
+}  // namespace sup::gui::test

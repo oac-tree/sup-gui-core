@@ -22,7 +22,7 @@
 
 #include <gtest/gtest.h>
 
-namespace sup::gui
+namespace sup::gui::test
 {
 
 class ContainerHelperTest : public ::testing::Test
@@ -48,4 +48,4 @@ TEST_F(ContainerHelperTest, VariantFromList)
   EXPECT_EQ(list, list_from_variant);
 }
 
-}  // namespace sup::gui
+}  // namespace sup::gui::test

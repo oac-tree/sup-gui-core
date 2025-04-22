@@ -32,7 +32,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 //! Testing AnyValueViewModel class.
 
@@ -361,3 +362,5 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   EXPECT_EQ(viewmodel.data(item_type_index, Qt::DisplayRole).toString().toStdString(),
             sup::dto::kInt8TypeName);
 }
+
+}  // namespace sup::gui::test

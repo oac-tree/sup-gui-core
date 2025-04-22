@@ -24,7 +24,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for SupDtoModel class.
@@ -48,3 +49,5 @@ TEST_F(SupDtoModelTest, InitialState)
   ASSERT_EQ(model.GetContainers().size(), 1);
   EXPECT_TRUE(model.GetContainers().at(0)->IsEmpty());
 }
+
+}  // namespace sup::gui::test

@@ -31,7 +31,8 @@
 #include <QAction>
 #include <QWidget>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppContextFocusControllerTest : public ::testing::Test
 {
@@ -71,3 +72,5 @@ TEST_F(AppContextFocusControllerTest, SingleWidget)
   // command's underlying proxy action is pointing nowhere
   EXPECT_EQ(command->GetProxyAction()->GetAction(), nullptr);
 }
+
+}  // namespace sup::gui::test

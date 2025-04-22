@@ -32,6 +32,9 @@
 #include <QStringListModel>
 #include <QTest>
 
+namespace sup::gui::test
+{
+
 /**
  * @brief The AddLineTask represent a task to add a string line to a model.
  */
@@ -145,3 +148,5 @@ TEST_F(WorkerManagerTest, WorkerManagerStart)
   // the model should be populated
   EXPECT_EQ(model.rowCount(QModelIndex()), 1);
 }
+
+}  // namespace sup::gui::test

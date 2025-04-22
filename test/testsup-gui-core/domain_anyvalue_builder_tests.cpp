@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class DomainAnyValueBuilderTest : public ::testing::Test
 {
@@ -341,3 +342,5 @@ TEST_F(DomainAnyValueBuilderTest, StructureWithArrayWithStructure)
   auto any_value = CreateAnyValue(item);
   EXPECT_EQ(any_value, expected_struct_value);
 }
+
+}  // namespace sup::gui::test

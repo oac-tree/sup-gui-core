@@ -28,7 +28,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class MimeConversionHelperTests : public ::testing::Test
 {
@@ -155,3 +156,5 @@ TEST_F(MimeConversionHelperTests, CoopyAndPasteWithFiltering)
   EXPECT_EQ(reconstructed_compound->GetItem("defaultTag")->GetDisplayName(),
             std::string("child_name1"));
 }
+
+}  // namespace sup::gui::test

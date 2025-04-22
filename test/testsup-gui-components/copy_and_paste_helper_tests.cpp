@@ -28,7 +28,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class CopyAndPasteHelperTest : public ::testing::Test
 {
@@ -144,3 +145,5 @@ TEST_F(CopyAndPasteHelperTest, FilterOutChildren)
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 }
+
+}  // namespace sup::gui::test

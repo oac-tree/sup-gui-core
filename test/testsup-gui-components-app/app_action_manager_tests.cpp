@@ -28,7 +28,8 @@
 #include <QMenu>
 #include <QMenuBar>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppActionManagerTest : public ::testing::Test
 {
@@ -153,3 +154,5 @@ TEST_F(AppActionManagerTest, ActionManagerRegisterAction)
   // it is not possible to add action to not-registered menu
   EXPECT_FALSE(manager.RegisterAction("Edit", &action));
 }
+
+}  // namespace sup::gui::test

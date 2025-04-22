@@ -28,7 +28,8 @@
 
 #include <QTransposeProxyModel>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class WaveformTwoColumnViewModelTest : public ::testing::Test
 {
@@ -174,3 +175,5 @@ TEST_F(WaveformTwoColumnViewModelTest, RemovePoints)
   EXPECT_EQ(viewmodel.data(x_index, Qt::DisplayRole).toDouble(), 3.0);
   EXPECT_EQ(viewmodel.data(y_index, Qt::DisplayRole).toDouble(), 30.0);
 }
+
+}  // namespace sup::gui::test

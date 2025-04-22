@@ -30,7 +30,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for helper methods in anyvalue_
@@ -106,4 +107,6 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
     EXPECT_EQ(reconstructed_grandchild->GetDisplayName(), std::string("field2"));
     EXPECT_EQ(reconstructed_grandchild->Data<mvvm::int32>(), 44);
   }
+}
+
 }

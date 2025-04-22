@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for WaveformModel class.
@@ -53,3 +54,5 @@ TEST_F(WaveformModelTest, InitialState)
   EXPECT_EQ(model.GetViewPort()->GetLineSeriesCount(), 0);
   EXPECT_EQ(model.GetDataContainer()->GetSize(), 0);
 }
+
+}  // namespace sup::gui::test

@@ -33,7 +33,8 @@
 
 #include <stdexcept>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Testing functions from waveform_helper.h
@@ -188,3 +189,5 @@ TEST_F(WaveformHelperTest, SetupNewWaveform)
   EXPECT_EQ(item.GetDisplayName(), std::string("waveform1"));
   EXPECT_EQ(item.GetNamedColor(), std::string("green"));
 }
+
+}  // namespace sup::gui::test

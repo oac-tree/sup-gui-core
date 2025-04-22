@@ -30,7 +30,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AnyValueConversionUtilsTest : public ::testing::Test
 {
@@ -211,3 +212,5 @@ TEST_F(AnyValueConversionUtilsTest, GetAnyValueFromScalar)
     EXPECT_THROW(GetAnyValueFromScalar(item), RuntimeException);
   }
 }
+
+}  // namespace sup::gui::test

@@ -27,7 +27,8 @@
 
 #include <QWidget>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppContextManagerTest : public ::testing::Test
 {
@@ -66,3 +67,5 @@ TEST_F(AppContextManagerTest, RegisterContext)
   manager.UnregisterWidgetUniqueId(&widget3);
   EXPECT_EQ(manager.GetNumberOfRegistrations(), 0);
 }
+
+}  // namespace sup::gui::test

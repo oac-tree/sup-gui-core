@@ -37,7 +37,8 @@
 
 #include <QMimeData>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for AnyValueEditorActionHandler class in basic scenario.
@@ -751,3 +752,5 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
   EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
 };
+
+}  // namespace sup::gui::test

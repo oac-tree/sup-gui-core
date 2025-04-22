@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class QueryResultTest : public ::testing::Test
 {
@@ -43,3 +44,5 @@ TEST_F(QueryResultTest, Failure)
   EXPECT_EQ(query.GetMessage().informative, std::string("informative"));
   EXPECT_EQ(query.GetMessage().detailed, std::string("detailed"));
 }
+
+}  // namespace sup::gui::test

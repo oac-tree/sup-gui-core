@@ -22,11 +22,11 @@
 
 #include <gtest/gtest.h>
 
-#include <QDebug>
 #include <QSize>
 #include <QString>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for helper methods located in app_helper.h
@@ -48,3 +48,5 @@ TEST_F(AppHelperTest, ParseSizeString)
   EXPECT_FALSE(ParseSizeString("A0xB0").has_value());
   EXPECT_FALSE(ParseSizeString("41.1x42.2").has_value());
 }
+
+}  // namespace sup::gui::test

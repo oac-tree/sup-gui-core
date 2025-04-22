@@ -31,7 +31,8 @@
 #include <QTreeView>
 #include <memory>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class TreeHelperTest : public ::testing::Test
 {
@@ -173,3 +174,5 @@ TEST_F(TreeHelperTest, FindLastCollapsedParent)
   EXPECT_EQ(FindVisibleCandidate(tree, data.item3->index()), data.item2->index());
   EXPECT_EQ(FindVisibleCandidate(tree, data.item4->index()), data.item2->index());
 }
+
+}  // namespace sup::gui::test

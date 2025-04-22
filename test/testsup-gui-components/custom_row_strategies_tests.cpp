@@ -29,7 +29,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 //! Testing strategies from custom_row_strategies.h
 
@@ -63,3 +64,5 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
 
   // more tests in AnyValueViewModelTest
 }
+
+}  // namespace sup::gui::test

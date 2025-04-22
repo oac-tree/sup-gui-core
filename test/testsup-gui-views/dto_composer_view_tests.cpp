@@ -30,7 +30,8 @@
 
 #include <QTabWidget>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 /**
  * @brief Tests for DtoComposerView class.
@@ -66,3 +67,5 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
   view.SetModel(&model);
   EXPECT_EQ(tab_widget->count(), 2);
 }
+
+}  // namespace sup::gui::test

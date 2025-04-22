@@ -33,7 +33,8 @@
 
 #include <QSignalSpy>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::LineSeriesItem*)
@@ -238,3 +239,5 @@ TEST_F(DtoWaveformActionHandlerTest, RemoveWaveformFromTheMiddle)
 
   EXPECT_EQ(GetDataContainer()->GetChildren(), std::vector<mvvm::SessionItem*>({data0, data2}));
 }
+
+}  // namespace sup::gui::test

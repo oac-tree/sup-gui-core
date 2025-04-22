@@ -27,7 +27,8 @@
 
 #include <QWidget>
 
-using namespace sup::gui;
+namespace sup::gui::test
+{
 
 class AppCommandTest : public ::testing::Test
 {
@@ -153,3 +154,5 @@ TEST_F(AppCommandTest, SetEmptyContextStack)
   command.SetContextStack({});
   EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
 }
+
+}  // namespace sup::gui::test
