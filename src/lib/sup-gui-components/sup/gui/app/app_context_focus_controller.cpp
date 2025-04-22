@@ -38,8 +38,8 @@ const bool kPrintDebugMessages = false;
 
 AppContextFocusController::AppContextFocusController(AppContextManager &context_manager,
                                                      AppCommandManager &command_manager,
-                                                     QObject *parent)
-    : QObject(parent), m_context_manager(context_manager), m_command_manager(command_manager)
+                                                     QObject *parent_object)
+    : QObject(parent_object), m_context_manager(context_manager), m_command_manager(command_manager)
 {
 }
 

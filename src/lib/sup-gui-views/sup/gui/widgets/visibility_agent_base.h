@@ -41,7 +41,7 @@ class VisibilityAgentBase : public QObject
 public:
   using callback_t = std::function<void()>;
 
-  VisibilityAgentBase(QObject* parent, callback_t subscribe, callback_t unsubscribe);
+  VisibilityAgentBase(QObject* parent_object, callback_t subscribe, callback_t unsubscribe);
 
 protected:
   bool eventFilter(QObject* obj, QEvent* event) override;

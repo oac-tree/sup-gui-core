@@ -33,8 +33,8 @@ namespace sup::gui
 {
 
 WaveformEditorActionHandler::WaveformEditorActionHandler(WaveformEditorContext context,
-                                                         QObject *parent)
-    : QObject(parent), m_context(context)
+                                                         QObject *parent_object)
+    : QObject(parent_object), m_context(context)
 {
 }
 

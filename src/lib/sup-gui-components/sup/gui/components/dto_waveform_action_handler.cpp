@@ -34,8 +34,8 @@ namespace sup::gui
 {
 
 DtoWaveformActionHandler::DtoWaveformActionHandler(DtoWaveformEditorContext context,
-                                                   QObject *parent)
-    : QObject(parent), m_context(std::move(context))
+                                                   QObject *parent_object)
+    : QObject(parent_object), m_context(std::move(context))
 {
   if (!m_context.waveform_container)
   {
@@ -127,7 +127,7 @@ mvvm::LineSeriesItem *DtoWaveformActionHandler::InsertWaveform(
   auto selected = GetSelectedWaveform();
   auto waveform_tag_index = selected ? selected->GetTagIndex().Next() : mvvm::TagIndex::Append();
 
-  (void) GetModel()->InsertItem(std::move(waveform), GetWaveformContainer(), waveform_tag_index);
+  (void)GetModel()->InsertItem(std::move(waveform), GetWaveformContainer(), waveform_tag_index);
 
   return result_ptr;
 }

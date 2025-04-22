@@ -39,8 +39,8 @@ const std::size_t kUndoLimit = 100;
 namespace sup::gui
 {
 
-AnyValueEditor::AnyValueEditor(QWidget *parent)
-    : AbstractAnyValueEditor(parent)
+AnyValueEditor::AnyValueEditor(QWidget *parent_widget)
+    : AbstractAnyValueEditor(parent_widget)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_editor_widget(new AnyValueEditorWidget)
 {

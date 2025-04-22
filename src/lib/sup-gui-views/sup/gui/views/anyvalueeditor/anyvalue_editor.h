@@ -45,7 +45,7 @@ class AnyValueEditor : public AbstractAnyValueEditor
   Q_OBJECT
 
 public:
-  explicit AnyValueEditor(QWidget* parent = nullptr);
+  explicit AnyValueEditor(QWidget* parent_widget = nullptr);
   ~AnyValueEditor() override;
 
   void SetInitialValue(const sup::gui::AnyValueItem* item) override;

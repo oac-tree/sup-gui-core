@@ -26,8 +26,9 @@
 namespace sup::gui
 {
 
-DtoWaveformActions::DtoWaveformActions(DtoWaveformActionHandler *action_handler, QObject *parent)
-    : QObject(parent), m_action_handler(action_handler)
+DtoWaveformActions::DtoWaveformActions(DtoWaveformActionHandler *action_handler,
+                                       QObject *parent_object)
+    : QObject(parent_object), m_action_handler(action_handler)
 {
   SetupActions();
 }

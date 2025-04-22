@@ -40,7 +40,7 @@ class AnyValueViewModel : public mvvm::ViewModel
   Q_OBJECT
 
 public:
-  explicit AnyValueViewModel(mvvm::ISessionModel* model, QObject* parent = nullptr);
+  explicit AnyValueViewModel(mvvm::ISessionModel* model, QObject* parent_object = nullptr);
 };
 
 }  // namespace sup::gui

@@ -43,8 +43,8 @@ namespace sup::gui
 {
 
 AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<sup::gui::AbstractAnyValueEditor> editor,
-                                           QWidget* parent)
-    : QDialog(parent), m_anyvalue_editor(editor.release())
+                                           QWidget* parent_widget)
+    : QDialog(parent_widget), m_anyvalue_editor(editor.release())
 {
   setWindowTitle("Input request");
   ReadSettings();

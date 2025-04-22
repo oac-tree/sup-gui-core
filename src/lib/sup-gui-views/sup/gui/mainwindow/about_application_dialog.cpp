@@ -30,9 +30,9 @@
 namespace sup::gui
 {
 
-AboutApplicationDialog::AboutApplicationDialog(QWidget* parent, const QString& app_name,
+AboutApplicationDialog::AboutApplicationDialog(QWidget* parent_widget, const QString& app_name,
                                                const QString& description, const QString& version)
-    : QDialog(parent)
+    : QDialog(parent_widget)
 {
   setWindowTitle("About " + app_name);
 

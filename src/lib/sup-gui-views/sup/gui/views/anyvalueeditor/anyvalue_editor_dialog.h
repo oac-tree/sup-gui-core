@@ -39,7 +39,7 @@ class AnyValueEditorDialog : public QDialog
 
 public:
   explicit AnyValueEditorDialog(std::unique_ptr<sup::gui::AbstractAnyValueEditor> editor,
-                                QWidget* parent = nullptr);
+                                QWidget* parent_widget = nullptr);
   ~AnyValueEditorDialog() override;
 
   /**

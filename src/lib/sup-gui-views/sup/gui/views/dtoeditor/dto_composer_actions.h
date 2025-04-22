@@ -40,7 +40,7 @@ class DtoComposerActions : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoComposerActions(QObject* parent = nullptr);
+  explicit DtoComposerActions(QObject* parent_object = nullptr);
 
   QList<QAction*> GetActions() const;
 

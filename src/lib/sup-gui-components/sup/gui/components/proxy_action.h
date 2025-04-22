@@ -56,7 +56,7 @@ public:
   };
   using flags_t = Flags<Options>;
 
-  explicit ProxyAction(QObject* parent = nullptr);
+  explicit ProxyAction(QObject* parent_object = nullptr);
 
   /**
    * @brief Returns real action.

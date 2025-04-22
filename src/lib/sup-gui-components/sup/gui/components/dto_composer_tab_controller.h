@@ -60,10 +60,10 @@ public:
    * @param model The application model.
    * @param create_widget_callback_t A callback to create widget for given item.
    * @param tab_widget QTabWidget to control
-   * @param parent QObject parent
+   * @param parent_object The parent QObject
    */
   DtoComposerTabController(mvvm::ISessionModel* model, create_widget_callback_t callback,
-                           QTabWidget* tab_widget, QObject* parent = nullptr);
+                           QTabWidget* tab_widget, QObject* parent_object = nullptr);
   ~DtoComposerTabController() override;
 
   /**

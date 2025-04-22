@@ -45,10 +45,12 @@ QString GetSettingsKeyForIndex(const QString &settings_group_name)
 
 }  // namespace
 
-ItemStackWidget::ItemStackWidget(QWidget *parent_widget) : ItemStackWidget(QString(), parent_widget) {}
+ItemStackWidget::ItemStackWidget(QWidget *parent_widget) : ItemStackWidget(QString(), parent_widget)
+{
+}
 
-ItemStackWidget::ItemStackWidget(const QString &settings_group_name, QWidget *parent)
-    : QWidget(parent)
+ItemStackWidget::ItemStackWidget(const QString &settings_group_name, QWidget *parent_widget)
+    : QWidget(parent_widget)
     , m_stacked_widget(new QStackedWidget)
     , m_widget_selection_menu(std::make_unique<QMenu>())
     , m_main_toolbar(new PanelToolBar)

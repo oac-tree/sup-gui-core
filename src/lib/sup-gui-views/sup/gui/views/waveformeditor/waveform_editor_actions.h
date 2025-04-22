@@ -64,7 +64,7 @@ public:
   };
 
   explicit WaveformEditorActions(WaveformEditorActionHandler* action_handler,
-                                 QObject* parent = nullptr);
+                                 QObject* parent_object = nullptr);
 
   /**
    * @brief Returns list of actions according to provided flags.

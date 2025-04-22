@@ -45,7 +45,7 @@ class AppContextFocusController : public QObject
 
 public:
   explicit AppContextFocusController(AppContextManager& context_manager,
-                                     AppCommandManager& command_manager, QObject* parent);
+                                     AppCommandManager& command_manager, QObject* parent_object);
   ~AppContextFocusController() override;
 
   void OnFocusWidgetUpdate(QWidget* old, QWidget* now);

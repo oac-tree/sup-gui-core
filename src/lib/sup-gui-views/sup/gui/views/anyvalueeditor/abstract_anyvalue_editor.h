@@ -37,7 +37,7 @@ class AbstractAnyValueEditor : public QWidget
   Q_OBJECT
 
 public:
-  explicit AbstractAnyValueEditor(QWidget* parent) : QWidget(parent) {}
+  explicit AbstractAnyValueEditor(QWidget* parent_widget) : QWidget(parent_widget) {}
 
   /**
    * @brief Sets initial value.

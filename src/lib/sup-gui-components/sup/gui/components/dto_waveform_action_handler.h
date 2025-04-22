@@ -49,7 +49,8 @@ class DtoWaveformActionHandler : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoWaveformActionHandler(DtoWaveformEditorContext context, QObject* parent = nullptr);
+  explicit DtoWaveformActionHandler(DtoWaveformEditorContext context,
+                                    QObject* parent_object = nullptr);
 
   /**
    * @brief Checks if waveform can be added to the container.

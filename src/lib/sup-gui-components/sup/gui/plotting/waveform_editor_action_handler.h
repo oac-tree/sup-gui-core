@@ -44,7 +44,8 @@ class WaveformEditorActionHandler : public QObject
   Q_OBJECT
 
 public:
-  explicit WaveformEditorActionHandler(WaveformEditorContext context, QObject* parent = nullptr);
+  explicit WaveformEditorActionHandler(WaveformEditorContext context,
+                                       QObject* parent_object = nullptr);
   ~WaveformEditorActionHandler() override;
 
   void OnAddColumnBeforeRequest();

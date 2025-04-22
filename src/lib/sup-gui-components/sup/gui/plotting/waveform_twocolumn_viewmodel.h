@@ -53,7 +53,7 @@ class WaveformTwoColumnViewModel : public mvvm::ViewModel
   Q_OBJECT
 
 public:
-  explicit WaveformTwoColumnViewModel(mvvm::ISessionModel* model, QObject* parent = nullptr);
+  explicit WaveformTwoColumnViewModel(mvvm::ISessionModel* model, QObject* parent_object = nullptr);
 };
 
 }  // namespace sup::gui

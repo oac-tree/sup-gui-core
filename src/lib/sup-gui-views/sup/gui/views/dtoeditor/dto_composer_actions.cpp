@@ -25,7 +25,7 @@
 namespace sup::gui
 {
 
-DtoComposerActions::DtoComposerActions(QObject *parent) : QObject(parent)
+DtoComposerActions::DtoComposerActions(QObject *parent_object) : QObject(parent_object)
 {
   m_add_new_tab_action = new QAction("Add new tab", this);
   connect(m_add_new_tab_action, &QAction::triggered, this, &DtoComposerActions::AddNewTabRequest);

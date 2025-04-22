@@ -28,8 +28,9 @@
 namespace sup::gui
 {
 
-WaveformTwoColumnViewModel::WaveformTwoColumnViewModel(mvvm::ISessionModel *model, QObject *parent)
-    : ViewModel(parent)
+WaveformTwoColumnViewModel::WaveformTwoColumnViewModel(mvvm::ISessionModel *model,
+                                                       QObject *parent_object)
+    : ViewModel(parent_object)
 {
   auto controller = mvvm::factory::CreateController<sup::gui::WaveformChildrenStrategy,
                                                     sup::gui::TwoColumRowStrategy>(model, this);

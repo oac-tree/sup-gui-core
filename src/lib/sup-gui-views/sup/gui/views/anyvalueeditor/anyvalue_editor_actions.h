@@ -64,7 +64,7 @@ public:
   };
 
   explicit AnyValueEditorActions(AnyValueEditorActionHandler* action_handler,
-                                 QObject* parent = nullptr);
+                                 QObject* parent_object = nullptr);
   ~AnyValueEditorActions() override;
 
   /**

@@ -39,8 +39,8 @@ namespace sup::gui
 {
 
 WaveformEditorActions::WaveformEditorActions(WaveformEditorActionHandler* action_handler,
-                                             QObject* parent)
-    : QObject(parent)
+                                             QObject* parent_object)
+    : QObject(parent_object)
     , m_pointer_button_group(new QButtonGroup(this))
     , m_pointer_button(new QToolButton)
     , m_pointer_action(new QWidgetAction(this))

@@ -53,7 +53,8 @@ public:
     kTotalCount
   };
 
-  explicit DtoWaveformActions(DtoWaveformActionHandler* action_handler, QObject* parent = nullptr);
+  explicit DtoWaveformActions(DtoWaveformActionHandler* action_handler,
+                              QObject* parent_object = nullptr);
 
   /**
    * @brief Returns list of actions according to provided flags.

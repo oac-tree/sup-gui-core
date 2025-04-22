@@ -42,9 +42,9 @@ class DtoComposerActionHandler : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoComposerActionHandler(QObject* parent = nullptr);
+  explicit DtoComposerActionHandler(QObject* parent_object = nullptr);
 
-  explicit DtoComposerActionHandler(mvvm::ISessionModel* model, QObject* parent = nullptr);
+  explicit DtoComposerActionHandler(mvvm::ISessionModel* model, QObject* parent_object = nullptr);
 
   /**
    * @brief Sets the model with AnyValueItem containers.

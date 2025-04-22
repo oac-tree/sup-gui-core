@@ -28,7 +28,7 @@ const QString kDefaultName = "Proxy";
 namespace sup::gui
 {
 
-ProxyAction::ProxyAction(QObject *parent) : QAction(kDefaultName, parent) {}
+ProxyAction::ProxyAction(QObject *parent_object) : QAction(kDefaultName, parent_object) {}
 
 QAction *ProxyAction::GetAction() const
 {
