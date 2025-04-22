@@ -66,8 +66,8 @@ public:
   bool operator>=(const AppContext& other) const;
 
 private:
-  const QString m_context_id;
-  const QString m_context_name;
+  QString m_context_id;
+  QString m_context_name;
 };
 
 }  // namespace sup::gui
