@@ -105,14 +105,14 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
 }
 
 void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem *container,
-                                                              std::int32_t index)
+                                                              std::size_t index)
 {
   auto widget = m_create_widget_callback(container);
 
   (void)m_widget_map.insert({container, widget.get()});
 
   // ownership is taken by QTabWidget
-  (void)m_tab_widget->insertTab(index, widget.release(), "AnyValue");
+  (void)m_tab_widget->insertTab(static_cast<int>(index), widget.release(), "AnyValue");
 }
 
 void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent &event)

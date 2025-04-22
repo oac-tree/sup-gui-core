@@ -56,9 +56,9 @@ bool HasEditableTypeName(const sup::gui::AnyValueItem &item)
 namespace sup::gui
 {
 
-int AnyValueRowStrategy::GetSize() const
+std::size_t AnyValueRowStrategy::GetSize() const
 {
-  return 3;
+  return 3U;
 }
 
 QStringList AnyValueRowStrategy::GetHorizontalHeaderLabels() const
