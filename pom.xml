@@ -43,7 +43,7 @@
         <coverage>false</coverage>
         <!-- -->
         <sonar.sources.cpp>src</sonar.sources.cpp>
-        <sonar.exclusions>src/app/**, src/lib/sup-gui-views/**</sonar.exclusions>
+        <sonar.exclusions>src/app/**, src/lib/sup-gui-views/**, src/lib/sup-gui-components/sup/gui/style/**</sonar.exclusions>
     </properties>
 
     <!-- Parent pom.xml -->
