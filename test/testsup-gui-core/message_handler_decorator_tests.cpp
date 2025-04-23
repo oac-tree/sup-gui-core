@@ -18,25 +18,32 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "message_handler_decorator.h"
+#include "sup/gui/core/message_handler_decorator.h"
 
-namespace sup::gui
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+namespace sup::gui::test
 {
 
-MessageHandlerDecorator::MessageHandlerDecorator(IMessageHandler *component)
-    : m_component(component)
+class MessageHandlerDecoratorTest : public ::testing::Test
 {
+public:
+  class MockMessageHandler : public IMessageHandler
+  {
+  public:
+    MOCK_METHOD(void, SendMessage, (const MessageEvent& message), ());
+  };
+};
+
+TEST_F(MessageHandlerDecoratorTest, Decorate)
+{
+  MockMessageHandler mock_handler;
+
+  EXPECT_CALL(mock_handler, SendMessage(::testing::_)).Times(1);
+
+  MessageHandlerDecorator decorator(&mock_handler);
+  decorator.SendMessage(MessageEvent{});
 }
 
-std::unique_ptr<IMessageHandler> MessageHandlerDecorator::Create(
-    IMessageHandler *component)
-{
-  return std::make_unique<MessageHandlerDecorator>(component);
-}
-
-void MessageHandlerDecorator::SendMessage(const MessageEvent &message)
-{
-  m_component->SendMessage(message);
-}
-
-}  // namespace sup::gui
+}  // namespace sup::gui::test

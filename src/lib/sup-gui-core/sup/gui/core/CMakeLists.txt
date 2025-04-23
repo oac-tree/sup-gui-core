@@ -5,7 +5,7 @@ target_sources(${library_name} PRIVATE
   message_event.h
   message_handler_decorator.cpp
   message_handler_decorator.h
-  message_handler_interface.h
+  i_message_handler.h
   query_result.cpp
   query_result.h
   standard_message_handlers.cpp

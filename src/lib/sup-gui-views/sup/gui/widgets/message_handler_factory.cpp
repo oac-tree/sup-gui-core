@@ -29,28 +29,28 @@
 namespace sup::gui
 {
 
-std::unique_ptr<MessageHandlerInterface> CreateNullMessageHandler()
+std::unique_ptr<IMessageHandler> CreateNullMessageHandler()
 {
   return std::make_unique<NullMessageHandler>();
 }
 
-std::unique_ptr<MessageHandlerInterface> CreateStdMessageHandler()
+std::unique_ptr<IMessageHandler> CreateStdMessageHandler()
 {
   return std::make_unique<StdMessageHandler>();
 }
 
-std::unique_ptr<MessageHandlerInterface> CreateWidgetOverlayMessageHandler(QWidget *view)
+std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(QWidget *view)
 {
   return std::make_unique<WidgetOverlayMessageHandler>(view);
 }
 
-std::unique_ptr<MessageHandlerInterface> CreateMessageHandlerDecorator(
-    MessageHandlerInterface *component)
+std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(
+    IMessageHandler *component)
 {
   return MessageHandlerDecorator::Create(component);
 }
 
-std::unique_ptr<MessageHandlerInterface> CreateThrowingMessageHandler()
+std::unique_ptr<IMessageHandler> CreateThrowingMessageHandler()
 {
   return std::make_unique<ThrowingMessageHandler<RuntimeException>>();
 }

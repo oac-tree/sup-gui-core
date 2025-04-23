@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_CORE_MESSAGE_HANDLER_DECORATOR_H_
 #define SUP_GUI_CORE_MESSAGE_HANDLER_DECORATOR_H_
 
-#include <sup/gui/core/message_handler_interface.h>
+#include <sup/gui/core/i_message_handler.h>
 
 #include <memory>
 
@@ -33,17 +33,17 @@ namespace sup::gui
  *
  * Used when we have to use MessageHandler with unique_ptr but still don't want to pass ownership.
  */
-class MessageHandlerDecorator : public MessageHandlerInterface
+class MessageHandlerDecorator : public IMessageHandler
 {
 public:
-  explicit MessageHandlerDecorator(MessageHandlerInterface* component);
+  explicit MessageHandlerDecorator(IMessageHandler* component);
 
-  static std::unique_ptr<MessageHandlerInterface> Create(MessageHandlerInterface* component);
+  static std::unique_ptr<IMessageHandler> Create(IMessageHandler* component);
 
   void SendMessage(const MessageEvent& message) override;
 
 private:
-  MessageHandlerInterface* m_component{nullptr};
+  IMessageHandler* m_component{nullptr};
 };
 
 }  // namespace sup::gui

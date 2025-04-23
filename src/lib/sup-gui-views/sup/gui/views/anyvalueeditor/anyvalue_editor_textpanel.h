@@ -40,7 +40,7 @@ namespace sup::gui
 class CodeView;
 class VisibilityAgentBase;
 class AnyValueItem;
-class MessageHandlerInterface;
+class IMessageHandler;
 
 /**
  * @brief The AnyValueEditorTextPanel class represents a collapsible panel on the right of
@@ -81,7 +81,7 @@ private:
   std::unique_ptr<mvvm::ModelListener> m_listener;
   bool m_pretty_json{true};
   VisibilityAgentBase* m_visibility_agent{nullptr};
-  std::unique_ptr<MessageHandlerInterface> m_message_handler;
+  std::unique_ptr<IMessageHandler> m_message_handler;
 };
 
 }  // namespace sup::gui

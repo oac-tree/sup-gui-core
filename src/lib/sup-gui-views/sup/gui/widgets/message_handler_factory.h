@@ -24,7 +24,7 @@
 //! @file
 //! Factory functions to create various message reporters.
 
-#include <sup/gui/core/message_handler_interface.h>
+#include <sup/gui/core/i_message_handler.h>
 
 #include <memory>
 
@@ -36,28 +36,28 @@ namespace sup::gui
 /**
  * @brief Creates message handler that does nothing.
  */
-std::unique_ptr<MessageHandlerInterface> CreateNullMessageHandler();
+std::unique_ptr<IMessageHandler> CreateNullMessageHandler();
 
 /**
  * @brief Creates message handler that prints messages to standard output.
  */
-std::unique_ptr<MessageHandlerInterface> CreateStdMessageHandler();
+std::unique_ptr<IMessageHandler> CreateStdMessageHandler();
 
 /**
  * @brief Creates message handler intended to work with the graphics view.
  */
-std::unique_ptr<MessageHandlerInterface> CreateWidgetOverlayMessageHandler(QWidget* view);
+std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(QWidget* view);
 
 /**
  * @brief Creates message handler decorator.
  */
-std::unique_ptr<MessageHandlerInterface> CreateMessageHandlerDecorator(
-    MessageHandlerInterface *component);
+std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(
+    IMessageHandler *component);
 
 /**
  * @brief Creates message handler that throws runtime exception.
  */
-std::unique_ptr<MessageHandlerInterface> CreateThrowingMessageHandler();
+std::unique_ptr<IMessageHandler> CreateThrowingMessageHandler();
 
 }  // namespace sup::gui
 

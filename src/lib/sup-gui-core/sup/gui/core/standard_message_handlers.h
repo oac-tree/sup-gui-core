@@ -24,7 +24,7 @@
 //! @file
 //! Collection of simple message handlers.
 
-#include <sup/gui/core/message_handler_interface.h>
+#include <sup/gui/core/i_message_handler.h>
 
 namespace sup::gui
 {
@@ -33,7 +33,7 @@ namespace sup::gui
  * @brief The StdMessageHandler class represents a simple message handler that prints messages to
  * standard output.
  */
-class StdMessageHandler : public MessageHandlerInterface
+class StdMessageHandler : public IMessageHandler
 {
 public:
   void SendMessage(const MessageEvent& message) override;
@@ -42,7 +42,7 @@ public:
 /**
  * @brief The StdMessageHandler class represents a message handler that does nothing.
  */
-class NullMessageHandler : public MessageHandlerInterface
+class NullMessageHandler : public IMessageHandler
 {
 public:
   void SendMessage(const MessageEvent& message) override;
@@ -53,7 +53,7 @@ public:
  * given type.
  */
 template <typename T>
-class ThrowingMessageHandler : public MessageHandlerInterface
+class ThrowingMessageHandler : public IMessageHandler
 {
 public:
   void SendMessage(const MessageEvent& message) override { throw T(message.detailed); }

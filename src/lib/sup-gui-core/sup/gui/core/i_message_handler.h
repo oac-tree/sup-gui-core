@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
-#define SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
+#ifndef SUP_GUI_CORE_I_MESSAGE_HANDLER_H_
+#define SUP_GUI_CORE_I_MESSAGE_HANDLER_H_
 
 #include <sup/gui/core/message_event.h>
 
@@ -29,15 +29,22 @@ namespace sup::gui
 struct MessageEvent;
 
 /**
- * @brief The MessageHandlerInterface class is an interface to send the message to the user.
+ * @brief The IMessageHandler is an interface to send the message to the user.
  */
-class MessageHandlerInterface
+class IMessageHandler
 {
 public:
-  virtual ~MessageHandlerInterface() = default;
+  IMessageHandler() = default;
+  virtual ~IMessageHandler() = default;
+
+  IMessageHandler(const IMessageHandler&) = delete;
+  IMessageHandler& operator=(const IMessageHandler&) = delete;
+  IMessageHandler(IMessageHandler&&) = delete;
+  IMessageHandler& operator=(IMessageHandler&&) = delete;
+
   virtual void SendMessage(const MessageEvent& message) = 0;
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_CORE_MESSAGE_HANDLER_INTERFACE_H_
+#endif  // SUP_GUI_CORE_I_MESSAGE_HANDLER_H_

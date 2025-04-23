@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
 #define SUP_GUI_WIDGETS_WIDGET_OVERLAY_MESSAGE_HANDLER_H_
 
-#include <sup/gui/core/message_handler_interface.h>
+#include <sup/gui/core/i_message_handler.h>
 
 #include <memory>
 
@@ -35,7 +35,7 @@ class WidgetOverlayMessagePublisher;
 /**
  * @brief The WidgetOverlayMessageHandler class displays messages in widget corner.
  */
-class WidgetOverlayMessageHandler : public sup::gui::MessageHandlerInterface
+class WidgetOverlayMessageHandler : public sup::gui::IMessageHandler
 {
 public:
   explicit WidgetOverlayMessageHandler(QWidget* view);
