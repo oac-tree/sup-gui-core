@@ -18,29 +18,24 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_CORE_VERSION_H_
-#define SUP_GUI_CORE_VERSION_H_
+#include "sup/gui/core/version.h"
+#include "version_constants.h"  // from <build>/autogen
 
-//! Project version information as defined by CMake project
+#include <gtest/gtest.h>
 
-#include <string>
-#include <cstdint>
-
-namespace sup::gui
+namespace sup::gui::test
 {
 
-//! Returns major project version.
-std::int32_t ProjectVersionMajor();
+class VersionTest : public ::testing::Test
+{
+};
 
-//! Returns minor project version.
-std::int32_t ProjectVersionMinor();
+TEST_F(VersionTest, ParseVersionString)
+{
+  EXPECT_EQ(kProjectVersionMajor, ProjectVersionMajor());
+  EXPECT_EQ(kProjectVersionMinor, ProjectVersionMinor());
+  EXPECT_EQ(kProjectVersionPatch, ProjectVersionPatch());
+  EXPECT_EQ(kProjectVersionString, ProjectVersion());
+}
 
-//! Returns patch project version.
-std::int32_t ProjectVersionPatch();
-
-//! Returns project version string.
-std::string ProjectVersion();
-
-}  // namespace sup::gui
-
-#endif  // SUP_GUI_CORE_VERSION_H_
+}  // namespace sup::gui::test
