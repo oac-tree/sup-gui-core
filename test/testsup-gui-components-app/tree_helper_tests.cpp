@@ -185,6 +185,7 @@ TEST_F(TreeHelperTest, ScrollTreeViewportToSelection)
   tree.setModel(data.model.get());
 
   QItemSelectionModel selection_model;
+  selection_model.setModel(data.model.get());
   tree.setSelectionModel(&selection_model);
 
   QItemSelection selection;

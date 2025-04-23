@@ -24,6 +24,7 @@
 #include <QString>
 #include <map>
 #include <memory>
+#include <vector>
 
 class QAction;
 

@@ -194,7 +194,7 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsOfEmptySplitter)
   controller.ReadSettings(m_mock_read_func.AsStdFunction());
 
   // mimick situation when number of flags doesn't match widget count
-  QList<int> flags({42});
+  const QList<int> flags({42});
   ON_CALL(m_mock_read_func, Call(controller.GetChildrenStateKey()))
       .WillByDefault(::testing::Return(QVariant::fromValue(flags)));
 

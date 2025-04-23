@@ -25,6 +25,7 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 class QKeySequence;
 class QAction;
