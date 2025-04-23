@@ -26,6 +26,7 @@
 #include <gtest/gtest.h>
 
 #include <QHeaderView>
+#include <QItemSelectionModel>
 #include <QMenu>
 #include <QStandardItemModel>
 #include <QTreeView>
@@ -173,6 +174,24 @@ TEST_F(TreeHelperTest, FindLastCollapsedParent)
   EXPECT_EQ(FindVisibleCandidate(tree, data.item2->index()), data.item2->index());
   EXPECT_EQ(FindVisibleCandidate(tree, data.item3->index()), data.item2->index());
   EXPECT_EQ(FindVisibleCandidate(tree, data.item4->index()), data.item2->index());
+}
+
+TEST_F(TreeHelperTest, ScrollTreeViewportToSelection)
+{
+  QTreeView tree;
+  EXPECT_NO_FATAL_FAILURE(ScrollTreeViewportToSelection(tree));
+
+  auto data = std::move(CreateTestData());
+  tree.setModel(data.model.get());
+
+  QItemSelectionModel selection_model;
+  tree.setSelectionModel(&selection_model);
+
+  QItemSelection selection;
+  selection.push_back(QItemSelectionRange(data.item0->index(), data.item1->index()));
+  tree.selectionModel()->select(selection, QItemSelectionModel::Select);
+
+  EXPECT_NO_FATAL_FAILURE(ScrollTreeViewportToSelection(tree));
 }
 
 }  // namespace sup::gui::test

@@ -39,8 +39,8 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
 
   // expand to depth
   auto expand_to_depth_menu = menu.addMenu("Expand all to depth");
-  const size_t max_depth_level = 5;
-  for (size_t depth = 0; depth < max_depth_level; ++depth)
+  const std::int32_t max_depth_level = 5;
+  for (std::int32_t depth = 0; depth < max_depth_level; ++depth)
   {
     auto action = expand_to_depth_menu->addAction(QString("depth %1").arg(depth + 1));
     auto on_action = [&tree_view, depth]() { tree_view.expandToDepth(depth); };
@@ -69,7 +69,7 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   // QTreeView::expandRecursively which is used below.
 
   auto expand_selected_to_depth_menu = menu.addMenu("Expand selected to depth");
-  for (size_t depth = 0; depth < max_depth_level; ++depth)
+  for (std::int32_t depth = 0; depth < max_depth_level; ++depth)
   {
     auto action = expand_selected_to_depth_menu->addAction(QString("depth %1").arg(depth + 1));
     auto on_action = [&tree_view, depth, point]()
@@ -83,21 +83,6 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
   { tree_view.collapse(tree_view.indexAt(point)); };
   (void)QObject::connect(collapse_selected_action, &QAction::triggered, &tree_view,
                          on_collapse_selected);
-}
-
-void SummonCollapseExpandMenu(const QPoint &point, QTreeView &tree_view)
-{
-  QMenu menu;
-  SetupCollapseExpandMenu(point, menu, tree_view);
-  (void)menu.exec(tree_view.mapToGlobal(point));
-}
-
-// cppcheck-suppress unusedFunction
-std::function<void(const QPoint &)> CreateOnCustomMenuCallback(QTreeView &tree_view)
-{
-  tree_view.setContextMenuPolicy(Qt::CustomContextMenu);
-  auto result = [&tree_view](const QPoint &point) { SummonCollapseExpandMenu(point, tree_view); };
-  return result;
 }
 
 void AdjustWidthOfColumns(QHeaderView *header, std::vector<std::int32_t> stretch_factors)
@@ -127,14 +112,15 @@ void AdjustWidthOfColumns(QTreeView &tree, std::vector<std::int32_t> stretch_fac
 // cppcheck-suppress unusedFunction
 void ScrollTreeViewportToSelection(QTreeView &tree_view)
 {
-  auto indexes = tree_view.selectionModel()->selectedIndexes();
+  auto indexes = tree_view.selectionModel() ? tree_view.selectionModel()->selectedIndexes()
+                                            : QModelIndexList();
   if (indexes.empty())
   {
     return;
   }
 
   auto visible_rectangle = tree_view.visualRect(indexes.front());
-  if (visible_rectangle.top() < 0 || visible_rectangle.bottom() > tree_view.rect().bottom())
+  if ((visible_rectangle.top() < 0) || (visible_rectangle.bottom() > tree_view.rect().bottom()))
   {
     tree_view.scrollTo(indexes.front(), QAbstractItemView::PositionAtTop);
   }

@@ -42,20 +42,6 @@ namespace sup::gui
 void SetupCollapseExpandMenu(const QPoint& point, QMenu& menu, QTreeView& tree_view);
 
 /**
- * @brief Summons collapse/expand menu.
- *
- * @param point Coordinate of context menu as reported by customContextMenuRequested slot.
- * @param tree_vew Tree view which is asking for context menu.
- */
-void SummonCollapseExpandMenu(const QPoint& point, QTreeView& tree_view);
-
-/**
- * @brief Creates a callback for given tree, which it can use to process context menu request to
- * from collapse/expand menu.
- */
-std::function<void(const QPoint& point)> CreateOnCustomMenuCallback(QTreeView& tree_view);
-
-/**
  * @brief Adjusts column width so they occupy whole horizontal space available for the tree.
  *
  * @param tree The tree to ajust
