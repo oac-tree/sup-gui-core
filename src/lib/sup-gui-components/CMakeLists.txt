@@ -8,8 +8,9 @@ add_library(sup-gui-core::${export_name} ALIAS ${library_name}) # alias for buil
 
 set_target_properties(${library_name} PROPERTIES
   EXPORT_NAME ${export_name}
-  SOVERSION ${SUP_GUI_CORE_SOVERSION}
-  VERSION ${SUP_GUI_CORE_BUILDVERSION})
+  VERSION ${LIBVERSION}
+  SOVERSION ${LIBSOVERSION}
+)
 
 add_subdirectory(sup)
 

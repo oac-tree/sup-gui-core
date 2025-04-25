@@ -23,12 +23,12 @@ add_subdirectory(testsup-gui-components)
 add_subdirectory(testsup-gui-components-app)
 add_subdirectory(testsup-gui-views)
 
-# Add custom target `make testall` which will run test executables one after another.
+# Add custom target `make sup-gui-core-testall` which will run test executables one after another.
 # This can be used instead of usual `make test` or `ctest` while running tests via an ssh
-# connection. In certain cases `make testall` will be faster than `ctest -j4` because of fewer
+# connection. In certain cases `make sup-gui-core-testall` will be faster than `ctest -j4` because of fewer
 # instantiations of QApplication.
 
-add_custom_target(testall
+add_custom_target(sup-gui-core-testall
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-core
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components-app

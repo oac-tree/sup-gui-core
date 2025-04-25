@@ -1,4 +1,4 @@
-set(library_name test-utils)
+set(library_name sup-gui-core-test-utils)
 
 add_library(${library_name} STATIC "")
 
