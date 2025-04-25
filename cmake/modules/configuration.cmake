@@ -18,7 +18,7 @@ file(MAKE_DIRECTORY ${SUP_GUI_CORE_TESTRESULT_DIR})
 set(SUP_GUI_CORE_AUTOGEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/autogen/sup-gui-core)
 file(MAKE_DIRECTORY ${SUP_GUI_CORE_AUTOGEN_DIR})
 
-# directory to build examples
+# runtime directory to build application
 set(SUP_GUI_CORE_APP_RUNTIME_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin)
 file(MAKE_DIRECTORY ${SUP_GUI_CORE_APP_RUNTIME_DIR})
 

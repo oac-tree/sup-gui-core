@@ -18,7 +18,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   sup-mvvm
   GIT_REPOSITORY https://git.iter.org/scm/coa/sup-mvvm.git
-  GIT_TAG fbcbb546f4f4f51ade6401aa53f69330144000b7
+  GIT_TAG 8682a545ab53196bf335ec258cd197746609b3c5
   OVERRIDE_FIND_PACKAGE
 )
 
