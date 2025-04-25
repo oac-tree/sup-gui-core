@@ -17,8 +17,8 @@ FetchContent_Declare(
 
 FetchContent_Declare(
   sup-mvvm
-  GIT_REPOSITORY https://git.iter.org/scm/coa/sup-mvvm.git
-  GIT_TAG 8682a545ab53196bf335ec258cd197746609b3c5
+  GIT_REPOSITORY https://github.com/oac-tree/sup-mvvm.git
+  GIT_TAG develop
   OVERRIDE_FIND_PACKAGE
 )
 
