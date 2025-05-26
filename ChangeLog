@@ -1,5 +1,8 @@
+Changes for 1.9.0:
+
 Changes for 1.8.0:
 
+- GitHub oac-tree 1.0 release
 - Repair Ctrl+S shortcut to save projects
 - Remove QObject inheritance from AnyValueActionHandler
 - Provide possibility to filter-out children during copy-and-paste
