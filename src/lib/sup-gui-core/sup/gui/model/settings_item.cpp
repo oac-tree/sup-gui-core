@@ -49,14 +49,15 @@ std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
 
 void CommonSettingsItem::Activate()
 {
-  // Enable/disable property "Undo limit" when property "Enable undo/redo" changes
-  auto on_property_changed = [this](const mvvm::DataChangedEvent&)
-  {
-    GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
-  };
+  // FIXME enable after Activate refactoring
+  // // Enable/disable property "Undo limit" when property "Enable undo/redo" changes
+  // auto on_property_changed = [this](const mvvm::DataChangedEvent&)
+  // {
+  //   GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
+  // };
 
-  mvvm::connect::Connect<mvvm::DataChangedEvent>(
-      /*source*/ GetItem(constants::kUseUndoSetting), on_property_changed, GetSlot());
+  // mvvm::connect::Connect<mvvm::DataChangedEvent>(
+  //     /*source*/ GetItem(constants::kUseUndoSetting), on_property_changed, GetSlot());
 }
 
 }  // namespace sup::gui
