@@ -22,7 +22,6 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 
-#include <mvvm/model/item_utils.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
@@ -123,8 +122,7 @@ std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
 
   for (const auto& [x, y] : data)
   {
-    // using utility function to provide notifications
-    (void) mvvm::utils::InsertItem(CreateFromPoint(x, y), result.get(), mvvm::TagIndex::Append());
+    (void) result->InsertItem(CreateFromPoint(x, y), mvvm::TagIndex::Append());
   }
 
   return result;
