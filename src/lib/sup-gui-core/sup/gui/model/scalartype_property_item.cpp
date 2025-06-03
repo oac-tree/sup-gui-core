@@ -58,6 +58,7 @@ void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string &type
 
 bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t &value, int32_t role)
 {
+  mvvm::utils::BeginMacro(*this, "Change scalar type");
   auto result = mvvm::SessionItem::SetDataInternal(value, role);
   if (role == mvvm::DataRole::kData && result)
   {
@@ -70,6 +71,8 @@ bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t &value, int32
       parent->SetToolTip(type_name);
     }
   }
+  mvvm::utils::EndMacro(*this);
+
   return result;
 }
 
