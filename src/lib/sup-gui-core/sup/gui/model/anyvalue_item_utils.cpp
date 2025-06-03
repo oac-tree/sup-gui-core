@@ -33,41 +33,42 @@
 #include <map>
 #include <stack>
 
+namespace sup::gui
+{
+
 namespace
 {
 
 /**
  * @brief Creates factory to build AnyValueItem from corresponding AnyValueItem::Type.
  */
-std::unique_ptr<mvvm::ItemCatalogue<sup::gui::AnyValueItem>> CreateItemCatalogue()
+std::unique_ptr<mvvm::ItemCatalogue<AnyValueItem>> CreateItemCatalogue()
 {
-  auto result = std::make_unique<mvvm::ItemCatalogue<sup::gui::AnyValueItem>>();
+  auto result = std::make_unique<mvvm::ItemCatalogue<AnyValueItem>>();
 
-  result->RegisterItem<sup::gui::AnyValueEmptyItem>();
-  result->RegisterItem<sup::gui::AnyValueScalarItem>();
-  result->RegisterItem<sup::gui::AnyValueArrayItem>();
-  result->RegisterItem<sup::gui::AnyValueStructItem>();
+  result->RegisterItem<AnyValueEmptyItem>();
+  result->RegisterItem<AnyValueScalarItem>();
+  result->RegisterItem<AnyValueArrayItem>();
+  result->RegisterItem<AnyValueStructItem>();
 
   return result;
 }
 
 }  // namespace
 
-namespace sup::gui
-{
 
 std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
 {
   static const std::map<std::string, std::string> kTypeNameToAnyValueItemType = {
-      {sup::gui::constants::kEmptyTypeName, sup::gui::AnyValueEmptyItem::GetStaticType()},
-      {sup::gui::constants::kScalarTypeName, sup::gui::AnyValueScalarItem::GetStaticType()},
-      {sup::gui::constants::kArrayTypeName, sup::gui::AnyValueArrayItem::GetStaticType()},
-      {sup::gui::constants::kStructTypeName, sup::gui::AnyValueStructItem::GetStaticType()},
+      {constants::kEmptyTypeName, AnyValueEmptyItem::GetStaticType()},
+      {constants::kScalarTypeName, AnyValueScalarItem::GetStaticType()},
+      {constants::kArrayTypeName, AnyValueArrayItem::GetStaticType()},
+      {constants::kStructTypeName, AnyValueStructItem::GetStaticType()},
   };
 
   if (IsScalarTypeName(type_name))
   {
-    return sup::gui::AnyValueScalarItem::GetStaticType();
+    return AnyValueScalarItem::GetStaticType();
   }
 
   auto iter = kTypeNameToAnyValueItemType.find(type_name);
