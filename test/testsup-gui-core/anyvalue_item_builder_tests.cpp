@@ -77,7 +77,7 @@ TEST_F(AnyValueItemBuilderTest, FromScalar)
     auto item = GetAnyValueItem(anyvalue);
 
     EXPECT_EQ(item->GetType(), AnyValueScalarItem::GetStaticType());
-    EXPECT_EQ(item->GetTotalItemCount(), 0);
+    EXPECT_EQ(item->GetTotalItemCount(), 1);
     EXPECT_EQ(mvvm::utils::TypeName(item->Data()), mvvm::constants::kBooleanTypeName);
     EXPECT_TRUE(item->Data<bool>());
     EXPECT_TRUE(item->IsScalar());
@@ -92,7 +92,7 @@ TEST_F(AnyValueItemBuilderTest, FromScalar)
     auto item = GetAnyValueItem(anyvalue);
 
     EXPECT_EQ(item->GetType(), AnyValueScalarItem::GetStaticType());
-    EXPECT_EQ(item->GetTotalItemCount(), 0);
+    EXPECT_EQ(item->GetTotalItemCount(), 1);
     EXPECT_EQ(mvvm::utils::TypeName(item->Data()), mvvm::constants::kInt32TypeName);
     EXPECT_EQ(item->Data<int>(), 42);
     EXPECT_TRUE(item->IsScalar());
@@ -153,7 +153,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithSingleScalar)
 
   auto child = item->GetItem<AnyValueScalarItem>({"", 0});
   EXPECT_EQ(child->GetType(), AnyValueScalarItem::GetStaticType());
-  EXPECT_EQ(child->GetTotalItemCount(), 0);
+  EXPECT_EQ(child->GetTotalItemCount(), 1);
   EXPECT_EQ(child->GetDisplayName(), "signed");
   EXPECT_TRUE(child->IsScalar());
   EXPECT_FALSE(child->IsStruct());
@@ -180,7 +180,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
   EXPECT_FALSE(item->IsArray());
 
   auto child = item->GetItem<AnyValueScalarItem>({"", 0});
-  EXPECT_EQ(child->GetTotalItemCount(), 0);
+  EXPECT_EQ(child->GetTotalItemCount(), 1);
   EXPECT_EQ(child->GetDisplayName(), "signed");
   EXPECT_EQ(child->Data<int>(), 42);
   EXPECT_TRUE(child->IsScalar());
@@ -189,7 +189,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
   EXPECT_EQ(mvvm::utils::TypeName(child->Data()), mvvm::constants::kInt32TypeName);
 
   child = item->GetItem<AnyValueScalarItem>({"", 1});
-  EXPECT_EQ(child->GetTotalItemCount(), 0);
+  EXPECT_EQ(child->GetTotalItemCount(), 1);
   EXPECT_EQ(child->GetDisplayName(), "bool");
   EXPECT_EQ(child->Data<bool>(), true);
   EXPECT_TRUE(child->IsScalar());
@@ -221,12 +221,12 @@ TEST_F(AnyValueItemBuilderTest, FromNestedStruct)
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   auto grandchild0 = child->GetItem({"", 0});
-  EXPECT_EQ(grandchild0->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild0->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild0->GetDisplayName(), "signed");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild0->Data()), mvvm::constants::kInt8TypeName);
 
   auto grandchild1 = child->GetItem({"", 1});
-  EXPECT_EQ(grandchild1->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild1->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild1->GetDisplayName(), "bool");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild1->Data()), mvvm::constants::kBooleanTypeName);
 }
@@ -258,12 +258,12 @@ TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   auto grandchild0 = child0->GetItem({"", 0});
-  EXPECT_EQ(grandchild0->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild0->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild0->GetDisplayName(), "signed");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild0->Data()), mvvm::constants::kInt8TypeName);
 
   auto grandchild1 = child0->GetItem({"", 1});
-  EXPECT_EQ(grandchild1->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild1->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild1->GetDisplayName(), "unsigned");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild1->Data()), mvvm::constants::kUInt8TypeName);
 
@@ -274,12 +274,12 @@ TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   grandchild0 = child1->GetItem({"", 0});
-  EXPECT_EQ(grandchild0->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild0->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild0->GetDisplayName(), "first");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild0->Data()), mvvm::constants::kInt8TypeName);
 
   grandchild1 = child1->GetItem({"", 1});
-  EXPECT_EQ(grandchild1->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild1->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild1->GetDisplayName(), "second");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild1->Data()), mvvm::constants::kInt8TypeName);
 }
@@ -301,14 +301,14 @@ TEST_F(AnyValueItemBuilderTest, FromArrayOfIntegers)
 
   // first branch
   auto child0 = item->GetItem({"", 0});
-  EXPECT_EQ(child0->GetTotalItemCount(), 0);
+  EXPECT_EQ(child0->GetTotalItemCount(), 1);
   EXPECT_EQ(child0->GetDisplayName(), constants::kElementNamePrefix + "0");
   EXPECT_EQ(mvvm::utils::TypeName(child0->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(child0->Data<mvvm::int64>(), 1);
 
   // second branch
   auto child1 = item->GetItem({"", 1});
-  EXPECT_EQ(child1->GetTotalItemCount(), 0);
+  EXPECT_EQ(child1->GetTotalItemCount(), 1);
   EXPECT_EQ(child1->GetDisplayName(), constants::kElementNamePrefix + "1");
   EXPECT_EQ(mvvm::utils::TypeName(child0->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(child1->Data<mvvm::int64>(), 2);
@@ -339,13 +339,13 @@ TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
 
   // elements
   auto element0 = child0->GetItem({"", 0});
-  EXPECT_EQ(element0->GetTotalItemCount(), 0);
+  EXPECT_EQ(element0->GetTotalItemCount(), 1);
   EXPECT_EQ(element0->GetDisplayName(), constants::kElementNamePrefix + "0");
   EXPECT_EQ(mvvm::utils::TypeName(element0->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(element0->Data<mvvm::int64>(), 1);
 
   auto element1 = child0->GetItem({"", 1});
-  EXPECT_EQ(element1->GetTotalItemCount(), 0);
+  EXPECT_EQ(element1->GetTotalItemCount(), 1);
   EXPECT_EQ(element1->GetDisplayName(), constants::kElementNamePrefix + "1");
   EXPECT_EQ(mvvm::utils::TypeName(element1->Data()), mvvm::constants::kInt64TypeName);
   EXPECT_EQ(element1->Data<mvvm::int64>(), 2);
@@ -380,13 +380,13 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   EXPECT_FALSE(mvvm::utils::IsValid(child0->Data()));
 
   auto grandchild0 = child0->GetItem({"", 0});
-  EXPECT_EQ(grandchild0->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild0->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild0->GetDisplayName(), "first");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild0->Data()), mvvm::constants::kInt8TypeName);
   EXPECT_EQ(grandchild0->Data<mvvm::int8>(), -43);
 
   auto grandchild1 = child0->GetItem({"", 1});
-  EXPECT_EQ(grandchild1->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild1->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild1->GetDisplayName(), "second");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild1->Data()), mvvm::constants::kUInt8TypeName);
   EXPECT_EQ(grandchild1->Data<mvvm::uint8>(), 44);
@@ -399,13 +399,13 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   EXPECT_FALSE(mvvm::utils::IsValid(child1->Data()));
 
   auto grandchild2 = child1->GetItem({"", 0});
-  EXPECT_EQ(grandchild2->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild2->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild2->GetDisplayName(), "first");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild2->Data()), mvvm::constants::kInt8TypeName);
   EXPECT_EQ(grandchild2->Data<mvvm::int8>(), 42);
 
   auto grandchild3 = child1->GetItem({"", 1});
-  EXPECT_EQ(grandchild3->GetTotalItemCount(), 0);
+  EXPECT_EQ(grandchild3->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild3->GetDisplayName(), "second");
   EXPECT_EQ(mvvm::utils::TypeName(grandchild3->Data()), mvvm::constants::kUInt8TypeName);
   EXPECT_EQ(grandchild3->Data<mvvm::uint8>(), 43);

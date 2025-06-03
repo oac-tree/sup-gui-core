@@ -35,7 +35,7 @@ namespace sup::gui
 
 AnyValueItem::AnyValueItem(const std::string& item_type) : CompoundItem(item_type)
 {
-  (void) SetFlag(mvvm::Appearance::kProperty, true);
+  (void)SetFlag(mvvm::Appearance::kProperty, true);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone() const
@@ -46,7 +46,7 @@ std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone() const
 
 void AnyValueItem::SetAnyTypeName(const std::string& type_name)
 {
-  (void) SetData(type_name, constants::kAnyTypeNameRole);
+  (void)SetData(type_name, constants::kAnyTypeNameRole);
 }
 
 std::string AnyValueItem::GetAnyTypeName() const
@@ -86,9 +86,9 @@ int AnyValueItem::GetChildrenCount() const
 
 AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
 {
-  (void) SetDisplayName(constants::kEmptyTypeName);
+  (void)SetDisplayName(constants::kEmptyTypeName);
   SetAnyTypeName(constants::kEmptyTypeName);
-  (void) SetToolTip(constants::kEmptyTypeName);
+  (void)SetToolTip(constants::kEmptyTypeName);
 }
 
 std::string AnyValueEmptyItem::GetStaticType()
@@ -107,8 +107,9 @@ std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
 
 AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
 {
-  (void) SetDisplayName(constants::kScalarTypeName);
-  (void) SetToolTip(constants::kScalarTypeName);
+  (void)SetDisplayName(constants::kScalarTypeName);
+  (void)SetToolTip(constants::kScalarTypeName);
+  AddProperty(constants::kAnyValueTypeTag, std::string());
 }
 
 std::string AnyValueScalarItem::GetStaticType()
@@ -125,8 +126,8 @@ void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
   AnyValueItem::SetAnyTypeName(type_name);
   // setting default value for given type
-  (void) SetData(GetVariantFromScalarTypeName(type_name));
-  (void) SetToolTip(type_name);
+  (void)SetData(GetVariantFromScalarTypeName(type_name));
+  (void)SetToolTip(type_name);
 }
 
 bool AnyValueScalarItem::IsScalar() const
@@ -140,9 +141,9 @@ bool AnyValueScalarItem::IsScalar() const
 
 AnyValueStructItem::AnyValueStructItem() : AnyValueItem(GetStaticType())
 {
-  (void) SetDisplayName(constants::kStructTypeName);
+  (void)SetDisplayName(constants::kStructTypeName);
   SetAnyTypeName("");
-  (void) SetToolTip(constants::kStructTypeName);
+  (void)SetToolTip(constants::kStructTypeName);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
@@ -184,9 +185,9 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 
 AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(GetStaticType())
 {
-  (void) SetDisplayName(constants::kArrayTypeName);
+  (void)SetDisplayName(constants::kArrayTypeName);
   SetAnyTypeName("");
-  (void) SetToolTip(constants::kArrayTypeName);
+  (void)SetToolTip(constants::kArrayTypeName);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 

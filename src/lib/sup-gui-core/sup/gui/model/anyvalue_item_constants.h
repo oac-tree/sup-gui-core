@@ -34,6 +34,7 @@ const std::string kEmptyTypeName = "empty";
 const int kAnyTypeNameRole = 10;
 
 const std::string kAnyValueChildrenTag = "kAnyValueChildrenTag";
+const std::string kAnyValueTypeTag = "kAnyValueTypeTag";
 
 const std::string kFieldNamePrefix = "field";
 const std::string kElementNamePrefix = "element";
