@@ -44,6 +44,7 @@ public:
   std::string GetScalarTypeName() const;
 
   void SetScalarTypeName(const std::string& type_name);
+
 };
 
 }  // namespace sup::gui

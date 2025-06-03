@@ -127,9 +127,6 @@ std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
   GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag)->SetScalarTypeName(type_name);
-  (void)mvvm::utils::ReplaceData(*this, GetVariantFromScalarTypeName(type_name),
-                                 mvvm::DataRole::kData);
-  (void)SetToolTip(type_name);
 }
 
 std::string AnyValueScalarItem::GetAnyTypeName() const

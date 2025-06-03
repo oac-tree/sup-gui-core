@@ -32,7 +32,7 @@ namespace sup::gui::test
 class DomainAnyValueBuilderTest : public ::testing::Test
 {
 public:
-  sup::dto::AnyValue CreateAnyValue(const AnyValueItem& item)
+  static sup::dto::AnyValue CreateAnyValue(const AnyValueItem& item)
   {
     DomainAnyValueBuilder builder(item);
     return builder.GetAnyValue();
@@ -43,7 +43,7 @@ public:
 
 TEST_F(DomainAnyValueBuilderTest, EmptyValue)
 {
-  AnyValueItem item("test");
+  const AnyValueItem item("test");
 
   auto any_value = CreateAnyValue(item);
   EXPECT_TRUE(sup::dto::IsEmptyValue(any_value));
@@ -58,7 +58,7 @@ TEST_F(DomainAnyValueBuilderTest, FromScalar)
     AnyValueScalarItem item;
     item.SetAnyTypeName(sup::dto::kBooleanTypeName);
     item.SetData(true);
-    sup::dto::AnyValue expected_anyvalue{sup::dto::BooleanType, true};
+    const sup::dto::AnyValue expected_anyvalue{sup::dto::BooleanType, true};
     auto any_value = CreateAnyValue(item);
     EXPECT_EQ(any_value, expected_anyvalue);
   }
@@ -67,17 +67,42 @@ TEST_F(DomainAnyValueBuilderTest, FromScalar)
     AnyValueScalarItem item;
     item.SetAnyTypeName(sup::dto::kInt32TypeName);
     item.SetData(42);
-    sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
+    const sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
+    auto any_value = CreateAnyValue(item);
+    EXPECT_EQ(any_value, expected_anyvalue);
+  }
+
+  {
+    AnyValueScalarItem item;
+    item.SetAnyTypeName(sup::dto::kInt32TypeName);
+    item.SetData(42);
+    const sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 42};
     auto any_value = CreateAnyValue(item);
     EXPECT_EQ(any_value, expected_anyvalue);
   }
 }
 
+//! real-life bug
+TEST_F(DomainAnyValueBuilderTest, FromScalarAndThenChangeScalarType)
+{
+  AnyValueScalarItem item;
+  item.SetAnyTypeName(sup::dto::kInt32TypeName);
+  item.SetData(42);
+  const sup::dto::AnyValue expected_anyvalue1{sup::dto::SignedInteger32Type, 42};
+  auto any_value1 = CreateAnyValue(item);
+  EXPECT_EQ(any_value1, expected_anyvalue1);
+
+  item.SetAnyTypeName(sup::dto::kBooleanTypeName);
+  const sup::dto::AnyValue expected_anyvalue2{sup::dto::BooleanType, false};
+  auto any_value2 = CreateAnyValue(item);
+  EXPECT_EQ(any_value2, expected_anyvalue2);
+}
+
 TEST_F(DomainAnyValueBuilderTest, FromEmptyStruct)
 {
   {  // empty struct
-    AnyValueStructItem item;
-    sup::dto::AnyValue expected_anyvalue{::sup::dto::EmptyStruct()};
+    const AnyValueStructItem item;
+    const sup::dto::AnyValue expected_anyvalue{::sup::dto::EmptyStruct()};
     auto any_value = CreateAnyValue(item);
     EXPECT_EQ(any_value, expected_anyvalue);
   }
@@ -85,7 +110,7 @@ TEST_F(DomainAnyValueBuilderTest, FromEmptyStruct)
   {  // empty named struct
     AnyValueStructItem item;
     item.SetAnyTypeName("my_type");
-    sup::dto::AnyValue expected_anyvalue{::sup::dto::EmptyStruct("my_type")};
+    const sup::dto::AnyValue expected_anyvalue{::sup::dto::EmptyStruct("my_type")};
     auto any_value = CreateAnyValue(item);
     EXPECT_EQ(any_value, expected_anyvalue);
   }
@@ -96,7 +121,7 @@ TEST_F(DomainAnyValueBuilderTest, FromStructWithSingleScalar)
   AnyValueStructItem item;
   item.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
 
-  sup::dto::AnyValue expected_anyvalue = {{{"signed", {sup::dto::SignedInteger32Type, 42}}}};
+  const sup::dto::AnyValue expected_anyvalue = {{{"signed", {sup::dto::SignedInteger32Type, 42}}}};
   auto any_value = CreateAnyValue(item);
   EXPECT_EQ(any_value, expected_anyvalue);
 }
@@ -108,7 +133,7 @@ TEST_F(DomainAnyValueBuilderTest, FromStructWithTwoScalars)
   item.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
   item.AddScalarField("bool", sup::dto::kBooleanTypeName, true);
 
-  sup::dto::AnyValue expected_anyvalue = {
+  const sup::dto::AnyValue expected_anyvalue = {
       {{"signed", {sup::dto::SignedInteger32Type, 42}}, {"bool", {sup::dto::BooleanType, true}}},
       "my_struct"};
 
@@ -127,7 +152,7 @@ TEST_F(DomainAnyValueBuilderTest, FromNestedStruct)
 
   sup::dto::AnyValue two_scalars = {
       {{"signed", {sup::dto::SignedInteger8Type, 1}}, {"bool", {sup::dto::BooleanType, 12}}}};
-  sup::dto::AnyValue expected_anyvalue{{
+  const sup::dto::AnyValue expected_anyvalue{{
       {"scalars", two_scalars},
   }};
 
@@ -202,7 +227,7 @@ TEST_F(DomainAnyValueBuilderTest, FromScalarArray)
 TEST_F(DomainAnyValueBuilderTest, StructWithScalarArrayAsField)
 {
   auto array_value = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name");
-  sup::dto::AnyValue expected_struct_value = {{{"array_field", array_value}}, "struct_name"};
+  const sup::dto::AnyValue expected_struct_value = {{{"array_field", array_value}}, "struct_name"};
 
   AnyValueStructItem item;
   item.SetAnyTypeName("struct_name");
@@ -231,8 +256,8 @@ TEST_F(DomainAnyValueBuilderTest, StructWithTwoScalarArrayAsField)
       sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name1");
   auto array_value2 =
       sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 44}, 45, 46}, "array_name2");
-  sup::dto::AnyValue expected_struct_value = {{{"field1", array_value1}, {"field2", array_value2}},
-                                              "struct_name"};
+  const sup::dto::AnyValue expected_struct_value = {
+      {{"field1", array_value1}, {"field2", array_value2}}, "struct_name"};
 
   AnyValueStructItem item;
   item.SetAnyTypeName("struct_name");
@@ -276,9 +301,9 @@ TEST_F(DomainAnyValueBuilderTest, ArrayWithTwoStructureElements)
   sup::dto::AnyValue struct_value1 = {{{"first", {sup::dto::SignedInteger16Type, -43}},
                                        {"second", {sup::dto::UnsignedInteger16Type, 44}}},
                                       "struct_name"};
-  sup::dto::AnyValue struct_value2 = {{{"first", {sup::dto::SignedInteger16Type, 42}},
-                                       {"second", {sup::dto::UnsignedInteger16Type, 43}}},
-                                      "struct_name"};
+  const sup::dto::AnyValue struct_value2 = {{{"first", {sup::dto::SignedInteger16Type, 42}},
+                                             {"second", {sup::dto::UnsignedInteger16Type, 43}}},
+                                            "struct_name"};
 
   auto expected_array_value = sup::dto::ArrayValue({{struct_value1}, struct_value2}, "array_name");
 

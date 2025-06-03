@@ -21,6 +21,7 @@
 #include "sup/gui/model/anyvalue_item.h"
 
 #include <sup/gui/model/anyvalue_item_constants.h>
+#include <sup/gui/model/scalartype_property_item.h>
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/test/test_helper.h>
@@ -168,6 +169,32 @@ TEST_F(AnyValueItemTest, Clone)
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueScalarItem>());
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueStructItem>());
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<AnyValueArrayItem>());
+}
+
+TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItem)
+{
+  AnyValueScalarItem item;
+
+  item.SetAnyTypeName(sup::dto::kInt8TypeName);
+
+  EXPECT_TRUE(item.IsScalar());
+  EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(item.Data<mvvm::int8>(), 0);
+  EXPECT_EQ(item.GetToolTip(), sup::dto::kInt8TypeName);
+  EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
+  EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
+  EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
+
+  // change scalar type via property item
+  auto property_item =  item.GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
+  property_item->SetScalarTypeName(sup::dto::kBooleanTypeName);
+  EXPECT_TRUE(item.IsScalar());
+  EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(item.Data<bool>(), false);
+  EXPECT_EQ(item.GetToolTip(), sup::dto::kBooleanTypeName);
+  EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
+  EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
+  EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
 }
 
 }  // namespace sup::gui::test

@@ -21,8 +21,10 @@
 #include "scalartype_property_item.h"
 
 #include "anyvalue_conversion_utils.h"
+#include "scalar_conversion_utils.h"
 
 #include <mvvm/model/combo_property.h>
+#include <mvvm/model/item_utils.h>
 
 namespace sup::gui
 {
@@ -52,6 +54,13 @@ void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string &type
   auto combo_value = Data<mvvm::ComboProperty>();
   combo_value.SetValue(type_name);
   SetData(combo_value);
+  if (auto parent = GetParent(); parent)
+  {
+    (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
+                                   mvvm::DataRole::kData);
+
+    parent->SetToolTip(type_name);
+  }
 }
 
 }  // namespace sup::gui
