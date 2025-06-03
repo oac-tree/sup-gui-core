@@ -110,7 +110,7 @@ TEST_F(AnyValueItemBuilderTest, FromEmptyStruct)
   auto item = GetAnyValueItem(anyvalue);
 
   EXPECT_EQ(item->GetType(), AnyValueStructItem::GetStaticType());
-  EXPECT_EQ(item->GetTotalItemCount(), 0);
+  EXPECT_EQ(item->GetTotalItemCount(), 1);
   EXPECT_EQ(item->GetAnyTypeName(), std::string());
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_FALSE(item->IsScalar());
@@ -127,7 +127,7 @@ TEST_F(AnyValueItemBuilderTest, FromEmptyNamedStruct)
   auto item = GetAnyValueItem(anyvalue);
 
   EXPECT_EQ(item->GetType(), AnyValueStructItem::GetStaticType());
-  EXPECT_EQ(item->GetTotalItemCount(), 0);
+  EXPECT_EQ(item->GetTotalItemCount(), 1);
   EXPECT_EQ(item->GetAnyTypeName(), std::string("mystruct"));
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_FALSE(item->IsScalar());
@@ -143,7 +143,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithSingleScalar)
 
   auto item = GetAnyValueItem(anyvalue);
 
-  EXPECT_EQ(item->GetTotalItemCount(), 1);
+  EXPECT_EQ(item->GetTotalItemCount(), 2);
   EXPECT_EQ(item->GetAnyTypeName(), std::string());
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
@@ -171,7 +171,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
 
   auto item = GetAnyValueItem(anyvalue);
 
-  EXPECT_EQ(item->GetTotalItemCount(), 2);
+  EXPECT_EQ(item->GetTotalItemCount(), 3);
   EXPECT_EQ(item->GetAnyTypeName(), std::string());
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
@@ -210,13 +210,13 @@ TEST_F(AnyValueItemBuilderTest, FromNestedStruct)
 
   auto item = GetAnyValueItem(anyvalue);
 
-  EXPECT_EQ(item->GetTotalItemCount(), 1);
+  EXPECT_EQ(item->GetTotalItemCount(), 2);
   EXPECT_EQ(item->GetAnyTypeName(), std::string());
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   auto child = item->GetItem({"", 0});
-  EXPECT_EQ(child->GetTotalItemCount(), 2);
+  EXPECT_EQ(child->GetTotalItemCount(), 3);
   EXPECT_EQ(child->GetDisplayName(), "scalars");
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
@@ -246,14 +246,14 @@ TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
 
   auto item = GetAnyValueItem(anyvalue);
 
-  EXPECT_EQ(item->GetTotalItemCount(), 2);
+  EXPECT_EQ(item->GetTotalItemCount(), 3);
   EXPECT_EQ(item->GetAnyTypeName(), nested_name);
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   // first branch
   auto child0 = item->GetItem({"", 0});
-  EXPECT_EQ(child0->GetTotalItemCount(), 2);
+  EXPECT_EQ(child0->GetTotalItemCount(), 3);
   EXPECT_EQ(child0->GetDisplayName(), "struct0");
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
@@ -269,7 +269,7 @@ TEST_F(AnyValueItemBuilderTest, FromTwoNestedStruct)
 
   // second branch
   auto child1 = item->GetItem({"", 1});
-  EXPECT_EQ(child1->GetTotalItemCount(), 2);
+  EXPECT_EQ(child1->GetTotalItemCount(), 3);
   EXPECT_EQ(child1->GetDisplayName(), "struct1");
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
@@ -293,7 +293,7 @@ TEST_F(AnyValueItemBuilderTest, FromArrayOfIntegers)
 
   auto item = GetAnyValueItem(anyvalue);
 
-  EXPECT_EQ(item->GetTotalItemCount(), 2);
+  EXPECT_EQ(item->GetTotalItemCount(), 3);
   EXPECT_EQ(item->GetAnyTypeName(), std::string("my_array_t"));
   EXPECT_EQ(item->GetDisplayName(), constants::kArrayTypeName);
   EXPECT_EQ(item->GetType(), AnyValueArrayItem::GetStaticType());
@@ -325,14 +325,14 @@ TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
 
   auto item = GetAnyValueItem(anyvalue);
 
-  EXPECT_EQ(item->GetTotalItemCount(), 1);
+  EXPECT_EQ(item->GetTotalItemCount(), 2);
   EXPECT_EQ(item->GetDisplayName(), constants::kStructTypeName);
   EXPECT_EQ(item->GetType(), AnyValueStructItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   // array branch
   auto child0 = item->GetItem({"", 0});
-  EXPECT_EQ(child0->GetTotalItemCount(), 2);
+  EXPECT_EQ(child0->GetTotalItemCount(), 3);
   EXPECT_EQ(child0->GetDisplayName(), "field");
   EXPECT_EQ(child0->GetType(), AnyValueArrayItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(child0->Data()));
@@ -367,14 +367,14 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
 
   // top level item is AnyValueArrayItem with two elements
   auto item = GetAnyValueItem(array_value);
-  EXPECT_EQ(item->GetTotalItemCount(), 2);
+  EXPECT_EQ(item->GetTotalItemCount(), 3);
   EXPECT_EQ(item->GetDisplayName(), constants::kArrayTypeName);
   EXPECT_EQ(item->GetType(), AnyValueArrayItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(item->Data()));
 
   // first element in array is a structure
   auto child0 = item->GetItem({"", 0});
-  EXPECT_EQ(child0->GetTotalItemCount(), 2);
+  EXPECT_EQ(child0->GetTotalItemCount(), 3);
   EXPECT_EQ(child0->GetDisplayName(), constants::kElementNamePrefix + "0");
   EXPECT_EQ(child0->GetType(), AnyValueStructItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(child0->Data()));
@@ -393,7 +393,7 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
 
   // second element in array is a structure
   auto child1 = item->GetItem({"", 1});
-  EXPECT_EQ(child1->GetTotalItemCount(), 2);
+  EXPECT_EQ(child1->GetTotalItemCount(), 3);
   EXPECT_EQ(child1->GetDisplayName(), constants::kElementNamePrefix + "1");
   EXPECT_EQ(child1->GetType(), AnyValueStructItem::GetStaticType());
   EXPECT_FALSE(mvvm::utils::IsValid(child1->Data()));

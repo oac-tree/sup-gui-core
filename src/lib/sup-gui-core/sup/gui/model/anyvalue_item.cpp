@@ -145,6 +145,7 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(GetStaticType())
   (void)SetDisplayName(constants::kStructTypeName);
   SetAnyTypeName("");
   (void)SetToolTip(constants::kStructTypeName);
+  AddProperty(constants::kAnyValueTypeTag, std::string());
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
@@ -189,6 +190,7 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(GetStaticType())
   (void)SetDisplayName(constants::kArrayTypeName);
   SetAnyTypeName("");
   (void)SetToolTip(constants::kArrayTypeName);
+  AddProperty(constants::kAnyValueTypeTag, std::string());
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
