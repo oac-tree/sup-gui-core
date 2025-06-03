@@ -21,6 +21,7 @@
 #include "sup/gui/views/anyvalueeditor/tree_view_component_provider.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/editors/allint_spinbox_editor.h>
 #include <mvvm/model/application_model.h>
@@ -99,7 +100,8 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   // making item selected
   provider.SetSelectedItem(item);
   EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
+  EXPECT_EQ(provider.GetSelectedItems(),
+            std::vector<mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
 
   EXPECT_EQ(spy_selected.count(), 1);
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
@@ -143,7 +145,8 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   // making item selected
   provider.SetSelectedItem(item);
   EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
+  EXPECT_EQ(provider.GetSelectedItems(),
+            std::vector<mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
 }
 
 //! Testing how struct looks like with two children, one filtered out

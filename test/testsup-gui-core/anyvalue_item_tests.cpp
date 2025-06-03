@@ -21,6 +21,7 @@
 #include "sup/gui/model/anyvalue_item.h"
 
 #include <sup/gui/model/anyvalue_item_constants.h>
+#include <mvvm/model/item_utils.h>
 
 #include <mvvm/test/test_helper.h>
 
@@ -42,10 +43,9 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_FALSE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
-    EXPECT_TRUE(item.GetAnyTypeName().empty());
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_FALSE(item.HasData(constants::kAnyTypeNameRole));
+    EXPECT_FALSE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
   }
@@ -58,7 +58,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetAnyTypeName(), constants::kEmptyTypeName);
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_TRUE(item.HasData(constants::kAnyTypeNameRole));
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), constants::kEmptyTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
@@ -73,7 +73,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_TRUE(item.GetAnyTypeName().empty());
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_FALSE(item.HasData(constants::kAnyTypeNameRole));
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), constants::kScalarTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
@@ -89,8 +89,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetDisplayName(), constants::kStructTypeName);
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_TRUE(
-        item.HasData(constants::kAnyTypeNameRole));  // default name "" is there to allow editing
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), constants::kStructTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
@@ -105,8 +104,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetAnyTypeName(), std::string());
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_TRUE(
-        item.HasData(constants::kAnyTypeNameRole));  // default name "" is there to allow editing
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
     EXPECT_TRUE(item.GetChildren().empty());
     EXPECT_EQ(item.GetDisplayName(), constants::kArrayTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
@@ -127,7 +125,7 @@ TEST_F(AnyValueItemTest, SetAnyTypeName)
     EXPECT_EQ(item.GetToolTip(), sup::dto::kInt8TypeName);
     EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
     EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
-    EXPECT_TRUE(item.HasData(constants::kAnyTypeNameRole));
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
   }
 
   {  // AnyValueStructItem

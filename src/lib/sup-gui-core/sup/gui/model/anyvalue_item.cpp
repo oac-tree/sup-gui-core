@@ -46,13 +46,12 @@ std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone() const
 
 void AnyValueItem::SetAnyTypeName(const std::string& type_name)
 {
-  (void)SetData(type_name, constants::kAnyTypeNameRole);
+  SetProperty(constants::kAnyValueTypeTag, type_name);
 }
 
 std::string AnyValueItem::GetAnyTypeName() const
 {
-  return HasData(constants::kAnyTypeNameRole) ? Data<std::string>(constants::kAnyTypeNameRole)
-                                              : std::string();
+  return Property<std::string>(constants::kAnyValueTypeTag);
 }
 
 bool AnyValueItem::IsScalar() const
@@ -87,9 +86,8 @@ int AnyValueItem::GetChildrenCount() const
 AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kEmptyTypeName);
-  SetAnyTypeName(constants::kEmptyTypeName);
   (void)SetToolTip(constants::kEmptyTypeName);
-  AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName);
+  AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName).SetEditable(false);
 }
 
 std::string AnyValueEmptyItem::GetStaticType()
@@ -110,7 +108,7 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kScalarTypeName);
   (void)SetToolTip(constants::kScalarTypeName);
-  AddProperty(constants::kAnyValueTypeTag, std::string());
+  AddProperty(constants::kAnyValueTypeTag, std::string()).SetEditable(false);
 }
 
 std::string AnyValueScalarItem::GetStaticType()
@@ -143,9 +141,8 @@ bool AnyValueScalarItem::IsScalar() const
 AnyValueStructItem::AnyValueStructItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kStructTypeName);
-  SetAnyTypeName("");
   (void)SetToolTip(constants::kStructTypeName);
-  AddProperty(constants::kAnyValueTypeTag, std::string());
+  (void)AddProperty(constants::kAnyValueTypeTag, std::string());
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
@@ -188,9 +185,8 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kArrayTypeName);
-  SetAnyTypeName("");
   (void)SetToolTip(constants::kArrayTypeName);
-  AddProperty(constants::kAnyValueTypeTag, std::string());
+  (void)AddProperty(constants::kAnyValueTypeTag, std::string());
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 

@@ -60,7 +60,7 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
 
   EXPECT_EQ(view_items.at(2)->Data(Qt::DisplayRole).toString().toStdString(),
             sup::dto::kInt8TypeName);
-  EXPECT_FALSE(view_items.at(2)->Data(Qt::EditRole).isValid());
+  EXPECT_TRUE(view_items.at(2)->Data(Qt::EditRole).isValid());
 
   // more tests in AnyValueViewModelTest
 }

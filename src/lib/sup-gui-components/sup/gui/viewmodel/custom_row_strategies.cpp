@@ -42,15 +42,6 @@ bool HasEditableDisplayName(const sup::gui::AnyValueItem &item)
   return !(item_parent && item_parent->IsArray());
 }
 
-/**
- * @brief Returns true if given item should have editable type name.
- *
- * @details Structs and arrays should have editable type names.
- */
-bool HasEditableTypeName(const sup::gui::AnyValueItem &item)
-{
-  return item.IsArray() || item.IsStruct();
-}
 }  // namespace
 
 namespace sup::gui
@@ -81,31 +72,19 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
   // first column
   if (HasEditableDisplayName(*anyvalue_item))
   {
-    (void) result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(anyvalue_item));
+    (void)result.emplace_back(mvvm::CreateEditableDisplayNameViewItem(anyvalue_item));
   }
   else
   {
-    (void) result.emplace_back(mvvm::CreateDisplayNameViewItem(anyvalue_item));
+    (void)result.emplace_back(mvvm::CreateDisplayNameViewItem(anyvalue_item));
   }
 
   // second column
-  (void) result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
+  (void)result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
 
   // third column
-  if (HasEditableTypeName(*anyvalue_item))
-  {
-    (void) result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item, constants::kAnyTypeNameRole));
-  }
-  else
-  {
-    // We want type names for all scalars to be non-editable and be shown in gray to stress that
-    // they are not editable. Since type name is not a separate SessionItem, but extra role on board
-    // of AnyValueItem, we have have to proceed with more complex approach:
-    auto view_item = mvvm::CreateFixedDataViewItem(anyvalue_item);
-    (void) view_item->SetData(QColor(Qt::gray), Qt::ForegroundRole);
-    (void) view_item->SetData(QString::fromStdString(anyvalue_item->GetAnyTypeName()), Qt::DisplayRole);
-    (void) result.emplace_back(std::move(view_item));
-  }
+  (void)result.emplace_back(
+      mvvm::CreateDataViewItem(anyvalue_item->GetItem(constants::kAnyValueTypeTag)));
 
   return result;
 }
