@@ -54,13 +54,23 @@ void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string &type
   auto combo_value = Data<mvvm::ComboProperty>();
   combo_value.SetValue(type_name);
   SetData(combo_value);
-  if (auto parent = GetParent(); parent)
-  {
-    (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
-                                   mvvm::DataRole::kData);
+}
 
-    parent->SetToolTip(type_name);
+bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t &value, int32_t role)
+{
+  auto result = mvvm::SessionItem::SetDataInternal(value, role);
+  if (role == mvvm::DataRole::kData && result)
+  {
+    if (auto parent = GetParent(); parent)
+    {
+      const auto type_name = GetScalarTypeName();
+      (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
+                                     mvvm::DataRole::kData);
+
+      parent->SetToolTip(type_name);
+    }
   }
+  return result;
 }
 
 }  // namespace sup::gui

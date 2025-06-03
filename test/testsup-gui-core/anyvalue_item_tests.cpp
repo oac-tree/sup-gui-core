@@ -23,6 +23,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/scalartype_property_item.h>
 
+#include <mvvm/model/combo_property.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/test/test_helper.h>
 
@@ -186,7 +187,7 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItem)
   EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
 
   // change scalar type via property item
-  auto property_item =  item.GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
+  auto property_item = item.GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
   property_item->SetScalarTypeName(sup::dto::kBooleanTypeName);
   EXPECT_TRUE(item.IsScalar());
   EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);

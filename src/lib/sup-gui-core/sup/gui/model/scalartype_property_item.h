@@ -45,6 +45,8 @@ public:
 
   void SetScalarTypeName(const std::string& type_name);
 
+  bool SetDataInternal(const mvvm::variant_t& value, std::int32_t role) override;
+
 };
 
 }  // namespace sup::gui
