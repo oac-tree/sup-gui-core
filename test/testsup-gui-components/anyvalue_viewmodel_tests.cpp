@@ -96,8 +96,9 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
 
   // FIXME enable after type item refactoring
 
-          // // ------------------------------------------------------------------------------------------
-  // // The story below is about an attempt to change scalar TypeName by clicking in a 3rd column of a
+  // // ------------------------------------------------------------------------------------------
+  // // The story below is about an attempt to change scalar TypeName by clicking in a 3rd column of
+  // a
   // // viewmodel. The third column is special since we handle it with experimental
   // // FixedDataPresentationItem. It allows showing the data not connected with the original item.
   // // Here, the third column is a custom gray-colored text label coinciding with TypeName.
@@ -362,6 +363,9 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   item->SetAnyTypeName(sup::dto::kInt8TypeName);
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
+  auto expected_variant =
+      QVariant::fromValue(item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>());
+
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 3);
 
@@ -377,8 +381,7 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             constants::kScalarTypeName);
   EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole).toInt(), 0);
-  EXPECT_EQ(viewmodel.data(item_type_index, Qt::DisplayRole).toString().toStdString(),
-            sup::dto::kInt8TypeName);
+  EXPECT_EQ(viewmodel.data(item_type_index, Qt::DisplayRole), expected_variant);
 }
 
 }  // namespace sup::gui::test

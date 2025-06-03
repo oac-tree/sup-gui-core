@@ -70,7 +70,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_TRUE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
-    EXPECT_TRUE(item.GetAnyTypeName().empty());
+    EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
     EXPECT_FALSE(mvvm::utils::IsValid(item.Data()));
     EXPECT_FALSE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));

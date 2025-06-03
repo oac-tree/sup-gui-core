@@ -41,7 +41,7 @@ public:
 
   virtual void SetAnyTypeName(const std::string& type_name);
 
-  std::string GetAnyTypeName() const;
+  virtual std::string GetAnyTypeName() const;
 
   virtual bool IsScalar() const;
   virtual bool IsStruct() const;
@@ -78,6 +78,8 @@ public:
   std::unique_ptr<SessionItem> Clone() const override;
 
   void SetAnyTypeName(const std::string& type_name) override;
+
+  std::string GetAnyTypeName() const override;
 
   bool IsScalar() const override;
 };

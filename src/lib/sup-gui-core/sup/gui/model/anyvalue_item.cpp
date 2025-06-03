@@ -23,6 +23,7 @@
 #include "anyvalue_item_constants.h"
 #include "anyvalue_item_utils.h"
 #include "scalar_conversion_utils.h"
+#include "scalartype_property_item.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
@@ -108,7 +109,7 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kScalarTypeName);
   (void)SetToolTip(constants::kScalarTypeName);
-  AddProperty(constants::kAnyValueTypeTag, std::string()).SetEditable(false);
+  AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
 }
 
 std::string AnyValueScalarItem::GetStaticType()
@@ -123,10 +124,14 @@ std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
-  AnyValueItem::SetAnyTypeName(type_name);
-  // setting default value for given type
+  GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag)->SetScalarTypeName(type_name);
   (void)SetData(GetVariantFromScalarTypeName(type_name));
   (void)SetToolTip(type_name);
+}
+
+std::string AnyValueScalarItem::GetAnyTypeName() const
+{
+  return GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag)->GetScalarTypeName();
 }
 
 bool AnyValueScalarItem::IsScalar() const
