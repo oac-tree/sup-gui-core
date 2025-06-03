@@ -89,6 +89,7 @@ AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
   (void)SetDisplayName(constants::kEmptyTypeName);
   SetAnyTypeName(constants::kEmptyTypeName);
   (void)SetToolTip(constants::kEmptyTypeName);
+  AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName);
 }
 
 std::string AnyValueEmptyItem::GetStaticType()

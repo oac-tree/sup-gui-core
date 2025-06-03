@@ -61,7 +61,7 @@ TEST_F(AnyValueItemBuilderTest, FromEmptyAnyValue)
   auto item = GetAnyValueItem(anyvalue);
 
   EXPECT_EQ(item->GetType(), AnyValueEmptyItem::GetStaticType());
-  EXPECT_EQ(item->GetTotalItemCount(), 0);
+  EXPECT_EQ(item->GetTotalItemCount(), 1);
   EXPECT_FALSE(item->IsScalar());
   EXPECT_FALSE(item->IsStruct());
   EXPECT_FALSE(item->IsArray());
