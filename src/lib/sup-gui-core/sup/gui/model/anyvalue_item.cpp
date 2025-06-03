@@ -27,6 +27,8 @@
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
+#include <mvvm/model/item_utils.h>
+
 namespace sup::gui
 {
 
@@ -125,7 +127,8 @@ std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
   GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag)->SetScalarTypeName(type_name);
-  (void)SetData(GetVariantFromScalarTypeName(type_name));
+  (void)mvvm::utils::ReplaceData(*this, GetVariantFromScalarTypeName(type_name),
+                                 mvvm::DataRole::kData);
   (void)SetToolTip(type_name);
 }
 

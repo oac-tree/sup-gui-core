@@ -21,8 +21,8 @@
 #include "sup/gui/model/anyvalue_item.h"
 
 #include <sup/gui/model/anyvalue_item_constants.h>
-#include <mvvm/model/item_utils.h>
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/test/test_helper.h>
 
 #include <sup/dto/anytype.h>
@@ -123,6 +123,16 @@ TEST_F(AnyValueItemTest, SetAnyTypeName)
     EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kInt8TypeName);
     EXPECT_EQ(item.Data<mvvm::int8>(), 0);
     EXPECT_EQ(item.GetToolTip(), sup::dto::kInt8TypeName);
+    EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
+    EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
+
+    // change scalar type
+    item.SetAnyTypeName(sup::dto::kBooleanTypeName);
+    EXPECT_TRUE(item.IsScalar());
+    EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
+    EXPECT_EQ(item.Data<bool>(), false);
+    EXPECT_EQ(item.GetToolTip(), sup::dto::kBooleanTypeName);
     EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
     EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
