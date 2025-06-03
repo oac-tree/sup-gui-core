@@ -80,7 +80,7 @@ sup::dto::TypeCode GetScalarTypeCode(const std::string& name)
   static const auto typecode_map = CreateScalarTypeCodeNameMap();
 
   auto iter = std::find_if(typecode_map.begin(), typecode_map.end(),
-                           [name](auto item) { return item.second == name; });
+                           [name](const auto& item) { return item.second == name; });
   if (iter == typecode_map.end())
   {
     throw RuntimeException("Error in TypeCode");

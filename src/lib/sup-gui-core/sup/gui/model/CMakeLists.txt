@@ -16,6 +16,8 @@ target_sources(${library_name} PRIVATE
   register_items.h
   scalar_conversion_utils.cpp
   scalar_conversion_utils.h
+  scalartype_property_item.cpp
+  scalartype_property_item.h
   settings_constants.h
   settings_item.cpp
   settings_item.h

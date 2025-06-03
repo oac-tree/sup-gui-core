@@ -18,25 +18,40 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "register_items.h"
-
-#include "anyvalue_item.h"
 #include "scalartype_property_item.h"
-#include "settings_item.h"
 
-#include <mvvm/model/item_factory.h>
+#include "anyvalue_conversion_utils.h"
+
+#include <mvvm/model/combo_property.h>
 
 namespace sup::gui
 {
 
-void RegisterSessionItems()
+ScalarTypePropertyItem::ScalarTypePropertyItem() : mvvm::SessionItem(GetStaticType())
 {
-  (void)mvvm::RegisterGlobalItem<AnyValueEmptyItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueScalarItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueStructItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueArrayItem>();
-  (void)mvvm::RegisterGlobalItem<CommonSettingsItem>();
-  (void)mvvm::RegisterGlobalItem<ScalarTypePropertyItem>();
+  SetData(mvvm::ComboProperty::CreateFrom(GetScalarTypeNames()));
+}
+
+std::unique_ptr<mvvm::SessionItem> ScalarTypePropertyItem::Clone() const
+{
+  return std::make_unique<ScalarTypePropertyItem>(*this);
+}
+
+std::string sup::gui::ScalarTypePropertyItem::GetStaticType()
+{
+  return "ScalarTypeProperty";
+}
+
+std::string ScalarTypePropertyItem::GetScalarTypeName() const
+{
+  return Data<mvvm::ComboProperty>().GetValue();
+}
+
+void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string &type_name)
+{
+  auto combo_value = Data<mvvm::ComboProperty>();
+  combo_value.SetValue(type_name);
+  SetData(combo_value);
 }
 
 }  // namespace sup::gui

@@ -18,25 +18,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "register_items.h"
+#include "sup/gui/model/scalartype_property_item.h"
 
-#include "anyvalue_item.h"
-#include "scalartype_property_item.h"
-#include "settings_item.h"
+#include <mvvm/core/mvvm_exceptions.h>
 
-#include <mvvm/model/item_factory.h>
+#include <sup/dto/anytype.h>
 
-namespace sup::gui
+#include <gtest/gtest.h>
+
+namespace sup::gui::test
 {
 
-void RegisterSessionItems()
+class ScalarTypePropertyItemTest : public ::testing::Test
 {
-  (void)mvvm::RegisterGlobalItem<AnyValueEmptyItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueScalarItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueStructItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueArrayItem>();
-  (void)mvvm::RegisterGlobalItem<CommonSettingsItem>();
-  (void)mvvm::RegisterGlobalItem<ScalarTypePropertyItem>();
+};
+
+TEST_F(ScalarTypePropertyItemTest, SetScalarTypeName)
+{
+  ScalarTypePropertyItem item;
+  EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kBooleanTypeName);
+
+  item.SetScalarTypeName(sup::dto::kInt32TypeName);
+  EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kInt32TypeName);
+
+  EXPECT_THROW(item.SetScalarTypeName("abc"), mvvm::RuntimeException);
 }
 
-}  // namespace sup::gui
+}  // namespace sup::gui::test

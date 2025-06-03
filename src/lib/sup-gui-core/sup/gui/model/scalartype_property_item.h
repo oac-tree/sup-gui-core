@@ -18,25 +18,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "register_items.h"
+#ifndef SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H
+#define SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H
 
-#include "anyvalue_item.h"
-#include "scalartype_property_item.h"
-#include "settings_item.h"
-
-#include <mvvm/model/item_factory.h>
+#include <mvvm/model/session_item.h>
 
 namespace sup::gui
 {
 
-void RegisterSessionItems()
+/**
+ * @brief The ScalarTypePropertyItem class is a combo property on board of AnyValueScalarItem.
+ *
+ * It allows to change the type of the scalar via combo box, by clicking on corresponding cell of
+ * the tree or table.
+ */
+class ScalarTypePropertyItem : public mvvm::SessionItem
 {
-  (void)mvvm::RegisterGlobalItem<AnyValueEmptyItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueScalarItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueStructItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueArrayItem>();
-  (void)mvvm::RegisterGlobalItem<CommonSettingsItem>();
-  (void)mvvm::RegisterGlobalItem<ScalarTypePropertyItem>();
-}
+public:
+  explicit ScalarTypePropertyItem();
+
+  static std::string GetStaticType();
+
+  std::unique_ptr<SessionItem> Clone() const override;
+
+  std::string GetScalarTypeName() const;
+
+  void SetScalarTypeName(const std::string& type_name);
+};
 
 }  // namespace sup::gui
+
+#endif  // SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H
