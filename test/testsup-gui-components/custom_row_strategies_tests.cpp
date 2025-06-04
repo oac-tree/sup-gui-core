@@ -29,6 +29,10 @@
 
 #include <gtest/gtest.h>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::ComboProperty)
+#endif
+
 namespace sup::gui::test
 {
 
@@ -40,6 +44,10 @@ class CustomRowStrategiesTest : public ::testing::Test
 
 TEST_F(CustomRowStrategiesTest, ScalarItem)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+  QMetaType::registerComparators<mvvm::ComboProperty>();
+#endif
+
   AnyValueScalarItem item;
 
   item.SetAnyTypeName(sup::dto::kInt8TypeName);

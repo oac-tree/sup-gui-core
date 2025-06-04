@@ -32,6 +32,10 @@
 
 #include <gtest/gtest.h>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::ComboProperty)
+#endif
+
 namespace sup::gui::test
 {
 
@@ -333,6 +337,10 @@ TEST_F(AnyValueViewModelTest, BooleanScalarItem)
 
 TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+  QMetaType::registerComparators<mvvm::ComboProperty>();
+#endif
+
   mvvm::ApplicationModel model;
 
   AnyValueViewModel viewmodel(&model);
