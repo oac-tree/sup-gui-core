@@ -29,9 +29,36 @@
 namespace sup::gui
 {
 
+namespace
+{
+
+mvvm::ComboProperty GetScalarTypeCombo()
+{
+  static const mvvm::ComboProperty kScalarCombo =
+      mvvm::ComboProperty::CreateFrom(GetScalarTypeNames());
+  return kScalarCombo;
+}
+
+/**
+ * @brief Update data of parent (AnyValueScalarItem) according to the given type name.
+ */
+void UpdateParentDataToType(const std::string& type_name, mvvm::SessionItem* parent)
+{
+  if (!parent || type_name.empty())
+  {
+    return;
+  }
+
+  (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
+                                 mvvm::DataRole::kData);
+  parent->SetToolTip(type_name);
+}
+
+}  // namespace
+
 ScalarTypePropertyItem::ScalarTypePropertyItem() : mvvm::SessionItem(GetStaticType())
 {
-  SetData(mvvm::ComboProperty::CreateFrom(GetScalarTypeNames()));
+  // by default it has no data and no scalar type
 }
 
 std::unique_ptr<mvvm::SessionItem> ScalarTypePropertyItem::Clone() const
@@ -46,35 +73,24 @@ std::string sup::gui::ScalarTypePropertyItem::GetStaticType()
 
 std::string ScalarTypePropertyItem::GetScalarTypeName() const
 {
-  return Data<mvvm::ComboProperty>().GetValue();
+  return HasData() ? Data<mvvm::ComboProperty>().GetValue() : std::string();
 }
 
-void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string &type_name)
+void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string& type_name)
 {
-  auto combo_value = Data<mvvm::ComboProperty>();
+  auto combo_value = GetScalarTypeCombo();
   combo_value.SetValue(type_name);
   SetData(combo_value);
 }
 
-bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t &value, int32_t role)
+bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t& value, int32_t role)
 {
   mvvm::utils::BeginMacro(*this, "Change scalar type");
   auto result = mvvm::SessionItem::SetDataInternal(value, role);
-  auto parent = GetParent();
-  if ((parent != nullptr) && (role == mvvm::DataRole::kData))
-  {
-    const auto type_name = GetScalarTypeName();
 
-    if (result)
-    {
-      (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
-                                     mvvm::DataRole::kData);
-    }
-    else
-    {
-      parent->SetData(GetVariantFromScalarTypeName(type_name));
-    }
-    parent->SetToolTip(type_name);
+  if (role == mvvm::DataRole::kData)
+  {
+    UpdateParentDataToType(GetScalarTypeName(), GetParent());
   }
 
   mvvm::utils::EndMacro(*this);

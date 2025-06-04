@@ -33,13 +33,21 @@ class ScalarTypePropertyItemTest : public ::testing::Test
 {
 };
 
+TEST_F(ScalarTypePropertyItemTest, InitialState)
+{
+  ScalarTypePropertyItem item;
+  EXPECT_EQ(item.GetScalarTypeName(), std::string());
+}
+
 TEST_F(ScalarTypePropertyItemTest, SetScalarTypeName)
 {
   ScalarTypePropertyItem item;
-  EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kBooleanTypeName);
 
   item.SetScalarTypeName(sup::dto::kInt32TypeName);
   EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kInt32TypeName);
+
+  item.SetScalarTypeName(sup::dto::kBooleanTypeName);
+  EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kBooleanTypeName);
 
   EXPECT_THROW(item.SetScalarTypeName("abc"), mvvm::RuntimeException);
 }

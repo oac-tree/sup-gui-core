@@ -35,7 +35,7 @@ namespace sup::gui
 class ScalarTypePropertyItem : public mvvm::SessionItem
 {
 public:
-  explicit ScalarTypePropertyItem();
+  ScalarTypePropertyItem();
 
   static std::string GetStaticType();
 
