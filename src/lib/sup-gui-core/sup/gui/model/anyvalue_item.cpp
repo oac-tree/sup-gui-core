@@ -90,7 +90,9 @@ AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kEmptyTypeName);
   (void)SetToolTip(constants::kEmptyTypeName);
-  AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName).SetEditable(false);
+  AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName)
+      .SetEditable(false)
+      .SetVisible(false);
 }
 
 std::string AnyValueEmptyItem::GetStaticType()
@@ -111,7 +113,7 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kScalarTypeName);
   (void)SetToolTip(constants::kScalarTypeName);
-  AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
+  AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetVisible(false);
 }
 
 std::string AnyValueScalarItem::GetStaticType()
@@ -147,7 +149,7 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kStructTypeName);
   (void)SetToolTip(constants::kStructTypeName);
-  (void)AddProperty(constants::kAnyValueTypeTag, std::string());
+  (void)AddProperty(constants::kAnyValueTypeTag, std::string()).SetVisible(false);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
@@ -191,7 +193,7 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kArrayTypeName);
   (void)SetToolTip(constants::kArrayTypeName);
-  (void)AddProperty(constants::kAnyValueTypeTag, std::string());
+  (void)AddProperty(constants::kAnyValueTypeTag, std::string()).SetVisible(false);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
 }
 
