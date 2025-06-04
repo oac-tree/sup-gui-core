@@ -1,5 +1,7 @@
 Changes for 1.9.0:
 
+- Allow to change scalar type after its creation via combo selector
+
 Changes for 1.8.0:
 
 - GitHub oac-tree 1.0 release
