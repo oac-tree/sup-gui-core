@@ -116,7 +116,21 @@ TEST_F(AnyValueItemTest, InitialState)
 
 TEST_F(AnyValueItemTest, SetAnyTypeName)
 {
-  {  // AnyValueScalarItem
+  {  // AnyValueScalarItem (set boolean)
+    AnyValueScalarItem item;
+
+    item.SetAnyTypeName(sup::dto::kBooleanTypeName);
+
+    EXPECT_TRUE(item.IsScalar());
+    EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
+    EXPECT_EQ(item.Data<mvvm::boolean>(), false);
+    EXPECT_EQ(item.GetToolTip(), sup::dto::kBooleanTypeName);
+    EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
+    EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
+    EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
+  }
+
+  {  // AnyValueScalarItem (change type)
     AnyValueScalarItem item;
 
     item.SetAnyTypeName(sup::dto::kInt8TypeName);

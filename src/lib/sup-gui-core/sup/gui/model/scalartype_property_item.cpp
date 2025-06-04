@@ -60,17 +60,23 @@ bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t &value, int32
 {
   mvvm::utils::BeginMacro(*this, "Change scalar type");
   auto result = mvvm::SessionItem::SetDataInternal(value, role);
-  if (role == mvvm::DataRole::kData && result)
+  auto parent = GetParent();
+  if ((parent != nullptr) && (role == mvvm::DataRole::kData))
   {
-    if (auto parent = GetParent(); parent)
+    const auto type_name = GetScalarTypeName();
+
+    if (result)
     {
-      const auto type_name = GetScalarTypeName();
       (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
                                      mvvm::DataRole::kData);
-
-      parent->SetToolTip(type_name);
     }
+    else
+    {
+      parent->SetData(GetVariantFromScalarTypeName(type_name));
+    }
+    parent->SetToolTip(type_name);
   }
+
   mvvm::utils::EndMacro(*this);
 
   return result;
