@@ -25,7 +25,7 @@
 //! Helper methods to deal with Qt trees.
 
 #include <cstdint>
-#include <functional>
+#include <vector>
 
 class QMenu;
 class QTreeView;
@@ -55,7 +55,16 @@ void AdjustWidthOfColumns(QHeaderView* header, std::vector<std::int32_t> stretch
  * @param tree The tree to ajust
  * @param stretch_factors Relative stretch factors
  */
-void AdjustWidthOfColumns(QTreeView& tree, std::vector<int32_t> stretch_factors);
+void AdjustWidthOfColumns(QTreeView& tree, std::vector<std::int32_t> stretch_factors);
+
+/**
+ * @brief Scrolls tree viewport to given index.
+ *
+ * @Performs scrolling of the tree viewport to show the current selection. The scrolling will be
+ * performed only if the current selection is located outside of the viewport. The viewport will be
+ * positioned to show selected item at the top.
+ */
+void ScrollTreeViewportToIndex(const QModelIndex& index, QTreeView& tree_view);
 
 /**
  * @brief Scrolls tree viewport to selection.

@@ -110,6 +110,16 @@ void AdjustWidthOfColumns(QTreeView &tree, std::vector<std::int32_t> stretch_fac
 }
 
 // cppcheck-suppress unusedFunction
+void ScrollTreeViewportToIndex(const QModelIndex &index, QTreeView &tree_view)
+{
+  auto visible_rectangle = tree_view.visualRect(index);
+  if ((visible_rectangle.top() < 0) || (visible_rectangle.bottom() > tree_view.rect().bottom()))
+  {
+    tree_view.scrollTo(index, QAbstractItemView::PositionAtTop);
+  }
+}
+
+// cppcheck-suppress unusedFunction
 void ScrollTreeViewportToSelection(QTreeView &tree_view)
 {
   auto indexes = tree_view.selectionModel() ? tree_view.selectionModel()->selectedIndexes()
@@ -119,11 +129,7 @@ void ScrollTreeViewportToSelection(QTreeView &tree_view)
     return;
   }
 
-  auto visible_rectangle = tree_view.visualRect(indexes.front());
-  if ((visible_rectangle.top() < 0) || (visible_rectangle.bottom() > tree_view.rect().bottom()))
-  {
-    tree_view.scrollTo(indexes.front(), QAbstractItemView::PositionAtTop);
-  }
+  ScrollTreeViewportToIndex(indexes.front(), tree_view);
 }
 
 // cppcheck-suppress unusedFunction
