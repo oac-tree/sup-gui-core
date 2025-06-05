@@ -10,8 +10,6 @@ target_sources(${library_name} PRIVATE
   anyvalue_item_copy_helper.cpp
   anyvalue_item_copy_helper.h
   component_types.h
-  item_filter_helper.cpp
-  item_filter_helper.h
   custom_metatypes.cpp
   custom_metatypes.h
   dto_composer_action_handler.cpp
@@ -24,6 +22,10 @@ target_sources(${library_name} PRIVATE
   dto_waveform_action_handler.h
   dto_waveform_editor_context.h
   i_anyvalue_editor_action_handler.h
+  item_filter_helper.cpp
+  item_filter_helper.h
+  json_panel_controller.cpp
+  json_panel_controller.h
   mime_conversion_helper.cpp
   mime_conversion_helper.h
   proxy_action.cpp
