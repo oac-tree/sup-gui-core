@@ -74,7 +74,7 @@ std::vector<mvvm::SessionItem*> GetTopLevelSelection(const std::vector<mvvm::Ses
  * parent3    <-selected
  *
  * For the list of items selection [child0, parent1, child1, parent2, child3, parent3] the result
- * will be [child0, child1, child2, child3].
+ * will be [child0, child1, child3].
  */
 std::vector<mvvm::SessionItem*> GetBottomLevelSelection(
     const std::vector<mvvm::SessionItem*>& items);
