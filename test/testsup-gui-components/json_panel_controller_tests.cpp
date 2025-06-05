@@ -21,6 +21,7 @@
 #include "sup/gui/components/json_panel_controller.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
+#include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
@@ -49,7 +50,7 @@ public:
   ::testing::MockFunction<JsonPanelController::send_json_func_t> m_mock_send_json;
   ::testing::MockFunction<JsonPanelController::send_message_func_t> m_mock_send_message;
 
-  mvvm::SessionItem* m_container{nullptr};
+  mvvm::ContainerItem* m_container{nullptr};
   mvvm::ApplicationModel m_model;
 };
 
@@ -65,6 +66,69 @@ TEST_F(JsonPanelControllerTest, CheckInitialUpdate)
 {
   EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
   auto controller = CreateController();
+}
+
+TEST_F(JsonPanelControllerTest, NotificationOnContainerRemoval)
+{
+  EXPECT_CALL(m_mock_send_json, Call(::testing::_)).Times(1);
+  auto controller = CreateController();
+
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  m_model.RemoveItem(m_container);
+}
+
+TEST_F(JsonPanelControllerTest, InitialJsonUpdate)
+{
+  m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+
+  const std::string expected_json(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[]}},{"instance":{}}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json)).Times(1);
+  auto controller = CreateController();
+}
+
+TEST_F(JsonPanelControllerTest, JsonUpdateOnItemInsert)
+{
+  const std::string expected_json(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[]}},{"instance":{}}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  auto controller = CreateController();
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json)).Times(1);
+  m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+}
+
+TEST_F(JsonPanelControllerTest, JsonUpdateOnItemDeletion)
+{
+  m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+
+  const std::string expected_json(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[]}},{"instance":{}}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json)).Times(1);
+  auto controller = CreateController();
+
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  m_container->Clear();
+}
+
+TEST_F(JsonPanelControllerTest, JsonUpdateOnScalarInsert)
+{
+  const std::string expected_json1(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[]}},{"instance":{}}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  auto controller = CreateController();
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json1)).Times(1);
+  auto struct_item = m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+
+  const std::string expected_json2(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"struct","attributes":[]}},{"instance":{}}])RAW");
+  EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
+  struct_item->SetAnyTypeName("struct");
 }
 
 }  // namespace sup::gui::test
