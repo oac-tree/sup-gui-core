@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/components/copy_and_paste_helper.h"
+#include "sup/gui/components/item_filter_helper.h"
 
 #include <sup/gui/model/anyvalue_item.h>
 
@@ -31,11 +31,11 @@
 namespace sup::gui::test
 {
 
-class CopyAndPasteHelperTest : public ::testing::Test
+class ItemFilterHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(CopyAndPasteHelperTest, GetTopLevelSelection)
+TEST_F(ItemFilterHelperTest, GetTopLevelSelection)
 {
   EXPECT_TRUE(GetTopLevelSelection(std::vector<mvvm::SessionItem*>()).empty());
 
@@ -45,7 +45,7 @@ TEST_F(CopyAndPasteHelperTest, GetTopLevelSelection)
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
 
-TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionTwoItems)
+TEST_F(ItemFilterHelperTest, GetTopLevelSelectionTwoItems)
 {
   mvvm::SessionModel model;
   auto item0 = model.InsertItem<mvvm::PropertyItem>();
@@ -54,7 +54,7 @@ TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionTwoItems)
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
 
-TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionTwoItemsWithChildren)
+TEST_F(ItemFilterHelperTest, GetTopLevelSelectionTwoItemsWithChildren)
 {
   mvvm::SessionModel model;
   auto item0 = model.InsertItem<mvvm::PropertyItem>();
@@ -63,7 +63,7 @@ TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionTwoItemsWithChildren)
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
 
-TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionAnyValueStructWithChildren)
+TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueStructWithChildren)
 {
   mvvm::SessionModel model;
 
@@ -77,7 +77,7 @@ TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionAnyValueStructWithChildren)
 }
 
 //! Reproducing example from comments to the GetTopLevelSelection function
-TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren)
+TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren)
 {
   mvvm::SessionModel model;
 
@@ -99,7 +99,7 @@ TEST_F(CopyAndPasteHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren
   EXPECT_EQ(GetTopLevelSelection(selection), expected);
 }
 
-TEST_F(CopyAndPasteHelperTest, FilterOutChildren)
+TEST_F(ItemFilterHelperTest, FilterOutChildren)
 {
   mvvm::SessionModel model;
 

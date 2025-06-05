@@ -18,11 +18,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_COPY_AND_PASTE_HELPER_H_
-#define SUP_GUI_COMPONENTS_COPY_AND_PASTE_HELPER_H_
+#ifndef SUP_GUI_COMPONENTS_ITEM_FILTER_HELPER_H_
+#define SUP_GUI_COMPONENTS_ITEM_FILTER_HELPER_H_
 
 //! @file
-//! Collection of helper methods for copy-and-paste operations.
+//! Collection of helper methods to filter-out list of items.
 
 #include <vector>
 
@@ -71,4 +71,4 @@ std::vector<mvvm::SessionItem*> FilterOutChildren(const std::vector<mvvm::Sessio
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_COPY_AND_PASTE_HELPER_H_
+#endif  // SUP_GUI_COMPONENTS_ITEM_FILTER_HELPER_H_

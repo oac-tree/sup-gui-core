@@ -22,11 +22,11 @@
 
 #include "anyvalue_editor_helper.h"
 #include "anyvalue_item_copy_helper.h"
-#include "copy_and_paste_helper.h"
+#include "item_filter_helper.h"
 #include "mime_conversion_helper.h"
 
-#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/core/query_result.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
@@ -302,7 +302,7 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 {
-   return const_cast<AnyValueItem*>(std::as_const(*this).GetTopItem());
+  return const_cast<AnyValueItem*>(std::as_const(*this).GetTopItem());
 }
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const

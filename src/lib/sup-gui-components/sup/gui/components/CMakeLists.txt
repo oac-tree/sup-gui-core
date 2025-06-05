@@ -10,8 +10,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_item_copy_helper.cpp
   anyvalue_item_copy_helper.h
   component_types.h
-  copy_and_paste_helper.cpp
-  copy_and_paste_helper.h
+  item_filter_helper.cpp
+  item_filter_helper.h
   custom_metatypes.cpp
   custom_metatypes.h
   dto_composer_action_handler.cpp

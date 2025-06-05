@@ -20,7 +20,7 @@
 
 #include "anyvalue_item_copy_helper.h"
 
-#include "copy_and_paste_helper.h"
+#include "item_filter_helper.h"
 #include "mime_conversion_helper.h"
 
 #include <sup/gui/model/anyvalue_item.h>

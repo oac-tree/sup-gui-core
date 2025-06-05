@@ -147,7 +147,7 @@ TEST_F(TreeHelperTest, CheckCollapseExpand)
   EXPECT_TRUE(tree.isExpanded(data.item2->index()));
 }
 
-TEST_F(TreeHelperTest, FindLastCollapsedParent)
+TEST_F(TreeHelperTest, FindVisibleCandidate)
 {
   auto data = std::move(CreateTestData());
   QTreeView tree;

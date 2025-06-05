@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "copy_and_paste_helper.h"
+#include "item_filter_helper.h"
 
 #include <mvvm/model/item_utils.h>
 
