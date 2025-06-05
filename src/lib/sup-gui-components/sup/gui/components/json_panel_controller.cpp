@@ -21,14 +21,30 @@
 #include "json_panel_controller.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
+#include <sup/gui/model/anyvalue_conversion_utils.h>
+#include <sup/gui/model/anyvalue_utils.h>
+#include <sup/gui/model/anyvalue_item.h>
+
+#include <mvvm/model/session_item.h>
+#include <mvvm/signals/model_listener.h>
+
+#include <sup/dto/anyvalue.h>
 
 namespace sup::gui
 {
 
-JsonPanelController::JsonPanelController(send_json_func_t send_json_func,
+JsonPanelController::JsonPanelController(mvvm::SessionItem *container,
+                                         send_json_func_t send_json_func,
                                          send_message_func_t send_message_func)
-    : m_send_json_func(std::move(send_json_func)), m_send_message_func(std::move(send_message_func))
+    : m_container(container)
+    , m_send_json_func(std::move(send_json_func))
+    , m_send_message_func(std::move(send_message_func))
 {
+  if (!m_container)
+  {
+    throw RuntimeException("Unitialised container");
+  }
+
   if (!m_send_json_func)
   {
     throw RuntimeException("Undefined callback to send JSON");
@@ -38,6 +54,86 @@ JsonPanelController::JsonPanelController(send_json_func_t send_json_func,
   {
     throw RuntimeException("Undefined callback to report errors");
   }
+
+  SetupListener();
+  UpdateJson();
+}
+
+JsonPanelController::~JsonPanelController() = default;
+
+void JsonPanelController::SetPrettyJson(bool value)
+{
+  m_pretty_json = value;
+}
+
+void JsonPanelController::SetupListener()
+{
+  m_listener = std::make_unique<mvvm::ModelListener>(m_container->GetModel());
+  m_listener->Connect<mvvm::ItemRemovedEvent>([this](const auto &) { UpdateJson(); });
+  m_listener->Connect<mvvm::ItemInsertedEvent>([this](const auto &) { UpdateJson(); });
+  m_listener->Connect<mvvm::DataChangedEvent>(this, &JsonPanelController::OnDataChangedEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this,
+                                                    &JsonPanelController::OnAboutToRemoveItemEvent);
+}
+
+void JsonPanelController::UpdateJson()
+{
+  if (auto item = GetAnyValueItem(); item)
+  {
+    try
+    {
+      // Current simplified approach calls the method `UpdateJson` on every
+      // model change. If model is inconsistent, CreateAnyValue method will fail.
+
+      auto any_value = sup::gui::CreateAnyValue(*item);
+      auto str = sup::gui::AnyValueToJSONString(any_value, m_pretty_json);
+      m_send_json_func(str);
+    }
+    catch (const std::exception &ex)
+    {
+      m_send_json_func(std::string());
+      SendMessage(ex.what());
+    }
+  }
+  else
+  {
+    m_send_json_func(std::string());
+  }
+}
+
+void JsonPanelController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)
+{
+  (void)event;
+  UpdateJson();
+}
+
+void JsonPanelController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent &event)
+{
+  if (event.item->GetItem(event.tag_index) == m_container)
+  {
+    // container was deleted, stopping listening
+    m_send_json_func(std::string());
+    m_container = nullptr;
+    m_listener.reset();
+  }
+}
+
+void JsonPanelController::SendMessage(const std::string &what) const
+{
+  const std::string title("JSON generation failed");
+  const std::string text("The AnyValue being edited is in inconsistent state");
+  const MessageEvent message{title, text, what, ""};
+  m_send_message_func(message);
+}
+
+AnyValueItem *JsonPanelController::GetAnyValueItem()
+{
+  if (!m_container || m_container->GetTotalItemCount() == 0)
+  {
+    return nullptr;
+  }
+
+  return m_container->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0));
 }
 
 }  // namespace sup::gui

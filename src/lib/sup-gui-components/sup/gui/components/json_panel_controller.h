@@ -26,10 +26,18 @@
 #include <mvvm/signals/event_types.h>
 
 #include <functional>
+#include <memory>
 #include <string>
+
+namespace mvvm
+{
+class ModelListener;
+}
 
 namespace sup::gui
 {
+
+class AnyValueItem;
 
 /**
  * @brief The JsonPanelController class generates JSON representation on AnyValueItem on every
@@ -44,14 +52,39 @@ public:
   /**
    * @brief Main c-tor.
    *
+   * @param container COntainer with AnyValueItem in it.
    * @param send_json_func A function to send generated JSON.
    * @param send_message_func A function to report errors.
    */
-  JsonPanelController(send_json_func_t send_json_func, send_message_func_t send_message_func);
+  JsonPanelController(mvvm::SessionItem* container, send_json_func_t send_json_func,
+                      send_message_func_t send_message_func);
+
+  ~JsonPanelController();
+  JsonPanelController(const JsonPanelController&) = delete;
+  JsonPanelController& operator=(const JsonPanelController&) = delete;
+  JsonPanelController(JsonPanelController&&) = delete;
+  JsonPanelController& operator=(JsonPanelController&&) = delete;
+
+  void SetPrettyJson(bool value);
 
 private:
+  void SetupListener();
+  void UpdateJson();
+  void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
+  void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
+
+  /**
+   * @brief Notifies the user that JSON generation went wrong.
+   */
+  void SendMessage(const std::string& what) const;
+
+  AnyValueItem* GetAnyValueItem();
+
+  mvvm::SessionItem* m_container{nullptr};
   send_json_func_t m_send_json_func;
   send_message_func_t m_send_message_func;
+  std::unique_ptr<mvvm::ModelListener> m_listener;
+  bool m_pretty_json{false};
 };
 
 }  // namespace sup::gui
