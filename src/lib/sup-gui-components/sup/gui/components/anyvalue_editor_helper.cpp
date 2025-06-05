@@ -84,7 +84,7 @@ void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& c
   {
     if (auto name = SuggestDisplayName(parent, child); name.has_value())
     {
-      (void) child.SetDisplayName(name.value());
+      (void)child.SetDisplayName(name.value());
     }
 
     if (auto name = SuggestEditableTypeName(parent, child); name.has_value())
@@ -92,6 +92,19 @@ void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& c
       anyvalue_item->SetAnyTypeName(name.value());
     }
   }
+}
+
+bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child)
+{
+  if (auto parent = child.GetParent(); parent)
+  {
+    if (parent->GetType() == AnyValueStructItem::GetStaticType())
+    {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 }  // namespace sup::gui

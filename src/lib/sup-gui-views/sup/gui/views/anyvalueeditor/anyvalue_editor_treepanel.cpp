@@ -21,6 +21,7 @@
 #include "anyvalue_editor_treepanel.h"
 
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/components/anyvalue_editor_helper.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
 
@@ -29,14 +30,17 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-namespace
-{
-const QString kHeaderStateSettingName("AnyValueEditor/header_state");
-const std::vector<int> kDefaultColumnStretch({2, 1, 1});
-}  // namespace
-
 namespace sup::gui
 {
+
+namespace
+{
+
+const QString kHeaderStateSettingName("AnyValueEditor/header_state");
+const std::vector<int> kDefaultColumnStretch({2, 1, 1});
+
+}  // namespace
+
 
 AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent_widget)
     : QWidget(parent_widget)
@@ -92,6 +96,10 @@ void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
   if (!indices_of_inserted.empty())
   {
     m_tree_view->setExpanded(indices_of_inserted.front(), true);
+    if (EnableInstantFieldNameEdit(*item))
+    {
+      m_tree_view->edit(indices_of_inserted.front());
+    }
   }
 }
 

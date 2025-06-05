@@ -73,6 +73,11 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
  */
 void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& child);
 
+/**
+ * @brief Checks if we should create cell editor to edit the name of just inserted field.
+ */
+bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_ANYVALUE_EDITOR_HELPER_H_

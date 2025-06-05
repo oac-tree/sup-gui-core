@@ -126,4 +126,18 @@ TEST_F(AnyValueEditorHelperTest, SuggestNameForArrayElement)
   EXPECT_EQ(name.value_or(kUndefined), constants::kElementNamePrefix + "0");
 }
 
+TEST_F(AnyValueEditorHelperTest, EnableInstantFieldNameEdit)
+{
+  {
+    const AnyValueScalarItem child;
+    EXPECT_FALSE(EnableInstantFieldNameEdit(child));
+  }
+
+  {  // field in a struct
+    AnyValueStructItem parent;
+    auto child = parent.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
+    EXPECT_TRUE(EnableInstantFieldNameEdit(*child));
+  }
+}
+
 }  // namespace sup::gui::test
