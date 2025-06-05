@@ -57,6 +57,29 @@ namespace sup::gui
 std::vector<mvvm::SessionItem*> GetTopLevelSelection(const std::vector<mvvm::SessionItem*>& items);
 
 /**
+ * @brief Returns the list of items which are located on the bottom level.
+ *
+ * The method is used during sequence execution to keep viewport focused on currently executed
+ * children.
+ *
+ * Example:
+ *
+ * parent0
+ *   child0   <-selected
+ * parent1    <-selected
+ *   child1   <-selected
+ *   child2
+ * parent2    <-selected
+ *   child3   <-selected
+ * parent3    <-selected
+ *
+ * For the list of items selection [child0, parent1, child1, parent2, child3, parent3] the result
+ * will be [child0, child1, child2, child3].
+ */
+std::vector<mvvm::SessionItem*> GetBottomLevelSelection(
+    const std::vector<mvvm::SessionItem*>& items);
+
+/**
  * @brief Removes all children from the given list.
  *
  * Assuming that the list contains a mixture of parents and their children, we will remove all items

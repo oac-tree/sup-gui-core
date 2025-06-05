@@ -76,7 +76,8 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueStructWithChildren)
   EXPECT_EQ(GetTopLevelSelection(selection), expected);
 }
 
-//! Reproducing example from comments to the GetTopLevelSelection function
+//! Reproducing example from comments to the GetTopLevelSelection and GetBottomLevelSelection
+//! functions.
 TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren)
 {
   mvvm::SessionModel model;
@@ -93,10 +94,21 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren)
 
   auto parent3 = model.InsertItem<AnyValueStructItem>();
 
-  const std::vector<mvvm::SessionItem*> selection(
-      {child0, parent1, child1, parent2, child3, parent3});
-  const std::vector<mvvm::SessionItem*> expected({parent1, parent2, parent3});
-  EXPECT_EQ(GetTopLevelSelection(selection), expected);
+  {  // top level selection
+    const std::vector<mvvm::SessionItem*> selection(
+        {child0, parent1, child1, parent2, child3, parent3});
+
+    const std::vector<mvvm::SessionItem*> expected_top({parent1, parent2, parent3});
+    EXPECT_EQ(GetTopLevelSelection(selection), expected_top);
+  }
+
+  {  // bottom level selection
+    const std::vector<mvvm::SessionItem*> selection(
+        {child0, parent1, child1, child2, parent2, child3, parent3});
+
+    const std::vector<mvvm::SessionItem*> expected_bottom({child0, child1, child2, child3});
+    EXPECT_EQ(GetBottomLevelSelection(selection), expected_bottom);
+  }
 }
 
 TEST_F(ItemFilterHelperTest, FilterOutChildren)
