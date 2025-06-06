@@ -51,10 +51,23 @@ AbstractTextContentController::AbstractTextContentController(mvvm::SessionItem *
   }
 
   SetupListener();
-  UpdateText();
 }
 
 AbstractTextContentController::~AbstractTextContentController() = default;
+
+void AbstractTextContentController::UpdateText()
+{
+  try
+  {
+    auto str = GenerateText();
+    SendText(str);
+  }
+  catch (const std::exception &ex)
+  {
+    SendText(std::string());
+    SendMessage(ex.what());
+  }
+}
 
 void AbstractTextContentController::SetupListener()
 {
@@ -65,20 +78,6 @@ void AbstractTextContentController::SetupListener()
                                               &AbstractTextContentController::OnDataChangedEvent);
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
       this, &AbstractTextContentController::OnAboutToRemoveItemEvent);
-}
-
-void AbstractTextContentController::UpdateText()
-{
-  try
-  {
-    auto str = GetTextImpl();
-    SendText(str);
-  }
-  catch (const std::exception &ex)
-  {
-    SendText(std::string());
-    SendMessage(ex.what());
-  }
 }
 
 void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)

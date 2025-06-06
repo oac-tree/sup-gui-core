@@ -62,26 +62,28 @@ public:
   AbstractTextContentController(mvvm::SessionItem* container, send_text_func_t send_text_func,
                                 send_message_func_t send_message_func);
 
-  ~AbstractTextContentController();
+  virtual ~AbstractTextContentController();
   AbstractTextContentController(const AbstractTextContentController&) = delete;
   AbstractTextContentController& operator=(const AbstractTextContentController&) = delete;
   AbstractTextContentController(AbstractTextContentController&&) = delete;
   AbstractTextContentController& operator=(AbstractTextContentController&&) = delete;
 
+protected:
+  void UpdateText();
+
 private:
   void SetupListener();
-  void UpdateText();
-  virtual std::string GetTextImpl() = 0;
+  virtual std::string GenerateText() = 0;
   virtual void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
   virtual void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
 
   /**
-   * @brief Notifies the user that JSON generation went wrong.
+   * @brief Notifies the user that text generation went wrong.
    */
   void SendMessage(const std::string& what) const;
 
   /**
-   * @brief Sends JSON to client.
+   * @brief Sends text to the client.
    */
   void SendText(const std::string& str);
 

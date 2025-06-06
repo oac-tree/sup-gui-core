@@ -21,19 +21,7 @@
 #ifndef SUP_GUI_COMPONENTS_JSON_PANEL_CONTROLLER_H_
 #define SUP_GUI_COMPONENTS_JSON_PANEL_CONTROLLER_H_
 
-#include <sup/gui/core/message_event.h>
-
-#include <mvvm/signals/event_types.h>
-
-#include <functional>
-#include <memory>
-#include <optional>
-#include <string>
-
-namespace mvvm
-{
-class ModelListener;
-}
+#include <sup/gui/components/abstract_text_content_controller.h>
 
 namespace sup::gui
 {
@@ -44,23 +32,20 @@ class AnyValueItem;
  * @brief The JsonPanelController class generates JSON representation on AnyValueItem on every
  * change in the model.
  */
-class JsonPanelController
+class JsonPanelController : public AbstractTextContentController
 {
 public:
-  using send_json_func_t = std::function<void(const std::string&)>;
-  using send_message_func_t = std::function<void(const sup::gui::MessageEvent& message)>;
-
   /**
    * @brief Main c-tor.
    *
    * @param container Container with AnyValueItem in it.
-   * @param send_json_func A function to send generated JSON.
+   * @param send_text_func A function to send generated JSON.
    * @param send_message_func A function to report errors.
    */
-  JsonPanelController(mvvm::SessionItem* container, send_json_func_t send_json_func,
+  JsonPanelController(mvvm::SessionItem* container, send_text_func_t send_text_func,
                       send_message_func_t send_message_func);
 
-  ~JsonPanelController();
+  ~JsonPanelController() override;
   JsonPanelController(const JsonPanelController&) = delete;
   JsonPanelController& operator=(const JsonPanelController&) = delete;
   JsonPanelController(JsonPanelController&&) = delete;
@@ -71,29 +56,11 @@ public:
   bool IsPrettyJson() const;
 
 private:
-  void SetupListener();
-  void UpdateJson();
-  void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
-  void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
-
-  /**
-   * @brief Notifies the user that JSON generation went wrong.
-   */
-  void SendMessage(const std::string& what) const;
-
-  /**
-   * @brief Sends JSON to client.
-   */
-  void SendJson(const std::string& str);
-
+  std::string GenerateText() override;
   AnyValueItem* GetAnyValueItem();
 
   mvvm::SessionItem* m_container{nullptr};
-  send_json_func_t m_send_json_func;
-  send_message_func_t m_send_message_func;
-  std::unique_ptr<mvvm::ModelListener> m_listener;
   bool m_pretty_json{false};
-  std::optional<std::string> m_last_send_text;
 };
 
 }  // namespace sup::gui

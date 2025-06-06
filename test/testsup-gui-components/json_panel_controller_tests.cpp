@@ -49,7 +49,7 @@ public:
                                                  m_mock_send_message.AsStdFunction());
   }
 
-  ::testing::MockFunction<JsonPanelController::send_json_func_t> m_mock_send_json;
+  ::testing::MockFunction<JsonPanelController::send_text_func_t> m_mock_send_json;
   ::testing::MockFunction<JsonPanelController::send_message_func_t> m_mock_send_message;
 
   mvvm::ContainerItem* m_container{nullptr};
