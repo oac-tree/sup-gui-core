@@ -161,4 +161,35 @@ TEST_F(JsonPanelControllerTest, CheckErrorMessagesOnScalarTypeChange)
   scalar_item->SetAnyTypeName(sup::dto::kBooleanTypeName);
 }
 
+TEST_F(JsonPanelControllerTest, JsonUpdateOnPrettyChange)
+{
+  auto scalar_item = m_model.InsertItem<AnyValueScalarItem>(m_container, mvvm::TagIndex::Append());
+  scalar_item->SetAnyTypeName(sup::dto::kInt32TypeName);
+
+  const std::string expected_json1(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"int32"}},{"instance":0}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json1)).Times(1);
+  auto controller = CreateController();
+
+  const std::string expected_json2(
+      R"RAW([
+  {
+    "encoding": "sup-dto/v1.0/JSON"
+  },
+  {
+    "datatype": {
+      "type": "int32"
+    }
+  },
+  {
+    "instance": 0
+  }
+])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
+  controller->SetPrettyJson(true);
+}
+
+
 }  // namespace sup::gui::test

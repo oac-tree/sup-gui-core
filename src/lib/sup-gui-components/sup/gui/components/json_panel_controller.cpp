@@ -64,6 +64,7 @@ JsonPanelController::~JsonPanelController() = default;
 void JsonPanelController::SetPrettyJson(bool value)
 {
   m_pretty_json = value;
+  UpdateJson();
 }
 
 void JsonPanelController::SetupListener()

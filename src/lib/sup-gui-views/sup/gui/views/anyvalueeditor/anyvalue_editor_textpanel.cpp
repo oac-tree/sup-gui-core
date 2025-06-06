@@ -99,7 +99,7 @@ void AnyValueEditorTextPanel::SendMessage(const std::string &what) const
 {
   const std::string title("JSON generation failed");
   const std::string text("The AnyValue being edited is in inconsistent state");
-  MessageEvent message{title, text, what, ""};
+  const MessageEvent message{title, text, what, ""};
   m_message_handler->SendMessage(message);
 }
 
