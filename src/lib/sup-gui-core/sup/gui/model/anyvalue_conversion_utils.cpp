@@ -83,7 +83,8 @@ sup::dto::TypeCode GetScalarTypeCode(const std::string& name)
                            [name](const auto& item) { return item.second == name; });
   if (iter == typecode_map.end())
   {
-    throw RuntimeException("Error in TypeCode");
+    throw RuntimeException("Error! Can't find TypeCode corresponding to scalar name [" + name
+                           + "]");
   }
   return iter->first;
 }
@@ -118,11 +119,12 @@ void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item)
 
   if (item.GetAnyTypeName() != value.GetTypeName())
   {
-    (void) item.SetData(mvvm::variant_t());  // it resets data on board and allow to change variant type
+    (void)item.SetData(
+        mvvm::variant_t());  // it resets data on board and allow to change variant type
     item.SetAnyTypeName(value.GetTypeName());
   }
 
-  (void) item.SetData(variant);
+  (void)item.SetData(variant);
 }
 
 sup::dto::AnyValue GetAnyValueFromScalar(const AnyValueItem& item)
