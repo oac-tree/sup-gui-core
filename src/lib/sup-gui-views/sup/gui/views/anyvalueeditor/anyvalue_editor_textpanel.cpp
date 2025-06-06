@@ -20,20 +20,13 @@
 
 #include "anyvalue_editor_textpanel.h"
 
-#include <sup/gui/core/sup_gui_core_exceptions.h>
-#include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_utils.h>
+#include <sup/gui/components/json_panel_controller.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/codeeditor/code_view.h>
 #include <sup/gui/widgets/message_handler_factory.h>
 #include <sup/gui/widgets/visibility_agent_base.h>
 
-#include <mvvm/model/model_utils.h>
-#include <mvvm/signals/model_listener.h>
 #include <mvvm/standarditems/container_item.h>
-
-#include <sup/dto/anyvalue.h>
 
 #include <QAction>
 #include <QCheckBox>
@@ -58,12 +51,8 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent_widget)
 
   SetupActions();
 
-  auto on_subscribe = [this]() { SetupListener(); };
-  auto on_unsubscribe = [this]()
-  {
-    m_listener.reset();
-    m_json_view->ClearText();
-  };
+  auto on_subscribe = [this]() { SetContainerIntern(m_container); };
+  auto on_unsubscribe = [this]() { SetContainerIntern(nullptr); };
   // will be deleted as a child of QObject
   m_visibility_agent = new VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
 }
@@ -72,27 +61,44 @@ AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
 
 void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
 {
+  if (m_container == container)
+  {
+    return;
+  }
+
   m_container = container;
-  if (isVisible())
+
+  if (container && isVisible())
   {
-    SetupListener();
+    SetContainerIntern(m_container);
   }
 }
 
-void AnyValueEditorTextPanel::SetJSONPretty(bool value)
+void AnyValueEditorTextPanel::SetJsonPretty(bool value)
 {
-  if (m_pretty_json != value)
-  {
-    m_pretty_json = value;
-    m_pretty_action->setIcon(m_pretty_json ? utils::FindIcon("checkbox-marked-circle-outline")
-                                           : utils::FindIcon("checkbox-blank-circle-outline"));
-    UpdateJson();
-  }
+  m_panel_controller->SetPrettyJson(value);
+  m_pretty_action->setIcon(value ? utils::FindIcon("checkbox-marked-circle-outline")
+                                 : utils::FindIcon("checkbox-blank-circle-outline"));
 }
 
-mvvm::ISessionModel *AnyValueEditorTextPanel::GetModel()
+void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem *container)
 {
-  return m_container ? m_container->GetModel() : nullptr;
+  if (container)
+  {
+    auto on_json_update = [this](const auto &xml)
+    { m_json_view->SetContent(QString::fromStdString(xml)); };
+
+    auto on_message = [this](const auto &message) { m_message_handler->SendMessage(message); };
+
+    m_panel_controller =
+        std::make_unique<JsonPanelController>(container, on_json_update, on_message);
+    m_panel_controller->SetPrettyJson(true);
+  }
+  else
+  {
+    m_panel_controller.reset();
+    m_json_view->ClearText();
+  }
 }
 
 void AnyValueEditorTextPanel::SendMessage(const std::string &what) const
@@ -109,7 +115,7 @@ void AnyValueEditorTextPanel::SetupActions()
   m_pretty_action->setText("Pretty");
   m_pretty_action->setIcon(utils::FindIcon("checkbox-marked-circle-outline"));
   m_pretty_action->setToolTip("Make JSON pretty");
-  auto on_action = [this]() { SetJSONPretty(!m_pretty_json); };
+  auto on_action = [this]() { SetJsonPretty(!m_panel_controller->IsPrettyJson()); };
   connect(m_pretty_action, &QAction::triggered, this, on_action);
   addAction(m_pretty_action);
 
@@ -120,58 +126,6 @@ void AnyValueEditorTextPanel::SetupActions()
   connect(m_export_action, &QAction::triggered, this,
           &AnyValueEditorTextPanel::ExportToFileRequest);
   addAction(m_export_action);
-}
-
-void AnyValueEditorTextPanel::UpdateJson()
-{
-  if (auto item = GetAnyValueItem(); item)
-  {
-    try
-    {
-      // Current simplified approach calls the method `UpdateJson` on every
-      // model change. If model is inconsistent, CreateAnyValue method will fail.
-
-      auto any_value = sup::gui::CreateAnyValue(*item);
-      auto str = sup::gui::AnyValueToJSONString(any_value, m_pretty_json);
-      m_json_view->SetContent(QString::fromStdString(str));
-    }
-    catch (const std::exception &ex)
-    {
-      m_json_view->ClearText();
-      SendMessage(ex.what());
-    }
-  }
-  else
-  {
-    m_json_view->ClearText();
-  }
-}
-
-void AnyValueEditorTextPanel::SetupListener()
-{
-  if (GetModel())
-  {
-    m_listener = std::make_unique<mvvm::ModelListener>(GetModel());
-
-    m_listener->Connect<mvvm::ModelAboutToBeResetEvent>([this](auto)
-                                                        { SetAnyValueItemContainer(nullptr); });
-
-    m_listener->Connect<mvvm::DataChangedEvent>([this](auto) { UpdateJson(); });
-    m_listener->Connect<mvvm::ItemInsertedEvent>([this](auto) { UpdateJson(); });
-    m_listener->Connect<mvvm::ItemRemovedEvent>([this](auto) { UpdateJson(); });
-
-    UpdateJson();
-  }
-}
-
-AnyValueItem *AnyValueEditorTextPanel::GetAnyValueItem()
-{
-  if (!m_container || m_container->GetTotalItemCount() == 0)
-  {
-    return nullptr;
-  }
-
-  return m_container->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0));
 }
 
 }  // namespace sup::gui

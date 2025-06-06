@@ -23,15 +23,12 @@
 
 #include <QWidget>
 
-class QTextEdit;
 class QAction;
 class QToolButton;
 
 namespace mvvm
 {
-class ISessionModel;
 class SessionItem;
-class ModelListener;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -41,6 +38,7 @@ class CodeView;
 class VisibilityAgentBase;
 class AnyValueItem;
 class IMessageHandler;
+class JsonPanelController;
 
 /**
  * @brief The AnyValueEditorTextPanel class represents a collapsible panel on the right of
@@ -59,29 +57,24 @@ public:
    */
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
-  void SetJSONPretty(bool value);
+  void SetJsonPretty(bool value);
 
 signals:
   void ExportToFileRequest();
 
 private:
-  mvvm::ISessionModel* GetModel();
+  void SetContainerIntern(mvvm::SessionItem* container);
   void SendMessage(const std::string& what) const;
-
   void SetupActions();
-  void UpdateJson();
-  void SetupListener();
-  AnyValueItem* GetAnyValueItem();
 
   QAction* m_export_action{nullptr};
   QAction* m_pretty_action{nullptr};
 
   CodeView* m_json_view{nullptr};
   mvvm::SessionItem* m_container{nullptr};
-  std::unique_ptr<mvvm::ModelListener> m_listener;
-  bool m_pretty_json{true};
   VisibilityAgentBase* m_visibility_agent{nullptr};
   std::unique_ptr<IMessageHandler> m_message_handler;
+  std::unique_ptr<JsonPanelController> m_panel_controller;
 };
 
 }  // namespace sup::gui

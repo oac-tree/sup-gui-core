@@ -67,6 +67,11 @@ void JsonPanelController::SetPrettyJson(bool value)
   UpdateJson();
 }
 
+bool JsonPanelController::IsPrettyJson() const
+{
+  return m_pretty_json;
+}
+
 void JsonPanelController::SetupListener()
 {
   m_listener = std::make_unique<mvvm::ModelListener>(m_container->GetModel());

@@ -27,8 +27,8 @@
 
 #include <functional>
 #include <memory>
-#include <string>
 #include <optional>
+#include <string>
 
 namespace mvvm
 {
@@ -67,6 +67,8 @@ public:
   JsonPanelController& operator=(JsonPanelController&&) = delete;
 
   void SetPrettyJson(bool value);
+
+  bool IsPrettyJson() const;
 
 private:
   void SetupListener();
