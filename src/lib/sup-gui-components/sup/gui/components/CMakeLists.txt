@@ -1,4 +1,6 @@
 target_sources(${library_name} PRIVATE
+  abstract_text_content_controller.cpp
+  abstract_text_content_controller.h
   action_map.h
   anyvalue_editor_action_handler.cpp
   anyvalue_editor_action_handler.h

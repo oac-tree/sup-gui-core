@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_JSON_PANEL_CONTROLLER_H_
-#define SUP_GUI_COMPONENTS_JSON_PANEL_CONTROLLER_H_
+#ifndef SUP_GUI_COMPONENTS_ABSTRACT_TEXT_CONTENT_CONTROLLER_H_
+#define SUP_GUI_COMPONENTS_ABSTRACT_TEXT_CONTENT_CONTROLLER_H_
 
 #include <sup/gui/core/message_event.h>
 
@@ -32,49 +32,48 @@
 
 namespace mvvm
 {
+class SessionItem;
 class ModelListener;
-}
+}  // namespace mvvm
 
 namespace sup::gui
 {
 
-class AnyValueItem;
-
 /**
- * @brief The JsonPanelController class generates JSON representation on AnyValueItem on every
- * change in the model.
+ * @brief The AbstractTextContentController partially implements functionality for all JSON/XML
+ * generators.
+ *
+ * It listens for updates in SessionModel and send to the user its representation (Sequencer's XML,
+ * or AnyValue's JSON).
  */
-class JsonPanelController
+class AbstractTextContentController
 {
 public:
-  using send_json_func_t = std::function<void(const std::string&)>;
+  using send_text_func_t = std::function<void(const std::string&)>;
   using send_message_func_t = std::function<void(const sup::gui::MessageEvent& message)>;
 
   /**
    * @brief Main c-tor.
    *
-   * @param container Container with AnyValueItem in it.
-   * @param send_json_func A function to send generated JSON.
+   * @param container COntainer containing our object of interest.
+   * @param send_text_func A function to send generated text.
    * @param send_message_func A function to report errors.
    */
-  JsonPanelController(mvvm::SessionItem* container, send_json_func_t send_json_func,
-                      send_message_func_t send_message_func);
+  AbstractTextContentController(mvvm::SessionItem* container, send_text_func_t send_text_func,
+                                send_message_func_t send_message_func);
 
-  ~JsonPanelController();
-  JsonPanelController(const JsonPanelController&) = delete;
-  JsonPanelController& operator=(const JsonPanelController&) = delete;
-  JsonPanelController(JsonPanelController&&) = delete;
-  JsonPanelController& operator=(JsonPanelController&&) = delete;
-
-  void SetPrettyJson(bool value);
-
-  bool IsPrettyJson() const;
+  ~AbstractTextContentController();
+  AbstractTextContentController(const AbstractTextContentController&) = delete;
+  AbstractTextContentController& operator=(const AbstractTextContentController&) = delete;
+  AbstractTextContentController(AbstractTextContentController&&) = delete;
+  AbstractTextContentController& operator=(AbstractTextContentController&&) = delete;
 
 private:
   void SetupListener();
-  void UpdateJson();
-  void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
-  void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
+  void UpdateText();
+  virtual std::string GetTextImpl() = 0;
+  virtual void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
+  virtual void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
 
   /**
    * @brief Notifies the user that JSON generation went wrong.
@@ -84,18 +83,15 @@ private:
   /**
    * @brief Sends JSON to client.
    */
-  void SendJson(const std::string& str);
-
-  AnyValueItem* GetAnyValueItem();
+  void SendText(const std::string& str);
 
   mvvm::SessionItem* m_container{nullptr};
-  send_json_func_t m_send_json_func;
+  send_text_func_t m_send_text_func;
   send_message_func_t m_send_message_func;
   std::unique_ptr<mvvm::ModelListener> m_listener;
-  bool m_pretty_json{false};
   std::optional<std::string> m_last_send_text;
 };
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_JSON_PANEL_CONTROLLER_H_
+#endif  // SUP_GUI_COMPONENTS_ABSTRACT_TEXT_CONTENT_CONTROLLER_H_
