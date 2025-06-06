@@ -172,12 +172,13 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
                                                        const std::string& field_type,
                                                        const mvvm::variant_t& value)
 {
-  auto child = InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
+  auto child = std::make_unique<AnyValueScalarItem>();
   child->SetAnyTypeName(field_type);
   child->SetData(value);
   child->SetDisplayName(field_name);
-  child->SetToolTip(field_type);
-  return child;
+  auto child_ptr = child.get();
+  (void)InsertItem(std::move(child), mvvm::TagIndex::Append());
+  return child_ptr;
 }
 
 std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
