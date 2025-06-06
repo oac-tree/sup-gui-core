@@ -27,6 +27,8 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/container_item.h>
 
+#include <sup/dto/anytype.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -73,7 +75,7 @@ TEST_F(JsonPanelControllerTest, NotificationOnContainerRemoval)
   EXPECT_CALL(m_mock_send_json, Call(::testing::_)).Times(1);
   auto controller = CreateController();
 
-  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(0);
   m_model.RemoveItem(m_container);
 }
 
@@ -129,6 +131,34 @@ TEST_F(JsonPanelControllerTest, JsonUpdateOnScalarInsert)
       R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"struct","attributes":[]}},{"instance":{}}])RAW");
   EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
   struct_item->SetAnyTypeName("struct");
+}
+
+TEST_F(JsonPanelControllerTest, CheckErrorMessagesOnScalarTypeChange)
+{
+  auto scalar_item = m_model.InsertItem<AnyValueScalarItem>(m_container, mvvm::TagIndex::Append());
+  scalar_item->SetAnyTypeName(sup::dto::kInt32TypeName);
+
+  const std::string expected_json1(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"int32"}},{"instance":0}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json1)).Times(1);
+  auto controller = CreateController();
+
+  // changing type
+  const std::string expected_json2(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"bool"}},{"instance":false}])RAW");
+
+  {
+    const ::testing::InSequence seq;
+
+    // old variant vas replaced with empty variant, that triggered a failure in sup::gui::CreateAnyValue
+    EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+    EXPECT_CALL(m_mock_send_message, Call(::testing::_)).Times(1);
+
+    // empty variant was replaced with bool variant
+    EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
+  }
+  scalar_item->SetAnyTypeName(sup::dto::kBooleanTypeName);
 }
 
 }  // namespace sup::gui::test

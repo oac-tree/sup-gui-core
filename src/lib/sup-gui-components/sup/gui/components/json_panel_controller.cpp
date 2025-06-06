@@ -22,8 +22,8 @@
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
-#include <sup/gui/model/anyvalue_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/signals/model_listener.h>
@@ -87,24 +87,27 @@ void JsonPanelController::UpdateJson()
 
       auto any_value = sup::gui::CreateAnyValue(*item);
       auto str = sup::gui::AnyValueToJSONString(any_value, m_pretty_json);
-      m_send_json_func(str);
+      SendJson(str);
     }
     catch (const std::exception &ex)
     {
-      m_send_json_func(std::string());
+      SendJson(std::string());
       SendMessage(ex.what());
     }
   }
   else
   {
-    m_send_json_func(std::string());
+    SendJson(std::string());
   }
 }
 
 void JsonPanelController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)
 {
   (void)event;
-  UpdateJson();
+  if (event.data_role == mvvm::DataRole::kData)
+  {
+    UpdateJson();
+  }
 }
 
 void JsonPanelController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent &event)
@@ -112,7 +115,7 @@ void JsonPanelController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItem
   if (event.item->GetItem(event.tag_index) == m_container)
   {
     // container was deleted, stopping listening
-    m_send_json_func(std::string());
+    SendJson(std::string());
     m_container = nullptr;
     m_listener.reset();
   }
@@ -124,6 +127,18 @@ void JsonPanelController::SendMessage(const std::string &what) const
   const std::string text("The AnyValue being edited is in inconsistent state");
   const MessageEvent message{title, text, what, ""};
   m_send_message_func(message);
+}
+
+void JsonPanelController::SendJson(const std::string &str)
+{
+  // do not notify if we already send exactly same last time
+  if (m_last_send_text.has_value() && m_last_send_text == str)
+  {
+    return;
+  }
+
+  m_last_send_text = str;
+  m_send_json_func(str);
 }
 
 AnyValueItem *JsonPanelController::GetAnyValueItem()

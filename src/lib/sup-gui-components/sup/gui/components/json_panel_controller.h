@@ -28,6 +28,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <optional>
 
 namespace mvvm
 {
@@ -78,6 +79,11 @@ private:
    */
   void SendMessage(const std::string& what) const;
 
+  /**
+   * @brief Sends JSON to client.
+   */
+  void SendJson(const std::string& str);
+
   AnyValueItem* GetAnyValueItem();
 
   mvvm::SessionItem* m_container{nullptr};
@@ -85,6 +91,7 @@ private:
   send_message_func_t m_send_message_func;
   std::unique_ptr<mvvm::ModelListener> m_listener;
   bool m_pretty_json{false};
+  std::optional<std::string> m_last_send_text;
 };
 
 }  // namespace sup::gui

@@ -109,4 +109,4 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
   }
 }
 
-}
+}  // namespace sup::gui::test
