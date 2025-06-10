@@ -29,7 +29,6 @@
 
 #include <QSplitter>
 #include <QTest>
-#include <cstdlib>
 
 namespace sup::gui::test
 {
@@ -47,7 +46,7 @@ public:
 //! Checking that Qt5 setup can handle QList<int>
 TEST_F(CustomSplitterControllerTest, VariantForList)
 {
-  QList<int> list{{1, 2, 3}};
+  const QList<int> list{{1, 2, 3}};
 
   auto variant1 = QVariant::fromValue(list);
   auto variant2 = QVariant::fromValue(list);
@@ -127,7 +126,7 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 
   const auto expected_splitter_state = QVariant::fromValue(splitter.saveState());
   // two flags denoting widget visibility
-  QVariant expected_children_state = QVariant::fromValue(QList<int>({1, 1}));
+  const QVariant expected_children_state = QVariant::fromValue(QList<int>({1, 1}));
 
   EXPECT_CALL(m_mock_write_func, Call(controller.GetMainStateKey(), expected_splitter_state))
       .Times(1);
@@ -167,7 +166,7 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgetsWhenOneI
 
   const auto expected_splitter_state = QVariant::fromValue(splitter.saveState());
   // two flags denoting widget visibility
-  QVariant expected_children_state = QVariant::fromValue(QList<int>({1, 0}));
+  const QVariant expected_children_state = QVariant::fromValue(QList<int>({1, 0}));
 
   EXPECT_CALL(m_mock_write_func, Call(controller.GetMainStateKey(), expected_splitter_state))
       .Times(1);
@@ -237,7 +236,6 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
     auto widget2 = new QWidget;
 
     QSplitter splitter;
-    const QString group_name("abc");
 
     splitter.addWidget(widget1);
     splitter.addWidget(widget2);
@@ -273,7 +271,7 @@ TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
   // restoring new splitter using the state of old splitter
   CustomSplitterController controller(group_name, &splitter);
 
-  QList<int> flags({1, 0});  // pretending second widget is hidden
+  const QList<int> flags({1, 0});  // pretending second widget is hidden
 
   // setting up callbacks so they returns widget settings and splitter state
   ON_CALL(m_mock_read_func, Call(controller.GetMainStateKey()))

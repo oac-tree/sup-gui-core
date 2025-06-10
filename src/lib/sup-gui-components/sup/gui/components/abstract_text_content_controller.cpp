@@ -64,13 +64,13 @@ void AbstractTextContentController::UpdateText()
   }
   catch (const std::exception &ex)
   {
+    m_last_send_text = {};
     SendExceptionMessage(ex.what());
   }
 }
 
 void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)
 {
-  (void)event;
   if (event.data_role == mvvm::DataRole::kData || event.data_role == mvvm::DataRole::kDisplay)
   {
     UpdateText();
