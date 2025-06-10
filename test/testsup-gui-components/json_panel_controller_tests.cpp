@@ -151,8 +151,8 @@ TEST_F(JsonPanelControllerTest, CheckErrorMessagesOnScalarTypeChange)
   {
     const ::testing::InSequence seq;
 
-    // old variant vas replaced with empty variant, that triggered a failure in sup::gui::CreateAnyValue
-    EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+    // old variant vas replaced with empty variant, that triggered a failure in
+    // sup::gui::CreateAnyValue
     EXPECT_CALL(m_mock_send_message, Call(::testing::_)).Times(1);
 
     // empty variant was replaced with bool variant
@@ -190,6 +190,5 @@ TEST_F(JsonPanelControllerTest, JsonUpdateOnPrettyChange)
   EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
   controller->SetPrettyJson(true);
 }
-
 
 }  // namespace sup::gui::test

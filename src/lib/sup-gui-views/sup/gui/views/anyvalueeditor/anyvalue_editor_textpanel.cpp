@@ -88,7 +88,11 @@ void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem *container)
     auto on_json_update = [this](const auto &xml)
     { m_json_view->SetContent(QString::fromStdString(xml)); };
 
-    auto on_message = [this](const auto &message) { m_message_handler->SendMessage(message); };
+    auto on_message = [this](const auto &message)
+    {
+      m_json_view->ClearText();
+      m_message_handler->SendMessage(message);
+    };
 
     m_panel_controller =
         std::make_unique<JsonPanelController>(container, on_json_update, on_message);

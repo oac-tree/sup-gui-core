@@ -64,7 +64,6 @@ void AbstractTextContentController::UpdateText()
   }
   catch (const std::exception &ex)
   {
-    SendText(std::string());
     SendMessage(ex.what());
   }
 }
