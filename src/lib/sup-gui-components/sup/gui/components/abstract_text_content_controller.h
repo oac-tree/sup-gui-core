@@ -78,9 +78,14 @@ private:
   virtual std::string GenerateText() = 0;
 
   /**
-   * @brief Notifies the user that text generation went wrong.
+   * @brief Sends exception message.
    */
-  void SendMessage(const std::string& what) const;
+  virtual void SendExceptionMessage(const std::string& what) const;
+
+  /**
+   * @brief Sends given message using a callback.
+   */
+  void SendMessage(const MessageEvent& message) const;
 
   /**
    * @brief Sends text to the client.

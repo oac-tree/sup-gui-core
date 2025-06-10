@@ -1,5 +1,6 @@
 Changes for 1.9.0:
 
+- Implement AbstractTextContentController to generate HSON/XML model representation
 - Enable field edit right after AnyValue was inserted in a struct
 - Implement helper functions to center view to bottom level selection
 - Allow to change scalar type after its creation via combo selector

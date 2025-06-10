@@ -64,7 +64,7 @@ void AbstractTextContentController::UpdateText()
   }
   catch (const std::exception &ex)
   {
-    SendMessage(ex.what());
+    SendExceptionMessage(ex.what());
   }
 }
 
@@ -100,11 +100,16 @@ void AbstractTextContentController::SetupListener()
       this, &AbstractTextContentController::OnAboutToRemoveItemEvent);
 }
 
-void AbstractTextContentController::SendMessage(const std::string &what) const
+void AbstractTextContentController::SendExceptionMessage(const std::string &what) const
 {
-  const std::string title("JSON generation failed");
-  const std::string text("The AnyValue being edited is in inconsistent state");
+  const std::string title("Text generation failed");
+  const std::string text("The model is in inconsistent state");
   const MessageEvent message{title, text, what, ""};
+  SendMessage(message);
+}
+
+void AbstractTextContentController::SendMessage(const MessageEvent &message) const
+{
   m_send_message_func(message);
 }
 
