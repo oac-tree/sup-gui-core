@@ -68,17 +68,6 @@ void AbstractTextContentController::UpdateText()
   }
 }
 
-void AbstractTextContentController::SetupListener()
-{
-  m_listener = std::make_unique<mvvm::ModelListener>(m_container->GetModel());
-  m_listener->Connect<mvvm::ItemRemovedEvent>([this](const auto &) { UpdateText(); });
-  m_listener->Connect<mvvm::ItemInsertedEvent>([this](const auto &) { UpdateText(); });
-  m_listener->Connect<mvvm::DataChangedEvent>(this,
-                                              &AbstractTextContentController::OnDataChangedEvent);
-  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
-      this, &AbstractTextContentController::OnAboutToRemoveItemEvent);
-}
-
 void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)
 {
   (void)event;
@@ -98,6 +87,17 @@ void AbstractTextContentController::OnAboutToRemoveItemEvent(
     m_container = nullptr;
     m_listener.reset();
   }
+}
+
+void AbstractTextContentController::SetupListener()
+{
+  m_listener = std::make_unique<mvvm::ModelListener>(m_container->GetModel());
+  m_listener->Connect<mvvm::ItemRemovedEvent>([this](const auto &) { UpdateText(); });
+  m_listener->Connect<mvvm::ItemInsertedEvent>([this](const auto &) { UpdateText(); });
+  m_listener->Connect<mvvm::DataChangedEvent>(this,
+                                              &AbstractTextContentController::OnDataChangedEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
+      this, &AbstractTextContentController::OnAboutToRemoveItemEvent);
 }
 
 void AbstractTextContentController::SendMessage(const std::string &what) const

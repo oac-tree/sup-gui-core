@@ -70,12 +70,12 @@ public:
 
 protected:
   void UpdateText();
+  virtual void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
+  virtual void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
 
 private:
   void SetupListener();
   virtual std::string GenerateText() = 0;
-  virtual void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
-  virtual void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
 
   /**
    * @brief Notifies the user that text generation went wrong.
