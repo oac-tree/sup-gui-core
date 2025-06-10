@@ -23,7 +23,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 #include <sup/dto/anytype.h>
 

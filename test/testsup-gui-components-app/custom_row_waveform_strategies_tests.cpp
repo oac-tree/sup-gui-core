@@ -22,7 +22,7 @@
 
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/point_item.h>
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 #include <gtest/gtest.h>
 

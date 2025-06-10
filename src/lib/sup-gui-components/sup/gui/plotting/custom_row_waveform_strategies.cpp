@@ -21,8 +21,8 @@
 #include "custom_row_waveform_strategies.h"
 
 #include <mvvm/standarditems/point_item.h>
+#include <mvvm/viewmodel/viewitem.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
-#include <mvvm/viewmodelbase/viewitem.h>
 
 #include <stdexcept>
 

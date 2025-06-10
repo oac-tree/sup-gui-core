@@ -24,7 +24,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/viewmodel/viewitem_factory.h>
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 #include <QColor>
 
