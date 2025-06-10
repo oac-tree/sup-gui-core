@@ -42,6 +42,10 @@ class WarningSignWidget : public QWidget
 public:
   explicit WarningSignWidget(const MessageEvent& message, QWidget* parent_widget = nullptr);
 
+  /**
+   * @brief Checks if there is some activity (e.g. opened QMessageBox) associated with this warning
+   * sign.
+   */
   bool IsBusy() const;
 
 protected:

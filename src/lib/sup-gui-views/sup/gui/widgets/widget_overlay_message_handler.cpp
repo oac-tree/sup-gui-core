@@ -37,6 +37,9 @@ void WidgetOverlayMessageHandler::SendMessage(const sup::gui::MessageEvent &mess
   m_message_publisher->AddMessage(message);
 }
 
-void WidgetOverlayMessageHandler::ClearMessages() {}
+void WidgetOverlayMessageHandler::ClearMessages()
+{
+  m_message_publisher->ClearMessages();
+}
 
 }  // namespace sup::gui

@@ -86,7 +86,10 @@ void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem *container)
   if (container)
   {
     auto on_json_update = [this](const auto &xml)
-    { m_json_view->SetContent(QString::fromStdString(xml)); };
+    {
+      m_message_handler->ClearMessages();
+      m_json_view->SetContent(QString::fromStdString(xml));
+    };
 
     auto on_message = [this](const auto &message)
     {

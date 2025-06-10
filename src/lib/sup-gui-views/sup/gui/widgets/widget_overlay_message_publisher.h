@@ -26,6 +26,8 @@
 #include <QObject>
 #include <memory>
 
+#include <cstdint>
+
 class QWidget;
 class QTimer;
 
@@ -45,17 +47,29 @@ class WidgetOverlayMessagePublisher : public QObject
   Q_OBJECT
 
 public:
+  /**
+   * @brief C-tor for widget publisher, which shows the message until ClearMessages is called.
+   */
   explicit WidgetOverlayMessagePublisher(QWidget* target_widget);
+
+  /**
+   * @brief C-tor for widget publisher, which shows the message for the given time.
+   */
+  WidgetOverlayMessagePublisher(QWidget* target_widget, std::int32_t timeout_msec);
+
   ~WidgetOverlayMessagePublisher() override;
 
   void AddMessage(const MessageEvent& message);
 
+  void ClearMessages();
+
 private:
   void RemoveMessageOnTimeout();
+  std::unique_ptr<QTimer> CreateTimer(std::int32_t timeout_msec);
 
   QWidget* m_target_widget{nullptr};
   std::unique_ptr<OverlayMessage> m_message;
-  QTimer* m_timer{nullptr};
+  std::unique_ptr<QTimer> m_timer;
 };
 
 }  // namespace sup::gui

@@ -24,21 +24,18 @@
 
 #include <QTimer>
 
-namespace
-{
-const int kShowMessageDuringMsec = 5000;
-}
-
 namespace sup::gui
 {
 
-WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(QWidget *widget)
-    : m_target_widget(widget), m_timer(new QTimer(this))
+WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(QWidget *target_widget)
+    : m_target_widget(target_widget)
 {
-  m_timer->setSingleShot(true);
-  m_timer->setInterval(kShowMessageDuringMsec);
-  QObject::connect(m_timer, &QTimer::timeout, this,
-                   &WidgetOverlayMessagePublisher::RemoveMessageOnTimeout);
+}
+
+WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(QWidget *target_widget,
+                                                             int32_t timeout_msec)
+    : m_target_widget(target_widget), m_timer(CreateTimer(timeout_msec))
+{
 }
 
 WidgetOverlayMessagePublisher::~WidgetOverlayMessagePublisher() = default;
@@ -48,12 +45,20 @@ void WidgetOverlayMessagePublisher::AddMessage(const MessageEvent &message)
   // in the current implementation new message replaces the old one
   m_message = std::make_unique<OverlayMessage>(message, m_target_widget);
 
-  m_timer->start();  // starting timer to delete a message after a while
+  if (m_timer)
+  {
+    m_timer->start();  // starting timer to delete a message after a while
+  }
+}
+
+void WidgetOverlayMessagePublisher::ClearMessages()
+{
+  m_message.reset();
 }
 
 void WidgetOverlayMessagePublisher::RemoveMessageOnTimeout()
 {
-  if (m_message->CanBeDeleted())
+  if (m_message && m_message->CanBeDeleted())
   {
     m_message.reset();
   }
@@ -62,6 +67,16 @@ void WidgetOverlayMessagePublisher::RemoveMessageOnTimeout()
     // if message can't be deleted now, repeat attempt
     m_timer->start();
   }
+}
+
+std::unique_ptr<QTimer> WidgetOverlayMessagePublisher::CreateTimer(int32_t timeout_msec)
+{
+  auto result = std::make_unique<QTimer>();
+  result->setSingleShot(true);
+  result->setInterval(timeout_msec);
+  QObject::connect(result.get(), &QTimer::timeout, this,
+                   &WidgetOverlayMessagePublisher::RemoveMessageOnTimeout);
+  return result;
 }
 
 }  // namespace sup::gui
