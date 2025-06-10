@@ -33,9 +33,19 @@ void StdMessageHandler::SendMessage(const MessageEvent &message)
   std::cout << message.detailed << "\n";
 }
 
+void StdMessageHandler::ClearMessages()
+{
+  // nothing to do
+}
+
 void NullMessageHandler::SendMessage(const MessageEvent &message)
 {
   (void)message;
+}
+
+void NullMessageHandler::ClearMessages()
+{
+   // nothing to do
 }
 
 }  // namespace sup::gui

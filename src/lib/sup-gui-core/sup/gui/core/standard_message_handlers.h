@@ -37,6 +37,7 @@ class StdMessageHandler : public IMessageHandler
 {
 public:
   void SendMessage(const MessageEvent& message) override;
+  void ClearMessages() override;
 };
 
 /**
@@ -46,6 +47,7 @@ class NullMessageHandler : public IMessageHandler
 {
 public:
   void SendMessage(const MessageEvent& message) override;
+  void ClearMessages() override;
 };
 
 /**
@@ -57,6 +59,7 @@ class ThrowingMessageHandler : public IMessageHandler
 {
 public:
   void SendMessage(const MessageEvent& message) override { throw T(message.detailed); }
+  void ClearMessages() override {}
 };
 
 }  // namespace sup::gui

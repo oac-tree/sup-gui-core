@@ -42,6 +42,8 @@ public:
 
   void SendMessage(const MessageEvent& message) override;
 
+  void ClearMessages() override;
+
 private:
   IMessageHandler* m_component{nullptr};
 };

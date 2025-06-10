@@ -32,7 +32,8 @@ public:
   class MockMessageHandler : public IMessageHandler
   {
   public:
-    MOCK_METHOD(void, SendMessage, (const MessageEvent& message), ());
+    MOCK_METHOD(void, SendMessage, (const MessageEvent& message), (override));
+    MOCK_METHOD(void, ClearMessages, (), (override));
   };
 };
 
@@ -44,6 +45,9 @@ TEST_F(MessageHandlerDecoratorTest, Decorate)
 
   MessageHandlerDecorator decorator(&mock_handler);
   decorator.SendMessage(MessageEvent{});
+
+  EXPECT_CALL(mock_handler, ClearMessages()).Times(1);
+  decorator.ClearMessages();
 }
 
 }  // namespace sup::gui::test

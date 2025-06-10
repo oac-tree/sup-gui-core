@@ -43,6 +43,8 @@ public:
   IMessageHandler& operator=(IMessageHandler&&) = delete;
 
   virtual void SendMessage(const MessageEvent& message) = 0;
+
+  virtual void ClearMessages() = 0;
 };
 
 }  // namespace sup::gui

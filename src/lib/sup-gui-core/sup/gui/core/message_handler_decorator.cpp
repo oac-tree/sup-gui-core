@@ -28,8 +28,7 @@ MessageHandlerDecorator::MessageHandlerDecorator(IMessageHandler *component)
 {
 }
 
-std::unique_ptr<IMessageHandler> MessageHandlerDecorator::Create(
-    IMessageHandler *component)
+std::unique_ptr<IMessageHandler> MessageHandlerDecorator::Create(IMessageHandler *component)
 {
   return std::make_unique<MessageHandlerDecorator>(component);
 }
@@ -37,6 +36,11 @@ std::unique_ptr<IMessageHandler> MessageHandlerDecorator::Create(
 void MessageHandlerDecorator::SendMessage(const MessageEvent &message)
 {
   m_component->SendMessage(message);
+}
+
+void MessageHandlerDecorator::ClearMessages()
+{
+  m_component->ClearMessages();
 }
 
 }  // namespace sup::gui

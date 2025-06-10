@@ -43,6 +43,8 @@ public:
 
   void SendMessage(const sup::gui::MessageEvent& message) override;
 
+  void ClearMessages() override;
+
 private:
   std::unique_ptr<WidgetOverlayMessagePublisher> m_message_publisher;
 };
