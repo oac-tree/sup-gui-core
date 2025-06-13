@@ -58,7 +58,7 @@ void UpdateParentDataToType(const std::string& type_name, mvvm::SessionItem* par
 
 ScalarTypePropertyItem::ScalarTypePropertyItem() : mvvm::SessionItem(GetStaticType())
 {
-  // by default it has no data and no scalar type
+  SetStrategy(this, &ScalarTypePropertyItem::OnSetData);
 }
 
 std::unique_ptr<mvvm::SessionItem> ScalarTypePropertyItem::Clone() const
@@ -80,16 +80,25 @@ void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string& type
 {
   auto combo_value = GetScalarTypeCombo();
   combo_value.SetValue(type_name);
+
+  // will also trigger the scalar value on board of parent's AnyValueItem via connected strategy
   SetData(combo_value);
 }
 
-bool ScalarTypePropertyItem::SetDataInternal(const mvvm::variant_t& value, int32_t role)
+bool ScalarTypePropertyItem::OnSetData(mvvm::SessionItem* item, const mvvm::variant_t& value,
+                                       int32_t role)
 {
+  // We are here because of the installed custom data strategy. Initial request was triggered by
+  // the ComboProperty cell editor.
+
   mvvm::utils::BeginMacro(*this, "Change scalar type");
-  auto result = mvvm::SessionItem::SetDataInternal(value, role);
+
+  // change own combo property value
+  auto result = mvvm::utils::SetData(*item, value, role);
 
   if (role == mvvm::DataRole::kData)
   {
+    // update value of a scalar
     UpdateParentDataToType(GetScalarTypeName(), GetParent());
   }
 

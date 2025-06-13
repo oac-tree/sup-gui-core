@@ -31,6 +31,8 @@ namespace sup::gui
  *
  * It allows to change the type of the scalar via combo box, by clicking on corresponding cell of
  * the tree or table.
+ *
+ * Default constructed ScalarTypePropertyItem doesn't have any scalar type defined.
  */
 class ScalarTypePropertyItem : public mvvm::SessionItem
 {
@@ -45,8 +47,12 @@ public:
 
   void SetScalarTypeName(const std::string& type_name);
 
-  bool SetDataInternal(const mvvm::variant_t& value, std::int32_t role) override;
-
+private:
+  /**
+   * @brief Custom strategy to update data (combo type selector) and the value of AnyValueItem
+   * parent.
+   */
+  bool OnSetData(mvvm::SessionItem* item, const mvvm::variant_t& value, std::int32_t role);
 };
 
 }  // namespace sup::gui
