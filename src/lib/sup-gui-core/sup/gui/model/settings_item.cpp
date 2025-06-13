@@ -52,12 +52,11 @@ bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t 
   const bool result = mvvm::utils::SetData(*property, variant, role);
 
   // enable/disable property depending on undo flag value
-  GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
+  GetItem(constants::kUndoLimitSetting)->SetEnabled(std::get<bool>(variant));
 
   mvvm::utils::EndMacro(*this);
 
   return result;
-  GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
 }
 
 std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
