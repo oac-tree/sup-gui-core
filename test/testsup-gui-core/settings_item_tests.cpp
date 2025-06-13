@@ -38,8 +38,7 @@ class SettingsItemTest : public testing::Test
 
 //! We validate that changing a boolean stored in "Enable undo/redo" setting will
 //! automatically mark "Undo limit" setting as disabled.
-// FIXME enable after Activate refactoring
-TEST_F(SettingsItemTest, DISABLED_CommonSettingsItemActivate)
+TEST_F(SettingsItemTest, CommonSettingsItemActivate)
 {
   mvvm::ApplicationModel model;
 

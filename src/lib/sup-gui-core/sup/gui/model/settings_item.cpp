@@ -22,7 +22,7 @@
 
 #include "settings_constants.h"
 
-#include <mvvm/signals/item_connect.h>
+#include <mvvm/model/item_utils.h>
 
 namespace sup::gui
 {
@@ -32,7 +32,8 @@ CommonSettingsItem::CommonSettingsItem() : CompoundItem(GetStaticType())
   (void)SetDisplayName("Common Settings");
 
   (void)AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
-      .SetDisplayName("Enable undo/redo");
+      .SetDisplayName("Enable undo/redo")
+      .SetStrategy(this, &CommonSettingsItem::OnSetFlag);
   (void)AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
       .SetDisplayName("Undo limit");
 }
@@ -42,22 +43,26 @@ std::string CommonSettingsItem::GetStaticType()
   return "CommonSettings";
 }
 
+bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t &variant,
+                                   mvvm::role_t role)
+{
+  mvvm::utils::BeginMacro(*this, "SetAvailableFlag");
+
+  // propagate value to "undo flag" itself
+  const bool result = mvvm::utils::SetData(*property, variant, role);
+
+  // enable/disable property depending on undo flag value
+  GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
+
+  mvvm::utils::EndMacro(*this);
+
+  return result;
+  GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
+}
+
 std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
 {
   return std::make_unique<CommonSettingsItem>(*this);
-}
-
-void CommonSettingsItem::Activate()
-{
-  // FIXME enable after Activate refactoring
-  // // Enable/disable property "Undo limit" when property "Enable undo/redo" changes
-  // auto on_property_changed = [this](const mvvm::DataChangedEvent&)
-  // {
-  //   GetItem(constants::kUndoLimitSetting)->SetEnabled(Property<bool>(constants::kUseUndoSetting));
-  // };
-
-  // mvvm::connect::Connect<mvvm::DataChangedEvent>(
-  //     /*source*/ GetItem(constants::kUseUndoSetting), on_property_changed, GetSlot());
 }
 
 }  // namespace sup::gui

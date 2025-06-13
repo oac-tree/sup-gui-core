@@ -45,11 +45,12 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
+private:
   /**
-   * @details Activates listening on own properties change. It will enable/disable status of undo
-   * limit property, when undo flag changes.
+   * @brief Custom data strategy to enable/disabled status of "undo limits" property when
+   * "undo flag" changes.
    */
-  void Activate() override;
+  bool OnSetFlag(SessionItem* property, const mvvm::variant_t& variant, mvvm::role_t role);
 };
 
 }  // namespace sup::gui
