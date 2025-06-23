@@ -478,20 +478,16 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 };
 
-//! Attempt to add a scalar as an array element when array is containing diffierent scalar types.
-// FIXME test is failing because we are now allow mixing elements of different type inside of an
-// array. Will be refactored soon.
-TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTypeMismath)
+TEST_F(AnyValueEditorActionHandlerTest, AddScalarToArrayWhenTypeMismath)
 {
   auto parent =
       m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
-  m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent)->SetAnyTypeName(
-      sup::dto::kInt32TypeName);
+  auto element0 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element0->SetAnyTypeName(sup::dto::kInt32TypeName);
 
   // creating action handler for the context, when parent is selected
-  auto handler = CreateActionHandler({parent});
+  auto handler = CreateActionHandler({element0});
 
-  // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
@@ -501,14 +497,10 @@ TEST_F(AnyValueEditorActionHandlerTest, DISABLED_AttemptToAddScalarToArrayWhenTy
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
-  // expecting error callback
-  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
-
-  // attempt to add mismatching type
+  // We allow adding mixed types to the array. We assume, that user will fix them before the use.
   handler->InsertAnyValueItemAfter(sup::dto::kInt16TypeName);
 
-  // array still has two element
-  EXPECT_EQ(parent->GetChildren().size(), 2);
+  EXPECT_EQ(parent->GetChildren().size(), 3);
 };
 
 //-------------------------------------------------------------------------------------------------
