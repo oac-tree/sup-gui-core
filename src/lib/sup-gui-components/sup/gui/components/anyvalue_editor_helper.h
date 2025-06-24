@@ -35,8 +35,6 @@ class SessionItem;
 namespace sup::gui
 {
 
-class AnyValueItem;
-
 /**
  * @brief Checks if given item has one of default display names.
  */
@@ -77,6 +75,13 @@ void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& c
  * @brief Checks if we should create cell editor to edit the name of just inserted field.
  */
 bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child);
+
+/**
+ * @brief Updates display name of all array children.
+ *
+ * @param parent A parent representing array item.
+ */
+void UpdateArrayElementNames(const mvvm::SessionItem &parent);
 
 }  // namespace sup::gui
 

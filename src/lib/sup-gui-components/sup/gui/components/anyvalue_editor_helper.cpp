@@ -107,4 +107,17 @@ bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child)
   return false;
 }
 
+void UpdateArrayElementNames(const mvvm::SessionItem& parent)
+{
+  if (auto array_item = dynamic_cast<const AnyValueArrayItem*>(&parent); array_item)
+  {
+    std::uint32_t index{0};
+    for (auto child : array_item->GetChildren())
+    {
+      const auto name = sup::gui::constants::kElementNamePrefix + std::to_string(index++);
+      child->SetDisplayName(name);
+    }
+  }
+}
+
 }  // namespace sup::gui

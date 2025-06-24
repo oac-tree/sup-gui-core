@@ -140,4 +140,16 @@ TEST_F(AnyValueEditorHelperTest, EnableInstantFieldNameEdit)
   }
 }
 
+TEST_F(AnyValueEditorHelperTest, UpdateArrayElementNames)
+{
+  AnyValueArrayItem parent;
+  auto element0 = parent.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
+  auto element1 = parent.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
+
+  UpdateArrayElementNames(parent);
+
+  EXPECT_EQ(element0->GetDisplayName(), constants::kElementNamePrefix + "0");
+  EXPECT_EQ(element1->GetDisplayName(), constants::kElementNamePrefix + "1");
+}
+
 }  // namespace sup::gui::test
