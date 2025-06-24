@@ -140,7 +140,9 @@ void AnyValueEditorActionHandler::RemoveSelected()
   for (auto item : FilterOutChildren(selected))
   {
     next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
+    auto parent = item->GetParent();
     GetModel()->RemoveItem(item);
+    UpdateArrayElementNames(*parent);
   }
 
   mvvm::utils::EndMacro(*GetModel());
@@ -516,6 +518,7 @@ void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::S
       auto inserted = GetModel()->InsertItem(std::move(item), parent_item, last_tag_index);
       to_notify.push_back(inserted);
       last_tag_index = inserted->GetTagIndex().Next();
+      UpdateArrayElementNames(*parent_item);
     }
     catch (const std::exception& ex)
     {

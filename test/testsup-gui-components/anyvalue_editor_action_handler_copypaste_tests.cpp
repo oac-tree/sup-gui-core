@@ -384,23 +384,58 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteArrayElements)
 
   handler->Copy();
 
-  // pasting between field0 and field1
+  // pasting between element0 and element1
   m_mock_context.SetAsCurrentSelection({element0});
 
   handler->PasteAfter();
 
-  auto orig_element0 = parent->GetChildren().at(0);
-  auto pasted_element0 = parent->GetChildren().at(1);
-  auto pasted_element1 = parent->GetChildren().at(2);
-  auto orig_element1 = parent->GetChildren().at(3);
+  const auto children = parent->GetChildren();
+  auto orig_element0 = children.at(0);
+  auto pasted_element0 = children.at(1);
+  auto pasted_element1 = children.at(2);
+  auto orig_element1 = children.at(3);
 
   EXPECT_EQ(orig_element0, element0);
   EXPECT_EQ(orig_element1, element1);
 
+  // validating that all display names were updated according to current positions
   EXPECT_EQ(orig_element0->GetDisplayName(), std::string("element0"));
   EXPECT_EQ(pasted_element0->GetDisplayName(), std::string("element1"));
   EXPECT_EQ(pasted_element1->GetDisplayName(), std::string("element2"));
   EXPECT_EQ(orig_element1->GetDisplayName(), std::string("element3"));
+}
+
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutArrayElements)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+  auto element0 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element0->SetDisplayName("element0");
+  auto element1 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element1->SetDisplayName("element1");
+  auto element2 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element2->SetDisplayName("element2");
+  auto element3 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element3->SetDisplayName("element3");
+
+  // struct is selected, mime buffer is empty
+  auto handler = CreateActionHandler({element1, element2}, {});
+
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
+  handler->Cut();
+
+  const auto children = parent->GetChildren();
+  auto orig_element0 = children.at(0);
+  auto orig_element3 = children.at(1);
+
+  EXPECT_EQ(orig_element0, element0);
+  EXPECT_EQ(orig_element3, element3);
+
+  // validating that all display names were updated according to current positions
+  EXPECT_EQ(orig_element0->GetDisplayName(), std::string("element0"));
+  EXPECT_EQ(orig_element3->GetDisplayName(), std::string("element1"));
 }
 
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
