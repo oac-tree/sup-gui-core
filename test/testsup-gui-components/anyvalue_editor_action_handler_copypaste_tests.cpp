@@ -490,13 +490,44 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
 
   EXPECT_EQ(pasted_struct1->GetDisplayName(), "struct1");
 
-  // FIXME Why type name is not copied on copy?
-  EXPECT_NE(pasted_struct1->GetAnyTypeName(), "struct1_typename");
+  EXPECT_EQ(pasted_struct1->GetAnyTypeName(), "struct1_typename");
 
   EXPECT_EQ(pasted_scalar2->GetDisplayName(), "scalar2");
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(),
             std::vector<mvvm::SessionItem*>({struct2, pasted_struct1}));
+}
+
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopySequenceIntoSequence)
+{
+  const std::string expected_struct_name("abc");
+
+  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  parent->SetAnyTypeName(expected_struct_name);
+  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
+  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{1});
+
+  auto handler = CreateActionHandler({parent, field1});
+
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
+  handler->Copy();
+
+  m_mock_context.SetAsCurrentSelection({parent});
+
+  handler->PasteInto();
+
+  ASSERT_EQ(parent->GetChildren().size(), 3);
+
+  auto copied_struct = parent->GetChildren().at(2);
+  EXPECT_EQ(copied_struct->GetAnyTypeName(), expected_struct_name);
+  EXPECT_EQ(copied_struct->GetDisplayName(), "field2");
+  auto copied_field = copied_struct->GetChildren().at(0);
+  EXPECT_EQ(copied_field->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(copied_field->GetDisplayName(), "field1");
 }
 
 }  // namespace sup::gui::test
