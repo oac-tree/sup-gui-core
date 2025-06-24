@@ -75,7 +75,23 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
 
   // scalars has type name already
   auto iter = type_to_name.find(child.GetType());
-  return iter == type_to_name.end() ? std::nullopt : std::optional<std::string>(iter->second);
+
+  if (iter == type_to_name.end())
+  {
+    return {};
+  }
+
+  if(auto casted = dynamic_cast<const AnyValueItem*>(&child); casted)
+  {
+    if (casted->GetAnyTypeName().empty())
+    {
+      return iter->second;
+    }
+  }
+
+  return {};
+
+  // return iter == type_to_name.end() ? std::nullopt : std::optional<std::string>(iter->second);
 }
 
 void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& child)
