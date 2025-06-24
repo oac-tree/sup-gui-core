@@ -64,10 +64,14 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
   return constants::kAnyValueDefaultDisplayName;
 }
 
-std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,
-                                                   const mvvm::SessionItem& child)
+std::optional<std::string> SuggestEditableTypeName(const AnyValueItem& child)
 {
-  (void)parent;
+  if (!child.GetAnyTypeName().empty())
+  {
+    // If struct/array has type name already, let's keep it (it is coming from copy-and-paste).
+    // Scalars also have good type names.
+    return {};
+  }
 
   const static std::map<std::string, std::string> type_to_name{
       {AnyValueStructItem::GetStaticType(), constants::kStructTypeName},
@@ -75,23 +79,7 @@ std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& pare
 
   // scalars has type name already
   auto iter = type_to_name.find(child.GetType());
-
-  if (iter == type_to_name.end())
-  {
-    return {};
-  }
-
-  if(auto casted = dynamic_cast<const AnyValueItem*>(&child); casted)
-  {
-    if (casted->GetAnyTypeName().empty())
-    {
-      return iter->second;
-    }
-  }
-
-  return {};
-
-  // return iter == type_to_name.end() ? std::nullopt : std::optional<std::string>(iter->second);
+  return iter == type_to_name.end() ? std::nullopt : std::optional<std::string>(iter->second);
 }
 
 void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& child)
@@ -103,7 +91,7 @@ void UpdateChildAppearance(const mvvm::SessionItem& parent, mvvm::SessionItem& c
       (void)child.SetDisplayName(name.value());
     }
 
-    if (auto name = SuggestEditableTypeName(parent, child); name.has_value())
+    if (auto name = SuggestEditableTypeName(*anyvalue_item); name.has_value())
     {
       anyvalue_item->SetAnyTypeName(name.value());
     }

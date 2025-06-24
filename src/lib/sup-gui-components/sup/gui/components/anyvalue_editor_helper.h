@@ -35,6 +35,8 @@ class SessionItem;
 namespace sup::gui
 {
 
+class AnyValueItem;
+
 /**
  * @brief Checks if given item has one of default display names.
  */
@@ -60,8 +62,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
  * @param child Future child of a parent.
  * @return Optional string.
  */
-std::optional<std::string> SuggestEditableTypeName(const mvvm::SessionItem& parent,
-                                                   const mvvm::SessionItem& child);
+std::optional<std::string> SuggestEditableTypeName(const AnyValueItem& child);
 
 /**
  * @brief Updates display name and type name for a given child in the context of a given parent.

@@ -68,36 +68,35 @@ TEST_F(AnyValueEditorHelperTest, HasOneOfDefaultDisplayNames)
 
 TEST_F(AnyValueEditorHelperTest, SuggestEditableTypeName)
 {
-  const AnyValueStructItem parent;
   const std::string custom_type_name("custom_type_name");
 
   {  // struct without type name
     const AnyValueStructItem item;
-    EXPECT_EQ(SuggestEditableTypeName(parent, item).value_or(kUndefined),
+    EXPECT_EQ(SuggestEditableTypeName(item).value_or(kUndefined),
               constants::kStructTypeName);
   }
 
   {  // struct with custom type name
     AnyValueStructItem item;
     item.SetAnyTypeName(custom_type_name);
-    EXPECT_FALSE(SuggestEditableTypeName(parent, item).has_value());
+    EXPECT_FALSE(SuggestEditableTypeName(item).has_value());
   }
 
   {  // array without type name
     const AnyValueArrayItem item;
-    EXPECT_EQ(SuggestEditableTypeName(parent, item).value_or(kUndefined),
+    EXPECT_EQ(SuggestEditableTypeName(item).value_or(kUndefined),
               constants::kArrayTypeName);
   }
 
   {  // array with custom type name
     AnyValueArrayItem item;
     item.SetAnyTypeName(custom_type_name);
-    EXPECT_FALSE(SuggestEditableTypeName(parent, item).has_value());
+    EXPECT_FALSE(SuggestEditableTypeName(item).has_value());
   }
 
   {
     const AnyValueScalarItem item;
-    EXPECT_FALSE(SuggestEditableTypeName(parent, item).has_value());
+    EXPECT_FALSE(SuggestEditableTypeName(item).has_value());
   }
 }
 
