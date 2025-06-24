@@ -364,6 +364,45 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteBetweenTwoFields)
             std::vector<mvvm::SessionItem*>({pasted_field0, pasted_field1}));
 }
 
+TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteArrayElements)
+{
+  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+  auto element0 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element0->SetAnyTypeName(sup::dto::kInt32TypeName);
+  element0->SetDisplayName("element0");
+  auto element1 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element1->SetAnyTypeName(sup::dto::kInt32TypeName);
+  element1->SetDisplayName("element1");
+
+  // struct is selected, mime buffer is empty
+  auto handler = CreateActionHandler({element0, element1}, {});
+
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, OnSetMimeData()).Times(1);
+  EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(2);
+
+  handler->Copy();
+
+  // pasting between field0 and field1
+  m_mock_context.SetAsCurrentSelection({element0});
+
+  handler->PasteAfter();
+
+  auto orig_element0 = parent->GetChildren().at(0);
+  auto pasted_element0 = parent->GetChildren().at(1);
+  auto pasted_element1 = parent->GetChildren().at(2);
+  auto orig_element1 = parent->GetChildren().at(3);
+
+  EXPECT_EQ(orig_element0, element0);
+  EXPECT_EQ(orig_element1, element1);
+
+  EXPECT_EQ(orig_element0->GetDisplayName(), std::string("element0"));
+  EXPECT_EQ(pasted_element0->GetDisplayName(), std::string("element1"));
+  EXPECT_EQ(pasted_element1->GetDisplayName(), std::string("element2"));
+  EXPECT_EQ(orig_element1->GetDisplayName(), std::string("element3"));
+}
+
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
 {
   // Before: making cut operation of {struct1, scalar2}

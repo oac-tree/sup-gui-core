@@ -54,7 +54,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
     return {};  // item has good name already
   }
 
-  // For arry element we suggest names: element0, element1, etc.
+  // For array element we suggest names: element0, element1, etc.
   if (parent.GetType() == sup::gui::AnyValueArrayItem::GetStaticType())
   {
     return sup::gui::constants::kElementNamePrefix
