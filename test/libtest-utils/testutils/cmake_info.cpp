@@ -18,24 +18,31 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <benchmark/benchmark.h>
+#include "cmake_info.h"
+
+#include "cmake_info_constants.h"  // from <build>/autogen
 
 namespace sup::gui::test
 {
 
-/**
- * @brief Testing performance of functions to convert AnyValue to AnyValueItem and back.
- */
-class TransformLargeAnyValueBenchmark : public benchmark::Fixture
+std::string CMakeSourceDir()
 {
-public:
-};
+  return kCMakeSourceDir;
+}
 
-BENCHMARK_F(TransformLargeAnyValueBenchmark, PathFromItem)(benchmark::State& state)
+std::string CMakeBinaryDir()
 {
-  for (auto dummy : state)
-  {
-  }
+  return kCMakeBinaryDir;
+}
+
+std::string TestOutputDir()
+{
+  return kTestOutputDir;
+}
+
+std::string ProjectSourceDir()
+{
+  return kProjectSourceDir;
 }
 
 }  // namespace sup::gui::test

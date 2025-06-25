@@ -18,16 +18,26 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "folder_test.h"
+#include <benchmark/benchmark.h>
 
-#include "cmake_info.h"
+#include <sup/gui/model/anyvalue_utils.h>
 
 namespace sup::gui::test
 {
 
-FolderTest::FolderTest(std::string test_home_dirname)
-    : FolderOutputBasedTest(TestOutputDir(), std::move(test_home_dirname))
+/**
+ * @brief Testing performance of functions to convert AnyValue to AnyValueItem and back.
+ */
+class TransformLargeAnyValueBenchmark : public benchmark::Fixture
 {
+public:
+};
+
+BENCHMARK_F(TransformLargeAnyValueBenchmark, AnyValueFromJSONString)(benchmark::State& state)
+{
+  for (auto dummy : state)
+  {
+  }
 }
 
 }  // namespace sup::gui::test

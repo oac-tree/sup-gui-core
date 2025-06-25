@@ -18,16 +18,38 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "folder_test.h"
+#ifndef TESTUTILS_CMAKE_INFO_H_
+#define TESTUTILS_CMAKE_INFO_H_
 
-#include "cmake_info.h"
+#include <string>
 
 namespace sup::gui::test
 {
 
-FolderTest::FolderTest(std::string test_home_dirname)
-    : FolderOutputBasedTest(TestOutputDir(), std::move(test_home_dirname))
-{
-}
+/**
+ * @brief Returns the full path to the source directory.
+ */
+std::string CMakeSourceDir();
+
+/**
+ * @brief Returns full path to the build directory.
+ */
+std::string CMakeBinaryDir();
+
+/**
+ * @brief Returns full path to the folder with test results.
+ *
+ * Normally points to CMAKE_CURRENT_BINARY_DIR/test_output
+ */
+std::string TestOutputDir();
+
+/**
+ * @brief Returns full path to the project source directory.
+ *
+ * Can be different from CMake source directory, if the project is in a submodule.
+ */
+std::string ProjectSourceDir();
 
 }  // namespace sup::gui::test
+
+#endif  // TESTUTILS_CMAKE_INFO_H_

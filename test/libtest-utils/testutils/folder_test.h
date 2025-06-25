@@ -32,19 +32,6 @@ public:
   explicit FolderTest(std::string test_home_dirname);
 };
 
-/**
- * @brief  Returns full path to the main test folder, as defined by CMake at compile time.
- *
- * Shoud point to CMAKE_CURRENT_BINARY_DIR/test_output
- */
-std::string GetTestSuiteOutputDir();
-
-/**
- * @brief Returns full path to repository source directory.
- * @return
- */
-std::string GetProjectSourceDir();
-
 }  // namespace sup::gui::test
 
 #endif  // TESTUTILS_FOLDER_TEST_H_
