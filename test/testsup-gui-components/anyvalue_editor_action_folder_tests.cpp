@@ -187,19 +187,36 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ExportToFile)
 //! Attempt to export to JSON file from empty model.
 TEST_F(AnyValueEditorActionHandlerFolderTest, AttemptToExportEmptyModelToFile)
 {
-  // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalarExportResultsV2.xml");
+  const auto file_path = GetNewFilePath("AnyValueScalarExportResultsV2.xml");
 
-  // creating action when nothing is selected
   auto actions = CreateActionHandler({});
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
-  // exporting file
   actions->OnExportToFileRequest(file_path);
 
-  // model empty as it was, file wasn't created
-  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
+  EXPECT_FALSE(mvvm::utils::IsExists(file_path));
+};
+
+TEST_F(AnyValueEditorActionHandlerFolderTest, AttemptToExportInvalidAnyValueItem)
+{
+  // creating invalid array with mixex element types
+  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
+  auto element0 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element0->SetDisplayName("element0");
+  element0->SetAnyTypeName(sup::dto::kInt32TypeName);
+  auto element1 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  element1->SetDisplayName("element1");
+  element1->SetAnyTypeName(sup::dto::kStringTypeName);
+
+  const auto file_path = GetNewFilePath("AnyValueScalarExportResultsV3.xml");
+
+  auto actions = CreateActionHandler({parent});
+
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
+
+  actions->OnExportToFileRequest(file_path);
+
   EXPECT_FALSE(mvvm::utils::IsExists(file_path));
 };
 

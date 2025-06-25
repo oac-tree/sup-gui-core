@@ -163,8 +163,9 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 // -------------------------------------------------------------------------------------------------
 
 //! Adding empty AnyValue to empty model
-TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
+TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueToEmptyModel)
 {
+  const std::string non_existing_type("non_existing_type");
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({});
 
@@ -173,6 +174,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kEmptyTypeName));
+  EXPECT_FALSE(handler->CanInsertAfter(non_existing_type));
   EXPECT_FALSE(handler->CanInsertInto(constants::kEmptyTypeName));
 
   // adding empty AnyValueItem as top level item
@@ -194,6 +196,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueStructToEmptyModel)
 //! Adding structure to an empty model.
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 {
+  const std::string non_existing_type("non_existing_type");
   // creating action for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({});
 
@@ -202,7 +205,9 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanInsertAfter(non_existing_type));
   EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanInsertAfter(non_existing_type));
 
   // adding AnyValueItem struct as top level item
   handler->InsertAnyValueItemAfter(constants::kStructTypeName);

@@ -22,12 +22,14 @@
 
 #include <sup/gui/components/anyvalue_editor_context.h>
 #include <sup/gui/components/anyvalue_editor_helper.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/standarditems/container_item.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anytype.h>
@@ -117,5 +119,21 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
   EXPECT_TRUE(copied_item->IsEditable());
   EXPECT_TRUE(copied_item->IsEnabled());
 }
+
+TEST_F(AnyValueEditorActionHandlerExtendedTest, AttemptToInsertWhenModelIsAbsent)
+{
+  mvvm::ContainerItem container;  // no model
+  auto handler = m_mock_context.CreateActionHandler(&container, {});
+
+  // expecting no warnings
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  // EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
+
+  EXPECT_TRUE(handler->CanInsertAfter(constants::kStructTypeName));
+  EXPECT_FALSE(handler->CanInsertInto(constants::kStructTypeName));
+
+  // adding AnyValueItem struct as top level item
+  EXPECT_THROW(handler->InsertAnyValueItemAfter(constants::kStructTypeName), RuntimeException);
+};
 
 }  // namespace sup::gui::test
