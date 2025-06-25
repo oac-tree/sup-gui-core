@@ -1,5 +1,6 @@
 Changes for 1.9.0:
 
+- Implement performance benchmarks for AnyValueItem transformation
 - Remember custom struct/array typename during copy-and-paste operation
 - Fix display name of array elements
 - Implement AbstractTextContentController to generate JSON/XML model representation
