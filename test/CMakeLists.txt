@@ -14,6 +14,14 @@ find_package_message(
   "Found GTest: ${GTest_DIR} (version \"${GTest_VERSION}\")"
   "[${GTest_FOUND}][${GTest_DIR}][v${GTest_VERSION}]")
 
+find_package(benchmark QUIET)
+if(benchmark_FOUND)
+  find_package_message(
+    benchmark_details
+    "Found benchmark: ${benchmark_DIR} (version \"${benchmark_VERSION}\")"
+    "[${benchmark_DIR}][v${benchmark_VERSION}]")
+endif()
+
 include(GoogleTest)
 
 add_subdirectory(libtest-utils)
@@ -22,6 +30,9 @@ add_subdirectory(testsup-gui-core)
 add_subdirectory(testsup-gui-components)
 add_subdirectory(testsup-gui-components-app)
 add_subdirectory(testsup-gui-views)
+if (benchmark_FOUND)
+  add_subdirectory(testsup-gui-benchmark)
+endif()
 
 # Add custom target `make sup-gui-core-testall` which will run test executables one after another.
 # This can be used instead of usual `make test` or `ctest` while running tests via an ssh
