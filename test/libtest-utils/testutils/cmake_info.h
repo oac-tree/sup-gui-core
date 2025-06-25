@@ -50,6 +50,11 @@ std::string TestOutputDir();
  */
 std::string ProjectSourceDir();
 
+/**
+ * @brief Return full path to test resource folder.
+ */
+std::string ProjectResourceDir();
+
 }  // namespace sup::gui::test
 
 #endif  // TESTUTILS_CMAKE_INFO_H_

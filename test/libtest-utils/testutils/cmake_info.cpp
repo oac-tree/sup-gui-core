@@ -45,4 +45,9 @@ std::string ProjectSourceDir()
   return kProjectSourceDir;
 }
 
+std::string ProjectResourceDir()
+{
+  return ProjectSourceDir() + "/test/resources";
+}
+
 }  // namespace sup::gui::test
