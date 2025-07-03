@@ -23,7 +23,6 @@
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_action_manager.h>
 #include <sup/gui/app/app_constants.h>
-#include <sup/gui/app/app_helper.h>
 #include <sup/gui/core/version_helper.h>
 
 #include <mvvm/widgets/app_utils.h>
@@ -41,7 +40,33 @@
 
 namespace
 {
-const QString kPreferredCodacStyle = "Adwaita";
+
+const QString kPlasmaPreferredStyle = "Breeze";
+const QString kCodacStyle = "Adwaita"; // Gnome-like style installed on CODAC machines
+
+/**
+ * @brief Returns preferred application style.
+ *
+ * Will try to favor user choice, if possible. Will fallback to either "breeze" or "adwaita", if
+ * user choice is empty, or doesn't exist.
+ *
+ * @param The preferred style name, as provided by the user from the command line.
+ */
+std::optional<QString> GetPrefferedStyle(const QString &preferred_style)
+{
+  const QStringList preferred_styles({preferred_style, kPlasmaPreferredStyle, kCodacStyle});
+  const QStringList available_styles = QStyleFactory::keys();
+
+  for (auto element : preferred_styles)
+  {
+    if (available_styles.contains(element))
+    {
+      return element;
+    }
+  }
+  return std::nullopt;
+}
+
 }  // namespace
 
 namespace sup::gui
@@ -58,7 +83,7 @@ void InitCoreApplication(const QString &app_name, const QString &version)
   {
     std::cout << "Application's settings file which was found in $HOME/.config/coa folder is too "
                  "old for this GUI version ["
-              << version.toStdString() << "], starting from scratch." << std::endl;
+              << version.toStdString() << "], starting from scratch.\n";
 
     QSettings settings;
     settings.clear();
@@ -89,18 +114,9 @@ void ShutdownApplication()
 
 void SetWindowStyle(const QString &app_style)
 {
-  if (!app_style.isEmpty())
+  if (auto preferred_style = GetPrefferedStyle(app_style); preferred_style.has_value())
   {
-    QApplication::setStyle(QStyleFactory::create(app_style));
-  }
-  else
-  {
-    if (sup::gui::IsOnCodac())
-    {
-      // If no special request from the user, and we are on CODAC, use Adwaita style
-      // which provide tolerable gnome-like UI
-      QApplication::setStyle(QStyleFactory::create(kPreferredCodacStyle));
-    }
+    QApplication::setStyle(QStyleFactory::create(preferred_style.value()));
   }
 }
 
@@ -193,7 +209,7 @@ bool SummonChangeSystemFontDialog()
 {
   bool font_was_changed{false};
 
-  QFont font = QFontDialog::getFont(&font_was_changed, QApplication::font(), nullptr);
+  const QFont font = QFontDialog::getFont(&font_was_changed, QApplication::font(), nullptr);
 
   if (font_was_changed)
   {
@@ -206,7 +222,7 @@ bool SummonChangeSystemFontDialog()
 
 bool IsHeadlessMode()
 {
-  if (const char* var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
+  if (const char *var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
   {
     return std::string(var) == std::string("offscreen");
   }
