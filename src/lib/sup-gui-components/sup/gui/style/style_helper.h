@@ -80,12 +80,12 @@ QSize ToolBarIconSize();
 QSize NarrowToolBarIconSize();
 
 /**
- * @brief Sest visual style of the tree to the "breeze"-like style, if necessary.
+ * @brief Sest style of the tree to annotate collapse/expand status of branches.
  *
- * On CODAC system's the default desktop style is "fusion". The tree has a flat look,  without
- * appealing lines connecting expand/collapse markers. Call to this method will try to fix this.
+ * This can be used for some simple styles, like "fusion", where trees are painted without
+ * indentation lines.
  */
-void BeautifyTreeStyle(QTreeView* tree);
+void SetCollapseExpandStyle(QTreeView* tree);
 
 }  // namespace sup::gui::utils
 

@@ -153,12 +153,9 @@ QIcon FindIcon(const QString &icon_name, IconColorFlavor icon_flavor)
   return GetIcon(QString(":/sup-gui-core/icons/%1.svg").arg(icon_name), icon_flavor);
 }
 
-void BeautifyTreeStyle(QTreeView *tree)
+void SetCollapseExpandStyle(QTreeView *tree)
 {
-  if (QApplication::style()->objectName() == QString("fusion"))
-  {
-    tree->setStyleSheet(CreatePopertyTreeStyleString());
-  }
+  tree->setStyleSheet(CreatePopertyTreeStyleString());
 }
 
 }  // namespace sup::gui::utils
