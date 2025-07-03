@@ -49,29 +49,29 @@ const QString kDarkIconColor("#4d4d4d");
  */
 QString CreatePopertyTreeStyleString()
 {
-  QString result = R"(
+  const QString result = R"(
   QTreeView::branch:has-siblings:!adjoins-item {
-      border-image: url(:/icons/vline.svg) 0;
+      border-image: url(:/sup-gui-core/icons/vline.svg) 0;
   }
 
   QTreeView::branch:has-siblings:adjoins-item {
-      border-image: url(:/icons/branch-more.svg) 0;
+      border-image: url(:/sup-gui-core/icons/branch-more.svg) 0;
   }
 
   QTreeView::branch:!has-children:!has-siblings:adjoins-item {
-      border-image: url(:/icons/branch-end.svg) 0;
+      border-image: url(:/sup-gui-core/icons/branch-end.svg) 0;
   }
 
   QTreeView::branch:has-children:!has-siblings:closed,
   QTreeView::branch:closed:has-children:has-siblings {
           padding:2px 2px 2px 2px;border-image: none;
-          image: url(:/icons/chevron-right.svg);
+          image: url(:/sup-gui-core/icons/chevron-right.svg);
   }
 
   QTreeView::branch:open:has-children:!has-siblings,
   QTreeView::branch:open:has-children:has-siblings  {
           padding:2px 2px 2px 2px;border-image: none;
-          image: url(:/icons/chevron-down.svg);
+          image: url(:/sup-gui-core/icons/chevron-down.svg);
   })";
 
   return result;
@@ -143,7 +143,7 @@ QSize NarrowToolBarIconSize()
 
 QIcon GetIcon(const QString &resource_name, IconColorFlavor icon_flavor)
 {
-  QIcon icon(resource_name);
+  const QIcon icon(resource_name);
   return kUseColorEngine ? CreateColoredIcon(icon, icon_flavor) : icon;
 }
 
