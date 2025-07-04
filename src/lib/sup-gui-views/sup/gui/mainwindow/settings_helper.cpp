@@ -65,4 +65,16 @@ void ReadGlobalSettings()
   LoadSettingsFromPersistentStorage(const_cast<SettingsModel &>(GetGlobalSettings()));
 }
 
+void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_variant_func_t func)
+{
+  (void)model;
+  (void)func;
+}
+
+void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_func_t func)
+{
+  (void)model;
+  (void)func;
+}
+
 }  // namespace sup::gui

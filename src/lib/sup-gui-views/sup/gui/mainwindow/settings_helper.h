@@ -24,7 +24,14 @@
 //!< @file
 //!< Collection of helper function to access global application settings.
 
+#include <sup/gui/widgets/settings_callbacks.h>
+
 #include <QString>
+
+namespace mvvm
+{
+class ISessionModel;
+}
 
 namespace sup::gui
 {
@@ -58,6 +65,29 @@ void LoadSettingsFromPersistentStorage(SettingsModel& model);
  * If persistent storage doesn't contain any related records, the model will be left unchainged.
  */
 void ReadGlobalSettings();
+
+/**
+ * @brief Save settings to persistent storage using the provided write function.
+ *
+ * This is a simplified method that allows to write the model content in the QSettings file in
+ * a human-readable format. Only the item's data role is saved. QSetting keys are constructed from
+ * the display name of individual items.
+ *
+ * @param model The model that contains a collection of items representing settings.
+ * @param Special function to write into QSetting file.
+ */
+void WriteSettingsToPersistentStorage(const mvvm::ISessionModel& model, write_variant_func_t func);
+
+/**
+ * @brief Read settings from persistent storage.
+ *
+ * This function loads the data from QSettings file. Only item's data role is updated. The model
+ * should be already populated with proper settings items.
+ *
+ * @param model The model that contains a collection of items representing settings.
+ * @param Special function to read from QSetting file.
+ */
+void ReadSettingsFromPersistentStorage(mvvm::ISessionModel& model, read_variant_func_t func);
 
 }  // namespace sup::gui
 
