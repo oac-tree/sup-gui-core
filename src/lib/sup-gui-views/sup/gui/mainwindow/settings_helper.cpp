@@ -24,8 +24,10 @@
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/viewmodel/variant_converter.h>
 
 #include <QSettings>
+#include <stack>
 
 namespace sup::gui
 {
@@ -67,8 +69,42 @@ void ReadGlobalSettings()
 
 void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_variant_func_t func)
 {
-  (void)model;
-  (void)func;
+  QString model_key(QString::fromStdString(model.GetType()));
+
+  struct Node
+  {
+    const mvvm::SessionItem *item{nullptr};
+    QString key;
+  };
+
+  std::stack<Node> stack;
+  stack.push({model.GetRootItem(), model_key});
+
+  while (!stack.empty())
+  {
+    auto item = stack.top().item;
+    auto top_key = stack.top().key;
+    QString item_key = top_key;
+    if (item != model.GetRootItem())
+    {
+      item_key += "/" + QString::fromStdString(item->GetDisplayName());
+    }
+
+    if (item->HasData())
+    {
+      const QVariant variant = mvvm::GetQtVariant(item->Data());
+      func(item_key, variant);
+    }
+
+    stack.pop();
+
+    auto children = item->GetAllItems();
+    // push in reverse order to provide correct child order processing
+    for (auto it = children.rbegin(); it != children.rend(); ++it)
+    {
+      stack.push({*it, item_key});
+    }
+  }
 }
 
 void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_func_t func)

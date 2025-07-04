@@ -22,7 +22,10 @@
 
 #include <sup/gui/model/settings_model.h>
 
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/model/session_model.h>
+#include <mvvm/viewmodel/variant_converter.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -38,6 +41,12 @@ class SettingsHelperTest : public ::testing::Test
 public:
   ::testing::MockFunction<read_variant_func_t> m_mock_read_func;
   ::testing::MockFunction<write_variant_func_t> m_mock_write_func;
+
+  class TestModel : public mvvm::SessionModel
+  {
+  public:
+    TestModel() : SessionModel("TestModel") {}
+  };
 };
 
 TEST_F(SettingsHelperTest, WriteAndReadEmptyModel)
@@ -49,6 +58,59 @@ TEST_F(SettingsHelperTest, WriteAndReadEmptyModel)
 
   EXPECT_CALL(m_mock_read_func, Call(::testing::_)).Times(0);
   ReadSettingsFromPersistentStorage(model, m_mock_read_func.AsStdFunction());
+}
+
+TEST_F(SettingsHelperTest, WriteModelWithSinglePropertyItem)
+{
+  const std::string display_name("display_name");
+  TestModel model;
+  auto item = model.InsertItem<mvvm::PropertyItem>();
+  item->SetDisplayName(display_name);
+  item->SetData(mvvm::int32{42});
+
+  const auto expected_variant = mvvm::GetQtVariant(item->Data());
+  const QString expected_key = "TestModel/display_name";
+  EXPECT_CALL(m_mock_write_func, Call(expected_key, expected_variant)).Times(1);
+  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
+}
+
+TEST_F(SettingsHelperTest, WriteModelWithTwoPropertyItems)
+{
+  TestModel model;
+  auto item0 = model.InsertItem<mvvm::PropertyItem>();
+  item0->SetDisplayName("Number");
+  item0->SetData(mvvm::int32{42});
+
+  auto item1 = model.InsertItem<mvvm::PropertyItem>();
+  item1->SetDisplayName("Name");
+  item1->SetData(std::string("abc"));
+
+  EXPECT_CALL(m_mock_write_func, Call(QString("TestModel/Number"), QVariant(42))).Times(1);
+  EXPECT_CALL(m_mock_write_func,
+              Call(QString("TestModel/Name"), QVariant::fromValue(QString("abc"))))
+      .Times(1);
+  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
+}
+
+TEST_F(SettingsHelperTest, WriteModelWithPropertyItemCompound)
+{
+  TestModel model;
+  auto parent = model.InsertItem<mvvm::CompoundItem>();
+  parent->RegisterTag(mvvm::TagInfo::CreateUniversalTag("Tag"), true);
+  parent->SetDisplayName("Compound");
+  auto item0 = model.InsertItem<mvvm::PropertyItem>(parent, mvvm::TagIndex::Append());
+  item0->SetDisplayName("Number");
+  item0->SetData(mvvm::int32{42});
+
+  auto item1 = model.InsertItem<mvvm::PropertyItem>(parent, mvvm::TagIndex::Append());
+  item1->SetDisplayName("Name");
+  item1->SetData(std::string("abc"));
+
+  EXPECT_CALL(m_mock_write_func, Call(QString("TestModel/Compound/Number"), QVariant(42))).Times(1);
+  EXPECT_CALL(m_mock_write_func,
+              Call(QString("TestModel/Compound/Name"), QVariant::fromValue(QString("abc"))))
+      .Times(1);
+  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
 }
 
 }  // namespace sup::gui::test

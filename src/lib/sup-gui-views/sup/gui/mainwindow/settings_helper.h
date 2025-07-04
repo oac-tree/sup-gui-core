@@ -71,7 +71,7 @@ void ReadGlobalSettings();
  *
  * This is a simplified method that allows to write the model content in the QSettings file in
  * a human-readable format. Only the item's data role is saved. QSetting keys are constructed from
- * the display name of individual items.
+ * the display names of individual items.
  *
  * @param model The model that contains a collection of items representing settings.
  * @param Special function to write into QSetting file.
@@ -81,7 +81,7 @@ void WriteSettingsToPersistentStorage(const mvvm::ISessionModel& model, write_va
 /**
  * @brief Read settings from persistent storage.
  *
- * This function loads the data from QSettings file. Only item's data role is updated. The model
+ * This function reads the data from QSettings file. Only item's data role is updated. The model
  * should be already populated with proper settings items.
  *
  * @param model The model that contains a collection of items representing settings.
