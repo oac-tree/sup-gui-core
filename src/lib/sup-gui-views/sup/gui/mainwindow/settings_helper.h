@@ -78,6 +78,7 @@ void ReadGlobalSettings();
  */
 void WriteSettingsToPersistentStorage(const mvvm::ISessionModel& model, write_variant_func_t func);
 
+
 void WriteSettings(const mvvm::ISessionModel& model);
 
 /**
@@ -90,6 +91,8 @@ void WriteSettings(const mvvm::ISessionModel& model);
  * @param Special function to read from QSetting file.
  */
 void ReadSettingsFromPersistentStorage(mvvm::ISessionModel& model, read_variant_func_t func);
+
+void ReadSettings(mvvm::ISessionModel& model);
 
 }  // namespace sup::gui
 

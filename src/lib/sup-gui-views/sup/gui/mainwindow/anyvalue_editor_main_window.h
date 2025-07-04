@@ -38,6 +38,7 @@ namespace sup::gui
 class AnyValueEditorWidget;
 class AnyValueEditorMainWindowActions;
 class AnyValueEditorProject;
+class SettingsModel;
 
 /**
  * @brief The AnyValueEditorMainWindow class is a main window of anyvalue-editor application.
@@ -87,6 +88,7 @@ private:
    */
   std::unique_ptr<AnyValueEditorProject> CreateProject();
 
+  std::unique_ptr<SettingsModel> m_settings;
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditorWidget* m_anyvalue_editor{nullptr};

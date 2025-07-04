@@ -36,6 +36,12 @@ namespace sup::gui
 namespace
 {
 
+struct Node
+{
+  mvvm::SessionItem *item{nullptr};
+  QString key;
+};
+
 /**
  * @brief Returns a key representing property item in a section.
  */
@@ -93,19 +99,13 @@ void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_va
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
-  struct Node
-  {
-    const mvvm::SessionItem *item{nullptr};
-    QString key;
-  };
-
   std::stack<Node> stack;
   stack.push({model.GetRootItem(), model_key});
 
   while (!stack.empty())
   {
     auto [item, top_key] = stack.top();
-    QString item_key = GetItemKey(top_key, *item);
+    const QString item_key = GetItemKey(top_key, *item);
 
     if (item->HasData())
     {
@@ -132,19 +132,13 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
-  struct Node
-  {
-    mvvm::SessionItem *item{nullptr};
-    QString key;
-  };
-
   std::stack<Node> stack;
   stack.push({model.GetRootItem(), model_key});
 
   while (!stack.empty())
   {
     auto [item, top_key] = stack.top();
-    QString item_key = GetItemKey(top_key, *item);
+    const QString item_key = GetItemKey(top_key, *item);
 
     if (item->HasData())
     {
@@ -160,6 +154,11 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
       stack.push({*it, item_key});
     }
   }
+}
+
+void ReadSettings(mvvm::ISessionModel &model)
+{
+  ReadSettingsFromPersistentStorage(model, GetSettingsReadFunc());
 }
 
 }  // namespace sup::gui

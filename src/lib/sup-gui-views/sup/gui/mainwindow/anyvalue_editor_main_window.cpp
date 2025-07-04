@@ -57,7 +57,8 @@ QString GetWindowPosSettingName()
 
 }  // namespace
 
-AnyValueEditorMainWindow::AnyValueEditorMainWindow() : m_project(CreateProject())
+AnyValueEditorMainWindow::AnyValueEditorMainWindow()
+    : m_settings(std::make_unique<SettingsModel>()), m_project(CreateProject())
 {
   InitApplication();
 
@@ -109,8 +110,7 @@ void AnyValueEditorMainWindow::ReadSettings()
   const QSettings settings;
   resize(settings.value(GetWindowSizeSettingName(), QSize(800, 600)).toSize());
   move(settings.value(GetWindowPosSettingName(), QPoint(200, 200)).toPoint());
-  // global persistent setting stored in SettingsModel
-  sup::gui::ReadGlobalSettings();
+  ::sup::gui::ReadSettings(*m_settings);
 }
 
 void AnyValueEditorMainWindow::WriteSettings()
@@ -118,6 +118,7 @@ void AnyValueEditorMainWindow::WriteSettings()
   QSettings settings;
   settings.setValue(GetWindowSizeSettingName(), size());
   settings.setValue(GetWindowPosSettingName(), pos());
+  ::sup::gui::WriteSettings(*m_settings);
 }
 
 bool AnyValueEditorMainWindow::CanCloseApplication()
