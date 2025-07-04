@@ -26,14 +26,16 @@
 namespace sup::gui::test
 {
 
-//! Tests for SettingsModel class.
+/**
+ * @brief Tests for SettingsModel class.
+ */
 class SettingsModelTest : public ::testing::Test
 {
 };
 
 TEST_F(SettingsModelTest, InitialState)
 {
-  SettingsModel model;
+  const SettingsModel model;
 
   EXPECT_EQ(model.GetSettingsItems().size(), 1);
 
@@ -50,9 +52,26 @@ TEST_F(SettingsModelTest, Clear)
   model.Clear();
 
   // after clearing all setting items, and their values have been re-initialised
-  EXPECT_EQ(model.GetSettingsItems().size(), 1);
+  ASSERT_EQ(model.GetSettingsItems().size(), 1);
   EXPECT_EQ(model.Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);
   EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
+}
+
+TEST_F(SettingsModelTest, AutoDisableSettings)
+{
+  SettingsModel model;
+
+  auto common_settings = model.GetSettingsItems().at(0);
+  ASSERT_EQ(model.GetSettingsItems().size(), 1);
+
+  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting)->IsEnabled());
+  EXPECT_TRUE(common_settings->GetItem(constants::kUndoLimitSetting)->IsEnabled());
+
+  // changing the value of the setting
+  common_settings->GetItem(constants::kUseUndoSetting)->SetData(false);
+
+  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting)->IsEnabled());
+  EXPECT_FALSE(common_settings->GetItem(constants::kUndoLimitSetting)->IsEnabled());
 }
 
 }  // namespace sup::gui::test

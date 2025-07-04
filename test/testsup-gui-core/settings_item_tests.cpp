@@ -23,6 +23,7 @@
 #include <sup/gui/model/settings_constants.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -30,11 +31,16 @@ namespace sup::gui::test
 {
 
 /**
- * @brief Tests for SettingsItem class.
+ * @brief Tests for items defined settings
  */
 class SettingsItemTest : public testing::Test
 {
 };
+
+TEST_F(SettingsItemTest, CommonSettingsItem)
+{
+  EXPECT_TRUE(mvvm::test::IsCloneImplemented<CommonSettingsItem>());
+}
 
 //! We validate that changing a boolean stored in "Enable undo/redo" setting will
 //! automatically mark "Undo limit" setting as disabled.

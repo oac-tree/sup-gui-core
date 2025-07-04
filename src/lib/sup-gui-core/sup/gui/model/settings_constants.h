@@ -39,6 +39,6 @@ const std::string kUndoLimitSetting = "kUndoLimitSetting";
 
 const bool kUseUndoDefault = true;
 const int kUndoLimitDefault = 100;
-}  // namespace sup::gui
+}  // namespace sup::gui::constants
 
 #endif  // SUP_GUI_MODEL_SETTINGS_CONSTANTS_H_

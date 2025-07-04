@@ -24,6 +24,8 @@
 
 #include <mvvm/model/item_utils.h>
 
+#include <iostream>
+
 namespace sup::gui
 {
 
@@ -43,6 +45,11 @@ std::string CommonSettingsItem::GetStaticType()
   return "CommonSettings";
 }
 
+std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
+{
+  return std::make_unique<CommonSettingsItem>(*this);
+}
+
 bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t &variant,
                                    mvvm::role_t role)
 {
@@ -54,14 +61,11 @@ bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t 
   // enable/disable property depending on undo flag value
   GetItem(constants::kUndoLimitSetting)->SetEnabled(std::get<bool>(variant));
 
+  std::cout << "XXX " << std::get<bool>(variant) << "\n";
+
   mvvm::utils::EndMacro(*this);
 
   return result;
-}
-
-std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
-{
-  return std::make_unique<CommonSettingsItem>(*this);
 }
 
 }  // namespace sup::gui
