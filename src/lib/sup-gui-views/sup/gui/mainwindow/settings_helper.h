@@ -78,6 +78,8 @@ void ReadGlobalSettings();
  */
 void WriteSettingsToPersistentStorage(const mvvm::ISessionModel& model, write_variant_func_t func);
 
+void WriteSettings(const mvvm::ISessionModel& model);
+
 /**
  * @brief Read settings from persistent storage.
  *

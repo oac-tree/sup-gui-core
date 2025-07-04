@@ -22,6 +22,7 @@
 
 #include <sup/gui/model/settings_model.h>
 
+#include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/variant_converter.h>
@@ -31,6 +32,27 @@
 
 namespace sup::gui
 {
+
+namespace
+{
+
+/**
+ * @brief Returns a key representing property item in a section.
+ */
+QString GetItemKey(const QString &section, const mvvm::SessionItem &item)
+{
+  QString result = section;
+  if (item.GetDisplayName() == mvvm::constants::kRootItemName)
+  {
+    return result;
+  }
+
+  result += "/" + QString::fromStdString(item.GetDisplayName());
+  result.replace(" ", "_");
+
+  return result;
+}
+}  // namespace
 
 const SettingsModel &GetGlobalSettings()
 {
@@ -83,11 +105,7 @@ void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_va
   while (!stack.empty())
   {
     auto [item, top_key] = stack.top();
-    QString item_key = top_key;
-    if (item != model.GetRootItem())
-    {
-      item_key += "/" + QString::fromStdString(item->GetDisplayName());
-    }
+    QString item_key = GetItemKey(top_key, *item);
 
     if (item->HasData())
     {
@@ -103,6 +121,11 @@ void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_va
       stack.push({*it, item_key});
     }
   }
+}
+
+void WriteSettings(const mvvm::ISessionModel &model)
+{
+  WriteSettingsToPersistentStorage(model, GetSettingsWriteFunc());
 }
 
 void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_func_t func)
@@ -121,11 +144,7 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
   while (!stack.empty())
   {
     auto [item, top_key] = stack.top();
-    QString item_key = top_key;
-    if (item != model.GetRootItem())
-    {
-      item_key += "/" + QString::fromStdString(item->GetDisplayName());
-    }
+    QString item_key = GetItemKey(top_key, *item);
 
     if (item->HasData())
     {

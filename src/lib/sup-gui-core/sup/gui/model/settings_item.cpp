@@ -24,8 +24,6 @@
 
 #include <mvvm/model/item_utils.h>
 
-#include <iostream>
-
 namespace sup::gui
 {
 
@@ -33,7 +31,7 @@ CommonSettingsItem::CommonSettingsItem() : CompoundItem(GetStaticType())
 {
   (void)SetDisplayName("Common Settings");
 
-  (void)AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
+  AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
       .SetDisplayName("Enable undo/redo")
       .SetStrategy(this, &CommonSettingsItem::OnSetFlag);
   (void)AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
@@ -60,8 +58,6 @@ bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t 
 
   // enable/disable property depending on undo flag value
   GetItem(constants::kUndoLimitSetting)->SetEnabled(std::get<bool>(variant));
-
-  std::cout << "XXX " << std::get<bool>(variant) << "\n";
 
   mvvm::utils::EndMacro(*this);
 
