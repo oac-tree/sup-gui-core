@@ -67,7 +67,7 @@ SettingsEditorDialog::~SettingsEditorDialog()
   WriteSettings();
 }
 
-void SettingsEditorDialog::SetInitialValues(const SettingsModel& model)
+void SettingsEditorDialog::SetInitialValues(const mvvm::ISessionModel &model)
 {
   m_settings_editor->SetInitialValues(model);
 }

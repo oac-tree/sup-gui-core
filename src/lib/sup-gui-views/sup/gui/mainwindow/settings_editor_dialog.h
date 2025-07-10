@@ -25,6 +25,11 @@
 
 class QLabel;
 
+namespace mvvm
+{
+class ISessionModel;
+}
+
 namespace sup::gui
 {
 
@@ -45,7 +50,7 @@ public:
   /**
    * @brief Sets initial values for editing.
    */
-  void SetInitialValues(const SettingsModel& model);
+  void SetInitialValues(const mvvm::ISessionModel& model);
 
   /**
    * @brief Returns the model representing result of editing.

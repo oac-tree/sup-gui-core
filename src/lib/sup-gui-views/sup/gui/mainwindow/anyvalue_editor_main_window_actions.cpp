@@ -49,8 +49,10 @@ namespace sup::gui
 {
 
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::IProject *project,
+                                                                 mvvm::ISessionModel *settings,
                                                                  QMainWindow *mainwindow)
     : QObject(mainwindow)
+    , m_settings(settings)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
     , m_focus_controller(sup::gui::CreateGlobalFocusController())
 {
@@ -223,8 +225,12 @@ void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 
 void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
 {
+  if (!m_settings)
+  {
+    return;
+  }
   sup::gui::SettingsEditorDialog dialog;
-  dialog.SetInitialValues(sup::gui::GetGlobalSettings());
+  dialog.SetInitialValues(*m_settings);
   if (dialog.exec() == QDialog::Accepted)
   {
     SaveSettingsInPersistentStorage(*dialog.GetResult());

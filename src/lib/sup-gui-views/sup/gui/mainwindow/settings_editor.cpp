@@ -27,6 +27,7 @@
 #include <mvvm/views/component_provider_helper.h>
 #include <mvvm/views/property_flat_view.h>
 #include <mvvm/widgets/widget_utils.h>
+#include <mvvm/model/i_session_model.h>
 
 #include <QListView>
 #include <QSplitter>
@@ -57,7 +58,7 @@ SettingsEditor::SettingsEditor(QWidget *parent_widget)
   m_settings_view->layout()->setContentsMargins(mvvm::utils::UnitSize(1), 0, 0, 0);
 }
 
-void SettingsEditor::SetInitialValues(const SettingsModel &model)
+void SettingsEditor::SetInitialValues(const mvvm::ISessionModel &model)
 {
   // in the absence of ISessionModel::Clone, we just clone root item
   m_settings_model = std::make_unique<SettingsModel>();

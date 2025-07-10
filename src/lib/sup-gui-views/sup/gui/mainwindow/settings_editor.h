@@ -34,6 +34,7 @@ class ItemViewComponentProvider;
 class SessionItem;
 class PropertyFlatView;
 class PropertyViewModel;
+class ISessionModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -58,7 +59,7 @@ public:
   /**
    * @brief Sets initial values for editing.
    */
-  void SetInitialValues(const SettingsModel& model);
+  void SetInitialValues(const mvvm::ISessionModel& model);
 
   /**
    * @brief Sets settings group item to show in property editor.

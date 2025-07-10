@@ -37,6 +37,7 @@ namespace mvvm
 {
 class IProject;
 class ProjectHandler;
+class ISessionModel;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -52,8 +53,9 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(mvvm::IProject* project,
-                                           QMainWindow* mainwindow = nullptr);
+  explicit AnyValueEditorMainWindowActions(
+      mvvm::IProject* project,
+      mvvm::ISessionModel* settings, QMainWindow* mainwindow = nullptr);
   ~AnyValueEditorMainWindowActions() override;
 
   /**
@@ -112,6 +114,7 @@ private:
   QMenu* m_recent_project_menu{nullptr};
   QToolButton* m_toggle_right_sidebar_button{nullptr};
 
+  mvvm::ISessionModel* m_settings{nullptr};
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
   std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };

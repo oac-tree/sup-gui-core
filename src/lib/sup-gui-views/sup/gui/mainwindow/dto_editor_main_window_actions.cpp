@@ -209,12 +209,12 @@ void DtoEditorMainWindowActions::OnChangeSystemFont()
 
 void DtoEditorMainWindowActions::OnApplicationSettingsDialog()
 {
-  sup::gui::SettingsEditorDialog dialog;
-  dialog.SetInitialValues(sup::gui::GetGlobalSettings());
-  if (dialog.exec() == QDialog::Accepted)
-  {
-    SaveSettingsInPersistentStorage(*dialog.GetResult());
-  }
+  // sup::gui::SettingsEditorDialog dialog;
+  // dialog.SetInitialValues(sup::gui::GetGlobalSettings());
+  // if (dialog.exec() == QDialog::Accepted)
+  // {
+  //   SaveSettingsInPersistentStorage(*dialog.GetResult());
+  // }
 }
 
 void DtoEditorMainWindowActions::OnResetSettings()
