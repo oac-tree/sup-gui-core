@@ -26,12 +26,16 @@
 
 #include <sup/gui/widgets/settings_callbacks.h>
 
+#include <mvvm/core/variant.h>
+
 #include <QString>
+#include <QVariant>
 
 namespace mvvm
 {
 class ISessionModel;
-}
+class SessionItem;
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -41,6 +45,14 @@ namespace sup::gui
 const QString kRootSettingsModelName = "SettingsModel/xml";
 
 class SettingsModel;
+
+/**
+ * @brief Assigns Qt variant to SessionItem.
+ *
+ * It is expected that variant was obtained from QSettings storage and contain a string
+ * representation.
+ */
+void AssignStringBasedVariant(const QVariant& variant, mvvm::SessionItem& item);
 
 /**
  * @brief Returns model with global application settings.

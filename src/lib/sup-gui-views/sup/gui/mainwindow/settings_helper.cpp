@@ -66,6 +66,19 @@ const SettingsModel &GetGlobalSettings()
   return model;
 }
 
+void AssignStringBasedVariant(const QVariant &variant, mvvm::SessionItem &item)
+{
+  if (!variant.isValid())
+  {
+    return;
+  }
+
+  auto item_data = item.Data();
+  // converting stored string to a proper type
+  item.SetData(
+      mvvm::utils::ValueFromString(mvvm::GetTypeCode(item_data), variant.toString().toStdString()));
+}
+
 void SaveSettingsInPersistentStorage(const SettingsModel &model)
 {
   QSettings settings;
@@ -142,11 +155,7 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
 
     if (item->HasData())
     {
-      const QVariant variant = func(item_key);
-      if (variant.isValid())
-      {
-        item->SetData(mvvm::GetStdVariant(variant));
-      }
+      AssignStringBasedVariant(func(item_key), *item);
     }
 
     stack.pop();

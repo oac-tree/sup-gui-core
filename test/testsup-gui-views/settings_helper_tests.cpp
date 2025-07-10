@@ -154,6 +154,28 @@ TEST_F(SettingsHelperTest, ReadModelWithSinglePropertyItem)
   EXPECT_EQ(item->Data<mvvm::int32>(), 43);
 }
 
+//! QSettings machinery normally converts everything to string on the way back from QSettings.
+//! Valiadting that we correctly converting string "bool" to boolen value.
+TEST_F(SettingsHelperTest, BoolIsReadAsString)
+{
+  const std::string display_name("display_name");
+  TestModel model;
+  auto item = model.InsertItem<mvvm::PropertyItem>();
+  item->SetDisplayName(display_name);
+  item->SetData(mvvm::boolean{false});
+
+  // preparing another value (bool is saved as a string)
+  const auto expected_variant = QVariant::fromValue(QString("true"));
+  const QString key = "TestModel/display_name";
+  ON_CALL(m_mock_read_func, Call(key)).WillByDefault(::testing::Return(expected_variant));
+
+  EXPECT_CALL(m_mock_read_func, Call(key)).Times(1);
+  ReadSettingsFromPersistentStorage(model, m_mock_read_func.AsStdFunction());
+
+  // checking that item data was updated
+  EXPECT_EQ(item->Data<mvvm::boolean>(), true);
+}
+
 TEST_F(SettingsHelperTest, ReadModelWithTwoPropertyItems)
 {
   TestModel model;
