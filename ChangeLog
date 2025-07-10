@@ -1,3 +1,7 @@
+Changes for 2.0.0:
+
+- Save SettingsModel in QSettings persistent storage in human-readable format
+
 Changes for 1.9.0:
 
 - Implement performance benchmarks for AnyValueItem transformation

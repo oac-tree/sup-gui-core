@@ -27,7 +27,7 @@
     <artifactId>sup-gui-core</artifactId>
     <packaging>codac</packaging>
     <!-- See ChangeLog file for details -->
-    <version>1.9.0</version>
+    <version>2.0.0</version>
     <name>COA core GUI components</name>
     <description>Common GUI core libraries for Operation Application user interfaces.</description>
     <url>http://www.iter.org/</url>
