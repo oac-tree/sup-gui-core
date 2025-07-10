@@ -53,7 +53,7 @@ class SettingsEditor : public QWidget
   Q_OBJECT
 
 public:
-  explicit SettingsEditor(QWidget* parent_widget = nullptr);
+  explicit SettingsEditor(const mvvm::ISessionModel &model, QWidget* parent_widget = nullptr);
   ~SettingsEditor() override;
 
   /**
@@ -67,9 +67,9 @@ public:
   void SetSettingsGroup(mvvm::SessionItem* item);
 
   /**
-   * @brief Returns the model representing result of editing.
+   * @brief Writes current version of settings to persistent storage.
    */
-  const SettingsModel* GetResult() const;
+  void WriteToPersistentStorage();
 
 private:
   QSplitter* m_splitter{nullptr};

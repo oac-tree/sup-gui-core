@@ -34,7 +34,6 @@ namespace sup::gui
 {
 
 class SettingsEditor;
-class SettingsModel;
 
 /**
  * @brief The SettingsEditorDialog class is a modal dialog that wraps SettingsEditor.
@@ -44,18 +43,13 @@ class SettingsEditorDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit SettingsEditorDialog(QWidget* parent_widget = nullptr);
+  explicit SettingsEditorDialog(const mvvm::ISessionModel&model, QWidget* parent_widget = nullptr);
   ~SettingsEditorDialog() override;
 
   /**
-   * @brief Sets initial values for editing.
+   * @brief Writes current version of settings to persistent storage.
    */
-  void SetInitialValues(const mvvm::ISessionModel& model);
-
-  /**
-   * @brief Returns the model representing result of editing.
-   */
-  const SettingsModel* GetResult() const;
+  void WriteToPersistentStorage();
 
 protected:
   void keyPressEvent(QKeyEvent* event) override;
@@ -67,12 +61,12 @@ private:
   void SaveToPersistentSettings();
 
   /**
-   * @brief Loads dialog persistence widget settings from disk.
+   * @brief Loads dialog settings from disk.
    */
   void ReadSettings();
 
   /**
-   * @brief Writes persistence widget settings on disk.
+   * @brief Writes dialiog settings on disk.
    */
   void WriteSettings();
 

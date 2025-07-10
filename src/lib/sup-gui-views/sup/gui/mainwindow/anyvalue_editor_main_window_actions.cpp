@@ -229,11 +229,10 @@ void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
   {
     return;
   }
-  sup::gui::SettingsEditorDialog dialog;
-  dialog.SetInitialValues(*m_settings);
+  sup::gui::SettingsEditorDialog dialog(*m_settings);
   if (dialog.exec() == QDialog::Accepted)
   {
-    SaveSettingsInPersistentStorage(*dialog.GetResult());
+    dialog.WriteToPersistentStorage();
   }
 }
 

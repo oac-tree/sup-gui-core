@@ -44,8 +44,8 @@ const QString kWindowSizeSettingName = kGroupName + "/" + "size";
 
 }  // namespace
 
-SettingsEditorDialog::SettingsEditorDialog(QWidget* parent_widget)
-    : QDialog(parent_widget), m_label(new QLabel), m_settings_editor(new SettingsEditor)
+SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget)
+    : QDialog(parent_widget), m_label(new QLabel), m_settings_editor(new SettingsEditor(model))
 {
   setWindowTitle("Application Settings");
 
@@ -67,14 +67,9 @@ SettingsEditorDialog::~SettingsEditorDialog()
   WriteSettings();
 }
 
-void SettingsEditorDialog::SetInitialValues(const mvvm::ISessionModel &model)
+void SettingsEditorDialog::WriteToPersistentStorage()
 {
-  m_settings_editor->SetInitialValues(model);
-}
-
-const SettingsModel* SettingsEditorDialog::GetResult() const
-{
-  return m_settings_editor->GetResult();
+  m_settings_editor->WriteToPersistentStorage();
 }
 
 void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)
