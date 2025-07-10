@@ -52,7 +52,8 @@ const QString kWindowPosSettingName = kGroupName + "/" + "position";
 namespace sup::gui
 {
 
-DtoEditorMainWindow::DtoEditorMainWindow() : m_project(CreateProject())
+DtoEditorMainWindow::DtoEditorMainWindow()
+    : m_settings(std::make_unique<SettingsModel>()), m_project(CreateProject())
 {
   InitApplication();
 
@@ -80,7 +81,7 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), this);
+  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), m_settings.get(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
 
@@ -123,8 +124,7 @@ void DtoEditorMainWindow::ReadSettings()
 
   const auto default_pos = QPoint(mvvm::utils::UnitSize(20), mvvm::utils::UnitSize(40));
   move(settings.value(kWindowPosSettingName, default_pos).toPoint());
-  // global persistent setting stored in SettingsModel
-  sup::gui::ReadGlobalSettings();
+  ::sup::gui::ReadApplicationSettings(*m_settings);
 }
 
 void DtoEditorMainWindow::WriteSettings()
@@ -132,6 +132,7 @@ void DtoEditorMainWindow::WriteSettings()
   QSettings settings;
   settings.setValue(kWindowSizeSettingName, size());
   settings.setValue(kWindowPosSettingName, pos());
+  ::sup::gui::WriteApplicationSettings(*m_settings);
 }
 
 bool DtoEditorMainWindow::CanCloseApplication()
@@ -158,10 +159,8 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
-  const auto enable_undo =
-      sup::gui::GetGlobalSettings().Data<bool>(sup::gui::constants::kUseUndoSetting);
-  const auto undo_limit =
-      sup::gui::GetGlobalSettings().Data<int>(sup::gui::constants::kUndoLimitSetting);
+  const auto enable_undo = m_settings->Data<bool>(sup::gui::constants::kUseUndoSetting);
+  const auto undo_limit = m_settings->Data<int>(sup::gui::constants::kUndoLimitSetting);
   m_project->GetWaveformModel()->SetUndoEnabled(enable_undo, undo_limit);
   m_project->GetSupDtoModel()->SetUndoEnabled(enable_undo, undo_limit);
 

@@ -41,6 +41,7 @@ class DtoComposerView;
 class DtoEditorMainWindowActions;
 class DtoWaveformView;
 class DtoEditorProject;
+class SettingsModel;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -93,6 +94,7 @@ private:
    */
   std::unique_ptr<DtoEditorProject> CreateProject();
 
+  std::unique_ptr<SettingsModel> m_settings;
   std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
