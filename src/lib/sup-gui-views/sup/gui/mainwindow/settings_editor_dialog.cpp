@@ -67,9 +67,9 @@ SettingsEditorDialog::~SettingsEditorDialog()
   WriteSettings();
 }
 
-void SettingsEditorDialog::WriteToPersistentStorage()
+void SettingsEditorDialog::PropagateSettingsToModel(mvvm::ISessionModel& model)
 {
-  m_settings_editor->WriteToPersistentStorage();
+  m_settings_editor->PropagateSettingsToModel(model);
 }
 
 void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)

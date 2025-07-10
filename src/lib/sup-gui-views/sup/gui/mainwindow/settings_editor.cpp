@@ -35,6 +35,7 @@
 #include <QSplitter>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <QDebug>
 
 namespace sup::gui
 {
@@ -65,12 +66,13 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel&model, QWidget *parent_
 void SettingsEditor::SetInitialValues(const mvvm::ISessionModel &model)
 {
   // in the absence of ISessionModel::Clone, we just clone root item
-  m_settings_model = std::make_unique<SettingsModel>();
-  m_settings_model->ReplaceRootItem(model.GetRootItem()->Clone());
+  // FIXME replace with clone after it implemented, remove SettingsModel knowledge
+  m_working_settings_copy = std::make_unique<SettingsModel>();
+  m_working_settings_copy->ReplaceRootItem(model.GetRootItem()->Clone());
 
-  m_list_component_provider->SetApplicationModel(m_settings_model.get());
+  m_list_component_provider->SetApplicationModel(m_working_settings_copy.get());
   m_settings_view->SetViewModel(m_property_view_model.get());
-  m_list_component_provider->SetSelectedItem(m_settings_model->GetSettingsItems().at(0));
+  m_list_component_provider->SetSelectedItem(m_working_settings_copy->GetSettingsItems().at(0));
 }
 
 SettingsEditor::~SettingsEditor() = default;
@@ -80,9 +82,9 @@ void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
   m_property_view_model->SetRootSessionItem(item);
 }
 
-void SettingsEditor::WriteToPersistentStorage()
+void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel &model)
 {
-  WriteApplicationSettings(*m_settings_model);
+  model.ReplaceRootItem(m_working_settings_copy->GetRootItem()->Clone());
 }
 
 }  // namespace sup::gui

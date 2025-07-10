@@ -232,7 +232,7 @@ void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
   sup::gui::SettingsEditorDialog dialog(*m_settings);
   if (dialog.exec() == QDialog::Accepted)
   {
-    dialog.WriteToPersistentStorage();
+    dialog.PropagateSettingsToModel(*m_settings);
   }
 }
 

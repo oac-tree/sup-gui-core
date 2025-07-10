@@ -43,13 +43,13 @@ class SettingsEditorDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit SettingsEditorDialog(const mvvm::ISessionModel&model, QWidget* parent_widget = nullptr);
+  explicit SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget = nullptr);
   ~SettingsEditorDialog() override;
 
   /**
-   * @brief Writes current version of settings to persistent storage.
+   * @brief Rewrites given model content with local settings copy.
    */
-  void WriteToPersistentStorage();
+  void PropagateSettingsToModel(mvvm::ISessionModel& model);
 
 protected:
   void keyPressEvent(QKeyEvent* event) override;

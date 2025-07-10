@@ -67,16 +67,16 @@ public:
   void SetSettingsGroup(mvvm::SessionItem* item);
 
   /**
-   * @brief Writes current version of settings to persistent storage.
+   * @brief Rewrites given model content with local settings copy.
    */
-  void WriteToPersistentStorage();
+  void PropagateSettingsToModel(mvvm::ISessionModel& model);
 
 private:
   QSplitter* m_splitter{nullptr};
   QListView* m_list_view{nullptr};
   mvvm::PropertyFlatView* m_settings_view{nullptr};
 
-  std::unique_ptr<SettingsModel> m_settings_model;
+  std::unique_ptr<SettingsModel> m_working_settings_copy;
 
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_list_component_provider;
   std::unique_ptr<mvvm::PropertyViewModel> m_property_view_model;
