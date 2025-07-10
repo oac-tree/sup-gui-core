@@ -54,7 +54,7 @@ TEST_F(SettingsHelperTest, WriteAndReadEmptyModel)
   mvvm::SessionModel model;
 
   EXPECT_CALL(m_mock_write_func, Call(::testing::_, ::testing::_)).Times(0);
-  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
+  WriteApplicationSettings(model, m_mock_write_func.AsStdFunction());
 
   EXPECT_CALL(m_mock_read_func, Call(::testing::_)).Times(0);
   ReadSettingsFromPersistentStorage(model, m_mock_read_func.AsStdFunction());
@@ -71,7 +71,7 @@ TEST_F(SettingsHelperTest, WriteModelWithSinglePropertyItem)
   const auto expected_variant = mvvm::GetQtVariant(item->Data());
   const QString expected_key = "TestModel/display_name";
   EXPECT_CALL(m_mock_write_func, Call(expected_key, expected_variant)).Times(1);
-  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
+  WriteApplicationSettings(model, m_mock_write_func.AsStdFunction());
 }
 
 TEST_F(SettingsHelperTest, WriteModelWithTwoPropertyItems)
@@ -89,7 +89,7 @@ TEST_F(SettingsHelperTest, WriteModelWithTwoPropertyItems)
   EXPECT_CALL(m_mock_write_func,
               Call(QString("TestModel/Name"), QVariant::fromValue(QString("abc"))))
       .Times(1);
-  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
+  WriteApplicationSettings(model, m_mock_write_func.AsStdFunction());
 }
 
 TEST_F(SettingsHelperTest, WriteModelWithPropertyItemCompound)
@@ -110,7 +110,7 @@ TEST_F(SettingsHelperTest, WriteModelWithPropertyItemCompound)
   EXPECT_CALL(m_mock_write_func,
               Call(QString("TestModel/Compound/Name"), QVariant::fromValue(QString("abc"))))
       .Times(1);
-  WriteSettingsToPersistentStorage(model, m_mock_write_func.AsStdFunction());
+  WriteApplicationSettings(model, m_mock_write_func.AsStdFunction());
 }
 
 TEST_F(SettingsHelperTest, ReadModelWithSinglePropertyItem)

@@ -67,32 +67,55 @@ void LoadSettingsFromPersistentStorage(SettingsModel& model);
 void ReadGlobalSettings();
 
 /**
- * @brief Save settings to persistent storage using the provided write function.
+ * @brief Writes application settings to persistent storage using the provided write function.
  *
- * This is a simplified method that allows to write the model content in the QSettings file in
- * a human-readable format. Only the item's data role is saved. QSetting keys are constructed from
- * the display names of individual items.
+ * Application settings are represented by SessionModel, where various scalar properties are
+ * stored in compound items (see SettingsModel). The algorithm iterates through all property items
+ * and saves their data roles. This method needs a write function.
  *
  * @param model The model that contains a collection of items representing settings.
- * @param Special function to write into QSetting file.
+ * @param A function to write into QSetting file.
  */
-void WriteSettingsToPersistentStorage(const mvvm::ISessionModel& model, write_variant_func_t func);
-
-
-void WriteSettings(const mvvm::ISessionModel& model);
+void WriteApplicationSettings(const mvvm::ISessionModel& model, write_variant_func_t func);
 
 /**
- * @brief Read settings from persistent storage.
+ * @brief Save application settings to configured QSettings storage.
  *
- * This function reads the data from QSettings file. Only item's data role is updated. The model
- * should be already populated with proper settings items.
+ * The method should be used after InitCoreApplication call.
+ *
+ * Application settings are represented by SessionModel, where various scalar properties are
+ * stored in compound items (see SettingsModel). The algorithm iterates through all items and saves
+ * their data roles.
  *
  * @param model The model that contains a collection of items representing settings.
- * @param Special function to read from QSetting file.
+ */
+void WriteApplicationSettings(const mvvm::ISessionModel& model);
+
+/**
+ * @brief Reads application settings from persistent storage using provided read function.
+ *
+ * Application settings are represented by SessionModel, where various scalar properties are
+ * stored in compound items (see SettingsModel). The method iterates through all property items and
+ * updates their data roles. The method doesn't add or remove property items.
+ *
+ * @param model The model that contains a collection of items representing settings.
+ * @param A function to read from QSetting file.
  */
 void ReadSettingsFromPersistentStorage(mvvm::ISessionModel& model, read_variant_func_t func);
 
-void ReadSettings(mvvm::ISessionModel& model);
+/**
+ * @brief Reads application settings from configured QSettings storage.
+ *
+ * The method should be used after InitCoreApplication call.
+ *
+ * Application settings are represented by SessionModel, where various scalar properties are
+ * stored in compound items (see SettingsModel). The method iterates through all property items and
+ * updates their data roles. The method doesn't add or remove property items.
+ *
+ * @param model The model that contains a collection of items representing settings.
+ * @param A function to read from QSetting file.
+ */
+void ReadApplicationSettings(mvvm::ISessionModel& model);
 
 }  // namespace sup::gui
 

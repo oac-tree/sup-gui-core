@@ -95,7 +95,7 @@ void ReadGlobalSettings()
   LoadSettingsFromPersistentStorage(const_cast<SettingsModel &>(GetGlobalSettings()));
 }
 
-void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_variant_func_t func)
+void WriteApplicationSettings(const mvvm::ISessionModel &model, write_variant_func_t func)
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
@@ -123,9 +123,9 @@ void WriteSettingsToPersistentStorage(const mvvm::ISessionModel &model, write_va
   }
 }
 
-void WriteSettings(const mvvm::ISessionModel &model)
+void WriteApplicationSettings(const mvvm::ISessionModel &model)
 {
-  WriteSettingsToPersistentStorage(model, GetSettingsWriteFunc());
+  WriteApplicationSettings(model, GetSettingsWriteFunc());
 }
 
 void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_func_t func)
@@ -156,7 +156,7 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
   }
 }
 
-void ReadSettings(mvvm::ISessionModel &model)
+void ReadApplicationSettings(mvvm::ISessionModel &model)
 {
   ReadSettingsFromPersistentStorage(model, GetSettingsReadFunc());
 }

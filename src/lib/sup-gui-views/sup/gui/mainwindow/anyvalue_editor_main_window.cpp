@@ -110,7 +110,7 @@ void AnyValueEditorMainWindow::ReadSettings()
   const QSettings settings;
   resize(settings.value(GetWindowSizeSettingName(), QSize(800, 600)).toSize());
   move(settings.value(GetWindowPosSettingName(), QPoint(200, 200)).toPoint());
-  ::sup::gui::ReadSettings(*m_settings);
+  ::sup::gui::ReadApplicationSettings(*m_settings);
 }
 
 void AnyValueEditorMainWindow::WriteSettings()
@@ -118,7 +118,7 @@ void AnyValueEditorMainWindow::WriteSettings()
   QSettings settings;
   settings.setValue(GetWindowSizeSettingName(), size());
   settings.setValue(GetWindowPosSettingName(), pos());
-  ::sup::gui::WriteSettings(*m_settings);
+  ::sup::gui::WriteApplicationSettings(*m_settings);
 }
 
 bool AnyValueEditorMainWindow::CanCloseApplication()
