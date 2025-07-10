@@ -113,6 +113,27 @@ TEST_F(SettingsHelperTest, WriteModelWithPropertyItemCompound)
   WriteApplicationSettings(model, m_mock_write_func.AsStdFunction());
 }
 
+TEST_F(SettingsHelperTest, ReadModelFromEmptyConfig)
+{
+  const std::string display_name("display_name");
+  TestModel model;
+  auto item = model.InsertItem<mvvm::PropertyItem>();
+  item->SetDisplayName(display_name);
+  item->SetData(mvvm::int32{42});
+
+  // instructing to return an invalid variant as a sign that setting doesn't exist
+  const auto expected_variant = QVariant();
+  const QString key = "TestModel/display_name";
+  ON_CALL(m_mock_read_func, Call(key)).WillByDefault(::testing::Return(expected_variant));
+
+  EXPECT_CALL(m_mock_read_func, Call(key)).Times(1);
+
+  EXPECT_NO_THROW(ReadSettingsFromPersistentStorage(model, m_mock_read_func.AsStdFunction()));
+
+  // item data remains the same
+  EXPECT_EQ(item->Data<mvvm::int32>(), 42);
+}
+
 TEST_F(SettingsHelperTest, ReadModelWithSinglePropertyItem)
 {
   const std::string display_name("display_name");

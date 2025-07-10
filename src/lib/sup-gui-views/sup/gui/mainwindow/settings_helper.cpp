@@ -143,7 +143,10 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
     if (item->HasData())
     {
       const QVariant variant = func(item_key);
-      item->SetData(mvvm::GetStdVariant(variant));
+      if (variant.isValid())
+      {
+        item->SetData(mvvm::GetStdVariant(variant));
+      }
     }
 
     stack.pop();
@@ -158,6 +161,11 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
 
 void ReadApplicationSettings(mvvm::ISessionModel &model)
 {
+  const QSettings settings;
+  if (!settings.childGroups().contains(QString::fromStdString(model.GetType())))
+  {
+    return;
+  }
   ReadSettingsFromPersistentStorage(model, GetSettingsReadFunc());
 }
 
