@@ -148,10 +148,8 @@ void AnyValueEditorMainWindow::OnProjectLoad()
     throw RuntimeException("No model exists");
   }
 
-  const auto enable_undo =
-      sup::gui::GetGlobalSettings().Data<bool>(sup::gui::constants::kUseUndoSetting);
-  const auto undo_limit =
-      sup::gui::GetGlobalSettings().Data<int>(sup::gui::constants::kUndoLimitSetting);
+  const auto enable_undo = m_settings->Data<bool>(sup::gui::constants::kUseUndoSetting);
+  const auto undo_limit = m_settings->Data<int>(sup::gui::constants::kUndoLimitSetting);
   m_project->GetApplicationModel()->SetUndoEnabled(enable_undo, undo_limit);
 
   m_anyvalue_editor->SetAnyValueItemContainer(m_project->GetApplicationModel()->GetRootItem());

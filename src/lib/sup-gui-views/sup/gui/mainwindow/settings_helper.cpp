@@ -60,12 +60,6 @@ QString GetItemKey(const QString &section, const mvvm::SessionItem &item)
 }
 }  // namespace
 
-const SettingsModel &GetGlobalSettings()
-{
-  static const SettingsModel model;
-  return model;
-}
-
 void AssignStringBasedVariant(const QVariant &variant, mvvm::SessionItem &item)
 {
   if (!variant.isValid())
@@ -77,35 +71,6 @@ void AssignStringBasedVariant(const QVariant &variant, mvvm::SessionItem &item)
   // converting stored string to a proper type
   item.SetData(
       mvvm::utils::ValueFromString(mvvm::GetTypeCode(item_data), variant.toString().toStdString()));
-}
-
-void SaveSettingsInPersistentStorage(const SettingsModel &model)
-{
-  QSettings settings;
-
-  auto xml_string = mvvm::utils::ToXMLString(*model.GetRootItem());
-  settings.setValue(kRootSettingsModelName, QString::fromStdString(xml_string));
-}
-
-void LoadSettingsFromPersistentStorage(SettingsModel &model)
-{
-  const QSettings settings;
-
-  // If the QSettings file contains a record, we will fully rebuild the settings model with the
-  // content, stored in the file. This is not a very clean approach, since our C++ model
-  // might not match what was stored in a file a while ago. TODO find a way to update the model only
-  // with meaningful content.
-  if (settings.contains(kRootSettingsModelName))
-  {
-    auto str = settings.value(kRootSettingsModelName).toString().toStdString();
-    auto root_item = mvvm::utils::SessionItemFromXMLString(str);
-    model.ReplaceRootItem(std::move(root_item));
-  }
-}
-
-void ReadGlobalSettings()
-{
-  LoadSettingsFromPersistentStorage(const_cast<SettingsModel &>(GetGlobalSettings()));
 }
 
 void WriteApplicationSettings(const mvvm::ISessionModel &model, write_variant_func_t func)

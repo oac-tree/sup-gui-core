@@ -55,30 +55,6 @@ class SettingsModel;
 void AssignStringBasedVariant(const QVariant& variant, mvvm::SessionItem& item);
 
 /**
- * @brief Returns model with global application settings.
- */
-const SettingsModel& GetGlobalSettings();
-
-/**
- * @brief Saves given settings in persistent storage.
- */
-void SaveSettingsInPersistentStorage(const SettingsModel& model);
-
-/**
- * @brief Loads settings from persistent storage.
- *
- * If persistent storage doesn't contain any related records, the model will be left unchainged.
- */
-void LoadSettingsFromPersistentStorage(SettingsModel& model);
-
-/**
- * @brief Loads global settings from persistent storage.
- *
- * If persistent storage doesn't contain any related records, the model will be left unchainged.
- */
-void ReadGlobalSettings();
-
-/**
  * @brief Writes application settings to persistent storage using the provided write function.
  *
  * Application settings are represented by SessionModel, where various scalar properties are
