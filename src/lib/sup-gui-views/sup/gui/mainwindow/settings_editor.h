@@ -57,11 +57,6 @@ public:
   ~SettingsEditor() override;
 
   /**
-   * @brief Sets initial values for editing.
-   */
-  void SetInitialValues(const mvvm::ISessionModel& model);
-
-  /**
    * @brief Sets settings group item to show in property editor.
    */
   void SetSettingsGroup(mvvm::SessionItem* item);
@@ -72,11 +67,16 @@ public:
   void PropagateSettingsToModel(mvvm::ISessionModel& model);
 
 private:
+  /**
+   * @brief Sets initial values for editing.
+   */
+  void SetInitialValues(const mvvm::ISessionModel& model);
+
   QSplitter* m_splitter{nullptr};
   QListView* m_list_view{nullptr};
   mvvm::PropertyFlatView* m_settings_view{nullptr};
 
-  std::unique_ptr<SettingsModel> m_working_settings_copy;
+  std::unique_ptr<mvvm::ISessionModel> m_working_settings_copy;
 
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_list_component_provider;
   std::unique_ptr<mvvm::PropertyViewModel> m_property_view_model;

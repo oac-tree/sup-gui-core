@@ -25,22 +25,24 @@
 #include <sup/gui/model/settings_model.h>
 
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
 #include <mvvm/views/property_flat_view.h>
 #include <mvvm/widgets/widget_utils.h>
 
+#include <QDebug>
 #include <QListView>
 #include <QSplitter>
 #include <QTreeView>
 #include <QVBoxLayout>
-#include <QDebug>
 
 namespace sup::gui
 {
 
-SettingsEditor::SettingsEditor(const mvvm::ISessionModel&model, QWidget *parent_widget)
+SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent_widget)
     : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_list_view(new QListView)
@@ -63,18 +65,6 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel&model, QWidget *parent_
   SetInitialValues(model);
 }
 
-void SettingsEditor::SetInitialValues(const mvvm::ISessionModel &model)
-{
-  // in the absence of ISessionModel::Clone, we just clone root item
-  // FIXME replace with clone after it implemented, remove SettingsModel knowledge
-  m_working_settings_copy = std::make_unique<SettingsModel>();
-  m_working_settings_copy->ReplaceRootItem(model.GetRootItem()->Clone());
-
-  m_list_component_provider->SetApplicationModel(m_working_settings_copy.get());
-  m_settings_view->SetViewModel(m_property_view_model.get());
-  m_list_component_provider->SetSelectedItem(m_working_settings_copy->GetSettingsItems().at(0));
-}
-
 SettingsEditor::~SettingsEditor() = default;
 
 void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
@@ -84,7 +74,16 @@ void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
 
 void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel &model)
 {
-  model.ReplaceRootItem(m_working_settings_copy->GetRootItem()->Clone());
+  model.ReplaceRootItem(mvvm::utils::CopyItem(*m_working_settings_copy->GetRootItem()));
+}
+
+void SettingsEditor::SetInitialValues(const mvvm::ISessionModel &model)
+{
+  m_working_settings_copy = model.Clone();
+
+  m_list_component_provider->SetApplicationModel(m_working_settings_copy.get());
+  m_settings_view->SetViewModel(m_property_view_model.get());
+  m_list_component_provider->SetSelectedItem(mvvm::utils::GetTopItem(*m_working_settings_copy));
 }
 
 }  // namespace sup::gui
