@@ -91,7 +91,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(&m_model);
+  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(m_model);
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);

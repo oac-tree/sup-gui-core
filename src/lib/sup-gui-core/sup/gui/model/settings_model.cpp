@@ -45,7 +45,7 @@ void SettingsModel::Clear()
 
 std::vector<mvvm::CompoundItem*> SettingsModel::GetSettingsItems() const
 {
-  return mvvm::utils::GetTopItems<mvvm::CompoundItem>(this);
+  return mvvm::utils::GetTopItems<mvvm::CompoundItem>(*this);
 }
 
 void SettingsModel::PopulateModel()
