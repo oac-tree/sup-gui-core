@@ -31,11 +31,12 @@ CommonSettingsItem::CommonSettingsItem() : CompoundItem(GetStaticType())
 {
   (void)SetDisplayName("Common Settings");
 
-  AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
-      .SetDisplayName("Enable undo/redo")
-      .SetStrategy(this, &CommonSettingsItem::OnSetFlag);
+  (void) AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
+      .SetDisplayName("Enable undo/redo");
   (void)AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
       .SetDisplayName("Undo limit");
+
+  ActivateStrategies();
 }
 
 std::string CommonSettingsItem::GetStaticType()
@@ -43,9 +44,16 @@ std::string CommonSettingsItem::GetStaticType()
   return "CommonSettings";
 }
 
+void CommonSettingsItem::ActivateStrategies()
+{
+  GetItem(constants::kUseUndoSetting)->SetStrategy(this, &CommonSettingsItem::OnSetFlag);
+}
+
 std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
 {
-  return std::make_unique<CommonSettingsItem>(*this);
+  auto result = std::make_unique<CommonSettingsItem>(*this);
+  result->ActivateStrategies();
+  return result;
 }
 
 bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t &variant,

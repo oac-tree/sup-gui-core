@@ -45,6 +45,9 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
+protected:
+  void ActivateStrategies() override;
+
 private:
   /**
    * @brief Custom data strategy to enable/disabled status of "undo limits" property when
