@@ -59,7 +59,7 @@ TEST_F(SettingsModelTest, Clear)
 
 TEST_F(SettingsModelTest, AutoDisableSettings)
 {
-  SettingsModel model;
+  const SettingsModel model;
 
   auto common_settings = model.GetSettingsItems().at(0);
   ASSERT_EQ(model.GetSettingsItems().size(), 1);
@@ -72,6 +72,18 @@ TEST_F(SettingsModelTest, AutoDisableSettings)
 
   EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting)->IsEnabled());
   EXPECT_FALSE(common_settings->GetItem(constants::kUndoLimitSetting)->IsEnabled());
+}
+
+TEST_F(SettingsModelTest, Clone)
+{
+  const SettingsModel model;
+
+  auto clone = model.Clone();
+  auto cloned_model = dynamic_cast<SettingsModel*>(clone.get());
+  ASSERT_NE(cloned_model, nullptr);
+  EXPECT_EQ(cloned_model->GetSettingsItems().size(), 1);
+  EXPECT_EQ(cloned_model->Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);
+  EXPECT_EQ(cloned_model->Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
 }
 
 }  // namespace sup::gui::test

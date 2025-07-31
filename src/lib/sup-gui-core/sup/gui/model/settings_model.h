@@ -40,6 +40,8 @@ class SettingsModel : public mvvm::ApplicationModel
 public:
   SettingsModel();
 
+  std::unique_ptr<ISessionModel> Clone() const override;
+
   /**
    * @details Clears the model and populates it with the default settings.
    */

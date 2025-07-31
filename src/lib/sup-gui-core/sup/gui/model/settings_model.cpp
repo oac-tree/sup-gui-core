@@ -32,6 +32,11 @@ SettingsModel::SettingsModel() : ApplicationModel("SettingsModel")
   PopulateModel();
 }
 
+std::unique_ptr<mvvm::ISessionModel> SettingsModel::Clone() const
+{
+  return std::make_unique<SettingsModel>(*this);
+}
+
 void SettingsModel::Clear()
 {
   mvvm::ApplicationModel::Clear();
