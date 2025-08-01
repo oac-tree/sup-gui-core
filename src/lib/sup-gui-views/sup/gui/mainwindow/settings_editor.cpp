@@ -50,6 +50,8 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_splitter);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
 
   m_splitter->addWidget(m_list_view);
   m_splitter->addWidget(m_stacked_widget);

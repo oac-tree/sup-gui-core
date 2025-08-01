@@ -38,7 +38,7 @@ CommonSettingsEditor::CommonSettingsEditor(QWidget *parent_widget)
 
   layout->addWidget(m_settings_view);
 
-  m_settings_view->layout()->setContentsMargins(mvvm::utils::UnitSize(1), 0, 0, 0);
+  // m_settings_view->layout()->setContentsMargins(mvvm::utils::UnitSize(1), 0, 0, 0);
   m_settings_view->SetViewModel(m_property_view_model.get());
 }
 
