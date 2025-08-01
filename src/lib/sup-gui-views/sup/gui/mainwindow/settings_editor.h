@@ -40,8 +40,6 @@ class ISessionModel;
 namespace sup::gui
 {
 
-class SettingsModel;
-
 /**
  * @brief The SettingsEditor class represents a simple editor of application persistent settings.
  *

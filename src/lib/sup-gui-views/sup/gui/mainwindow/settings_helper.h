@@ -40,12 +40,6 @@ class SessionItem;
 namespace sup::gui
 {
 
-//! The name of the setting in QSettings file carrying XML representation of the root item of
-//! SettingsModel.
-const QString kRootSettingsModelName = "SettingsModel/xml";
-
-class SettingsModel;
-
 /**
  * @brief Assigns Qt variant to SessionItem.
  *
