@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   clipboard_helper.h
   color_palette.cpp
   color_palette.h
+  common_settings_editor.cpp
+  common_settings_editor.h
   dto_editor_main_window.cpp
   dto_editor_main_window.h
   dto_editor_main_window_actions.cpp

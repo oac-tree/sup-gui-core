@@ -21,22 +21,18 @@
 #include "settings_editor.h"
 
 #include "settings_helper.h"
+#include "common_settings_editor.h"
 
 #include <sup/gui/model/settings_model.h>
 
 #include <mvvm/model/i_session_model.h>
-#include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/viewmodel/property_viewmodel.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
-#include <mvvm/views/property_flat_view.h>
 #include <mvvm/widgets/widget_utils.h>
 
-#include <QDebug>
 #include <QListView>
 #include <QSplitter>
-#include <QTreeView>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -46,21 +42,18 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent
     : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_list_view(new QListView)
-    , m_settings_view(new mvvm::PropertyFlatView)
+    , m_common_setting_editor(new CommonSettingsEditor)
     , m_list_component_provider(mvvm::CreateProvider<mvvm::TopItemsViewModel>(m_list_view))
-    , m_property_view_model(std::make_unique<mvvm::PropertyViewModel>(nullptr))
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_splitter);
 
   m_splitter->addWidget(m_list_view);
-  m_splitter->addWidget(m_settings_view);
+  m_splitter->addWidget(m_common_setting_editor);
   m_splitter->setSizes({200, 400});
 
   connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectedItemChanged,
           this, [this](auto item) { SetSettingsGroup(item); });
-
-  m_settings_view->layout()->setContentsMargins(mvvm::utils::UnitSize(1), 0, 0, 0);
 
   SetInitialValues(model);
 }
@@ -69,7 +62,7 @@ SettingsEditor::~SettingsEditor() = default;
 
 void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
 {
-  m_property_view_model->SetRootSessionItem(item);
+  m_common_setting_editor->SetItem(item);
 }
 
 void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel &model)
@@ -82,7 +75,6 @@ void SettingsEditor::SetInitialValues(const mvvm::ISessionModel &model)
   m_working_settings_copy = model.Clone();
 
   m_list_component_provider->SetApplicationModel(m_working_settings_copy.get());
-  m_settings_view->SetViewModel(m_property_view_model.get());
   m_list_component_provider->SetSelectedItem(mvvm::utils::GetTopItem(*m_working_settings_copy));
 }
 

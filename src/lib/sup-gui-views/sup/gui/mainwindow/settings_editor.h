@@ -32,13 +32,13 @@ namespace mvvm
 class ViewModel;
 class ItemViewComponentProvider;
 class SessionItem;
-class PropertyFlatView;
-class PropertyViewModel;
 class ISessionModel;
 }  // namespace mvvm
 
 namespace sup::gui
 {
+
+class CommonSettingsEditor;
 
 /**
  * @brief The SettingsEditor class represents a simple editor of application persistent settings.
@@ -53,6 +53,11 @@ class SettingsEditor : public QWidget
 public:
   explicit SettingsEditor(const mvvm::ISessionModel &model, QWidget* parent_widget = nullptr);
   ~SettingsEditor() override;
+
+  SettingsEditor(const SettingsEditor&) = delete;
+  SettingsEditor& operator=(const SettingsEditor&) = delete;
+  SettingsEditor(SettingsEditor&&) = delete;
+  SettingsEditor& operator=(SettingsEditor&&) = delete;
 
   /**
    * @brief Sets settings group item to show in property editor.
@@ -72,12 +77,10 @@ private:
 
   QSplitter* m_splitter{nullptr};
   QListView* m_list_view{nullptr};
-  mvvm::PropertyFlatView* m_settings_view{nullptr};
+  CommonSettingsEditor* m_common_setting_editor{nullptr};
 
   std::unique_ptr<mvvm::ISessionModel> m_working_settings_copy;
-
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_list_component_provider;
-  std::unique_ptr<mvvm::PropertyViewModel> m_property_view_model;
 };
 
 }  // namespace sup::gui
