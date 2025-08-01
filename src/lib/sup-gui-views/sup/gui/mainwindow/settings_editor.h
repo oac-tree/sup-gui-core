@@ -26,6 +26,7 @@
 
 class QSplitter;
 class QListView;
+class QStackedWidget;
 
 namespace mvvm
 {
@@ -39,6 +40,7 @@ namespace sup::gui
 {
 
 class CommonSettingsEditor;
+class StackedWidgetProvider;
 
 /**
  * @brief The SettingsEditor class represents a simple editor of application persistent settings.
@@ -77,10 +79,12 @@ private:
 
   QSplitter* m_splitter{nullptr};
   QListView* m_list_view{nullptr};
+  QStackedWidget* m_stacked_widget{nullptr};
   CommonSettingsEditor* m_common_setting_editor{nullptr};
 
   std::unique_ptr<mvvm::ISessionModel> m_working_settings_copy;
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_list_component_provider;
+  std::unique_ptr<StackedWidgetProvider> m_stacked_widget_provider;
 };
 
 }  // namespace sup::gui

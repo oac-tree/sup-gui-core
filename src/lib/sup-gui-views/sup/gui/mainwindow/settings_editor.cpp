@@ -20,8 +20,9 @@
 
 #include "settings_editor.h"
 
-#include "settings_helper.h"
 #include "common_settings_editor.h"
+#include "settings_helper.h"
+#include "stacked_widget_provider.h"
 
 #include <sup/gui/model/settings_model.h>
 
@@ -33,6 +34,7 @@
 
 #include <QListView>
 #include <QSplitter>
+#include <QStackedWidget>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -42,15 +44,19 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent
     : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_list_view(new QListView)
-    , m_common_setting_editor(new CommonSettingsEditor)
+    , m_stacked_widget(new QStackedWidget)
     , m_list_component_provider(mvvm::CreateProvider<mvvm::TopItemsViewModel>(m_list_view))
+    , m_stacked_widget_provider(std::make_unique<StackedWidgetProvider>(m_stacked_widget))
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_splitter);
 
   m_splitter->addWidget(m_list_view);
-  m_splitter->addWidget(m_common_setting_editor);
+  m_splitter->addWidget(m_stacked_widget);
   m_splitter->setSizes({200, 400});
+
+  m_stacked_widget_provider->RegisterWidget<CommonSettingsEditor>(
+      CommonSettingsItem::GetStaticType());
 
   connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectedItemChanged,
           this, [this](auto item) { SetSettingsGroup(item); });
@@ -62,7 +68,8 @@ SettingsEditor::~SettingsEditor() = default;
 
 void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
 {
-  m_common_setting_editor->SetItem(item);
+  auto widget = m_stacked_widget_provider->SetCurrentWidget(item->GetType());
+  dynamic_cast<CommonSettingsEditor*>(widget)->SetItem(item);
 }
 
 void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel &model)
