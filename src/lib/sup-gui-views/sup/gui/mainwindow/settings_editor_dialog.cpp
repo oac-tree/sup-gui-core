@@ -72,6 +72,12 @@ void SettingsEditorDialog::PropagateSettingsToModel(mvvm::ISessionModel& model)
   m_settings_editor->PropagateSettingsToModel(model);
 }
 
+void SettingsEditorDialog::RegisterWidget(const std::string& key,
+                                          const widget_factory_func_t& factory_func)
+{
+  m_settings_editor->RegisterWidget(key, factory_func);
+}
+
 void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)
 {
   // Prevent dialog from closing on press-enter-key event. This seems to be the only reliable way

@@ -39,6 +39,17 @@ QStackedWidget *StackedWidgetProvider::GetStackedWidget() const
   return m_stacked_widget;
 }
 
+void StackedWidgetProvider::RegisterWidget(const std::string &key,
+                                           const widget_factory_func_t &factory_func)
+{
+  auto iter = m_key_to_factory_func.find(key);
+  if (iter != m_key_to_factory_func.end())
+  {
+    throw RuntimeException("Already existing key");
+  }
+  m_key_to_factory_func.insert({key, factory_func});
+}
+
 QWidget *StackedWidgetProvider::SetCurrentWidget(const std::string &key)
 {
   auto iter = m_key_to_widget.find(key);

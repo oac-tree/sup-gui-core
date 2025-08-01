@@ -63,6 +63,11 @@ public:
   void RegisterWidget(const std::string& key);
 
   /**
+   * @brief Registers widget factory function for the given key.
+   */
+  void RegisterWidget(const std::string& key, const widget_factory_func_t& factory_func);
+
+  /**
    * @brief Registers widget which will be created by default.
    */
   template <typename WidgetT>
@@ -90,12 +95,7 @@ private:
 template <typename WidgetT>
 void StackedWidgetProvider::RegisterWidget(const std::string& key)
 {
-  auto iter = m_key_to_factory_func.find(key);
-  if (iter != m_key_to_factory_func.end())
-  {
-    throw RuntimeException("Already existing key");
-  }
-  m_key_to_factory_func.insert({key, []() { return std::make_unique<WidgetT>(); }});
+  RegisterWidget(key, []() { return std::make_unique<WidgetT>(); });
 }
 
 template <typename WidgetT>

@@ -43,6 +43,8 @@ class SettingsEditorDialog : public QDialog
   Q_OBJECT
 
 public:
+  using widget_factory_func_t = std::function<std::unique_ptr<QWidget>()>;
+
   explicit SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget = nullptr);
   ~SettingsEditorDialog() override;
 
@@ -50,6 +52,11 @@ public:
    * @brief Rewrites given model content with local settings copy.
    */
   void PropagateSettingsToModel(mvvm::ISessionModel& model);
+
+  /**
+   * @brief Registers widget factory function for the given key.
+   */
+  void RegisterWidget(const std::string& key, const widget_factory_func_t& factory_func);
 
 protected:
   void keyPressEvent(QKeyEvent* event) override;
