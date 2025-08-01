@@ -22,6 +22,8 @@ target_sources(${library_name} PRIVATE
   settings_editor_dialog.h
   settings_helper.cpp
   settings_helper.h
+  stacked_widget_provider.cpp
+  stacked_widget_provider.h
   status_bar_helper.cpp
   status_bar_helper.h
 )
@@ -32,5 +34,6 @@ install(FILES
   clipboard_helper.h
   settings_helper.h
   settings_editor_dialog.h
+  stacked_widget_provider.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/mainwindow
 )
