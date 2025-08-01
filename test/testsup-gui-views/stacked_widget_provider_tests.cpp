@@ -77,4 +77,33 @@ TEST_F(StackedWidgetProviderTest, RegisterWidget)
   EXPECT_EQ(label2, label);
 }
 
+TEST_F(StackedWidgetProviderTest, RegisterDefaultWidget)
+{
+  QStackedWidget stacked_widget;
+  StackedWidgetProvider provider(&stacked_widget);
+
+  const std::string key1("key1");
+  const std::string key2("key2");
+  provider.RegisterDefaultWidget<QLabel>();
+
+  EXPECT_EQ(stacked_widget.currentWidget(), nullptr);
+
+  auto label = provider.SetCurrentWidget(key1);
+  EXPECT_NE(dynamic_cast<QLabel*>(label), nullptr);
+  EXPECT_EQ(stacked_widget.currentWidget(), label);
+
+  provider.RegisterWidget<QLineEdit>(key2);
+  auto line_edit = provider.SetCurrentWidget(key2);
+  EXPECT_EQ(stacked_widget.currentWidget(), line_edit);
+
+  EXPECT_EQ(stacked_widget.currentIndex(), 1);
+  EXPECT_EQ(stacked_widget.count(), 2);
+
+  // reusing existing widget
+  auto label2 = provider.SetCurrentWidget(key1);
+  EXPECT_EQ(stacked_widget.currentIndex(), 0);
+  EXPECT_EQ(stacked_widget.count(), 2);
+  EXPECT_EQ(label2, label);
+}
+
 }  // namespace sup::gui::test

@@ -54,13 +54,19 @@ public:
   /**
    * @brief Returns the widget stack which is under control.
    */
-  QStackedWidget* GetStackedWidget() const ;
+  QStackedWidget* GetStackedWidget() const;
 
   /**
-   * @brief Registers widget factory function for given key.
+   * @brief Registers widget factory function for the given key.
    */
   template <typename WidgetT>
   void RegisterWidget(const std::string& key);
+
+  /**
+   * @brief Registers widget which will be created by default.
+   */
+  template <typename WidgetT>
+  void RegisterDefaultWidget();
 
   /**
    * @brief Show widget registered for given key.
@@ -78,6 +84,7 @@ private:
   QStackedWidget* m_stacked_widget{nullptr};
   std::map<std::string, widget_factory_func_t> m_key_to_factory_func;
   std::map<std::string, QWidget*> m_key_to_widget;
+  widget_factory_func_t m_default_widget_factory_func;
 };
 
 template <typename WidgetT>
@@ -89,6 +96,12 @@ void StackedWidgetProvider::RegisterWidget(const std::string& key)
     throw RuntimeException("Already existing key");
   }
   m_key_to_factory_func.insert({key, []() { return std::make_unique<WidgetT>(); }});
+}
+
+template <typename WidgetT>
+void StackedWidgetProvider::RegisterDefaultWidget()
+{
+  m_default_widget_factory_func = []() { return std::make_unique<WidgetT>(); };
 }
 
 }  // namespace sup::gui

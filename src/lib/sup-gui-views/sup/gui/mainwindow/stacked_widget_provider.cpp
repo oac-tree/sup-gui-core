@@ -64,6 +64,10 @@ StackedWidgetProvider::widget_factory_func_t StackedWidgetProvider::GetFactoryFu
   auto iter = m_key_to_factory_func.find(key);
   if (iter == m_key_to_factory_func.end())
   {
+    if (m_default_widget_factory_func)
+    {
+      return m_default_widget_factory_func;
+    }
     throw RuntimeException("Key is not registered");
   }
 
