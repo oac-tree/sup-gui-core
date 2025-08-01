@@ -70,7 +70,10 @@ SettingsEditor::~SettingsEditor() = default;
 void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
 {
   auto widget = m_stacked_widget_provider->SetCurrentWidget(item->GetType());
-  dynamic_cast<CommonSettingsEditor *>(widget)->SetItem(item);
+  if (auto item_widget = dynamic_cast<SessionItemWidget *>(widget); item_widget)
+  {
+    item_widget->SetItem(item);
+  }
 }
 
 void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel &model)

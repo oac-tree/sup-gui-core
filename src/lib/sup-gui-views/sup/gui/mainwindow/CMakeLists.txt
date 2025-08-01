@@ -18,6 +18,8 @@ target_sources(${library_name} PRIVATE
   main_window_helper.cpp
   main_window_helper.h
   run_application.h
+  session_item_widget.cpp
+  session_item_widget.h
   settings_editor.cpp
   settings_editor.h
   settings_editor_dialog.cpp
@@ -31,11 +33,12 @@ target_sources(${library_name} PRIVATE
 )
 
 install(FILES
-  main_window_helper.h
-  status_bar_helper.h
   clipboard_helper.h
-  settings_helper.h
+  main_window_helper.h
+  session_item_widget.h
   settings_editor_dialog.h
+  settings_helper.h
   stacked_widget_provider.h
+  status_bar_helper.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/gui/mainwindow
 )

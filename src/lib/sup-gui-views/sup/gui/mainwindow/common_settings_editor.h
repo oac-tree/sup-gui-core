@@ -21,7 +21,8 @@
 #ifndef SUP_GUI_MAINWINDOW_COMMON_SETTINGS_EDITOR_H_
 #define SUP_GUI_MAINWINDOW_COMMON_SETTINGS_EDITOR_H_
 
-#include <QWidget>
+#include <sup/gui/mainwindow/session_item_widget.h>
+
 #include <memory>
 
 namespace mvvm
@@ -37,7 +38,7 @@ namespace sup::gui
 /**
  * @brief The CommonSettingsEditor class is intended to present CommonSettingsItem.
  */
-class CommonSettingsEditor : public QWidget
+class CommonSettingsEditor : public SessionItemWidget
 {
   Q_OBJECT
 
@@ -50,7 +51,7 @@ public:
   CommonSettingsEditor(CommonSettingsEditor&&) = delete;
   CommonSettingsEditor& operator=(CommonSettingsEditor&&) = delete;
 
-  void SetItem(mvvm::SessionItem* item);
+  void SetItem(mvvm::SessionItem* item) override;
 
 private:
   mvvm::PropertyFlatView* m_settings_view{nullptr};

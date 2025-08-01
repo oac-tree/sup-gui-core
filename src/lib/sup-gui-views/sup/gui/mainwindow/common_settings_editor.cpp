@@ -30,7 +30,7 @@ namespace sup::gui
 {
 
 CommonSettingsEditor::CommonSettingsEditor(QWidget *parent_widget)
-    : QWidget(parent_widget)
+    : SessionItemWidget(parent_widget)
     , m_settings_view(new mvvm::PropertyFlatView)
     , m_property_view_model(std::make_unique<mvvm::PropertyViewModel>(nullptr))
 {
