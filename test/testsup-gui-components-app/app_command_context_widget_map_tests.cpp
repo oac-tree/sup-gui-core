@@ -39,36 +39,36 @@ class AppCommandContextWidgetMapTest : public ::testing::Test
 
 TEST_F(AppCommandContextWidgetMapTest, RegisterContext)
 {
-  AppCommandContextWidgetMap manager;
+  AppCommandContextWidgetMap widget_map;
   const QWidget widget;
 
   // attempt to unregister non-registered widget
-  EXPECT_THROW(manager.UnregisterWidgetUniqueId(&widget), RuntimeException);
+  EXPECT_THROW(widget_map.UnregisterWidgetUniqueId(&widget), RuntimeException);
 
-  EXPECT_EQ(manager.GetNumberOfRegistrations(), 0);
-  EXPECT_EQ(manager.GetContext(&widget), AppCommandContext{});
-  EXPECT_FALSE(manager.HasContext(&widget));
+  EXPECT_EQ(widget_map.GetNumberOfRegistrations(), 0);
+  EXPECT_EQ(widget_map.GetContext(&widget), AppCommandContext{});
+  EXPECT_FALSE(widget_map.HasContext(&widget));
 
-  auto context1 = manager.RegisterWidgetUniqueId(&widget);
-  EXPECT_TRUE(manager.HasContext(&widget));
-  EXPECT_EQ(manager.GetContext(&widget), context1);
-  EXPECT_EQ(manager.GetContext(&widget).GetContextName(), QString("QWidget"));
-  EXPECT_EQ(manager.GetNumberOfRegistrations(), 1);
+  auto context1 = widget_map.RegisterWidgetUniqueId(&widget);
+  EXPECT_TRUE(widget_map.HasContext(&widget));
+  EXPECT_EQ(widget_map.GetContext(&widget), context1);
+  EXPECT_EQ(widget_map.GetContext(&widget).GetContextName(), QString("QWidget"));
+  EXPECT_EQ(widget_map.GetNumberOfRegistrations(), 1);
 
   // registering again same widget, context should conicide
-  auto context2 = manager.RegisterWidgetUniqueId(&widget);
-  EXPECT_NE(manager.GetContext(&widget), AppCommandContext{});
+  auto context2 = widget_map.RegisterWidgetUniqueId(&widget);
+  EXPECT_NE(widget_map.GetContext(&widget), AppCommandContext{});
   EXPECT_EQ(context1, context2);
 
   // another widget
   const QWidget widget3;
-  auto context3 = manager.RegisterWidgetUniqueId(&widget3);
+  auto context3 = widget_map.RegisterWidgetUniqueId(&widget3);
   EXPECT_NE(context1, context3);
 
   // unregister widget
-  manager.UnregisterWidgetUniqueId(&widget);
-  manager.UnregisterWidgetUniqueId(&widget3);
-  EXPECT_EQ(manager.GetNumberOfRegistrations(), 0);
+  widget_map.UnregisterWidgetUniqueId(&widget);
+  widget_map.UnregisterWidgetUniqueId(&widget3);
+  EXPECT_EQ(widget_map.GetNumberOfRegistrations(), 0);
 }
 
 }  // namespace sup::gui::test

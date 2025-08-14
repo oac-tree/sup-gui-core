@@ -41,39 +41,39 @@ class MenuBarActionRegistryTest : public ::testing::Test
 
 TEST_F(MenuBarActionRegistryTest, ActionManagerInitialState)
 {
-  MenuBarActionRegistry manager;
-  EXPECT_EQ(manager.GetContainerCount(), 0);
-  EXPECT_EQ(manager.GetContainer("abc"), nullptr);
-  EXPECT_EQ(manager.GetMenuBar(), nullptr);
+  MenuBarActionRegistry action_registry;
+  EXPECT_EQ(action_registry.GetContainerCount(), 0);
+  EXPECT_EQ(action_registry.GetContainer("abc"), nullptr);
+  EXPECT_EQ(action_registry.GetMenuBar(), nullptr);
 }
 
 TEST_F(MenuBarActionRegistryTest, ActionManagerSetMenuBar)
 {
-  MenuBarActionRegistry manager;
+  MenuBarActionRegistry registry;
   QMenuBar menubar;
 
-  manager.SetMenuBar(&menubar);
-  EXPECT_EQ(manager.GetMenuBar(), &menubar);
+  registry.SetMenuBar(&menubar);
+  EXPECT_EQ(registry.GetMenuBar(), &menubar);
 }
 
 TEST_F(MenuBarActionRegistryTest, ActionManagerAddMenu)
 {
-  MenuBarActionRegistry manager;
+  MenuBarActionRegistry registry;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
 
-  manager.SetMenuBar(&menubar);
+  registry.SetMenuBar(&menubar);
 
   // creating container with the menu
-  auto container = manager.AddMenu("File");
-  EXPECT_EQ(manager.GetContainerCount(), 1);
-  EXPECT_EQ(manager.GetContainer("File"), container);
+  auto container = registry.AddMenu("File");
+  EXPECT_EQ(registry.GetContainerCount(), 1);
+  EXPECT_EQ(registry.GetContainer("File"), container);
 
   // there is no harm to try to add the menu second time
-  auto container2 = manager.AddMenu("File");
+  auto container2 = registry.AddMenu("File");
   EXPECT_EQ(container, container2);
-  EXPECT_EQ(manager.GetContainerCount(), 1);
+  EXPECT_EQ(registry.GetContainerCount(), 1);
 
   // There is no way to check if menubar got a menu. We can check only an action associated with
   // the menu.
@@ -86,61 +86,61 @@ TEST_F(MenuBarActionRegistryTest, ActionManagerAddMenu)
 
 TEST_F(MenuBarActionRegistryTest, Reset)
 {
-  MenuBarActionRegistry manager;
+  MenuBarActionRegistry registry;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
 
-  manager.SetMenuBar(&menubar);
+  registry.SetMenuBar(&menubar);
 
   // creating container with the menu
-  auto container = manager.AddMenu("File");
-  EXPECT_EQ(manager.GetContainerCount(), 1);
-  EXPECT_EQ(manager.GetMenuBar(), &menubar);
+  auto container = registry.AddMenu("File");
+  EXPECT_EQ(registry.GetContainerCount(), 1);
+  EXPECT_EQ(registry.GetMenuBar(), &menubar);
 
-  manager.Reset();
+  registry.Reset();
 
-  EXPECT_EQ(manager.GetMenuBar(), nullptr);
-  EXPECT_EQ(manager.GetContainerCount(), 0);
+  EXPECT_EQ(registry.GetMenuBar(), nullptr);
+  EXPECT_EQ(registry.GetContainerCount(), 0);
 }
 
 TEST_F(MenuBarActionRegistryTest, AddMenuBarSecondTime)
 {
-  MenuBarActionRegistry manager;
+  MenuBarActionRegistry registry;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
 
-  manager.SetMenuBar(&menubar);
+  registry.SetMenuBar(&menubar);
 
   // creating container with the menu
-  auto container = manager.AddMenu("File");
-  EXPECT_EQ(manager.GetContainerCount(), 1);
-  EXPECT_EQ(manager.GetContainer("File"), container);
+  auto container = registry.AddMenu("File");
+  EXPECT_EQ(registry.GetContainerCount(), 1);
+  EXPECT_EQ(registry.GetContainer("File"), container);
 
-  EXPECT_NO_THROW(manager.SetMenuBar(&menubar));
-  EXPECT_EQ(manager.GetContainerCount(), 1);
+  EXPECT_NO_THROW(registry.SetMenuBar(&menubar));
+  EXPECT_EQ(registry.GetContainerCount(), 1);
 }
 
 TEST_F(MenuBarActionRegistryTest, ActionManagerRegisterAction)
 {
-  MenuBarActionRegistry manager;
+  MenuBarActionRegistry registry;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
 
-  manager.SetMenuBar(&menubar);
-  auto container = manager.AddMenu("File");
+  registry.SetMenuBar(&menubar);
+  auto container = registry.AddMenu("File");
 
   // Registering user action.
   QAction action;
-  EXPECT_TRUE(manager.RegisterAction("File", &action));
+  EXPECT_TRUE(registry.RegisterAction("File", &action));
 
   // for the moment it is possible to add same action twice
-  EXPECT_TRUE(manager.RegisterAction("File", &action));
+  EXPECT_TRUE(registry.RegisterAction("File", &action));
 
   // it is not possible to add action to not-registered menu
-  EXPECT_FALSE(manager.RegisterAction("Edit", &action));
+  EXPECT_FALSE(registry.RegisterAction("Edit", &action));
 }
 
 }  // namespace sup::gui::test

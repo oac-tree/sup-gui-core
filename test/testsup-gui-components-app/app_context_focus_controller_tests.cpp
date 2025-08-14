@@ -44,20 +44,20 @@ TEST_F(AppContextFocusControllerTest, SingleWidget)
 {
   // registering widget for certain context
   QWidget widget;
-  AppCommandContextWidgetMap context_manager;
-  auto context = context_manager.RegisterWidgetUniqueId(&widget);
+  AppCommandContextWidgetMap context_widget_map;
+  auto context = context_widget_map.RegisterWidgetUniqueId(&widget);
 
   // registering action for the same context
   QAction action;
-  AppCommandRegistry command_manager;
+  AppCommandRegistry command_registry;
   const QString command_id("command-id");
-  auto command = command_manager.RegisterAction(&action, command_id, context);
+  auto command = command_registry.RegisterAction(&action, command_id, context);
 
   // command's underlying proxy action is pointing nowhere
   EXPECT_EQ(command->GetProxyAction()->GetAction(), nullptr);
 
   // preparing focus controller
-  AppContextFocusController focus_controller(context_manager, command_manager, nullptr);
+  AppContextFocusController focus_controller(context_widget_map, command_registry, nullptr);
 
   // pretending widget got a focus
   focus_controller.OnFocusWidgetUpdate(nullptr, &widget);

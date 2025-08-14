@@ -38,30 +38,30 @@ class AppCommandRegistryTest : public ::testing::Test
 
 TEST_F(AppCommandRegistryTest, InitialState)
 {
-  AppCommandRegistry manager;
+  AppCommandRegistry registry;
 
-  EXPECT_EQ(manager.GetCommandCount(), 0);
-  EXPECT_EQ(manager.GetCommand("Copy"), nullptr);
+  EXPECT_EQ(registry.GetCommandCount(), 0);
+  EXPECT_EQ(registry.GetCommand("Copy"), nullptr);
 }
 
 TEST_F(AppCommandRegistryTest, RegisterCommand)
 {
-  AppCommandRegistry manager;
+  AppCommandRegistry registry;
 
   const QString context_name = "Editor.Copy";
   const QString command_text = "Copy";
-  auto copy_command = manager.RegisterCommand(context_name, command_text);
+  auto copy_command = registry.RegisterCommand(context_name, command_text);
   ASSERT_NE(copy_command, nullptr);
 
   EXPECT_EQ(copy_command->GetProxyAction()->text(), command_text);
-  EXPECT_EQ(manager.GetCommandCount(), 1);
-  EXPECT_EQ(manager.GetCommand(context_name), copy_command);
+  EXPECT_EQ(registry.GetCommandCount(), 1);
+  EXPECT_EQ(registry.GetCommand(context_name), copy_command);
 
   // registering second time should return same command
-  EXPECT_EQ(manager.RegisterCommand(context_name, command_text), copy_command);
+  EXPECT_EQ(registry.RegisterCommand(context_name, command_text), copy_command);
 
   // Paste command wasn't yet registered
-  EXPECT_EQ(manager.GetCommand("Paste"), nullptr);
+  EXPECT_EQ(registry.GetCommand("Paste"), nullptr);
 }
 
 TEST_F(AppCommandRegistryTest, RegisterAction)
@@ -76,16 +76,16 @@ TEST_F(AppCommandRegistryTest, RegisterAction)
   const AppCommandContext context1("Editor1.Paste");
   const AppCommandContext context2("Editor2.Paste");
 
-  AppCommandRegistry manager;
+  AppCommandRegistry registry;
 
-  auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
+  auto command1 = registry.RegisterAction(&paste_action1, command_id, context1);
   command1->SetShortcut(key);
-  auto command2 = manager.RegisterAction(&paste_action2, command_id, context2);
+  auto command2 = registry.RegisterAction(&paste_action2, command_id, context2);
   EXPECT_EQ(command1, command2);
 
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
 
-  manager.SetCurrentContext(context1);
+  registry.SetCurrentContext(context1);
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }
 
@@ -101,17 +101,17 @@ TEST_F(AppCommandRegistryTest, SetContextStack)
   const AppCommandContext context1("Editor1.Paste");
   const AppCommandContext context2("Editor2.Paste");
 
-  AppCommandRegistry manager;
+  AppCommandRegistry registry;
 
-  auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
+  auto command1 = registry.RegisterAction(&paste_action1, command_id, context1);
   command1->SetShortcut(key);
-  auto command2 = manager.RegisterAction(&paste_action2, command_id, context2);
+  auto command2 = registry.RegisterAction(&paste_action2, command_id, context2);
   EXPECT_EQ(command1, command2);
 
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
 
   const AppCommandContext some_parent_context("parent-context");
-  manager.SetContextStack({some_parent_context, context1});
+  registry.SetContextStack({some_parent_context, context1});
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }
 
