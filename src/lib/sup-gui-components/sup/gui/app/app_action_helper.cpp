@@ -36,28 +36,28 @@
 namespace sup::gui
 {
 
-MenuBarActionRegistry &GetGlobalActionManager()
+MenuBarActionRegistry &GetAppMenuBarActionRegistry()
 {
-  static MenuBarActionRegistry global_action_manager;
-  return global_action_manager;
+  static MenuBarActionRegistry global_menu_bar_action_registry;
+  return global_menu_bar_action_registry;
 }
 
-AppCommandContextWidgetMap &GetGlobalContextManager()
+AppCommandContextWidgetMap &GetAppCommandContextWidgetMap()
 {
-  static AppCommandContextWidgetMap global_context_manager;
-  return global_context_manager;
+  static AppCommandContextWidgetMap global_context_widget_map;
+  return global_context_widget_map;
 }
 
-AppCommandRegistry &GetGlobalCommandManager()
+AppCommandRegistry &GetAppCommandRegistry()
 {
-  static AppCommandRegistry global_command_manager;
-  return global_command_manager;
+  static AppCommandRegistry global_app_command_registry;
+  return global_app_command_registry;
 }
 
-std::unique_ptr<AppContextFocusController> CreateGlobalFocusController()
+std::unique_ptr<AppContextFocusController> CreateAppFocusController()
 {
-  auto result = std::make_unique<AppContextFocusController>(GetGlobalContextManager(),
-                                                            GetGlobalCommandManager(), nullptr);
+  auto result = std::make_unique<AppContextFocusController>(GetAppCommandContextWidgetMap(),
+                                                            GetAppCommandRegistry(), nullptr);
   (void)QObject::connect(qApp, &QApplication::focusChanged, result.get(),
                          &sup::gui::AppContextFocusController::OnFocusWidgetUpdate);
   return result;
@@ -65,7 +65,7 @@ std::unique_ptr<AppContextFocusController> CreateGlobalFocusController()
 
 void AppRegisterMenuBar(QMenuBar *menubar)
 {
-  GetGlobalActionManager().SetMenuBar(menubar);
+  GetAppMenuBarActionRegistry().SetMenuBar(menubar);
 }
 
 void AppRegisterMenuBar(QMenuBar *menubar, const QStringList &names)
@@ -79,18 +79,18 @@ void AppRegisterMenuBar(QMenuBar *menubar, const QStringList &names)
 
 IActionContainer *AppAddMenu(const QString &menu_name)
 {
-  return GetGlobalActionManager().AddMenu(menu_name);
+  return GetAppMenuBarActionRegistry().AddMenu(menu_name);
 }
 
 QMenu *AppGetMenu(const QString &menu_name)
 {
-  auto container = GetGlobalActionManager().GetContainer(menu_name);
+  auto container = GetAppMenuBarActionRegistry().GetContainer(menu_name);
   return container ? container->GetMenu() : nullptr;
 }
 
 bool AppAddActionToMenuBar(const QString &menu_name, QAction *action)
 {
-  return GetGlobalActionManager().RegisterAction(menu_name, action);
+  return GetAppMenuBarActionRegistry().RegisterAction(menu_name, action);
 }
 
 bool AppAddActionsToMenuBar(const QString &menu_name, const QList<QAction *> &actions)
@@ -105,18 +105,18 @@ bool AppAddActionsToMenuBar(const QString &menu_name, const QList<QAction *> &ac
 
 AppCommandContext AppRegisterWidgetUniqueId(const QWidget *widget)
 {
-  return GetGlobalContextManager().RegisterWidgetUniqueId(widget);
+  return GetAppCommandContextWidgetMap().RegisterWidgetUniqueId(widget);
 }
 
 void AppUnregisterWidgetUniqueId(const QWidget *widget)
 {
-  GetGlobalContextManager().UnregisterWidgetUniqueId(widget);
+  GetAppCommandContextWidgetMap().UnregisterWidgetUniqueId(widget);
 }
 
 AppCommand *AppAddCommandToMenu(const QString &menu_name, const QString &command_id)
 {
   // register new, or get access to already registered command
-  auto command = sup::gui::GetGlobalCommandManager().RegisterCommand(command_id, command_id);
+  auto command = sup::gui::GetAppCommandRegistry().RegisterCommand(command_id, command_id);
 
   // add underlying proxy action to the menu
   if (!sup::gui::AppAddActionToMenuBar(menu_name, command->GetProxyAction()))
@@ -132,13 +132,13 @@ bool AppAddActionToCommand(QAction *action, const QString &command_id,
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.
   auto app_command =
-      sup::gui::GetGlobalCommandManager().RegisterAction(action, command_id, context);
+      sup::gui::GetAppCommandRegistry().RegisterAction(action, command_id, context);
   return app_command != nullptr;
 }
 
 QAction *FindProxyAction(const QString &command_id)
 {
-  if (auto command = sup::gui::GetGlobalCommandManager().GetCommand(command_id); command)
+  if (auto command = sup::gui::GetAppCommandRegistry().GetCommand(command_id); command)
   {
     return command->GetProxyAction();
   }

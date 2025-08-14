@@ -54,7 +54,7 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::IProject 
     : QObject(mainwindow)
     , m_settings(settings)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
-    , m_focus_controller(sup::gui::CreateGlobalFocusController())
+    , m_focus_controller(sup::gui::CreateAppFocusController())
 {
   AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
                                              constants::kViewMenu, constants::kHelpMenu});

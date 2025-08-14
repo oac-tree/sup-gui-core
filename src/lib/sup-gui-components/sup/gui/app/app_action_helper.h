@@ -44,24 +44,24 @@ class AppCommand;
 class AppContextFocusController;
 
 /**
- * @brief Returns global action manager.
+ * @brief Returns main application menubar registry.
  */
-MenuBarActionRegistry& GetGlobalActionManager();
+MenuBarActionRegistry& GetAppMenuBarActionRegistry();
 
 /**
- * @brief Returns global context manager.
+ * @brief Returns main application map to associate widgets and AppCommands.
  */
-AppCommandContextWidgetMap& GetGlobalContextManager();
+AppCommandContextWidgetMap& GetAppCommandContextWidgetMap();
 
 /**
- * @brief Returns global command manager.
+ * @brief Returns main application registry for AppCommands.
  */
-AppCommandRegistry& GetGlobalCommandManager();
+AppCommandRegistry& GetAppCommandRegistry();
 
 /**
- * @brief Creates focus controller to handle global proxy actions depending on current focus widget.
+ * @brief Creates focus controller to handle context switch within the main application.
  */
-std::unique_ptr<sup::gui::AppContextFocusController> CreateGlobalFocusController();
+std::unique_ptr<sup::gui::AppContextFocusController> CreateAppFocusController();
 
 /**
  * @brief Registers the main menubar of QMainWindow to use in action manager.
@@ -141,7 +141,8 @@ AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command
  * @param command_id An identifier under which command is registered in AppCommandManager.
  * @param context The context of this command.
  */
-bool AppAddActionToCommand(QAction* action, const QString& command_id, const AppCommandContext& context);
+bool AppAddActionToCommand(QAction* action, const QString& command_id,
+                           const AppCommandContext& context);
 
 /**
  * @brief Find proxy action corresponding to the given comman identifier.
