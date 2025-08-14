@@ -21,7 +21,8 @@
 #ifndef SUP_GUI_APP_APP_ACTION_MANAGER_H_
 #define SUP_GUI_APP_APP_ACTION_MANAGER_H_
 
-#include <QString>
+#include <sup/gui/app/i_action_container_registry.h>
+
 #include <QVector>
 #include <map>
 #include <memory>
@@ -92,27 +93,13 @@ private:
   std::vector<QAction*> m_actions;
 };
 
-class IActionManager
-{
-public:
-  IActionManager() = default;
-  virtual ~IActionManager() = default;
-
-  IActionManager(const IActionManager&) = delete;
-  IActionManager& operator=(const IActionManager&) = delete;
-  IActionManager(IActionManager&&) = delete;
-  IActionManager& operator=(IActionManager&&) = delete;
-
-  virtual bool RegisterAction(const QString& menu_name, QAction* action) = 0;
-};
-
 /**
  * @brief The ActionManager class provides subscriptions of user actions to the menubar of the main
  * window.
  *
  * It doesn't own user actions. Intended to be used as a global variable.
  */
-class ActionManager : public IActionManager
+class ActionManager : public IActionContainerRegistry
 {
 public:
   /**

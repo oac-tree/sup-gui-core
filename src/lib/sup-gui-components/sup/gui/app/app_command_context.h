@@ -29,7 +29,7 @@ namespace sup::gui
 {
 
 /**
- * @brief The AppContext class carries information to associate actions with certain context.
+ * @brief The AppCommandContext class carries information to associate actions with certain context.
  *
  * It is used to forward proxy actions, like "copy" and "paste" actions of the main menubar, to
  * concrete actions of widgets, that are currently in focus.
