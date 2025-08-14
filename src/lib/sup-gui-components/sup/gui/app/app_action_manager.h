@@ -27,7 +27,6 @@
 #include <QVector>
 #include <map>
 #include <memory>
-#include <vector>
 
 class QAction;
 class QMenuBar;
@@ -35,34 +34,6 @@ class QMenu;
 
 namespace sup::gui
 {
-
-/**
- * @brief The MenuActionContainer class holds information about a menu and actions added to it.
- */
-class MenuActionContainer : public IActionContainer
-{
-public:
-  /**
-   * @brief Main constructor.
-   *
-   * @param name The name of the container.
-   * @param menu The menu to serve.
-   */
-  MenuActionContainer(const QString& name, QMenu* menu);
-
-  QString GetName() { return m_name; }
-
-  QMenu* GetMenu() override { return m_menu; }
-
-  bool AddAction(QAction* action) override;
-
-  std::size_t GetActionCount() override;
-
-private:
-  QString m_name;
-  QMenu* m_menu{nullptr};
-  std::vector<QAction*> m_actions;
-};
 
 /**
  * @brief The ActionManager class provides subscriptions of user actions to the menubar of the main

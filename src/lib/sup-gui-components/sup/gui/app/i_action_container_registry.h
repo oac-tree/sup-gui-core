@@ -47,10 +47,9 @@ public:
   IActionContainerRegistry& operator=(IActionContainerRegistry&&) = delete;
 
   /**
-   * @brief RegisterAction
-   * @param container_name
-   * @param action
-   * @return
+   * @brief Registers given action in the container with given name.
+   *
+   * Ownership is not tak
    */
   virtual bool RegisterAction(const QString& container_name, QAction* action) = 0;
 };

@@ -35,22 +35,6 @@ class AppActionManagerTest : public ::testing::Test
 {
 };
 
-TEST_F(AppActionManagerTest, MenuActionContainer)
-{
-  QMenu menu;
-
-  MenuActionContainer container("abc", &menu);
-  EXPECT_EQ(container.GetActionCount(), 0);
-  EXPECT_EQ(container.GetMenu(), &menu);
-  EXPECT_EQ(container.GetName(), QString("abc"));
-
-  QAction action;
-  EXPECT_TRUE(container.AddAction(&action));
-  EXPECT_EQ(container.GetActionCount(), 1);
-  ASSERT_EQ(menu.actions().size(), 1);
-  ASSERT_EQ(menu.actions().at(0), &action);
-}
-
 TEST_F(AppActionManagerTest, ActionManagerInitialState)
 {
   ActionManager manager;

@@ -21,9 +21,10 @@
 #ifndef SUP_GUI_APP_I_ACTION_CONTAINER_H_
 #define SUP_GUI_APP_I_ACTION_CONTAINER_H_
 
-#include <sup/gui/app/i_action_container_registry.h>
+#include <cstddef>
 
 class QMenu;
+class QAction;
 
 namespace sup::gui
 {

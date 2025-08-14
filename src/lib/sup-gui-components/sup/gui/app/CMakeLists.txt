@@ -21,4 +21,6 @@ target_sources(${library_name} PRIVATE
   i_action_container.h
   i_action_container_registry.h
   main_window_types.h
+  menu_action_container.cpp
+  menu_action_container.h
   )

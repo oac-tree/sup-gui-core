@@ -20,6 +20,8 @@
 
 #include "app_action_manager.h"
 
+#include "menu_action_container.h"
+
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <QAction>
@@ -28,27 +30,6 @@
 
 namespace sup::gui
 {
-
-MenuActionContainer::MenuActionContainer(const QString &name, QMenu *menu)
-    : m_name(name), m_menu(menu)
-{
-  if (!m_menu)
-  {
-    throw LogicErrorException("Menu is not initialised");
-  }
-}
-
-bool MenuActionContainer::AddAction(QAction *action)
-{
-  m_actions.push_back(action);
-  m_menu->addAction(action);
-  return true;
-}
-
-std::size_t MenuActionContainer::GetActionCount()
-{
-  return m_actions.size();
-}
 
 // ----------------------------------------------------------------------------
 // ActionManager
