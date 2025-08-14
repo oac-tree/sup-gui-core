@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_context_manager.h"
+#include "app_command_context_map.h"
 
 #include "app_command_context.h"
 
@@ -31,7 +31,7 @@
 namespace sup::gui
 {
 
-AppCommandContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
+AppCommandContext AppCommandContextMap::RegisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
   if (iter != m_widget_to_context.end())
@@ -47,7 +47,7 @@ AppCommandContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widge
   return context;
 }
 
-void AppContextManager::UnregisterWidgetUniqueId(const QWidget *widget)
+void AppCommandContextMap::UnregisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
   if (iter == m_widget_to_context.end())
@@ -58,13 +58,13 @@ void AppContextManager::UnregisterWidgetUniqueId(const QWidget *widget)
   (void)m_widget_to_context.erase(iter);
 }
 
-AppCommandContext AppContextManager::GetContext(const QWidget *widget) const
+AppCommandContext AppCommandContextMap::GetContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
   return iter == m_widget_to_context.end() ? AppCommandContext{} : iter->second;
 }
 
-const QWidget *AppContextManager::GetWidget(const AppCommandContext &context) const
+const QWidget *AppCommandContextMap::GetWidget(const AppCommandContext &context) const
 {
   auto on_element = [&context](auto element) { return element.second == context; };
   auto iter =
@@ -72,13 +72,13 @@ const QWidget *AppContextManager::GetWidget(const AppCommandContext &context) co
   return iter == m_widget_to_context.end() ? nullptr : iter->first;
 }
 
-bool AppContextManager::HasContext(const QWidget *widget) const
+bool AppCommandContextMap::HasContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
   return iter != m_widget_to_context.end();
 }
 
-std::size_t AppContextManager::GetNumberOfRegistrations() const
+std::size_t AppCommandContextMap::GetNumberOfRegistrations() const
 {
   return m_widget_to_context.size();
 }

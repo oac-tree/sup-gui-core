@@ -23,7 +23,7 @@
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_command_manager.h>
 #include <sup/gui/app/app_command_context.h>
-#include <sup/gui/app/app_context_manager.h>
+#include <sup/gui/app/app_command_context_map.h>
 #include <sup/gui/components/proxy_action.h>
 
 #include <gtest/gtest.h>
@@ -44,7 +44,7 @@ TEST_F(AppContextFocusControllerTest, SingleWidget)
 {
   // registering widget for certain context
   QWidget widget;
-  AppContextManager context_manager;
+  AppCommandContextMap context_manager;
   auto context = context_manager.RegisterWidgetUniqueId(&widget);
 
   // registering action for the same context

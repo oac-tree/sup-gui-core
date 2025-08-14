@@ -37,7 +37,7 @@ namespace sup::gui
 class IActionContainer;
 
 /**
- * @brief The ActionManager class provides subscriptions of user actions to the menubar of the main
+ * @brief The MenuBarActionRegistry class provides subscriptions of user actions to the menubar of the main
  * window.
  *
  * It doesn't own user actions. Intended to be used as a global variable.
@@ -54,7 +54,10 @@ public:
    * @brief Sets menubar to serve.
    *
    * There can be only one menubar to serve.
+   *
+   *
    */
+  // FIXME remove method, use c-tor after refactoring of AppContext
   void SetMenuBar(QMenuBar* menubar);
 
   /**
@@ -93,6 +96,7 @@ public:
    * This is method can be called when application is going to be restarted. Newly started
    * application will register it's own menubar.
    */
+  // FIXME remove method,  after refactoring of AppContext
   void Reset();
 
 private:

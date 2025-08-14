@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
-#define SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
+#ifndef SUP_GUI_APP_APP_COMMAND_CONTEXT_MAP_H_
+#define SUP_GUI_APP_APP_COMMAND_CONTEXT_MAP_H_
 
 #include <map>
 
@@ -31,9 +31,10 @@ namespace sup::gui
 class AppCommandContext;
 
 /**
- * @brief The AppContextManager class stores correspondence of focus widgets to context.
+ * @brief The AppCommandContextMap class stores correspondence of focus widgets to
+ * AppCommandContext.
  */
-class AppContextManager
+class AppCommandContextMap
 {
 public:
   /**
@@ -81,4 +82,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_APP_CONTEXT_MANAGER_H_
+#endif  // SUP_GUI_APP_APP_COMMAND_CONTEXT_MAP_H_

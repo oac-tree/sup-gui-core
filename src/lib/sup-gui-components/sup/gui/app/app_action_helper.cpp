@@ -23,7 +23,7 @@
 #include "app_command.h"
 #include "app_command_manager.h"
 #include "app_context_focus_controller.h"
-#include "app_context_manager.h"
+#include "app_command_context_map.h"
 #include "i_action_container.h"
 #include "menu_bar_action_registry.h"
 
@@ -42,9 +42,9 @@ MenuBarActionRegistry &GetGlobalActionManager()
   return global_action_manager;
 }
 
-AppContextManager &GetGlobalContextManager()
+AppCommandContextMap &GetGlobalContextManager()
 {
-  static AppContextManager global_context_manager;
+  static AppCommandContextMap global_context_manager;
   return global_context_manager;
 }
 

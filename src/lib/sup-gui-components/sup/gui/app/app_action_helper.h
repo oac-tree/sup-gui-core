@@ -37,7 +37,7 @@ namespace sup::gui
 {
 
 class MenuBarActionRegistry;
-class AppContextManager;
+class AppCommandContextMap;
 class AppCommandManager;
 class IActionContainer;
 class AppCommand;
@@ -51,7 +51,7 @@ MenuBarActionRegistry& GetGlobalActionManager();
 /**
  * @brief Returns global context manager.
  */
-AppContextManager& GetGlobalContextManager();
+AppCommandContextMap& GetGlobalContextManager();
 
 /**
  * @brief Returns global command manager.

@@ -7,13 +7,13 @@ target_sources(${library_name} PRIVATE
   app_command.h
   app_command_context.cpp
   app_command_context.h
+  app_command_context_map.cpp
+  app_command_context_map.h
   app_command_manager.cpp
   app_command_manager.h
   app_constants.h
   app_context_focus_controller.cpp
   app_context_focus_controller.h
-  app_context_manager.cpp
-  app_context_manager.h
   app_helper.cpp
   app_helper.h
   i_action_container.h

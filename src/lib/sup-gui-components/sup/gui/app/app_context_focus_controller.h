@@ -29,7 +29,7 @@ namespace sup::gui
 {
 
 class AppCommandManager;
-class AppContextManager;
+class AppCommandContextMap;
 
 /**
  * @brief The AppContextFocusController class handles the context switch on the focus widget
@@ -44,14 +44,14 @@ class AppContextFocusController : public QObject
   Q_OBJECT
 
 public:
-  explicit AppContextFocusController(AppContextManager& context_manager,
+  explicit AppContextFocusController(AppCommandContextMap& context_manager,
                                      AppCommandManager& command_manager, QObject* parent_object);
   ~AppContextFocusController() override;
 
   void OnFocusWidgetUpdate(QWidget* old, QWidget* now);
 
 private:
-  AppContextManager& m_context_manager;
+  AppCommandContextMap& m_context_manager;
   AppCommandManager& m_command_manager;
 };
 
