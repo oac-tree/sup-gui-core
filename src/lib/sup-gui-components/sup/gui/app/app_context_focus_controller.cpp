@@ -21,7 +21,7 @@
 #include "app_context_focus_controller.h"
 
 #include "app_command_manager.h"
-#include "app_context.h"
+#include "app_command_context.h"
 #include "app_context_manager.h"
 
 #include <QApplication>
@@ -55,7 +55,7 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
     return;
   }
 
-  std::vector<sup::gui::AppContext> context_summary;
+  std::vector<sup::gui::AppCommandContext> context_summary;
 
   if (kPrintDebugMessages)
   {

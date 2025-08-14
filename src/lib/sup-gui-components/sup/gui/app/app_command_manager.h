@@ -32,7 +32,7 @@ namespace sup::gui
 {
 
 class AppCommand;
-class AppContext;
+class AppCommandContext;
 
 /**
  * @brief The AppCommandManager class holds a collection of commands that can be triggered either
@@ -77,7 +77,7 @@ public:
    * @param context Command context.
    * @return The command that will trigger the action.
    */
-  AppCommand* RegisterAction(QAction* action, const QString& command_id, const AppContext& context);
+  AppCommand* RegisterAction(QAction* action, const QString& command_id, const AppCommandContext& context);
 
   /**
    * @brief Returns a command registered for a given command_id.
@@ -92,12 +92,12 @@ public:
   /**
    * @brief Sets the given context for all registered commands.
    */
-  void SetCurrentContext(const AppContext& context);
+  void SetCurrentContext(const AppCommandContext& context);
 
   /**
    * @brief Sets the given context stack for all registered commands.
    */
-  void SetContextStack(const std::vector<AppContext>& context_stack);
+  void SetContextStack(const std::vector<AppCommandContext>& context_stack);
 
 private:
   //!< correspondence of the command_id to commands

@@ -45,12 +45,12 @@ ProxyAction *AppCommand::GetProxyAction()
   return m_proxy_action.get();
 }
 
-void AppCommand::SetCurrentContext(const AppContext &current_context)
+void AppCommand::SetCurrentContext(const AppCommandContext &current_context)
 {
   SetContextStack({current_context});
 }
 
-void AppCommand::SetContextStack(const std::vector<AppContext> &context_stack)
+void AppCommand::SetContextStack(const std::vector<AppCommandContext> &context_stack)
 {
   for (const auto &current_context : context_stack)
   {
@@ -65,7 +65,7 @@ void AppCommand::SetContextStack(const std::vector<AppContext> &context_stack)
   m_proxy_action->setText(m_default_text);
 }
 
-void AppCommand::AddOverrideAction(const AppContext &context, QAction *action)
+void AppCommand::AddOverrideAction(const AppCommandContext &context, QAction *action)
 {
   auto iter = m_context_to_action.find(context);
   if (iter != m_context_to_action.end())
@@ -90,12 +90,12 @@ AppCommand &AppCommand::SetShortcut(const QKeySequence &shortcut)
   return *this;
 }
 
-bool AppCommand::HasAction(const AppContext &context) const
+bool AppCommand::HasAction(const AppCommandContext &context) const
 {
   return m_context_to_action.find(context) != m_context_to_action.end();
 }
 
-QAction *AppCommand::GetActionForContext(const AppContext &context) const
+QAction *AppCommand::GetActionForContext(const AppCommandContext &context) const
 {
   auto iter = m_context_to_action.find(context);
   return iter == m_context_to_action.end() ? nullptr : iter->second;

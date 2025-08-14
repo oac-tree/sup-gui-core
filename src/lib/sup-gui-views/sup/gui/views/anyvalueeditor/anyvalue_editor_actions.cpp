@@ -90,7 +90,7 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
   UpdateEnabledStatus();
 }
 
-void AnyValueEditorActions::RegisterActionsForContext(const AppContext &context)
+void AnyValueEditorActions::RegisterActionsForContext(const AppCommandContext &context)
 {
   AppAddActionToCommand(m_cut_action, constants::kCutCommandId, context);
   AppAddActionToCommand(m_copy_action, constants::kCopyCommandId, context);

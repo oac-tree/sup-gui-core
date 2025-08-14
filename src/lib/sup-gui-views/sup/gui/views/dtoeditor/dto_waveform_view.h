@@ -37,7 +37,7 @@ class DtoWaveformListPanel;
 class DtoWaveformEditorPanel;
 class DtoWaveformPropertyPanel;
 class WaveformModel;
-class AppContext;
+class AppCommandContext;
 
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
@@ -66,7 +66,7 @@ public:
   /**
    * @brief Registers actions for given context.
    */
-  void RegisterActionsForContext(const sup::gui::AppContext& context);
+  void RegisterActionsForContext(const sup::gui::AppCommandContext& context);
 
 private:
   void SetupWidgetActions();

@@ -28,7 +28,7 @@ class QWidget;
 namespace sup::gui
 {
 
-class AppContext;
+class AppCommandContext;
 
 /**
  * @brief The AppContextManager class stores correspondence of focus widgets to context.
@@ -42,7 +42,7 @@ public:
    *
    * If widget was already registered, return corresponding conext.
    */
-  AppContext RegisterWidgetUniqueId(const QWidget* widget);
+  AppCommandContext RegisterWidgetUniqueId(const QWidget* widget);
 
   /**
    * @brief Unregisters given widget.
@@ -58,12 +58,12 @@ public:
    *
    * Context will be empty, if widget wasn't registered yet.
    */
-  AppContext GetContext(const QWidget* widget) const;
+  AppCommandContext GetContext(const QWidget* widget) const;
 
   /**
    * @brief Returns registered widget for give context.
    */
-  const QWidget* GetWidget(const AppContext& context) const;
+  const QWidget* GetWidget(const AppCommandContext& context) const;
 
   /**
    * @brief Checks if widget was registered.
@@ -76,7 +76,7 @@ public:
   std::size_t GetNumberOfRegistrations() const;
 
 private:
-  std::map<const QWidget*, AppContext> m_widget_to_context;
+  std::map<const QWidget*, AppCommandContext> m_widget_to_context;
 };
 
 }  // namespace sup::gui

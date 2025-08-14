@@ -73,8 +73,8 @@ TEST_F(AppCommandManagerTest, RegisterAction)
   QAction paste_action1(command_text);
   QAction paste_action2(command_text);
 
-  const AppContext context1("Editor1.Paste");
-  const AppContext context2("Editor2.Paste");
+  const AppCommandContext context1("Editor1.Paste");
+  const AppCommandContext context2("Editor2.Paste");
 
   AppCommandManager manager;
 
@@ -98,8 +98,8 @@ TEST_F(AppCommandManagerTest, SetContextStack)
   QAction paste_action1(command_text);
   QAction paste_action2(command_text);
 
-  const AppContext context1("Editor1.Paste");
-  const AppContext context2("Editor2.Paste");
+  const AppCommandContext context1("Editor1.Paste");
+  const AppCommandContext context2("Editor2.Paste");
 
   AppCommandManager manager;
 
@@ -110,7 +110,7 @@ TEST_F(AppCommandManagerTest, SetContextStack)
 
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), nullptr);
 
-  const AppContext some_parent_context("parent-context");
+  const AppCommandContext some_parent_context("parent-context");
   manager.SetContextStack({some_parent_context, context1});
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }

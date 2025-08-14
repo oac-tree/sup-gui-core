@@ -45,8 +45,8 @@ TEST_F(AppCommandTest, InitialState)
   ASSERT_NE(command.GetProxyAction(), nullptr);
   EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
   EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
-  EXPECT_EQ(command.GetActionForContext(AppContext{}), nullptr);
-  EXPECT_FALSE(command.HasAction(AppContext{}));
+  EXPECT_EQ(command.GetActionForContext(AppCommandContext{}), nullptr);
+  EXPECT_FALSE(command.HasAction(AppCommandContext{}));
 }
 
 //! Two actions related to two different widgets are added to the same command.
@@ -62,8 +62,8 @@ TEST_F(AppCommandTest, AddOverrideAction)
   QAction real_action1(expected_name1);
   QAction real_action2(expected_name2);
 
-  const AppContext context1("Editor1.Paste");
-  const AppContext context2("Editor2.Paste");
+  const AppCommandContext context1("Editor1.Paste");
+  const AppCommandContext context2("Editor2.Paste");
 
   command.AddOverrideAction(context1, &real_action1);
   command.AddOverrideAction(context2, &real_action2);
@@ -86,7 +86,7 @@ TEST_F(AppCommandTest, AddOverrideAction)
   EXPECT_EQ(command.GetProxyAction()->GetAction(), &real_action2);
 
   // setting context that doesn't exist
-  command.SetCurrentContext(AppContext());
+  command.SetCurrentContext(AppCommandContext());
   EXPECT_FALSE(command.GetProxyAction()->isEnabled());
 
   // attempt to register another action with same context
@@ -103,7 +103,7 @@ TEST_F(AppCommandTest, SetCurrentContext)
 
   const QString real_action_text("paste-from-widget1");
   QAction real_action(real_action_text);
-  const AppContext context("Editor.Paste");
+  const AppCommandContext context("Editor.Paste");
 
   // default placeholder text
   EXPECT_EQ(command.GetProxyAction()->text(), expected_text);
@@ -116,7 +116,7 @@ TEST_F(AppCommandTest, SetCurrentContext)
   command.SetCurrentContext(context);
   EXPECT_EQ(command.GetProxyAction()->text(), real_action_text);
 
-  const AppContext non_existing_context("non_existing_context");
+  const AppCommandContext non_existing_context("non_existing_context");
   command.SetCurrentContext(non_existing_context);
 
   // text returned back to the default placeholder text
@@ -131,10 +131,10 @@ TEST_F(AppCommandTest, SetContextStack)
 
   const QString real_action_text("paste-from-widget");
   QAction real_action(real_action_text);
-  const AppContext context("Editor.Paste");
+  const AppCommandContext context("Editor.Paste");
   command.AddOverrideAction(context, &real_action);
 
-  const AppContext parent_context("Parent");
+  const AppCommandContext parent_context("Parent");
 
   command.SetContextStack({parent_context, context});
   EXPECT_EQ(command.GetProxyAction()->GetAction(), &real_action);
@@ -148,7 +148,7 @@ TEST_F(AppCommandTest, SetEmptyContextStack)
 
   const QString real_action_text("paste-from-widget");
   QAction real_action(real_action_text);
-  const AppContext context("Editor.Paste");
+  const AppCommandContext context("Editor.Paste");
   command.AddOverrideAction(context, &real_action);
 
   command.SetContextStack({});

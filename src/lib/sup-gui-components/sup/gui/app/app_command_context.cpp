@@ -18,44 +18,44 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_context.h"
+#include "app_command_context.h"
 
 namespace sup::gui
 {
 
-AppContext::AppContext() = default;
+AppCommandContext::AppCommandContext() = default;
 
-AppContext::AppContext(const QString &context_id, const QString &context_name)
+AppCommandContext::AppCommandContext(const QString &context_id, const QString &context_name)
     : m_context_id(context_id), m_context_name(context_name)
 {
 }
 
-QString AppContext::GetContextId() const
+QString AppCommandContext::GetContextId() const
 {
   return m_context_id;
 }
 
-QString AppContext::GetContextName() const
+QString AppCommandContext::GetContextName() const
 {
   return m_context_name;
 }
 
-bool AppContext::operator==(const AppContext &other) const
+bool AppCommandContext::operator==(const AppCommandContext &other) const
 {
   return m_context_id == other.m_context_id;
 }
 
-bool AppContext::operator!=(const AppContext &other) const
+bool AppCommandContext::operator!=(const AppCommandContext &other) const
 {
   return !(*this == other);
 }
 
-bool AppContext::operator<(const AppContext &other) const
+bool AppCommandContext::operator<(const AppCommandContext &other) const
 {
   return m_context_id < other.m_context_id;
 }
 
-bool AppContext::operator>=(const AppContext &other) const
+bool AppCommandContext::operator>=(const AppCommandContext &other) const
 {
   return (other < *this) || (*this == other);
 }

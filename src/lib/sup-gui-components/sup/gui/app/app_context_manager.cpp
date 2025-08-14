@@ -20,7 +20,7 @@
 
 #include "app_context_manager.h"
 
-#include "app_context.h"
+#include "app_command_context.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
@@ -31,7 +31,7 @@
 namespace sup::gui
 {
 
-AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
+AppCommandContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
   if (iter != m_widget_to_context.end())
@@ -42,7 +42,7 @@ AppContext AppContextManager::RegisterWidgetUniqueId(const QWidget *widget)
   const auto unique_id = QString::fromStdString(mvvm::UniqueIdGenerator::Generate());
   const auto context_name = widget->metaObject()->className();
 
-  AppContext context(unique_id, context_name);
+  AppCommandContext context(unique_id, context_name);
   (void)m_widget_to_context.insert(iter, {widget, context});
   return context;
 }
@@ -58,13 +58,13 @@ void AppContextManager::UnregisterWidgetUniqueId(const QWidget *widget)
   (void)m_widget_to_context.erase(iter);
 }
 
-AppContext AppContextManager::GetContext(const QWidget *widget) const
+AppCommandContext AppContextManager::GetContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
-  return iter == m_widget_to_context.end() ? AppContext{} : iter->second;
+  return iter == m_widget_to_context.end() ? AppCommandContext{} : iter->second;
 }
 
-const QWidget *AppContextManager::GetWidget(const AppContext &context) const
+const QWidget *AppContextManager::GetWidget(const AppCommandContext &context) const
 {
   auto on_element = [&context](auto element) { return element.second == context; };
   auto iter =

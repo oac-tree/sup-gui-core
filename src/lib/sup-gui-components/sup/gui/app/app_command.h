@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_APP_APP_COMMAND_H_
 #define SUP_GUI_APP_APP_COMMAND_H_
 
-#include <sup/gui/app/app_context.h>
+#include <sup/gui/app/app_command_context.h>
 
 #include <map>
 #include <memory>
@@ -69,7 +69,7 @@ public:
    * Internally will connect proxy action with one of the real actions. If no action has been
    * registered for a given context, will disable proxy action.
    */
-  void SetCurrentContext(const AppContext& current_context);
+  void SetCurrentContext(const AppCommandContext& current_context);
 
   /**
    * @brief Sets the context to serve.
@@ -77,12 +77,12 @@ public:
    * Will run through all given contexts and try to set proxy action for the first matching context.
    * If no matching action exists, will disable proxy action.
    */
-  void SetContextStack(const std::vector<AppContext>& context_stack);
+  void SetContextStack(const std::vector<AppCommandContext>& context_stack);
 
   /**
    * @brief Append action to the map of actions.
    */
-  void AddOverrideAction(const AppContext& context, QAction* action);
+  void AddOverrideAction(const AppCommandContext& context, QAction* action);
 
   /**
    * @brief Sets text to the proxy action.
@@ -100,16 +100,16 @@ public:
   /**
    * @brief Checks if there is a registered action for given context.
    */
-  bool HasAction(const AppContext& context) const;
+  bool HasAction(const AppCommandContext& context) const;
 
   /**
    * @brief Returns action registered for given context.
    */
-  QAction* GetActionForContext(const AppContext& context) const;
+  QAction* GetActionForContext(const AppCommandContext& context) const;
 
 private:
   std::unique_ptr<ProxyAction> m_proxy_action;
-  std::map<AppContext, QAction*> m_context_to_action;
+  std::map<AppCommandContext, QAction*> m_context_to_action;
   QString m_default_text;
 };
 

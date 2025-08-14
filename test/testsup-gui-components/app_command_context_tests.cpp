@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/app_context.h"
+#include "sup/gui/app/app_command_context.h"
 
 #include <gtest/gtest.h>
 
@@ -27,15 +27,18 @@
 namespace sup::gui::test
 {
 
-class AppContextTest : public ::testing::Test
+/**
+ * @brief Tests of AppCommandContext class.
+ */
+class AppCommandContextTest : public ::testing::Test
 {
 };
 
-TEST_F(AppContextTest, MenuActionContainer)
+TEST_F(AppCommandContextTest, MenuActionContainer)
 {
   {
     const QString unique_id("abc");
-    AppContext context(unique_id);
+    AppCommandContext context(unique_id);
     EXPECT_EQ(context.GetContextId(), unique_id);
     EXPECT_TRUE(context.GetContextName().isEmpty());
   }
@@ -43,31 +46,31 @@ TEST_F(AppContextTest, MenuActionContainer)
   {
     const QString unique_id("abc");
     const QString context_name("def");
-    AppContext context(unique_id, context_name);
+    AppCommandContext context(unique_id, context_name);
     EXPECT_EQ(context.GetContextId(), unique_id);
     EXPECT_EQ(context.GetContextName(), context_name);
   }
 }
 
-TEST_F(AppContextTest, EqualityOperators)
+TEST_F(AppCommandContextTest, EqualityOperators)
 {
-  const AppContext context1("Editor.Copy");
+  const AppCommandContext context1("Editor.Copy");
   EXPECT_TRUE(context1 == context1);
   EXPECT_FALSE(context1 != context1);
 
-  const AppContext context2("Editor.Paste");
+  const AppCommandContext context2("Editor.Paste");
   EXPECT_FALSE(context1 == context2);
   EXPECT_TRUE(context1 != context2);
 
-  const AppContext context3("Editor.Copy");
+  const AppCommandContext context3("Editor.Copy");
   EXPECT_TRUE(context1 == context3);
   EXPECT_FALSE(context1 != context3);
 }
 
-TEST_F(AppContextTest, ComparisonOperators)
+TEST_F(AppCommandContextTest, ComparisonOperators)
 {
-  const AppContext context1("AAA");
-  const AppContext context2("BBB");
+  const AppCommandContext context1("AAA");
+  const AppCommandContext context2("BBB");
 
   EXPECT_TRUE(context1 < context2);
   EXPECT_FALSE(context1 >= context2);

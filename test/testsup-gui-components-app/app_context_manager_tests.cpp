@@ -20,7 +20,7 @@
 
 #include "sup/gui/app/app_context_manager.h"
 
-#include <sup/gui/app/app_context.h>
+#include <sup/gui/app/app_command_context.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <gtest/gtest.h>
@@ -43,7 +43,7 @@ TEST_F(AppContextManagerTest, RegisterContext)
   EXPECT_THROW(manager.UnregisterWidgetUniqueId(&widget), RuntimeException);
 
   EXPECT_EQ(manager.GetNumberOfRegistrations(), 0);
-  EXPECT_EQ(manager.GetContext(&widget), AppContext{});
+  EXPECT_EQ(manager.GetContext(&widget), AppCommandContext{});
   EXPECT_FALSE(manager.HasContext(&widget));
 
   auto context1 = manager.RegisterWidgetUniqueId(&widget);
@@ -54,7 +54,7 @@ TEST_F(AppContextManagerTest, RegisterContext)
 
   // registering again same widget, context should conicide
   auto context2 = manager.RegisterWidgetUniqueId(&widget);
-  EXPECT_NE(manager.GetContext(&widget), AppContext{});
+  EXPECT_NE(manager.GetContext(&widget), AppCommandContext{});
   EXPECT_EQ(context1, context2);
 
   // another widget

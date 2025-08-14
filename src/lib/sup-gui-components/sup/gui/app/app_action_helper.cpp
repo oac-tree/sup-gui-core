@@ -102,7 +102,7 @@ bool AppAddActionsToMenuBar(const QString &menu_name, const QList<QAction *> &ac
   return result;
 }
 
-AppContext AppRegisterWidgetUniqueId(const QWidget *widget)
+AppCommandContext AppRegisterWidgetUniqueId(const QWidget *widget)
 {
   return GetGlobalContextManager().RegisterWidgetUniqueId(widget);
 }
@@ -125,7 +125,7 @@ AppCommand *AppAddCommandToMenu(const QString &menu_name, const QString &command
   return command;
 }
 
-bool AppAddActionToCommand(QAction *action, const QString &command_id, const AppContext &context)
+bool AppAddActionToCommand(QAction *action, const QString &command_id, const AppCommandContext &context)
 {
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.

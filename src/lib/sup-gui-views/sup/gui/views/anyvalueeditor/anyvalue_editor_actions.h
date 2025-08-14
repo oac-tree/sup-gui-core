@@ -34,7 +34,7 @@ namespace sup::gui
 
 class ActionMenu;
 class AnyValueEditorActionHandler;
-class AppContext;
+class AppCommandContext;
 class ProxyAction;
 
 /**
@@ -82,7 +82,7 @@ public:
    *
    * The context is normally provided by the parent widget.
    */
-  void RegisterActionsForContext(const sup::gui::AppContext& context);
+  void RegisterActionsForContext(const sup::gui::AppCommandContext& context);
 
   /**
    * @brief Update enabled/disabled status of all actions.

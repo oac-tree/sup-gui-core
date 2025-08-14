@@ -45,7 +45,7 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
 }
 
 AppCommand *AppCommandManager::RegisterAction(QAction *action, const QString &command_id,
-                                              const AppContext &context)
+                                              const AppCommandContext &context)
 {
   auto command = RegisterCommand(command_id, action->text());
   Q_ASSERT(command);
@@ -65,7 +65,7 @@ std::size_t AppCommandManager::GetCommandCount() const
   return m_commands.size();
 }
 
-void AppCommandManager::SetCurrentContext(const AppContext &context)
+void AppCommandManager::SetCurrentContext(const AppCommandContext &context)
 {
   for (const auto &[command_id, command] : m_commands)
   {
@@ -73,7 +73,7 @@ void AppCommandManager::SetCurrentContext(const AppContext &context)
   }
 }
 
-void AppCommandManager::SetContextStack(const std::vector<AppContext> &context_stack)
+void AppCommandManager::SetContextStack(const std::vector<AppCommandContext> &context_stack)
 {
   for (const auto &[command_id, command] : m_commands)
   {

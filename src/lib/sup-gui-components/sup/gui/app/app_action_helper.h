@@ -24,7 +24,7 @@
 //! @file
 //! Collection of helper method to register global actions.
 
-#include <sup/gui/app/app_context.h>
+#include <sup/gui/app/app_command_context.h>
 
 #include <QList>
 #include <memory>
@@ -111,7 +111,7 @@ bool AppAddActionsToMenuBar(const QString& menu_name, const QList<QAction*>& act
  *
  * @return The context representing used unique identifier.
  */
-AppContext AppRegisterWidgetUniqueId(const QWidget* widget);
+AppCommandContext AppRegisterWidgetUniqueId(const QWidget* widget);
 
 /**
  * @brief Unregisters given widget.
@@ -141,7 +141,7 @@ AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command
  * @param command_id An identifier under which command is registered in AppCommandManager.
  * @param context The context of this command.
  */
-bool AppAddActionToCommand(QAction* action, const QString& command_id, const AppContext& context);
+bool AppAddActionToCommand(QAction* action, const QString& command_id, const AppCommandContext& context);
 
 /**
  * @brief Find proxy action corresponding to the given comman identifier.

@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_APP_CONTEXT_H_
-#define SUP_GUI_APP_APP_CONTEXT_H_
+#ifndef SUP_GUI_APP_APP_COMMAND_CONTEXT_H_
+#define SUP_GUI_APP_APP_COMMAND_CONTEXT_H_
 
 #include <QString>
 
@@ -34,10 +34,10 @@ namespace sup::gui
  * It is used to forward proxy actions, like "copy" and "paste" actions of the main menubar, to
  * concrete actions of widgets, that are currently in focus.
  */
-class AppContext
+class AppCommandContext
 {
 public:
-  AppContext();
+  AppCommandContext();
 
   /**
    * @brief Main constructor.
@@ -45,7 +45,7 @@ public:
    * @param context_id Unique identifier.
    * @param context_name The name of the context.
    */
-  explicit AppContext(const QString& context_id, const QString& context_name = {});
+  explicit AppCommandContext(const QString& context_id, const QString& context_name = {});
 
   /**
    * @brief Returns context identifier.
@@ -60,10 +60,10 @@ public:
    */
   QString GetContextName() const;
 
-  bool operator==(const AppContext& other) const;
-  bool operator!=(const AppContext& other) const;
-  bool operator<(const AppContext& other) const;
-  bool operator>=(const AppContext& other) const;
+  bool operator==(const AppCommandContext& other) const;
+  bool operator!=(const AppCommandContext& other) const;
+  bool operator<(const AppCommandContext& other) const;
+  bool operator>=(const AppCommandContext& other) const;
 
 private:
   QString m_context_id;
@@ -72,4 +72,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_APP_CONTEXT_H_
+#endif  // SUP_GUI_APP_APP_COMMAND_CONTEXT_H_
