@@ -33,14 +33,17 @@ class AppCommand;
 class AppCommandContext;
 
 /**
- * @brief The IAppCommandRegistry interface allows to register commands and later subscribe actions
- * to it.
+ * @brief The IAppCommandRegistry interface allows to register commands and then subscribe multiple
+ * actions to it.
+ *
+ * A command represents a proxy action that can be connected with other actions depending on the
+ * current context.
  */
 class IAppCommandRegistry
 {
 public:
-  IAppCommandRegistry();
-  virtual ~IAppCommandRegistry();
+  IAppCommandRegistry() = default;
+  virtual ~IAppCommandRegistry() = default;
 
   IAppCommandRegistry(const IAppCommandRegistry&) = delete;
   IAppCommandRegistry& operator=(const IAppCommandRegistry&) = delete;
@@ -73,7 +76,7 @@ public:
    * @return The command that will trigger the action.
    */
   virtual AppCommand* RegisterAction(QAction* action, const QString& command_id,
-                             const AppCommandContext& context) = 0;
+                                     const AppCommandContext& context) = 0;
 
   /**
    * @brief Returns a command registered for a given command_id.

@@ -20,7 +20,7 @@
 
 #include "app_context_focus_controller.h"
 
-#include "app_command_manager.h"
+#include "app_command_registry.h"
 #include "app_command_context.h"
 #include "app_command_context_widget_map.h"
 
@@ -37,7 +37,7 @@ const bool kPrintDebugMessages = false;
 }
 
 AppContextFocusController::AppContextFocusController(AppCommandContextWidgetMap &context_manager,
-                                                     AppCommandManager &command_manager,
+                                                     AppCommandRegistry &command_manager,
                                                      QObject *parent_object)
     : QObject(parent_object), m_context_manager(context_manager), m_command_manager(command_manager)
 {

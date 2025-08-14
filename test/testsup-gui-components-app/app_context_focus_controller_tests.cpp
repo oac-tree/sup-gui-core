@@ -23,7 +23,7 @@
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/app_command_context_widget_map.h>
-#include <sup/gui/app/app_command_manager.h>
+#include <sup/gui/app/app_command_registry.h>
 #include <sup/gui/components/proxy_action.h>
 
 #include <gtest/gtest.h>
@@ -49,7 +49,7 @@ TEST_F(AppContextFocusControllerTest, SingleWidget)
 
   // registering action for the same context
   QAction action;
-  AppCommandManager command_manager;
+  AppCommandRegistry command_manager;
   const QString command_id("command-id");
   auto command = command_manager.RegisterAction(&action, command_id, context);
 

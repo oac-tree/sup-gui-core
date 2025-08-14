@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/app_command_manager.h"
+#include "sup/gui/app/app_command_registry.h"
 
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/components/proxy_action.h>
@@ -32,21 +32,21 @@
 namespace sup::gui::test
 {
 
-class AppCommandManagerTest : public ::testing::Test
+class AppCommandRegistryTest : public ::testing::Test
 {
 };
 
-TEST_F(AppCommandManagerTest, InitialState)
+TEST_F(AppCommandRegistryTest, InitialState)
 {
-  AppCommandManager manager;
+  AppCommandRegistry manager;
 
   EXPECT_EQ(manager.GetCommandCount(), 0);
   EXPECT_EQ(manager.GetCommand("Copy"), nullptr);
 }
 
-TEST_F(AppCommandManagerTest, RegisterCommand)
+TEST_F(AppCommandRegistryTest, RegisterCommand)
 {
-  AppCommandManager manager;
+  AppCommandRegistry manager;
 
   const QString context_name = "Editor.Copy";
   const QString command_text = "Copy";
@@ -64,7 +64,7 @@ TEST_F(AppCommandManagerTest, RegisterCommand)
   EXPECT_EQ(manager.GetCommand("Paste"), nullptr);
 }
 
-TEST_F(AppCommandManagerTest, RegisterAction)
+TEST_F(AppCommandRegistryTest, RegisterAction)
 {
   const QKeySequence key("Ctrl+V");
   const QString command_text("Paste");
@@ -76,7 +76,7 @@ TEST_F(AppCommandManagerTest, RegisterAction)
   const AppCommandContext context1("Editor1.Paste");
   const AppCommandContext context2("Editor2.Paste");
 
-  AppCommandManager manager;
+  AppCommandRegistry manager;
 
   auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
   command1->SetShortcut(key);
@@ -89,7 +89,7 @@ TEST_F(AppCommandManagerTest, RegisterAction)
   EXPECT_EQ(command1->GetProxyAction()->GetAction(), &paste_action1);
 }
 
-TEST_F(AppCommandManagerTest, SetContextStack)
+TEST_F(AppCommandRegistryTest, SetContextStack)
 {
   const QKeySequence key("Ctrl+V");
   const QString command_text("Paste");
@@ -101,7 +101,7 @@ TEST_F(AppCommandManagerTest, SetContextStack)
   const AppCommandContext context1("Editor1.Paste");
   const AppCommandContext context2("Editor2.Paste");
 
-  AppCommandManager manager;
+  AppCommandRegistry manager;
 
   auto command1 = manager.RegisterAction(&paste_action1, command_id, context1);
   command1->SetShortcut(key);

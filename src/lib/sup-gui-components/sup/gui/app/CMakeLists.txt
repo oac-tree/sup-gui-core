@@ -9,8 +9,8 @@ target_sources(${library_name} PRIVATE
   app_command_context.h
   app_command_context_widget_map.cpp
   app_command_context_widget_map.h
-  app_command_manager.cpp
-  app_command_manager.h
+  app_command_registry.cpp
+  app_command_registry.h
   app_constants.h
   app_context_focus_controller.cpp
   app_context_focus_controller.h

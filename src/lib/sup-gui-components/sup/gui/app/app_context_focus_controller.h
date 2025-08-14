@@ -28,7 +28,7 @@ class QAction;
 namespace sup::gui
 {
 
-class AppCommandManager;
+class AppCommandRegistry;
 class AppCommandContextWidgetMap;
 
 /**
@@ -45,14 +45,14 @@ class AppContextFocusController : public QObject
 
 public:
   explicit AppContextFocusController(AppCommandContextWidgetMap& context_manager,
-                                     AppCommandManager& command_manager, QObject* parent_object);
+                                     AppCommandRegistry& command_manager, QObject* parent_object);
   ~AppContextFocusController() override;
 
   void OnFocusWidgetUpdate(QWidget* old, QWidget* now);
 
 private:
   AppCommandContextWidgetMap& m_context_manager;
-  AppCommandManager& m_command_manager;
+  AppCommandRegistry& m_command_manager;
 };
 
 }  // namespace sup::gui

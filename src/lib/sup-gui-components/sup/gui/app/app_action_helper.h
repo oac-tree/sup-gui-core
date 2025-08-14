@@ -38,7 +38,7 @@ namespace sup::gui
 
 class MenuBarActionRegistry;
 class AppCommandContextWidgetMap;
-class AppCommandManager;
+class AppCommandRegistry;
 class IActionContainer;
 class AppCommand;
 class AppContextFocusController;
@@ -56,7 +56,7 @@ AppCommandContextWidgetMap& GetGlobalContextManager();
 /**
  * @brief Returns global command manager.
  */
-AppCommandManager& GetGlobalCommandManager();
+AppCommandRegistry& GetGlobalCommandManager();
 
 /**
  * @brief Creates focus controller to handle global proxy actions depending on current focus widget.

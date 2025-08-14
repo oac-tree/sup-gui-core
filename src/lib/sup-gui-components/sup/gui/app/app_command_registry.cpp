@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_command_manager.h"
+#include "app_command_registry.h"
 
 #include "app_command.h"
 
@@ -27,10 +27,10 @@
 namespace sup::gui
 {
 
-AppCommandManager::AppCommandManager() = default;
-AppCommandManager::~AppCommandManager() = default;
+AppCommandRegistry::AppCommandRegistry() = default;
+AppCommandRegistry::~AppCommandRegistry() = default;
 
-AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
+AppCommand *AppCommandRegistry::RegisterCommand(const QString &command_id,
                                                const QString &command_text)
 {
   if (auto command = GetCommand(command_id); command)
@@ -44,7 +44,7 @@ AppCommand *AppCommandManager::RegisterCommand(const QString &command_id,
   return command_ptr;
 }
 
-AppCommand *AppCommandManager::RegisterAction(QAction *action, const QString &command_id,
+AppCommand *AppCommandRegistry::RegisterAction(QAction *action, const QString &command_id,
                                               const AppCommandContext &context)
 {
   auto command = RegisterCommand(command_id, action->text());
@@ -54,18 +54,18 @@ AppCommand *AppCommandManager::RegisterAction(QAction *action, const QString &co
   return command;
 }
 
-AppCommand *AppCommandManager::GetCommand(const QString &command_id)
+AppCommand *AppCommandRegistry::GetCommand(const QString &command_id)
 {
   auto iter = m_commands.find(command_id);
   return iter == m_commands.end() ? nullptr : iter->second.get();
 }
 
-std::size_t AppCommandManager::GetCommandCount() const
+std::size_t AppCommandRegistry::GetCommandCount() const
 {
   return m_commands.size();
 }
 
-void AppCommandManager::SetCurrentContext(const AppCommandContext &context)
+void AppCommandRegistry::SetCurrentContext(const AppCommandContext &context)
 {
   for (const auto &[command_id, command] : m_commands)
   {
@@ -73,7 +73,7 @@ void AppCommandManager::SetCurrentContext(const AppCommandContext &context)
   }
 }
 
-void AppCommandManager::SetContextStack(const std::vector<AppCommandContext> &context_stack)
+void AppCommandRegistry::SetContextStack(const std::vector<AppCommandContext> &context_stack)
 {
   for (const auto &[command_id, command] : m_commands)
   {

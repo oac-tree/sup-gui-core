@@ -21,7 +21,7 @@
 #include "app_action_helper.h"
 
 #include "app_command.h"
-#include "app_command_manager.h"
+#include "app_command_registry.h"
 #include "app_context_focus_controller.h"
 #include "app_command_context_widget_map.h"
 #include "i_action_container.h"
@@ -48,9 +48,9 @@ AppCommandContextWidgetMap &GetGlobalContextManager()
   return global_context_manager;
 }
 
-AppCommandManager &GetGlobalCommandManager()
+AppCommandRegistry &GetGlobalCommandManager()
 {
-  static AppCommandManager global_command_manager;
+  static AppCommandRegistry global_command_manager;
   return global_command_manager;
 }
 
