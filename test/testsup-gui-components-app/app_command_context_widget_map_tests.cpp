@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/app_command_context_map.h"
+#include "sup/gui/app/app_command_context_widget_map.h"
 
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
@@ -30,13 +30,16 @@
 namespace sup::gui::test
 {
 
-class AppCommandContextMapTest : public ::testing::Test
+/**
+ * @brief Tests for AppCommandContextWidgetMap class.
+ */
+class AppCommandContextWidgetMapTest : public ::testing::Test
 {
 };
 
-TEST_F(AppCommandContextMapTest, RegisterContext)
+TEST_F(AppCommandContextWidgetMapTest, RegisterContext)
 {
-  AppCommandContextMap manager;
+  AppCommandContextWidgetMap manager;
   const QWidget widget;
 
   // attempt to unregister non-registered widget

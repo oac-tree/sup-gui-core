@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_command_context_map.h"
+#include "app_command_context_widget_map.h"
 
 #include "app_command_context.h"
 
@@ -31,7 +31,7 @@
 namespace sup::gui
 {
 
-AppCommandContext AppCommandContextMap::RegisterWidgetUniqueId(const QWidget *widget)
+AppCommandContext AppCommandContextWidgetMap::RegisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
   if (iter != m_widget_to_context.end())
@@ -47,7 +47,7 @@ AppCommandContext AppCommandContextMap::RegisterWidgetUniqueId(const QWidget *wi
   return context;
 }
 
-void AppCommandContextMap::UnregisterWidgetUniqueId(const QWidget *widget)
+void AppCommandContextWidgetMap::UnregisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
   if (iter == m_widget_to_context.end())
@@ -58,13 +58,13 @@ void AppCommandContextMap::UnregisterWidgetUniqueId(const QWidget *widget)
   (void)m_widget_to_context.erase(iter);
 }
 
-AppCommandContext AppCommandContextMap::GetContext(const QWidget *widget) const
+AppCommandContext AppCommandContextWidgetMap::GetContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
   return iter == m_widget_to_context.end() ? AppCommandContext{} : iter->second;
 }
 
-const QWidget *AppCommandContextMap::GetWidget(const AppCommandContext &context) const
+const QWidget *AppCommandContextWidgetMap::GetWidget(const AppCommandContext &context) const
 {
   auto on_element = [&context](auto element) { return element.second == context; };
   auto iter =
@@ -72,13 +72,13 @@ const QWidget *AppCommandContextMap::GetWidget(const AppCommandContext &context)
   return iter == m_widget_to_context.end() ? nullptr : iter->first;
 }
 
-bool AppCommandContextMap::HasContext(const QWidget *widget) const
+bool AppCommandContextWidgetMap::HasContext(const QWidget *widget) const
 {
   auto iter = m_widget_to_context.find(widget);
   return iter != m_widget_to_context.end();
 }
 
-std::size_t AppCommandContextMap::GetNumberOfRegistrations() const
+std::size_t AppCommandContextWidgetMap::GetNumberOfRegistrations() const
 {
   return m_widget_to_context.size();
 }

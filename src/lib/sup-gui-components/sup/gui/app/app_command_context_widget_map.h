@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_APP_COMMAND_CONTEXT_MAP_H_
-#define SUP_GUI_APP_APP_COMMAND_CONTEXT_MAP_H_
+#ifndef SUP_GUI_APP_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
+#define SUP_GUI_APP_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
 
 #include <sup/gui/app/i_app_command_context_widget_map.h>
 
@@ -31,10 +31,10 @@ namespace sup::gui
 {
 
 /**
- * @brief The AppCommandContextMap class stores correspondence of focus widgets to
- * AppCommandContext.
+ * @brief The AppCommandContextWidgetMap class is a default implementation to store the
+ * correspondance of widgets to AppCommandContext.
  */
-class AppCommandContextMap : public IAppCommandContextWidgetMap
+class AppCommandContextWidgetMap : public IAppCommandContextWidgetMap
 {
 public:
   AppCommandContext RegisterWidgetUniqueId(const QWidget* widget) override;
@@ -55,4 +55,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_APP_COMMAND_CONTEXT_MAP_H_
+#endif  // SUP_GUI_APP_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
