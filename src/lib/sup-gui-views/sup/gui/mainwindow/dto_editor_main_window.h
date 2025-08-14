@@ -42,6 +42,7 @@ class DtoEditorMainWindowActions;
 class DtoWaveformView;
 class DtoEditorProject;
 class SettingsModel;
+class AnyValueEditorAppContext;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -51,7 +52,7 @@ class DtoEditorMainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  DtoEditorMainWindow();
+  explicit DtoEditorMainWindow(const AnyValueEditorAppContext& context);
   ~DtoEditorMainWindow() override;
 
 protected:
@@ -94,6 +95,7 @@ private:
    */
   std::unique_ptr<DtoEditorProject> CreateProject();
 
+  const AnyValueEditorAppContext& m_application_context;
   std::unique_ptr<SettingsModel> m_settings;
   std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};

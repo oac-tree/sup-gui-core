@@ -26,6 +26,7 @@
 
 #include <sup/gui/app/main_window_types.h>
 #include <sup/gui/components/custom_metatypes.h>
+#include <sup/gui/mainwindow/anyvalue_editor_app_context.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
@@ -66,7 +67,8 @@ int RunApplication(int argc, char** argv)
       mvvm::utils::SetApplicationFont(default_font);
     }
 
-    win = std::make_unique<MainWindowT>();
+    AnyValueEditorAppContext context;
+    win = std::make_unique<MainWindowT>(context);
     if (options.window_size.has_value())
     {
       win->resize(options.window_size.value());

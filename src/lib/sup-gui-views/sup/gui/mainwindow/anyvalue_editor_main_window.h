@@ -39,6 +39,7 @@ class AnyValueEditorWidget;
 class AnyValueEditorMainWindowActions;
 class AnyValueEditorProject;
 class SettingsModel;
+class AnyValueEditorAppContext;
 
 /**
  * @brief The AnyValueEditorMainWindow class is a main window of anyvalue-editor application.
@@ -48,7 +49,7 @@ class AnyValueEditorMainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  AnyValueEditorMainWindow();
+  explicit AnyValueEditorMainWindow(const AnyValueEditorAppContext& context);
   ~AnyValueEditorMainWindow() override;
 
 protected:
@@ -88,6 +89,7 @@ private:
    */
   std::unique_ptr<AnyValueEditorProject> CreateProject();
 
+  const AnyValueEditorAppContext& m_application_context;
   std::unique_ptr<SettingsModel> m_settings;
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
