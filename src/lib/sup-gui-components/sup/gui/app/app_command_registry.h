@@ -61,7 +61,7 @@ public:
   void SetContextStack(const std::vector<AppCommandContext>& context_stack) override;
 
 private:
-  //!< correspondence of the command_id to commands
+  //!< correspondance of the command_id to commands
   std::map<QString, std::unique_ptr<AppCommand>> m_commands;
 };
 

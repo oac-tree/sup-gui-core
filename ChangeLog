@@ -1,5 +1,6 @@
 Changes for 2.0.0:
 
+- Introduce interfaces for the machinery of context-aware proxy actions
 - Provide possibility to setup individual widgets for setting editor
 - Implement provider for stacked widgets
 - Save SettingsModel in QSettings persistent storage in human-readable format
