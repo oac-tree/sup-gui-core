@@ -31,7 +31,7 @@ namespace sup::gui
 class AppCommandContext;
 
 /**
- * @brief The IAppCommandContextWidgetMap interface is intended to handle the correspondence of
+ * @brief The IAppCommandContextWidgetMap interface is intended to handle the correspondance of
  * focus widgets and AppCommandContext.
  */
 class IAppCommandContextWidgetMap

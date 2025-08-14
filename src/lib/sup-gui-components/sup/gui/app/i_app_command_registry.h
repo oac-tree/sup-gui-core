@@ -1,0 +1,101 @@
+/******************************************************************************
+ *
+ * Project       : Graphical User Interface for SUP and PSPS
+ *
+ * Description   : Common libraries and tools for Operation Application GUIs
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2025 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef SUP_GUI_APP_I_APP_COMMAND_REGISTRY_H_
+#define SUP_GUI_APP_I_APP_COMMAND_REGISTRY_H_
+
+#include <QString>
+#include <vector>
+
+class QAction;
+
+namespace sup::gui
+{
+
+class AppCommand;
+class AppCommandContext;
+
+/**
+ * @brief The IAppCommandRegistry interface allows to register commands and later subscribe actions
+ * to it.
+ */
+class IAppCommandRegistry
+{
+public:
+  IAppCommandRegistry();
+  virtual ~IAppCommandRegistry();
+
+  IAppCommandRegistry(const IAppCommandRegistry&) = delete;
+  IAppCommandRegistry& operator=(const IAppCommandRegistry&) = delete;
+  IAppCommandRegistry(IAppCommandRegistry&&) = delete;
+  IAppCommandRegistry& operator=(IAppCommandRegistry&&) = delete;
+
+  /**
+   * @brief Registers a new command for a given id.
+   *
+   * If the command_id is new to the manager, the command will be created and stored in the manager.
+   * If command_id was already used, return registered command to the user.
+   *
+   * @param command_id The id of the command.
+   * @param command_text The text which will appear in the menu.
+   *
+   * @return Registered command.
+   */
+  virtual AppCommand* RegisterCommand(const QString& command_id, const QString& command_text) = 0;
+
+  /**
+   * @brief Registers an action for a given command ID using a context.
+   *
+   * Internally creates a command, if necessary, and adds an action to the list of command actions.
+   * The action will be associated with the given context. Action ownership remains on
+   * the user side.
+   *
+   * @param action An action to register.
+   * @param command_id The ID of the command.
+   * @param context Command context.
+   * @return The command that will trigger the action.
+   */
+  virtual AppCommand* RegisterAction(QAction* action, const QString& command_id,
+                             const AppCommandContext& context) = 0;
+
+  /**
+   * @brief Returns a command registered for a given command_id.
+   */
+  virtual AppCommand* GetCommand(const QString& command_id) = 0;
+
+  /**
+   * @brief Returns number of registered commands.
+   */
+  virtual std::size_t GetCommandCount() const = 0;
+
+  /**
+   * @brief Sets the given context for all registered commands.
+   */
+  virtual void SetCurrentContext(const AppCommandContext& context) = 0;
+
+  /**
+   * @brief Sets the given context stack for all registered commands.
+   */
+  virtual void SetContextStack(const std::vector<AppCommandContext>& context_stack) = 0;
+};
+
+}  // namespace sup::gui
+
+#endif  // SUP_GUI_APP_I_APP_COMMAND_REGISTRY_H_

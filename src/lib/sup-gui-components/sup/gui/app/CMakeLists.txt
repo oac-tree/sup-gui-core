@@ -19,6 +19,7 @@ target_sources(${library_name} PRIVATE
   i_action_container.h
   i_action_container_registry.h
   i_app_command_context_widget_map.h
+  i_app_command_registry.h
   main_window_types.h
   menu_action_container.cpp
   menu_action_container.h
