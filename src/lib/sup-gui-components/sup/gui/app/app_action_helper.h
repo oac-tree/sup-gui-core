@@ -36,7 +36,7 @@ class QMenu;
 namespace sup::gui
 {
 
-class ActionManager;
+class MenuBarActionRegistry;
 class AppContextManager;
 class AppCommandManager;
 class IActionContainer;
@@ -46,7 +46,7 @@ class AppContextFocusController;
 /**
  * @brief Returns global action manager.
  */
-ActionManager& GetGlobalActionManager();
+MenuBarActionRegistry& GetGlobalActionManager();
 
 /**
  * @brief Returns global context manager.

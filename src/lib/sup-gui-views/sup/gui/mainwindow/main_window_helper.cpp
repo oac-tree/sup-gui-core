@@ -21,7 +21,7 @@
 #include "main_window_helper.h"
 
 #include <sup/gui/app/app_action_helper.h>
-#include <sup/gui/app/app_action_manager.h>
+#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/core/version_helper.h>
 

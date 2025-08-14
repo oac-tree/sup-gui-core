@@ -20,7 +20,8 @@
 
 #include "sup/gui/app/app_action_helper.h"
 
-#include <sup/gui/app/app_action_manager.h>
+#include <sup/gui/app/i_action_container.h>
+#include <sup/gui/app/menu_bar_action_registry.h>
 
 #include <gtest/gtest.h>
 

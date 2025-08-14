@@ -18,10 +18,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_APP_ACTION_MANAGER_H_
-#define SUP_GUI_APP_APP_ACTION_MANAGER_H_
+#ifndef SUP_GUI_APP_MENU_BAR_ACTION_REGISTRY_H_
+#define SUP_GUI_APP_MENU_BAR_ACTION_REGISTRY_H_
 
-#include <sup/gui/app/i_action_container.h>
 #include <sup/gui/app/i_action_container_registry.h>
 
 #include <QVector>
@@ -35,13 +34,15 @@ class QMenu;
 namespace sup::gui
 {
 
+class IActionContainer;
+
 /**
  * @brief The ActionManager class provides subscriptions of user actions to the menubar of the main
  * window.
  *
  * It doesn't own user actions. Intended to be used as a global variable.
  */
-class ActionManager : public IActionContainerRegistry
+class MenuBarActionRegistry : public IActionContainerRegistry
 {
 public:
   /**

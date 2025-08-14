@@ -18,29 +18,24 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "app_action_manager.h"
+#include "menu_bar_action_registry.h"
 
 #include "menu_action_container.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <QAction>
-#include <QMenu>
 #include <QMenuBar>
 
 namespace sup::gui
 {
 
-// ----------------------------------------------------------------------------
-// ActionManager
-// ----------------------------------------------------------------------------
-
-QMenuBar *ActionManager::GetMenuBar()
+QMenuBar *MenuBarActionRegistry::GetMenuBar()
 {
   return m_menubar;
 }
 
-void ActionManager::SetMenuBar(QMenuBar *menubar)
+void MenuBarActionRegistry::SetMenuBar(QMenuBar *menubar)
 {
   if (!menubar)
   {
@@ -63,7 +58,7 @@ void ActionManager::SetMenuBar(QMenuBar *menubar)
   throw RuntimeException("There can be only one application minibar");
 }
 
-IActionContainer *ActionManager::AddMenu(const QString &menu_name)
+IActionContainer *MenuBarActionRegistry::AddMenu(const QString &menu_name)
 {
   ValidateMenuBar();
 
@@ -80,7 +75,7 @@ IActionContainer *ActionManager::AddMenu(const QString &menu_name)
   return container_ptr;
 }
 
-bool ActionManager::RegisterAction(const QString &menu_name, QAction *action)
+bool MenuBarActionRegistry::RegisterAction(const QString &menu_name, QAction *action)
 {
   if (auto container = GetContainer(menu_name); container)
   {
@@ -90,24 +85,24 @@ bool ActionManager::RegisterAction(const QString &menu_name, QAction *action)
   return false;
 }
 
-IActionContainer *ActionManager::GetContainer(const QString &menu_name)
+IActionContainer *MenuBarActionRegistry::GetContainer(const QString &menu_name)
 {
   auto iter = m_action_storage.find(menu_name);
   return iter == m_action_storage.end() ? nullptr : iter->second.get();
 }
 
-std::size_t ActionManager::GetContainerCount() const
+std::size_t MenuBarActionRegistry::GetContainerCount() const
 {
   return m_action_storage.size();
 }
 
-void ActionManager::Reset()
+void MenuBarActionRegistry::Reset()
 {
   m_action_storage.clear();
   m_menubar = nullptr;
 }
 
-void ActionManager::ValidateMenuBar()
+void MenuBarActionRegistry::ValidateMenuBar()
 {
   if (!m_menubar)
   {

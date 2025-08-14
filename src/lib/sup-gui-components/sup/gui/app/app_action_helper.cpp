@@ -20,11 +20,12 @@
 
 #include "app_action_helper.h"
 
-#include "app_action_manager.h"
 #include "app_command.h"
 #include "app_command_manager.h"
 #include "app_context_focus_controller.h"
 #include "app_context_manager.h"
+#include "i_action_container.h"
+#include "menu_bar_action_registry.h"
 
 #include <sup/gui/components/proxy_action.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
@@ -35,9 +36,9 @@
 namespace sup::gui
 {
 
-ActionManager &GetGlobalActionManager()
+MenuBarActionRegistry &GetGlobalActionManager()
 {
-  static ActionManager global_action_manager;
+  static MenuBarActionRegistry global_action_manager;
   return global_action_manager;
 }
 
@@ -125,7 +126,8 @@ AppCommand *AppAddCommandToMenu(const QString &menu_name, const QString &command
   return command;
 }
 
-bool AppAddActionToCommand(QAction *action, const QString &command_id, const AppCommandContext &context)
+bool AppAddActionToCommand(QAction *action, const QString &command_id,
+                           const AppCommandContext &context)
 {
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.

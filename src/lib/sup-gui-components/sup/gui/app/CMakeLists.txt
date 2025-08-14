@@ -3,8 +3,6 @@
 target_sources(${library_name} PRIVATE
   app_action_helper.cpp
   app_action_helper.h
-  app_action_manager.cpp
-  app_action_manager.h
   app_command.cpp
   app_command.h
   app_command_context.cpp
@@ -23,4 +21,6 @@ target_sources(${library_name} PRIVATE
   main_window_types.h
   menu_action_container.cpp
   menu_action_container.h
+  menu_bar_action_registry.cpp
+  menu_bar_action_registry.h
   )

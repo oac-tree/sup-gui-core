@@ -18,8 +18,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/app/app_action_manager.h"
+#include "sup/gui/app/menu_bar_action_registry.h"
 
+#include <sup/gui/app/i_action_container.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <gtest/gtest.h>
@@ -31,30 +32,33 @@
 namespace sup::gui::test
 {
 
-class AppActionManagerTest : public ::testing::Test
+/**
+ * @brief Tests for The MenuBarActionRegistry class.
+ */
+class MenuBarActionRegistryTest : public ::testing::Test
 {
 };
 
-TEST_F(AppActionManagerTest, ActionManagerInitialState)
+TEST_F(MenuBarActionRegistryTest, ActionManagerInitialState)
 {
-  ActionManager manager;
+  MenuBarActionRegistry manager;
   EXPECT_EQ(manager.GetContainerCount(), 0);
   EXPECT_EQ(manager.GetContainer("abc"), nullptr);
   EXPECT_EQ(manager.GetMenuBar(), nullptr);
 }
 
-TEST_F(AppActionManagerTest, ActionManagerSetMenuBar)
+TEST_F(MenuBarActionRegistryTest, ActionManagerSetMenuBar)
 {
-  ActionManager manager;
+  MenuBarActionRegistry manager;
   QMenuBar menubar;
 
   manager.SetMenuBar(&menubar);
   EXPECT_EQ(manager.GetMenuBar(), &menubar);
 }
 
-TEST_F(AppActionManagerTest, ActionManagerAddMenu)
+TEST_F(MenuBarActionRegistryTest, ActionManagerAddMenu)
 {
-  ActionManager manager;
+  MenuBarActionRegistry manager;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
@@ -80,9 +84,9 @@ TEST_F(AppActionManagerTest, ActionManagerAddMenu)
   EXPECT_EQ(container->GetActionCount(), 0);
 }
 
-TEST_F(AppActionManagerTest, Reset)
+TEST_F(MenuBarActionRegistryTest, Reset)
 {
-  ActionManager manager;
+  MenuBarActionRegistry manager;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
@@ -100,9 +104,9 @@ TEST_F(AppActionManagerTest, Reset)
   EXPECT_EQ(manager.GetContainerCount(), 0);
 }
 
-TEST_F(AppActionManagerTest, AddMenuBarSecondTime)
+TEST_F(MenuBarActionRegistryTest, AddMenuBarSecondTime)
 {
-  ActionManager manager;
+  MenuBarActionRegistry manager;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
@@ -118,9 +122,9 @@ TEST_F(AppActionManagerTest, AddMenuBarSecondTime)
   EXPECT_EQ(manager.GetContainerCount(), 1);
 }
 
-TEST_F(AppActionManagerTest, ActionManagerRegisterAction)
+TEST_F(MenuBarActionRegistryTest, ActionManagerRegisterAction)
 {
-  ActionManager manager;
+  MenuBarActionRegistry manager;
   QMenuBar menubar;
 
   EXPECT_EQ(menubar.actions().size(), 0);
