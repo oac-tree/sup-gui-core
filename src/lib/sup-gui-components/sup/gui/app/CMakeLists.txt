@@ -18,6 +18,7 @@ target_sources(${library_name} PRIVATE
   app_context_manager.h
   app_helper.cpp
   app_helper.h
+  i_action_container.h
   i_action_container_registry.h
   main_window_types.h
   )

@@ -21,6 +21,7 @@
 #ifndef SUP_GUI_APP_APP_ACTION_MANAGER_H_
 #define SUP_GUI_APP_APP_ACTION_MANAGER_H_
 
+#include <sup/gui/app/i_action_container.h>
 #include <sup/gui/app/i_action_container_registry.h>
 
 #include <QVector>
@@ -34,36 +35,6 @@ class QMenu;
 
 namespace sup::gui
 {
-
-class IActionContainer
-{
-public:
-  IActionContainer() = default;
-  virtual ~IActionContainer() = default;
-
-  IActionContainer(const IActionContainer&) = delete;
-  IActionContainer& operator=(const IActionContainer&) = delete;
-  IActionContainer(IActionContainer&&) = delete;
-  IActionContainer& operator=(IActionContainer&&) = delete;
-
-  /**
-   * @brief Returns number of actions registered in this container.
-   */
-  virtual std::size_t GetActionCount() = 0;
-
-  /**
-   * @brief The menu associated with this container, where actionms are added.
-   */
-  virtual QMenu* GetMenu() = 0;
-
-  /**
-   * @brief Adds action to the menu associated with this container.
-   *
-   * @param The action to add (ownership belongs to the user).
-   * @return True if action has been successfully added.
-   */
-  virtual bool AddAction(QAction* action) = 0;
-};
 
 /**
  * @brief The MenuActionContainer class holds information about a menu and actions added to it.
