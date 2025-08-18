@@ -34,11 +34,9 @@ class QMenu;
 namespace sup::gui
 {
 
-class IActionContainer;
-
 /**
- * @brief The MenuBarActionRegistry class provides subscriptions of user actions to the menubar of the main
- * window.
+ * @brief The MenuBarActionRegistry class provides subscriptions of user actions to the menubar of
+ * the main window.
  *
  * It doesn't own user actions. Intended to be used as a global variable.
  */
@@ -50,37 +48,10 @@ public:
    */
   QMenuBar* GetMenuBar();
 
-  /**
-   * @brief Sets menubar to serve.
-   *
-   * There can be only one menubar to serve.
-   *
-   *
-   */
-  // FIXME remove method, use c-tor after refactoring of AppContext
-  void SetMenuBar(QMenuBar* menubar);
+  void SetMenuBar(QMenuBar* menubar) override;
 
-  /**
-   * @brief Adds new menu to the menu bar.
-   *
-   * The menubar will take an ownership. If menu was already created, just returns action container.
-   *
-   * @param menu_name The title of the menu.
-   * @param menubar The menubar where the menu will be added.
-   *
-   * @return Action container holding just created menu and other information.
-   */
-  IActionContainer* AddMenu(const QString& menu_name);
+  IActionContainer* AddMenu(const QString& menu_name) override;
 
-  /**
-   * @brief Registers action and add it to the menu.
-   *
-   * The ownership of the action is not taken.
-   *
-   * @param menu_name The name of already existing menu added via AddMenu call.
-   * @param action User action to add.
-   * @return True if action was added, or false if no such menu was registered.
-   */
   bool RegisterAction(const QString& menu_name, QAction* action) override;
 
   IActionContainer* GetContainer(const QString& menu_name);
@@ -96,7 +67,6 @@ public:
    * This is method can be called when application is going to be restarted. Newly started
    * application will register it's own menubar.
    */
-  // FIXME remove method,  after refactoring of AppContext
   void Reset();
 
 private:

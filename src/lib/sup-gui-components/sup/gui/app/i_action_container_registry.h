@@ -24,9 +24,12 @@
 #include <QString>
 
 class QAction;
+class QMenuBar;
 
 namespace sup::gui
 {
+
+class IActionContainer;
 
 /**
  * @brief The IActionContainerRegistry is an interface that handles the collection of action
@@ -47,9 +50,32 @@ public:
   IActionContainerRegistry& operator=(IActionContainerRegistry&&) = delete;
 
   /**
-   * @brief Registers given action in the container with given name.
+   * @brief Sets menubar to serve.
    *
-   * Ownership is not tak
+   * There can be only one menubar to serve.
+   */
+  virtual void SetMenuBar(QMenuBar* menubar) = 0;
+
+  /**
+   * @brief Adds new menu to the menu bar.
+   *
+   * The menubar will take an ownership. If menu was already created, just returns action container.
+   *
+   * @param menu_name The title of the menu.
+   * @param menubar The menubar where the menu will be added.
+   *
+   * @return Action container holding just created menu and other information.
+   */
+  virtual IActionContainer* AddMenu(const QString& menu_name) = 0;
+
+  /**
+   * @brief Registers action and add it to the menu.
+   *
+   * The ownership of the action is not taken.
+   *
+   * @param menu_name The name of already existing menu added via AddMenu call.
+   * @param action User action to add.
+   * @return True if action was added, or false if no such menu was registered.
    */
   virtual bool RegisterAction(const QString& container_name, QAction* action) = 0;
 };
