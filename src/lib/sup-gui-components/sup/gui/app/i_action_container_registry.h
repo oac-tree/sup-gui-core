@@ -21,6 +21,8 @@
 #ifndef SUP_GUI_APP_I_ACTION_CONTAINER_REGISTRY_H_
 #define SUP_GUI_APP_I_ACTION_CONTAINER_REGISTRY_H_
 
+#include <sup/gui/app/i_action_container.h>
+
 #include <QString>
 
 class QAction;
@@ -28,8 +30,6 @@ class QMenuBar;
 
 namespace sup::gui
 {
-
-class IActionContainer;
 
 /**
  * @brief The IActionContainerRegistry is an interface that handles the collection of action

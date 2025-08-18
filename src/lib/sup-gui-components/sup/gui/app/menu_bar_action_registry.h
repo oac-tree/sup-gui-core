@@ -34,6 +34,8 @@ class QMenu;
 namespace sup::gui
 {
 
+class IActionContainer;
+
 /**
  * @brief The MenuBarActionRegistry class provides subscriptions of user actions to the menubar of
  * the main window.
@@ -43,6 +45,14 @@ namespace sup::gui
 class MenuBarActionRegistry : public IActionContainerRegistry
 {
 public:
+  MenuBarActionRegistry() = default;
+  ~MenuBarActionRegistry() override;
+
+  MenuBarActionRegistry(const MenuBarActionRegistry&) = delete;
+  MenuBarActionRegistry& operator=(const MenuBarActionRegistry&) = delete;
+  MenuBarActionRegistry(MenuBarActionRegistry&&) = delete;
+  MenuBarActionRegistry& operator=(MenuBarActionRegistry&&) = delete;
+
   /**
    * @brief Returns menubar served by this manager.
    */

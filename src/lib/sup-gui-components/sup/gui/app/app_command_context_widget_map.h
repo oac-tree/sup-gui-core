@@ -37,6 +37,14 @@ namespace sup::gui
 class AppCommandContextWidgetMap : public IAppCommandContextWidgetMap
 {
 public:
+  AppCommandContextWidgetMap() = default;
+  ~AppCommandContextWidgetMap() override;
+
+  AppCommandContextWidgetMap(const AppCommandContextWidgetMap&) = delete;
+  AppCommandContextWidgetMap& operator=(const AppCommandContextWidgetMap&) = delete;
+  AppCommandContextWidgetMap(AppCommandContextWidgetMap&&) = delete;
+  AppCommandContextWidgetMap& operator=(AppCommandContextWidgetMap&&) = delete;
+
   AppCommandContext RegisterWidgetUniqueId(const QWidget* widget) override;
 
   void UnregisterWidgetUniqueId(const QWidget* widget) override;

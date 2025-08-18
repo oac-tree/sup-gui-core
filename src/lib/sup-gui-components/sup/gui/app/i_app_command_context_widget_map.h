@@ -21,14 +21,14 @@
 #ifndef SUP_GUI_APP_I_COMMAND_CONTEXT_WIDGET_MAP_H_
 #define SUP_GUI_APP_I_COMMAND_CONTEXT_WIDGET_MAP_H_
 
+#include <sup/gui/app/app_command_context.h>
+
 class QWidget;
 
 #include <cstddef>
 
 namespace sup::gui
 {
-
-class AppCommandContext;
 
 /**
  * @brief The IAppCommandContextWidgetMap interface is intended to handle the correspondance of

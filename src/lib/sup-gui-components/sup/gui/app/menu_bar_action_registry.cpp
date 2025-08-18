@@ -30,6 +30,8 @@
 namespace sup::gui
 {
 
+MenuBarActionRegistry::~MenuBarActionRegistry() = default;
+
 QMenuBar *MenuBarActionRegistry::GetMenuBar()
 {
   return m_menubar;

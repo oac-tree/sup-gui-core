@@ -31,6 +31,8 @@
 namespace sup::gui
 {
 
+AppCommandContextWidgetMap::~AppCommandContextWidgetMap() = default;
+
 AppCommandContext AppCommandContextWidgetMap::RegisterWidgetUniqueId(const QWidget *widget)
 {
   auto iter = m_widget_to_context.find(widget);
