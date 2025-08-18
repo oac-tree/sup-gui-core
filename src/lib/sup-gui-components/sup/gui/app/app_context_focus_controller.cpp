@@ -20,9 +20,9 @@
 
 #include "app_context_focus_controller.h"
 
-#include "app_command_registry.h"
 #include "app_command_context.h"
-#include "app_command_context_widget_map.h"
+#include "i_app_command_context_widget_map.h"
+#include "i_app_command_registry.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -36,10 +36,10 @@ namespace
 const bool kPrintDebugMessages = false;
 }
 
-AppContextFocusController::AppContextFocusController(AppCommandContextWidgetMap &context_manager,
-                                                     AppCommandRegistry &command_manager,
+AppContextFocusController::AppContextFocusController(IAppCommandContextWidgetMap &widget_map,
+                                                     IAppCommandRegistry &command_registry,
                                                      QObject *parent_object)
-    : QObject(parent_object), m_context_manager(context_manager), m_command_manager(command_manager)
+    : QObject(parent_object), m_widget_map(widget_map), m_command_registry(command_registry)
 {
 }
 
@@ -70,21 +70,21 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
       qDebug() << current->metaObject()->className();
     }
 
-    if (m_context_manager.HasContext(current))
+    if (m_widget_map.HasContext(current))
     {
-      context_summary.push_back(m_context_manager.GetContext(current));
+      context_summary.push_back(m_widget_map.GetContext(current));
     }
     current = current->parentWidget();
   }
 
-  m_command_manager.SetContextStack(context_summary);
+  m_command_registry.SetContextStack(context_summary);
 
   if (kPrintDebugMessages)
   {
     for (const auto &context : context_summary)
     {
       qDebug() << " context:" << context.GetContextId()
-               << m_context_manager.GetWidget(context)->metaObject()->className();
+               << m_widget_map.GetWidget(context)->metaObject()->className();
     }
   }
 }

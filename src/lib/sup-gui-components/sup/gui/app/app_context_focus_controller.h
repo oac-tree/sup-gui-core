@@ -28,8 +28,8 @@ class QAction;
 namespace sup::gui
 {
 
-class AppCommandRegistry;
-class AppCommandContextWidgetMap;
+class IAppCommandRegistry;
+class IAppCommandContextWidgetMap;
 
 /**
  * @brief The AppContextFocusController class handles the context switch on the focus widget
@@ -44,15 +44,20 @@ class AppContextFocusController : public QObject
   Q_OBJECT
 
 public:
-  explicit AppContextFocusController(AppCommandContextWidgetMap& context_manager,
-                                     AppCommandRegistry& command_manager, QObject* parent_object);
+  explicit AppContextFocusController(IAppCommandContextWidgetMap& widget_map,
+                                     IAppCommandRegistry& command_registry, QObject* parent_object);
   ~AppContextFocusController() override;
+
+  AppContextFocusController(const AppContextFocusController&) = delete;
+  AppContextFocusController& operator=(const AppContextFocusController&) = delete;
+  AppContextFocusController(AppContextFocusController&&) = delete;
+  AppContextFocusController& operator=(AppContextFocusController&&) = delete;
 
   void OnFocusWidgetUpdate(QWidget* old, QWidget* now);
 
 private:
-  AppCommandContextWidgetMap& m_context_manager;
-  AppCommandRegistry& m_command_manager;
+  IAppCommandContextWidgetMap& m_widget_map;
+  IAppCommandRegistry& m_command_registry;
 };
 
 }  // namespace sup::gui
