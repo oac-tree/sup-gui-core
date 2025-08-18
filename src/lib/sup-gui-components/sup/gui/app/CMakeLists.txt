@@ -11,15 +11,20 @@ target_sources(${library_name} PRIVATE
   app_command_context_widget_map.h
   app_command_registry.cpp
   app_command_registry.h
+  app_command_service.cpp
+  app_command_service.h
   app_constants.h
   app_context_focus_controller.cpp
   app_context_focus_controller.h
   app_helper.cpp
   app_helper.h
+  default_command_service.cpp
+  default_command_service.h
   i_action_container.h
   i_action_container_registry.h
   i_app_command_context_widget_map.h
   i_app_command_registry.h
+  i_app_command_service.h
   main_window_types.h
   menu_action_container.cpp
   menu_action_container.h
