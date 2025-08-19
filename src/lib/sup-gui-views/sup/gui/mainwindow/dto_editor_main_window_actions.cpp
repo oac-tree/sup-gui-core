@@ -22,12 +22,9 @@
 
 #include "about_application_dialog.h"
 
-#include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_constants.h>
-#include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/app/i_app_command_service.h>
-#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/components/proxy_action.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
@@ -41,6 +38,7 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
+#include <QApplication>
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QStatusBar>
@@ -57,13 +55,15 @@ DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
     , m_settings(settings)
     , m_command_service(command_service)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
-    , m_focus_controller(sup::gui::CreateAppFocusController())
 {
-  command_service.AppRegisterMenuBar(
+  m_command_service.AppRegisterMenuBar(
       main_window->menuBar(), {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
                                constants::kViewMenu, constants::kHelpMenu});
   CreateActions(main_window);
   SetupMenus();
+
+  (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget *old, QWidget *now)
+                         { m_command_service.OnFocusWidgetUpdate(old, now); });
 }
 
 DtoEditorMainWindowActions::~DtoEditorMainWindowActions() = default;

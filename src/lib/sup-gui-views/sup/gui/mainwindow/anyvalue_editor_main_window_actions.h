@@ -43,7 +43,6 @@ class ISessionModel;
 namespace sup::gui
 {
 
-class AppContextFocusController;
 class IAppCommandService;
 
 /**
@@ -55,7 +54,8 @@ class AnyValueEditorMainWindowActions : public QObject
 
 public:
   explicit AnyValueEditorMainWindowActions(mvvm::IProject* project, mvvm::ISessionModel* settings,
-                                           IAppCommandService& command_service, QMainWindow* main_window);
+                                           IAppCommandService& command_service,
+                                           QMainWindow* main_window);
   ~AnyValueEditorMainWindowActions() override;
 
   /**
@@ -117,7 +117,6 @@ private:
   mvvm::ISessionModel* m_settings{nullptr};
   IAppCommandService& m_command_service;
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
-  std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };
 
 }  // namespace sup::gui

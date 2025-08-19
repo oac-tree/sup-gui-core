@@ -22,7 +22,6 @@
 
 #include "about_application_dialog.h"
 
-#include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/app_context_focus_controller.h>
@@ -57,9 +56,8 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
     , m_settings(settings)
     , m_command_service(command_service)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
-    , m_focus_controller(sup::gui::CreateAppFocusController())
 {
-  command_service.AppRegisterMenuBar(
+  m_command_service.AppRegisterMenuBar(
       main_window->menuBar(),
       {constants::kFileMenu, constants::kEditMenu, constants::kViewMenu, constants::kHelpMenu});
 
@@ -68,7 +66,7 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
   SetupStatusBar(main_window->statusBar());
 
   (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget *old, QWidget *now)
-                         { m_focus_controller->OnFocusWidgetUpdate(old, now); });
+                         { m_command_service.OnFocusWidgetUpdate(old, now); });
 }
 
 AnyValueEditorMainWindowActions::~AnyValueEditorMainWindowActions() = default;

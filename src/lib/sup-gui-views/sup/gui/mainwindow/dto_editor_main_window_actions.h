@@ -43,7 +43,6 @@ class ISessionModel;
 namespace sup::gui
 {
 
-class AppContextFocusController;
 class IAppCommandService;
 
 /**
@@ -114,7 +113,6 @@ private:
   mvvm::ISessionModel* m_settings{nullptr};
   IAppCommandService& m_command_service;
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
-  std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };
 
 }  // namespace sup::gui
