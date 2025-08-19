@@ -20,7 +20,7 @@
 
 #include "sup/gui/mainwindow/anyvalue_editor_app_context.h"
 
-#include <sup/gui/app/i_action_container.h>
+#include <sup/gui/app/app_command_service.h>
 #include <sup/gui/app/menu_bar_action_registry.h>
 
 #include <gtest/gtest.h>
@@ -43,8 +43,7 @@ TEST_F(AnyValueEditorAppContextTest, InitialState)
 {
   AnyValueEditorAppContext context;
 
-  EXPECT_NE(dynamic_cast<MenuBarActionRegistry*>(&context.GetGlobalMenuBarActionRegistry()),
-            nullptr);
+  EXPECT_NE(dynamic_cast<AppCommandService*>(&context.GetCommandService()), nullptr);
 }
 
 }  // namespace sup::gui::test

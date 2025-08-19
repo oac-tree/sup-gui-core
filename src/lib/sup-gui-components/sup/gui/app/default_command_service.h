@@ -33,6 +33,15 @@ namespace sup::gui
 
 /**
  * @brief Creates default command service.
+ *
+ * Application Menu bar is not yet initialized
+ */
+std::unique_ptr<IAppCommandService> CreateDefaultCommandService();
+
+/**
+ * @brief Creates default command service.
+ *
+ * Application menubar will be initialized with given top menus.
  */
 std::unique_ptr<IAppCommandService> CreateDefaultCommandService(QMainWindow* main_window,
                                                                 const QStringList& top_menu_names);

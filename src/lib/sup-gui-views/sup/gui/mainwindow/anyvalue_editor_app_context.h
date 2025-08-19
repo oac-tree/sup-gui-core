@@ -26,7 +26,7 @@
 namespace sup::gui
 {
 
-class IActionContainerRegistry;
+class IAppCommandService;
 
 /**
  * @brief The AnyValueEditorAppContext contains all common resources for AnyValueEditor application.
@@ -42,10 +42,10 @@ public:
   AnyValueEditorAppContext(AnyValueEditorAppContext&&) = delete;
   AnyValueEditorAppContext& operator=(AnyValueEditorAppContext&&) = delete;
 
-  IActionContainerRegistry& GetGlobalMenuBarActionRegistry();
+  IAppCommandService& GetCommandService();
 
 private:
-  std::unique_ptr<IActionContainerRegistry> m_menu_bar_action_registry;
+  std::unique_ptr<IAppCommandService> m_command_service;
 };
 
 }  // namespace sup::gui

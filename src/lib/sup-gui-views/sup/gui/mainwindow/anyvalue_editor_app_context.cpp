@@ -20,22 +20,21 @@
 
 #include "anyvalue_editor_app_context.h"
 
-#include <sup/gui/app/menu_bar_action_registry.h>
-#include <sup/gui/app/i_action_container.h>
+#include <sup/gui/app/default_command_service.h>
 
 namespace sup::gui
 {
 
 AnyValueEditorAppContext::AnyValueEditorAppContext()
-    : m_menu_bar_action_registry(std::make_unique<MenuBarActionRegistry>())
+    : m_command_service(CreateDefaultCommandService())
 {
 }
 
 AnyValueEditorAppContext::~AnyValueEditorAppContext() = default;
 
-IActionContainerRegistry &AnyValueEditorAppContext::GetGlobalMenuBarActionRegistry()
+IAppCommandService &AnyValueEditorAppContext::GetCommandService()
 {
-  return *m_menu_bar_action_registry;
+  return *m_command_service;
 }
 
 }  // namespace sup::gui
