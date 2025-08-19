@@ -30,4 +30,6 @@ target_sources(${library_name} PRIVATE
   menu_action_container.h
   menu_bar_action_registry.cpp
   menu_bar_action_registry.h
+  null_command_service.cpp
+  null_command_service.h
   )
