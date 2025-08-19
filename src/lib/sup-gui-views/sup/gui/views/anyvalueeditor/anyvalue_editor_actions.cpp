@@ -20,7 +20,6 @@
 
 #include "anyvalue_editor_actions.h"
 
-#include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>

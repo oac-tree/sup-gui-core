@@ -24,9 +24,9 @@
 #include "dto_waveform_list_panel.h"
 #include "dto_waveform_property_panel.h"
 
-#include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/i_app_command_service.h>
+#include <sup/gui/app/app_command_context.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
 
