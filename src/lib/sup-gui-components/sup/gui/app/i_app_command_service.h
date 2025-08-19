@@ -84,7 +84,7 @@ public:
    *
    * @return True if action was added, or false if no such menu was registered.
    */
-  virtual bool AppAddActionToMenuBar(const QString& menu_name, QAction* action) = 0;
+  virtual bool AddActionToMenuBar(const QString& menu_name, QAction* action) = 0;
 
   /**
    * @brief Adds command to the menu.
@@ -95,7 +95,7 @@ public:
    * @param command_id The id of the command which has proxy action.
    * @return Pointer to the command.
    */
-  virtual AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command_id) = 0;
+  virtual AppCommand* AddCommandToMenu(const QString& menu_name, const QString& command_id) = 0;
 
   /**
    * @brief Adds given action to command.
@@ -107,8 +107,8 @@ public:
    * @param command_id An identifier under which command is registered in IAppCommandRegistry.
    * @param context The context of this command.
    */
-  virtual bool AppAddActionToCommand(QAction* action, const QString& command_id,
-                                     const AppCommandContext& context) = 0;
+  virtual bool AddActionToCommand(QAction* action, const QString& command_id,
+                                  const AppCommandContext& context) = 0;
 };
 
 }  // namespace sup::gui

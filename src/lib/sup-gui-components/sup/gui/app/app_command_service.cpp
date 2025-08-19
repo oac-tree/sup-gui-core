@@ -56,27 +56,26 @@ void AppCommandService::UnregisterWidgetUniqueId(const QWidget *widget)
   m_command_context_widget_map->UnregisterWidgetUniqueId(widget);
 }
 
-bool AppCommandService::AppAddActionToMenuBar(const QString &menu_name, QAction *action)
+bool AppCommandService::AddActionToMenuBar(const QString &menu_name, QAction *action)
 {
   return m_app_menubar_action_registry->RegisterAction(menu_name, action);
 }
 
-AppCommand *AppCommandService::AppAddCommandToMenu(const QString &menu_name,
-                                                   const QString &command_id)
+AppCommand *AppCommandService::AddCommandToMenu(const QString &menu_name, const QString &command_id)
 {
   // register new, or get access to already registered command
   auto command = m_command_registry->RegisterCommand(command_id, command_id);
 
   // add underlying proxy action to the menu
-  if (!AppAddActionToMenuBar(menu_name, command->GetProxyAction()))
+  if (!AddActionToMenuBar(menu_name, command->GetProxyAction()))
   {
     throw RuntimeException("Global menu [" + menu_name.toStdString() + "] doesn't exist");
   }
   return command;
 }
 
-bool AppCommandService::AppAddActionToCommand(QAction *action, const QString &command_id,
-                                              const AppCommandContext &context)
+bool AppCommandService::AddActionToCommand(QAction *action, const QString &command_id,
+                                           const AppCommandContext &context)
 {
   auto app_command = m_command_registry->RegisterAction(action, command_id, context);
   return app_command != nullptr;

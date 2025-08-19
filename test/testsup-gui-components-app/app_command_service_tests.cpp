@@ -91,11 +91,11 @@ TEST_F(AppCommandServiceTest, AddActionToMenuBar)
   EXPECT_CALL(m_action_container_registry, RegisterAction(menu_name, &action))
       .WillOnce(testing::Return(true));
 
-  const bool result = service->AppAddActionToMenuBar(menu_name, &action);
+  const bool result = service->AddActionToMenuBar(menu_name, &action);
   EXPECT_TRUE(result);
 }
 
-TEST_F(AppCommandServiceTest, AppAddCommandToMenu)
+TEST_F(AppCommandServiceTest, AddCommandToMenu)
 {
   auto service = CreateCommandService();
   const QString menu_name = "File";
@@ -110,11 +110,11 @@ TEST_F(AppCommandServiceTest, AppAddCommandToMenu)
   EXPECT_CALL(m_action_container_registry, RegisterAction(menu_name, command->GetProxyAction()))
       .WillOnce(testing::Return(true));
 
-  auto registered_command = service->AppAddCommandToMenu(menu_name, command_id);
+  auto registered_command = service->AddCommandToMenu(menu_name, command_id);
   EXPECT_EQ(registered_command, command.get());
 }
 
-TEST_F(AppCommandServiceTest, AppAddCommandToMenuFails)
+TEST_F(AppCommandServiceTest, AddCommandToMenuFails)
 {
   auto service = CreateCommandService();
   const QString menu_name = "File";
@@ -129,10 +129,10 @@ TEST_F(AppCommandServiceTest, AppAddCommandToMenuFails)
   EXPECT_CALL(m_action_container_registry, RegisterAction(menu_name, command->GetProxyAction()))
       .WillOnce(testing::Return(false));
 
-  EXPECT_THROW(service->AppAddCommandToMenu(menu_name, command_id), RuntimeException);
+  EXPECT_THROW(service->AddCommandToMenu(menu_name, command_id), RuntimeException);
 }
 
-TEST_F(AppCommandServiceTest, AppAddActionToCommand)
+TEST_F(AppCommandServiceTest, ActionToCommand)
 {
   auto service = CreateCommandService();
   const QString command_id = "test_command";
@@ -145,11 +145,11 @@ TEST_F(AppCommandServiceTest, AppAddActionToCommand)
   EXPECT_CALL(m_command_registry, RegisterAction(&action, command_id, context))
       .WillOnce(testing::Return(command.get()));
 
-  const bool result = service->AppAddActionToCommand(&action, command_id, context);
+  const bool result = service->AddActionToCommand(&action, command_id, context);
   EXPECT_TRUE(result);
 }
 
-TEST_F(AppCommandServiceTest, AppAddActionToCommandFailure)
+TEST_F(AppCommandServiceTest, AddActionToCommandFailure)
 {
   auto service = CreateCommandService();
   const QString command_id = "test_command";
@@ -161,7 +161,7 @@ TEST_F(AppCommandServiceTest, AppAddActionToCommandFailure)
   EXPECT_CALL(m_command_registry, RegisterAction(&action, command_id, context))
       .WillOnce(testing::Return(nullptr));
 
-  const bool result = service->AppAddActionToCommand(&action, command_id, context);
+  const bool result = service->AddActionToCommand(&action, command_id, context);
   EXPECT_FALSE(result);
 }
 

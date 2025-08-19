@@ -56,12 +56,12 @@ public:
 
   void UnregisterWidgetUniqueId(const QWidget* widget) override;
 
-  bool AppAddActionToMenuBar(const QString& menu_name, QAction* action) override;
+  bool AddActionToMenuBar(const QString& menu_name, QAction* action) override;
 
-  AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command_id) override;
+  AppCommand* AddCommandToMenu(const QString& menu_name, const QString& command_id) override;
 
-  bool AppAddActionToCommand(QAction* action, const QString& command_id,
-                                     const AppCommandContext& context) override;
+  bool AddActionToCommand(QAction* action, const QString& command_id,
+                          const AppCommandContext& context) override;
 
 private:
   std::unique_ptr<IAppCommandRegistry> m_command_registry;
