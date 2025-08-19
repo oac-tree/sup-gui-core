@@ -26,6 +26,7 @@
 class QWidget;
 class QString;
 class QMenuBar;
+class QAction;
 
 namespace sup::gui
 {
@@ -71,6 +72,43 @@ public:
    * normally should be called in the destructor of the widget.
    */
   virtual void UnregisterWidgetUniqueId(const QWidget* widget) = 0;
+
+  /**
+   * @brief Add action to the global menu bar.
+   *
+   * The action will be appended to menu with the given name. The ownership of the action
+   * is not taken.
+   *
+   * @param menu_name The name of already existing menu added via AddMenu call.
+   * @param action User action to add.
+   *
+   * @return True if action was added, or false if no such menu was registered.
+   */
+  virtual bool AppAddActionToMenuBar(const QString& menu_name, QAction* action) = 0;
+
+  /**
+   * @brief Adds command to the menu.
+   *
+   * It will create a command, if necessary, and add its underlying proxy action to the menu.
+   *
+   * @param menu_name The name of the menu registered in application-wide menubar.
+   * @param command_id The id of the command which has proxy action.
+   * @return Pointer to the command.
+   */
+  virtual AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command_id) = 0;
+
+  /**
+   * @brief Adds given action to command.
+   *
+   * It will register new, or get access to already registered command, and add given action to its
+   * list of real action.
+   *
+   * @param action User action to add to the command.
+   * @param command_id An identifier under which command is registered in IAppCommandRegistry.
+   * @param context The context of this command.
+   */
+  virtual bool AppAddActionToCommand(QAction* action, const QString& command_id,
+                                     const AppCommandContext& context) = 0;
 };
 
 }  // namespace sup::gui

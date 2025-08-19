@@ -20,11 +20,15 @@
 
 #include "app_command_service.h"
 
+#include "app_command.h"
+
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/i_action_container.h>
 #include <sup/gui/app/i_action_container_registry.h>
 #include <sup/gui/app/i_app_command_context_widget_map.h>
 #include <sup/gui/app/i_app_command_registry.h>
+#include <sup/gui/components/proxy_action.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 namespace sup::gui
 {
@@ -32,10 +36,10 @@ namespace sup::gui
 AppCommandService::AppCommandService(
     std::unique_ptr<IAppCommandRegistry> command_registry,
     std::unique_ptr<IAppCommandContextWidgetMap> context_widget_map,
-    std::unique_ptr<IActionContainerRegistry> container_registry)
+    std::unique_ptr<IActionContainerRegistry> menubar_action_registry)
     : m_command_registry(std::move(command_registry))
     , m_command_context_widget_map(std::move(context_widget_map))
-    , m_action_container_registry(std::move(container_registry))
+    , m_app_menubar_action_registry(std::move(menubar_action_registry))
 
 {
 }
@@ -50,6 +54,32 @@ AppCommandContext AppCommandService::RegisterWidgetUniqueId(const QWidget *widge
 void AppCommandService::UnregisterWidgetUniqueId(const QWidget *widget)
 {
   m_command_context_widget_map->UnregisterWidgetUniqueId(widget);
+}
+
+bool AppCommandService::AppAddActionToMenuBar(const QString &menu_name, QAction *action)
+{
+  return m_app_menubar_action_registry->RegisterAction(menu_name, action);
+}
+
+AppCommand *AppCommandService::AppAddCommandToMenu(const QString &menu_name,
+                                                   const QString &command_id)
+{
+  // register new, or get access to already registered command
+  auto command = m_command_registry->RegisterCommand(command_id, command_id);
+
+  // add underlying proxy action to the menu
+  if (!AppAddActionToMenuBar(menu_name, command->GetProxyAction()))
+  {
+    throw RuntimeException("Global menu [" + menu_name.toStdString() + "] doesn't exist");
+  }
+  return command;
+}
+
+bool AppCommandService::AppAddActionToCommand(QAction *action, const QString &command_id,
+                                              const AppCommandContext &context)
+{
+  auto app_command = m_command_registry->RegisterAction(action, command_id, context);
+  return app_command != nullptr;
 }
 
 }  // namespace sup::gui

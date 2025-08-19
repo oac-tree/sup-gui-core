@@ -35,9 +35,16 @@ class IActionContainerRegistry;
 class AppCommandService : public IAppCommandService
 {
 public:
+  /**
+   * @brief Main c-tor.
+   *
+   * @param command_registry The registry with application-wide commands.
+   * @param context_widget_map The registry with widgets and their associated context ids.
+   * @param menubar_action_registry The registry with application-wide menubar actions.
+   */
   AppCommandService(std::unique_ptr<IAppCommandRegistry> command_registry,
                     std::unique_ptr<IAppCommandContextWidgetMap> context_widget_map,
-                    std::unique_ptr<IActionContainerRegistry> container_registry);
+                    std::unique_ptr<IActionContainerRegistry> menubar_action_registry);
   ~AppCommandService() override;
 
   AppCommandService(const AppCommandService&) = delete;
@@ -49,10 +56,17 @@ public:
 
   void UnregisterWidgetUniqueId(const QWidget* widget) override;
 
+  bool AppAddActionToMenuBar(const QString& menu_name, QAction* action) override;
+
+  AppCommand* AppAddCommandToMenu(const QString& menu_name, const QString& command_id) override;
+
+  bool AppAddActionToCommand(QAction* action, const QString& command_id,
+                                     const AppCommandContext& context) override;
+
 private:
   std::unique_ptr<IAppCommandRegistry> m_command_registry;
   std::unique_ptr<IAppCommandContextWidgetMap> m_command_context_widget_map;
-  std::unique_ptr<IActionContainerRegistry> m_action_container_registry;
+  std::unique_ptr<IActionContainerRegistry> m_app_menubar_action_registry;
 };
 
 }  // namespace sup::gui
