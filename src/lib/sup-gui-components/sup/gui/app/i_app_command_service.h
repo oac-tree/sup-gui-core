@@ -56,6 +56,11 @@ public:
   IAppCommandService& operator=(IAppCommandService&&) = delete;
 
   /**
+   * @brief Registers main applcation menu bar, and create top level menus.
+   */
+  virtual void AppRegisterMenuBar(QMenuBar* menubar, const QStringList& top_menu_names) = 0;
+
+  /**
    * @brief Registers given widget using unique identifier.
    *
    * This call generates a unique identifier (represented by AppContext class) and registers the

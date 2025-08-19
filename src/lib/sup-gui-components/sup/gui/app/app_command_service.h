@@ -52,6 +52,8 @@ public:
   AppCommandService(AppCommandService&&) = delete;
   AppCommandService& operator=(AppCommandService&&) = delete;
 
+  void AppRegisterMenuBar(QMenuBar* menubar, const QStringList& top_menu_names) override;
+
   AppCommandContext RegisterWidgetUniqueId(const QWidget* widget) override;
 
   void UnregisterWidgetUniqueId(const QWidget* widget) override;

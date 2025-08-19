@@ -25,8 +25,15 @@
 namespace sup::gui
 {
 
+void NullCommandService::AppRegisterMenuBar(QMenuBar *menubar, const QStringList &top_menu_names)
+{
+  (void)menubar;
+  (void)top_menu_names;
+}
+
 AppCommandContext NullCommandService::RegisterWidgetUniqueId(const QWidget *widget)
 {
+  (void) widget;
   return AppCommandContext({}, {});
 }
 

@@ -46,6 +46,15 @@ AppCommandService::AppCommandService(
 
 AppCommandService::~AppCommandService() = default;
 
+void AppCommandService::AppRegisterMenuBar(QMenuBar *menubar, const QStringList &top_menu_names)
+{
+  m_app_menubar_action_registry->SetMenuBar(menubar);
+  for (const auto &name : top_menu_names)
+  {
+    (void)m_app_menubar_action_registry->AddMenu(name);
+  }
+}
+
 AppCommandContext AppCommandService::RegisterWidgetUniqueId(const QWidget *widget)
 {
   return m_command_context_widget_map->RegisterWidgetUniqueId(widget);

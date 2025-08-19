@@ -31,6 +31,7 @@
 #include <testutils/mock_app_command_registry.h>
 
 #include <QMenu>
+#include <QMenuBar>
 #include <QWidget>
 
 namespace sup::gui::test
@@ -59,6 +60,20 @@ public:
   MockAppCommandContextWidgetMap m_widget_map;
   MockActionContainerRegistry m_action_container_registry;
 };
+
+TEST_F(AppCommandServiceTest, AppRegisterMenuBar)
+{
+  auto service = CreateCommandService();
+  QMenuBar menubar;
+  QStringList top_menu_names = {"File", "Edit"};
+
+  EXPECT_CALL(m_action_container_registry, SetMenuBar(&menubar)).Times(1);
+
+  EXPECT_CALL(m_action_container_registry, AddMenu(QString("File"))).Times(1);
+  EXPECT_CALL(m_action_container_registry, AddMenu(QString("Edit"))).Times(1);
+
+  service->AppRegisterMenuBar(&menubar, top_menu_names);
+}
 
 TEST_F(AppCommandServiceTest, RegisterWidget)
 {

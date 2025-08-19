@@ -31,6 +31,8 @@ class NullCommandService : public IAppCommandService
 public:
   NullCommandService() = default;
 
+  void AppRegisterMenuBar(QMenuBar* menubar, const QStringList& top_menu_names) override;
+
   AppCommandContext RegisterWidgetUniqueId(const QWidget* widget) override;
 
   void UnregisterWidgetUniqueId(const QWidget* widget) override;

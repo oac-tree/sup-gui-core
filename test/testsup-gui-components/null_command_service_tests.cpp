@@ -42,6 +42,7 @@ class NullCommandServiceTest : public ::testing::Test
 TEST_F(NullCommandServiceTest, InitialState)
 {
   NullCommandService null_service;
+  EXPECT_NO_FATAL_FAILURE(null_service.AppRegisterMenuBar(nullptr, {}));
   EXPECT_EQ(null_service.RegisterWidgetUniqueId(nullptr), AppCommandContext({}, {}));
   EXPECT_NO_FATAL_FAILURE(null_service.UnregisterWidgetUniqueId(nullptr));
   EXPECT_EQ(null_service.AppGetMenu("TestMenu"), nullptr);
