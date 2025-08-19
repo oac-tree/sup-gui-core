@@ -56,7 +56,6 @@ int RunApplication(int argc, char** argv)
   sup::gui::SetupApplication(options.system_font_psize, options.style, options.info);
 
   int exit_code{0};
-  std::unique_ptr<MainWindowT> win;
 
   do
   {
@@ -68,12 +67,13 @@ int RunApplication(int argc, char** argv)
     }
 
     AnyValueEditorAppContext context;
-    win = std::make_unique<MainWindowT>(context);
+    MainWindowT win(context);
+
     if (options.window_size.has_value())
     {
-      win->resize(options.window_size.value());
+      win.resize(options.window_size.value());
     }
-    win->show();
+    win.show();
 
     exit_code = app.exec();
   } while (exit_code != sup::gui::NormalExit);
