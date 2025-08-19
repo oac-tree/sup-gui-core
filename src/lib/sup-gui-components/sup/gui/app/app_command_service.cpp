@@ -87,4 +87,9 @@ bool AppCommandService::AddActionToCommand(QAction *action, const QString &comma
   return app_command != nullptr;
 }
 
+AppCommand *AppCommandService::GetCommand(const QString &command_id)
+{
+  return m_command_registry->GetCommand(command_id);
+}
+
 }  // namespace sup::gui

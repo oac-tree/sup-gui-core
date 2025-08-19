@@ -184,4 +184,17 @@ TEST_F(AppCommandServiceTest, AddActionToCommandFailure)
   EXPECT_FALSE(result);
 }
 
+TEST_F(AppCommandServiceTest, GetCommand)
+{
+  auto service = CreateCommandService();
+  const QString command_id = "test_command";
+
+  auto command = std::make_unique<AppCommand>(command_id);
+  ON_CALL(m_command_registry, GetCommand(command_id)).WillByDefault(testing::Return(command.get()));
+  EXPECT_CALL(m_command_registry, GetCommand(command_id)).WillOnce(testing::Return(command.get()));
+
+  auto retrieved_command = service->GetCommand(command_id);
+  EXPECT_EQ(retrieved_command, command.get());
+}
+
 }  // namespace sup::gui::test

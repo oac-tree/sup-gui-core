@@ -65,6 +65,8 @@ public:
   bool AddActionToCommand(QAction* action, const QString& command_id,
                           const AppCommandContext& context) override;
 
+  AppCommand* GetCommand(const QString& command_id) override;
+
 private:
   std::unique_ptr<IAppCommandRegistry> m_command_registry;
   std::unique_ptr<IAppCommandContextWidgetMap> m_command_context_widget_map;

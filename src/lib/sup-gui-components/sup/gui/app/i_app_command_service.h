@@ -115,6 +115,11 @@ public:
    */
   virtual bool AddActionToCommand(QAction* action, const QString& command_id,
                                   const AppCommandContext& context) = 0;
+
+  /**
+   * @brief Returns a command registered for a given command_id.
+   */
+  virtual AppCommand* GetCommand(const QString& command_id) = 0;
 };
 
 }  // namespace sup::gui
