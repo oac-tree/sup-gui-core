@@ -1,5 +1,6 @@
 Changes for 2.0.0:
 
+- Implement AppCommandService and get rid of global functions to access commands
 - Introduce interfaces for the machinery of context-aware proxy actions
 - Provide possibility to setup individual widgets for setting editor
 - Implement provider for stacked widgets
