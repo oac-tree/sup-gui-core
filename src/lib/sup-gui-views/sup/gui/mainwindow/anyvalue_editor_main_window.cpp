@@ -140,7 +140,6 @@ void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 {
   if (CanCloseApplication())
   {
-    ShutdownApplication();
     QCoreApplication::exit(exit_code);
   }
 }

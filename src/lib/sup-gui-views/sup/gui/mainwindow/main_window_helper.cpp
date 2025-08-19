@@ -106,12 +106,6 @@ void SetupApplication(std::int32_t font_size_hint, const QString &app_style, boo
   }
 }
 
-void ShutdownApplication()
-{
-  // asking global ActionManager to forget about all registered toolbars
-  GetAppMenuBarActionRegistry().Reset();
-}
-
 void SetWindowStyle(const QString &app_style)
 {
   if (auto preferred_style = GetPrefferedStyle(app_style); preferred_style.has_value())

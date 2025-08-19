@@ -67,7 +67,6 @@ void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
 {
   if (CanCloseApplication())
   {
-    ShutdownApplication();
     QMainWindow::closeEvent(event);
     return;
   }
@@ -154,7 +153,6 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 {
   if (CanCloseApplication())
   {
-    ShutdownApplication();
     QCoreApplication::exit(exit_code);
   }
 }
