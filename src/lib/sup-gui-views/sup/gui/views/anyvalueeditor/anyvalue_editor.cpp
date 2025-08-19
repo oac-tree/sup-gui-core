@@ -22,6 +22,7 @@
 
 #include "anyvalue_editor_widget.h"
 
+#include <sup/gui/app/null_command_service.h>
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
@@ -41,8 +42,9 @@ namespace sup::gui
 
 AnyValueEditor::AnyValueEditor(QWidget *parent_widget)
     : AbstractAnyValueEditor(parent_widget)
+    , m_command_service(std::make_unique<NullCommandService>())
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_editor_widget(new AnyValueEditorWidget)
+    , m_editor_widget(new AnyValueEditorWidget(*m_command_service))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

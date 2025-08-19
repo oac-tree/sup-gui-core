@@ -214,7 +214,7 @@ void AnyValueEditorMainWindowActions::SetupViewMenu()
 
 void AnyValueEditorMainWindowActions::SetupHelpMenu()
 {
-  AppAddActionToMenuBar(constants::kHelpMenu, m_about_action);
+  m_command_service.AddActionToMenuBar(constants::kHelpMenu, m_about_action);
 }
 
 void AnyValueEditorMainWindowActions::OnChangeSystemFont()

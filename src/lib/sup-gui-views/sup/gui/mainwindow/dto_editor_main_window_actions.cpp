@@ -201,7 +201,7 @@ void DtoEditorMainWindowActions::SetupViewMenu()
 
 void DtoEditorMainWindowActions::SetupHelpMenu()
 {
-  AppAddActionToMenuBar(constants::kHelpMenu, m_about_action);
+  m_command_service.AddActionToMenuBar(constants::kHelpMenu, m_about_action);
 }
 
 void DtoEditorMainWindowActions::OnChangeSystemFont()

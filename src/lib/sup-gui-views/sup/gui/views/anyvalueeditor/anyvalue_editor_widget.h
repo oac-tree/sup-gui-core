@@ -27,7 +27,6 @@
 
 #include <QString>
 #include <QWidget>
-
 #include <memory>
 
 namespace mvvm
@@ -44,6 +43,7 @@ class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
 class AnyValueEditorActions;
 class CustomSplitter;
+class IAppCommandService;
 
 /**
  * @brief The AnyValueEditorWidget class is a main widget of AnyValueEditor.
@@ -56,7 +56,8 @@ class AnyValueEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorWidget(QWidget* parent_widget = nullptr);
+  explicit AnyValueEditorWidget(IAppCommandService& command_service,
+                                QWidget* parent_widget = nullptr);
   ~AnyValueEditorWidget() override;
 
   /**
@@ -129,8 +130,9 @@ private:
   QWidget* CreateLeftPanel();
   QWidget* CreateRightPanel();
 
-  QAction* m_show_right_sidebar{nullptr};
+  IAppCommandService& m_command_service;
 
+  QAction* m_show_right_sidebar{nullptr};
   std::unique_ptr<AnyValueEditorActionHandler> m_action_handler;
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};

@@ -92,11 +92,11 @@ void DtoEditorMainWindow::InitComponents()
 
   m_tab_widget->SetBaseColor(GetMainToolBarColor());
 
-  m_composer_view = new DtoComposerView;
+  m_composer_view = new DtoComposerView(*m_command_service);
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::FindIcon("file-tree-outline", IconColorFlavor::kForDarkThemes));
 
-  m_waveform_view = new DtoWaveformView;
+  m_waveform_view = new DtoWaveformView(*m_command_service);
   m_tab_widget->AddWidget(
       m_waveform_view, "Waveforms",
       utils::FindIcon("chart-timeline-variant-shimmer", IconColorFlavor::kForDarkThemes));

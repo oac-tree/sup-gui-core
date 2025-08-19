@@ -26,20 +26,22 @@
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
 
 #include <mvvm/standarditems/line_series_item.h>
 
+#include <QAction>
 #include <QSplitter>
 #include <QVBoxLayout>
-#include <QAction>
 
 namespace sup::gui
 {
 
-DtoWaveformView::DtoWaveformView(QWidget* parent_widget)
+DtoWaveformView::DtoWaveformView(IAppCommandService& command_service, QWidget* parent_widget)
     : QWidget(parent_widget)
+    , m_command_service(command_service)
     , m_splitter(new QSplitter)
     , m_list_panel(new DtoWaveformListPanel)
     , m_editor_panel(new DtoWaveformEditorPanel)
@@ -83,9 +85,11 @@ void DtoWaveformView::SetupWidgetActions()
   connect(m_toggle_right_sidebar, &QAction::triggered, this,
           [this](auto) { m_property_panel->setVisible(!m_property_panel->isVisible()); });
 
-  const auto context = sup::gui::AppRegisterWidgetUniqueId(this);
-  AppAddActionToCommand(m_toggle_left_sidebar, constants::kToggleLeftPanelCommandId, context);
-  AppAddActionToCommand(m_toggle_right_sidebar, constants::kToggleRightPanelCommandId, context);
+  const auto context = m_command_service.RegisterWidgetUniqueId(this);
+  m_command_service.AddActionToCommand(m_toggle_left_sidebar, constants::kToggleLeftPanelCommandId,
+                                       context);
+  m_command_service.AddActionToCommand(m_toggle_right_sidebar,
+                                       constants::kToggleRightPanelCommandId, context);
 }
 
 void DtoWaveformView::SetWaveformModel(WaveformModel* model)

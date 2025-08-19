@@ -24,8 +24,9 @@
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_treepanel.h"
 
-#include <sup/gui/app/app_action_helper.h>
+#include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/tree_helper.h>
 #include <sup/gui/mainwindow/clipboard_helper.h>
@@ -71,8 +72,10 @@ const QString kSplitterSettingName = kGroupName + "splitter";
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent_widget)
+AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService &command_service,
+                                           QWidget *parent_widget)
     : QWidget(parent_widget)
+    , m_command_service(command_service)
     , m_action_handler(
           std::make_unique<AnyValueEditorActionHandler>(CreateActionContext(), nullptr))
     , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
@@ -101,7 +104,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(QWidget *parent_widget)
 AnyValueEditorWidget::~AnyValueEditorWidget()
 {
   WriteSettings();
-  AppUnregisterWidgetUniqueId(this);
+  m_command_service.UnregisterWidgetUniqueId(this);
 }
 
 void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container)
@@ -212,9 +215,10 @@ void AnyValueEditorWidget::SetupWidgetActions()
   connect(m_show_right_sidebar, &QAction::triggered, this,
           [this](auto) { m_right_panel->setVisible(!m_right_panel->isVisible()); });
 
-  auto context = AppRegisterWidgetUniqueId(this);
-  m_actions->RegisterActionsForContext(context);
-  AppAddActionToCommand(m_show_right_sidebar, constants::kToggleRightPanelCommandId, context);
+  auto context = m_command_service.RegisterWidgetUniqueId(this);
+  m_actions->RegisterActionsForContext(context, m_command_service);
+  m_command_service.AddActionToCommand(m_show_right_sidebar, constants::kToggleRightPanelCommandId,
+                                       context);
 }
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const

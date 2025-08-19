@@ -21,6 +21,7 @@
 #include "sup/gui/views/dtoeditor/dto_composer_view.h"
 
 #include <sup/gui/model/sup_dto_model.h>
+#include <sup/gui/app/null_command_service.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/model_utils.h>
@@ -40,6 +41,8 @@ class DtoComposerViewTest : public ::testing::Test
 {
 public:
   mvvm::ApplicationModel m_model;
+
+  NullCommandService m_command_service;
 };
 
 //! This mimick loading of the project from disk.
@@ -47,7 +50,7 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
 {
   SupDtoModel model;  // has one container by default
 
-  DtoComposerView view;
+  DtoComposerView view(m_command_service);
   view.SetModel(&model);
 
   auto tab_widget = view.findChild<QTabWidget*>();

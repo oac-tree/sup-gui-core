@@ -38,6 +38,7 @@ class DtoWaveformEditorPanel;
 class DtoWaveformPropertyPanel;
 class WaveformModel;
 class AppCommandContext;
+class IAppCommandService;
 
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
@@ -50,7 +51,7 @@ class DtoWaveformView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoWaveformView(QWidget* parent_widget = nullptr);
+  explicit DtoWaveformView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
   ~DtoWaveformView() override;
 
   /**
@@ -63,14 +64,10 @@ public:
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
-  /**
-   * @brief Registers actions for given context.
-   */
-  void RegisterActionsForContext(const sup::gui::AppCommandContext& context);
-
 private:
   void SetupWidgetActions();
 
+  IAppCommandService& m_command_service;
   QSplitter* m_splitter{nullptr};
 
   QAction* m_toggle_left_sidebar{nullptr};

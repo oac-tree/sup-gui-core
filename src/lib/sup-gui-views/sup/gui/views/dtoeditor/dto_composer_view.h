@@ -38,6 +38,7 @@ namespace sup::gui
 class DtoComposerTabController;
 class DtoComposerActions;
 class DtoComposerActionHandler;
+class IAppCommandService;
 
 /**
  * @brief The DtoComposerView class represents a main view to assemble AnyValue.
@@ -49,7 +50,7 @@ class DtoComposerView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(QWidget* parent_widget = nullptr);
+  explicit DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
   ~DtoComposerView() override;
 
   void SetModel(mvvm::ISessionModel* model);
@@ -58,6 +59,7 @@ private:
   void SetupConnections();
   void SummonContextMenu(const QPoint& point);
 
+  IAppCommandService& m_command_service;
   mvvm::ISessionModel* m_model{nullptr};
 
   QTabWidget* m_tab_widget{nullptr};

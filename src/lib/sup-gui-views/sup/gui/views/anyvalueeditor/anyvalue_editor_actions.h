@@ -36,6 +36,7 @@ class ActionMenu;
 class AnyValueEditorActionHandler;
 class AppCommandContext;
 class ProxyAction;
+class IAppCommandService;
 
 /**
  * @brief The AnyValueEditorActions class contains collection of actions to edit AnyValue tree.
@@ -82,7 +83,8 @@ public:
    *
    * The context is normally provided by the parent widget.
    */
-  void RegisterActionsForContext(const sup::gui::AppCommandContext& context);
+  void RegisterActionsForContext(const sup::gui::AppCommandContext& context,
+                                 IAppCommandService& service);
 
   /**
    * @brief Update enabled/disabled status of all actions.

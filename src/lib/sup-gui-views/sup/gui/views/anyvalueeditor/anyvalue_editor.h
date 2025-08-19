@@ -36,6 +36,7 @@ namespace sup::gui
 
 class AnyValueEditorWidget;
 class AnyValueItem;
+class NullCommandService;
 
 /**
  * @brief The AnyValueEditor class is an evelop to provide AnyValueEditorWidget with the model.
@@ -55,6 +56,7 @@ public:
   AnyValueItem* GetTopItem();
 
 private:
+  std::unique_ptr<NullCommandService> m_command_service;
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   AnyValueEditorWidget* m_editor_widget{nullptr};
 };

@@ -93,7 +93,7 @@ void AnyValueEditorMainWindow::InitComponents()
   m_action_manager = new AnyValueEditorMainWindowActions(m_project.get(), m_settings.get(),
                                                          *m_command_service, this);
 
-  m_anyvalue_editor = new sup::gui::AnyValueEditorWidget;
+  m_anyvalue_editor = new sup::gui::AnyValueEditorWidget(*m_command_service);
 
   setCentralWidget(m_anyvalue_editor);
 

@@ -24,6 +24,7 @@
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/components/dto_composer_action_handler.h>
 #include <sup/gui/components/dto_composer_tab_controller.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
@@ -42,11 +43,12 @@ namespace sup::gui
 namespace
 {
 
-DtoComposerTabController::create_widget_callback_t CreateCallback()
+DtoComposerTabController::create_widget_callback_t CreateCallback(
+    IAppCommandService &command_service)
 {
-  return [](mvvm::SessionItem *item)
+  return [&command_service](mvvm::SessionItem *item) -> std::unique_ptr<AnyValueEditorWidget>
   {
-    auto result = std::make_unique<AnyValueEditorWidget>();
+    auto result = std::make_unique<AnyValueEditorWidget>(command_service);
     result->SetAnyValueItemContainer(item);
     return result;
   };
@@ -54,8 +56,9 @@ DtoComposerTabController::create_widget_callback_t CreateCallback()
 
 }  // namespace
 
-DtoComposerView::DtoComposerView(QWidget *parent_widget)
+DtoComposerView::DtoComposerView(IAppCommandService &command_service, QWidget *parent_widget)
     : QWidget(parent_widget)
+    , m_command_service(command_service)
     , m_tab_widget(new QTabWidget)
     , m_actions(new DtoComposerActions(this))
     , m_action_handler(new DtoComposerActionHandler(this))
@@ -73,8 +76,10 @@ DtoComposerView::DtoComposerView(QWidget *parent_widget)
   connect(m_tab_widget->tabBar(), &QTabBar::customContextMenuRequested, this,
           &DtoComposerView::SummonContextMenu);
 
-  // Actions for main window's tools menu
-  sup::gui::AppAddActionsToMenuBar(sup::gui::constants::kToolsMenu, m_actions->GetActions());
+  for (auto action : m_actions->GetActions())
+  {
+    m_command_service.AddActionToMenuBar(sup::gui::constants::kToolsMenu, action);
+  }
 
   SetupConnections();
 }
@@ -84,8 +89,8 @@ DtoComposerView::~DtoComposerView() = default;
 void DtoComposerView::SetModel(mvvm::ISessionModel *model)
 {
   m_action_handler->SetModel(model);
-  m_tab_controller =
-      std::make_unique<DtoComposerTabController>(model, CreateCallback(), m_tab_widget);
+  m_tab_controller = std::make_unique<DtoComposerTabController>(
+      model, CreateCallback(m_command_service), m_tab_widget);
 }
 
 void DtoComposerView::SetupConnections()

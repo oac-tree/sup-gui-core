@@ -22,6 +22,7 @@
 
 #include <sup/gui/app/app_action_helper.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/proxy_action.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
@@ -90,16 +91,16 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
   UpdateEnabledStatus();
 }
 
-void AnyValueEditorActions::RegisterActionsForContext(const AppCommandContext &context)
+void AnyValueEditorActions::RegisterActionsForContext(const AppCommandContext &context,
+                                                      IAppCommandService &service)
 {
-  AppAddActionToCommand(m_cut_action, constants::kCutCommandId, context);
-  AppAddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
-  AppAddActionToCommand(m_paste_after_action, constants::kPasteCommandId, context);
-  AppAddActionToCommand(m_paste_into_action, constants::kPasteSpecialCommandId, context);
-  AppAddActionToCommand(m_remove_action, constants::kRemoveSelectedCommandId, context);
-
-  AppAddActionToCommand(m_undo_action, constants::kUndoCommandId, context);
-  AppAddActionToCommand(m_redo_action, constants::kRedoCommandId, context);
+  service.AddActionToCommand(m_cut_action, constants::kCutCommandId, context);
+  service.AddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
+  service.AddActionToCommand(m_paste_after_action, constants::kPasteCommandId, context);
+  service.AddActionToCommand(m_paste_into_action, constants::kPasteSpecialCommandId, context);
+  service.AddActionToCommand(m_remove_action, constants::kRemoveSelectedCommandId, context);
+  service.AddActionToCommand(m_undo_action, constants::kUndoCommandId, context);
+  service.AddActionToCommand(m_redo_action, constants::kRedoCommandId, context);
 }
 
 void AnyValueEditorActions::UpdateEnabledStatus()
@@ -149,8 +150,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
   m_move_up_action = new QAction("Move Up", this);
   m_move_up_action->setIcon(utils::FindIcon("arrow-up-thin-circle-outline"));
   m_move_up_action->setToolTip("Move currently selected field up (works within the same parent)");
-  connect(m_move_up_action, &QAction::triggered, this,
-          [this]() { m_action_handler->MoveUp(); });
+  connect(m_move_up_action, &QAction::triggered, this, [this]() { m_action_handler->MoveUp(); });
   m_action_map.Add(ActionKey::kMoveUp, m_move_up_action);
 
   // MoveDown button
