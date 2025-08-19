@@ -21,9 +21,7 @@
 #ifndef SUP_GUI_APP_APP_CONTEXT_FOCUS_CONTROLLER_H_
 #define SUP_GUI_APP_APP_CONTEXT_FOCUS_CONTROLLER_H_
 
-#include <QObject>
-
-class QAction;
+class QWidget;
 
 namespace sup::gui
 {
@@ -39,14 +37,12 @@ class IAppCommandContextWidgetMap;
  * AppContextManager to find a list of active contexts, and AppCommandManager manager to
  * enable/disable all registered commands according to the contexts.
  */
-class AppContextFocusController : public QObject
+class AppContextFocusController
 {
-  Q_OBJECT
-
 public:
   explicit AppContextFocusController(IAppCommandContextWidgetMap& widget_map,
-                                     IAppCommandRegistry& command_registry, QObject* parent_object);
-  ~AppContextFocusController() override;
+                                     IAppCommandRegistry& command_registry);
+  ~AppContextFocusController();
 
   AppContextFocusController(const AppContextFocusController&) = delete;
   AppContextFocusController& operator=(const AppContextFocusController&) = delete;

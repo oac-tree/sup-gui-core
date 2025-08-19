@@ -57,7 +57,7 @@ TEST_F(AppContextFocusControllerTest, SingleWidget)
   EXPECT_EQ(command->GetProxyAction()->GetAction(), nullptr);
 
   // preparing focus controller
-  AppContextFocusController focus_controller(context_widget_map, command_registry, nullptr);
+  AppContextFocusController focus_controller(context_widget_map, command_registry);
 
   // pretending widget got a focus
   focus_controller.OnFocusWidgetUpdate(nullptr, &widget);

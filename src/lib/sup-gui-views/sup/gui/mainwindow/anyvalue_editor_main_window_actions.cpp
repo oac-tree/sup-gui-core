@@ -41,6 +41,7 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
+#include <QApplication>
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QStatusBar>
@@ -65,6 +66,9 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
   CreateActions(main_window);
   SetupMenus();
   SetupStatusBar(main_window->statusBar());
+
+  (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget *old, QWidget *now)
+                         { m_focus_controller->OnFocusWidgetUpdate(old, now); });
 }
 
 AnyValueEditorMainWindowActions::~AnyValueEditorMainWindowActions() = default;

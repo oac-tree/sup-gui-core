@@ -37,9 +37,8 @@ const bool kPrintDebugMessages = false;
 }
 
 AppContextFocusController::AppContextFocusController(IAppCommandContextWidgetMap &widget_map,
-                                                     IAppCommandRegistry &command_registry,
-                                                     QObject *parent_object)
-    : QObject(parent_object), m_widget_map(widget_map), m_command_registry(command_registry)
+                                                     IAppCommandRegistry &command_registry)
+    : m_widget_map(widget_map), m_command_registry(command_registry)
 {
 }
 

@@ -21,9 +21,9 @@
 #include "app_action_helper.h"
 
 #include "app_command.h"
+#include "app_command_context_widget_map.h"
 #include "app_command_registry.h"
 #include "app_context_focus_controller.h"
-#include "app_command_context_widget_map.h"
 #include "i_action_container.h"
 #include "menu_bar_action_registry.h"
 
@@ -57,9 +57,7 @@ AppCommandRegistry &GetAppCommandRegistry()
 std::unique_ptr<AppContextFocusController> CreateAppFocusController()
 {
   auto result = std::make_unique<AppContextFocusController>(GetAppCommandContextWidgetMap(),
-                                                            GetAppCommandRegistry(), nullptr);
-  (void)QObject::connect(qApp, &QApplication::focusChanged, result.get(),
-                         &sup::gui::AppContextFocusController::OnFocusWidgetUpdate);
+                                                            GetAppCommandRegistry());
   return result;
 }
 
@@ -131,8 +129,7 @@ bool AppAddActionToCommand(QAction *action, const QString &command_id,
 {
   // It will register new, or get access to already registered command, and add given action to its
   // list of real action.
-  auto app_command =
-      sup::gui::GetAppCommandRegistry().RegisterAction(action, command_id, context);
+  auto app_command = sup::gui::GetAppCommandRegistry().RegisterAction(action, command_id, context);
   return app_command != nullptr;
 }
 
