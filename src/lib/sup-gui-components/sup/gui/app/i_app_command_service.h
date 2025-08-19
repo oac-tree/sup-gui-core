@@ -125,6 +125,11 @@ public:
    * @brief Returns a command registered for a given command_id.
    */
   virtual AppCommand* GetCommand(const QString& command_id) = 0;
+
+  /**
+   * @brief Performs necessary commutation of commands and actions in focus.
+   */
+  virtual void OnFocusWidgetUpdate(QWidget* old, QWidget* now) = 0;
 };
 
 }  // namespace sup::gui

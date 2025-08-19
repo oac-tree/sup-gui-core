@@ -47,6 +47,8 @@ public:
                           const AppCommandContext& context) override;
 
   AppCommand* GetCommand(const QString& command_id) override;
+
+  void OnFocusWidgetUpdate(QWidget* old, QWidget* now) override;
 };
 
 }  // namespace sup::gui

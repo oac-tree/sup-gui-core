@@ -33,7 +33,7 @@ void NullCommandService::AppRegisterMenuBar(QMenuBar *menubar, const QStringList
 
 AppCommandContext NullCommandService::RegisterWidgetUniqueId(const QWidget *widget)
 {
-  (void) widget;
+  (void)widget;
   return AppCommandContext({}, {});
 }
 
@@ -76,6 +76,12 @@ AppCommand *NullCommandService::GetCommand(const QString &command_id)
 {
   (void)command_id;
   return nullptr;
+}
+
+void NullCommandService::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
+{
+  (void)old;
+  (void)now;
 }
 
 }  // namespace sup::gui

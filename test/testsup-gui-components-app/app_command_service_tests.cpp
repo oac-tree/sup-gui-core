@@ -212,4 +212,18 @@ TEST_F(AppCommandServiceTest, GetCommand)
   EXPECT_EQ(retrieved_command, command.get());
 }
 
+TEST_F(AppCommandServiceTest, OnFocusWidgetUpdate)
+{
+  auto service = CreateCommandService();
+  QWidget old_widget;
+  QWidget new_widget;
+
+  EXPECT_CALL(m_widget_map, HasContext(&new_widget)).WillOnce(testing::Return(true));
+  EXPECT_CALL(m_widget_map, GetContext(&new_widget))
+      .WillOnce(testing::Return(AppCommandContext("test_context")));
+
+  EXPECT_NO_THROW(service->OnFocusWidgetUpdate(&old_widget, &new_widget));
+}
+
+
 }  // namespace sup::gui::test

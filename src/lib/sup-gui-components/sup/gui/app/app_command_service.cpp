@@ -21,6 +21,7 @@
 #include "app_command_service.h"
 
 #include "app_command.h"
+#include "app_context_focus_controller.h"
 
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/i_action_container.h>
@@ -40,7 +41,8 @@ AppCommandService::AppCommandService(
     : m_command_registry(std::move(command_registry))
     , m_command_context_widget_map(std::move(context_widget_map))
     , m_app_menubar_action_registry(std::move(menubar_action_registry))
-
+    , m_focus_controller(std::make_unique<AppContextFocusController>(*m_command_context_widget_map,
+                                                                     *m_command_registry))
 {
 }
 
@@ -99,6 +101,11 @@ bool AppCommandService::AddActionToCommand(QAction *action, const QString &comma
 AppCommand *AppCommandService::GetCommand(const QString &command_id)
 {
   return m_command_registry->GetCommand(command_id);
+}
+
+void AppCommandService::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
+{
+  m_focus_controller->OnFocusWidgetUpdate(old, now);
 }
 
 }  // namespace sup::gui

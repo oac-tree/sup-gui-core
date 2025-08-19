@@ -31,6 +31,7 @@ namespace sup::gui
 class IAppCommandRegistry;
 class IAppCommandContextWidgetMap;
 class IActionContainerRegistry;
+class AppContextFocusController;
 
 class AppCommandService : public IAppCommandService
 {
@@ -69,10 +70,13 @@ public:
 
   AppCommand* GetCommand(const QString& command_id) override;
 
+  void OnFocusWidgetUpdate(QWidget* old, QWidget* now) override;
+
 private:
   std::unique_ptr<IAppCommandRegistry> m_command_registry;
   std::unique_ptr<IAppCommandContextWidgetMap> m_command_context_widget_map;
   std::unique_ptr<IActionContainerRegistry> m_app_menubar_action_registry;
+  std::unique_ptr<AppContextFocusController> m_focus_controller;
 };
 
 }  // namespace sup::gui

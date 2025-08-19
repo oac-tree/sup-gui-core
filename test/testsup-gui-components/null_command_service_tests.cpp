@@ -50,6 +50,7 @@ TEST_F(NullCommandServiceTest, InitialState)
   EXPECT_EQ(null_service.AddCommandToMenu("TestMenu", "TestCommand"), nullptr);
   EXPECT_FALSE(null_service.AddActionToCommand(nullptr, "TestCommand", AppCommandContext({}, {})));
   EXPECT_EQ(null_service.GetCommand("TestCommand"), nullptr);
+  EXPECT_NO_FATAL_FAILURE(null_service.OnFocusWidgetUpdate(nullptr, nullptr));
 }
 
 }  // namespace sup::gui::test
