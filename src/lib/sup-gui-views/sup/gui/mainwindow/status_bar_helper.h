@@ -28,6 +28,7 @@
 
 class QToolButton;
 class QStatusBar;
+class QAction;
 
 namespace sup::gui
 {
@@ -44,9 +45,9 @@ void AddPermanentStretch(QStatusBar* status_bar, int stretch = 1);
  * connects the button with proxy action.
  *
  * @param button The button to setup.
- * @param command_id The id of the command corresponding to the action in the main menubar.
+ * @param action The action which will be associated with this tool button.
  */
-void SetupStatusBarButton(QToolButton* button, const QString& command_id);
+void SetupStatusBarButton(QToolButton* button, QAction* action);
 
 
 

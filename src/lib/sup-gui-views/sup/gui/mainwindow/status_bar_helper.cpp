@@ -20,8 +20,6 @@
 
 #include "status_bar_helper.h"
 
-#include <sup/gui/app/app_action_helper.h>
-
 #include <mvvm/widgets/appearance_helper.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -55,7 +53,7 @@ void AddPermanentStretch(QStatusBar *status_bar, int stretch)
   status_bar->addPermanentWidget(expander, stretch);
 }
 
-void SetupStatusBarButton(QToolButton *button, const QString &command_id)
+void SetupStatusBarButton(QToolButton *button, QAction* action)
 {
   const int size = GetButtonSize();
   const auto palette = QApplication::palette();
@@ -69,7 +67,6 @@ void SetupStatusBarButton(QToolButton *button, const QString &command_id)
   button->setIconSize(QSize(size, size));
 
   // connect button with the proxy action in the toolbar
-  auto action = FindProxyAction(command_id);
   QObject::connect(button, &QToolButton::clicked, action, &QAction::trigger);
 
   // synchronize enabled status of action and the button
