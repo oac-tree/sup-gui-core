@@ -23,6 +23,12 @@
 namespace sup::gui::test
 {
 
+AppCommandContextWidgetMapDecorator::AppCommandContextWidgetMapDecorator(
+    IAppCommandContextWidgetMap *map)
+    : m_map(map)
+{
+}
+
 AppCommandContext AppCommandContextWidgetMapDecorator::RegisterWidgetUniqueId(const QWidget *widget)
 {
   return m_map->RegisterWidgetUniqueId(widget);

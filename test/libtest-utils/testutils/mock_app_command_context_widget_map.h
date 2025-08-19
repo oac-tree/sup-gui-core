@@ -21,7 +21,6 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
 #define LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
 
-#include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/i_app_command_context_widget_map.h>
 
 #include <gmock/gmock.h>
@@ -51,7 +50,7 @@ public:
 class AppCommandContextWidgetMapDecorator : public IAppCommandContextWidgetMap
 {
 public:
-  explicit AppCommandContextWidgetMapDecorator(IAppCommandContextWidgetMap* map) : m_map(map) {}
+  explicit AppCommandContextWidgetMapDecorator(IAppCommandContextWidgetMap* map);
 
   AppCommandContext RegisterWidgetUniqueId(const QWidget* widget) override;
 

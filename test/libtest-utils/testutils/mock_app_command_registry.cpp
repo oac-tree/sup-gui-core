@@ -23,6 +23,11 @@
 namespace sup::gui::test
 {
 
+AppCommandRegistryDecorator::AppCommandRegistryDecorator(IAppCommandRegistry *registry)
+    : m_registry(registry)
+{
+}
+
 AppCommand *AppCommandRegistryDecorator::RegisterCommand(const QString &command_id,
                                                          const QString &command_text)
 {

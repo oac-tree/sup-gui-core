@@ -57,7 +57,7 @@ public:
 class AppCommandRegistryDecorator : public IAppCommandRegistry
 {
 public:
-  explicit AppCommandRegistryDecorator(IAppCommandRegistry* registry) : m_registry(registry) {}
+  explicit AppCommandRegistryDecorator(IAppCommandRegistry* registry);
 
   AppCommand* RegisterCommand(const QString& command_id, const QString& command_text) override;
 
@@ -78,4 +78,4 @@ private:
 
 }  // namespace sup::gui::test
 
-#endif // LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
