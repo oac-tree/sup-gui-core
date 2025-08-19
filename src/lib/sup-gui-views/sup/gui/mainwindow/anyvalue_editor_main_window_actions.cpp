@@ -23,10 +23,11 @@
 #include "about_application_dialog.h"
 
 #include <sup/gui/app/app_action_helper.h>
-#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/app_context_focus_controller.h>
+#include <sup/gui/app/i_app_command_service.h>
+#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/components/proxy_action.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
@@ -48,20 +49,18 @@
 namespace sup::gui
 {
 
-AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(mvvm::IProject *project,
-                                                                 mvvm::ISessionModel *settings,
-                                                                 QMainWindow *mainwindow)
-    : QObject(mainwindow)
+AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
+    mvvm::IProject *project, mvvm::ISessionModel *settings, IAppCommandService &command_service,
+    QMainWindow *main_window)
+    : QObject(main_window)
     , m_settings(settings)
+    , m_command_service(command_service)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
     , m_focus_controller(sup::gui::CreateAppFocusController())
 {
-  AppRegisterMenuBar(mainwindow->menuBar(), {constants::kFileMenu, constants::kEditMenu,
-                                             constants::kViewMenu, constants::kHelpMenu});
-
-  CreateActions(mainwindow);
+  CreateActions(main_window);
   SetupMenus();
-  SetupStatusBar(mainwindow->statusBar());
+  SetupStatusBar(main_window->statusBar());
 }
 
 AnyValueEditorMainWindowActions::~AnyValueEditorMainWindowActions() = default;
@@ -140,7 +139,7 @@ void AnyValueEditorMainWindowActions::SetupMenus()
 
 void AnyValueEditorMainWindowActions::SetupFileMenu()
 {
-  auto file_menu = AppGetMenu(constants::kFileMenu);
+  auto file_menu = m_command_service.AppGetMenu(constants::kFileMenu);
 
   AddNewProjectAction(file_menu, *m_project_handler);
   AddOpenExistingProjectAction(file_menu, *m_project_handler);
@@ -173,40 +172,42 @@ void AnyValueEditorMainWindowActions::SetupFileMenu()
 
 void AnyValueEditorMainWindowActions::SetupEditMenu()
 {
-  auto command = AppAddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
+  auto command =
+      m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
   command->SetText("Undo").SetShortcut(QKeySequence::Undo);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
   command->SetText("Redo").SetShortcut(QKeySequence::Redo);
 
-  sup::gui::AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
+  m_command_service.AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
   command->SetText("Cut").SetShortcut(QKeySequence::Cut);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kCopyCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kCopyCommandId);
   command->SetText("Copy").SetShortcut(QKeySequence::Copy);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteCommandId);
   command->SetText("Paste").SetShortcut(QKeySequence::Paste);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
+  command =
+      m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
 
-  command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kEditMenu,
-                                          sup::gui::constants::kRemoveSelectedCommandId);
+  command = m_command_service.AddCommandToMenu(sup::gui::constants::kEditMenu,
+                                               sup::gui::constants::kRemoveSelectedCommandId);
   command->SetText("Remove selected");
   command->GetProxyAction()->setShortcuts({Qt::Key_Delete, Qt::Key_Backspace});
 
-  auto menu = AppGetMenu(constants::kEditMenu);
+  auto menu = m_command_service.AppGetMenu(constants::kEditMenu);
   menu->addSeparator();
   menu->addAction(m_import_waveform_action);
 }
 
 void AnyValueEditorMainWindowActions::SetupViewMenu()
 {
-  auto command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kViewMenu,
-                                               sup::gui::constants::kToggleRightPanelCommandId);
+  auto command = m_command_service.AddCommandToMenu(
+      sup::gui::constants::kViewMenu, sup::gui::constants::kToggleRightPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+Shift+0"));
 }
 

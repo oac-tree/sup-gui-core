@@ -44,6 +44,7 @@ namespace sup::gui
 {
 
 class AppContextFocusController;
+class IAppCommandService;
 
 /**
  * @brief The AnyValueEditorMainWindowActions class handles actions of the main menubar.
@@ -53,9 +54,8 @@ class AnyValueEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindowActions(
-      mvvm::IProject* project,
-      mvvm::ISessionModel* settings, QMainWindow* mainwindow = nullptr);
+  explicit AnyValueEditorMainWindowActions(mvvm::IProject* project, mvvm::ISessionModel* settings,
+                                           IAppCommandService& command_service, QMainWindow* main_window);
   ~AnyValueEditorMainWindowActions() override;
 
   /**
@@ -115,6 +115,7 @@ private:
   QToolButton* m_toggle_right_sidebar_button{nullptr};
 
   mvvm::ISessionModel* m_settings{nullptr};
+  IAppCommandService& m_command_service;
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
   std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };

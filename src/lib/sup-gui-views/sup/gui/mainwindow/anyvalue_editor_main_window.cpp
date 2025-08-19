@@ -23,6 +23,7 @@
 #include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/default_command_service.h>
 #include <sup/gui/components/anyvalue_editor_project.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
@@ -59,6 +60,7 @@ QString GetWindowPosSettingName()
 
 AnyValueEditorMainWindow::AnyValueEditorMainWindow(const AnyValueEditorAppContext& context)
     : m_application_context(context)
+    , m_command_service(CreateCommandService())
     , m_settings(std::make_unique<SettingsModel>())
     , m_project(CreateProject())
 {
@@ -88,7 +90,8 @@ void AnyValueEditorMainWindow::InitApplication()
 void AnyValueEditorMainWindow::InitComponents()
 {
   // it should be initilised first, since it creates global proxy actions used by others
-  m_action_manager = new AnyValueEditorMainWindowActions(m_project.get(), m_settings.get(), this);
+  m_action_manager = new AnyValueEditorMainWindowActions(m_project.get(), m_settings.get(),
+                                                         *m_command_service, this);
 
   m_anyvalue_editor = new sup::gui::AnyValueEditorWidget;
 
@@ -171,6 +174,12 @@ std::unique_ptr<AnyValueEditorProject> AnyValueEditorMainWindow::CreateProject()
   context.saved_callback = [this]() { UpdateProjectNames(); };
   context.application_type = constants::kAnyValueEditorApplicationType.toStdString();
   return std::make_unique<AnyValueEditorProject>(context);
+}
+
+std::unique_ptr<IAppCommandService> AnyValueEditorMainWindow::CreateCommandService()
+{
+  return CreateDefaultCommandService(this, {constants::kFileMenu, constants::kEditMenu,
+                                            constants::kViewMenu, constants::kHelpMenu});
 }
 
 }  // namespace sup::gui

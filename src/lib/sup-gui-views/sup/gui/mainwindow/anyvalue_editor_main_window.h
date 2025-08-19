@@ -40,6 +40,7 @@ class AnyValueEditorMainWindowActions;
 class AnyValueEditorProject;
 class SettingsModel;
 class AnyValueEditorAppContext;
+class IAppCommandService;
 
 /**
  * @brief The AnyValueEditorMainWindow class is a main window of anyvalue-editor application.
@@ -89,7 +90,10 @@ private:
    */
   std::unique_ptr<AnyValueEditorProject> CreateProject();
 
+  std::unique_ptr<IAppCommandService> CreateCommandService();
+
   const AnyValueEditorAppContext& m_application_context;
+  std::unique_ptr<IAppCommandService> m_command_service;
   std::unique_ptr<SettingsModel> m_settings;
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
