@@ -37,6 +37,7 @@ public:
   MOCK_METHOD(void, SetMenuBar, (QMenuBar * menubar), (override));
   MOCK_METHOD(IActionContainer*, AddMenu, (const QString& menu_name), (override));
   MOCK_METHOD(bool, RegisterAction, (const QString& container_name, QAction* action), (override));
+  MOCK_METHOD(IActionContainer*, GetContainer, (const QString& container_name), (override));
 };
 
 /**
@@ -53,6 +54,8 @@ public:
   IActionContainer* AddMenu(const QString& menu_name) override;
 
   bool RegisterAction(const QString& container_name, QAction* action) override;
+
+  IActionContainer* GetContainer(const QString& container_name) override;
 
 private:
   IActionContainerRegistry* m_registry{nullptr};

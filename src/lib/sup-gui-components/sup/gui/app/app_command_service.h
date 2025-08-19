@@ -56,6 +56,8 @@ public:
 
   void UnregisterWidgetUniqueId(const QWidget* widget) override;
 
+  QMenu* AppGetMenu(const QString& menu_name) override;
+
   bool AddActionToMenuBar(const QString& menu_name, QAction* action) override;
 
   AppCommand* AddCommandToMenu(const QString& menu_name, const QString& command_id) override;

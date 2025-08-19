@@ -51,7 +51,7 @@ public:
   virtual std::size_t GetActionCount() = 0;
 
   /**
-   * @brief The menu associated with this container, where actionms are added.
+   * @brief The menu associated with this container, where actions are added.
    */
   virtual QMenu* GetMenu() = 0;
 

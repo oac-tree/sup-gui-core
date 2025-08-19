@@ -64,7 +64,7 @@ public:
 
   bool RegisterAction(const QString& menu_name, QAction* action) override;
 
-  IActionContainer* GetContainer(const QString& menu_name);
+  IActionContainer* GetContainer(const QString& menu_name) override;
 
   /**
    * @brief Returns the number of registered main containers.

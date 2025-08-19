@@ -21,6 +21,7 @@
 #include "sup/gui/app/app_command_service.h"
 
 #include <sup/gui/app/app_command.h>
+#include <sup/gui/app/menu_action_container.h>
 #include <sup/gui/components/proxy_action.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
@@ -29,6 +30,7 @@
 #include <testutils/mock_app_command_context_widget_map.h>
 #include <testutils/mock_app_command_registry.h>
 
+#include <QMenu>
 #include <QWidget>
 
 namespace sup::gui::test
@@ -80,6 +82,23 @@ TEST_F(AppCommandServiceTest, UnregisterWidget)
   EXPECT_CALL(m_widget_map, UnregisterWidgetUniqueId(&widget)).Times(1);
 
   service->UnregisterWidgetUniqueId(&widget);
+}
+
+TEST_F(AppCommandServiceTest, AppGetMenu)
+{
+  auto service = CreateCommandService();
+  const QString menu_name = "File";
+  auto menu = std::make_unique<QMenu>(menu_name);
+
+  MenuActionContainer container(menu_name, menu.get());
+
+  ON_CALL(m_action_container_registry, GetContainer(menu_name))
+      .WillByDefault(testing::Return(&container));
+  EXPECT_CALL(m_action_container_registry, GetContainer(menu_name))
+      .WillOnce(testing::Return(&container));
+
+  auto retrieved_menu = service->AppGetMenu(menu_name);
+  EXPECT_EQ(retrieved_menu, menu.get());
 }
 
 TEST_F(AppCommandServiceTest, AddActionToMenuBar)

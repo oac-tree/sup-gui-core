@@ -37,6 +37,10 @@ MenuActionContainer::MenuActionContainer(const QString &name, QMenu *menu)
   }
 }
 
+QString MenuActionContainer::GetName() { return m_name; }
+
+QMenu *MenuActionContainer::GetMenu() { return m_menu; }
+
 bool MenuActionContainer::AddAction(QAction *action)
 {
   m_actions.push_back(action);

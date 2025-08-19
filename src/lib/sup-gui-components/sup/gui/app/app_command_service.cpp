@@ -56,6 +56,12 @@ void AppCommandService::UnregisterWidgetUniqueId(const QWidget *widget)
   m_command_context_widget_map->UnregisterWidgetUniqueId(widget);
 }
 
+QMenu *AppCommandService::AppGetMenu(const QString &menu_name)
+{
+  auto container = m_app_menubar_action_registry->GetContainer(menu_name);
+  return container ? container->GetMenu() : nullptr;
+}
+
 bool AppCommandService::AddActionToMenuBar(const QString &menu_name, QAction *action)
 {
   return m_app_menubar_action_registry->RegisterAction(menu_name, action);

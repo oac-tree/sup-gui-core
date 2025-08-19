@@ -47,9 +47,9 @@ public:
    */
   MenuActionContainer(const QString& name, QMenu* menu);
 
-  QString GetName() { return m_name; }
+  QString GetName();
 
-  QMenu* GetMenu() override { return m_menu; }
+  QMenu* GetMenu() override;
 
   bool AddAction(QAction* action) override;
 

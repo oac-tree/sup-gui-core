@@ -61,12 +61,17 @@ public:
    *
    * The menubar will take an ownership. If menu was already created, just returns action container.
    *
-   * @param menu_name The title of the menu.
+   * @param container_name The title of the menu.
    * @param menubar The menubar where the menu will be added.
    *
    * @return Action container holding just created menu and other information.
    */
-  virtual IActionContainer* AddMenu(const QString& menu_name) = 0;
+  virtual IActionContainer* AddMenu(const QString& container_name) = 0;
+
+  /**
+   * @brief Returns action container with the given name.
+   */
+  virtual IActionContainer* GetContainer(const QString& container_name) = 0;
 
   /**
    * @brief Registers action and add it to the menu.

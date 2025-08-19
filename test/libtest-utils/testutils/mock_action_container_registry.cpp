@@ -44,4 +44,9 @@ bool ActionContainerRegistryDecorator::RegisterAction(const QString &container_n
   return m_registry->RegisterAction(container_name, action);
 }
 
+IActionContainer *ActionContainerRegistryDecorator::GetContainer(const QString &container_name)
+{
+  return m_registry->GetContainer(container_name);
+}
+
 }  // namespace sup::gui::test

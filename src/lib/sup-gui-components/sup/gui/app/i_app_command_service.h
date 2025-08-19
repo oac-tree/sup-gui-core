@@ -27,6 +27,7 @@ class QWidget;
 class QString;
 class QMenuBar;
 class QAction;
+class QMenu;
 
 namespace sup::gui
 {
@@ -72,6 +73,11 @@ public:
    * normally should be called in the destructor of the widget.
    */
   virtual void UnregisterWidgetUniqueId(const QWidget* widget) = 0;
+
+  /**
+   * @brief Returns top level menu registered in a menubar under this name.
+   */
+  virtual QMenu* AppGetMenu(const QString& menu_name) = 0;
 
   /**
    * @brief Add action to the global menu bar.
