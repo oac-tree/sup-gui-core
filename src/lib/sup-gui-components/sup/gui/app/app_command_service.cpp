@@ -40,6 +40,8 @@ AppCommandService::AppCommandService(
 {
 }
 
+AppCommandService::~AppCommandService() = default;
+
 AppCommandContext AppCommandService::RegisterWidgetUniqueId(const QWidget *widget)
 {
   return m_command_context_widget_map->RegisterWidgetUniqueId(widget);
@@ -49,7 +51,5 @@ void AppCommandService::UnregisterWidgetUniqueId(const QWidget *widget)
 {
   m_command_context_widget_map->UnregisterWidgetUniqueId(widget);
 }
-
-AppCommandService::~AppCommandService() = default;
 
 }  // namespace sup::gui
