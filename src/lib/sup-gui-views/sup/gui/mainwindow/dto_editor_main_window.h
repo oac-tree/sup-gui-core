@@ -53,7 +53,7 @@ class DtoEditorMainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit DtoEditorMainWindow(const AnyValueEditorAppContext& context);
+  explicit DtoEditorMainWindow(AnyValueEditorAppContext& context);
   ~DtoEditorMainWindow() override;
 
 protected:
@@ -96,11 +96,8 @@ private:
    */
   std::unique_ptr<DtoEditorProject> CreateProject();
 
-  std::unique_ptr<IAppCommandService> CreateCommandService();
-
-  const AnyValueEditorAppContext& m_application_context;
+  AnyValueEditorAppContext& m_context;
   std::unique_ptr<SettingsModel> m_settings;
-  std::unique_ptr<IAppCommandService> m_command_service;
   std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};

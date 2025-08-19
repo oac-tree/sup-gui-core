@@ -59,6 +59,9 @@ DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
     , m_focus_controller(sup::gui::CreateAppFocusController())
 {
+  command_service.AppRegisterMenuBar(
+      main_window->menuBar(), {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
+                               constants::kViewMenu, constants::kHelpMenu});
   CreateActions(main_window);
   SetupMenus();
 }
@@ -167,7 +170,8 @@ void DtoEditorMainWindowActions::SetupFileMenu()
 
 void DtoEditorMainWindowActions::SetupEditMenu()
 {
-  auto command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
+  auto command =
+      m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
   command->SetText("Undo").SetShortcut(QKeySequence::Undo);
 
   command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
@@ -184,18 +188,19 @@ void DtoEditorMainWindowActions::SetupEditMenu()
   command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteCommandId);
   command->SetText("Paste").SetShortcut(QKeySequence::Paste);
 
-  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
+  command =
+      m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
 }
 
 void DtoEditorMainWindowActions::SetupViewMenu()
 {
   auto command = m_command_service.AddCommandToMenu(sup::gui::constants::kViewMenu,
-                                               sup::gui::constants::kToggleLeftPanelCommandId);
+                                                    sup::gui::constants::kToggleLeftPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+0"));
 
   command = m_command_service.AddCommandToMenu(sup::gui::constants::kViewMenu,
-                                          sup::gui::constants::kToggleRightPanelCommandId);
+                                               sup::gui::constants::kToggleRightPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+Shift+0"));
 }
 

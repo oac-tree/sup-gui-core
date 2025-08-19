@@ -58,6 +58,10 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
     , m_focus_controller(sup::gui::CreateAppFocusController())
 {
+  command_service.AppRegisterMenuBar(
+      main_window->menuBar(),
+      {constants::kFileMenu, constants::kEditMenu, constants::kViewMenu, constants::kHelpMenu});
+
   CreateActions(main_window);
   SetupMenus();
   SetupStatusBar(main_window->statusBar());

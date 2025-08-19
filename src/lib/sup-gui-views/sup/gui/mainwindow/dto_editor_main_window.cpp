@@ -20,12 +20,12 @@
 
 #include "dto_editor_main_window.h"
 
+#include "anyvalue_editor_app_context.h"
 #include "color_palette.h"
 #include "dto_editor_main_window_actions.h"
 #include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
-#include <sup/gui/app/default_command_service.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/settings_constants.h>
 #include <sup/gui/model/settings_model.h>
@@ -53,11 +53,8 @@ const QString kWindowPosSettingName = kGroupName + "/" + "position";
 namespace sup::gui
 {
 
-DtoEditorMainWindow::DtoEditorMainWindow(const AnyValueEditorAppContext& context)
-    : m_application_context(context)
-    , m_settings(std::make_unique<SettingsModel>())
-    , m_command_service(CreateCommandService())
-    , m_project(CreateProject())
+DtoEditorMainWindow::DtoEditorMainWindow(AnyValueEditorAppContext& context)
+    : m_context(context), m_settings(std::make_unique<SettingsModel>()), m_project(CreateProject())
 {
   InitApplication();
 
@@ -85,18 +82,18 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager =
-      new DtoEditorMainWindowActions(m_project.get(), m_settings.get(), *m_command_service, this);
+  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), m_settings.get(),
+                                                    m_context.GetCommandService(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
 
   m_tab_widget->SetBaseColor(GetMainToolBarColor());
 
-  m_composer_view = new DtoComposerView(*m_command_service);
+  m_composer_view = new DtoComposerView(m_context.GetCommandService());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::FindIcon("file-tree-outline", IconColorFlavor::kForDarkThemes));
 
-  m_waveform_view = new DtoWaveformView(*m_command_service);
+  m_waveform_view = new DtoWaveformView(m_context.GetCommandService());
   m_tab_widget->AddWidget(
       m_waveform_view, "Waveforms",
       utils::FindIcon("chart-timeline-variant-shimmer", IconColorFlavor::kForDarkThemes));
@@ -187,13 +184,6 @@ std::unique_ptr<DtoEditorProject> DtoEditorMainWindow::CreateProject()
   context.saved_callback = [this]() { UpdateProjectNames(); };
   context.application_type = constants::kDtoEditorApplicationType.toStdString();
   return std::make_unique<DtoEditorProject>(context);
-}
-
-std::unique_ptr<IAppCommandService> DtoEditorMainWindow::CreateCommandService()
-{
-  return CreateDefaultCommandService(
-      this, {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
-             constants::kViewMenu, constants::kHelpMenu});
 }
 
 }  // namespace sup::gui

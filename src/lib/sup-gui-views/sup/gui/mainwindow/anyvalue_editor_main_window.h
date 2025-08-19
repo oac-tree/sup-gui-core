@@ -40,7 +40,6 @@ class AnyValueEditorMainWindowActions;
 class AnyValueEditorProject;
 class SettingsModel;
 class AnyValueEditorAppContext;
-class IAppCommandService;
 
 /**
  * @brief The AnyValueEditorMainWindow class is a main window of anyvalue-editor application.
@@ -50,7 +49,7 @@ class AnyValueEditorMainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindow(const AnyValueEditorAppContext& context);
+  explicit AnyValueEditorMainWindow(AnyValueEditorAppContext &context);
   ~AnyValueEditorMainWindow() override;
 
 protected:
@@ -90,11 +89,8 @@ private:
    */
   std::unique_ptr<AnyValueEditorProject> CreateProject();
 
-  std::unique_ptr<IAppCommandService> CreateCommandService();
-
-  const AnyValueEditorAppContext& m_application_context;
+  AnyValueEditorAppContext& m_context;
   std::unique_ptr<SettingsModel> m_settings;
-  std::unique_ptr<IAppCommandService> m_command_service;
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   sup::gui::AnyValueEditorWidget* m_anyvalue_editor{nullptr};
