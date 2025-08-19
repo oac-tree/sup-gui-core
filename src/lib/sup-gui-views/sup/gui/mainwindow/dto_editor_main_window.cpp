@@ -25,6 +25,7 @@
 #include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/default_command_service.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/settings_constants.h>
 #include <sup/gui/model/settings_model.h>
@@ -55,6 +56,7 @@ namespace sup::gui
 DtoEditorMainWindow::DtoEditorMainWindow(const AnyValueEditorAppContext& context)
     : m_application_context(context)
     , m_settings(std::make_unique<SettingsModel>())
+    , m_command_service(CreateCommandService())
     , m_project(CreateProject())
 {
   InitApplication();
@@ -83,7 +85,8 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), m_settings.get(), this);
+  m_action_manager =
+      new DtoEditorMainWindowActions(m_project.get(), m_settings.get(), *m_command_service, this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
 
@@ -184,6 +187,13 @@ std::unique_ptr<DtoEditorProject> DtoEditorMainWindow::CreateProject()
   context.saved_callback = [this]() { UpdateProjectNames(); };
   context.application_type = constants::kDtoEditorApplicationType.toStdString();
   return std::make_unique<DtoEditorProject>(context);
+}
+
+std::unique_ptr<IAppCommandService> DtoEditorMainWindow::CreateCommandService()
+{
+  return CreateDefaultCommandService(
+      this, {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
+             constants::kViewMenu, constants::kHelpMenu});
 }
 
 }  // namespace sup::gui

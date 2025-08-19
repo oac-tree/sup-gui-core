@@ -23,10 +23,12 @@
 #include "about_application_dialog.h"
 
 #include <sup/gui/app/app_action_helper.h>
-#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/app_context_focus_controller.h>
+#include <sup/gui/app/i_app_command_service.h>
+#include <sup/gui/app/menu_bar_action_registry.h>
+#include <sup/gui/components/proxy_action.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/mainwindow/settings_editor_dialog.h>
@@ -49,17 +51,15 @@ namespace sup::gui
 
 DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
                                                        mvvm::ISessionModel *settings,
-                                                       QMainWindow *mainwindow)
-    : QObject(mainwindow)
+                                                       IAppCommandService &command_service,
+                                                       QMainWindow *main_window)
+    : QObject(main_window)
     , m_settings(settings)
+    , m_command_service(command_service)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
     , m_focus_controller(sup::gui::CreateAppFocusController())
 {
-  AppRegisterMenuBar(mainwindow->menuBar(),
-                     {constants::kFileMenu, constants::kEditMenu, constants::kToolsMenu,
-                      constants::kViewMenu, constants::kHelpMenu});
-
-  CreateActions(mainwindow);
+  CreateActions(main_window);
   SetupMenus();
 }
 
@@ -82,14 +82,17 @@ void DtoEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
   m_toggle_left_sidebar_button = new QToolButton;
   m_toggle_left_sidebar_button->setToolTip("Show/hide left panel");
   m_toggle_left_sidebar_button->setIcon(utils::FindIcon("dock-left"));
-  sup::gui::SetupStatusBarButton(m_toggle_left_sidebar_button,
-                                 sup::gui::constants::kToggleLeftPanelCommandId);
+
+  auto action = m_command_service.GetCommand(sup::gui::constants::kToggleLeftPanelCommandId)
+                    ->GetProxyAction();
+  sup::gui::SetupStatusBarButton(m_toggle_left_sidebar_button, action);
 
   m_toggle_right_sidebar_button = new QToolButton;
   m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
   m_toggle_right_sidebar_button->setIcon(utils::FindIcon("dock-right"));
-  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button,
-                                 sup::gui::constants::kToggleRightPanelCommandId);
+  action = m_command_service.GetCommand(sup::gui::constants::kToggleRightPanelCommandId)
+               ->GetProxyAction();
+  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button, action);
 
   status_bar->addPermanentWidget(m_toggle_left_sidebar_button, 0);
   AddPermanentStretch(status_bar);
@@ -136,7 +139,7 @@ void DtoEditorMainWindowActions::SetupMenus()
 
 void DtoEditorMainWindowActions::SetupFileMenu()
 {
-  auto file_menu = AppGetMenu(constants::kFileMenu);
+  auto file_menu = m_command_service.AppGetMenu(constants::kFileMenu);
 
   AddNewProjectAction(file_menu, *m_project_handler);
   AddOpenExistingProjectAction(file_menu, *m_project_handler);
@@ -164,34 +167,34 @@ void DtoEditorMainWindowActions::SetupFileMenu()
 
 void DtoEditorMainWindowActions::SetupEditMenu()
 {
-  auto command = AppAddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
+  auto command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kUndoCommandId);
   command->SetText("Undo").SetShortcut(QKeySequence::Undo);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
   command->SetText("Redo").SetShortcut(QKeySequence::Redo);
 
-  sup::gui::AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
+  m_command_service.AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
   command->SetText("Cut").SetShortcut(QKeySequence::Cut);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kCopyCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kCopyCommandId);
   command->SetText("Copy").SetShortcut(QKeySequence::Copy);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteCommandId);
   command->SetText("Paste").SetShortcut(QKeySequence::Paste);
 
-  command = AppAddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
 }
 
 void DtoEditorMainWindowActions::SetupViewMenu()
 {
-  auto command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kViewMenu,
+  auto command = m_command_service.AddCommandToMenu(sup::gui::constants::kViewMenu,
                                                sup::gui::constants::kToggleLeftPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+0"));
 
-  command = sup::gui::AppAddCommandToMenu(sup::gui::constants::kViewMenu,
+  command = m_command_service.AddCommandToMenu(sup::gui::constants::kViewMenu,
                                           sup::gui::constants::kToggleRightPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+Shift+0"));
 }

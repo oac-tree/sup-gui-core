@@ -60,8 +60,8 @@ QString GetWindowPosSettingName()
 
 AnyValueEditorMainWindow::AnyValueEditorMainWindow(const AnyValueEditorAppContext& context)
     : m_application_context(context)
-    , m_command_service(CreateCommandService())
     , m_settings(std::make_unique<SettingsModel>())
+    , m_command_service(CreateCommandService())
     , m_project(CreateProject())
 {
   InitApplication();

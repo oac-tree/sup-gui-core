@@ -80,8 +80,9 @@ void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
   m_toggle_right_sidebar_button = new QToolButton;
   m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
   m_toggle_right_sidebar_button->setIcon(utils::FindIcon("dock-right"));
-  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button,
-                                 sup::gui::constants::kToggleRightPanelCommandId);
+  auto action = m_command_service.GetCommand(sup::gui::constants::kToggleRightPanelCommandId)
+                    ->GetProxyAction();
+  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button, action);
 
   status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
 }

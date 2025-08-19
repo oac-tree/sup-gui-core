@@ -44,6 +44,7 @@ namespace sup::gui
 {
 
 class AppContextFocusController;
+class IAppCommandService;
 
 /**
  * @brief The DtoEditorMainWindowActions class handles actions of the main menubar.
@@ -54,6 +55,7 @@ class DtoEditorMainWindowActions : public QObject
 
 public:
   explicit DtoEditorMainWindowActions(mvvm::IProject* project, mvvm::ISessionModel* settings,
+                                      IAppCommandService& command_service,
                                       QMainWindow* mainwindow = nullptr);
   ~DtoEditorMainWindowActions() override;
 
@@ -110,6 +112,7 @@ private:
   QToolButton* m_toggle_right_sidebar_button{nullptr};
 
   mvvm::ISessionModel* m_settings{nullptr};
+  IAppCommandService& m_command_service;
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
   std::unique_ptr<sup::gui::AppContextFocusController> m_focus_controller;
 };

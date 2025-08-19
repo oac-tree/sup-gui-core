@@ -43,6 +43,7 @@ class DtoWaveformView;
 class DtoEditorProject;
 class SettingsModel;
 class AnyValueEditorAppContext;
+class IAppCommandService;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -95,8 +96,11 @@ private:
    */
   std::unique_ptr<DtoEditorProject> CreateProject();
 
+  std::unique_ptr<IAppCommandService> CreateCommandService();
+
   const AnyValueEditorAppContext& m_application_context;
   std::unique_ptr<SettingsModel> m_settings;
+  std::unique_ptr<IAppCommandService> m_command_service;
   std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
