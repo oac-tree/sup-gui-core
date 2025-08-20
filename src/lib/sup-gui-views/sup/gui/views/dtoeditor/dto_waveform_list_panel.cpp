@@ -20,7 +20,7 @@
 
 #include "dto_waveform_list_panel.h"
 
-#include <sup/gui/components/dto_waveform_action_handler.h>
+#include <sup/gui/component_objects/dto_waveform_action_handler.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_actions.h>
 #include <sup/gui/widgets/item_stack_widget.h>

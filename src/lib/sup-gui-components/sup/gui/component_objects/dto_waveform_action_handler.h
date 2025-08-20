@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_DTO_WAVEFORM_ACTION_HANDLER_H_
-#define SUP_GUI_COMPONENTS_DTO_WAVEFORM_ACTION_HANDLER_H_
+#ifndef SUP_GUI_COMPONENT_OBJECTS_DTO_WAVEFORM_ACTION_HANDLER_H_
+#define SUP_GUI_COMPONENT_OBJECTS_DTO_WAVEFORM_ACTION_HANDLER_H_
 
 #include <sup/gui/components/dto_waveform_editor_context.h>
 
@@ -113,4 +113,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_DTO_WAVEFORM_ACTION_HANDLER_H_
+#endif  // SUP_GUI_COMPONENT_OBJECTS_DTO_WAVEFORM_ACTION_HANDLER_H_

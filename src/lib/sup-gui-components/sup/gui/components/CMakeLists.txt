@@ -16,14 +16,10 @@ target_sources(${library_name} PRIVATE
   custom_metatypes.h
   custom_row_strategies.cpp
   custom_row_strategies.h
-  dto_composer_action_handler.cpp
-  dto_composer_action_handler.h
   dto_composer_tab_controller.cpp
   dto_composer_tab_controller.h
   dto_editor_project.cpp
   dto_editor_project.h
-  dto_waveform_action_handler.cpp
-  dto_waveform_action_handler.h
   dto_waveform_editor_context.h
   i_anyvalue_editor_action_handler.h
   item_filter_helper.cpp
@@ -32,8 +28,6 @@ target_sources(${library_name} PRIVATE
   json_panel_controller.h
   mime_conversion_helper.cpp
   mime_conversion_helper.h
-  proxy_action.cpp
-  proxy_action.h
   tree_helper.cpp
   tree_helper.h
   waveform_display_controller.cpp

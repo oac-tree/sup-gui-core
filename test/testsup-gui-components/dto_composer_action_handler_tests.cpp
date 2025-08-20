@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/components/dto_composer_action_handler.h"
+#include "sup/gui/component_objects/dto_composer_action_handler.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>

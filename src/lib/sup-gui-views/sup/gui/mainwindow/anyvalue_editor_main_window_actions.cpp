@@ -27,7 +27,7 @@
 #include <sup/gui/app/app_context_focus_controller.h>
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/app/menu_bar_action_registry.h>
-#include <sup/gui/components/proxy_action.h>
+#include <sup/gui/component_objects/proxy_action.h>
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/mainwindow/settings_editor_dialog.h>

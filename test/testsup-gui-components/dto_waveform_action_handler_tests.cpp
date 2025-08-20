@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/components/dto_waveform_action_handler.h"
+#include "sup/gui/component_objects/dto_waveform_action_handler.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 

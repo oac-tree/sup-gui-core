@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_PROXY_ACTION_H_
-#define SUP_GUI_COMPONENTS_PROXY_ACTION_H_
+#ifndef SUP_GUI_COMPONENT_OBJECTS_PROXY_ACTION_H_
+#define SUP_GUI_COMPONENT_OBJECTS_PROXY_ACTION_H_
 
 #include <sup/gui/core/flags.h>
 

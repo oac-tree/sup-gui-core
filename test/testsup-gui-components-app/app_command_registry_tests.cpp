@@ -21,7 +21,7 @@
 #include "sup/gui/app/app_command_registry.h"
 
 #include <sup/gui/app/app_command.h>
-#include <sup/gui/components/proxy_action.h>
+#include <sup/gui/component_objects/proxy_action.h>
 
 #include <gtest/gtest.h>
 

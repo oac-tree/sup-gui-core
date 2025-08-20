@@ -22,7 +22,7 @@
 
 #include <sup/gui/app/app_command.h>
 #include <sup/gui/app/menu_action_container.h>
-#include <sup/gui/components/proxy_action.h>
+#include <sup/gui/component_objects/proxy_action.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <gtest/gtest.h>

@@ -28,7 +28,7 @@
 #include <sup/gui/app/i_action_container_registry.h>
 #include <sup/gui/app/i_app_command_context_widget_map.h>
 #include <sup/gui/app/i_app_command_registry.h>
-#include <sup/gui/components/proxy_action.h>
+#include <sup/gui/component_objects/proxy_action.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 namespace sup::gui
