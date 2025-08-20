@@ -85,7 +85,7 @@ std::vector<mvvm::SessionItem *> GetItemsWithDepth(
       result.push_back(element.first);
     }
   };
-  std::for_each(depth_info.begin(), depth_info.end(), on_pair_element);
+  (void)std::for_each(depth_info.begin(), depth_info.end(), on_pair_element);
 
   return result;
 }

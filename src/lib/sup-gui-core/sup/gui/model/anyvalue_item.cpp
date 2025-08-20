@@ -49,7 +49,7 @@ std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone() const
 
 void AnyValueItem::SetAnyTypeName(const std::string& type_name)
 {
-  SetProperty(constants::kAnyValueTypeTag, type_name);
+  (void)SetProperty(constants::kAnyValueTypeTag, type_name);
 }
 
 std::string AnyValueItem::GetAnyTypeName() const
@@ -90,7 +90,7 @@ AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kEmptyTypeName);
   (void)SetToolTip(constants::kEmptyTypeName);
-  AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName)
+  (void)AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName)
       .SetEditable(false)
       .SetVisible(false);
 }
@@ -113,7 +113,7 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
 {
   (void)SetDisplayName(constants::kScalarTypeName);
   (void)SetToolTip(constants::kScalarTypeName);
-  AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetVisible(false);
+  (void)AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetVisible(false);
 }
 
 std::string AnyValueScalarItem::GetStaticType()
@@ -174,8 +174,8 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
 {
   auto child = std::make_unique<AnyValueScalarItem>();
   child->SetAnyTypeName(field_type);
-  child->SetData(value);
-  child->SetDisplayName(field_name);
+  (void)child->SetData(value);
+  (void)child->SetDisplayName(field_name);
   auto child_ptr = child.get();
   (void)InsertItem(std::move(child), mvvm::TagIndex::Append());
   return child_ptr;

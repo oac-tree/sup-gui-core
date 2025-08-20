@@ -101,7 +101,7 @@ void UpdateAnyValueItemScalarData(const AnyValueItem &source, AnyValueItem &targ
     throw std::logic_error("Item types do not match");
   }
 
-  target.SetData(source.Data());
+  (void)target.SetData(source.Data());
 }
 
 void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)

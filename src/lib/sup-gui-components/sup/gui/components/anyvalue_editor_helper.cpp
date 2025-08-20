@@ -119,7 +119,7 @@ void UpdateArrayElementNames(const mvvm::SessionItem& parent)
     for (auto child : array_item->GetChildren())
     {
       const auto name = sup::gui::constants::kElementNamePrefix + std::to_string(index++);
-      child->SetDisplayName(name);
+      (void) child->SetDisplayName(name);
     }
   }
 }
