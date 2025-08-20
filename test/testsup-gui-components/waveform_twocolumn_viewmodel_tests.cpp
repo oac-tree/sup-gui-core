@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/plotting/waveform_twocolumn_viewmodel.h"
+#include "sup/gui/component_objects/waveform_twocolumn_viewmodel.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/line_series_data_item.h>

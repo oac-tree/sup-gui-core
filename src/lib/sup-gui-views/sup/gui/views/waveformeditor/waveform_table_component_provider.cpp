@@ -20,7 +20,7 @@
 
 #include "waveform_table_component_provider.h"
 
-#include <sup/gui/plotting/waveform_twocolumn_viewmodel.h>
+#include <sup/gui/component_objects/waveform_twocolumn_viewmodel.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>

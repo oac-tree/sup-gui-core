@@ -20,8 +20,8 @@
 
 #include "waveform_twocolumn_viewmodel.h"
 
-#include "custom_children_waveform_strategies.h"
-#include "custom_row_waveform_strategies.h"
+#include <sup/gui/plotting/custom_children_waveform_strategies.h>
+#include <sup/gui/plotting/custom_row_waveform_strategies.h>
 
 #include <mvvm/viewmodel/viewmodel_controller_factory.h>
 

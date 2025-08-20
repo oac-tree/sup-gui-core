@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_PLOTTING_WAVEFORM_TWOCOLUMN_VIEWMODEL_H_
-#define SUP_GUI_PLOTTING_WAVEFORM_TWOCOLUMN_VIEWMODEL_H_
+#ifndef SUP_GUI_COMPONENT_OBJECTS_WAVEFORM_TWOCOLUMN_VIEWMODEL_H_
+#define SUP_GUI_COMPONENT_OBJECTS_WAVEFORM_TWOCOLUMN_VIEWMODEL_H_
 
 #include <mvvm/viewmodel/viewmodel.h>
 
@@ -58,4 +58,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_PLOTTING_WAVEFORM_TWOCOLUMN_VIEWMODEL_H_
+#endif  // SUP_GUI_COMPONENT_OBJECTS_WAVEFORM_TWOCOLUMN_VIEWMODEL_H_
