@@ -40,21 +40,4 @@ std::unique_ptr<IAppCommandService> CreateDefaultCommandService()
       std::move(command_registry), std::move(context_widget_map), std::move(menubar_registry));
 }
 
-std::unique_ptr<IAppCommandService> CreateDefaultCommandService(QMainWindow *main_window,
-                                                                const QStringList &top_menu_names)
-{
-  auto command_registry = std::make_unique<AppCommandRegistry>();
-  auto context_widget_map = std::make_unique<AppCommandContextWidgetMap>();
-
-  auto menubar_registry = std::make_unique<MenuBarActionRegistry>();
-  menubar_registry->SetMenuBar(main_window->menuBar());
-  for (const auto &name : top_menu_names)
-  {
-    (void)menubar_registry->AddMenu(name);
-  }
-
-  return std::make_unique<AppCommandService>(
-      std::move(command_registry), std::move(context_widget_map), std::move(menubar_registry));
-}
-
 }  // namespace sup::gui
