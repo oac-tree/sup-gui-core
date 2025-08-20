@@ -20,8 +20,8 @@
 
 #include "waveform_editor_action_handler.h"
 
-#include "waveform_editor_context.h"
-#include "waveform_helper.h"
+#include <sup/gui/plotting/waveform_editor_context.h>
+#include <sup/gui/plotting/waveform_helper.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>

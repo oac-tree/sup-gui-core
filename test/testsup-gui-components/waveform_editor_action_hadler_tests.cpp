@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/plotting/waveform_editor_action_handler.h"
+#include "sup/gui/component_objects/waveform_editor_action_handler.h"
 
 #include <sup/gui/plotting/waveform_editor_context.h>
 #include <sup/gui/plotting/waveform_helper.h>

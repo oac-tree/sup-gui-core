@@ -16,8 +16,6 @@ target_sources(${library_name} PRIVATE
   custom_metatypes.h
   custom_row_strategies.cpp
   custom_row_strategies.h
-  dto_composer_tab_controller.cpp
-  dto_composer_tab_controller.h
   dto_editor_project.cpp
   dto_editor_project.h
   dto_waveform_editor_context.h

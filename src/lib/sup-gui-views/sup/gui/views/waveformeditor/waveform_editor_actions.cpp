@@ -20,8 +20,8 @@
 
 #include "waveform_editor_actions.h"
 
+#include <sup/gui/component_objects/waveform_editor_action_handler.h>
 #include <sup/gui/components/component_types.h>
-#include <sup/gui/plotting/waveform_editor_action_handler.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/widgets/action_menu.h>
 
@@ -156,7 +156,8 @@ std::unique_ptr<QMenu> WaveformEditorActions::CreateMoreSettingsMenu()
   show_all->setChecked(true);
   connect(
       show_all, &QAction::triggered, this,
-      [this]() {
+      [this]()
+      {
         emit ChangeWaveformDisplayModeRequest(static_cast<int>(WaveformDisplayMode::kDisplayAll));
       });
 

@@ -25,7 +25,7 @@
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/component_objects/dto_composer_action_handler.h>
-#include <sup/gui/components/dto_composer_tab_controller.h>
+#include <sup/gui/component_objects/dto_composer_tab_controller.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/i_session_model.h>
