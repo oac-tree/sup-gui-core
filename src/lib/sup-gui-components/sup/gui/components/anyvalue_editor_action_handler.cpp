@@ -47,7 +47,7 @@
 
 namespace
 {
-const std::string kFailedActionTitle = "Invalid Operation";
+constexpr auto kFailedActionTitle = "Invalid Operation";
 }
 
 namespace sup::gui
