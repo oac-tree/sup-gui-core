@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/viewmodel/custom_row_strategies.h"
+#include "sup/gui/components/custom_row_strategies.h"
 
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>

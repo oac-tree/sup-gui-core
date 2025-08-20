@@ -14,6 +14,8 @@ target_sources(${library_name} PRIVATE
   component_types.h
   custom_metatypes.cpp
   custom_metatypes.h
+  custom_row_strategies.cpp
+  custom_row_strategies.h
   dto_composer_action_handler.cpp
   dto_composer_action_handler.h
   dto_composer_tab_controller.cpp
