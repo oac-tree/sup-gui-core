@@ -61,17 +61,17 @@ public:
    *
    * The menubar will take an ownership. If menu was already created, just returns action container.
    *
-   * @param container_name The title of the menu.
+   * @param menu_name The title of the menu.
    * @param menubar The menubar where the menu will be added.
    *
    * @return Action container holding just created menu and other information.
    */
-  virtual IActionContainer* AddMenu(const QString& container_name) = 0;
+  virtual IActionContainer* AddMenu(const QString& menu_name) = 0;
 
   /**
    * @brief Returns action container with the given name.
    */
-  virtual IActionContainer* GetContainer(const QString& container_name) = 0;
+  virtual IActionContainer* GetContainer(const QString& menu_name) = 0;
 
   /**
    * @brief Registers action and add it to the menu.
@@ -82,7 +82,7 @@ public:
    * @param action User action to add.
    * @return True if action was added, or false if no such menu was registered.
    */
-  virtual bool RegisterAction(const QString& container_name, QAction* action) = 0;
+  virtual bool RegisterAction(const QString& menu_name, QAction* action) = 0;
 };
 
 }  // namespace sup::gui
