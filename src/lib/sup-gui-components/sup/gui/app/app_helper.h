@@ -33,11 +33,6 @@ namespace sup::gui
 {
 
 /**
- * @brief Returns true if application is running in CODAC environment.
- */
-bool IsOnCodac();
-
-/**
  * @brief Returns size object from size string.
  *
  * "1024x768" -> QSize{1024, 768}

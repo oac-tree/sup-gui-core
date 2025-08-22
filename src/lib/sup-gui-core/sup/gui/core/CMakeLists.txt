@@ -1,11 +1,13 @@
 target_sources(${library_name} PRIVATE
   dto_types_fwd.h
+  environment.cpp
+  environment.h
   flags.h
+  i_message_handler.h
   message_event.cpp
   message_event.h
   message_handler_decorator.cpp
   message_handler_decorator.h
-  i_message_handler.h
   query_result.cpp
   query_result.h
   standard_message_handlers.cpp
