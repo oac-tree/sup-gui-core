@@ -221,9 +221,9 @@ TEST_F(AppCommandServiceTest, OnFocusWidgetUpdate)
   EXPECT_CALL(m_widget_map, HasContext(&new_widget)).WillOnce(testing::Return(true));
   EXPECT_CALL(m_widget_map, GetContext(&new_widget))
       .WillOnce(testing::Return(AppCommandContext("test_context")));
+  EXPECT_CALL(m_command_registry, SetContextStack(::testing::_)).Times(1);
 
   EXPECT_NO_THROW(service->OnFocusWidgetUpdate(&old_widget, &new_widget));
 }
-
 
 }  // namespace sup::gui::test

@@ -494,6 +494,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AddScalarToArrayWhenTypeMismath)
   auto handler = CreateActionHandler({element0});
 
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
+  EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(2);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
   handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
