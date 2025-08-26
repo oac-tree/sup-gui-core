@@ -24,6 +24,10 @@ endif()
 
 include(GoogleTest)
 
+if(CODAC_FOUND)
+  add_definitions(-DCODAC_FOUND)
+endif()
+
 add_subdirectory(libtest-utils)
 add_subdirectory(parasoft)
 add_subdirectory(testsup-gui-core)
