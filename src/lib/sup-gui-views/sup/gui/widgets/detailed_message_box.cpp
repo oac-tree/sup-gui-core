@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QSettings>
 #include <QStyle>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -34,8 +35,25 @@
 namespace sup::gui
 {
 
+namespace
+{
+
+QString GetDialogSizeSettingName(const QString &setting_key)
+{
+  return setting_key + "/size";
+}
+
+}  // namespace
+
 DetailedMessageBox::DetailedMessageBox(const MessageEvent &message, QWidget *parent_widget)
+    : DetailedMessageBox(QString(), message, parent_widget)
+{
+}
+
+DetailedMessageBox::DetailedMessageBox(const QString &setting_key, const MessageEvent &message,
+                                       QWidget *parent_widget)
     : QDialog(parent_widget)
+    , m_setting_group(setting_key)
     , m_text_label(new QLabel(QString::fromStdString(message.text)))
     , m_detailed_text_edit(new QTextEdit)
 {
@@ -54,6 +72,10 @@ DetailedMessageBox::DetailedMessageBox(const MessageEvent &message, QWidget *par
 
   m_detailed_text_edit->setText(QString::fromStdString(message.detailed));
   m_detailed_text_edit->setReadOnly(true);
+
+  ReadSettings();
+
+  connect(this, &QDialog::accepted, this, &DetailedMessageBox::WriteSettings);
 }
 
 QTextEdit *DetailedMessageBox::GetTextEdit() const
@@ -97,6 +119,29 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconLayout()
   result->addWidget(pixmap_label);
 
   return result;
+}
+
+void DetailedMessageBox::ReadSettings()
+{
+  if (m_setting_group.isEmpty())
+  {
+    return;
+  }
+
+  const QSettings settings;
+  const auto default_size = QSize(mvvm::utils::UnitSize(30), mvvm::utils::UnitSize(30));
+  resize(settings.value(GetDialogSizeSettingName(m_setting_group), default_size).toSize());
+}
+
+void DetailedMessageBox::WriteSettings()
+{
+  if (m_setting_group.isEmpty())
+  {
+    return;
+  }
+
+  QSettings settings;
+  settings.setValue(GetDialogSizeSettingName(m_setting_group), size());
 }
 
 }  // namespace sup::gui

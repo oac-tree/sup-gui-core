@@ -21,8 +21,9 @@
 #ifndef SUP_GUI_WIDGETS_DETAILED_MESSAGE_BOX_H_
 #define SUP_GUI_WIDGETS_DETAILED_MESSAGE_BOX_H_
 
-#include <QDialog>
 #include <sup/gui/core/message_event.h>
+
+#include <QDialog>
 #include <memory>
 
 class QTextEdit;
@@ -42,7 +43,22 @@ class DetailedMessageBox : public QDialog
 {
   Q_OBJECT
 public:
+  /**
+   * @brief Creates a message box and sets its content according to the given message event.
+   */
   explicit DetailedMessageBox(const MessageEvent& message, QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Creates a message box and sets its content according to the given message event.
+   *
+   * Allow to define a setting key to remember the dialog size and position.
+   *
+   * @param setting_group A name of the group to store/restore dialog settings.
+   * @param message A message event to display.
+   * @param parent_widget An optional parent widget.
+   */
+  DetailedMessageBox(const QString& setting_group, const MessageEvent& message,
+                     QWidget* parent_widget = nullptr);
 
   QTextEdit* GetTextEdit() const;
 
@@ -51,6 +67,17 @@ private:
   std::unique_ptr<QLayout> CreateInformativeLayout(const std::string& informative);
   static std::unique_ptr<QLayout> CreateIconLayout();
 
+  /**
+   * @brief Loads dialog persistence widget settings from disk.
+   */
+  void ReadSettings();
+
+  /**
+   * @brief Writes persistence widget settings on disk.
+   */
+  void WriteSettings();
+
+  QString m_setting_group;
   QLabel* m_text_label{nullptr};
   QLabel* m_informative_label{nullptr};
   QTextEdit* m_detailed_text_edit{nullptr};
