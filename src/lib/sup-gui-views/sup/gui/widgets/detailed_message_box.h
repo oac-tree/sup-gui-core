@@ -44,9 +44,11 @@ class DetailedMessageBox : public QDialog
 public:
   explicit DetailedMessageBox(const MessageEvent& message, QWidget* parent_widget = nullptr);
 
+  QTextEdit* GetTextEdit() const;
+
 private:
   std::unique_ptr<QLayout> CreateIconAndTextLayout();
-  std::unique_ptr<QLayout> CreateInformativeLayout();
+  std::unique_ptr<QLayout> CreateInformativeLayout(const std::string& informative);
   static std::unique_ptr<QLayout> CreateIconLayout();
 
   QLabel* m_text_label{nullptr};

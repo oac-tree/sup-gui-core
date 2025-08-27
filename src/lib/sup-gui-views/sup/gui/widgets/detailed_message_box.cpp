@@ -37,20 +37,34 @@ namespace sup::gui
 DetailedMessageBox::DetailedMessageBox(const MessageEvent &message, QWidget *parent_widget)
     : QDialog(parent_widget)
     , m_text_label(new QLabel(QString::fromStdString(message.text)))
-    , m_informative_label(new QLabel(QString::fromStdString(message.informative)))
     , m_detailed_text_edit(new QTextEdit)
 {
   setWindowTitle(QString::fromStdString(message.title));
 
   auto layout = new QVBoxLayout(this);
   layout->addLayout(CreateIconAndTextLayout().release());
-  layout->addLayout(CreateInformativeLayout().release());
+
+  if (!message.informative.empty())
+  {
+    layout->addLayout(CreateInformativeLayout(message.informative).release());
+  }
+
   layout->addWidget(m_detailed_text_edit);
   layout->addLayout(CreateOkOnlyButtonLayout(this).release());
+
+  m_detailed_text_edit->setText(QString::fromStdString(message.detailed));
+  m_detailed_text_edit->setReadOnly(true);
+}
+
+QTextEdit *DetailedMessageBox::GetTextEdit() const
+{
+  return m_detailed_text_edit;
 }
 
 std::unique_ptr<QLayout> DetailedMessageBox::CreateIconAndTextLayout()
 {
+  m_text_label->setWordWrap(true);
+
   auto result = std::make_unique<QHBoxLayout>();
   result->addLayout(CreateIconLayout().release());
   result->addWidget(m_text_label);
@@ -59,8 +73,10 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconAndTextLayout()
   return result;
 }
 
-std::unique_ptr<QLayout> DetailedMessageBox::CreateInformativeLayout()
+std::unique_ptr<QLayout> DetailedMessageBox::CreateInformativeLayout(const std::string &informative)
 {
+  m_informative_label = new QLabel(QString::fromStdString(informative));
+
   auto result = std::make_unique<QVBoxLayout>();
   m_informative_label->setWordWrap(true);
   result->addWidget(m_informative_label);
@@ -77,10 +93,8 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconLayout()
 
   auto pixmap_label = new QLabel;
   pixmap_label->setPixmap(icon.pixmap(mvvm::utils::UnitSize(5)));
-
+  pixmap_label->setFixedWidth(mvvm::utils::UnitSize(5) * 1.2);
   result->addWidget(pixmap_label);
-  const auto gap = mvvm::utils::UnitSize(0.5);
-  result->setContentsMargins(gap, gap, gap, gap);
 
   return result;
 }
