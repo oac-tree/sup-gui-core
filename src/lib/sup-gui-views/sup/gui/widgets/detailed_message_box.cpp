@@ -27,9 +27,9 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPlainTextEdit>
 #include <QSettings>
 #include <QStyle>
-#include <QTextEdit>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -55,7 +55,7 @@ DetailedMessageBox::DetailedMessageBox(const QString &setting_key, const Message
     : QDialog(parent_widget)
     , m_setting_group(setting_key)
     , m_text_label(new QLabel(QString::fromStdString(message.text)))
-    , m_detailed_text_edit(new QTextEdit)
+    , m_detailed_text_edit(new QPlainTextEdit)
 {
   setWindowTitle(QString::fromStdString(message.title));
 
@@ -70,15 +70,16 @@ DetailedMessageBox::DetailedMessageBox(const QString &setting_key, const Message
   layout->addWidget(m_detailed_text_edit);
   layout->addLayout(CreateOkOnlyButtonLayout(this).release());
 
-  m_detailed_text_edit->setText(QString::fromStdString(message.detailed));
+  m_detailed_text_edit->setPlainText(QString::fromStdString(message.detailed));
   m_detailed_text_edit->setReadOnly(true);
+  m_detailed_text_edit->setLineWrapMode(QPlainTextEdit::LineWrapMode::NoWrap);
 
   ReadSettings();
 
   connect(this, &QDialog::accepted, this, &DetailedMessageBox::WriteSettings);
 }
 
-QTextEdit *DetailedMessageBox::GetTextEdit() const
+QPlainTextEdit *DetailedMessageBox::GetTextEdit() const
 {
   return m_detailed_text_edit;
 }

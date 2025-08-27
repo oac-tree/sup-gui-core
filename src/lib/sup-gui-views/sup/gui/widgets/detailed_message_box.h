@@ -26,7 +26,7 @@
 #include <QDialog>
 #include <memory>
 
-class QTextEdit;
+class QPlainTextEdit;
 class QLabel;
 class QLayout;
 
@@ -60,7 +60,7 @@ public:
   DetailedMessageBox(const QString& setting_group, const MessageEvent& message,
                      QWidget* parent_widget = nullptr);
 
-  QTextEdit* GetTextEdit() const;
+  QPlainTextEdit* GetTextEdit() const;
 
 private:
   std::unique_ptr<QLayout> CreateIconAndTextLayout();
@@ -80,7 +80,7 @@ private:
   QString m_setting_group;
   QLabel* m_text_label{nullptr};
   QLabel* m_informative_label{nullptr};
-  QTextEdit* m_detailed_text_edit{nullptr};
+  QPlainTextEdit* m_detailed_text_edit{nullptr};
 };
 
 }  // namespace sup::gui
