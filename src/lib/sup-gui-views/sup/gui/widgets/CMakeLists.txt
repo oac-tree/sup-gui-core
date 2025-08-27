@@ -17,6 +17,8 @@ target_sources(${library_name} PRIVATE
   custom_splitter.h
   custom_splitter_controller.cpp
   custom_splitter_controller.h
+  detailed_message_box.cpp
+  detailed_message_box.h
   dialog_helper.cpp
   dialog_helper.h
   item_stack_widget.cpp

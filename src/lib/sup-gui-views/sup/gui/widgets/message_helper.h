@@ -32,17 +32,17 @@ namespace sup::gui
 {
 
 /**
- * @brief Send the message via the message box.
+ * @brief Send the message via the QMessageBox.
  */
 void SendMessage(const sup::gui::MessageEvent& event, QMessageBox::Icon icon_type);
 
 /**
- * @brief Send warning message via the message box.
+ * @brief Send warning message via the QMessageBox.
  */
 void SendWarningMessage(const sup::gui::MessageEvent& event);
 
 /**
- * @brief Send info message via the message box.
+ * @brief Send info message via the QMessageBox.
  */
 void SendInfoMessage(const sup::gui::MessageEvent& event);
 
