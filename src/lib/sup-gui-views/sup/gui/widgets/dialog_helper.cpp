@@ -51,4 +51,20 @@ std::unique_ptr<QVBoxLayout> CreateButtonLayout(QDialog* dialog, const QString& 
   return result;
 }
 
+std::unique_ptr<QVBoxLayout> CreateOkOnlyButtonLayout(QDialog* dialog, const QString& ok_text)
+{
+  auto result = std::make_unique<QVBoxLayout>();
+
+  auto button_box = new QDialogButtonBox;
+  auto button = button_box->addButton(ok_text, QDialogButtonBox::AcceptRole);
+  button->setAutoDefault(false);
+  button->setDefault(false);
+  QDialogButtonBox::connect(button_box, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
+
+  const auto gap = mvvm::utils::UnitSize(0.5);
+  result->setContentsMargins(gap, gap, gap, gap);
+  result->addWidget(button_box);
+  return result;
+}
+
 }  // namespace sup::gui

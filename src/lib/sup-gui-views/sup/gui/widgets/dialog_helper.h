@@ -36,6 +36,12 @@ namespace sup::gui
 std::unique_ptr<QVBoxLayout> CreateButtonLayout(QDialog* dialog, const QString& ok_text = "OK",
                                                 const QString& cancel_text = "Cancel");
 
+/**
+ * @brief Creates layout with OK only button.
+ */
+std::unique_ptr<QVBoxLayout> CreateOkOnlyButtonLayout(QDialog* dialog,
+                                                      const QString& ok_text = "OK");
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_WIDGETS_DIALOG_HELPER_H_
