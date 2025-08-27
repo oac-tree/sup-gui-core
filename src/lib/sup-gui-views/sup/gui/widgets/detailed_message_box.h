@@ -22,11 +22,15 @@
 #define SUP_GUI_WIDGETS_DETAILED_MESSAGE_BOX_H_
 
 #include <QDialog>
+#include <sup/gui/core/message_event.h>
+#include <memory>
+
+class QTextEdit;
+class QLabel;
+class QLayout;
 
 namespace sup::gui
 {
-
-class MessageEvent;
 
 /**
  * @brief The DetailedMessageBox class is a dialog similar to QMessageBox with a place for large
@@ -39,6 +43,15 @@ class DetailedMessageBox : public QDialog
   Q_OBJECT
 public:
   explicit DetailedMessageBox(const MessageEvent& message, QWidget* parent_widget = nullptr);
+
+private:
+  std::unique_ptr<QLayout> CreateIconAndTextLayout();
+  std::unique_ptr<QLayout> CreateInformativeLayout();
+  static std::unique_ptr<QLayout> CreateIconLayout();
+
+  QLabel* m_text_label{nullptr};
+  QLabel* m_informative_label{nullptr};
+  QTextEdit* m_detailed_text_edit{nullptr};
 };
 
 }  // namespace sup::gui
