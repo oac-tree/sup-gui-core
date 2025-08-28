@@ -112,7 +112,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     anyvalue = true;
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBooleanTypeName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::BooleanTypeName());
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_TRUE(item.Data<bool>());
     EXPECT_EQ(item.GetTotalItemCount(), 1);
@@ -124,7 +124,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kInt32TypeName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::Int32TypeName());
     EXPECT_EQ(item.Data<int>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 1);
   }
@@ -135,7 +135,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kUInt32TypeName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::UInt32TypeName());
     EXPECT_EQ(item.Data<mvvm::uint32>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 1);
   }
@@ -147,7 +147,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     AnyValueScalarItem item;
     SetDataFromScalar(anyvalue, item);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kUInt32TypeName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::UInt32TypeName());
     EXPECT_EQ(item.Data<mvvm::uint32>(), 42);
     EXPECT_EQ(item.GetTotalItemCount(), 1);
 
@@ -156,7 +156,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     SetDataFromScalar(new_anyvalue, item);
     EXPECT_NE(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_EQ(item.GetAnyTypeName(), new_anyvalue.GetTypeName());
-    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBooleanTypeName);
+    EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::BooleanTypeName());
     EXPECT_EQ(item.Data<bool>(), true);
     EXPECT_EQ(item.GetTotalItemCount(), 1);
   }
