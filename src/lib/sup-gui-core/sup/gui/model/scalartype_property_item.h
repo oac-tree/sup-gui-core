@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H
-#define SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H
+#ifndef SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H_
+#define SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H_
 
 #include <mvvm/model/session_item.h>
 
@@ -66,4 +66,4 @@ struct item_traits<sup::gui::ScalarTypePropertyItem>
 
 }  // namespace mvvm
 
-#endif  // SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H
+#endif  // SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H_

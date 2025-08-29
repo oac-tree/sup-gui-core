@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_DTO_COMPOSER_TAB_CONTROLLER_H_
-#define SUP_GUI_COMPONENTS_DTO_COMPOSER_TAB_CONTROLLER_H_
+#ifndef SUP_GUI_COMPONENT_OBJECTS_DTO_COMPOSER_TAB_CONTROLLER_H_
+#define SUP_GUI_COMPONENT_OBJECTS_DTO_COMPOSER_TAB_CONTROLLER_H_
 
 #include <mvvm/signals/event_types.h>
 
@@ -118,4 +118,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_DTO_COMPOSER_TAB_CONTROLLER_H_
+#endif  // SUP_GUI_COMPONENT_OBJECTS_DTO_COMPOSER_TAB_CONTROLLER_H_

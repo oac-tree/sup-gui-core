@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
+#ifndef TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
+#define TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
 
 #include <sup/gui/app/i_app_command_context_widget_map.h>
 
@@ -69,4 +69,4 @@ private:
 };
 }  // namespace sup::gui::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
+#endif  // TESTUTILS_MOCK_APP_COMMAND_CONTEXT_WIDGET_MAP_H_

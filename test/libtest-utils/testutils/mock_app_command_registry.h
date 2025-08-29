@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
+#ifndef TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
+#define TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
 
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/i_app_command_registry.h>
@@ -78,4 +78,4 @@ private:
 
 }  // namespace sup::gui::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_
+#endif  // TESTUTILS_MOCK_APP_COMMAND_REGISTRY_H_

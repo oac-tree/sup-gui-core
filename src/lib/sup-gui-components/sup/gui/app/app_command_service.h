@@ -81,4 +81,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_I_APP_COMMAND_SERVICE_H_
+#endif  // SUP_GUI_APP_APP_COMMAND_SERVICE_H_

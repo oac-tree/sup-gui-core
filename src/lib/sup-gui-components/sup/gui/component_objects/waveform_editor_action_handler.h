@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_PLOTTING_WAVEFORM_EDITOR_ACTION_HANDLER_H_
-#define SUP_GUI_PLOTTING_WAVEFORM_EDITOR_ACTION_HANDLER_H_
+#ifndef SUP_GUI_COMPONENT_OBJECTS_WAVEFORM_EDITOR_ACTION_HANDLER_H_
+#define SUP_GUI_COMPONENT_OBJECTS_WAVEFORM_EDITOR_ACTION_HANDLER_H_
 
 #include <sup/gui/plotting/waveform_editor_context.h>
 
@@ -67,4 +67,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_PLOTTING_WAVEFORM_EDITOR_ACTION_HANDLER_H_
+#endif  // SUP_GUI_COMPONENT_OBJECTS_WAVEFORM_EDITOR_ACTION_HANDLER_H_

@@ -88,4 +88,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_APP_ACTION_MANAGER_H_
+#endif  // SUP_GUI_APP_MENU_BAR_ACTION_REGISTRY_H_

@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_ANYVALUE_EDITOR_CONTEXT_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_ANYVALUE_EDITOR_CONTEXT_H_
+#ifndef TESTUTILS_MOCK_ANYVALUE_EDITOR_CONTEXT_H_
+#define TESTUTILS_MOCK_ANYVALUE_EDITOR_CONTEXT_H_
 
 #include <sup/gui/components/anyvalue_editor_context.h>
 
@@ -73,4 +73,4 @@ public:
 
 }  // namespace sup::gui::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_ANYVALUE_EDITOR_CONTEXT_H_
+#endif  // TESTUTILS_MOCK_ANYVALUE_EDITOR_CONTEXT_H_

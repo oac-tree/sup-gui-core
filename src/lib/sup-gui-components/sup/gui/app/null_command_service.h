@@ -53,4 +53,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_I_APP_COMMAND_SERVICE_H_
+#endif  // SUP_GUI_APP_NULL_COMMAND_SERVICE_H_

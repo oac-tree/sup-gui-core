@@ -106,4 +106,4 @@ void StackedWidgetProvider::RegisterDefaultWidget()
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_MAINWINDOW_STACKED_WIDGET_CONTROLLER_H_
+#endif  // SUP_GUI_MAINWINDOW_STACKED_WIDGET_PROVIDER_H_

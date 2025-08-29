@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_APP_I_COMMAND_CONTEXT_WIDGET_MAP_H_
-#define SUP_GUI_APP_I_COMMAND_CONTEXT_WIDGET_MAP_H_
+#ifndef SUP_GUI_APP_I_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
+#define SUP_GUI_APP_I_APP_COMMAND_CONTEXT_WIDGET_MAP_H_
 
 #include <sup/gui/app/app_command_context.h>
 
@@ -87,4 +87,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_APP_I_COMMAND_CONTEXT_WIDGET_MAP_H_
+#endif  // SUP_GUI_APP_I_APP_COMMAND_CONTEXT_WIDGET_MAP_H_

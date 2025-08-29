@@ -85,4 +85,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_COMPONENTS_PROXY_ACTION_H_
+#endif  // SUP_GUI_COMPONENT_OBJECTS_PROXY_ACTION_H_

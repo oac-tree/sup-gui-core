@@ -46,4 +46,4 @@ public:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_MAINWINDOW_SETTINGS_EDITOR_H_
+#endif  // SUP_GUI_MAINWINDOW_SESSION_ITEM_WIDGET_H_
