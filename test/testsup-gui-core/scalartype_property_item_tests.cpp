@@ -35,8 +35,12 @@ class ScalarTypePropertyItemTest : public ::testing::Test
 
 TEST_F(ScalarTypePropertyItemTest, InitialState)
 {
-  ScalarTypePropertyItem item;
+  const ScalarTypePropertyItem item;
   EXPECT_EQ(item.GetScalarTypeName(), std::string());
+
+  EXPECT_EQ(mvvm::GetTypeName<ScalarTypePropertyItem>(), "ScalarTypeProperty");
+  EXPECT_EQ(mvvm::GetTypeName<ScalarTypePropertyItem>(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
 }
 
 TEST_F(ScalarTypePropertyItemTest, SetScalarTypeName)

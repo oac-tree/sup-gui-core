@@ -43,7 +43,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
 {
   // For struct field we are suggesting names: field0, field1, etc, unless there is already
   // non-default field name, which came probably from another copy-and-paste operation.
-  if (parent.GetType() == sup::gui::AnyValueStructItem::GetStaticType())
+  if (parent.GetType() == mvvm::GetTypeName<AnyValueStructItem>())
   {
     if (HasOneOfDefaultDisplayNames(child))
     {
@@ -55,7 +55,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
   }
 
   // For array element we suggest names: element0, element1, etc.
-  if (parent.GetType() == sup::gui::AnyValueArrayItem::GetStaticType())
+  if (parent.GetType() == mvvm::GetTypeName<AnyValueArrayItem>())
   {
     return sup::gui::constants::kElementNamePrefix
            + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
@@ -74,8 +74,8 @@ std::optional<std::string> SuggestEditableTypeName(const AnyValueItem& child)
   }
 
   const static std::map<std::string, std::string> type_to_name{
-      {AnyValueStructItem::GetStaticType(), constants::kStructTypeName},
-      {AnyValueArrayItem::GetStaticType(), constants::kArrayTypeName}};
+      {mvvm::GetTypeName<AnyValueStructItem>(), constants::kStructTypeName},
+      {mvvm::GetTypeName<AnyValueArrayItem>(), constants::kArrayTypeName}};
 
   // scalars has type name already
   auto iter = type_to_name.find(child.GetType());
@@ -102,7 +102,7 @@ bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child)
 {
   if (auto parent = child.GetParent(); parent)
   {
-    if (parent->GetType() == AnyValueStructItem::GetStaticType())
+    if (parent->GetType() == mvvm::GetTypeName<AnyValueStructItem>())
     {
       return true;
     }
@@ -119,7 +119,7 @@ void UpdateArrayElementNames(const mvvm::SessionItem& parent)
     for (auto child : array_item->GetChildren())
     {
       const auto name = sup::gui::constants::kElementNamePrefix + std::to_string(index++);
-      (void) child->SetDisplayName(name);
+      (void)child->SetDisplayName(name);
     }
   }
 }

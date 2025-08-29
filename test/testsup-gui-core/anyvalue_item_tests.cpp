@@ -54,6 +54,10 @@ TEST_F(AnyValueItemTest, InitialState)
 
   {  // AnyValueEmptyItem
     const AnyValueEmptyItem item;
+
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueEmptyItem>(), "AnyValueEmpty");
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueEmptyItem>(), item.GetType());
+
     EXPECT_FALSE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
@@ -69,6 +73,10 @@ TEST_F(AnyValueItemTest, InitialState)
 
   {  // AnyValueScalarItem
     const AnyValueScalarItem item;
+
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueScalarItem>(), "AnyValueScalar");
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueScalarItem>(), item.GetType());
+
     EXPECT_TRUE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
@@ -84,6 +92,10 @@ TEST_F(AnyValueItemTest, InitialState)
 
   {  // AnyValueStructItem
     const AnyValueStructItem item;
+
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueStructItem>(), "AnyValueStruct");
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueStructItem>(), item.GetType());
+
     EXPECT_FALSE(item.IsScalar());
     EXPECT_TRUE(item.IsStruct());
     EXPECT_FALSE(item.IsArray());
@@ -100,6 +112,10 @@ TEST_F(AnyValueItemTest, InitialState)
 
   {  // AnyValueArrayItem
     const AnyValueArrayItem item;
+
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueArrayItem>(), "AnyValueArray");
+    EXPECT_EQ(mvvm::GetTypeName<AnyValueArrayItem>(), item.GetType());
+
     EXPECT_FALSE(item.IsScalar());
     EXPECT_FALSE(item.IsStruct());
     EXPECT_TRUE(item.IsArray());

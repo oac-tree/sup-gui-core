@@ -41,8 +41,6 @@ class CommonSettingsItem : public mvvm::CompoundItem
 public:
   CommonSettingsItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
 protected:
@@ -57,5 +55,16 @@ private:
 };
 
 }  // namespace sup::gui
+
+namespace mvvm
+{
+
+template <>
+struct item_traits<sup::gui::CommonSettingsItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "CommonSettings"; }
+};
+
+}
 
 #endif  // SUP_GUI_MODEL_SETTINGS_ITEM_H_

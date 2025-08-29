@@ -86,18 +86,13 @@ int AnyValueItem::GetChildrenCount() const
 // AnyValueEmptyItem
 // ----------------------------------------------------------------------------
 
-AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(GetStaticType())
+AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(mvvm::GetTypeName<AnyValueEmptyItem>())
 {
   (void)SetDisplayName(constants::kEmptyTypeName);
   (void)SetToolTip(constants::kEmptyTypeName);
   (void)AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName)
       .SetEditable(false)
       .SetVisible(false);
-}
-
-std::string AnyValueEmptyItem::GetStaticType()
-{
-  return "AnyValueEmpty";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
@@ -109,16 +104,11 @@ std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
 // AnyValueScalarItem
 // ----------------------------------------------------------------------------
 
-AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(GetStaticType())
+AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(mvvm::GetTypeName<AnyValueScalarItem>())
 {
   (void)SetDisplayName(constants::kScalarTypeName);
   (void)SetToolTip(constants::kScalarTypeName);
   (void)AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetVisible(false);
-}
-
-std::string AnyValueScalarItem::GetStaticType()
-{
-  return "AnyValueScalar";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
@@ -145,17 +135,12 @@ bool AnyValueScalarItem::IsScalar() const
 // AnyValueStructItem
 // ----------------------------------------------------------------------------
 
-AnyValueStructItem::AnyValueStructItem() : AnyValueItem(GetStaticType())
+AnyValueStructItem::AnyValueStructItem() : AnyValueItem(mvvm::GetTypeName<AnyValueStructItem>())
 {
   (void)SetDisplayName(constants::kStructTypeName);
   (void)SetToolTip(constants::kStructTypeName);
   (void)AddProperty(constants::kAnyValueTypeTag, std::string()).SetVisible(false);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
-}
-
-std::string AnyValueStructItem::GetStaticType()
-{
-  return "AnyValueStruct";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone() const
@@ -190,17 +175,12 @@ std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 // AnyValueArrayItem
 // ----------------------------------------------------------------------------
 
-AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(GetStaticType())
+AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(mvvm::GetTypeName<AnyValueArrayItem>())
 {
   (void)SetDisplayName(constants::kArrayTypeName);
   (void)SetToolTip(constants::kArrayTypeName);
   (void)AddProperty(constants::kAnyValueTypeTag, std::string()).SetVisible(false);
   RegisterTag(CreateAnyValueTag(constants::kAnyValueChildrenTag), /*as_default*/ true);
-}
-
-std::string AnyValueArrayItem::GetStaticType()
-{
-  return "AnyValueArray";
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone() const

@@ -39,8 +39,6 @@ class ScalarTypePropertyItem : public mvvm::SessionItem
 public:
   ScalarTypePropertyItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   std::string GetScalarTypeName() const;
@@ -56,5 +54,16 @@ private:
 };
 
 }  // namespace sup::gui
+
+namespace mvvm
+{
+
+template <>
+struct item_traits<sup::gui::ScalarTypePropertyItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "ScalarTypeProperty"; }
+};
+
+}  // namespace mvvm
 
 #endif  // SUP_GUI_MODEL_SCALARTYPE_PROPERTY_ITEM_H

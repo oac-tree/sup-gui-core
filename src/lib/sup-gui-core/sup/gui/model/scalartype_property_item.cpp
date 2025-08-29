@@ -56,7 +56,8 @@ void UpdateParentDataToType(const std::string& type_name, mvvm::SessionItem* par
 
 }  // namespace
 
-ScalarTypePropertyItem::ScalarTypePropertyItem() : mvvm::SessionItem(GetStaticType())
+ScalarTypePropertyItem::ScalarTypePropertyItem()
+    : mvvm::SessionItem(mvvm::GetTypeName<ScalarTypePropertyItem>())
 {
   SetStrategy(this, &ScalarTypePropertyItem::OnSetData);
 }
@@ -64,11 +65,6 @@ ScalarTypePropertyItem::ScalarTypePropertyItem() : mvvm::SessionItem(GetStaticTy
 std::unique_ptr<mvvm::SessionItem> ScalarTypePropertyItem::Clone() const
 {
   return std::make_unique<ScalarTypePropertyItem>(*this);
-}
-
-std::string sup::gui::ScalarTypePropertyItem::GetStaticType()
-{
-  return "ScalarTypeProperty";
 }
 
 std::string ScalarTypePropertyItem::GetScalarTypeName() const

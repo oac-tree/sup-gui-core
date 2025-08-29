@@ -58,7 +58,7 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent
   m_splitter->setSizes({200, 400});
 
   m_stacked_widget_provider->RegisterWidget<CommonSettingsEditor>(
-      CommonSettingsItem::GetStaticType());
+      mvvm::GetTypeName<CommonSettingsItem>());
   m_stacked_widget_provider->RegisterDefaultWidget<CommonSettingsEditor>();
 
   connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectedItemChanged,

@@ -56,19 +56,18 @@ std::unique_ptr<mvvm::ItemCatalogue<AnyValueItem>> CreateItemCatalogue()
 
 }  // namespace
 
-
 std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
 {
   static const std::map<std::string, std::string> kTypeNameToAnyValueItemType = {
-      {constants::kEmptyTypeName, AnyValueEmptyItem::GetStaticType()},
-      {constants::kScalarTypeName, AnyValueScalarItem::GetStaticType()},
-      {constants::kArrayTypeName, AnyValueArrayItem::GetStaticType()},
-      {constants::kStructTypeName, AnyValueStructItem::GetStaticType()},
+      {constants::kEmptyTypeName, mvvm::GetTypeName<AnyValueEmptyItem>()},
+      {constants::kScalarTypeName, mvvm::GetTypeName<AnyValueScalarItem>()},
+      {constants::kArrayTypeName, mvvm::GetTypeName<AnyValueArrayItem>()},
+      {constants::kStructTypeName, mvvm::GetTypeName<AnyValueStructItem>()},
   };
 
   if (IsScalarTypeName(type_name))
   {
-    return AnyValueScalarItem::GetStaticType();
+    return mvvm::GetTypeName<AnyValueScalarItem>();
   }
 
   auto iter = kTypeNameToAnyValueItemType.find(type_name);
@@ -81,7 +80,7 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string &
 
   if (IsScalarTypeName(type_name))
   {
-    auto result = item_catalogue->Create(AnyValueScalarItem::GetStaticType());
+    auto result = item_catalogue->Create(mvvm::GetTypeName<AnyValueScalarItem>());
     result->SetAnyTypeName(type_name);
     return result;
   }
@@ -142,8 +141,8 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
       std::vector<Node> new_children;
       auto on_transform = [](const AnyValueItem *source, AnyValueItem *target)
       { return Node{source, target}; };
-      (void) std::transform(source_children.begin(), source_children.end(), target_children.begin(),
-                     std::back_inserter(new_children), on_transform);
+      (void)std::transform(source_children.begin(), source_children.end(), target_children.begin(),
+                           std::back_inserter(new_children), on_transform);
 
       // adding to the stack in reverse order
       for (auto it = new_children.rbegin(); it != new_children.rend(); ++it)
@@ -167,8 +166,8 @@ bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &sca
 
 std::vector<std::string> GetAnyValueItemTypes()
 {
-  return {AnyValueEmptyItem::GetStaticType(), AnyValueScalarItem::GetStaticType(),
-          AnyValueStructItem::GetStaticType(), AnyValueArrayItem::GetStaticType()};
+  return {mvvm::GetTypeName<AnyValueEmptyItem>(), mvvm::GetTypeName<AnyValueScalarItem>(),
+          mvvm::GetTypeName<AnyValueStructItem>(), mvvm::GetTypeName<AnyValueArrayItem>()};
 }
 
 mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_t> &min,

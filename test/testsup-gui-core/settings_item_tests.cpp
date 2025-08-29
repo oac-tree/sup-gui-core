@@ -40,13 +40,18 @@ class SettingsItemTest : public testing::Test
 TEST_F(SettingsItemTest, CommonSettingsItem)
 {
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<CommonSettingsItem>());
+
+  const CommonSettingsItem item;
+  EXPECT_EQ(mvvm::GetTypeName<CommonSettingsItem>(), "CommonSettings");
+  EXPECT_EQ(mvvm::GetTypeName<CommonSettingsItem>(), item.GetType());
+  EXPECT_EQ(item.GetDisplayName(), "Common Settings");
 }
 
 //! We validate that changing a boolean stored in "Enable undo/redo" setting will
 //! automatically mark "Undo limit" setting as disabled.
 TEST_F(SettingsItemTest, DataStrategy)
 {
-  CommonSettingsItem item;
+  const CommonSettingsItem item;
 
   EXPECT_TRUE(item.GetItem(constants::kUseUndoSetting)->IsEnabled());
   EXPECT_TRUE(item.GetItem(constants::kUndoLimitSetting)->IsEnabled());
@@ -60,7 +65,7 @@ TEST_F(SettingsItemTest, DataStrategy)
 
 TEST_F(SettingsItemTest, CloneItem)
 {
-  CommonSettingsItem item;
+  const CommonSettingsItem item;
 
   auto clone = item.Clone();
 

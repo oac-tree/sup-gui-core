@@ -60,8 +60,6 @@ class AnyValueEmptyItem : public AnyValueItem
 public:
   AnyValueEmptyItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
@@ -72,8 +70,6 @@ class AnyValueScalarItem : public AnyValueItem
 {
 public:
   AnyValueScalarItem();
-
-  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -91,8 +87,6 @@ class AnyValueStructItem : public AnyValueItem
 {
 public:
   AnyValueStructItem();
-
-  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -112,8 +106,6 @@ class AnyValueArrayItem : public AnyValueItem
 public:
   AnyValueArrayItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   bool IsArray() const override;
@@ -122,5 +114,34 @@ public:
 };
 
 }  // namespace sup::gui
+
+namespace mvvm
+{
+
+template <>
+struct item_traits<sup::gui::AnyValueEmptyItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "AnyValueEmpty"; }
+};
+
+template <>
+struct item_traits<sup::gui::AnyValueScalarItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "AnyValueScalar"; }
+};
+
+template <>
+struct item_traits<sup::gui::AnyValueStructItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "AnyValueStruct"; }
+};
+
+template <>
+struct item_traits<sup::gui::AnyValueArrayItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "AnyValueArray"; }
+};
+
+}  // namespace mvvm
 
 #endif  // SUP_GUI_MODEL_ANYVALUE_ITEM_H_

@@ -27,21 +27,16 @@
 namespace sup::gui
 {
 
-CommonSettingsItem::CommonSettingsItem() : CompoundItem(GetStaticType())
+CommonSettingsItem::CommonSettingsItem() : CompoundItem(mvvm::GetTypeName<CommonSettingsItem>())
 {
   (void)SetDisplayName("Common Settings");
 
-  (void) AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
+  (void)AddProperty(constants::kUseUndoSetting, constants::kUseUndoDefault)
       .SetDisplayName("Enable undo/redo");
   (void)AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
       .SetDisplayName("Undo limit");
 
   ActivateStrategies();
-}
-
-std::string CommonSettingsItem::GetStaticType()
-{
-  return "CommonSettings";
 }
 
 void CommonSettingsItem::ActivateStrategies()

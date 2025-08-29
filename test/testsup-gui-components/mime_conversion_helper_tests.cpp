@@ -120,10 +120,10 @@ TEST_F(MimeConversionHelperTests, CreateTwoItemsFromMime)
   auto reconstructed_compound = reconstructed_items.at(1).get();
 
   EXPECT_EQ(reconstructed_property->GetDisplayName(), expected_name1);
-  EXPECT_EQ(reconstructed_property->GetType(), mvvm::PropertyItem::GetStaticType());
+  EXPECT_EQ(reconstructed_property->GetType(), mvvm::GetTypeName<mvvm::PropertyItem>());
   EXPECT_EQ(reconstructed_property->Data<int>(), 42);
   EXPECT_EQ(reconstructed_compound->GetDisplayName(), expected_name2);
-  EXPECT_EQ(reconstructed_compound->GetType(), mvvm::CompoundItem::GetStaticType());
+  EXPECT_EQ(reconstructed_compound->GetType(), mvvm::GetTypeName<mvvm::CompoundItem>());
 }
 
 TEST_F(MimeConversionHelperTests, CoopyAndPasteWithFiltering)
