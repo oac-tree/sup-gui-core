@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_PLOTTING_CUSTOM_ROW_WAVEFORM_STRATEGIES_H_
 #define SUP_GUI_PLOTTING_CUSTOM_ROW_WAVEFORM_STRATEGIES_H_
 
-#include <mvvm/viewmodel/abstract_row_strategy.h>
+#include <mvvm/providers/abstract_row_strategy.h>
 
 namespace sup::gui
 {

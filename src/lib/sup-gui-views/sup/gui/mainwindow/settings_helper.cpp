@@ -25,7 +25,7 @@
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/viewmodel/variant_converter.h>
+#include <mvvm/providers/variant_converter.h>
 
 #include <QSettings>
 #include <stack>

@@ -26,7 +26,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/viewitem.h>
 
 #include <sup/dto/anytype.h>
 

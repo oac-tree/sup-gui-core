@@ -23,8 +23,8 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
-#include <mvvm/viewmodel/viewitem_factory.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/viewitem_factory.h>
+#include <mvvm/providers/viewitem.h>
 
 #include <QColor>
 

@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_PLOTTING_CUSTOM_CHILDREN_WAVEFORM_STRATEGIES_H_
 #define SUP_GUI_PLOTTING_CUSTOM_CHILDREN_WAVEFORM_STRATEGIES_H_
 
-#include <mvvm/viewmodel/i_children_strategy.h>
+#include <mvvm/providers/i_children_strategy.h>
 
 namespace sup::gui
 {

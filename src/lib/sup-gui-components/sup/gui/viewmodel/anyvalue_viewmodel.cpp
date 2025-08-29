@@ -23,8 +23,8 @@
 #include <sup/gui/components/custom_row_strategies.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
 
-#include <mvvm/viewmodel/standard_children_strategies.h>
-#include <mvvm/viewmodel/viewmodel_controller_factory.h>
+#include <mvvm/providers/standard_children_strategies.h>
+#include <mvvm/providers/viewmodel_controller_factory.h>
 
 namespace sup::gui
 {

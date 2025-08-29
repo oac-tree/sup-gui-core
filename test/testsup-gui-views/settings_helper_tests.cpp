@@ -25,7 +25,7 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_model.h>
-#include <mvvm/viewmodel/variant_converter.h>
+#include <mvvm/providers/variant_converter.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

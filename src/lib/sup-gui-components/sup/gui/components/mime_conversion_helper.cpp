@@ -21,7 +21,7 @@
 #include "mime_conversion_helper.h"
 
 #include <mvvm/model/item_utils.h>
-#include <mvvm/viewmodel/qtcore_helper.h>
+#include <mvvm/providers/qtcore_helper.h>
 
 #include <QMimeData>
 
