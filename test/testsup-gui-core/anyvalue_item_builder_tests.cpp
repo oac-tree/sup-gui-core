@@ -151,7 +151,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithSingleScalar)
   EXPECT_TRUE(item->IsStruct());
   EXPECT_FALSE(item->IsArray());
 
-  auto child = item->GetItem<AnyValueScalarItem>({"", 0});
+  auto child = item->GetItem<AnyValueScalarItem>(mvvm::TagIndex{"", 0});
   EXPECT_EQ(child->GetType(), mvvm::GetTypeName<AnyValueScalarItem>());
   EXPECT_EQ(child->GetTotalItemCount(), 1);
   EXPECT_EQ(child->GetDisplayName(), "signed");
@@ -179,7 +179,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
   EXPECT_TRUE(item->IsStruct());
   EXPECT_FALSE(item->IsArray());
 
-  auto child = item->GetItem<AnyValueScalarItem>({"", 0});
+  auto child = item->GetItem<AnyValueScalarItem>(mvvm::TagIndex{"", 0});
   EXPECT_EQ(child->GetTotalItemCount(), 1);
   EXPECT_EQ(child->GetDisplayName(), "signed");
   EXPECT_EQ(child->Data<int>(), 42);
@@ -188,7 +188,7 @@ TEST_F(AnyValueItemBuilderTest, FromStructWithTwoScalars)
   EXPECT_FALSE(item->IsArray());
   EXPECT_EQ(mvvm::utils::TypeName(child->Data()), mvvm::constants::Int32TypeName());
 
-  child = item->GetItem<AnyValueScalarItem>({"", 1});
+  child = item->GetItem<AnyValueScalarItem>(mvvm::TagIndex{"", 1});
   EXPECT_EQ(child->GetTotalItemCount(), 1);
   EXPECT_EQ(child->GetDisplayName(), "bool");
   EXPECT_EQ(child->Data<bool>(), true);
