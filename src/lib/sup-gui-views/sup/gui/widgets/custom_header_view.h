@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_WIDGETS_CUSTOM_HEADER_VIEW_H_
 #define SUP_GUI_WIDGETS_CUSTOM_HEADER_VIEW_H_
 
-#include <sup/gui/core/flags.h>
+#include <mvvm/core/flags.h>
 
 #include <QByteArray>
 #include <QHeaderView>
@@ -57,6 +57,7 @@ public:
     kInteractiveMode,  //!< the user is currently resizing columns
     kWasShown,         //!< the widget was already shown to the user at least once
     kWasAdjusted,      //!< the widget was already interactively adjusted by the user at least once
+    size
   };
 
   /**
@@ -178,7 +179,7 @@ private:
   QByteArray m_favorite_state;                  //!< favorite user state for this header
   QString m_setting_name;                       //!< the name of the setting in QSetting file
   std::vector<int> m_stretch_factors;           //!< optional column stretch factors
-  Flags<InteractionState> m_interaction_state;  //!< interaction state
+  mvvm::Flags<InteractionState> m_interaction_state;  //!< interaction state
 };
 
 }  // namespace sup::gui

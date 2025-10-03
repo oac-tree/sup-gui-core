@@ -76,7 +76,7 @@ void ProxyAction::Update()
     setText(m_action->text());
     setToolTip(m_action->toolTip());
     setIcon(m_action->icon());
-    if (m_proxy_options.HasFlag(Options::SyncEnabledStatus))
+    if (m_proxy_options.IsSet(Options::SyncEnabledStatus))
     {
       setEnabled(m_action->isEnabled());
     }

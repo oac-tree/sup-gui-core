@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_COMPONENT_OBJECTS_PROXY_ACTION_H_
 #define SUP_GUI_COMPONENT_OBJECTS_PROXY_ACTION_H_
 
-#include <sup/gui/core/flags.h>
+#include <mvvm/core/flags.h>
 
 #include <QAction>
 #include <cstdint>
@@ -51,10 +51,10 @@ class ProxyAction : public QAction
 public:
   enum class Options : std::uint8_t
   {
-    None,
-    SyncEnabledStatus  //!< follow enabled status of underlying action
+    SyncEnabledStatus,
+    size
   };
-  using flags_t = Flags<Options>;
+  using flags_t = mvvm::Flags<Options>;
 
   explicit ProxyAction(QObject* parent_object = nullptr);
 
@@ -66,7 +66,7 @@ public:
   /**
    * @brief Sets underlying real action.
    */
-  void SetAction(QAction* action, flags_t proxy_options = Options::None);
+  void SetAction(QAction* action, flags_t proxy_options = {});
 
 private:
   /**

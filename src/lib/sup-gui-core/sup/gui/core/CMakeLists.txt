@@ -2,7 +2,6 @@ target_sources(${library_name} PRIVATE
   dto_types_fwd.h
   environment.cpp
   environment.h
-  flags.h
   i_message_handler.h
   message_event.cpp
   message_event.h

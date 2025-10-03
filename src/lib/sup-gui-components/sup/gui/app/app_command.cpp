@@ -56,7 +56,8 @@ void AppCommand::SetContextStack(const std::vector<AppCommandContext> &context_s
   {
     if (auto action = GetActionForContext(current_context); action)
     {
-      m_proxy_action->SetAction(action, ProxyAction::Options::SyncEnabledStatus);
+      m_proxy_action->SetAction(action,
+                                ProxyAction::flags_t({ProxyAction::Options::SyncEnabledStatus}));
       return;
     }
   }

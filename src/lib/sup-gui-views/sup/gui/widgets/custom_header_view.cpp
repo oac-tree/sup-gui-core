@@ -102,7 +102,7 @@ void CustomHeaderView::AdjustColumnsWidth()
 
 void CustomHeaderView::ResetColumnWidth()
 {
-  m_interaction_state.SetFlag(InteractionState::kWasAdjusted);
+  m_interaction_state.Set(InteractionState::kWasAdjusted);
   m_favorite_state.clear();
   AdjustColumnsWidth();
 }
@@ -113,7 +113,7 @@ void CustomHeaderView::mousePressEvent(QMouseEvent *event)
   // right-mouse button event.
   if (event->buttons() & Qt::LeftButton)
   {
-    m_interaction_state.SetFlag(InteractionState::kInteractiveMode);
+    m_interaction_state.Set(InteractionState::kInteractiveMode);
   }
   QHeaderView::mousePressEvent(event);
 }
@@ -124,7 +124,7 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
   // right-mouse button event.
   if (event->button() == Qt::LeftButton)
   {
-    m_interaction_state.UnsetFlag(InteractionState::kInteractiveMode);
+    m_interaction_state.Reset(InteractionState::kInteractiveMode);
   }
   QHeaderView::mouseReleaseEvent(event);
 }
@@ -133,12 +133,12 @@ void CustomHeaderView::showEvent(QShowEvent *event)
 {
   Q_UNUSED(event)
 
-  if (!m_interaction_state.HasFlag(InteractionState::kWasShown))
+  if (!m_interaction_state.IsSet(InteractionState::kWasShown))
   {
     // make column adjustment on the first show event, when tree got its physical size
     // do not try to adjust on the next show events
     AdjustColumnsWidth();
-    m_interaction_state.SetFlag(InteractionState::kWasShown);
+    m_interaction_state.Set(InteractionState::kWasShown);
   }
 }
 
@@ -174,7 +174,7 @@ void CustomHeaderView::WriteSettings()
     return;
   }
 
-  if (m_interaction_state.HasFlag(InteractionState::kWasAdjusted))
+  if (m_interaction_state.IsSet(InteractionState::kWasAdjusted))
   {
     // This covers a case of two widgets looking at the same setting name. If the widget was never
     // adjusted by the user, it will never try to overwrite the setting. However, if two widgets
@@ -192,9 +192,9 @@ void CustomHeaderView::OnSectionResize(int index, int prev_size, int new_size)
   Q_UNUSED(prev_size);
   Q_UNUSED(new_size);
 
-  if (m_interaction_state.HasFlag(InteractionState::kInteractiveMode))
+  if (m_interaction_state.IsSet(InteractionState::kInteractiveMode))
   {
-    m_interaction_state.SetFlag(InteractionState::kWasAdjusted);
+    m_interaction_state.Set(InteractionState::kWasAdjusted);
     m_favorite_state = saveState();
   }
 }
