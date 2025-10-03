@@ -20,7 +20,7 @@
 
 #include "color_palette.h"
 
-#include <sup/gui/style/style_helper.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 namespace sup::gui
 {
@@ -28,14 +28,15 @@ namespace sup::gui
 namespace
 {
 
-const char *kGenericViridian = "#008a64";
-const char *kMediumJungleGreen = "#1A3636";
+constexpr QAnyStringView kGenericViridian = "#008a64";
+constexpr QAnyStringView kMediumJungleGreen = "#1A3636";
 
 }  // namespace
 
 QColor GetMainToolBarColor()
 {
-  return sup::gui::utils::IsDarkTheme() ? QColor(kMediumJungleGreen) : QColor(kGenericViridian);
+  return mvvm::style::IsDarkTheme() ? QColor::fromString(kMediumJungleGreen)
+                                    : QColor::fromString(kGenericViridian);
 }
 
 }  // namespace sup::gui

@@ -33,11 +33,6 @@ namespace sup::gui::utils
 {
 
 /**
- * @brief Checks if main application theme is dark.
- */
-bool IsDarkTheme();
-
-/**
  * @brief Returns icon color corresponding to a given icon flavor.
  */
 QColor GetIconBaseColor(IconColorFlavor icon_flavor);

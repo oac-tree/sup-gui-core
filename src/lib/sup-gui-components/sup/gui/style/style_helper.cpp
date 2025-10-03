@@ -23,6 +23,7 @@
 #include "colored_icon_engine.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
@@ -95,18 +96,6 @@ QIcon CreateColoredIcon(const QIcon &icon, IconColorFlavor icon_flavor)
 
 }  // namespace
 
-bool IsDarkTheme()
-{
-  if (QApplication::instance())
-  {
-    const auto palette = QApplication::palette();
-    return palette.color(QPalette::WindowText).lightness()
-           > palette.color(QPalette::Window).lightness();
-  }
-
-  return false;
-}
-
 QColor GetIconBaseColor(IconColorFlavor icon_flavor)
 {
   // if icon flavor is specified, return fixed flavor's color
@@ -123,7 +112,7 @@ QColor GetIconBaseColor(IconColorFlavor icon_flavor)
   // if flavor is unspecified, return color depending on theme itself
   if (icon_flavor == IconColorFlavor::kUnspecified)
   {
-    return IsDarkTheme() ? kLightIconColor : kDarkIconColor;
+    return mvvm::style::IsDarkTheme() ? kLightIconColor : kDarkIconColor;
   }
 
   throw mvvm::RuntimeException("Unknown icon flavor");

@@ -24,6 +24,7 @@
 
 #include <sup/gui/style/style_helper.h>
 
+#include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <definition.h>
@@ -82,7 +83,7 @@ struct CodeEditor::CodeEditorImpl
    */
   void SetDefaultTheme()
   {
-    SetTheme(utils::IsDarkTheme()
+    SetTheme(mvvm::style::IsDarkTheme()
                  ? m_repository.defaultTheme(KSyntaxHighlighting::Repository::DarkTheme)
                  : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
   }
