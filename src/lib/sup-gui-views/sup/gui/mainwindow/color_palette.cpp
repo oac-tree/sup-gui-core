@@ -22,23 +22,20 @@
 
 #include <mvvm/style/mvvm_style_helper.h>
 
-#include <QAnyStringView>
-
 namespace sup::gui
 {
 
 namespace
 {
 
-constexpr QAnyStringView kGenericViridian = "#008a64";
-constexpr QAnyStringView kMediumJungleGreen = "#1A3636";
+constexpr auto kGenericViridian = "#008a64";
+constexpr auto kMediumJungleGreen = "#1A3636";
 
 }  // namespace
 
 QColor GetMainToolBarColor()
 {
-  return mvvm::style::IsDarkTheme() ? QColor::fromString(kMediumJungleGreen)
-                                    : QColor::fromString(kGenericViridian);
+  return mvvm::style::IsDarkTheme() ? QColor(kMediumJungleGreen) : QColor(kGenericViridian);
 }
 
 }  // namespace sup::gui
