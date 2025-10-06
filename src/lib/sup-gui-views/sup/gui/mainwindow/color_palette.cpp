@@ -22,6 +22,8 @@
 
 #include <mvvm/style/mvvm_style_helper.h>
 
+#include <QAnyStringView>
+
 namespace sup::gui
 {
 
