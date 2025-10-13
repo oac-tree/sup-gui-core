@@ -44,13 +44,13 @@ AnyValueEditor::AnyValueEditor(QWidget *parent_widget)
     : AbstractAnyValueEditor(parent_widget)
     , m_command_service(std::make_unique<NullCommandService>())
     , m_model(std::make_unique<mvvm::ApplicationModel>())
-    , m_editor_widget(new AnyValueEditorWidget(*m_command_service))
+    , m_editor_widget(std::make_unique<AnyValueEditorWidget>(*m_command_service))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_editor_widget);
+  layout->addWidget(m_editor_widget.get());
 
   m_model->SetUndoEnabled(kEnableUndo, kUndoLimit);
   m_editor_widget->SetAnyValueItemContainer(m_model->GetRootItem());

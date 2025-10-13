@@ -58,7 +58,9 @@ public:
 private:
   std::unique_ptr<NullCommandService> m_command_service;
   std::unique_ptr<mvvm::ApplicationModel> m_model;
-  AnyValueEditorWidget* m_editor_widget{nullptr};
+  //!< Deliberately put in unique_ptr to delete widget before NullCommandService.
+  //!< Without this, it would be deleted as a layout's child at a later moment of time.
+  std::unique_ptr<AnyValueEditorWidget> m_editor_widget;
 };
 
 }  // namespace sup::gui
