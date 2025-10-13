@@ -64,7 +64,9 @@ ScalarTypePropertyItem::ScalarTypePropertyItem()
 
 std::unique_ptr<mvvm::SessionItem> ScalarTypePropertyItem::Clone() const
 {
-  return std::make_unique<ScalarTypePropertyItem>(*this);
+  auto result = std::make_unique<ScalarTypePropertyItem>(*this);
+  result->ActivateStrategies();
+  return result;
 }
 
 std::string ScalarTypePropertyItem::GetScalarTypeName() const
@@ -79,6 +81,11 @@ void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string& type
 
   // will also trigger the scalar value on board of parent's AnyValueItem via connected strategy
   SetData(combo_value);
+}
+
+void ScalarTypePropertyItem::ActivateStrategies()
+{
+  SetStrategy(this, &ScalarTypePropertyItem::OnSetData);
 }
 
 bool ScalarTypePropertyItem::OnSetData(mvvm::SessionItem* item, const mvvm::variant_t& value,

@@ -228,4 +228,32 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItem)
   EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
 }
 
+TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItemAfterClone)
+{
+  AnyValueScalarItem orig;
+
+  orig.SetAnyTypeName(sup::dto::kInt8TypeName);
+
+  EXPECT_TRUE(orig.IsScalar());
+  EXPECT_EQ(orig.GetAnyTypeName(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(orig.Data<mvvm::int8>(), 0);
+  EXPECT_EQ(orig.GetToolTip(), sup::dto::kInt8TypeName);
+  EXPECT_TRUE(mvvm::utils::IsValid(orig.Data()));
+  EXPECT_TRUE(orig.HasData(mvvm::DataRole::kData));
+  EXPECT_TRUE(mvvm::utils::HasTag(orig, constants::kAnyValueTypeTag));
+
+  auto clone = mvvm::utils::CloneItem(orig);
+
+  // change scalar type via property item
+  auto property_item = clone->GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
+  property_item->SetScalarTypeName(sup::dto::kBooleanTypeName);
+  EXPECT_TRUE(clone->IsScalar());
+  EXPECT_EQ(clone->GetAnyTypeName(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(clone->Data<bool>(), false);
+  EXPECT_EQ(clone->GetToolTip(), sup::dto::kBooleanTypeName);
+  EXPECT_TRUE(mvvm::utils::IsValid(clone->Data()));
+  EXPECT_TRUE(clone->HasData(mvvm::DataRole::kData));
+  EXPECT_TRUE(mvvm::utils::HasTag(*clone, constants::kAnyValueTypeTag));
+}
+
 }  // namespace sup::gui::test

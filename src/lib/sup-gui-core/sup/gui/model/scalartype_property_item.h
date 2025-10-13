@@ -45,6 +45,9 @@ public:
 
   void SetScalarTypeName(const std::string& type_name);
 
+protected:
+  void ActivateStrategies() override;
+
 private:
   /**
    * @brief Custom strategy to update data (combo type selector) and the value of AnyValueItem
