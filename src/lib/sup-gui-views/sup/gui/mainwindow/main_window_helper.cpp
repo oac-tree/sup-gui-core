@@ -90,11 +90,6 @@ void InitCoreApplication(const QString &app_name, const QString &version)
   }
 }
 
-void SetupHighDpiScaling(bool scale_from_environment)
-{
-  mvvm::utils::SetupHighDpiScaling(scale_from_environment);
-}
-
 void SetupApplication(std::int32_t font_size_hint, const QString &app_style, bool verbose)
 {
   SetApplicationFont(font_size_hint);

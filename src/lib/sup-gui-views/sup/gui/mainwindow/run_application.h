@@ -31,6 +31,7 @@
 #include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
 #include <mvvm/widgets/widget_utils.h>
+#include <mvvm/widgets/app_utils.h>
 
 #include <QApplication>
 #include <QSettings>
@@ -47,7 +48,7 @@ template <typename MainWindowT>
 int RunApplication(int argc, char** argv)
 {
   auto options = ParseOptions(argc, argv);
-  sup::gui::SetupHighDpiScaling(options.scale);
+  mvvm::utils::SetupHighDpiScaling(options.scale);
 
   QApplication app(argc, argv);
 
