@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_STYLE_STYLE_HELPER_H_
 #define SUP_GUI_STYLE_STYLE_HELPER_H_
 
-#include <sup/gui/style/icon_color_flavor.h>
+#include <mvvm/style/color_flavor.h>
 
 #include <QWidget>
 
@@ -35,7 +35,7 @@ namespace sup::gui::utils
 /**
  * @brief Returns icon color corresponding to a given icon flavor.
  */
-QColor GetIconBaseColor(IconColorFlavor icon_flavor);
+QColor GetIconBaseColor(mvvm::ColorFlavor icon_flavor);
 
 /**
  * @brief Returns an icon for a given resource name and dark/light color flavor.
@@ -53,7 +53,7 @@ QColor GetIconBaseColor(IconColorFlavor icon_flavor);
  * still specify the desired icon_flavor thus overriding the current theme's dark/light style.
  */
 QIcon GetIcon(const QString& resource_name,
-              IconColorFlavor icon_flavor = IconColorFlavor::kUnspecified);
+              mvvm::ColorFlavor icon_flavor = mvvm::ColorFlavor::kAuto);
 
 /**
  * @brief Finds an icon with the given name and dark/light color flavor.
@@ -61,8 +61,7 @@ QIcon GetIcon(const QString& resource_name,
  * Example: FindIcon("animation", AppIconColorFlavor::kForDarkThemes)
  * Is assumes an existence of animation.svg file in the resource folder of sup-gui-core package.
  */
-QIcon FindIcon(const QString& icon_name,
-               IconColorFlavor icon_flavor = IconColorFlavor::kUnspecified);
+QIcon FindIcon(const QString& icon_name, mvvm::ColorFlavor icon_flavor = mvvm::ColorFlavor::kAuto);
 
 /**
  * @brief Size of main tolbar icons.

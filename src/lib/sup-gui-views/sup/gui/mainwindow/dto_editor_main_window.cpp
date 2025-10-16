@@ -90,19 +90,19 @@ void DtoEditorMainWindow::InitComponents()
 
   m_composer_view = new DtoComposerView(m_context.GetCommandService());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
-                          utils::FindIcon("file-tree-outline", IconColorFlavor::kForDarkThemes));
+                          utils::FindIcon("file-tree-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   m_waveform_view = new DtoWaveformView(m_context.GetCommandService());
   m_tab_widget->AddWidget(
       m_waveform_view, "Waveforms",
-      utils::FindIcon("chart-timeline-variant-shimmer", IconColorFlavor::kForDarkThemes));
+      utils::FindIcon("chart-timeline-variant-shimmer", mvvm::ColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddWidget(
       new QWidget, "Compare",
-      utils::FindIcon("application-brackets-outline", IconColorFlavor::kForDarkThemes));
+      utils::FindIcon("application-brackets-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddWidget(new QWidget, "Bulk Edit",
-                          utils::FindIcon("animation-outline", IconColorFlavor::kForDarkThemes));
+                          utils::FindIcon("animation-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddSpacer();
   m_tab_widget->SetCurrentIndex(0);
