@@ -20,7 +20,6 @@
 
 #include "about_application_dialog.h"
 
-#include <mvvm/widgets/widget_utils.h>
 #include <mvvm/style/mvvm_style_helper.h>
 
 #include <QDate>
@@ -75,14 +74,14 @@ std::unique_ptr<QLayout> AboutApplicationDialog::CreateLogoLayout()
   auto layout = std::make_unique<QVBoxLayout>();
   auto label = new QLabel;
 
-  label->setPixmap(
-      QPixmap(":/sup-gui-core/icons/iter_logo.png")
-          .scaled(mvvm::utils::UnitSize(10), mvvm::utils::UnitSize(10), Qt::KeepAspectRatio));
+  label->setPixmap(QPixmap(":/sup-gui-core/icons/iter_logo.png")
+                       .scaled(mvvm::style::UnitSize(10), mvvm::style::UnitSize(10),
+                               Qt::KeepAspectRatio));
 
   layout->addWidget(label);
   layout->addStretch(1);
 
-  const auto gap = mvvm::utils::UnitSize(1.0);
+  const auto gap = mvvm::style::UnitSize(1.0);
   layout->setContentsMargins(0, gap, gap, gap);
 
   return layout;
@@ -97,7 +96,7 @@ std::unique_ptr<QLayout> AboutApplicationDialog::CreateTextLayout(const QString&
   // Title
   auto about_title_label = new QLabel(app_name + " version " + version);
   mvvm::style::ScaleLabelFont(*about_title_label, 1.2, true);
-  about_title_label->setContentsMargins(0, 0, 0, mvvm::utils::UnitSize());
+  about_title_label->setContentsMargins(0, 0, 0, mvvm::style::UnitSize());
 
   // Copyright
   auto copyright_label = new QLabel(GetCopyRight());
@@ -117,7 +116,7 @@ std::unique_ptr<QLayout> AboutApplicationDialog::CreateTextLayout(const QString&
           .release());
   layout->addStretch(1);
 
-  auto gap = mvvm::utils::UnitSize(1.0);
+  const auto gap = mvvm::style::UnitSize(1.0);
   layout->setContentsMargins(0, gap, gap, gap);
 
   return layout;

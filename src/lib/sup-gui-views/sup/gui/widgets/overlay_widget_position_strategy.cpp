@@ -20,7 +20,7 @@
 
 #include "overlay_widget_position_strategy.h"
 
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QAbstractScrollArea>
 #include <QEvent>
@@ -34,7 +34,7 @@ namespace
  */
 int GetXOffset()
 {
-  return mvvm::utils::UnitSize();
+  return mvvm::style::UnitSize();
 }
 
 /**
@@ -42,7 +42,7 @@ int GetXOffset()
  */
 int GetYOffset()
 {
-  return mvvm::utils::UnitSize();
+  return mvvm::style::UnitSize();
 }
 
 }  // namespace

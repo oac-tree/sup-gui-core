@@ -20,8 +20,8 @@
 
 #include "status_bar_helper.h"
 
+#include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/widgets/appearance_helper.h>
-#include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
 #include <QApplication>
@@ -40,7 +40,7 @@ namespace
  */
 int GetButtonSize()
 {
-  return mvvm::utils::UnitSize(1.3);
+  return mvvm::style::UnitSize(1.3);
 }
 
 }  // namespace
@@ -53,7 +53,7 @@ void AddPermanentStretch(QStatusBar *status_bar, int stretch)
   status_bar->addPermanentWidget(expander, stretch);
 }
 
-void SetupStatusBarButton(QToolButton *button, QAction* action)
+void SetupStatusBarButton(QToolButton *button, QAction *action)
 {
   const int size = GetButtonSize();
   const auto palette = QApplication::palette();

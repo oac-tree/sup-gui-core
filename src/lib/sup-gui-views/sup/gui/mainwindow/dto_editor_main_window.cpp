@@ -36,7 +36,6 @@
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 
 #include <mvvm/widgets/main_vertical_bar_widget.h>
-#include <mvvm/widgets/widget_utils.h>
 
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -120,11 +119,9 @@ void DtoEditorMainWindow::InitComponents()
 void DtoEditorMainWindow::ReadSettings()
 {
   const QSettings settings;
-  const auto default_size = QSize(mvvm::utils::UnitSize(80), mvvm::utils::UnitSize(60));
-  resize(settings.value(kWindowSizeSettingName, default_size).toSize());
+  resize(settings.value(kWindowSizeSettingName, QSize(800, 600)).toSize());
 
-  const auto default_pos = QPoint(mvvm::utils::UnitSize(20), mvvm::utils::UnitSize(40));
-  move(settings.value(kWindowPosSettingName, default_pos).toPoint());
+  move(settings.value(kWindowPosSettingName, QPoint(800, 600)).toPoint());
   ::sup::gui::ReadApplicationSettings(*m_settings);
 }
 

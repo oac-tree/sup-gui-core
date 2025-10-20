@@ -26,7 +26,7 @@
 #include <sup/gui/widgets/dialog_helper.h>
 
 #include <mvvm/model/item_utils.h>
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QKeyEvent>
 #include <QLabel>
@@ -51,7 +51,7 @@ SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model, QWi
 
   m_label->setText("Changes in settings will come into effect at the next application start");
   m_label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-  m_label->setFixedHeight(mvvm::utils::UnitSize(2));
+  m_label->setFixedHeight(mvvm::style::UnitSize(2));
 
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_settings_editor);
@@ -93,7 +93,7 @@ void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)
 void SettingsEditorDialog::ReadSettings()
 {
   const QSettings settings;
-  const auto default_size = QSize(mvvm::utils::UnitSize(30), mvvm::utils::UnitSize(30));
+  const auto default_size = QSize(mvvm::style::UnitSize(30), mvvm::style::UnitSize(30));
   resize(settings.value(kWindowSizeSettingName, default_size).toSize());
 }
 

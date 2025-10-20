@@ -24,7 +24,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/style/mvvm_style_helper.h>
-#include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
 #include <QDir>
@@ -120,13 +119,13 @@ QColor GetIconBaseColor(mvvm::ColorFlavor icon_flavor)
 
 QSize ToolBarIconSize()
 {
-  const int width = mvvm::utils::UnitSize(2.3);
+  const auto width = mvvm::style::UnitSize(2.3);
   return {width, width};
 }
 
 QSize NarrowToolBarIconSize()
 {
-  const int width = std::round(mvvm::utils::UnitSize(1.75));
+  const auto width = mvvm::style::UnitSize(1.75);
   return {width, width};
 }
 

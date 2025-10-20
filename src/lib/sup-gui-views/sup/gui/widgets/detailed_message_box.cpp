@@ -22,7 +22,7 @@
 
 #include "dialog_helper.h"
 
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -91,7 +91,7 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconAndTextLayout()
   auto result = std::make_unique<QHBoxLayout>();
   result->addLayout(CreateIconLayout().release());
   result->addWidget(m_text_label);
-  const auto gap = mvvm::utils::UnitSize(0.5);
+  const auto gap = mvvm::style::UnitSize(0.5);
   result->setContentsMargins(gap, gap, gap, gap);
   return result;
 }
@@ -103,7 +103,7 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateInformativeLayout(const std::
   auto result = std::make_unique<QVBoxLayout>();
   m_informative_label->setWordWrap(true);
   result->addWidget(m_informative_label);
-  const auto gap = mvvm::utils::UnitSize(0.5);
+  const auto gap = mvvm::style::UnitSize(0.5);
   result->setContentsMargins(gap, gap, gap, gap);
   return result;
 }
@@ -115,8 +115,8 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconLayout()
   QIcon icon = QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation);
 
   auto pixmap_label = new QLabel;
-  pixmap_label->setPixmap(icon.pixmap(mvvm::utils::UnitSize(5)));
-  pixmap_label->setFixedWidth(mvvm::utils::UnitSize(5) * 1.2);
+  pixmap_label->setPixmap(icon.pixmap(mvvm::style::UnitSize(5)));
+  pixmap_label->setFixedWidth(mvvm::style::UnitSize(5) * 1.2);
   result->addWidget(pixmap_label);
 
   return result;
@@ -130,7 +130,7 @@ void DetailedMessageBox::ReadSettings()
   }
 
   const QSettings settings;
-  const auto default_size = QSize(mvvm::utils::UnitSize(30), mvvm::utils::UnitSize(30));
+  const auto default_size = QSize(mvvm::style::UnitSize(30), mvvm::style::UnitSize(30));
   resize(settings.value(GetDialogSizeSettingName(m_setting_group), default_size).toSize());
 }
 

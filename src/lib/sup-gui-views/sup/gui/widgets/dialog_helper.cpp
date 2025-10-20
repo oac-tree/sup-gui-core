@@ -20,7 +20,7 @@
 
 #include "dialog_helper.h"
 
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QDialog>
 #include <QDialogButtonBox>
@@ -45,7 +45,7 @@ std::unique_ptr<QVBoxLayout> CreateButtonLayout(QDialog* dialog, const QString& 
   QDialogButtonBox::connect(button_box, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
   QDialogButtonBox::connect(button_box, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
 
-  const auto gap = mvvm::utils::UnitSize(0.5);
+  const auto gap = mvvm::style::UnitSize(0.5);
   result->setContentsMargins(gap, gap, gap, gap);
   result->addWidget(button_box);
   return result;
@@ -61,7 +61,7 @@ std::unique_ptr<QVBoxLayout> CreateOkOnlyButtonLayout(QDialog* dialog, const QSt
   button->setDefault(false);
   QDialogButtonBox::connect(button_box, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
 
-  const auto gap = mvvm::utils::UnitSize(0.5);
+  const auto gap = mvvm::style::UnitSize(0.5);
   result->setContentsMargins(gap, gap, gap, gap);
   result->addWidget(button_box);
   return result;

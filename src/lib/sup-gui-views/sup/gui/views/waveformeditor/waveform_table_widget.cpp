@@ -26,7 +26,7 @@
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QHeaderView>
 #include <QTableView>
@@ -47,7 +47,7 @@ WaveformTableWidget::WaveformTableWidget(mvvm::ApplicationModel *model, QWidget 
   SetModel(model);
 
   m_table_view->setAlternatingRowColors(true);
-  m_table_view->horizontalHeader()->setFixedHeight(mvvm::utils::UnitSize(0.75));
+  m_table_view->horizontalHeader()->setFixedHeight(mvvm::style::UnitSize(0.75));
   m_table_view->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
   // the only way to set background color for this widget, but not down to children
@@ -103,7 +103,7 @@ void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem *item)
 QSize WaveformTableWidget::sizeHint() const
 {
   // we want vertical size of the widget to be big enough to fit the table, but not bigger
-  const auto approximate_line_thickness = mvvm::utils::UnitSize(0.05);
+  const auto approximate_line_thickness = mvvm::style::UnitSize(0.05);
   const auto height = m_table_view->rowHeight(0) + m_table_view->rowHeight(1)
                       + m_table_view->horizontalHeader()->height() + approximate_line_thickness;
   return {800, height};
