@@ -20,8 +20,8 @@
 
 #include "main_window_helper.h"
 
-#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/core/version_helper.h>
 
 #include <mvvm/widgets/app_utils.h>
@@ -41,7 +41,7 @@ namespace
 {
 
 const QString kPlasmaPreferredStyle = "Breeze";
-const QString kCodacStyle = "Adwaita"; // Gnome-like style installed on CODAC machines
+const QString kCodacStyle = "Adwaita";  // Gnome-like style installed on CODAC machines
 
 /**
  * @brief Returns preferred application style.
@@ -202,7 +202,7 @@ bool SummonChangeSystemFontDialog()
   if (font_was_changed)
   {
     sup::gui::SaveAppFontInSettings(font);
-    mvvm::utils::SetApplicationFont(font);
+    QApplication::setFont(font);
   }
 
   return font_was_changed;

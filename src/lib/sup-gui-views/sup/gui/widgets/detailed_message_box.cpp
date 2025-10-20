@@ -116,7 +116,7 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconLayout()
 
   auto pixmap_label = new QLabel;
   pixmap_label->setPixmap(icon.pixmap(mvvm::style::UnitSize(5)));
-  pixmap_label->setFixedWidth(mvvm::style::UnitSize(5) * 1.2);
+  pixmap_label->setFixedWidth(mvvm::style::UnitSize(6));
   result->addWidget(pixmap_label);
 
   return result;
