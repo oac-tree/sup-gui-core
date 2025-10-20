@@ -107,7 +107,7 @@ CodeEditor::CodeEditor(QWidget* parent_widget)
     : QPlainTextEdit(parent_widget), p_impl(std::make_unique<CodeEditorImpl>(this))
 {
   auto font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-  font.setPointSizeF(mvvm::utils::SystemPointSize());
+  font.setPointSizeF(mvvm::style::SystemPointSize());
   setFont(font);
 
   setLineWrapMode(QPlainTextEdit::NoWrap);

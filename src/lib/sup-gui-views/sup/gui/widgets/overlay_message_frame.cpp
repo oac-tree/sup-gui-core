@@ -20,7 +20,7 @@
 
 #include "overlay_message_frame.h"
 
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QColor>
 #include <QFont>
@@ -34,7 +34,7 @@ namespace
  */
 std::int32_t GetMaximumBoxWidth()
 {
-  return mvvm::utils::UnitSize(40);
+  return mvvm::style::UnitSize(40);
 }
 
 /**
@@ -42,7 +42,7 @@ std::int32_t GetMaximumBoxWidth()
  */
 std::int32_t GetMinimumBoxHeight()
 {
-  return mvvm::utils::UnitSize(4);
+  return mvvm::style::UnitSize(4);
 }
 
 }  // namespace
@@ -54,7 +54,7 @@ OverlayMessageFrame::OverlayMessageFrame(const QString& text, QWidget* parent_wi
     : QFrame(parent_widget)
     , m_text(text)
     , m_bounding_rect(0, 0, GetMaximumBoxWidth(), GetMinimumBoxHeight())
-    , m_font("Monospace", mvvm::utils::SystemPointSize(), QFont::Normal, true)
+    , m_font("Monospace", mvvm::style::SystemPointSize(), QFont::Normal, true)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setAttribute(Qt::WA_NoSystemBackground);
@@ -73,7 +73,7 @@ void OverlayMessageFrame::paintEvent(QPaintEvent* event)
   painter.setBrush(QColor(Qt::lightGray));
   painter.setFont(m_font);
   painter.drawRect(m_bounding_rect);
-  auto margin = mvvm::utils::UnitSize();
+  auto margin = mvvm::style::UnitSize();
   painter.drawText(m_bounding_rect.marginsRemoved(QMargins(margin, margin, margin, margin)),
                    Qt::TextWordWrap, m_text);
 }

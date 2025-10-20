@@ -22,7 +22,7 @@
 
 #include <sup/gui/style/style_helper.h>
 
-#include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QEvent>
 #include <QLabel>
@@ -66,7 +66,7 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget *parent_widget)
 
 void CollapsibleToolBar::SetText(const QString &text, const QString &text_tooltip)
 {
-  mvvm::utils::ScaleLabelFont(m_label, 0.9);
+  mvvm::style::ScaleLabelFont(*m_label, 0.9);
   m_label->setText(text);
   m_label->setToolTip(text_tooltip);
 }
@@ -108,7 +108,7 @@ void CollapsibleToolBar::SetExpanded(bool value)
 
 bool CollapsibleToolBar::eventFilter(QObject *obj, QEvent *event)
 {
-  (void) obj;
+  (void)obj;
   // We are here because the collapse/expand state of the controlled widget has been changed
   // programmatically, via ReadSettings mechanism. Have to update icons.
 

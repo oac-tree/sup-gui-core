@@ -21,6 +21,7 @@
 #include "about_application_dialog.h"
 
 #include <mvvm/widgets/widget_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QDate>
 #include <QHBoxLayout>
@@ -95,7 +96,7 @@ std::unique_ptr<QLayout> AboutApplicationDialog::CreateTextLayout(const QString&
 
   // Title
   auto about_title_label = new QLabel(app_name + " version " + version);
-  mvvm::utils::ScaleLabelFont(about_title_label, 1.2, true);
+  mvvm::style::ScaleLabelFont(*about_title_label, 1.2, true);
   about_title_label->setContentsMargins(0, 0, 0, mvvm::utils::UnitSize());
 
   // Copyright
