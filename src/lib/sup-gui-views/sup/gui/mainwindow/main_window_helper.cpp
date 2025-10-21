@@ -115,20 +115,26 @@ void SetWindowStyle(const QString &app_style)
 
 void SetApplicationFont(std::int32_t font_size_hint)
 {
+  auto original_app_font = QApplication::font();
+
   if (font_size_hint > 0)
   {
-    auto font = QGuiApplication::font();
-    font.setPointSize(font_size_hint);
-    QApplication::setFont(font);
+    original_app_font.setPointSize(font_size_hint);
   }
   else
   {
-    auto font = GetAppFontFromSettings();
-    if (font.has_value())
+    auto font_in_settings = GetAppFontFromSettings();
+    if (font_in_settings.has_value())
     {
-      QApplication::setFont(font.value());
+      // We can't use font from settings directly, because on CODAC the font obtained from the
+      // serialization is not recognized by the QFontDatabase. At least, calculation of its
+      // metrics (size of `M`) looks wrong. Thus, we use both size and family to modify original
+      // font.
+      original_app_font.setPointSize(font_in_settings.value().pointSize());
+      original_app_font.setFamily(font_in_settings.value().family());
     }
   }
+  QApplication::setFont(original_app_font);
 }
 
 QString GetUserName()
