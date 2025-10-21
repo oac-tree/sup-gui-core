@@ -34,6 +34,7 @@
 #include <QProcess>
 #include <QPushButton>
 #include <QSettings>
+#include <QStyle>
 #include <QStyleFactory>
 #include <iostream>
 
@@ -92,8 +93,9 @@ void InitCoreApplication(const QString &app_name, const QString &version)
 
 void SetupApplication(std::int32_t font_size_hint, const QString &app_style, bool verbose)
 {
-  SetApplicationFont(font_size_hint);
+  // first changing style, then font
   SetWindowStyle(app_style);
+  SetApplicationFont(font_size_hint);
   if (verbose)
   {
     std::cout << mvvm::utils::GetDesktopInfo();
@@ -104,7 +106,10 @@ void SetWindowStyle(const QString &app_style)
 {
   if (auto preferred_style = GetPrefferedStyle(app_style); preferred_style.has_value())
   {
-    QApplication::setStyle(QStyleFactory::create(preferred_style.value()));
+    if (QApplication::style()->objectName().toLower() != preferred_style.value().toLower())
+    {
+      QApplication::setStyle(QStyleFactory::create(preferred_style.value()));
+    }
   }
 }
 
@@ -112,7 +117,9 @@ void SetApplicationFont(std::int32_t font_size_hint)
 {
   if (font_size_hint > 0)
   {
-    mvvm::utils::SetApplicationFontSize(font_size_hint);
+    auto font = QGuiApplication::font();
+    font.setPointSize(font_size_hint);
+    QApplication::setFont(font);
   }
   else
   {
