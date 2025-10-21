@@ -24,9 +24,8 @@
 #include <sup/gui/core/message_event.h>
 
 #include <QObject>
+#include <chrono>
 #include <memory>
-
-#include <cstdint>
 
 class QWidget;
 class QTimer;
@@ -48,14 +47,10 @@ class WidgetOverlayMessagePublisher : public QObject
 
 public:
   /**
-   * @brief C-tor for widget publisher, which shows the message until ClearMessages is called.
-   */
-  explicit WidgetOverlayMessagePublisher(QWidget* target_widget);
-
-  /**
    * @brief C-tor for widget publisher, which shows the message for the given time.
    */
-  WidgetOverlayMessagePublisher(QWidget* target_widget, std::int32_t timeout_msec);
+  WidgetOverlayMessagePublisher(QWidget* target_widget,
+                                const std::optional<std::chrono::milliseconds>& display_duration);
 
   ~WidgetOverlayMessagePublisher() override;
 
@@ -65,7 +60,7 @@ public:
 
 private:
   void RemoveMessageOnTimeout();
-  std::unique_ptr<QTimer> CreateTimer(std::int32_t timeout_msec);
+  std::unique_ptr<QTimer> CreateTimer(std::chrono::milliseconds timeout) const;
 
   QWidget* m_target_widget{nullptr};
   std::unique_ptr<OverlayMessage> m_message;

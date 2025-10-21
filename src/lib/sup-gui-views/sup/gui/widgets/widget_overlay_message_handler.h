@@ -23,7 +23,9 @@
 
 #include <sup/gui/core/i_message_handler.h>
 
+#include <chrono>
 #include <memory>
+#include <optional>
 
 class QWidget;
 
@@ -38,8 +40,14 @@ class WidgetOverlayMessagePublisher;
 class WidgetOverlayMessageHandler : public sup::gui::IMessageHandler
 {
 public:
-  explicit WidgetOverlayMessageHandler(QWidget* view);
+  explicit WidgetOverlayMessageHandler(
+      QWidget* view, const std::optional<std::chrono::milliseconds>& display_duration);
   ~WidgetOverlayMessageHandler() override;
+
+  WidgetOverlayMessageHandler(const WidgetOverlayMessageHandler&) = delete;
+  WidgetOverlayMessageHandler& operator=(const WidgetOverlayMessageHandler&) = delete;
+  WidgetOverlayMessageHandler(WidgetOverlayMessageHandler&&) = delete;
+  WidgetOverlayMessageHandler& operator=(WidgetOverlayMessageHandler&&) = delete;
 
   void SendMessage(const sup::gui::MessageEvent& message) override;
 

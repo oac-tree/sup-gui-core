@@ -22,9 +22,9 @@
 
 #include "widget_overlay_message_handler.h"
 
-#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/core/message_handler_decorator.h>
 #include <sup/gui/core/standard_message_handlers.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 
 namespace sup::gui
 {
@@ -39,13 +39,13 @@ std::unique_ptr<IMessageHandler> CreateStdMessageHandler()
   return std::make_unique<StdMessageHandler>();
 }
 
-std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(QWidget *view)
+std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(
+    QWidget *view, const std::optional<std::chrono::milliseconds> &display_duration)
 {
-  return std::make_unique<WidgetOverlayMessageHandler>(view);
+  return std::make_unique<WidgetOverlayMessageHandler>(view, display_duration);
 }
 
-std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(
-    IMessageHandler *component)
+std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(IMessageHandler *component)
 {
   return MessageHandlerDecorator::Create(component);
 }

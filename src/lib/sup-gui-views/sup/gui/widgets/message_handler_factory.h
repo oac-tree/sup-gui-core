@@ -26,7 +26,9 @@
 
 #include <sup/gui/core/i_message_handler.h>
 
+#include <chrono>
 #include <memory>
+#include <optional>
 
 class QWidget;
 
@@ -46,13 +48,13 @@ std::unique_ptr<IMessageHandler> CreateStdMessageHandler();
 /**
  * @brief Creates message handler intended to work with the graphics view.
  */
-std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(QWidget* view);
+std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(
+    QWidget* view, const std::optional<std::chrono::milliseconds>& display_duration = {});
 
 /**
  * @brief Creates message handler decorator.
  */
-std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(
-    IMessageHandler *component);
+std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(IMessageHandler* component);
 
 /**
  * @brief Creates message handler that throws runtime exception.

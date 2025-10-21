@@ -25,8 +25,9 @@
 namespace sup::gui
 {
 
-WidgetOverlayMessageHandler::WidgetOverlayMessageHandler(QWidget *view)
-    : m_message_publisher(std::make_unique<WidgetOverlayMessagePublisher>(view))
+WidgetOverlayMessageHandler::WidgetOverlayMessageHandler(
+    QWidget *view, const std::optional<std::chrono::milliseconds> &display_duration)
+    : m_message_publisher(std::make_unique<WidgetOverlayMessagePublisher>(view, display_duration))
 {
 }
 

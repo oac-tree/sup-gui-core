@@ -27,15 +27,14 @@
 namespace sup::gui
 {
 
-WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(QWidget *target_widget)
+WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(
+    QWidget *target_widget, const std::optional<std::chrono::milliseconds> &timeout)
     : m_target_widget(target_widget)
 {
-}
-
-WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(QWidget *target_widget,
-                                                             int32_t timeout_msec)
-    : m_target_widget(target_widget), m_timer(CreateTimer(timeout_msec))
-{
+  if (timeout.has_value())
+  {
+    m_timer = CreateTimer(timeout.value());
+  }
 }
 
 WidgetOverlayMessagePublisher::~WidgetOverlayMessagePublisher() = default;
@@ -69,11 +68,12 @@ void WidgetOverlayMessagePublisher::RemoveMessageOnTimeout()
   }
 }
 
-std::unique_ptr<QTimer> WidgetOverlayMessagePublisher::CreateTimer(int32_t timeout_msec)
+std::unique_ptr<QTimer> WidgetOverlayMessagePublisher::CreateTimer(
+    std::chrono::milliseconds timeout) const
 {
   auto result = std::make_unique<QTimer>();
   result->setSingleShot(true);
-  result->setInterval(timeout_msec);
+  result->setInterval(timeout);
   QObject::connect(result.get(), &QTimer::timeout, this,
                    &WidgetOverlayMessagePublisher::RemoveMessageOnTimeout);
   return result;
