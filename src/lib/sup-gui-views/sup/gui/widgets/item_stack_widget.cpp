@@ -38,18 +38,18 @@ namespace
 /**
  * @brief Returns settings key to store widget index.
  */
-QString GetSettingsKeyForIndex(const QString &settings_group_name)
+QString GetSettingsKeyForIndex(const QString& settings_group_name)
 {
   return settings_group_name + "_index";
 }
 
 }  // namespace
 
-ItemStackWidget::ItemStackWidget(QWidget *parent_widget) : ItemStackWidget(QString(), parent_widget)
+ItemStackWidget::ItemStackWidget(QWidget* parent_widget) : ItemStackWidget(QString(), parent_widget)
 {
 }
 
-ItemStackWidget::ItemStackWidget(const QString &settings_group_name, QWidget *parent_widget)
+ItemStackWidget::ItemStackWidget(const QString& settings_group_name, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_stacked_widget(new QStackedWidget)
     , m_widget_selection_menu(std::make_unique<QMenu>())
@@ -67,15 +67,13 @@ ItemStackWidget::ItemStackWidget(const QString &settings_group_name, QWidget *pa
   m_main_toolbar->SetDotsMenu(m_widget_selection_menu.get());
 }
 
-ItemStackWidget::~ItemStackWidget() = default;
-
-void ItemStackWidget::AddWidget(QWidget *widget)
+void ItemStackWidget::AddWidget(QWidget* widget)
 {
   m_stacked_widget->addWidget(widget);
   AddMenuEntry(widget);
 }
 
-void ItemStackWidget::AddWidget(QWidget *widget, const QList<QAction *> &actions,
+void ItemStackWidget::AddWidget(QWidget* widget, const QList<QAction*>& actions,
                                 bool is_always_visible)
 {
   AddWidget(widget);
@@ -94,17 +92,17 @@ void ItemStackWidget::SetCurrentIndex(std::int32_t index)
   UpdateControlElementsVisibility();
 }
 
-QWidget *ItemStackWidget::GetCurrentWidget() const
+QWidget* ItemStackWidget::GetCurrentWidget() const
 {
   return m_stacked_widget->currentWidget();
 }
 
-void ItemStackWidget::SetCurrentWidget(QWidget *widget)
+void ItemStackWidget::SetCurrentWidget(QWidget* widget)
 {
   SetCurrentIndex(m_stacked_widget->indexOf(widget));
 }
 
-void ItemStackWidget::ReadSettings(const read_variant_func_t &read_func)
+void ItemStackWidget::ReadSettings(const read_variant_func_t& read_func)
 {
   if (m_settings_group_name.isEmpty())
   {
@@ -118,7 +116,7 @@ void ItemStackWidget::ReadSettings(const read_variant_func_t &read_func)
   }
 }
 
-void ItemStackWidget::WriteSettings(const write_variant_func_t &write_func)
+void ItemStackWidget::WriteSettings(const write_variant_func_t& write_func)
 {
   if (m_settings_group_name.isEmpty())
   {
@@ -128,9 +126,9 @@ void ItemStackWidget::WriteSettings(const write_variant_func_t &write_func)
   write_func(GetSettingsKeyForIndex(m_settings_group_name), GetCurrentIndex());
 }
 
-void ItemStackWidget::AddMenuEntry(QWidget *widget)
+void ItemStackWidget::AddMenuEntry(QWidget* widget)
 {
-  std::int32_t index = m_stacked_widget->count() - 1;
+  const std::int32_t index = m_stacked_widget->count() - 1;
   auto action = m_widget_selection_menu->addAction(widget->windowTitle());
   action->setActionGroup(m_action_group);
   action->setCheckable(true);
@@ -142,9 +140,9 @@ void ItemStackWidget::AddMenuEntry(QWidget *widget)
   connect(action, &QAction::triggered, this, on_action);
 }
 
-void ItemStackWidget::AddGuestActions(const QList<QAction *> &actions, bool is_always_visible)
+void ItemStackWidget::AddGuestActions(const QList<QAction*>& actions, bool is_always_visible)
 {
-  QList<QAction *> hide_actions;  // handles to hide actions
+  QList<QAction*> hide_actions;  // handles to hide actions
 
   for (auto action : actions)
   {
@@ -159,7 +157,8 @@ void ItemStackWidget::UpdateControlElementsVisibility()
 {
   for (std::int32_t i = 0; i < m_toolbar_data.size(); ++i)
   {
-    bool is_visible = m_stacked_widget->currentIndex() == i || m_toolbar_data[i].is_always_visible;
+    const bool is_visible =
+        (m_stacked_widget->currentIndex() == i) || m_toolbar_data[i].is_always_visible;
     for (auto action : m_toolbar_data[i].actions)
     {
       action->setVisible(is_visible);

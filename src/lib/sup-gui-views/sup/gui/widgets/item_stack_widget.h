@@ -25,7 +25,6 @@
 
 #include <QList>
 #include <QWidget>
-#include <memory>
 #include <cstdint>
 
 class QStackedWidget;
@@ -53,8 +52,6 @@ public:
   explicit ItemStackWidget(QWidget* parent_widget = nullptr);
 
   explicit ItemStackWidget(const QString& settings_group_name, QWidget* parent_widget = nullptr);
-
-  ~ItemStackWidget() override;
 
   /**
    * @brief Adds a widget to the stack.
