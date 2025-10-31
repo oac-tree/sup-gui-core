@@ -69,14 +69,14 @@ ItemStackWidget::ItemStackWidget(const QString& settings_group_name, QWidget* pa
 
 void ItemStackWidget::AddWidget(QWidget* widget)
 {
-  m_stacked_widget->addWidget(widget);
-  AddMenuEntry(widget);
+  AddWidget(widget, {});
 }
 
 void ItemStackWidget::AddWidget(QWidget* widget, const QList<QAction*>& actions,
                                 bool is_always_visible)
 {
-  AddWidget(widget);
+  m_stacked_widget->addWidget(widget);
+  AddMenuEntry(widget);
   AddGuestActions(actions, is_always_visible);
 }
 
