@@ -27,11 +27,11 @@
 namespace sup::gui
 {
 
-std::tuple<int, int, int> ParseVersionString(const std::string& version_string)
+std::tuple<int32_t, int32_t, int32_t> ParseVersionString(const std::string& version_string)
 {
   const std::string separator(".");
 
-  std::vector<int> version_parts;
+  std::vector<std::int32_t> version_parts;
   for (const auto& str : mvvm::utils::SplitString(version_string, separator))
   {
     if (auto num = mvvm::utils::StringToInteger(str); num.has_value())

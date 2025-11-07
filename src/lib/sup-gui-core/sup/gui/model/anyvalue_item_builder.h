@@ -64,7 +64,7 @@ private:
 
   std::unique_ptr<AnyValueItem> m_result;
   mvvm::SessionItem* m_current_item{nullptr};
-  int m_index{-1};
+  std::int32_t m_index{-1};
   std::string m_member_name;
 };
 

@@ -49,7 +49,7 @@ public:
 
   virtual std::vector<AnyValueItem*> GetChildren() const;
 
-  int GetChildrenCount() const;
+  std::size_t GetChildrenCount() const;
 };
 
 /**

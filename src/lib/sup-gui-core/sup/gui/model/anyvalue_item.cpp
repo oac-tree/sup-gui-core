@@ -22,7 +22,6 @@
 
 #include "anyvalue_item_constants.h"
 #include "anyvalue_item_utils.h"
-#include "scalar_conversion_utils.h"
 #include "scalartype_property_item.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
@@ -77,9 +76,9 @@ std::vector<AnyValueItem*> AnyValueItem::GetChildren() const
   return {};
 }
 
-int AnyValueItem::GetChildrenCount() const
+std::size_t AnyValueItem::GetChildrenCount() const
 {
-  return static_cast<int>(GetChildren().size());
+  return GetChildren().size();
 }
 
 // ----------------------------------------------------------------------------
