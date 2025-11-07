@@ -28,7 +28,7 @@
 namespace sup::gui
 {
 
-std::optional<QSize> ParseSizeString(const QString &text)
+std::optional<QSize> ParseSizeString(const QString& text)
 {
   auto parts = mvvm::utils::SplitString(text.toStdString(), "x");
 
@@ -40,7 +40,7 @@ std::optional<QSize> ParseSizeString(const QString &text)
   auto x = mvvm::utils::StringToInteger(parts.at(0));
   auto y = mvvm::utils::StringToInteger(parts.at(1));
 
-  return x.has_value() && y.has_value() ? QSize(x.value(), y.value()) : std::optional<QSize>{};
+  return (x.has_value() && y.has_value()) ? QSize(x.value(), y.value()) : std::optional<QSize>{};
 }
 
 }  // namespace sup::gui

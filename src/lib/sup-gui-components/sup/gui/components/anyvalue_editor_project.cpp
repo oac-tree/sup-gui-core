@@ -37,7 +37,7 @@ AnyValueEditorProject::~AnyValueEditorProject() = default;
 
 mvvm::ApplicationModel *AnyValueEditorProject::GetApplicationModel()
 {
-  return GetModelCount() > 0 ? GetModel<mvvm::ApplicationModel>() : nullptr;
+  return (GetModelCount() > 0) ? GetModel<mvvm::ApplicationModel>() : nullptr;
 }
 
 }  // namespace sup::gui

@@ -29,7 +29,7 @@
 namespace sup::gui
 {
 
-DtoEditorProject::DtoEditorProject(const mvvm::ProjectContext &context)
+DtoEditorProject::DtoEditorProject(const mvvm::ProjectContext& context)
     : mvvm::AppProject(context)
     , m_sup_dto_model_index(RegisterModel<SupDtoModel>())
     , m_waveform_model_index(RegisterModel<WaveformModel>())
@@ -38,16 +38,17 @@ DtoEditorProject::DtoEditorProject(const mvvm::ProjectContext &context)
 
 DtoEditorProject::~DtoEditorProject() = default;
 
-SupDtoModel *DtoEditorProject::GetSupDtoModel()
+SupDtoModel* DtoEditorProject::GetSupDtoModel()
 {
-  return GetModelCount() > m_sup_dto_model_index ? GetModel<SupDtoModel>(m_sup_dto_model_index)
-                                                 : nullptr;
+  return (GetModelCount() > m_sup_dto_model_index) ? GetModel<SupDtoModel>(m_sup_dto_model_index)
+                                                   : nullptr;
 }
 
-WaveformModel *DtoEditorProject::GetWaveformModel()
+WaveformModel* DtoEditorProject::GetWaveformModel()
 {
-  return GetModelCount() > m_waveform_model_index ? GetModel<WaveformModel>(m_waveform_model_index)
-                                                  : nullptr;
+  return (GetModelCount() > m_waveform_model_index)
+             ? GetModel<WaveformModel>(m_waveform_model_index)
+             : nullptr;
 }
 
 }  // namespace sup::gui

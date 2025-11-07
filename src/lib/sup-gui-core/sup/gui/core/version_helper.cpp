@@ -53,7 +53,8 @@ bool HasSameMajorMinorVersion(const std::string& str1, const std::string& str2)
   auto parts1 = ParseVersionString(str1);
   auto parts2 = ParseVersionString(str2);
 
-  return std::get<0>(parts1) == std::get<0>(parts2) && std::get<1>(parts1) == std::get<1>(parts2);
+  return (std::get<0>(parts1) == std::get<0>(parts2))
+         && (std::get<1>(parts1) == std::get<1>(parts2));
 }
 
 }  // namespace sup::gui

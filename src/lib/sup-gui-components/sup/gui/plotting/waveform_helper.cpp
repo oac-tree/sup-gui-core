@@ -53,13 +53,13 @@ std::unique_ptr<mvvm::PointItem> CreateShiftedPoint(const mvvm::PointItem* point
 
 mvvm::PointItem* GetLastPoint(const mvvm::LineSeriesDataItem& data_item)
 {
-  return data_item.GetPointCount() == 0 ? nullptr
-                                        : data_item.GetPoint(data_item.GetPointCount() - 1);
+  return (data_item.GetPointCount() == 0) ? nullptr
+                                          : data_item.GetPoint(data_item.GetPointCount() - 1);
 }
 
 mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
 {
-  return data_item.GetPointCount() == 0 ? nullptr : data_item.GetPoint(0);
+  return (data_item.GetPointCount() == 0) ? nullptr : data_item.GetPoint(0);
 }
 
 /**
@@ -73,7 +73,7 @@ std::string GetNextNamedColor(std::size_t index)
   static std::vector<std::string> colors = {"dodgerblue", "green",   "darkorange",
                                             "crimson",    "fuchsia", "teal"};
 
-  return index < colors.size() ? colors[index] : mvvm::utils::RandomNamedColor();
+  return (index < colors.size()) ? colors[index] : mvvm::utils::RandomNamedColor();
 }
 
 }  // namespace
@@ -94,7 +94,7 @@ std::unique_ptr<AnyValueItem> CreateFromPoint(double xpos, double ypos)
 std::pair<double, double> GetPoint(const AnyValueItem& item)
 {
   auto children = item.GetChildren();
-  if (!item.IsStruct() || children.size() != 2)
+  if (!item.IsStruct() || (children.size() != 2))
   {
     throw std::runtime_error("Error in GetXY: this item can't represent a point");
   }

@@ -71,7 +71,7 @@ void AbstractTextContentController::UpdateText()
 
 void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)
 {
-  if (event.data_role == mvvm::DataRole::kData || event.data_role == mvvm::DataRole::kDisplay)
+  if ((event.data_role == mvvm::DataRole::kData) || (event.data_role == mvvm::DataRole::kDisplay))
   {
     UpdateText();
   }
