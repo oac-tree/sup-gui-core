@@ -36,10 +36,15 @@ CommonSettingsItem::CommonSettingsItem() : CompoundItem(mvvm::GetTypeName<Common
   (void)AddProperty(constants::kUndoLimitSetting, constants::kUndoLimitDefault)
       .SetDisplayName("Undo limit");
 
-  ActivateStrategies();
+  ActivateStrategiesImpl();
 }
 
 void CommonSettingsItem::ActivateStrategies()
+{
+  ActivateStrategiesImpl();
+}
+
+void CommonSettingsItem::ActivateStrategiesImpl()
 {
   GetItem(constants::kUseUndoSetting)->SetStrategy(this, &CommonSettingsItem::OnSetFlag);
 }
@@ -51,7 +56,7 @@ std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
   return result;
 }
 
-bool CommonSettingsItem::OnSetFlag(SessionItem *property, const mvvm::variant_t &variant,
+bool CommonSettingsItem::OnSetFlag(SessionItem* property, const mvvm::variant_t& variant,
                                    mvvm::role_t role)
 {
   mvvm::utils::BeginMacro(*this, "SetAvailableFlag");

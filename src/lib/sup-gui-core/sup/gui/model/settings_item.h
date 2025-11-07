@@ -47,6 +47,8 @@ protected:
   void ActivateStrategies() override;
 
 private:
+  void ActivateStrategiesImpl();
+
   /**
    * @brief Custom data strategy to enable/disabled status of "undo limits" property when
    * "undo flag" changes.
