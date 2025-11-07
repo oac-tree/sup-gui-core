@@ -43,10 +43,10 @@ struct MessageEvent
 
   //!< Optional details that can be shown on the request (exception's what()).
   std::string detailed;
-
-  bool operator==(const MessageEvent& other) const;
-  bool operator!=(const MessageEvent& other) const;
 };
+
+bool operator==(const MessageEvent& lhs, const MessageEvent& rhs);
+bool operator!=(const MessageEvent& lhs, const MessageEvent& rhs);
 
 MessageEvent CreateInvalidOperationMessage(const std::string& text,
                                            const std::string& informative = {},

@@ -60,15 +60,15 @@ public:
    */
   QString GetContextName() const;
 
-  bool operator==(const AppCommandContext& other) const;
-  bool operator!=(const AppCommandContext& other) const;
-  bool operator<(const AppCommandContext& other) const;
-  bool operator>=(const AppCommandContext& other) const;
-
 private:
   QString m_context_id;
   QString m_context_name;
 };
+
+bool operator==(const AppCommandContext& lhs, const AppCommandContext& rhs);
+bool operator!=(const AppCommandContext& lhs, const AppCommandContext& rhs);
+bool operator<(const AppCommandContext& lhs, const AppCommandContext& rhs);
+bool operator>=(const AppCommandContext& lhs, const AppCommandContext& rhs);
 
 }  // namespace sup::gui
 

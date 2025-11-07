@@ -25,7 +25,7 @@ namespace sup::gui
 
 AppCommandContext::AppCommandContext() = default;
 
-AppCommandContext::AppCommandContext(const QString &context_id, const QString &context_name)
+AppCommandContext::AppCommandContext(const QString& context_id, const QString& context_name)
     : m_context_id(context_id), m_context_name(context_name)
 {
 }
@@ -40,24 +40,24 @@ QString AppCommandContext::GetContextName() const
   return m_context_name;
 }
 
-bool AppCommandContext::operator==(const AppCommandContext &other) const
+bool operator==(const AppCommandContext& lhs, const AppCommandContext& rhs)
 {
-  return m_context_id == other.m_context_id;
+  return lhs.GetContextId() == rhs.GetContextId();
 }
 
-bool AppCommandContext::operator!=(const AppCommandContext &other) const
+bool operator!=(const AppCommandContext& lhs, const AppCommandContext& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
-bool AppCommandContext::operator<(const AppCommandContext &other) const
+bool operator<(const AppCommandContext& lhs, const AppCommandContext& rhs)
 {
-  return m_context_id < other.m_context_id;
+  return lhs.GetContextId() < rhs.GetContextId();
 }
 
-bool AppCommandContext::operator>=(const AppCommandContext &other) const
+bool operator>=(const AppCommandContext& lhs, const AppCommandContext& rhs)
 {
-  return (other < *this) || (*this == other);
+  return !(lhs < rhs) || (lhs == rhs);
 }
 
 }  // namespace sup::gui

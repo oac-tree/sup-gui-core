@@ -23,15 +23,15 @@
 namespace sup::gui
 {
 
-bool MessageEvent::operator==(const MessageEvent& other) const
+bool operator==(const MessageEvent& lhs, const MessageEvent& rhs)
 {
-  return title == other.title && text == other.text && informative == other.informative
-         && detailed == other.detailed;
+  return lhs.title == rhs.title && lhs.text == rhs.text && lhs.informative == rhs.informative
+         && lhs.detailed == rhs.detailed;
 }
 
-bool MessageEvent::operator!=(const MessageEvent& other) const
+bool operator!=(const MessageEvent& lhs, const MessageEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 MessageEvent CreateInvalidOperationMessage(const std::string& text, const std::string& informative,
