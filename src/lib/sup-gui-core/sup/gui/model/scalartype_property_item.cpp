@@ -51,7 +51,7 @@ void UpdateParentDataToType(const std::string& type_name, mvvm::SessionItem* par
 
   (void)mvvm::utils::ReplaceData(*parent, GetVariantFromScalarTypeName(type_name),
                                  mvvm::DataRole::kData);
-  parent->SetToolTip(type_name);
+  (void)parent->SetToolTip(type_name);
 }
 
 }  // namespace
@@ -80,7 +80,7 @@ void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string& type
   combo_value.SetValue(type_name);
 
   // will also trigger the scalar value on board of parent's AnyValueItem via connected strategy
-  SetData(combo_value);
+  (void)SetData(combo_value);
 }
 
 void ScalarTypePropertyItem::ActivateStrategies()
