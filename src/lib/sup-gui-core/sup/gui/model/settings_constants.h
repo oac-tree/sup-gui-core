@@ -24,7 +24,7 @@
 //! @file
 //! Collection of constants for persistent settings machinery.
 
-#include <string>
+#include <cstdint>
 
 namespace sup::gui::constants
 {
@@ -32,13 +32,13 @@ namespace sup::gui::constants
 //! Setting names. These names are used to retrieve the value of the setting from the model and to
 //! store settings in QSetting machinery.
 
-const std::string kUseUndoSetting = "kUseUndoSetting";
-const std::string kUndoLimitSetting = "kUndoLimitSetting";
+constexpr auto kUseUndoSetting = "kUseUndoSetting";
+constexpr auto kUndoLimitSetting = "kUndoLimitSetting";
 
 //! Default values of some settings.
 
 const bool kUseUndoDefault = true;
-const int kUndoLimitDefault = 100;
+const std::int32_t kUndoLimitDefault = 100;
 }  // namespace sup::gui::constants
 
 #endif  // SUP_GUI_MODEL_SETTINGS_CONSTANTS_H_

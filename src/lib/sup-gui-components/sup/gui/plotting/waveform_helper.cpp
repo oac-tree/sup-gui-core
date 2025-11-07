@@ -81,12 +81,12 @@ std::string GetNextNamedColor(std::size_t index)
 namespace sup::gui
 {
 
-std::unique_ptr<AnyValueItem> CreateFromPoint(double x, double y)
+std::unique_ptr<AnyValueItem> CreateFromPoint(double xpos, double ypos)
 {
   auto result = std::make_unique<AnyValueStructItem>();
 
-  (void) result->AddScalarField(kXFieldName, sup::dto::kFloat64TypeName, x);
-  (void) result->AddScalarField(kYFieldName, sup::dto::kFloat64TypeName, y);
+  (void)result->AddScalarField(kXFieldName, sup::dto::kFloat64TypeName, xpos);
+  (void)result->AddScalarField(kYFieldName, sup::dto::kFloat64TypeName, ypos);
 
   return result;
 }
@@ -99,17 +99,17 @@ std::pair<double, double> GetPoint(const AnyValueItem& item)
     throw std::runtime_error("Error in GetXY: this item can't represent a point");
   }
 
-  auto x = children.at(0)->Data();
-  auto y = children.at(1)->Data();
+  auto xpos = children.at(0)->Data();
+  auto ypos = children.at(1)->Data();
 
-  if (std::holds_alternative<double>(x) && std::holds_alternative<double>(y))
+  if (std::holds_alternative<double>(xpos) && std::holds_alternative<double>(ypos))
   {
-    return {std::get<double>(x), std::get<double>(y)};
+    return {std::get<double>(xpos), std::get<double>(ypos)};
   }
 
-  if (std::holds_alternative<float>(x) && std::holds_alternative<float>(y))
+  if (std::holds_alternative<float>(xpos) && std::holds_alternative<float>(ypos))
   {
-    return {std::get<float>(x), std::get<float>(y)};
+    return {std::get<float>(xpos), std::get<float>(ypos)};
   }
 
   throw std::runtime_error("Error in GetXY: can't get float or double values from point");
@@ -120,9 +120,9 @@ std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
 {
   auto result = std::make_unique<AnyValueArrayItem>();
 
-  for (const auto& [x, y] : data)
+  for (const auto& [xpos, ypos] : data)
   {
-    (void) result->InsertItem(CreateFromPoint(x, y), mvvm::TagIndex::Append());
+    (void)result->InsertItem(CreateFromPoint(xpos, ypos), mvvm::TagIndex::Append());
   }
 
   return result;
@@ -137,7 +137,7 @@ std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* arra
   std::vector<std::pair<double, double>> result;
   auto points = array_item->GetChildren();
   auto on_point = [](auto item) { return GetPoint(*item); };
-  (void) std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
+  (void)std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
   return result;
 }
 
@@ -159,8 +159,8 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
 
 void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count)
 {
-  (void) item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
-  (void) item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);
+  (void)item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
+  (void)item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);
   item.SetNamedColor(GetNextNamedColor(total_waveform_count));
 }
 

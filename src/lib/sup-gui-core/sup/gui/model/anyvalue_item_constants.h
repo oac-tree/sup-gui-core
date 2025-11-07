@@ -21,22 +21,20 @@
 #ifndef SUP_GUI_MODEL_ANYVALUE_ITEM_CONSTANTS_H_
 #define SUP_GUI_MODEL_ANYVALUE_ITEM_CONSTANTS_H_
 
-#include <string>
-
 namespace sup::gui::constants
 {
 
-const std::string kStructTypeName = "struct";
-const std::string kArrayTypeName = "array";
-const std::string kScalarTypeName = "scalar";
-const std::string kEmptyTypeName = "empty";
+constexpr auto kStructTypeName = "struct";
+constexpr auto kArrayTypeName = "array";
+constexpr auto kScalarTypeName = "scalar";
+constexpr auto kEmptyTypeName = "empty";
 
-const std::string kAnyValueChildrenTag = "kAnyValueChildrenTag";
-const std::string kAnyValueTypeTag = "kAnyValueTypeTag";
+constexpr auto kAnyValueChildrenTag = "kAnyValueChildrenTag";
+constexpr auto kAnyValueTypeTag = "kAnyValueTypeTag";
 
-const std::string kFieldNamePrefix = "field";
-const std::string kElementNamePrefix = "element";
-const std::string kAnyValueDefaultDisplayName = "value";
+constexpr auto kFieldNamePrefix = "field";
+constexpr auto kElementNamePrefix = "element";
+constexpr auto kAnyValueDefaultDisplayName = "value";
 
 }  // namespace sup::gui::constants
 

@@ -40,7 +40,7 @@ namespace sup::gui
 {
 
 //! mime type to copy-and-paste AnyValue
-const QString kCopyAnyValueMimeType = "application/coa.sequencer.anyvalue.copy";
+constexpr auto kCopyAnyValueMimeType = "application/coa.sequencer.anyvalue.copy";
 
 /**
  * @brief Returns type of item enclosed inside the given mime data.

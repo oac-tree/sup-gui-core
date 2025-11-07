@@ -72,8 +72,7 @@ TEST_F(AnyValueEditorHelperTest, SuggestEditableTypeName)
 
   {  // struct without type name
     const AnyValueStructItem item;
-    EXPECT_EQ(SuggestEditableTypeName(item).value_or(kUndefined),
-              constants::kStructTypeName);
+    EXPECT_EQ(SuggestEditableTypeName(item).value_or(kUndefined), constants::kStructTypeName);
   }
 
   {  // struct with custom type name
@@ -84,8 +83,7 @@ TEST_F(AnyValueEditorHelperTest, SuggestEditableTypeName)
 
   {  // array without type name
     const AnyValueArrayItem item;
-    EXPECT_EQ(SuggestEditableTypeName(item).value_or(kUndefined),
-              constants::kArrayTypeName);
+    EXPECT_EQ(SuggestEditableTypeName(item).value_or(kUndefined), constants::kArrayTypeName);
   }
 
   {  // array with custom type name
@@ -137,7 +135,7 @@ TEST_F(AnyValueEditorHelperTest, SuggestNameForStructField)
     const AnyValueScalarItem child;
 
     auto name = SuggestDisplayName(parent, child);
-    EXPECT_EQ(name.value_or(kUndefined), constants::kFieldNamePrefix + "0");
+    EXPECT_EQ(name.value_or(kUndefined), std::string(constants::kFieldNamePrefix) + "0");
   }
 
   {
@@ -157,7 +155,7 @@ TEST_F(AnyValueEditorHelperTest, SuggestNameForArrayElement)
   const AnyValueScalarItem child;
 
   auto name = SuggestDisplayName(parent, child);
-  EXPECT_EQ(name.value_or(kUndefined), constants::kElementNamePrefix + "0");
+  EXPECT_EQ(name.value_or(kUndefined), std::string(constants::kElementNamePrefix) + "0");
 }
 
 TEST_F(AnyValueEditorHelperTest, EnableInstantFieldNameEdit)
@@ -182,8 +180,8 @@ TEST_F(AnyValueEditorHelperTest, UpdateArrayElementNames)
 
   UpdateArrayElementNames(parent);
 
-  EXPECT_EQ(element0->GetDisplayName(), constants::kElementNamePrefix + "0");
-  EXPECT_EQ(element1->GetDisplayName(), constants::kElementNamePrefix + "1");
+  EXPECT_EQ(element0->GetDisplayName(), std::string(constants::kElementNamePrefix) + "0");
+  EXPECT_EQ(element1->GetDisplayName(), std::string(constants::kElementNamePrefix) + "1");
 }
 
 }  // namespace sup::gui::test

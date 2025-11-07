@@ -293,7 +293,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToAnotherStruct)
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueStruct"));
 
-  const std::string expected_field_name(constants::kFieldNamePrefix + "0");
+  const std::string expected_field_name(std::string(constants::kFieldNamePrefix) + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 
@@ -376,7 +376,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  const std::string expected_field_name(constants::kFieldNamePrefix + "0");
+  const std::string expected_field_name(std::string(constants::kFieldNamePrefix) + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
@@ -403,7 +403,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   ASSERT_EQ(parent->GetChildren().size(), 3);
 
   auto inserted_item = parent->GetChildren().at(1);
-  const std::string expected_field_name(constants::kFieldNamePrefix + "2");
+  const std::string expected_field_name(std::string(constants::kFieldNamePrefix) + "2");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
@@ -435,7 +435,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   ASSERT_EQ(parent->GetChildren().size(), 1);
 
   auto inserted_item = parent->GetChildren().at(0);
-  const std::string expected_field_name(constants::kElementNamePrefix + "0");
+  const std::string expected_field_name(std::string(constants::kElementNamePrefix) + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
@@ -567,7 +567,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 
   auto inserted_item = parent->GetChildren().at(0);
   EXPECT_EQ(inserted_item->GetType(), std::string("AnyValueArray"));
-  const std::string expected_field_name(constants::kFieldNamePrefix + "0");
+  const std::string expected_field_name(std::string(constants::kFieldNamePrefix) + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
 };
 

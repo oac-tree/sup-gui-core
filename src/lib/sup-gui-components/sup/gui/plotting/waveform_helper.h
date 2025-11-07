@@ -25,8 +25,8 @@
 //! Collection of helper functions to construct waveforms.
 
 #include <memory>
-#include <string>
 #include <vector>
+#include <cstdint>
 
 namespace mvvm
 {
@@ -41,11 +41,11 @@ namespace sup::gui
 class AnyValueItem;
 class AnyValueArrayItem;
 
-const std::string kXFieldName = "x";
-const std::string kYFieldName = "y";
+constexpr auto kXFieldName = "x";
+constexpr auto kYFieldName = "y";
 
-const int kDefaultLineWidth = 2;
-const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
+const std::int32_t kDefaultLineWidth = 2;
+constexpr auto kDefaultLineColor("#209fdf");  // between royal blue and steel blue
 
 //! Constant to create points slighly shifted wrt currently selected.
 const double kDefaultDx = 0.1;
@@ -58,7 +58,7 @@ const double kDefaultDx = 0.1;
  *
  * @return AnyValueItem struct.
  */
-std::unique_ptr<AnyValueItem> CreateFromPoint(double x, double y);
+std::unique_ptr<AnyValueItem> CreateFromPoint(double xpos, double ypos);
 
 /**
  * @brief Returns (x,y) from AnyValueItem structure representing a point.

@@ -302,14 +302,14 @@ TEST_F(AnyValueItemBuilderTest, FromArrayOfIntegers)
   // first branch
   auto child0 = item->GetItem({"", 0});
   EXPECT_EQ(child0->GetTotalItemCount(), 1);
-  EXPECT_EQ(child0->GetDisplayName(), constants::kElementNamePrefix + "0");
+  EXPECT_EQ(child0->GetDisplayName(), std::string(constants::kElementNamePrefix) + "0");
   EXPECT_EQ(mvvm::utils::TypeName(child0->Data()), mvvm::constants::Int64TypeName());
   EXPECT_EQ(child0->Data<mvvm::int64>(), 1);
 
   // second branch
   auto child1 = item->GetItem({"", 1});
   EXPECT_EQ(child1->GetTotalItemCount(), 1);
-  EXPECT_EQ(child1->GetDisplayName(), constants::kElementNamePrefix + "1");
+  EXPECT_EQ(child1->GetDisplayName(), std::string(constants::kElementNamePrefix) + "1");
   EXPECT_EQ(mvvm::utils::TypeName(child0->Data()), mvvm::constants::Int64TypeName());
   EXPECT_EQ(child1->Data<mvvm::int64>(), 2);
 }
@@ -340,13 +340,13 @@ TEST_F(AnyValueItemBuilderTest, StructWithArrayOfIntegers)
   // elements
   auto element0 = child0->GetItem({"", 0});
   EXPECT_EQ(element0->GetTotalItemCount(), 1);
-  EXPECT_EQ(element0->GetDisplayName(), constants::kElementNamePrefix + "0");
+  EXPECT_EQ(element0->GetDisplayName(), std::string(constants::kElementNamePrefix) + "0");
   EXPECT_EQ(mvvm::utils::TypeName(element0->Data()), mvvm::constants::Int64TypeName());
   EXPECT_EQ(element0->Data<mvvm::int64>(), 1);
 
   auto element1 = child0->GetItem({"", 1});
   EXPECT_EQ(element1->GetTotalItemCount(), 1);
-  EXPECT_EQ(element1->GetDisplayName(), constants::kElementNamePrefix + "1");
+  EXPECT_EQ(element1->GetDisplayName(), std::string(constants::kElementNamePrefix) + "1");
   EXPECT_EQ(mvvm::utils::TypeName(element1->Data()), mvvm::constants::Int64TypeName());
   EXPECT_EQ(element1->Data<mvvm::int64>(), 2);
 }
@@ -375,7 +375,7 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   // first element in array is a structure
   auto child0 = item->GetItem({"", 0});
   EXPECT_EQ(child0->GetTotalItemCount(), 3);
-  EXPECT_EQ(child0->GetDisplayName(), constants::kElementNamePrefix + "0");
+  EXPECT_EQ(child0->GetDisplayName(), std::string(constants::kElementNamePrefix) + "0");
   EXPECT_EQ(child0->GetType(), mvvm::GetTypeName<AnyValueStructItem>());
   EXPECT_FALSE(mvvm::utils::IsValid(child0->Data()));
 
@@ -394,7 +394,7 @@ TEST_F(AnyValueItemBuilderTest, ArrayWithTwoStructureElements)
   // second element in array is a structure
   auto child1 = item->GetItem({"", 1});
   EXPECT_EQ(child1->GetTotalItemCount(), 3);
-  EXPECT_EQ(child1->GetDisplayName(), constants::kElementNamePrefix + "1");
+  EXPECT_EQ(child1->GetDisplayName(), std::string(constants::kElementNamePrefix) + "1");
   EXPECT_EQ(child1->GetType(), mvvm::GetTypeName<AnyValueStructItem>());
   EXPECT_FALSE(mvvm::utils::IsValid(child1->Data()));
 
