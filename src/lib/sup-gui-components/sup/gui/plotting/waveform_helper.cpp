@@ -157,7 +157,7 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
   return CreateShiftedPoint(base_point, -kDefaultDx);
 }
 
-void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count)
+void SetupNewWaveform(mvvm::LineSeriesItem& item, std::size_t total_waveform_count)
 {
   (void)item.SetDisplayName("waveform" + std::to_string(total_waveform_count));
   (void)item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);

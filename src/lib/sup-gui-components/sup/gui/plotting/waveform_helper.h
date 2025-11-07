@@ -24,9 +24,9 @@
 //! @file
 //! Collection of helper functions to construct waveforms.
 
+#include <cstdint>
 #include <memory>
 #include <vector>
-#include <cstdint>
 
 namespace mvvm
 {
@@ -114,7 +114,7 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
  *
  * Will set reasonable waveform color, and display name.
  */
-void SetupNewWaveform(mvvm::LineSeriesItem& item, int total_waveform_count);
+void SetupNewWaveform(mvvm::LineSeriesItem& item, std::size_t total_waveform_count);
 
 }  // namespace sup::gui
 
