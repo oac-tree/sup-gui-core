@@ -31,44 +31,29 @@
 namespace sup::gui
 {
 
-namespace
-{
-const bool kPrintDebugMessages = false;
-}
-
-AppContextFocusController::AppContextFocusController(IAppCommandContextWidgetMap &widget_map,
-                                                     IAppCommandRegistry &command_registry)
+AppContextFocusController::AppContextFocusController(IAppCommandContextWidgetMap& widget_map,
+                                                     IAppCommandRegistry& command_registry)
     : m_widget_map(widget_map), m_command_registry(command_registry)
 {
 }
 
 AppContextFocusController::~AppContextFocusController() = default;
 
-void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
+void AppContextFocusController::OnFocusWidgetUpdate(QWidget* old, QWidget* now)
 {
   Q_UNUSED(old)
 
   // Prevent changing the context object just because the menu or a menu item is activated
-  if (qobject_cast<QMenuBar *>(now) || qobject_cast<QMenu *>(now))
+  if (qobject_cast<QMenuBar*>(now) || qobject_cast<QMenu*>(now))
   {
     return;
   }
 
   std::vector<sup::gui::AppCommandContext> context_summary;
 
-  if (kPrintDebugMessages)
-  {
-    qDebug() << "==============================================================================";
-  }
-
   auto current = now;
   while (current)
   {
-    if (kPrintDebugMessages)
-    {
-      qDebug() << current->metaObject()->className();
-    }
-
     if (m_widget_map.HasContext(current))
     {
       context_summary.push_back(m_widget_map.GetContext(current));
@@ -77,15 +62,6 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
   }
 
   m_command_registry.SetContextStack(context_summary);
-
-  if (kPrintDebugMessages)
-  {
-    for (const auto &context : context_summary)
-    {
-      qDebug() << " context:" << context.GetContextId()
-               << m_widget_map.GetWidget(context)->metaObject()->className();
-    }
-  }
 }
 
 }  // namespace sup::gui
