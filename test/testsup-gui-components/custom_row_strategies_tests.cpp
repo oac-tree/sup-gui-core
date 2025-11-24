@@ -59,6 +59,8 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
   AnyValueRowStrategy strategy;
   auto view_items = strategy.ConstructRow(&item);
 
+  EXPECT_EQ(strategy.GetHorizontalHeaderLabels().size(), 3U);
+
   ASSERT_EQ(view_items.size(), 3);
 
   EXPECT_EQ(view_items.at(0)->Data(Qt::DisplayRole).toString().toStdString(),

@@ -20,6 +20,8 @@
 
 #include "sup/gui/core/standard_message_handlers.h"
 
+#include <sup/gui/core/sup_gui_core_exceptions.h>
+
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -41,12 +43,22 @@ TEST_F(StandardMessageHandlersTest, StdMessageHandler)
   EXPECT_NE(output.find("text"), std::string::npos);
   EXPECT_NE(output.find("informative"), std::string::npos);
   EXPECT_NE(output.find("detailed"), std::string::npos);
+  EXPECT_NO_THROW(handler.ClearMessages());
 }
 
 TEST_F(StandardMessageHandlersTest, NullMessageHandler)
 {
   NullMessageHandler handler;
   EXPECT_NO_FATAL_FAILURE(handler.SendMessage(MessageEvent{}));
+  EXPECT_NO_THROW(handler.ClearMessages());
+}
+
+TEST_F(StandardMessageHandlersTest, ThrowingMessageHandler)
+{
+  ThrowingMessageHandler<RuntimeException> handler;
+  EXPECT_THROW(handler.SendMessage(MessageEvent{"", "", "", "Exception details"}),
+               RuntimeException);
+  EXPECT_NO_THROW(handler.ClearMessages());
 }
 
 }  // namespace sup::gui::test

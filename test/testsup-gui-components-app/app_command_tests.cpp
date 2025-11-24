@@ -155,4 +155,13 @@ TEST_F(AppCommandTest, SetEmptyContextStack)
   EXPECT_EQ(command.GetProxyAction()->GetAction(), nullptr);
 }
 
+TEST_F(AppCommandTest, SetText)
+{
+  const QString expected_text("Default Text");
+  AppCommand command(expected_text);
+
+  command.SetText("another text");
+  EXPECT_EQ(command.GetProxyAction()->text(), "another text");
+}
+
 }  // namespace sup::gui::test

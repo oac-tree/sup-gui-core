@@ -78,14 +78,14 @@ void AppCommand::AddOverrideAction(const AppCommandContext &context, QAction *ac
   (void)m_context_to_action.insert(iter, {context, action});
 }
 
-AppCommand &AppCommand::SetText(const QString &text)
+AppCommand &AppCommand::SetText(const QString &text) &
 {
   m_default_text = text;
   m_proxy_action->setText(m_default_text);
   return *this;
 }
 
-AppCommand &AppCommand::SetShortcut(const QKeySequence &shortcut)
+AppCommand &AppCommand::SetShortcut(const QKeySequence &shortcut)  &
 {
   m_proxy_action->setShortcut(shortcut);
   return *this;

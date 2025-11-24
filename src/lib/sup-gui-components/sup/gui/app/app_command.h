@@ -90,12 +90,12 @@ public:
    * This text defines initial appearance of the proxy action in the menu, when no underlying action
    * is defined.
    */
-  AppCommand& SetText(const QString& text);
+  AppCommand& SetText(const QString& text) &;
 
   /**
    * @brief Sets shortcut sequence.
    */
-  AppCommand& SetShortcut(const QKeySequence& shortcut);
+  AppCommand& SetShortcut(const QKeySequence& shortcut) &;
 
   /**
    * @brief Checks if there is a registered action for given context.
