@@ -15,12 +15,23 @@ cpptest_add_executable(sup-gui-core-cpptest
   TARGETS sup-gui-core sup-gui-components sup-gui-views
 )
 
+get_target_property(SUP_GUI_CORE_INCLUDE_DIRECTORIES sup-gui-core INCLUDE_DIRECTORIES)
+get_target_property(SUP_GUI_COMPONENTS_INCLUDE_DIRECTORIES sup-gui-components INCLUDE_DIRECTORIES)
 get_target_property(SUP_GUI_VIEWS_INCLUDE_DIRECTORIES sup-gui-views INCLUDE_DIRECTORIES)
-target_include_directories(sup-gui-core-cpptest PUBLIC ${SUP_GUI_VIEWS_INCLUDE_DIRECTORIES})
+target_include_directories(sup-gui-core-cpptest PUBLIC
+  ${SUP_GUI_CORE_INCLUDE_DIRECTORIES}
+  ${SUP_GUI_COMPONENTS_INCLUDE_DIRECTORIES}
+  ${SUP_GUI_VIEWS_INCLUDE_DIRECTORIES}
+)
 
 target_link_libraries(sup-gui-core-cpptest
   PUBLIC
+  sup-gui-core::core
+  sup-gui-core::components
+  sup-gui-core::views
+  sup-mvvm::model
   sup-mvvm::view
+  sup-mvvm::viewmodel
   sup-gui-extra::ksyntaxhighlighting
   sup-dto::sup-dto
 )
