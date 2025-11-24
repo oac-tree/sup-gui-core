@@ -23,17 +23,17 @@
 namespace sup::gui
 {
 
-MessageHandlerDecorator::MessageHandlerDecorator(IMessageHandler *component)
-    : m_component(component)
+MessageHandlerDecorator::MessageHandlerDecorator(IMessageHandler* component)
+    : IMessageHandler(), m_component(component)
 {
 }
 
-std::unique_ptr<IMessageHandler> MessageHandlerDecorator::Create(IMessageHandler *component)
+std::unique_ptr<IMessageHandler> MessageHandlerDecorator::Create(IMessageHandler* component)
 {
   return std::make_unique<MessageHandlerDecorator>(component);
 }
 
-void MessageHandlerDecorator::SendMessage(const MessageEvent &message)
+void MessageHandlerDecorator::SendMessage(const MessageEvent& message)
 {
   m_component->SendMessage(message);
 }

@@ -38,7 +38,8 @@ AppCommandService::AppCommandService(
     std::unique_ptr<IAppCommandRegistry> command_registry,
     std::unique_ptr<IAppCommandContextWidgetMap> context_widget_map,
     std::unique_ptr<IActionContainerRegistry> menubar_action_registry)
-    : m_command_registry(std::move(command_registry))
+    : IAppCommandService()
+    , m_command_registry(std::move(command_registry))
     , m_command_context_widget_map(std::move(context_widget_map))
     , m_app_menubar_action_registry(std::move(menubar_action_registry))
     , m_focus_controller(std::make_unique<AppContextFocusController>(*m_command_context_widget_map,
@@ -48,37 +49,37 @@ AppCommandService::AppCommandService(
 
 AppCommandService::~AppCommandService() = default;
 
-void AppCommandService::AppRegisterMenuBar(QMenuBar *menubar, const QStringList &top_menu_names)
+void AppCommandService::AppRegisterMenuBar(QMenuBar* menubar, const QStringList& top_menu_names)
 {
   m_app_menubar_action_registry->SetMenuBar(menubar);
-  for (const auto &name : top_menu_names)
+  for (const auto& name : top_menu_names)
   {
     (void)m_app_menubar_action_registry->AddMenu(name);
   }
 }
 
-AppCommandContext AppCommandService::RegisterWidgetUniqueId(const QWidget *widget)
+AppCommandContext AppCommandService::RegisterWidgetUniqueId(const QWidget* widget)
 {
   return m_command_context_widget_map->RegisterWidgetUniqueId(widget);
 }
 
-void AppCommandService::UnregisterWidgetUniqueId(const QWidget *widget)
+void AppCommandService::UnregisterWidgetUniqueId(const QWidget* widget)
 {
   m_command_context_widget_map->UnregisterWidgetUniqueId(widget);
 }
 
-QMenu *AppCommandService::AppGetMenu(const QString &menu_name)
+QMenu* AppCommandService::AppGetMenu(const QString& menu_name)
 {
   auto container = m_app_menubar_action_registry->GetContainer(menu_name);
   return container ? container->GetMenu() : nullptr;
 }
 
-bool AppCommandService::AddActionToMenuBar(const QString &menu_name, QAction *action)
+bool AppCommandService::AddActionToMenuBar(const QString& menu_name, QAction* action)
 {
   return m_app_menubar_action_registry->RegisterAction(menu_name, action);
 }
 
-AppCommand *AppCommandService::AddCommandToMenu(const QString &menu_name, const QString &command_id)
+AppCommand* AppCommandService::AddCommandToMenu(const QString& menu_name, const QString& command_id)
 {
   // register new, or get access to already registered command
   auto command = m_command_registry->RegisterCommand(command_id, command_id);
@@ -91,19 +92,19 @@ AppCommand *AppCommandService::AddCommandToMenu(const QString &menu_name, const 
   return command;
 }
 
-bool AppCommandService::AddActionToCommand(QAction *action, const QString &command_id,
-                                           const AppCommandContext &context)
+bool AppCommandService::AddActionToCommand(QAction* action, const QString& command_id,
+                                           const AppCommandContext& context)
 {
   auto app_command = m_command_registry->RegisterAction(action, command_id, context);
   return app_command != nullptr;
 }
 
-AppCommand *AppCommandService::GetCommand(const QString &command_id)
+AppCommand* AppCommandService::GetCommand(const QString& command_id)
 {
   return m_command_registry->GetCommand(command_id);
 }
 
-void AppCommandService::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
+void AppCommandService::OnFocusWidgetUpdate(QWidget* old, QWidget* now)
 {
   m_focus_controller->OnFocusWidgetUpdate(old, now);
 }

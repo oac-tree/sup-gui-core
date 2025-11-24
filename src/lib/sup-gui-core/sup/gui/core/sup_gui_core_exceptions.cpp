@@ -23,7 +23,10 @@
 namespace sup::gui
 {
 
-MessageException::MessageException(std::string message) : m_message{std::move(message)} {}
+MessageException::MessageException(std::string message)
+    : std::exception(), m_message{std::move(message)}
+{
+}
 
 const char* MessageException::what() const noexcept
 {

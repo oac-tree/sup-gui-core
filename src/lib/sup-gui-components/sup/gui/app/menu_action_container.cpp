@@ -28,8 +28,8 @@
 namespace sup::gui
 {
 
-MenuActionContainer::MenuActionContainer(const QString &name, QMenu *menu)
-    : m_name(name), m_menu(menu)
+MenuActionContainer::MenuActionContainer(const QString& name, QMenu* menu)
+    : IActionContainer(), m_name(name), m_menu(menu)
 {
   if (!m_menu)
   {
@@ -37,11 +37,17 @@ MenuActionContainer::MenuActionContainer(const QString &name, QMenu *menu)
   }
 }
 
-QString MenuActionContainer::GetName() { return m_name; }
+QString MenuActionContainer::GetName()
+{
+  return m_name;
+}
 
-QMenu *MenuActionContainer::GetMenu() { return m_menu; }
+QMenu* MenuActionContainer::GetMenu()
+{
+  return m_menu;
+}
 
-bool MenuActionContainer::AddAction(QAction *action)
+bool MenuActionContainer::AddAction(QAction* action)
 {
   m_actions.push_back(action);
   m_menu->addAction(action);
