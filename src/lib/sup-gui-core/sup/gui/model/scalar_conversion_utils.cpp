@@ -38,19 +38,19 @@ namespace
  * @brief Assigns scalar value from variant_t to pre-created AnyValue value.
  */
 template <typename T>
-void AssignToAnyValueScalar(const mvvm::variant_t &variant, sup::dto::AnyValue &any_value)
+void AssignToAnyValueScalar(const mvvm::variant_t& variant, sup::dto::AnyValue& any_value)
 {
-  any_value.ConvertFrom(std::get<T>(variant));
+  any_value.ConvertFrom(sup::dto::AnyValue(std::get<T>(variant)));
 }
 
 /**
  * @brief Creates variant from scalar-like AnyValue.
  */
 template <typename T>
-mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue &anyvalue)
+mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue& anyvalue)
 {
   T val = anyvalue.As<T>();
-  return {val};
+  return mvvm::variant_t{val};
 }
 
 }  // namespace
@@ -58,10 +58,10 @@ mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue &anyvalue)
 namespace sup::gui
 {
 
-mvvm::variant_t GetVariantFromScalar(const anyvalue_t &value)
+mvvm::variant_t GetVariantFromScalar(const anyvalue_t& value)
 {
   using sup::dto::TypeCode;
-  using get_variant_func_t = std::function<mvvm::variant_t(const sup::dto::AnyValue &anyvalue)>;
+  using get_variant_func_t = std::function<mvvm::variant_t(const sup::dto::AnyValue& anyvalue)>;
 
   static const std::map<TypeCode, get_variant_func_t> kConversionMap{
       {TypeCode::Bool, GetVariantFromScalarT<sup::dto::boolean>},
@@ -86,10 +86,10 @@ mvvm::variant_t GetVariantFromScalar(const anyvalue_t &value)
   return iter->second(value);
 }
 
-dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
+dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t& variant)
 {
   using set_anyvalue_func_t =
-      std::function<void(const mvvm::variant_t &variant, sup::dto::AnyValue &anyvalue)>;
+      std::function<void(const mvvm::variant_t& variant, sup::dto::AnyValue& anyvalue)>;
 
   //! Correspondance of AnyValue type code to PVXS value function to assign scalars.
   static const std::map<sup::dto::TypeCode, set_anyvalue_func_t> kConversionMap = {
@@ -122,7 +122,7 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t &variant)
   return result;
 }
 
-mvvm::variant_t GetVariantFromScalarTypeName(const std::string &type_name)
+mvvm::variant_t GetVariantFromScalarTypeName(const std::string& type_name)
 {
   sup::dto::AnyValue anyvalue(sup::dto::AnyType(GetScalarTypeCode(type_name)));
   return GetVariantFromScalar(anyvalue);
