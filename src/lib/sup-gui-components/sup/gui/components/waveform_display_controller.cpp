@@ -59,13 +59,16 @@ void WaveformDisplayController::UpdateDisplayStatus()
 {
   for (auto waveform : m_chart_viewport->GetLineSeries())
   {
-    if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
+    if (waveform)
     {
-      waveform->SetDisplayed(true);
-    }
-    if (m_current_display_mode == WaveformDisplayMode::kDisplaySelected)
-    {
-      waveform->SetDisplayed(waveform == m_selected_waveform);
+      if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
+      {
+        waveform->SetDisplayed(true);
+      }
+      if (m_current_display_mode == WaveformDisplayMode::kDisplaySelected)
+      {
+        waveform->SetDisplayed(waveform == m_selected_waveform);
+      }
     }
   }
 }
