@@ -70,8 +70,8 @@ mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
 std::string GetNextNamedColor(std::size_t index)
 {
   // Colors from https://www.w3.org/TR/css-color-3/#svg-color
-  static std::vector<std::string> colors = {"dodgerblue", "green",   "darkorange",
-                                            "crimson",    "fuchsia", "teal"};
+  static const std::vector<std::string> colors = {"dodgerblue", "green",   "darkorange",
+                                                  "crimson",    "fuchsia", "teal"};
 
   return (index < colors.size()) ? colors[index] : mvvm::utils::RandomNamedColor();
 }

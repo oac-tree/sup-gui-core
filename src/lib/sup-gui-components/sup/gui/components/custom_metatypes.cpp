@@ -29,10 +29,15 @@
 namespace sup::gui
 {
 
+namespace
+{
+
+std::once_flag register_once_flag;
+
+}
+
 void RegisterCustomMetaTypes()
 {
-  static std::once_flag register_once_flag;
-
   auto register_func = []()
   {
     (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
