@@ -55,6 +55,11 @@ AbstractTextContentController::AbstractTextContentController(mvvm::SessionItem *
 
 AbstractTextContentController::~AbstractTextContentController() = default;
 
+mvvm::SessionItem *AbstractTextContentController::GetContainer() const
+{
+  return m_container;
+}
+
 void AbstractTextContentController::UpdateText()
 {
   try

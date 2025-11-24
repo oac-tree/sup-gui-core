@@ -59,7 +59,6 @@ private:
   std::string GenerateText() override;
   AnyValueItem* GetAnyValueItem();
 
-  mvvm::SessionItem* m_container{nullptr};
   bool m_pretty_json{false};
 };
 

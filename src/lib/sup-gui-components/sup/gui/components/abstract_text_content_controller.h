@@ -68,6 +68,8 @@ public:
   AbstractTextContentController(AbstractTextContentController&&) = delete;
   AbstractTextContentController& operator=(AbstractTextContentController&&) = delete;
 
+  mvvm::SessionItem* GetContainer() const;
+
 protected:
   void UpdateText();
   virtual void OnDataChangedEvent(const mvvm::DataChangedEvent& event);

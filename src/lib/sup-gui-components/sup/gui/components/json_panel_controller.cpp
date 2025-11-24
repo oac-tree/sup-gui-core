@@ -33,12 +33,11 @@
 namespace sup::gui
 {
 
-JsonPanelController::JsonPanelController(mvvm::SessionItem *container,
+JsonPanelController::JsonPanelController(mvvm::SessionItem* container,
                                          send_text_func_t send_text_func,
                                          send_message_func_t send_message_func)
     : AbstractTextContentController(container, std::move(send_text_func),
                                     std::move(send_message_func))
-    , m_container(container)
 {
   UpdateText();
 }
@@ -70,14 +69,14 @@ std::string JsonPanelController::GenerateText()
   return {};
 }
 
-AnyValueItem *JsonPanelController::GetAnyValueItem()
+AnyValueItem* JsonPanelController::GetAnyValueItem()
 {
-  if (!m_container || (m_container->GetTotalItemCount() == 0))
+  if (!GetContainer() || (GetContainer()->GetTotalItemCount() == 0))
   {
     return nullptr;
   }
 
-  return m_container->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0));
+  return GetContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0));
 }
 
 }  // namespace sup::gui
