@@ -26,12 +26,7 @@ target_include_directories(sup-gui-core-cpptest PUBLIC
 
 target_link_libraries(sup-gui-core-cpptest
   PUBLIC
-  sup-gui-core::core
-  sup-gui-core::components
-  sup-gui-core::views
-  sup-mvvm::model
   sup-mvvm::view
-  sup-mvvm::viewmodel
   sup-gui-extra::ksyntaxhighlighting
   sup-dto::sup-dto
 )
