@@ -44,6 +44,7 @@ class AnyValueEditorTreePanel;
 class AnyValueEditorActions;
 class CustomSplitter;
 class IAppCommandService;
+class ScalarQuickToolbar;
 
 /**
  * @brief The AnyValueEditorWidget class is a main widget of AnyValueEditor.
@@ -142,6 +143,7 @@ private:
   AnyValueEditorActions* m_actions{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
+  ScalarQuickToolbar* m_quick_toolbar{nullptr};
   QWidget* m_left_panel{nullptr};
   QWidget* m_right_panel{nullptr};
   CustomSplitter* m_splitter{nullptr};

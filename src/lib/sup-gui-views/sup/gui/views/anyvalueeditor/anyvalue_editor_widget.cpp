@@ -23,6 +23,7 @@
 #include "anyvalue_editor_actions.h"
 #include "anyvalue_editor_textpanel.h"
 #include "anyvalue_editor_treepanel.h"
+#include "scalar_quick_toolbar.h"
 
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/app_constants.h>
@@ -81,6 +82,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
     , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
     , m_text_panel(new AnyValueEditorTextPanel)
     , m_tree_panel(new AnyValueEditorTreePanel)
+    , m_quick_toolbar(new ScalarQuickToolbar)
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
     , m_splitter(new CustomSplitter(kSplitterSettingName))
@@ -256,7 +258,13 @@ void AnyValueEditorWidget::OnContextMenuRequest(const QPoint& point)
 QWidget* AnyValueEditorWidget::CreateLeftPanel()
 {
   auto result = new ItemStackWidget;
-  result->AddWidget(m_tree_panel, m_actions->GetActions(GetToolBarActionKeys()));
+
+  auto envelop = new QWidget;
+  auto layout = new QVBoxLayout(envelop);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->addWidget(m_quick_toolbar);
+  layout->addWidget(m_tree_panel);
+  result->AddWidget(envelop, m_actions->GetActions(GetToolBarActionKeys()));
   return result;
 }
 
