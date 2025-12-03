@@ -20,8 +20,8 @@
 
 #include "anyvalue_editor_main_window.h"
 
-#include "settings_helper.h"
 #include "anyvalue_editor_app_context.h"
+#include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_project.h>
@@ -59,9 +59,7 @@ QString GetWindowPosSettingName()
 }  // namespace
 
 AnyValueEditorMainWindow::AnyValueEditorMainWindow(AnyValueEditorAppContext& context)
-    : m_context(context)
-    , m_settings(std::make_unique<SettingsModel>())
-    , m_project(CreateProject())
+    : m_context(context), m_settings(std::make_unique<SettingsModel>()), m_project(CreateProject())
 {
   InitApplication();
 
@@ -170,7 +168,7 @@ std::unique_ptr<AnyValueEditorProject> AnyValueEditorMainWindow::CreateProject()
   context.modified_callback = [this]() { UpdateProjectNames(); };
   context.loaded_callback = [this]() { OnProjectLoad(); };
   context.saved_callback = [this]() { UpdateProjectNames(); };
-  context.application_type = constants::kAnyValueEditorApplicationType.toStdString();
+  context.application_type = std::string(constants::kAnyValueEditorApplicationType);
   return std::make_unique<AnyValueEditorProject>(context);
 }
 

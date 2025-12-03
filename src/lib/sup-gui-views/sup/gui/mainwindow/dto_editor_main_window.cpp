@@ -177,7 +177,7 @@ std::unique_ptr<DtoEditorProject> DtoEditorMainWindow::CreateProject()
   context.modified_callback = [this]() { UpdateProjectNames(); };
   context.loaded_callback = [this]() { OnProjectLoad(); };
   context.saved_callback = [this]() { UpdateProjectNames(); };
-  context.application_type = constants::kDtoEditorApplicationType.toStdString();
+  context.application_type = std::string(constants::kDtoEditorApplicationType);
   return std::make_unique<DtoEditorProject>(context);
 }
 

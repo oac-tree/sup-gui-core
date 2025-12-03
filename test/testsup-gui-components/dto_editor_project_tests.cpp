@@ -47,7 +47,7 @@ public:
   std::unique_ptr<DtoEditorProject> CreateProject()
   {
     return std::make_unique<DtoEditorProject>(
-        m_mock_project_context.CreateContext(constants::kDtoEditorApplicationType.toStdString()));
+        m_mock_project_context.CreateContext(constants::kDtoEditorApplicationType));
   }
 
   mvvm::test::MockProjectContext m_mock_project_context;
@@ -59,7 +59,7 @@ TEST_F(DtoEditorProjectTest, InitialState)
 
   EXPECT_TRUE(project->GetPath().empty());
   EXPECT_EQ(project->GetProjectType(), mvvm::ProjectType::kFileBased);
-  EXPECT_EQ(project->GetApplicationType(), constants::kDtoEditorApplicationType.toStdString());
+  EXPECT_EQ(project->GetApplicationType(), constants::kDtoEditorApplicationType);
 
   EXPECT_EQ(project->GetSupDtoModel(), nullptr);
   EXPECT_EQ(project->GetWaveformModel(), nullptr);

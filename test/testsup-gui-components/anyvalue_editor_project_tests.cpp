@@ -45,8 +45,8 @@ public:
 
   std::unique_ptr<AnyValueEditorProject> CreateProject()
   {
-    return std::make_unique<AnyValueEditorProject>(m_mock_project_context.CreateContext(
-        constants::kAnyValueEditorApplicationType.toStdString()));
+    return std::make_unique<AnyValueEditorProject>(
+        m_mock_project_context.CreateContext(constants::kAnyValueEditorApplicationType));
   }
 
   mvvm::test::MockProjectContext m_mock_project_context;
@@ -58,7 +58,7 @@ TEST_F(AnyValueEditorProjectTest, InitialState)
 
   EXPECT_FALSE(project->HasPath());
   EXPECT_EQ(project->GetProjectType(), mvvm::ProjectType::kFileBased);
-  EXPECT_EQ(project->GetApplicationType(), constants::kAnyValueEditorApplicationType.toStdString());
+  EXPECT_EQ(project->GetApplicationType(), constants::kAnyValueEditorApplicationType);
 
   EXPECT_EQ(project->GetApplicationModel(), nullptr);
   EXPECT_TRUE(project->GetModels().empty());

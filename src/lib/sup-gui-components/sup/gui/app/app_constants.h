@@ -24,37 +24,35 @@
 //! @file
 //! Collection of constants related to the whole application.
 
-#include <QString>
-
 namespace sup::gui::constants
 {
 
 //! the name of common settings in the application main configuration file
-const QString kAppFontSettingName = "MainWindow/font";
-const QString kAppVersion = "MainWindow/version";
+constexpr auto kAppFontSettingName = "MainWindow/font";
+constexpr auto kAppVersion = "MainWindow/version";
 
 //! the name of the groups corresponding to main menus of the menubar
-const QString kFileMenu = "&File";
-const QString kEditMenu = "&Edit";
-const QString kToolsMenu = "&Tools";
-const QString kViewMenu = "&View";
-const QString kHelpMenu = "&Help";
+constexpr auto kFileMenu = "&File";
+constexpr auto kEditMenu = "&Edit";
+constexpr auto kToolsMenu = "&Tools";
+constexpr auto kViewMenu = "&View";
+constexpr auto kHelpMenu = "&Help";
 
 //! identifiers to find globally registered proxy actions located on the main application toolbar
-const QString kCutCommandId = "Cut";
-const QString kCopyCommandId = "Copy";
-const QString kPasteCommandId = "Paste";
-const QString kPasteSpecialCommandId = "Paste Special";
-const QString kRemoveSelectedCommandId = "Remove selected";
-const QString kDeleteCommandId = "Delete";
-const QString kUndoCommandId = "Undo";
-const QString kRedoCommandId = "Redo";
-const QString kToggleLeftPanelCommandId = "Show/hide left panel";
-const QString kToggleRightPanelCommandId = "Show/hide right panel";
+constexpr auto kCutCommandId = "Cut";
+constexpr auto kCopyCommandId = "Copy";
+constexpr auto kPasteCommandId = "Paste";
+constexpr auto kPasteSpecialCommandId = "Paste Special";
+constexpr auto kRemoveSelectedCommandId = "Remove selected";
+constexpr auto kDeleteCommandId = "Delete";
+constexpr auto kUndoCommandId = "Undo";
+constexpr auto kRedoCommandId = "Redo";
+constexpr auto kToggleLeftPanelCommandId = "Show/hide left panel";
+constexpr auto kToggleRightPanelCommandId = "Show/hide right panel";
 
 //! identifiers to distinguish XML projects from different applications
-const QString kAnyValueEditorApplicationType = "AnyValueEditor";
-const QString kDtoEditorApplicationType = "SupDtoEditor";
+constexpr auto kAnyValueEditorApplicationType = "AnyValueEditor";
+constexpr auto kDtoEditorApplicationType = "SupDtoEditor";
 
 }  // namespace sup::gui::constants
 
