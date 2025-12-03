@@ -82,7 +82,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
     , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
     , m_text_panel(new AnyValueEditorTextPanel)
     , m_tree_panel(new AnyValueEditorTreePanel)
-    , m_quick_toolbar(new ScalarQuickToolbar)
+    , m_quick_toolbar(new ScalarQuickToolbar(m_action_handler.get()))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
     , m_splitter(new CustomSplitter(kSplitterSettingName))

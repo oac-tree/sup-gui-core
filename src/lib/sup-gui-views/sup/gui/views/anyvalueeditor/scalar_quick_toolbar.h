@@ -26,12 +26,15 @@
 namespace sup::gui
 {
 
+class AnyValueEditorActionHandler;
+
 class ScalarQuickToolbar : public QToolBar
 {
   Q_OBJECT
 
 public:
-  explicit ScalarQuickToolbar(QWidget* parent_widget = nullptr);
+  explicit ScalarQuickToolbar(AnyValueEditorActionHandler* action_handler,
+                              QWidget* parent_widget = nullptr);
   ~ScalarQuickToolbar() override;
 
   ScalarQuickToolbar(const ScalarQuickToolbar&) = delete;
@@ -41,6 +44,14 @@ public:
 
 private:
   void PopulateAddScalarButtons();
+  /**
+   * @brief Inserts scalar of the given type.
+   *
+   * First it tries to perform "insert after" operation, if not possible, it tries "insert into".
+   */
+  void InsertScalar(const std::string& scalar_type);
+
+  AnyValueEditorActionHandler* m_action_handler{nullptr};
 };
 
 }  // namespace sup::gui

@@ -20,6 +20,7 @@
 
 #include "scalar_quick_toolbar.h"
 
+#include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/style/style_helper.h>
 
@@ -28,15 +29,11 @@
 namespace sup::gui
 {
 
-ScalarQuickToolbar::ScalarQuickToolbar(QWidget* parent_widget) : QToolBar(parent_widget)
+ScalarQuickToolbar::ScalarQuickToolbar(AnyValueEditorActionHandler* action_handler,
+                                       QWidget* parent_widget)
+    : QToolBar(parent_widget), m_action_handler(action_handler)
 {
-  // setOrientation(Qt::Vertical);
   setToolButtonStyle(Qt::ToolButtonTextOnly);
-  // setIconSize(utils::ToolBarIconSize());
-
-  // setStyleSheet(
-  //     "QToolBar { padding-bottom: 0px; margin-bottom: 0px; } QToolButton { padding: 0px; margin:
-  //     " "0px; }");
   setStyleSheet("QToolBar { padding-bottom: 0px; margin-bottom: 0px; }");
 
   PopulateAddScalarButtons();
@@ -50,7 +47,30 @@ void ScalarQuickToolbar::PopulateAddScalarButtons()
   {
     auto button = new QToolButton(this);
     button->setText(QString::fromStdString(scalar_type));
+    button->setToolTip(
+        "Add scalar of given type.\n\n"
+        "If possible, it will be added after the selected item; "
+        "otherwise, \nit will be added as a child of the selected item.");
+    connect(button, &QToolButton::clicked, this,
+            [this, scalar_type]() { InsertScalar(scalar_type); });
     addWidget(button);
+  }
+}
+
+void ScalarQuickToolbar::InsertScalar(const std::string& scalar_type)
+{
+  if (m_action_handler->CanInsertAfter(scalar_type))
+  {
+    m_action_handler->InsertAnyValueItemAfter(scalar_type);
+  }
+
+  else if (m_action_handler->CanInsertInto(scalar_type))
+  {
+    m_action_handler->InsertAnyValueItemInto(scalar_type);
+  }
+  else
+  {
+    // nothing to do
   }
 }
 
