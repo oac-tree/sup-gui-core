@@ -46,6 +46,11 @@ public:
 
   ~DtoEditorProject() override;
 
+  DtoEditorProject(const DtoEditorProject&) = delete;
+  DtoEditorProject& operator=(const DtoEditorProject&) = delete;
+  DtoEditorProject(DtoEditorProject&&) = delete;
+  DtoEditorProject& operator=(DtoEditorProject&&) = delete;
+
   SupDtoModel* GetSupDtoModel();
 
   WaveformModel* GetWaveformModel();

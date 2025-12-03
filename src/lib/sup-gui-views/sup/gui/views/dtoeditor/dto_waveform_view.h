@@ -54,6 +54,11 @@ public:
   explicit DtoWaveformView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
   ~DtoWaveformView() override;
 
+  DtoWaveformView(const DtoWaveformView&) = delete;
+  DtoWaveformView& operator=(const DtoWaveformView&) = delete;
+  DtoWaveformView(DtoWaveformView&&) = delete;
+  DtoWaveformView& operator=(DtoWaveformView&&) = delete;
+
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.
    */

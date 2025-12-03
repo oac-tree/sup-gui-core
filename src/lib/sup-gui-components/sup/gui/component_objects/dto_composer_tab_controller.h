@@ -67,6 +67,11 @@ public:
                            QTabWidget* tab_widget, QObject* parent_object = nullptr);
   ~DtoComposerTabController() override;
 
+  DtoComposerTabController(const DtoComposerTabController&) = delete;
+  DtoComposerTabController& operator=(const DtoComposerTabController&) = delete;
+  DtoComposerTabController(DtoComposerTabController&&) = delete;
+  DtoComposerTabController& operator=(DtoComposerTabController&&) = delete;
+
   /**
    * @brief Returns the widget serving given container.
    */

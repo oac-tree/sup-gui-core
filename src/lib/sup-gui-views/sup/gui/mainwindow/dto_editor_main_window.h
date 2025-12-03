@@ -56,6 +56,11 @@ public:
   explicit DtoEditorMainWindow(AnyValueEditorAppContext& context);
   ~DtoEditorMainWindow() override;
 
+  DtoEditorMainWindow(const DtoEditorMainWindow&) = delete;
+  DtoEditorMainWindow& operator=(const DtoEditorMainWindow&) = delete;
+  DtoEditorMainWindow(DtoEditorMainWindow&&) = delete;
+  DtoEditorMainWindow& operator=(DtoEditorMainWindow&&) = delete;
+
 protected:
   void closeEvent(QCloseEvent* event) override;
 

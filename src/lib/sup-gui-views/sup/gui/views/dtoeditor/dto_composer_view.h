@@ -53,6 +53,11 @@ public:
   explicit DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
   ~DtoComposerView() override;
 
+  DtoComposerView(const DtoComposerView&) = delete;
+  DtoComposerView& operator=(const DtoComposerView&) = delete;
+  DtoComposerView(DtoComposerView&&) = delete;
+  DtoComposerView& operator=(DtoComposerView&&) = delete;
+
   void SetModel(mvvm::ISessionModel* model);
 
 private:

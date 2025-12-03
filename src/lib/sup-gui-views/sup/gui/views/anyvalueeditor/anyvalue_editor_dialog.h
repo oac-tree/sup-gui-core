@@ -42,6 +42,11 @@ public:
                                 QWidget* parent_widget = nullptr);
   ~AnyValueEditorDialog() override;
 
+  AnyValueEditorDialog(const AnyValueEditorDialog&) = delete;
+  AnyValueEditorDialog& operator=(const AnyValueEditorDialog&) = delete;
+  AnyValueEditorDialog(AnyValueEditorDialog&&) = delete;
+  AnyValueEditorDialog& operator=(AnyValueEditorDialog&&) = delete;
+
   /**
    * @brief Sets initial value to the editor.
    */

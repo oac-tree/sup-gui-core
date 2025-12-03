@@ -56,6 +56,11 @@ public:
   explicit DtoWaveformListPanel(QWidget* parent_widget = nullptr);
   ~DtoWaveformListPanel() override;
 
+  DtoWaveformListPanel(const DtoWaveformListPanel&) = delete;
+  DtoWaveformListPanel& operator=(const DtoWaveformListPanel&) = delete;
+  DtoWaveformListPanel(DtoWaveformListPanel&&) = delete;
+  DtoWaveformListPanel& operator=(DtoWaveformListPanel&&) = delete;
+
   /**
    * @brief Sets main viewport with waveforms.
    */

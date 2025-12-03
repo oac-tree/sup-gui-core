@@ -42,6 +42,11 @@ public:
   explicit CodeEditor(QWidget *parent_widget = nullptr);
   ~CodeEditor() override;
 
+  CodeEditor(const CodeEditor&) = delete;
+  CodeEditor& operator=(const CodeEditor&) = delete;
+  CodeEditor(CodeEditor&&) = delete;
+  CodeEditor& operator=(CodeEditor&&) = delete;
+
   /**
    * @brief Set editor content. Previous content will be cleared up.
    */

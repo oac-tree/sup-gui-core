@@ -58,6 +58,11 @@ public:
                                            QMainWindow* main_window);
   ~AnyValueEditorMainWindowActions() override;
 
+  AnyValueEditorMainWindowActions(const AnyValueEditorMainWindowActions&) = delete;
+  AnyValueEditorMainWindowActions& operator=(const AnyValueEditorMainWindowActions&) = delete;
+  AnyValueEditorMainWindowActions(AnyValueEditorMainWindowActions&&) = delete;
+  AnyValueEditorMainWindowActions& operator=(AnyValueEditorMainWindowActions&&) = delete;
+
   /**
    * @brief Closes current project.
    *

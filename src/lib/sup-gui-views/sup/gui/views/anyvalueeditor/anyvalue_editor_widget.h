@@ -60,6 +60,11 @@ public:
                                 QWidget* parent_widget = nullptr);
   ~AnyValueEditorWidget() override;
 
+  AnyValueEditorWidget(const AnyValueEditorWidget&) = delete;
+  AnyValueEditorWidget& operator=(const AnyValueEditorWidget&) = delete;
+  AnyValueEditorWidget(AnyValueEditorWidget&&) = delete;
+  AnyValueEditorWidget& operator=(AnyValueEditorWidget&&) = delete;
+
   /**
    * @brief Sets the container with AnyValueItem.
    *

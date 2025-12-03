@@ -54,6 +54,11 @@ public:
   explicit WaveformTableWidget(mvvm::ApplicationModel* model, QWidget* parent_widget = nullptr);
   ~WaveformTableWidget() override;
 
+  WaveformTableWidget(const WaveformTableWidget&) = delete;
+  WaveformTableWidget& operator=(const WaveformTableWidget&) = delete;
+  WaveformTableWidget(WaveformTableWidget&&) = delete;
+  WaveformTableWidget& operator=(WaveformTableWidget&&) = delete;
+
   void SetModel(mvvm::ApplicationModel* model);
 
   /**

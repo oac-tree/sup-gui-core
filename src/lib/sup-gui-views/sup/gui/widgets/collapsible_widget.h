@@ -52,6 +52,11 @@ public:
                              QWidget* parent_widget = nullptr);
   ~CollapsibleWidget() override;
 
+  CollapsibleWidget(const CollapsibleWidget&) = delete;
+  CollapsibleWidget& operator=(const CollapsibleWidget&) = delete;
+  CollapsibleWidget(CollapsibleWidget&&) = delete;
+  CollapsibleWidget& operator=(CollapsibleWidget&&) = delete;
+
   /**
    * @brief Add this collapsible widget to a given splitter.
    *

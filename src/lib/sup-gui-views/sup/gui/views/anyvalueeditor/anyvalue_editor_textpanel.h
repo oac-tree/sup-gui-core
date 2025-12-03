@@ -52,6 +52,11 @@ public:
   explicit AnyValueEditorTextPanel(QWidget* parent_widget = nullptr);
   ~AnyValueEditorTextPanel() override;
 
+  AnyValueEditorTextPanel(const AnyValueEditorTextPanel&) = delete;
+  AnyValueEditorTextPanel& operator=(const AnyValueEditorTextPanel&) = delete;
+  AnyValueEditorTextPanel(AnyValueEditorTextPanel&&) = delete;
+  AnyValueEditorTextPanel& operator=(AnyValueEditorTextPanel&&) = delete;
+
   /**
    * @brief Sets the container with AnyValueItem.
    */

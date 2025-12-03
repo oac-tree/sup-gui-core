@@ -52,6 +52,11 @@ public:
   explicit AnyValueEditorMainWindow(AnyValueEditorAppContext &context);
   ~AnyValueEditorMainWindow() override;
 
+  AnyValueEditorMainWindow(const AnyValueEditorMainWindow&) = delete;
+  AnyValueEditorMainWindow& operator=(const AnyValueEditorMainWindow&) = delete;
+  AnyValueEditorMainWindow(AnyValueEditorMainWindow&&) = delete;
+  AnyValueEditorMainWindow& operator=(AnyValueEditorMainWindow&&) = delete;
+
 protected:
   void closeEvent(QCloseEvent* event) override;
 

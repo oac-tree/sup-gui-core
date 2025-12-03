@@ -58,6 +58,11 @@ public:
                                       QMainWindow* mainwindow = nullptr);
   ~DtoEditorMainWindowActions() override;
 
+  DtoEditorMainWindowActions(const DtoEditorMainWindowActions&) = delete;
+  DtoEditorMainWindowActions& operator=(const DtoEditorMainWindowActions&) = delete;
+  DtoEditorMainWindowActions(DtoEditorMainWindowActions&&) = delete;
+  DtoEditorMainWindowActions& operator=(DtoEditorMainWindowActions&&) = delete;
+
   /**
    * @brief Closes current project.
    *

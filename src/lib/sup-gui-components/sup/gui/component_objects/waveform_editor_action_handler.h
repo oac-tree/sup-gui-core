@@ -48,6 +48,11 @@ public:
                                        QObject* parent_object = nullptr);
   ~WaveformEditorActionHandler() override;
 
+  WaveformEditorActionHandler(const WaveformEditorActionHandler&) = delete;
+  WaveformEditorActionHandler& operator=(const WaveformEditorActionHandler&) = delete;
+  WaveformEditorActionHandler(WaveformEditorActionHandler&&) = delete;
+  WaveformEditorActionHandler& operator=(WaveformEditorActionHandler&&) = delete;
+
   void OnAddColumnBeforeRequest();
   void OnAddColumnAfterRequest();
   void OnRemoveColumnRequest();

@@ -68,6 +68,11 @@ public:
                                  QObject* parent_object = nullptr);
   ~AnyValueEditorActions() override;
 
+  AnyValueEditorActions(const AnyValueEditorActions&) = delete;
+  AnyValueEditorActions& operator=(const AnyValueEditorActions&) = delete;
+  AnyValueEditorActions(AnyValueEditorActions&&) = delete;
+  AnyValueEditorActions& operator=(AnyValueEditorActions&&) = delete;
+
   /**
    * @brief Returns list of actions according to provided flags.
    */

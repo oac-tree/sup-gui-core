@@ -43,6 +43,11 @@ public:
   explicit AnyValueWaveformEditor(QWidget* parent_widget = nullptr);
   ~AnyValueWaveformEditor() override;
 
+  AnyValueWaveformEditor(const AnyValueWaveformEditor&) = delete;
+  AnyValueWaveformEditor& operator=(const AnyValueWaveformEditor&) = delete;
+  AnyValueWaveformEditor(AnyValueWaveformEditor&&) = delete;
+  AnyValueWaveformEditor& operator=(AnyValueWaveformEditor&&) = delete;
+
   void SetInitialValue(const sup::gui::AnyValueItem* item) override;
 
   std::unique_ptr<sup::gui::AnyValueItem> GetResult() override;

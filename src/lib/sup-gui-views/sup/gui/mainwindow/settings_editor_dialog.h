@@ -48,6 +48,11 @@ public:
   explicit SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget = nullptr);
   ~SettingsEditorDialog() override;
 
+  SettingsEditorDialog(const SettingsEditorDialog&) = delete;
+  SettingsEditorDialog& operator=(const SettingsEditorDialog&) = delete;
+  SettingsEditorDialog(SettingsEditorDialog&&) = delete;
+  SettingsEditorDialog& operator=(SettingsEditorDialog&&) = delete;
+
   /**
    * @brief Rewrites given model content with local settings copy.
    */

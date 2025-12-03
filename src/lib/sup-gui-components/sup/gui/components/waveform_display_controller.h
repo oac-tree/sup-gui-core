@@ -57,6 +57,11 @@ public:
   explicit WaveformDisplayController(mvvm::ChartViewportItem* chart_viewport);
   ~WaveformDisplayController();
 
+  WaveformDisplayController(const WaveformDisplayController&) = delete;
+  WaveformDisplayController& operator=(const WaveformDisplayController&) = delete;
+  WaveformDisplayController(WaveformDisplayController&&) = delete;
+  WaveformDisplayController& operator=(WaveformDisplayController&&) = delete;
+
   void SetDisplayMode(WaveformDisplayMode display_mode);
 
   void SetSelected(mvvm::LineSeriesItem* selected_waveform);

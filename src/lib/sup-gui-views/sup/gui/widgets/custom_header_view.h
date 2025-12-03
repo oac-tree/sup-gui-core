@@ -70,6 +70,11 @@ public:
 
   ~CustomHeaderView() override;
 
+  CustomHeaderView(const CustomHeaderView&) = delete;
+  CustomHeaderView& operator=(const CustomHeaderView&) = delete;
+  CustomHeaderView(CustomHeaderView&&) = delete;
+  CustomHeaderView& operator=(CustomHeaderView&&) = delete;
+
   /**
    * @brief The constructor that invokes persistent setting machinery.
    *

@@ -53,6 +53,11 @@ public:
   AnyValueEditorActionHandler(AnyValueEditorContext context, mvvm::SessionItem* container);
   ~AnyValueEditorActionHandler() override;
 
+  AnyValueEditorActionHandler(const AnyValueEditorActionHandler&) = delete;
+  AnyValueEditorActionHandler& operator=(const AnyValueEditorActionHandler&) = delete;
+  AnyValueEditorActionHandler(AnyValueEditorActionHandler&&) = delete;
+  AnyValueEditorActionHandler& operator=(AnyValueEditorActionHandler&&) = delete;
+
   void SetAnyValueItemContainer(mvvm::SessionItem* container) override;
 
   bool CanInsertAfter(const std::string& type_name) const override;

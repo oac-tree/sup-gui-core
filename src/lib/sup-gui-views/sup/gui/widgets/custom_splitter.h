@@ -58,6 +58,11 @@ public:
   explicit CustomSplitter(const QString& settings_group_name, QWidget* parent_widget = nullptr);
   ~CustomSplitter() override;
 
+  CustomSplitter(const CustomSplitter&) = delete;
+  CustomSplitter& operator=(const CustomSplitter&) = delete;
+  CustomSplitter(CustomSplitter&&) = delete;
+  CustomSplitter& operator=(CustomSplitter&&) = delete;
+
   /**
    * @brief Reads splitter state from disk.
    *

@@ -41,6 +41,11 @@ public:
   explicit OverlayMessage(const MessageEvent& message, QWidget* area);
   ~OverlayMessage();
 
+  OverlayMessage(const OverlayMessage&) = delete;
+  OverlayMessage& operator=(const OverlayMessage&) = delete;
+  OverlayMessage(OverlayMessage&&) = delete;
+  OverlayMessage& operator=(OverlayMessage&&) = delete;
+
   /**
    * @brief Checks if given overlay message can be removed from widget.
    */

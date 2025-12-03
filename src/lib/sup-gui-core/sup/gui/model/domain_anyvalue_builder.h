@@ -38,6 +38,11 @@ public:
   explicit DomainAnyValueBuilder(const AnyValueItem& item);
   ~DomainAnyValueBuilder();
 
+  DomainAnyValueBuilder(const DomainAnyValueBuilder&) = delete;
+  DomainAnyValueBuilder& operator=(const DomainAnyValueBuilder&) = delete;
+  DomainAnyValueBuilder(DomainAnyValueBuilder&&) = delete;
+  DomainAnyValueBuilder& operator=(DomainAnyValueBuilder&&) = delete;
+
   sup::dto::AnyValue GetAnyValue();
 
 private:

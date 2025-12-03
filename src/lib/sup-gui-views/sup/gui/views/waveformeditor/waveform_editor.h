@@ -58,6 +58,11 @@ public:
   explicit WaveformEditor(QWidget* parent_widget = nullptr);
   ~WaveformEditor() override;
 
+  WaveformEditor(const WaveformEditor&) = delete;
+  WaveformEditor& operator=(const WaveformEditor&) = delete;
+  WaveformEditor(WaveformEditor&&) = delete;
+  WaveformEditor& operator=(WaveformEditor&&) = delete;
+
   void SetWaveform(const std::vector<std::pair<double, double>>& waveform,
                    const std::string& title);
 

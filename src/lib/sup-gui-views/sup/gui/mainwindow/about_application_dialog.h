@@ -40,6 +40,11 @@ public:
                          const QString &version = QString());
   ~AboutApplicationDialog() override = default;
 
+  AboutApplicationDialog(const AboutApplicationDialog&) = delete;
+  AboutApplicationDialog& operator=(const AboutApplicationDialog&) = delete;
+  AboutApplicationDialog(AboutApplicationDialog&&) = delete;
+  AboutApplicationDialog& operator=(AboutApplicationDialog&&) = delete;
+
   static void ShowDialog(QWidget *parent = nullptr, const QString &app_name = QString(),
                          const QString &description = QString(),
                          const QString &version = QString());

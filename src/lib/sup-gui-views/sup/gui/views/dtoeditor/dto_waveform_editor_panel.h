@@ -48,6 +48,11 @@ public:
   explicit DtoWaveformEditorPanel(QWidget* parent_widget = nullptr);
   ~DtoWaveformEditorPanel() override;
 
+  DtoWaveformEditorPanel(const DtoWaveformEditorPanel&) = delete;
+  DtoWaveformEditorPanel& operator=(const DtoWaveformEditorPanel&) = delete;
+  DtoWaveformEditorPanel(DtoWaveformEditorPanel&&) = delete;
+  DtoWaveformEditorPanel& operator=(DtoWaveformEditorPanel&&) = delete;
+
   /**
    * @brief Sets main viewport with waveforms.
    */

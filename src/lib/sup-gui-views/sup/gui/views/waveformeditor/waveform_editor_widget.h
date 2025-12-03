@@ -58,6 +58,11 @@ public:
   explicit WaveformEditorWidget(QWidget* parent_widget = nullptr);
   ~WaveformEditorWidget() override;
 
+  WaveformEditorWidget(const WaveformEditorWidget&) = delete;
+  WaveformEditorWidget& operator=(const WaveformEditorWidget&) = delete;
+  WaveformEditorWidget(WaveformEditorWidget&&) = delete;
+  WaveformEditorWidget& operator=(WaveformEditorWidget&&) = delete;
+
   /**
    * @brief Returns current waveform being served by the table widget.
    */

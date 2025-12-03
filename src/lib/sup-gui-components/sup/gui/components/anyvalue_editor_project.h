@@ -49,6 +49,11 @@ public:
 
   ~AnyValueEditorProject() override;
 
+  AnyValueEditorProject(const AnyValueEditorProject&) = delete;
+  AnyValueEditorProject& operator=(const AnyValueEditorProject&) = delete;
+  AnyValueEditorProject(AnyValueEditorProject&&) = delete;
+  AnyValueEditorProject& operator=(AnyValueEditorProject&&) = delete;
+
   mvvm::ApplicationModel* GetApplicationModel();
 };
 

@@ -53,6 +53,11 @@ public:
   explicit CodeView(LanguageDefinition language = kXML, QWidget* parent_widget = nullptr);
   ~CodeView() override;
 
+  CodeView(const CodeView&) = delete;
+  CodeView& operator=(const CodeView&) = delete;
+  CodeView(CodeView&&) = delete;
+  CodeView& operator=(CodeView&&) = delete;
+
   void SetFile(const QString& file_name);
 
   void SetContent(const QString& content);
