@@ -35,9 +35,9 @@ class AboutApplicationDialog : public QDialog
 {
   Q_OBJECT
 public:
-  AboutApplicationDialog(QWidget *parent_widget = nullptr, const QString &app_name = QString(),
-                         const QString &description = QString(),
-                         const QString &version = QString());
+  AboutApplicationDialog(QWidget* parent_widget = nullptr, const QString& app_name = QString(),
+                         const QString& description = QString(),
+                         const QString& version = QString());
   ~AboutApplicationDialog() override = default;
 
   AboutApplicationDialog(const AboutApplicationDialog&) = delete;
@@ -45,18 +45,18 @@ public:
   AboutApplicationDialog(AboutApplicationDialog&&) = delete;
   AboutApplicationDialog& operator=(AboutApplicationDialog&&) = delete;
 
-  static void ShowDialog(QWidget *parent = nullptr, const QString &app_name = QString(),
-                         const QString &description = QString(),
-                         const QString &version = QString());
+  static void ShowDialog(QWidget* parent = nullptr, const QString& app_name = QString(),
+                         const QString& description = QString(),
+                         const QString& version = QString());
 
   static QString GetCopyRight();
 
 private:
-  std::unique_ptr<QLabel> CreateLinkLabel(const QString &link, const QString &name);
+  std::unique_ptr<QLabel> CreateLinkLabel(const QString& link, const QString& name);
 
   std::unique_ptr<QLayout> CreateLogoLayout();
-  std::unique_ptr<QLayout> CreateTextLayout(const QString &app_name, const QString &description,
-                                            const QString &version);
+  std::unique_ptr<QLayout> CreateTextLayout(const QString& app_name, const QString& description,
+                                            const QString& version);
   std::unique_ptr<QLayout> CreateButtonLayout();
 };
 

@@ -137,7 +137,7 @@ private:
   QueryResult CanInsertTypeIntoCurrentSelection(const std::string& item_type) const;
 
   void InsertItem(std::vector<std::unique_ptr<mvvm::SessionItem>> items,
-                                mvvm::SessionItem* parent_item, const mvvm::TagIndex& index);
+                  mvvm::SessionItem* parent_item, const mvvm::TagIndex& index);
 
   const QMimeData* GetClipboardContent() const;
 

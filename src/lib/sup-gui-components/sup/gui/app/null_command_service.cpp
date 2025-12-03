@@ -25,46 +25,46 @@
 namespace sup::gui
 {
 
-void NullCommandService::AppRegisterMenuBar(QMenuBar *menubar, const QStringList &top_menu_names)
+void NullCommandService::AppRegisterMenuBar(QMenuBar* menubar, const QStringList& top_menu_names)
 {
   (void)menubar;
   (void)top_menu_names;
 }
 
-AppCommandContext NullCommandService::RegisterWidgetUniqueId(const QWidget *widget)
+AppCommandContext NullCommandService::RegisterWidgetUniqueId(const QWidget* widget)
 {
   (void)widget;
   return AppCommandContext({}, {});
 }
 
-void NullCommandService::UnregisterWidgetUniqueId(const QWidget *widget)
+void NullCommandService::UnregisterWidgetUniqueId(const QWidget* widget)
 {
   (void)(widget);
 }
 
-QMenu *NullCommandService::AppGetMenu(const QString &menu_name)
+QMenu* NullCommandService::AppGetMenu(const QString& menu_name)
 {
   (void)menu_name;
   return nullptr;
 }
 
-bool NullCommandService::AddActionToMenuBar(const QString &menu_name, QAction *action)
+bool NullCommandService::AddActionToMenuBar(const QString& menu_name, QAction* action)
 {
   (void)menu_name;
   (void)action;
   return false;
 }
 
-AppCommand *NullCommandService::AddCommandToMenu(const QString &menu_name,
-                                                 const QString &command_id)
+AppCommand* NullCommandService::AddCommandToMenu(const QString& menu_name,
+                                                 const QString& command_id)
 {
   (void)menu_name;
   (void)command_id;
   return nullptr;
 }
 
-bool NullCommandService::AddActionToCommand(QAction *action, const QString &command_id,
-                                            const AppCommandContext &context)
+bool NullCommandService::AddActionToCommand(QAction* action, const QString& command_id,
+                                            const AppCommandContext& context)
 {
   (void)action;
   (void)command_id;
@@ -72,13 +72,13 @@ bool NullCommandService::AddActionToCommand(QAction *action, const QString &comm
   return false;
 }
 
-AppCommand *NullCommandService::GetCommand(const QString &command_id)
+AppCommand* NullCommandService::GetCommand(const QString& command_id)
 {
   (void)command_id;
   return nullptr;
 }
 
-void NullCommandService::OnFocusWidgetUpdate(QWidget *old, QWidget *now)
+void NullCommandService::OnFocusWidgetUpdate(QWidget* old, QWidget* now)
 {
   (void)old;
   (void)now;

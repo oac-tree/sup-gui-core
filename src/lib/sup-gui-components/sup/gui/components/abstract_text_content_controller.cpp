@@ -28,7 +28,7 @@
 namespace sup::gui
 {
 
-AbstractTextContentController::AbstractTextContentController(mvvm::SessionItem *container,
+AbstractTextContentController::AbstractTextContentController(mvvm::SessionItem* container,
                                                              send_text_func_t send_text_func,
                                                              send_message_func_t send_message_func)
     : m_container(container)
@@ -55,7 +55,7 @@ AbstractTextContentController::AbstractTextContentController(mvvm::SessionItem *
 
 AbstractTextContentController::~AbstractTextContentController() = default;
 
-mvvm::SessionItem *AbstractTextContentController::GetContainer() const
+mvvm::SessionItem* AbstractTextContentController::GetContainer() const
 {
   return m_container;
 }
@@ -67,14 +67,14 @@ void AbstractTextContentController::UpdateText()
     auto str = GenerateText();
     SendText(str);
   }
-  catch (const std::exception &ex)
+  catch (const std::exception& ex)
   {
     m_last_send_text = {};
     SendExceptionMessage(ex.what());
   }
 }
 
-void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEvent &event)
+void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEvent& event)
 {
   if ((event.data_role == mvvm::DataRole::kData) || (event.data_role == mvvm::DataRole::kDisplay))
   {
@@ -83,7 +83,7 @@ void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEv
 }
 
 void AbstractTextContentController::OnAboutToRemoveItemEvent(
-    const mvvm::AboutToRemoveItemEvent &event)
+    const mvvm::AboutToRemoveItemEvent& event)
 {
   if (event.item->GetItem(event.tag_index) == m_container)
   {
@@ -97,15 +97,15 @@ void AbstractTextContentController::OnAboutToRemoveItemEvent(
 void AbstractTextContentController::SetupListener()
 {
   m_listener = std::make_unique<mvvm::ModelListener>(m_container->GetModel());
-  m_listener->Connect<mvvm::ItemRemovedEvent>([this](const auto &) { UpdateText(); });
-  m_listener->Connect<mvvm::ItemInsertedEvent>([this](const auto &) { UpdateText(); });
+  m_listener->Connect<mvvm::ItemRemovedEvent>([this](const auto&) { UpdateText(); });
+  m_listener->Connect<mvvm::ItemInsertedEvent>([this](const auto&) { UpdateText(); });
   m_listener->Connect<mvvm::DataChangedEvent>(this,
                                               &AbstractTextContentController::OnDataChangedEvent);
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
       this, &AbstractTextContentController::OnAboutToRemoveItemEvent);
 }
 
-void AbstractTextContentController::SendExceptionMessage(const std::string &what) const
+void AbstractTextContentController::SendExceptionMessage(const std::string& what) const
 {
   const std::string title("Text generation failed");
   const std::string text("The model is in inconsistent state");
@@ -113,12 +113,12 @@ void AbstractTextContentController::SendExceptionMessage(const std::string &what
   SendMessage(message);
 }
 
-void AbstractTextContentController::SendMessage(const MessageEvent &message) const
+void AbstractTextContentController::SendMessage(const MessageEvent& message) const
 {
   m_send_message_func(message);
 }
 
-void AbstractTextContentController::SendText(const std::string &str)
+void AbstractTextContentController::SendText(const std::string& str)
 {
   // do not notify if we already send exactly same last time
   if (m_last_send_text.has_value() && m_last_send_text == str)

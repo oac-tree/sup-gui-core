@@ -23,9 +23,9 @@
 namespace sup::gui
 {
 
-SteadyMenu::SteadyMenu(QWidget *parent_widget) : QMenu(parent_widget) {}
+SteadyMenu::SteadyMenu(QWidget* parent_widget) : QMenu(parent_widget) {}
 
-void SteadyMenu::mouseReleaseEvent(QMouseEvent *event)
+void SteadyMenu::mouseReleaseEvent(QMouseEvent* event)
 {
   auto action = activeAction();
 

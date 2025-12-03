@@ -34,10 +34,10 @@ namespace sup::gui
 {
 
 std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
-    const std::vector<AnyValueItem *> &selection)
+    const std::vector<AnyValueItem*>& selection)
 {
   // accept all items that are AnyValueItem and in the selection list, accept all properties
-  auto filter_func = [&selection](const mvvm::SessionItem &item)
+  auto filter_func = [&selection](const mvvm::SessionItem& item)
   {
     if (item.GetTagIndex().GetTag() == constants::kAnyValueChildrenTag)
     {
@@ -53,7 +53,7 @@ std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
                                       kCopyAnyValueMimeType, filter_func);
 }
 
-std::vector<std::unique_ptr<mvvm::SessionItem> > CreateAnyValueItems(const QMimeData *mime_data)
+std::vector<std::unique_ptr<mvvm::SessionItem> > CreateAnyValueItems(const QMimeData* mime_data)
 {
   return sup::gui::CreateSessionItems(mime_data, kCopyAnyValueMimeType);
 }

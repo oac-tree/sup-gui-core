@@ -31,9 +31,9 @@
 namespace sup::gui
 {
 
-DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
+DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel* model,
                                                    create_widget_callback_t callback,
-                                                   QTabWidget *tab_widget, QObject *parent_object)
+                                                   QTabWidget* tab_widget, QObject* parent_object)
     : QObject(parent_object)
     , m_model(model)
     , m_create_widget_callback(std::move(callback))
@@ -54,7 +54,7 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
   InitTabs();
 }
 
-QWidget *DtoComposerTabController::GetWidgetForItem(const mvvm::SessionItem *container)
+QWidget* DtoComposerTabController::GetWidgetForItem(const mvvm::SessionItem* container)
 {
   auto iter = m_widget_map.find(container);
   return iter == m_widget_map.end() ? nullptr : iter->second;
@@ -71,7 +71,7 @@ void DtoComposerTabController::InitTabs()
 
 DtoComposerTabController::~DtoComposerTabController() = default;
 
-void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent &event)
+void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
@@ -83,7 +83,7 @@ void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent
   }
 }
 
-void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent &event)
+void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event)
 {
   auto [parent, tag_index] = event;
   // we are interested only in root item with containers
@@ -104,7 +104,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
   }
 }
 
-void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem *container,
+void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem* container,
                                                               std::size_t index)
 {
   auto widget = m_create_widget_callback(container);
@@ -115,7 +115,7 @@ void DtoComposerTabController::InsertAnyValueItemContainerTab(mvvm::SessionItem 
   (void)m_tab_widget->insertTab(static_cast<int>(index), widget.release(), "AnyValue");
 }
 
-void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent &event)
+void DtoComposerTabController::OnModelResetEvent(const mvvm::ModelResetEvent& event)
 {
   ClearWidgets();
   (void)event;

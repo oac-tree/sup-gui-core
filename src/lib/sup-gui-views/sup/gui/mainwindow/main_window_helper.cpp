@@ -52,7 +52,7 @@ const QString kCodacStyle = "Adwaita";  // Gnome-like style installed on CODAC m
  *
  * @param The preferred style name, as provided by the user from the command line.
  */
-std::optional<QString> GetPrefferedStyle(const QString &preferred_style)
+std::optional<QString> GetPrefferedStyle(const QString& preferred_style)
 {
   const QStringList preferred_styles({preferred_style, kPlasmaPreferredStyle, kCodacStyle});
   const QStringList available_styles = QStyleFactory::keys();
@@ -72,7 +72,7 @@ std::optional<QString> GetPrefferedStyle(const QString &preferred_style)
 namespace sup::gui
 {
 
-void InitCoreApplication(const QString &app_name, const QString &version)
+void InitCoreApplication(const QString& app_name, const QString& version)
 {
   QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
   QCoreApplication::setApplicationName(app_name);
@@ -91,7 +91,7 @@ void InitCoreApplication(const QString &app_name, const QString &version)
   }
 }
 
-void SetupApplication(std::int32_t font_size_hint, const QString &app_style, bool verbose)
+void SetupApplication(std::int32_t font_size_hint, const QString& app_style, bool verbose)
 {
   // first changing style, then font
   SetWindowStyle(app_style);
@@ -102,7 +102,7 @@ void SetupApplication(std::int32_t font_size_hint, const QString &app_style, boo
   }
 }
 
-void SetWindowStyle(const QString &app_style)
+void SetWindowStyle(const QString& app_style)
 {
   if (auto preferred_style = GetPrefferedStyle(app_style); preferred_style.has_value())
   {
@@ -169,13 +169,13 @@ std::optional<QFont> GetAppFontFromSettings()
   return {};
 }
 
-void SaveAppFontInSettings(const QFont &font)
+void SaveAppFontInSettings(const QFont& font)
 {
   QSettings settings;
   settings.setValue(constants::kAppFontSettingName, font);
 }
 
-bool HasValidAppSettings(const std::string &app_version)
+bool HasValidAppSettings(const std::string& app_version)
 {
   const QSettings settings;
 
@@ -223,7 +223,7 @@ bool SummonChangeSystemFontDialog()
 
 bool IsHeadlessMode()
 {
-  if (const char *var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
+  if (const char* var = std::getenv("QT_QPA_PLATFORM"); var != nullptr)
   {
     return std::string(var) == std::string("offscreen");
   }

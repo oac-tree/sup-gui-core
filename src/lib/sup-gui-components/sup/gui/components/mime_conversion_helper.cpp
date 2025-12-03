@@ -62,7 +62,7 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(
   {
     xml_representation.push_back(
         QString::fromStdString(mvvm::utils::ToXMLString(*item, filter_func)));
-    (void) clipboard_text.append(" " + QString::fromStdString(item->GetDisplayName()));
+    (void)clipboard_text.append(" " + QString::fromStdString(item->GetDisplayName()));
   }
   result->setData(mime_format, mvvm::utils::GetByteArray(xml_representation));
   result->setText(clipboard_text);
@@ -89,7 +89,7 @@ std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItems(const QMimeD
   auto binary_data = mime_data->data(mime_format);
   for (const auto& xml_str : mvvm::utils::GetStringList(binary_data))
   {
-    (void) result.emplace_back(mvvm::utils::SessionItemFromXMLString(xml_str.toStdString()));
+    (void)result.emplace_back(mvvm::utils::SessionItemFromXMLString(xml_str.toStdString()));
   }
 
   return result;

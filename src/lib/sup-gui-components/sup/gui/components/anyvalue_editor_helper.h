@@ -82,7 +82,7 @@ bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child);
  *
  * @param parent A parent representing array item.
  */
-void UpdateArrayElementNames(const mvvm::SessionItem &parent);
+void UpdateArrayElementNames(const mvvm::SessionItem& parent);
 
 }  // namespace sup::gui
 

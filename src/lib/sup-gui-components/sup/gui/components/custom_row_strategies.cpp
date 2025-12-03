@@ -23,8 +23,8 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
-#include <mvvm/providers/viewitem_factory.h>
 #include <mvvm/providers/viewitem.h>
+#include <mvvm/providers/viewitem_factory.h>
 
 #include <QColor>
 
@@ -36,9 +36,9 @@ namespace
  *
  * @details The name of array elements should be read only.
  */
-bool HasEditableDisplayName(const sup::gui::AnyValueItem &item)
+bool HasEditableDisplayName(const sup::gui::AnyValueItem& item)
 {
-  auto item_parent = dynamic_cast<const sup::gui::AnyValueItem *>(item.GetParent());
+  auto item_parent = dynamic_cast<const sup::gui::AnyValueItem*>(item.GetParent());
   return !((item_parent != nullptr) && item_parent->IsArray());
 }
 
@@ -59,9 +59,9 @@ QStringList AnyValueRowStrategy::GetHorizontalHeaderLabels() const
 }
 
 std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowImpl(
-    mvvm::SessionItem *item)
+    mvvm::SessionItem* item)
 {
-  auto anyvalue_item = dynamic_cast<AnyValueItem *>(item);
+  auto anyvalue_item = dynamic_cast<AnyValueItem*>(item);
   if (anyvalue_item == nullptr)
   {
     return {};

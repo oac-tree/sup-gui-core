@@ -66,7 +66,7 @@ public:
    * The header constructed in this way knows nothing about optimal tree column width, and doesn't
    * try to restore own state from persistent settings on disk.
    */
-  explicit CustomHeaderView(QWidget *parent);
+  explicit CustomHeaderView(QWidget* parent);
 
   ~CustomHeaderView() override;
 
@@ -86,7 +86,7 @@ public:
    * @param setting_name The name of the setting in QSetting file.
    * @param parent The parent widget responsible for the time of life.
    */
-  CustomHeaderView(const QString &setting_name, QWidget *parent);
+  CustomHeaderView(const QString& setting_name, QWidget* parent);
 
   /**
    * @brief The constructor that invokes persistent setting machinery and stretch factors.
@@ -102,15 +102,15 @@ public:
    * @param stretch_factors Desired stretch factors for each column.
    * @param parent The parent widget responsible for the time of life.
    */
-  CustomHeaderView(const QString &setting_name, const std::vector<int> &stretch_factors,
-                   QWidget *parent);
+  CustomHeaderView(const QString& setting_name, const std::vector<int>& stretch_factors,
+                   QWidget* parent);
 
   /**
    * @brief Sets given state as a favorite state.
    *
    * It will be restored later on RestoreFavoriteState call.
    */
-  void SetAsFavoriteState(const QByteArray &state);
+  void SetAsFavoriteState(const QByteArray& state);
 
   /**
    * @brief Restore state (width of tree's columns) stored earlier as a favorite state.
@@ -154,15 +154,15 @@ public:
   void ResetColumnWidth();
 
 protected:
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
-  void showEvent(QShowEvent *event) override;
+  void mousePressEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
+  void showEvent(QShowEvent* event) override;
 
 private:
   /**
    * @brief Creates context menu to reset header to reasonable state.
    */
-  void OnContextMenuRequest(const QPoint &point);
+  void OnContextMenuRequest(const QPoint& point);
 
   /**
    * @brief Reads header state from disk.
@@ -181,9 +181,9 @@ private:
    */
   void OnSectionResize(int index, int prev_size, int new_size);
 
-  QByteArray m_favorite_state;                  //!< favorite user state for this header
-  QString m_setting_name;                       //!< the name of the setting in QSetting file
-  std::vector<int> m_stretch_factors;           //!< optional column stretch factors
+  QByteArray m_favorite_state;                        //!< favorite user state for this header
+  QString m_setting_name;                             //!< the name of the setting in QSetting file
+  std::vector<int> m_stretch_factors;                 //!< optional column stretch factors
   mvvm::Flags<InteractionState> m_interaction_state;  //!< interaction state
 };
 

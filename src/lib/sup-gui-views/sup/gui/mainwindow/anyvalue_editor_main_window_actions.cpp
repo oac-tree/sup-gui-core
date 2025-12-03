@@ -50,8 +50,8 @@ namespace sup::gui
 {
 
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
-    mvvm::IProject *project, mvvm::ISessionModel *settings, IAppCommandService &command_service,
-    QMainWindow *main_window)
+    mvvm::IProject* project, mvvm::ISessionModel* settings, IAppCommandService& command_service,
+    QMainWindow* main_window)
     : QObject(main_window)
     , m_settings(settings)
     , m_command_service(command_service)
@@ -65,7 +65,7 @@ AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
   SetupMenus();
   SetupStatusBar(main_window->statusBar());
 
-  (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget *old, QWidget *now)
+  (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget* old, QWidget* now)
                          { m_command_service.OnFocusWidgetUpdate(old, now); });
 }
 
@@ -81,7 +81,7 @@ void AnyValueEditorMainWindowActions::UpdateProjectNames()
   m_project_handler->UpdateNames();
 }
 
-void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
+void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar* status_bar)
 {
   m_toggle_right_sidebar_button = new QToolButton;
   m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
@@ -93,7 +93,7 @@ void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
   status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
 }
 
-void AnyValueEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
+void AnyValueEditorMainWindowActions::CreateActions(QMainWindow* mainwindow)
 {
   m_import_action = new QAction("Import", this);
   m_import_action->setShortcuts(QKeySequence::Open);

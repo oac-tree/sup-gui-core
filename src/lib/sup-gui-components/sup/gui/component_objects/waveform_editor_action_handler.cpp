@@ -33,7 +33,7 @@ namespace sup::gui
 {
 
 WaveformEditorActionHandler::WaveformEditorActionHandler(WaveformEditorContext context,
-                                                         QObject *parent_object)
+                                                         QObject* parent_object)
     : QObject(parent_object), m_context(context)
 {
 }
@@ -57,7 +57,8 @@ void WaveformEditorActionHandler::OnAddColumnAfterRequest()
   if (auto parent = GetParent(); parent)
   {
     auto point_item = GetSelectedPoint();
-    auto tag_index = (point_item != nullptr) ? point_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
+    auto tag_index =
+        (point_item != nullptr) ? point_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
     auto new_point_item = CreatePointToAppend(*GetLineSeries()->GetDataItem(), point_item);
     auto item = GetModel()->InsertItem(std::move(new_point_item), parent, tag_index);
     emit SelectItemRequest(item);
@@ -74,22 +75,22 @@ void WaveformEditorActionHandler::OnRemoveColumnRequest()
   }
 }
 
-mvvm::ISessionModel *WaveformEditorActionHandler::GetModel()
+mvvm::ISessionModel* WaveformEditorActionHandler::GetModel()
 {
   return (GetLineSeries() != nullptr) ? GetLineSeries()->GetModel() : nullptr;
 }
 
-mvvm::LineSeriesItem *WaveformEditorActionHandler::GetLineSeries()
+mvvm::LineSeriesItem* WaveformEditorActionHandler::GetLineSeries()
 {
   return m_context.selected_waveform_callback();
 }
 
-mvvm::PointItem *WaveformEditorActionHandler::GetSelectedPoint()
+mvvm::PointItem* WaveformEditorActionHandler::GetSelectedPoint()
 {
   return m_context.selected_point_callback();
 }
 
-mvvm::SessionItem *WaveformEditorActionHandler::GetParent()
+mvvm::SessionItem* WaveformEditorActionHandler::GetParent()
 {
   return (GetLineSeries() != nullptr) ? GetLineSeries()->GetDataItem() : nullptr;
 }

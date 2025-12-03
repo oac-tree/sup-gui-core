@@ -25,12 +25,12 @@
 namespace sup::gui
 {
 
-std::vector<mvvm::SessionItem *> WaveformChildrenStrategy::GetChildren(
-    const mvvm::SessionItem *item) const
+std::vector<mvvm::SessionItem*> WaveformChildrenStrategy::GetChildren(
+    const mvvm::SessionItem* item) const
 {
   // The strategy reports LineSeriesDataItem's children (which are structs carraying "x" and "y") as
   // it is.
-  if (auto data_item = dynamic_cast<const mvvm::LineSeriesDataItem *>(item); data_item)
+  if (auto data_item = dynamic_cast<const mvvm::LineSeriesDataItem*>(item); data_item)
   {
     return data_item->GetAllItems();
   }

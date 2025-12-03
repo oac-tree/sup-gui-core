@@ -38,7 +38,7 @@ namespace sup::gui
  * @param app_name The name of the executable.
  * @param version The string representing version in the form "major.minor.patch".
  */
-void InitCoreApplication(const QString &app_name, const QString &version);
+void InitCoreApplication(const QString& app_name, const QString& version);
 
 /**
  * @brief Sets up high DPI scaling.
@@ -57,14 +57,14 @@ void SetupHighDpiScaling(bool scale_from_environment = false);
  * @param app_style The name of the GUI style from Qt's style factory.
  * @param verbose Provide output to the console regarding desktop geometry.
  */
-void SetupApplication(std::int32_t font_size_hint, const QString &app_style, bool verbose = false);
+void SetupApplication(std::int32_t font_size_hint, const QString& app_style, bool verbose = false);
 
 /**
  * @brief Sets main GUI style of the application and main font size.
  *
  * @param app_style The name of the GUI style from Qt's style factory.
  */
-void SetWindowStyle(const QString &app_style);
+void SetWindowStyle(const QString& app_style);
 
 /**
  * @brief Sets application font size.
@@ -94,7 +94,7 @@ std::optional<QFont> GetAppFontFromSettings();
  *
  * The method should be called after InitCoreApplication.
  */
-void SaveAppFontInSettings(const QFont &font);
+void SaveAppFontInSettings(const QFont& font);
 
 /**
  * @brief Checks if the application has a settings file and this settings can be used for the
@@ -104,7 +104,7 @@ void SaveAppFontInSettings(const QFont &font);
  * string should match app_version string in "minor.major" parts. This method should be always
  * called after InitCoreApplication.
  */
-bool HasValidAppSettings(const std::string &app_version);
+bool HasValidAppSettings(const std::string& app_version);
 
 /**
  * @brief Opens message box with the question if we should reset application settings and restart

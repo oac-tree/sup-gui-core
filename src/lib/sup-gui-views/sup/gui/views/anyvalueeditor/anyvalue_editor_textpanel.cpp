@@ -36,7 +36,7 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent_widget)
+AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_json_view(new CodeView(CodeView::kJSON))
     , m_message_handler(sup::gui::CreateWidgetOverlayMessageHandler(m_json_view))
@@ -59,7 +59,7 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget *parent_widget)
 
 AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;
 
-void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
+void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem* container)
 {
   if (m_container == container)
   {
@@ -81,17 +81,17 @@ void AnyValueEditorTextPanel::SetJsonPretty(bool value)
                                  : utils::FindIcon("checkbox-blank-circle-outline"));
 }
 
-void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem *container)
+void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem* container)
 {
   if (container != nullptr)
   {
-    auto on_json_update = [this](const auto &xml)
+    auto on_json_update = [this](const auto& xml)
     {
       m_message_handler->ClearMessages();
       m_json_view->SetContent(QString::fromStdString(xml));
     };
 
-    auto on_message = [this](const auto &message)
+    auto on_message = [this](const auto& message)
     {
       m_json_view->ClearText();
       m_message_handler->SendMessage(message);
@@ -108,7 +108,7 @@ void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem *container)
   }
 }
 
-void AnyValueEditorTextPanel::SendMessage(const std::string &what) const
+void AnyValueEditorTextPanel::SendMessage(const std::string& what) const
 {
   const std::string title("JSON generation failed");
   const std::string text("The AnyValue being edited is in inconsistent state");

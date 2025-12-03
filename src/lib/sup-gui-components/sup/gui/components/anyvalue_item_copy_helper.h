@@ -24,8 +24,8 @@
 //! @file
 //! Collection of helper methods to copy arbitrary selection of AnyValueItems.
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 class QMimeData;
 
@@ -55,7 +55,6 @@ class AnyValueItem;
  */
 std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
     const std::vector<AnyValueItem*>& selection);
-
 
 /**
  * @brief Returns vector of AnyValueItems from given mime data.

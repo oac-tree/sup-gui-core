@@ -23,7 +23,6 @@
 
 #include <QFont>
 #include <QFrame>
-
 #include <cstdint>
 
 namespace sup::gui

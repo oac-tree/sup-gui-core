@@ -49,7 +49,7 @@ class AnyValueEditorMainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorMainWindow(AnyValueEditorAppContext &context);
+  explicit AnyValueEditorMainWindow(AnyValueEditorAppContext& context);
   ~AnyValueEditorMainWindow() override;
 
   AnyValueEditorMainWindow(const AnyValueEditorMainWindow&) = delete;

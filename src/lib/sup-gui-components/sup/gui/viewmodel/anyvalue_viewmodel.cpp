@@ -35,7 +35,7 @@ public:
   AnyValueChildrenStrategy() : mvvm::FixedItemTypeStrategy(GetAnyValueItemTypes()) {}
 };
 
-AnyValueViewModel::AnyValueViewModel(mvvm::ISessionModel *model, QObject *parent_object)
+AnyValueViewModel::AnyValueViewModel(mvvm::ISessionModel* model, QObject* parent_object)
     : ViewModel(parent_object)
 {
   SetController(

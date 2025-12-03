@@ -36,7 +36,7 @@ namespace sup::gui
 class WaveformChildrenStrategy : public mvvm::IChildrenStrategy
 {
 public:
-  std::vector<mvvm::SessionItem *> GetChildren(const mvvm::SessionItem *item) const override;
+  std::vector<mvvm::SessionItem*> GetChildren(const mvvm::SessionItem* item) const override;
 };
 
 }  // namespace sup::gui

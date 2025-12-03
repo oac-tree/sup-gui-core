@@ -30,8 +30,8 @@ namespace sup::gui
 AppCommandRegistry::AppCommandRegistry() = default;
 AppCommandRegistry::~AppCommandRegistry() = default;
 
-AppCommand *AppCommandRegistry::RegisterCommand(const QString &command_id,
-                                               const QString &command_text)
+AppCommand* AppCommandRegistry::RegisterCommand(const QString& command_id,
+                                                const QString& command_text)
 {
   if (auto command = GetCommand(command_id); command)
   {
@@ -44,8 +44,8 @@ AppCommand *AppCommandRegistry::RegisterCommand(const QString &command_id,
   return command_ptr;
 }
 
-AppCommand *AppCommandRegistry::RegisterAction(QAction *action, const QString &command_id,
-                                              const AppCommandContext &context)
+AppCommand* AppCommandRegistry::RegisterAction(QAction* action, const QString& command_id,
+                                               const AppCommandContext& context)
 {
   auto command = RegisterCommand(command_id, action->text());
   Q_ASSERT(command);
@@ -54,7 +54,7 @@ AppCommand *AppCommandRegistry::RegisterAction(QAction *action, const QString &c
   return command;
 }
 
-AppCommand *AppCommandRegistry::GetCommand(const QString &command_id)
+AppCommand* AppCommandRegistry::GetCommand(const QString& command_id)
 {
   auto iter = m_commands.find(command_id);
   return iter == m_commands.end() ? nullptr : iter->second.get();
@@ -65,17 +65,17 @@ std::size_t AppCommandRegistry::GetCommandCount() const
   return m_commands.size();
 }
 
-void AppCommandRegistry::SetCurrentContext(const AppCommandContext &context)
+void AppCommandRegistry::SetCurrentContext(const AppCommandContext& context)
 {
-  for (const auto &[command_id, command] : m_commands)
+  for (const auto& [command_id, command] : m_commands)
   {
     command->SetCurrentContext(context);
   }
 }
 
-void AppCommandRegistry::SetContextStack(const std::vector<AppCommandContext> &context_stack)
+void AppCommandRegistry::SetContextStack(const std::vector<AppCommandContext>& context_stack)
 {
-  for (const auto &[command_id, command] : m_commands)
+  for (const auto& [command_id, command] : m_commands)
   {
     command->SetContextStack(context_stack);
   }

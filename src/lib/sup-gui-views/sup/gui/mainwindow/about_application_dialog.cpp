@@ -74,9 +74,9 @@ std::unique_ptr<QLayout> AboutApplicationDialog::CreateLogoLayout()
   auto layout = std::make_unique<QVBoxLayout>();
   auto label = new QLabel;
 
-  label->setPixmap(QPixmap(":/sup-gui-core/icons/iter_logo.png")
-                       .scaled(mvvm::style::UnitSize(10), mvvm::style::UnitSize(10),
-                               Qt::KeepAspectRatio));
+  label->setPixmap(
+      QPixmap(":/sup-gui-core/icons/iter_logo.png")
+          .scaled(mvvm::style::UnitSize(10), mvvm::style::UnitSize(10), Qt::KeepAspectRatio));
 
   layout->addWidget(label);
   layout->addStretch(1);

@@ -20,8 +20,8 @@
 
 #include "anyvalue_editor_treepanel.h"
 
-#include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/components/anyvalue_editor_helper.h>
+#include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
 
@@ -41,13 +41,11 @@ const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 
 }  // namespace
 
-
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent_widget)
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
-    , m_custom_header(
-          new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
+    , m_custom_header(new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
     , m_component_provider(std::make_unique<TreeViewComponentProvider>(nullptr, m_tree_view))
 {
   setWindowTitle("AnyValue tree");
@@ -78,18 +76,18 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget *parent_widget)
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel() = default;
 
-void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem *container)
+void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem* container)
 {
   m_component_provider->SetItem(container);
   AdjustTreeAppearance();
 }
 
-std::vector<AnyValueItem *> AnyValueEditorTreePanel::GetSelectedItems() const
+std::vector<AnyValueItem*> AnyValueEditorTreePanel::GetSelectedItems() const
 {
   return m_component_provider->GetSelectedItems<AnyValueItem>();
 }
 
-void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
+void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem* item)
 {
   m_component_provider->SetSelectedItem(item);
   auto indices_of_inserted = m_component_provider->GetViewIndexes(item);
@@ -103,7 +101,7 @@ void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem *item)
   }
 }
 
-QTreeView *AnyValueEditorTreePanel::GetTreeView()
+QTreeView* AnyValueEditorTreePanel::GetTreeView()
 {
   return m_tree_view;
 }

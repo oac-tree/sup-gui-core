@@ -52,7 +52,7 @@ QString LanguageName(sup::gui::CodeView::LanguageDefinition language)
 
 namespace sup::gui
 {
-CodeView::CodeView(LanguageDefinition language, QWidget *parent_widget)
+CodeView::CodeView(LanguageDefinition language, QWidget* parent_widget)
     : QWidget(parent_widget), m_text_edit(new CodeEditor), m_language(language)
 {
   setWindowTitle(LanguageName(language) + " View");
@@ -74,7 +74,7 @@ CodeView::~CodeView()
   WriteSettings();
 }
 
-void CodeView::SetFile(const QString &file_name)
+void CodeView::SetFile(const QString& file_name)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -92,7 +92,7 @@ void CodeView::SetFile(const QString &file_name)
   SetContent(text);
 }
 
-void CodeView::SetContent(const QString &content)
+void CodeView::SetContent(const QString& content)
 {
   SaveScrollBarPosition();
 

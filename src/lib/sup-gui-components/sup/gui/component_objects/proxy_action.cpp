@@ -28,14 +28,14 @@ const QString kDefaultName = "Proxy";
 namespace sup::gui
 {
 
-ProxyAction::ProxyAction(QObject *parent_object) : QAction(kDefaultName, parent_object) {}
+ProxyAction::ProxyAction(QObject* parent_object) : QAction(kDefaultName, parent_object) {}
 
-QAction *ProxyAction::GetAction() const
+QAction* ProxyAction::GetAction() const
 {
   return m_action;
 }
 
-void ProxyAction::SetAction(QAction *action, flags_t proxy_options)
+void ProxyAction::SetAction(QAction* action, flags_t proxy_options)
 {
   if (action == m_action)
   {
@@ -59,13 +59,14 @@ void ProxyAction::SetConnected(bool value)
 
   if (value)
   {
-    (void) connect(this, &ProxyAction::triggered, m_action, &QAction::triggered, Qt::UniqueConnection);
-    (void) connect(m_action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
+    (void)connect(this, &ProxyAction::triggered, m_action, &QAction::triggered,
+                  Qt::UniqueConnection);
+    (void)connect(m_action, &QAction::changed, this, &ProxyAction::Update, Qt::UniqueConnection);
   }
   else
   {
-    (void) disconnect(this, &ProxyAction::triggered, m_action, &QAction::triggered);
-    (void) disconnect(m_action, &QAction::changed, this, &ProxyAction::Update);
+    (void)disconnect(this, &ProxyAction::triggered, m_action, &QAction::triggered);
+    (void)disconnect(m_action, &QAction::changed, this, &ProxyAction::Update);
   }
 }
 

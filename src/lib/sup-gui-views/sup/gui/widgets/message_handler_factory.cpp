@@ -40,12 +40,12 @@ std::unique_ptr<IMessageHandler> CreateStdMessageHandler()
 }
 
 std::unique_ptr<IMessageHandler> CreateWidgetOverlayMessageHandler(
-    QWidget *view, const std::optional<std::chrono::milliseconds> &display_duration)
+    QWidget* view, const std::optional<std::chrono::milliseconds>& display_duration)
 {
   return std::make_unique<WidgetOverlayMessageHandler>(view, display_duration);
 }
 
-std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(IMessageHandler *component)
+std::unique_ptr<IMessageHandler> CreateMessageHandlerDecorator(IMessageHandler* component)
 {
   return MessageHandlerDecorator::Create(component);
 }

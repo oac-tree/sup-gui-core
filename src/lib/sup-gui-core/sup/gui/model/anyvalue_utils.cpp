@@ -31,30 +31,30 @@
 namespace sup::gui
 {
 
-std::string AnyValueToJSONString(const anyvalue_t &value, bool is_pretty)
+std::string AnyValueToJSONString(const anyvalue_t& value, bool is_pretty)
 {
   return sup::dto::AnyValueToJSONString(value, is_pretty);
 }
 
-std::string AnyTypeToJSONString(const anyvalue_t &value)
+std::string AnyTypeToJSONString(const anyvalue_t& value)
 {
   return sup::dto::AnyTypeToJSONString(value.GetType());
 }
 
-std::string ValuesToJSONString(const anyvalue_t &value)
+std::string ValuesToJSONString(const anyvalue_t& value)
 {
   return sup::dto::ValuesToJSONString(value);
 }
 
-sup::dto::AnyValue AnyValueFromJSONFile(const std::string &filename,
-                                        const anytype_registry_t *registry)
+sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
+                                        const anytype_registry_t* registry)
 {
   sup::dto::JSONAnyValueParser parser;
-  (void) parser.ParseFile(filename, registry);
+  (void)parser.ParseFile(filename, registry);
   return parser.MoveAnyValue();
 }
 
-sup::dto::AnyType AnyTypeFromJSONString(const std::string &str, const anytype_registry_t *registry)
+sup::dto::AnyType AnyTypeFromJSONString(const std::string& str, const anytype_registry_t* registry)
 {
   sup::dto::JSONAnyTypeParser parser;
   if (!parser.ParseString(str, registry))
@@ -64,8 +64,8 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string &str, const anytype_re
   return parser.MoveAnyType();
 }
 
-sup::dto::AnyValue AnyValueFromJSONString(const std::string &str,
-                                          const anytype_registry_t *registry)
+sup::dto::AnyValue AnyValueFromJSONString(const std::string& str,
+                                          const anytype_registry_t* registry)
 {
   sup::dto::JSONAnyValueParser parser;
   if (!parser.ParseString(str, registry))
@@ -75,7 +75,7 @@ sup::dto::AnyValue AnyValueFromJSONString(const std::string &str,
   return parser.MoveAnyValue();
 }
 
-dto::AnyValue AnyValueFromJSONString(const dto::AnyType &anytype, const std::string &value_str)
+dto::AnyValue AnyValueFromJSONString(const dto::AnyType& anytype, const std::string& value_str)
 {
   sup::dto::JSONAnyValueParser value_parser;
   if (!value_parser.TypedParseString(anytype, value_str))
@@ -86,7 +86,7 @@ dto::AnyValue AnyValueFromJSONString(const dto::AnyType &anytype, const std::str
   return value_parser.MoveAnyValue();
 }
 
-dto::AnyValue AnyValueFromJSONString(const std::string &type_str, const std::string &value_str)
+dto::AnyValue AnyValueFromJSONString(const std::string& type_str, const std::string& value_str)
 {
   auto anytype = AnyTypeFromJSONString(type_str);
   return AnyValueFromJSONString(anytype, value_str);

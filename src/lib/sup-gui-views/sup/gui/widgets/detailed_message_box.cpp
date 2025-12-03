@@ -38,20 +38,20 @@ namespace sup::gui
 namespace
 {
 
-QString GetDialogSizeSettingName(const QString &setting_key)
+QString GetDialogSizeSettingName(const QString& setting_key)
 {
   return setting_key + "/size";
 }
 
 }  // namespace
 
-DetailedMessageBox::DetailedMessageBox(const MessageEvent &message, QWidget *parent_widget)
+DetailedMessageBox::DetailedMessageBox(const MessageEvent& message, QWidget* parent_widget)
     : DetailedMessageBox(QString(), message, parent_widget)
 {
 }
 
-DetailedMessageBox::DetailedMessageBox(const QString &setting_key, const MessageEvent &message,
-                                       QWidget *parent_widget)
+DetailedMessageBox::DetailedMessageBox(const QString& setting_key, const MessageEvent& message,
+                                       QWidget* parent_widget)
     : QDialog(parent_widget)
     , m_setting_group(setting_key)
     , m_text_label(new QLabel(QString::fromStdString(message.text)))
@@ -79,7 +79,7 @@ DetailedMessageBox::DetailedMessageBox(const QString &setting_key, const Message
   connect(this, &QDialog::accepted, this, &DetailedMessageBox::WriteSettings);
 }
 
-QPlainTextEdit *DetailedMessageBox::GetTextEdit() const
+QPlainTextEdit* DetailedMessageBox::GetTextEdit() const
 {
   return m_detailed_text_edit;
 }
@@ -96,7 +96,7 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconAndTextLayout()
   return result;
 }
 
-std::unique_ptr<QLayout> DetailedMessageBox::CreateInformativeLayout(const std::string &informative)
+std::unique_ptr<QLayout> DetailedMessageBox::CreateInformativeLayout(const std::string& informative)
 {
   m_informative_label = new QLabel(QString::fromStdString(informative));
 

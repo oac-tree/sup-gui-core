@@ -29,8 +29,8 @@
 namespace sup::gui
 {
 
-CollapsibleWidget::CollapsibleWidget(QWidget *content, const QList<QAction *> &actions,
-                                     QWidget *parent_widget)
+CollapsibleWidget::CollapsibleWidget(QWidget* content, const QList<QAction*>& actions,
+                                     QWidget* parent_widget)
     : QWidget(parent_widget), m_tool_bar(new CollapsibleToolBar)
 {
   auto layout = new QVBoxLayout(this);
@@ -47,7 +47,7 @@ CollapsibleWidget::CollapsibleWidget(QWidget *content, const QList<QAction *> &a
 
 CollapsibleWidget::~CollapsibleWidget() = default;
 
-void CollapsibleWidget::AddToSplitter(QSplitter *splitter)
+void CollapsibleWidget::AddToSplitter(QSplitter* splitter)
 {
   // we add to the splitter two widgets: a tool bar and this panel
   splitter->addWidget(m_tool_bar);
@@ -61,7 +61,7 @@ void CollapsibleWidget::SetExpanded(bool value)
   m_tool_bar->SetExpanded(value);
 }
 
-CollapsibleToolBar *CollapsibleWidget::GetToolBar()
+CollapsibleToolBar* CollapsibleWidget::GetToolBar()
 {
   return m_tool_bar;
 }

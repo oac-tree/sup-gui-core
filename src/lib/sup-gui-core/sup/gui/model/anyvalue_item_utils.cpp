@@ -56,7 +56,7 @@ std::unique_ptr<mvvm::ItemCatalogue<AnyValueItem>> CreateItemCatalogue()
 
 }  // namespace
 
-std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
+std::string GetAnyValueItemTypeFromTypeName(const std::string& type_name)
 {
   static const std::map<std::string, std::string> kTypeNameToAnyValueItemType = {
       {constants::kEmptyTypeName, mvvm::GetTypeName<AnyValueEmptyItem>()},
@@ -74,7 +74,7 @@ std::string GetAnyValueItemTypeFromTypeName(const std::string &type_name)
   return iter == kTypeNameToAnyValueItemType.end() ? std::string() : iter->second;
 }
 
-std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string &type_name)
+std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string& type_name)
 {
   static const auto item_catalogue = CreateItemCatalogue();
 
@@ -88,7 +88,7 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItemFromTypeName(const std::string &
   return item_catalogue->Create(GetAnyValueItemTypeFromTypeName(type_name));
 }
 
-void UpdateAnyValueItemScalarData(const AnyValueItem &source, AnyValueItem &target)
+void UpdateAnyValueItemScalarData(const AnyValueItem& source, AnyValueItem& target)
 {
   if (!source.IsScalar() || !target.IsScalar())
   {
@@ -103,12 +103,12 @@ void UpdateAnyValueItemScalarData(const AnyValueItem &source, AnyValueItem &targ
   (void)target.SetData(source.Data());
 }
 
-void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
+void UpdateAnyValueItemData(const AnyValueItem& source, AnyValueItem& target)
 {
   struct Node
   {
-    const AnyValueItem *source{nullptr};
-    AnyValueItem *target{nullptr};
+    const AnyValueItem* source{nullptr};
+    AnyValueItem* target{nullptr};
   };
 
   std::stack<Node> nodes;
@@ -116,7 +116,7 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
 
   while (!nodes.empty())
   {
-    auto &node = nodes.top();
+    auto& node = nodes.top();
 
     if (node.source->IsScalar())
     {
@@ -139,7 +139,7 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
 
       // preparing vector containing pairs of children
       std::vector<Node> new_children;
-      auto on_transform = [](const AnyValueItem *source, AnyValueItem *target)
+      auto on_transform = [](const AnyValueItem* source, AnyValueItem* target)
       { return Node{source, target}; };
       (void)std::transform(source_children.begin(), source_children.end(), target_children.begin(),
                            std::back_inserter(new_children), on_transform);
@@ -153,7 +153,7 @@ void UpdateAnyValueItemData(const AnyValueItem &source, AnyValueItem &target)
   }
 }
 
-bool IsSuitableScalarType(const AnyValueArrayItem &array, const std::string &scalar_type)
+bool IsSuitableScalarType(const AnyValueArrayItem& array, const std::string& scalar_type)
 {
   if (array.GetChildren().empty())
   {
@@ -170,8 +170,8 @@ std::vector<std::string> GetAnyValueItemTypes()
           mvvm::GetTypeName<AnyValueStructItem>(), mvvm::GetTypeName<AnyValueArrayItem>()};
 }
 
-mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_t> &min,
-                                const std::optional<std::size_t> &max)
+mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_t>& min,
+                                const std::optional<std::size_t>& max)
 {
   return {std::move(name), min, max, GetAnyValueItemTypes()};
 }

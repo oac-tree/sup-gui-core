@@ -28,7 +28,7 @@
 namespace sup::gui
 {
 
-PanelToolBar::PanelToolBar(QWidget *parent_widget) : QToolBar(parent_widget), m_label(new QLabel)
+PanelToolBar::PanelToolBar(QWidget* parent_widget) : QToolBar(parent_widget), m_label(new QLabel)
 {
   setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   setIconSize(sup::gui::utils::ToolBarIconSize());
@@ -40,30 +40,30 @@ PanelToolBar::PanelToolBar(QWidget *parent_widget) : QToolBar(parent_widget), m_
   SetupDotsButton();
 }
 
-void PanelToolBar::SetText(const QString &text)
+void PanelToolBar::SetText(const QString& text)
 {
   m_label_action->setVisible(true);
   m_label->setText(text);
 }
 
-QAction *PanelToolBar::InsertElement(QWidget *widget)
+QAction* PanelToolBar::InsertElement(QWidget* widget)
 {
   return insertWidget(m_spacer_action, widget);
 }
 
-QAction *PanelToolBar::InsertElement(QAction *action)
+QAction* PanelToolBar::InsertElement(QAction* action)
 {
   insertAction(m_spacer_action, action);
   return action;
 }
 
-void PanelToolBar::SetDotsMenu(QMenu *dots_menu)
+void PanelToolBar::SetDotsMenu(QMenu* dots_menu)
 {
   m_dots_button->setMenu(dots_menu);
   m_dots_button->setPopupMode(QToolButton::InstantPopup);
 }
 
-QAction *PanelToolBar::AppendSeparator()
+QAction* PanelToolBar::AppendSeparator()
 {
   return insertSeparator(m_spacer_action);
 }

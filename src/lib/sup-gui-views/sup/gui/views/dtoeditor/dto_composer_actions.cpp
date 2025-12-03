@@ -25,7 +25,7 @@
 namespace sup::gui
 {
 
-DtoComposerActions::DtoComposerActions(QObject *parent_object) : QObject(parent_object)
+DtoComposerActions::DtoComposerActions(QObject* parent_object) : QObject(parent_object)
 {
   m_add_new_tab_action = new QAction("Add new tab", this);
   connect(m_add_new_tab_action, &QAction::triggered, this, &DtoComposerActions::AddNewTabRequest);
@@ -39,9 +39,9 @@ DtoComposerActions::DtoComposerActions(QObject *parent_object) : QObject(parent_
           &DtoComposerActions::RemoveCurrentTabRequest);
 }
 
-QList<QAction *> DtoComposerActions::GetActions() const
+QList<QAction*> DtoComposerActions::GetActions() const
 {
-  return QList<QAction *>(
+  return QList<QAction*>(
       {m_add_new_tab_action, m_add_duplicate_tab_action, m_remove_current_tab_action});
 }
 

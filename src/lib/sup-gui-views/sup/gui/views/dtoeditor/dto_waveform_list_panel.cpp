@@ -37,7 +37,7 @@
 namespace sup::gui
 {
 
-DtoWaveformListPanel::DtoWaveformListPanel(QWidget *parent_widget)
+DtoWaveformListPanel::DtoWaveformListPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_action_handler(new DtoWaveformActionHandler(CreateContext(), this))
     , m_actions(new DtoWaveformActions(m_action_handler))
@@ -62,7 +62,7 @@ DtoWaveformListPanel::DtoWaveformListPanel(QWidget *parent_widget)
           &DtoWaveformListPanel::SetSelectedWaveform);
 }
 
-void DtoWaveformListPanel::SetViewport(mvvm::ChartViewportItem *viewport)
+void DtoWaveformListPanel::SetViewport(mvvm::ChartViewportItem* viewport)
 {
   m_chart_viewport = viewport;
   m_component_provider->SetItem(viewport);
@@ -74,12 +74,12 @@ void DtoWaveformListPanel::SetViewport(mvvm::ChartViewportItem *viewport)
 
 DtoWaveformListPanel::~DtoWaveformListPanel() = default;
 
-mvvm::LineSeriesItem *DtoWaveformListPanel::GetSelectedWaveform()
+mvvm::LineSeriesItem* DtoWaveformListPanel::GetSelectedWaveform()
 {
   return m_component_provider->GetSelected<mvvm::LineSeriesItem>();
 }
 
-void DtoWaveformListPanel::SetSelectedWaveform(mvvm::LineSeriesItem *waveform)
+void DtoWaveformListPanel::SetSelectedWaveform(mvvm::LineSeriesItem* waveform)
 {
   m_component_provider->SetSelectedItem(waveform);
 }
@@ -95,9 +95,9 @@ DtoWaveformEditorContext DtoWaveformListPanel::CreateContext()
   return result;
 }
 
-WaveformModel *DtoWaveformListPanel::GetWaveformModel()
+WaveformModel* DtoWaveformListPanel::GetWaveformModel()
 {
-  return dynamic_cast<WaveformModel *>(m_chart_viewport->GetModel());
+  return dynamic_cast<WaveformModel*>(m_chart_viewport->GetModel());
 }
 
 }  // namespace sup::gui

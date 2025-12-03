@@ -80,7 +80,7 @@ QString CreatePopertyTreeStyleString()
 /**
  * @brief Creates color engine necessary to render given icon.
  */
-std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, mvvm::ColorFlavor icon_flavor)
+std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon& icon, mvvm::ColorFlavor icon_flavor)
 {
   return std::make_unique<ColoredIconEngine>(icon, GetIconBaseColor(icon_flavor));
 }
@@ -88,7 +88,7 @@ std::unique_ptr<QIconEngine> CreateColorEngine(const QIcon &icon, mvvm::ColorFla
 /**
  * @brief Creates icon colored in given flavor.
  */
-QIcon CreateColoredIcon(const QIcon &icon, mvvm::ColorFlavor icon_flavor)
+QIcon CreateColoredIcon(const QIcon& icon, mvvm::ColorFlavor icon_flavor)
 {
   return QIcon(CreateColorEngine(icon, icon_flavor).release());  // icon takes ownership over engine
 }
@@ -129,19 +129,19 @@ QSize NarrowToolBarIconSize()
   return {width, width};
 }
 
-QIcon GetIcon(const QString &resource_name, mvvm::ColorFlavor icon_flavor)
+QIcon GetIcon(const QString& resource_name, mvvm::ColorFlavor icon_flavor)
 {
   const QIcon icon(resource_name);
   return kUseColorEngine ? CreateColoredIcon(icon, icon_flavor) : icon;
 }
 
-QIcon FindIcon(const QString &icon_name, mvvm::ColorFlavor icon_flavor)
+QIcon FindIcon(const QString& icon_name, mvvm::ColorFlavor icon_flavor)
 {
   // in accordance with the sup_gui_core_icons.qrc file
   return GetIcon(QString(":/sup-gui-core/icons/%1.svg").arg(icon_name), icon_flavor);
 }
 
-void SetCollapseExpandStyle(QTreeView *tree)
+void SetCollapseExpandStyle(QTreeView* tree)
 {
   tree->setStyleSheet(CreatePopertyTreeStyleString());
 }

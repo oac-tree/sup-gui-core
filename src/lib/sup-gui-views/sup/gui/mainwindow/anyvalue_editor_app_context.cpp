@@ -32,7 +32,7 @@ AnyValueEditorAppContext::AnyValueEditorAppContext()
 
 AnyValueEditorAppContext::~AnyValueEditorAppContext() = default;
 
-IAppCommandService &AnyValueEditorAppContext::GetCommandService()
+IAppCommandService& AnyValueEditorAppContext::GetCommandService()
 {
   return *m_command_service;
 }

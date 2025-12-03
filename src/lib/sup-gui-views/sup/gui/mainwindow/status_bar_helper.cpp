@@ -45,7 +45,7 @@ int GetButtonSize()
 
 }  // namespace
 
-void AddPermanentStretch(QStatusBar *status_bar, int stretch)
+void AddPermanentStretch(QStatusBar* status_bar, int stretch)
 {
   auto expander = new QWidget;
   expander->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -53,7 +53,7 @@ void AddPermanentStretch(QStatusBar *status_bar, int stretch)
   status_bar->addPermanentWidget(expander, stretch);
 }
 
-void SetupStatusBarButton(QToolButton *button, QAction *action)
+void SetupStatusBarButton(QToolButton* button, QAction* action)
 {
   const int size = GetButtonSize();
   const auto palette = QApplication::palette();

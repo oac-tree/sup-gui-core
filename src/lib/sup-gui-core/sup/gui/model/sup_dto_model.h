@@ -47,7 +47,7 @@ public:
 
   void Clear() override;
 
-  std::vector<mvvm::ContainerItem *> GetContainers() const;
+  std::vector<mvvm::ContainerItem*> GetContainers() const;
 
 private:
   /**

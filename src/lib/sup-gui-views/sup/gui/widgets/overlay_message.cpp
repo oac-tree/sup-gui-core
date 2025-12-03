@@ -28,7 +28,7 @@ namespace sup::gui
 
 OverlayMessage::~OverlayMessage() = default;
 
-OverlayMessage::OverlayMessage(const MessageEvent &message, QWidget *area)
+OverlayMessage::OverlayMessage(const MessageEvent& message, QWidget* area)
 {
   m_message_widget = std::make_unique<WarningSignWidget>(message, area);
   m_position_strategy =
@@ -37,7 +37,7 @@ OverlayMessage::OverlayMessage(const MessageEvent &message, QWidget *area)
 
 bool OverlayMessage::CanBeDeleted()
 {
-  if (auto widget = dynamic_cast<WarningSignWidget *>(m_message_widget.get()); widget)
+  if (auto widget = dynamic_cast<WarningSignWidget*>(m_message_widget.get()); widget)
   {
     return !widget->IsBusy();
   }

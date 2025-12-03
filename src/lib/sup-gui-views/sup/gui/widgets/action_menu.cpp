@@ -26,22 +26,22 @@
 namespace sup::gui
 {
 
-ActionMenu::ActionMenu(QObject *parent) : QWidgetAction(parent) {}
+ActionMenu::ActionMenu(QObject* parent) : QWidgetAction(parent) {}
 
-ActionMenu::ActionMenu(const QString &text, QObject *parent) : ActionMenu(parent)
+ActionMenu::ActionMenu(const QString& text, QObject* parent) : ActionMenu(parent)
 {
   setText(text);
 }
 
-ActionMenu::ActionMenu(const QIcon &icon, const QString &text, QObject *parent)
+ActionMenu::ActionMenu(const QIcon& icon, const QString& text, QObject* parent)
     : ActionMenu(text, parent)
 {
   setIcon(icon);
 }
 
-QWidget *ActionMenu::createWidget(QWidget *parent)
+QWidget* ActionMenu::createWidget(QWidget* parent)
 {
-  auto toolbar = qobject_cast<QToolBar *>(parent);
+  auto toolbar = qobject_cast<QToolBar*>(parent);
   if (toolbar == nullptr)
   {
     return QWidgetAction::createWidget(parent);

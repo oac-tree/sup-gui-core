@@ -20,9 +20,9 @@
 
 #include "sup/gui/plotting/custom_row_waveform_strategies.h"
 
+#include <mvvm/providers/viewitem.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/point_item.h>
-#include <mvvm/providers/viewitem.h>
 
 #include <gtest/gtest.h>
 

@@ -39,18 +39,18 @@ std::unique_ptr<AnyValueItem> AnyValueItemBuilder::MoveAnyValueItem()
   return std::move(m_result);
 }
 
-void AnyValueItemBuilder::EmptyProlog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::EmptyProlog(const anyvalue_t* anyvalue)
 {
   (void)anyvalue;
   AddItem(std::make_unique<AnyValueEmptyItem>());
 }
 
-void AnyValueItemBuilder::EmptyEpilog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::EmptyEpilog(const anyvalue_t* anyvalue)
 {
   (void)anyvalue;
 }
 
-void AnyValueItemBuilder::StructProlog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::StructProlog(const anyvalue_t* anyvalue)
 {
   auto struct_item = std::make_unique<AnyValueStructItem>();
   struct_item->SetAnyTypeName(anyvalue->GetTypeName());
@@ -59,7 +59,7 @@ void AnyValueItemBuilder::StructProlog(const anyvalue_t *anyvalue)
 
 void AnyValueItemBuilder::StructMemberSeparator() {}
 
-void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::StructEpilog(const anyvalue_t* anyvalue)
 {
   (void)anyvalue;
 }
@@ -67,13 +67,13 @@ void AnyValueItemBuilder::StructEpilog(const anyvalue_t *anyvalue)
 //! Append new child with the display name corresponding to `member_name`.
 //! Update
 
-void AnyValueItemBuilder::MemberProlog(const anyvalue_t *anyvalue, const std::string &member_name)
+void AnyValueItemBuilder::MemberProlog(const anyvalue_t* anyvalue, const std::string& member_name)
 {
   (void)anyvalue;
   m_member_name = member_name;
 }
 
-void AnyValueItemBuilder::MemberEpilog(const anyvalue_t *anyvalue, const std::string &member_name)
+void AnyValueItemBuilder::MemberEpilog(const anyvalue_t* anyvalue, const std::string& member_name)
 {
   (void)anyvalue;
   (void)member_name;
@@ -81,7 +81,7 @@ void AnyValueItemBuilder::MemberEpilog(const anyvalue_t *anyvalue, const std::st
   m_current_item = m_current_item->GetParent();
 }
 
-void AnyValueItemBuilder::ArrayProlog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::ArrayProlog(const anyvalue_t* anyvalue)
 {
   m_index = 0;
   auto array_item = std::make_unique<AnyValueArrayItem>();
@@ -95,14 +95,14 @@ void AnyValueItemBuilder::ArrayElementSeparator()
   m_current_item = m_current_item->GetParent();
 }
 
-void AnyValueItemBuilder::ArrayEpilog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::ArrayEpilog(const anyvalue_t* anyvalue)
 {
   (void)anyvalue;
   m_index = -1;
   m_current_item = m_current_item->GetParent();
 }
 
-void AnyValueItemBuilder::ScalarProlog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::ScalarProlog(const anyvalue_t* anyvalue)
 {
   auto scalar = std::make_unique<AnyValueScalarItem>();
   SetDataFromScalar(*anyvalue, *scalar);
@@ -110,7 +110,7 @@ void AnyValueItemBuilder::ScalarProlog(const anyvalue_t *anyvalue)
   AddItem(std::move(scalar));
 }
 
-void AnyValueItemBuilder::ScalarEpilog(const anyvalue_t *anyvalue)
+void AnyValueItemBuilder::ScalarEpilog(const anyvalue_t* anyvalue)
 {
   (void)anyvalue;
 }
@@ -136,12 +136,12 @@ void AnyValueItemBuilder::AddItem(std::unique_ptr<AnyValueItem> item)
   // we are in member mode
   if (!m_member_name.empty())
   {
-    (void) child->SetDisplayName(m_member_name);
+    (void)child->SetDisplayName(m_member_name);
     m_member_name.clear();
   }
   else if (m_index >= 0)
   {
-    (void) child->SetDisplayName(constants::kElementNamePrefix + std::to_string(m_index));
+    (void)child->SetDisplayName(constants::kElementNamePrefix + std::to_string(m_index));
   }
   else
   {

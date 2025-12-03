@@ -29,7 +29,7 @@
 namespace sup::gui
 {
 
-CustomSplitter::CustomSplitter(const QString &settings_group_name, QWidget *parent_widget)
+CustomSplitter::CustomSplitter(const QString& settings_group_name, QWidget* parent_widget)
     : QSplitter(parent_widget)
     , m_controller(std::make_unique<CustomSplitterController>(settings_group_name, this))
 {

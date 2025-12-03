@@ -28,7 +28,7 @@ namespace sup::gui
 {
 
 WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(
-    QWidget *target_widget, const std::optional<std::chrono::milliseconds> &timeout)
+    QWidget* target_widget, const std::optional<std::chrono::milliseconds>& timeout)
     : m_target_widget(target_widget)
 {
   if (timeout.has_value())
@@ -39,7 +39,7 @@ WidgetOverlayMessagePublisher::WidgetOverlayMessagePublisher(
 
 WidgetOverlayMessagePublisher::~WidgetOverlayMessagePublisher() = default;
 
-void WidgetOverlayMessagePublisher::AddMessage(const MessageEvent &message)
+void WidgetOverlayMessagePublisher::AddMessage(const MessageEvent& message)
 {
   // in the current implementation new message replaces the old one
   m_message = std::make_unique<OverlayMessage>(message, m_target_widget);

@@ -35,7 +35,7 @@
 namespace sup::gui
 {
 
-WaveformTableWidget::WaveformTableWidget(mvvm::ApplicationModel *model, QWidget *parent_widget)
+WaveformTableWidget::WaveformTableWidget(mvvm::ApplicationModel* model, QWidget* parent_widget)
     : QWidget(parent_widget), m_table_view(new QTableView)
 {
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -58,31 +58,32 @@ WaveformTableWidget::WaveformTableWidget(mvvm::ApplicationModel *model, QWidget 
 
 WaveformTableWidget::~WaveformTableWidget() = default;
 
-void WaveformTableWidget::SetModel(mvvm::ApplicationModel *model)
+void WaveformTableWidget::SetModel(mvvm::ApplicationModel* model)
 {
   m_model = model;
   m_component_provider = std::make_unique<WaveformTableComponentProvider>(model, m_table_view);
 }
 
-mvvm::LineSeriesItem *WaveformTableWidget::GetLineSeriesItem()
+mvvm::LineSeriesItem* WaveformTableWidget::GetLineSeriesItem()
 {
   return m_current_line_series;
 }
 
-void WaveformTableWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
+void WaveformTableWidget::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_current_line_series = line_series_item;
-  m_component_provider->SetItem((line_series_item != nullptr) ? line_series_item->GetDataItem() : nullptr);
+  m_component_provider->SetItem((line_series_item != nullptr) ? line_series_item->GetDataItem()
+                                                              : nullptr);
 }
 
-mvvm::PointItem *WaveformTableWidget::GetSelectedPoint()
+mvvm::PointItem* WaveformTableWidget::GetSelectedPoint()
 {
   auto selected = m_component_provider->GetSelectedItem();
   auto parent_struct = (selected != nullptr) ? selected->GetParent() : nullptr;
-  return dynamic_cast<mvvm::PointItem *>(parent_struct);
+  return dynamic_cast<mvvm::PointItem*>(parent_struct);
 }
 
-void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem *item)
+void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem* item)
 {
   // enough to select only x, will select the whole column
   auto points = item->GetAllItems();

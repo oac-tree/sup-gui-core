@@ -38,14 +38,14 @@ namespace
 
 struct Node
 {
-  mvvm::SessionItem *item{nullptr};
+  mvvm::SessionItem* item{nullptr};
   QString key;
 };
 
 /**
  * @brief Returns a key representing property item in a section.
  */
-QString GetItemKey(const QString &section, const mvvm::SessionItem &item)
+QString GetItemKey(const QString& section, const mvvm::SessionItem& item)
 {
   QString result = section;
   if (item.GetDisplayName() == mvvm::constants::kRootItemName)
@@ -60,7 +60,7 @@ QString GetItemKey(const QString &section, const mvvm::SessionItem &item)
 }
 }  // namespace
 
-void AssignStringBasedVariant(const QVariant &variant, mvvm::SessionItem &item)
+void AssignStringBasedVariant(const QVariant& variant, mvvm::SessionItem& item)
 {
   if (!variant.isValid())
   {
@@ -73,7 +73,7 @@ void AssignStringBasedVariant(const QVariant &variant, mvvm::SessionItem &item)
       mvvm::utils::ValueFromString(mvvm::GetTypeCode(item_data), variant.toString().toStdString()));
 }
 
-void WriteApplicationSettings(const mvvm::ISessionModel &model, write_variant_func_t func)
+void WriteApplicationSettings(const mvvm::ISessionModel& model, write_variant_func_t func)
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
@@ -101,12 +101,12 @@ void WriteApplicationSettings(const mvvm::ISessionModel &model, write_variant_fu
   }
 }
 
-void WriteApplicationSettings(const mvvm::ISessionModel &model)
+void WriteApplicationSettings(const mvvm::ISessionModel& model)
 {
   WriteApplicationSettings(model, GetSettingsWriteFunc());
 }
 
-void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_func_t func)
+void ReadSettingsFromPersistentStorage(mvvm::ISessionModel& model, read_variant_func_t func)
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
@@ -133,7 +133,7 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel &model, read_variant_
   }
 }
 
-void ReadApplicationSettings(mvvm::ISessionModel &model)
+void ReadApplicationSettings(mvvm::ISessionModel& model)
 {
   const QSettings settings;
   if (!settings.childGroups().contains(QString::fromStdString(model.GetType())))

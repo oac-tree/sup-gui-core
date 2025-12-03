@@ -45,7 +45,7 @@ namespace
 /**
  * @brief Returns list of actions intended for canvas toolbar.
  */
-QList<QAction *> GetCanvasToolBarActions(WaveformEditorActions *editor_actions)
+QList<QAction*> GetCanvasToolBarActions(WaveformEditorActions* editor_actions)
 {
   using ActionKey = WaveformEditorActions::ActionKey;
   return editor_actions->GetActions({ActionKey::kPointer, ActionKey::kPan, ActionKey::kZoomIn,
@@ -56,7 +56,7 @@ QList<QAction *> GetCanvasToolBarActions(WaveformEditorActions *editor_actions)
 /**
  * @brief Returns list of actions intended for table toolbar.
  */
-QList<QAction *> GetTableToolBarActions(WaveformEditorActions *editor_actions)
+QList<QAction*> GetTableToolBarActions(WaveformEditorActions* editor_actions)
 {
   using ActionKey = WaveformEditorActions::ActionKey;
   return editor_actions->GetActions(
@@ -65,7 +65,7 @@ QList<QAction *> GetTableToolBarActions(WaveformEditorActions *editor_actions)
 
 }  // namespace
 
-WaveformEditorWidget::WaveformEditorWidget(QWidget *parent_widget)
+WaveformEditorWidget::WaveformEditorWidget(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_action_handler(new WaveformEditorActionHandler(CreateActionContext(), this))
     , m_actions(new WaveformEditorActions(m_action_handler, this))
@@ -88,26 +88,26 @@ WaveformEditorWidget::WaveformEditorWidget(QWidget *parent_widget)
   SetupConnections();
 }
 
-mvvm::LineSeriesItem *WaveformEditorWidget::GetLineSeriesItem() const
+mvvm::LineSeriesItem* WaveformEditorWidget::GetLineSeriesItem() const
 {
   return m_table_widget->GetLineSeriesItem();
 }
 
 WaveformEditorWidget::~WaveformEditorWidget() = default;
 
-void WaveformEditorWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
+void WaveformEditorWidget::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_table_widget->SetLineSeriesItem(line_series_item);
   m_display_controller->SetSelected(line_series_item);
 }
 
-void WaveformEditorWidget::SetViewportItem(mvvm::ChartViewportItem *viewport_item)
+void WaveformEditorWidget::SetViewportItem(mvvm::ChartViewportItem* viewport_item)
 {
   m_chart_canvas->SetViewport(viewport_item);
   m_display_controller = std::make_unique<WaveformDisplayController>(viewport_item);
 }
 
-mvvm::PointItem *WaveformEditorWidget::GetSelectedPoint() const
+mvvm::PointItem* WaveformEditorWidget::GetSelectedPoint() const
 {
   return m_table_widget->GetSelectedPoint();
 }
@@ -127,7 +127,7 @@ void WaveformEditorWidget::SetViewportToContent()
   m_chart_canvas->SetViewportToContent();
 }
 
-void WaveformEditorWidget::SetSelectedPoint(const mvvm::PointItem *item)
+void WaveformEditorWidget::SetSelectedPoint(const mvvm::PointItem* item)
 {
   m_table_widget->SetSelectedPoint(item);
 }
@@ -153,7 +153,7 @@ void WaveformEditorWidget::SetupConnections()
           on_display_mode_change);
 
   connect(m_action_handler, &WaveformEditorActionHandler::SelectItemRequest, this,
-          [this](auto item) { SetSelectedPoint(dynamic_cast<const mvvm::PointItem *>(item)); });
+          [this](auto item) { SetSelectedPoint(dynamic_cast<const mvvm::PointItem*>(item)); });
 
   // propagate request to change canvas operation mode (select/pan) from toolbar to canvas
   connect(m_actions, &WaveformEditorActions::ChangeOperationModeRequest, m_chart_canvas,

@@ -67,6 +67,6 @@ struct item_traits<sup::gui::CommonSettingsItem>
   static constexpr std::string_view type_name() noexcept { return "CommonSettings"; }
 };
 
-}
+}  // namespace mvvm
 
 #endif  // SUP_GUI_MODEL_SETTINGS_ITEM_H_

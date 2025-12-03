@@ -32,12 +32,12 @@ namespace sup::gui
 
 MenuBarActionRegistry::~MenuBarActionRegistry() = default;
 
-QMenuBar *MenuBarActionRegistry::GetMenuBar()
+QMenuBar* MenuBarActionRegistry::GetMenuBar()
 {
   return m_menubar;
 }
 
-void MenuBarActionRegistry::SetMenuBar(QMenuBar *menubar)
+void MenuBarActionRegistry::SetMenuBar(QMenuBar* menubar)
 {
   if (menubar == nullptr)
   {
@@ -60,7 +60,7 @@ void MenuBarActionRegistry::SetMenuBar(QMenuBar *menubar)
   throw RuntimeException("There can be only one application minibar");
 }
 
-IActionContainer *MenuBarActionRegistry::AddMenu(const QString &menu_name)
+IActionContainer* MenuBarActionRegistry::AddMenu(const QString& menu_name)
 {
   ValidateMenuBar();
 
@@ -77,7 +77,7 @@ IActionContainer *MenuBarActionRegistry::AddMenu(const QString &menu_name)
   return container_ptr;
 }
 
-bool MenuBarActionRegistry::RegisterAction(const QString &menu_name, QAction *action)
+bool MenuBarActionRegistry::RegisterAction(const QString& menu_name, QAction* action)
 {
   if (auto container = GetContainer(menu_name); container)
   {
@@ -87,7 +87,7 @@ bool MenuBarActionRegistry::RegisterAction(const QString &menu_name, QAction *ac
   return false;
 }
 
-IActionContainer *MenuBarActionRegistry::GetContainer(const QString &menu_name)
+IActionContainer* MenuBarActionRegistry::GetContainer(const QString& menu_name)
 {
   auto iter = m_action_storage.find(menu_name);
   return iter == m_action_storage.end() ? nullptr : iter->second.get();

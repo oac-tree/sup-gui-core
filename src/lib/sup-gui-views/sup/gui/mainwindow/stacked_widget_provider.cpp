@@ -25,7 +25,7 @@
 namespace sup::gui
 {
 
-StackedWidgetProvider::StackedWidgetProvider(QStackedWidget *stacked_widget)
+StackedWidgetProvider::StackedWidgetProvider(QStackedWidget* stacked_widget)
     : m_stacked_widget(stacked_widget)
 {
   if (m_stacked_widget == nullptr)
@@ -34,13 +34,13 @@ StackedWidgetProvider::StackedWidgetProvider(QStackedWidget *stacked_widget)
   }
 }
 
-QStackedWidget *StackedWidgetProvider::GetStackedWidget() const
+QStackedWidget* StackedWidgetProvider::GetStackedWidget() const
 {
   return m_stacked_widget;
 }
 
-void StackedWidgetProvider::RegisterWidget(const std::string &key,
-                                           const widget_factory_func_t &factory_func)
+void StackedWidgetProvider::RegisterWidget(const std::string& key,
+                                           const widget_factory_func_t& factory_func)
 {
   auto iter = m_key_to_factory_func.find(key);
   if (iter != m_key_to_factory_func.end())
@@ -50,7 +50,7 @@ void StackedWidgetProvider::RegisterWidget(const std::string &key,
   m_key_to_factory_func.insert({key, factory_func});
 }
 
-QWidget *StackedWidgetProvider::SetCurrentWidget(const std::string &key)
+QWidget* StackedWidgetProvider::SetCurrentWidget(const std::string& key)
 {
   auto iter = m_key_to_widget.find(key);
   if (iter == m_key_to_widget.end())
@@ -70,7 +70,7 @@ QWidget *StackedWidgetProvider::SetCurrentWidget(const std::string &key)
 }
 
 StackedWidgetProvider::widget_factory_func_t StackedWidgetProvider::GetFactoryFunc(
-    const std::string &key) const
+    const std::string& key) const
 {
   auto iter = m_key_to_factory_func.find(key);
   if (iter == m_key_to_factory_func.end())

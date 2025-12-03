@@ -31,12 +31,12 @@ namespace sup::gui
 /**
  * @brief Converts list to byte array.
  */
-QByteArray GetByteArrayFromList(const QList<int> &list);
+QByteArray GetByteArrayFromList(const QList<int>& list);
 
 /**
  * @brief Converts byte array to list.
  */
-QList<int> GetListFromByteArray(const QByteArray &array);
+QList<int> GetListFromByteArray(const QByteArray& array);
 
 /**
  * @brief Returns QVariantList from list of objects.
@@ -46,11 +46,11 @@ QList<int> GetListFromByteArray(const QByteArray &array);
  * @tparam T The type of the object must be supported by Qt's variant system.
  */
 template <typename T>
-QVariant GetVariantFromList(const QList<T> &list)
+QVariant GetVariantFromList(const QList<T>& list)
 {
   QVariantList variantList;
   variantList.reserve(list.size());
-  for (const auto &v : list)
+  for (const auto& v : list)
   {
     variantList.append(v);
   }
@@ -66,7 +66,7 @@ QVariant GetVariantFromList(const QList<T> &list)
  * @param variant_list The variant containing QVariant list.
  */
 template <typename T>
-QList<T> GetListFromVariant(const QVariant &variant_list)
+QList<T> GetListFromVariant(const QVariant& variant_list)
 {
   QList<T> result;
   foreach (QVariant variant, variant_list.value<QVariantList>())

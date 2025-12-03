@@ -37,12 +37,12 @@ using depth_t = std::uint32_t;
 /**
  * @brief Creates vector of pairs containing item and its depth level in items' hierarchy.
  */
-std::vector<std::pair<mvvm::SessionItem *, depth_t>> GetItemDepthInfo(
-    const std::vector<mvvm::SessionItem *> &items)
+std::vector<std::pair<mvvm::SessionItem*, depth_t>> GetItemDepthInfo(
+    const std::vector<mvvm::SessionItem*>& items)
 {
-  std::vector<std::pair<mvvm::SessionItem *, depth_t>> result;
+  std::vector<std::pair<mvvm::SessionItem*, depth_t>> result;
 
-  auto on_element = [](auto element) -> std::pair<mvvm::SessionItem *, depth_t>
+  auto on_element = [](auto element) -> std::pair<mvvm::SessionItem*, depth_t>
   { return {element, mvvm::utils::GetNestingDepth(element)}; };
   (void)std::transform(items.begin(), items.end(), std::back_inserter(result), on_element);
   return result;
@@ -51,7 +51,7 @@ std::vector<std::pair<mvvm::SessionItem *, depth_t>> GetItemDepthInfo(
 /**
  * @brief Returns min depth level.
  */
-depth_t GetMinDepth(const std::vector<std::pair<mvvm::SessionItem *, depth_t>> &depth_info)
+depth_t GetMinDepth(const std::vector<std::pair<mvvm::SessionItem*, depth_t>>& depth_info)
 {
   depth_t min_depth = std::numeric_limits<depth_t>::max();
   auto on_element = [&min_depth](auto element) { min_depth = std::min(element.second, min_depth); };
@@ -62,7 +62,7 @@ depth_t GetMinDepth(const std::vector<std::pair<mvvm::SessionItem *, depth_t>> &
 /**
  * @brief Returns max depth level.
  */
-depth_t GetMaxDepth(const std::vector<std::pair<mvvm::SessionItem *, depth_t>> &depth_info)
+depth_t GetMaxDepth(const std::vector<std::pair<mvvm::SessionItem*, depth_t>>& depth_info)
 {
   depth_t max_depth = std::numeric_limits<depth_t>::lowest();
   auto on_element = [&max_depth](auto element) { max_depth = std::max(element.second, max_depth); };
@@ -73,10 +73,10 @@ depth_t GetMaxDepth(const std::vector<std::pair<mvvm::SessionItem *, depth_t>> &
 /**
  * @brief Returns items which have given depth in the hierarchy.
  */
-std::vector<mvvm::SessionItem *> GetItemsWithDepth(
-    const std::vector<std::pair<mvvm::SessionItem *, depth_t>> &depth_info, depth_t depth)
+std::vector<mvvm::SessionItem*> GetItemsWithDepth(
+    const std::vector<std::pair<mvvm::SessionItem*, depth_t>>& depth_info, depth_t depth)
 {
-  std::vector<mvvm::SessionItem *> result;
+  std::vector<mvvm::SessionItem*> result;
 
   auto on_pair_element = [depth, &result](auto element)
   {
@@ -92,24 +92,24 @@ std::vector<mvvm::SessionItem *> GetItemsWithDepth(
 
 }  // namespace
 
-std::vector<mvvm::SessionItem *> GetTopLevelSelection(const std::vector<mvvm::SessionItem *> &items)
+std::vector<mvvm::SessionItem*> GetTopLevelSelection(const std::vector<mvvm::SessionItem*>& items)
 {
   const auto item_to_depth = GetItemDepthInfo(items);
   const depth_t min_depth = GetMinDepth(item_to_depth);
   return GetItemsWithDepth(item_to_depth, min_depth);
 }
 
-std::vector<mvvm::SessionItem *> GetBottomLevelSelection(
-    const std::vector<mvvm::SessionItem *> &items)
+std::vector<mvvm::SessionItem*> GetBottomLevelSelection(
+    const std::vector<mvvm::SessionItem*>& items)
 {
   const auto item_to_depth = GetItemDepthInfo(items);
   const depth_t max_depth = GetMaxDepth(item_to_depth);
   return GetItemsWithDepth(item_to_depth, max_depth);
 }
 
-std::vector<mvvm::SessionItem *> FilterOutChildren(const std::vector<mvvm::SessionItem *> &items)
+std::vector<mvvm::SessionItem*> FilterOutChildren(const std::vector<mvvm::SessionItem*>& items)
 {
-  std::vector<mvvm::SessionItem *> result;
+  std::vector<mvvm::SessionItem*> result;
 
   auto on_element = [&items](auto current_item) -> bool
   {

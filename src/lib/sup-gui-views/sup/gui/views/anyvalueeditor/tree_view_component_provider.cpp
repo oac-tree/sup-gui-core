@@ -29,7 +29,7 @@
 namespace sup::gui
 {
 
-TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel *model, QTreeView *view)
+TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel* model, QTreeView* view)
     : mvvm::ItemViewComponentProvider(std::make_unique<AnyValueViewModel>(model), view)
 {
   auto proxy_model = std::make_unique<mvvm::FilterNameViewModel>();
@@ -37,7 +37,7 @@ TreeViewComponentProvider::TreeViewComponentProvider(mvvm::ISessionModel *model,
   AddProxyModel(std::move(proxy_model));
 }
 
-void TreeViewComponentProvider::SetFilterPattern(const QString &pattern)
+void TreeViewComponentProvider::SetFilterPattern(const QString& pattern)
 {
   m_filter_proxy_model->SetPattern(pattern);
 }

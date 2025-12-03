@@ -47,10 +47,10 @@
 namespace sup::gui
 {
 
-DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
-                                                       mvvm::ISessionModel *settings,
-                                                       IAppCommandService &command_service,
-                                                       QMainWindow *main_window)
+DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject* project,
+                                                       mvvm::ISessionModel* settings,
+                                                       IAppCommandService& command_service,
+                                                       QMainWindow* main_window)
     : QObject(main_window)
     , m_settings(settings)
     , m_command_service(command_service)
@@ -62,7 +62,7 @@ DtoEditorMainWindowActions::DtoEditorMainWindowActions(mvvm::IProject *project,
   CreateActions(main_window);
   SetupMenus();
 
-  (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget *old, QWidget *now)
+  (void)QObject::connect(qApp, &QApplication::focusChanged, this, [this](QWidget* old, QWidget* now)
                          { m_command_service.OnFocusWidgetUpdate(old, now); });
 }
 
@@ -78,7 +78,7 @@ void DtoEditorMainWindowActions::UpdateProjectNames()
   m_project_handler->UpdateNames();
 }
 
-void DtoEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
+void DtoEditorMainWindowActions::SetupStatusBar(QStatusBar* status_bar)
 {
   status_bar->setVisible(true);
 
@@ -102,7 +102,7 @@ void DtoEditorMainWindowActions::SetupStatusBar(QStatusBar *status_bar)
   status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
 }
 
-void DtoEditorMainWindowActions::CreateActions(QMainWindow *mainwindow)
+void DtoEditorMainWindowActions::CreateActions(QMainWindow* mainwindow)
 {
   m_system_font_action = new QAction("System font (restart required)", this);
   m_system_font_action->setStatusTip("Summon font settings dialog");

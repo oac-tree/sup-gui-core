@@ -37,7 +37,7 @@
 namespace sup::gui
 {
 
-WaveformEditor::WaveformEditor(QWidget *parent_widget)
+WaveformEditor::WaveformEditor(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_tool_bar(new QToolBar)
@@ -68,8 +68,8 @@ WaveformEditor::WaveformEditor(QWidget *parent_widget)
 
 WaveformEditor::~WaveformEditor() = default;
 
-void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> > &waveform,
-                                 const std::string &title)
+void WaveformEditor::SetWaveform(const std::vector<std::pair<double, double> >& waveform,
+                                 const std::string& title)
 {
   m_line_series_data_item->SetWaveform(waveform);
   m_line_series_item->SetDisplayName(title);

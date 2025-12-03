@@ -23,9 +23,9 @@
 namespace sup::gui
 {
 
-SessionItemWidget::SessionItemWidget(QWidget *parent_widget) : QWidget(parent_widget) {}
+SessionItemWidget::SessionItemWidget(QWidget* parent_widget) : QWidget(parent_widget) {}
 
-void SessionItemWidget::SetItem(mvvm::SessionItem *item)
+void SessionItemWidget::SetItem(mvvm::SessionItem* item)
 {
   (void)item;
 }

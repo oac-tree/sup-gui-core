@@ -32,7 +32,7 @@ class AnyValueEditorDialog;
 class AnyValueItem;
 
 std::unique_ptr<sup::gui::AnyValueEditorDialog> CreateWaveformEditorDialog(
-    const sup::gui::AnyValueItem *item, QWidget *parent);
+    const sup::gui::AnyValueItem* item, QWidget* parent);
 
 }  // namespace sup::gui
 

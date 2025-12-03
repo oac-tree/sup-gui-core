@@ -26,14 +26,14 @@
 namespace sup::gui
 {
 
-DtoWaveformActions::DtoWaveformActions(DtoWaveformActionHandler *action_handler,
-                                       QObject *parent_object)
+DtoWaveformActions::DtoWaveformActions(DtoWaveformActionHandler* action_handler,
+                                       QObject* parent_object)
     : QObject(parent_object), m_action_handler(action_handler)
 {
   SetupActions();
 }
 
-QList<QAction *> DtoWaveformActions::GetActions(const std::vector<ActionKey> &action_keys) const
+QList<QAction*> DtoWaveformActions::GetActions(const std::vector<ActionKey>& action_keys) const
 {
   return m_action_map.GetActions(action_keys);
 }

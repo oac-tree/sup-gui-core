@@ -30,7 +30,7 @@
 namespace sup::gui
 {
 
-AnyValueWaveformEditor::AnyValueWaveformEditor(QWidget *parent_widget)
+AnyValueWaveformEditor::AnyValueWaveformEditor(QWidget* parent_widget)
     : AbstractAnyValueEditor(parent_widget), m_waveform_editor(new WaveformEditor(nullptr))
 
 {
@@ -43,10 +43,10 @@ AnyValueWaveformEditor::AnyValueWaveformEditor(QWidget *parent_widget)
 
 AnyValueWaveformEditor::~AnyValueWaveformEditor() = default;
 
-void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem *item)
+void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem* item)
 {
   // FIXME introduce check that AnyValueItem is suitable for waveform
-  m_waveform_editor->SetWaveform(GetWaveform(dynamic_cast<const AnyValueArrayItem *>(item)), "");
+  m_waveform_editor->SetWaveform(GetWaveform(dynamic_cast<const AnyValueArrayItem*>(item)), "");
 }
 
 std::unique_ptr<AnyValueItem> AnyValueWaveformEditor::GetResult()

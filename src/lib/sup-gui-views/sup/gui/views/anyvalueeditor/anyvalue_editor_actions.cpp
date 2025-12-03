@@ -22,8 +22,8 @@
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/i_app_command_service.h>
-#include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/component_objects/proxy_action.h>
+#include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/style/style_helper.h>
@@ -38,7 +38,7 @@ namespace
 /**
  * @brief Sets menu enabled, if at least one of children actions is enabled.
  */
-void SetEnabledToChildren(QMenu &menu)
+void SetEnabledToChildren(QMenu& menu)
 {
   for (auto action : menu.actions())
   {
@@ -55,8 +55,8 @@ void SetEnabledToChildren(QMenu &menu)
 namespace sup::gui
 {
 
-AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorActionHandler *action_handler,
-                                             QObject *parent_object)
+AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorActionHandler* action_handler,
+                                             QObject* parent_object)
     : QObject(parent_object)
     , m_action_handler(action_handler)
     , m_insert_after_menu(CreateInsertMenu())
@@ -69,12 +69,12 @@ AnyValueEditorActions::AnyValueEditorActions(AnyValueEditorActionHandler *action
 
 AnyValueEditorActions::~AnyValueEditorActions() = default;
 
-QList<QAction *> AnyValueEditorActions::GetActions(const std::vector<ActionKey> &action_keys) const
+QList<QAction*> AnyValueEditorActions::GetActions(const std::vector<ActionKey>& action_keys) const
 {
   return m_action_map.GetActions(action_keys);
 }
 
-void AnyValueEditorActions::SetupMenu(QMenu &menu)
+void AnyValueEditorActions::SetupMenu(QMenu& menu)
 {
   menu.addAction(m_insert_after_action);
   menu.addAction(m_insert_into_action);
@@ -90,8 +90,8 @@ void AnyValueEditorActions::SetupMenu(QMenu &menu)
   UpdateEnabledStatus();
 }
 
-void AnyValueEditorActions::RegisterActionsForContext(const AppCommandContext &context,
-                                                      IAppCommandService &service)
+void AnyValueEditorActions::RegisterActionsForContext(const AppCommandContext& context,
+                                                      IAppCommandService& service)
 {
   service.AddActionToCommand(m_cut_action, constants::kCutCommandId, context);
   service.AddActionToCommand(m_copy_action, constants::kCopyCommandId, context);
@@ -222,7 +222,7 @@ std::unique_ptr<QMenu> AnyValueEditorActions::CreateInsertMenu()
 
 void AnyValueEditorActions::AboutToShowInsertMenu()
 {
-  auto menu = qobject_cast<QMenu *>(sender());
+  auto menu = qobject_cast<QMenu*>(sender());
   const bool insert_into = (menu == m_insert_into_menu.get());
 
   menu->clear();
@@ -243,10 +243,10 @@ void AnyValueEditorActions::AboutToShowInsertMenu()
   connect(action, &QAction::triggered, this, &AnyValueEditorActions::ImportFromFileRequest);
 }
 
-void AnyValueEditorActions::AddInsertActions(const std::vector<std::string> &names, QMenu *menu,
+void AnyValueEditorActions::AddInsertActions(const std::vector<std::string>& names, QMenu* menu,
                                              bool insert_into)
 {
-  for (const auto &name : names)
+  for (const auto& name : names)
   {
     auto action = menu->addAction(QString::fromStdString(name));
     action->setEnabled(insert_into ? m_action_handler->CanInsertInto(name)

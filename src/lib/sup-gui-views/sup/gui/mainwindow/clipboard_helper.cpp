@@ -38,4 +38,4 @@ set_mime_data_func_t DefaultClipboardSetFunc()
   { QGuiApplication::clipboard()->setMimeData(data.release()); };
 }
 
-}  // namespace oac_tree_gui
+}  // namespace sup::gui

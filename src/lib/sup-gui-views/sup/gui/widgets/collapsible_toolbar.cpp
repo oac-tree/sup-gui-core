@@ -33,7 +33,7 @@
 namespace sup::gui
 {
 
-CollapsibleToolBar::CollapsibleToolBar(QWidget *parent_widget)
+CollapsibleToolBar::CollapsibleToolBar(QWidget* parent_widget)
     : QFrame(parent_widget)
     , m_tool_bar(new QToolBar)
     , m_expand_button(new QToolButton)
@@ -64,21 +64,21 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget *parent_widget)
   UpdateToolBar();
 }
 
-void CollapsibleToolBar::SetText(const QString &text, const QString &text_tooltip)
+void CollapsibleToolBar::SetText(const QString& text, const QString& text_tooltip)
 {
   mvvm::style::ScaleLabelFont(*m_label, 0.9);
   m_label->setText(text);
   m_label->setToolTip(text_tooltip);
 }
 
-void CollapsibleToolBar::SetControlledWidget(QWidget *widget)
+void CollapsibleToolBar::SetControlledWidget(QWidget* widget)
 {
   m_controlled_widget = widget;
   // install ourself as an event filter to listen for programmatic hide/show events
   m_controlled_widget->installEventFilter(this);
 }
 
-void CollapsibleToolBar::AddWidget(QWidget *widget)
+void CollapsibleToolBar::AddWidget(QWidget* widget)
 {
   // Feature of QToolBar: returns action on adding any widget or button.
   // These actions can be used to hide widgets from the toolbar (see ::UpdateToolBar)
@@ -86,7 +86,7 @@ void CollapsibleToolBar::AddWidget(QWidget *widget)
   m_toolbar_actions.append(action);  // to hide/show elements later
 }
 
-void CollapsibleToolBar::AddActions(const QList<QAction *> &actions)
+void CollapsibleToolBar::AddActions(const QList<QAction*>& actions)
 {
   for (auto action : actions)
   {
@@ -95,7 +95,7 @@ void CollapsibleToolBar::AddActions(const QList<QAction *> &actions)
   }
 }
 
-QToolBar *CollapsibleToolBar::GetToolBar()
+QToolBar* CollapsibleToolBar::GetToolBar()
 {
   return m_tool_bar;
 }
@@ -106,7 +106,7 @@ void CollapsibleToolBar::SetExpanded(bool value)
   UpdateToolBar();
 }
 
-bool CollapsibleToolBar::eventFilter(QObject *obj, QEvent *event)
+bool CollapsibleToolBar::eventFilter(QObject* obj, QEvent* event)
 {
   (void)obj;
   // We are here because the collapse/expand state of the controlled widget has been changed

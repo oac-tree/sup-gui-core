@@ -28,9 +28,9 @@
 namespace sup::gui
 {
 
-AppCommand::AppCommand(const QString &text) : AppCommand(text, QKeySequence()) {}
+AppCommand::AppCommand(const QString& text) : AppCommand(text, QKeySequence()) {}
 
-AppCommand::AppCommand(const QString &text, const QKeySequence &key)
+AppCommand::AppCommand(const QString& text, const QKeySequence& key)
     : m_proxy_action(std::make_unique<ProxyAction>()), m_default_text(text)
 {
   m_proxy_action->setText(text);
@@ -40,19 +40,19 @@ AppCommand::AppCommand(const QString &text, const QKeySequence &key)
 
 AppCommand::~AppCommand() = default;
 
-ProxyAction *AppCommand::GetProxyAction()
+ProxyAction* AppCommand::GetProxyAction()
 {
   return m_proxy_action.get();
 }
 
-void AppCommand::SetCurrentContext(const AppCommandContext &current_context)
+void AppCommand::SetCurrentContext(const AppCommandContext& current_context)
 {
   SetContextStack({current_context});
 }
 
-void AppCommand::SetContextStack(const std::vector<AppCommandContext> &context_stack)
+void AppCommand::SetContextStack(const std::vector<AppCommandContext>& context_stack)
 {
-  for (const auto &current_context : context_stack)
+  for (const auto& current_context : context_stack)
   {
     if (auto action = GetActionForContext(current_context); action)
     {
@@ -66,7 +66,7 @@ void AppCommand::SetContextStack(const std::vector<AppCommandContext> &context_s
   m_proxy_action->setText(m_default_text);
 }
 
-void AppCommand::AddOverrideAction(const AppCommandContext &context, QAction *action)
+void AppCommand::AddOverrideAction(const AppCommandContext& context, QAction* action)
 {
   auto iter = m_context_to_action.find(context);
   if (iter != m_context_to_action.end())
@@ -78,25 +78,25 @@ void AppCommand::AddOverrideAction(const AppCommandContext &context, QAction *ac
   (void)m_context_to_action.insert(iter, {context, action});
 }
 
-AppCommand &AppCommand::SetText(const QString &text) &
+AppCommand& AppCommand::SetText(const QString& text) &
 {
   m_default_text = text;
   m_proxy_action->setText(m_default_text);
   return *this;
 }
 
-AppCommand &AppCommand::SetShortcut(const QKeySequence &shortcut)  &
+AppCommand& AppCommand::SetShortcut(const QKeySequence& shortcut) &
 {
   m_proxy_action->setShortcut(shortcut);
   return *this;
 }
 
-bool AppCommand::HasAction(const AppCommandContext &context) const
+bool AppCommand::HasAction(const AppCommandContext& context) const
 {
   return m_context_to_action.find(context) != m_context_to_action.end();
 }
 
-QAction *AppCommand::GetActionForContext(const AppCommandContext &context) const
+QAction* AppCommand::GetActionForContext(const AppCommandContext& context) const
 {
   auto iter = m_context_to_action.find(context);
   return iter == m_context_to_action.end() ? nullptr : iter->second;

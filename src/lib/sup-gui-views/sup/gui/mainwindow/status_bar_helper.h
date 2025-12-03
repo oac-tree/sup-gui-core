@@ -49,8 +49,6 @@ void AddPermanentStretch(QStatusBar* status_bar, int stretch = 1);
  */
 void SetupStatusBarButton(QToolButton* button, QAction* action);
 
-
-
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_MAINWINDOW_STATUS_BAR_HELPER_H_

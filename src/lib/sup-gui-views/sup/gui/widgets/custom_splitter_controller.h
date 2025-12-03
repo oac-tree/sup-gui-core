@@ -111,7 +111,7 @@ protected:
 
 private:
   QSplitter* m_splitter{nullptr};
-  QString m_settings_group_name;           //!< group name in QSettings file
+  QString m_settings_group_name;                    //!< group name in QSettings file
   QList<std::int32_t> m_children_visibility_flags;  //!< children widget visibility flags
 };
 

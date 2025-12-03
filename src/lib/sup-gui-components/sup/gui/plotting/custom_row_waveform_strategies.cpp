@@ -20,9 +20,9 @@
 
 #include "custom_row_waveform_strategies.h"
 
-#include <mvvm/standarditems/point_item.h>
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewitem_factory.h>
+#include <mvvm/standarditems/point_item.h>
 
 #include <stdexcept>
 
@@ -32,7 +32,7 @@ namespace
 /**
  * @brief Constructs row of two data items pointing to values of "x" and "y" fields of PointItem.
  */
-std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem &item)
+std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem& item)
 {
   std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
@@ -69,10 +69,10 @@ QStringList TwoColumRowStrategy::GetHorizontalHeaderLabels() const
 }
 
 std::vector<std::unique_ptr<mvvm::ViewItem>> TwoColumRowStrategy::ConstructRowImpl(
-    mvvm::SessionItem *item)
+    mvvm::SessionItem* item)
 {
   // For structures construct a row made of data's of two fields
-  if (auto point_item = dynamic_cast<const mvvm::PointItem *>(item); point_item)
+  if (auto point_item = dynamic_cast<const mvvm::PointItem*>(item); point_item)
   {
     return CreateXYRow(*point_item);
   }

@@ -29,7 +29,7 @@
 namespace sup::gui
 {
 
-DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget *parent_widget)
+DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_stack_widget(new sup::gui::ItemStackWidget)
     , m_waveform_editor(new WaveformEditorWidget)
@@ -43,14 +43,14 @@ DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget *parent_widget)
   layout->addWidget(m_stack_widget);
 }
 
-void DtoWaveformEditorPanel::SetViewport(mvvm::ChartViewportItem *viewport)
+void DtoWaveformEditorPanel::SetViewport(mvvm::ChartViewportItem* viewport)
 {
   m_waveform_editor->SetViewportItem(viewport);
 }
 
 DtoWaveformEditorPanel::~DtoWaveformEditorPanel() = default;
 
-void DtoWaveformEditorPanel::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
+void DtoWaveformEditorPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_waveform_editor->SetLineSeriesItem(line_series_item);
 }

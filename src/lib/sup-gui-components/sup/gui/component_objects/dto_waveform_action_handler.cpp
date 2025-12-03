@@ -34,7 +34,7 @@ namespace sup::gui
 {
 
 DtoWaveformActionHandler::DtoWaveformActionHandler(DtoWaveformEditorContext context,
-                                                   QObject *parent_object)
+                                                   QObject* parent_object)
     : QObject(parent_object), m_context(std::move(context))
 {
   if (!m_context.waveform_container)
@@ -85,7 +85,7 @@ void DtoWaveformActionHandler::RemoveWaveform()
 
   auto selected_waveform = GetSelectedWaveform();
   auto next_to_select =
-      dynamic_cast<mvvm::LineSeriesItem *>(mvvm::utils::FindNextSiblingToSelect(selected_waveform));
+      dynamic_cast<mvvm::LineSeriesItem*>(mvvm::utils::FindNextSiblingToSelect(selected_waveform));
 
   auto corresponding_data = selected_waveform->GetDataItem();
 
@@ -95,28 +95,28 @@ void DtoWaveformActionHandler::RemoveWaveform()
   emit SelectWaveformRequest(next_to_select);
 }
 
-mvvm::LineSeriesItem *DtoWaveformActionHandler::GetSelectedWaveform() const
+mvvm::LineSeriesItem* DtoWaveformActionHandler::GetSelectedWaveform() const
 {
   return m_context.selected_waveform();
 }
 
-mvvm::ChartViewportItem *DtoWaveformActionHandler::GetWaveformContainer() const
+mvvm::ChartViewportItem* DtoWaveformActionHandler::GetWaveformContainer() const
 {
   return m_context.waveform_container();
 }
 
-mvvm::SessionItem *DtoWaveformActionHandler::GetDataContainer() const
+mvvm::SessionItem* DtoWaveformActionHandler::GetDataContainer() const
 {
   return m_context.data_container();
 }
 
-mvvm::ISessionModel *DtoWaveformActionHandler::GetModel()
+mvvm::ISessionModel* DtoWaveformActionHandler::GetModel()
 {
   // for the moment we assume that WaveformContainer and DataContainer are located in the same model
   return GetWaveformContainer()->GetModel();
 }
 
-mvvm::LineSeriesItem *DtoWaveformActionHandler::InsertWaveform(
+mvvm::LineSeriesItem* DtoWaveformActionHandler::InsertWaveform(
     std::unique_ptr<mvvm::LineSeriesItem> waveform)
 {
   auto result_ptr = waveform.get();
@@ -125,14 +125,15 @@ mvvm::LineSeriesItem *DtoWaveformActionHandler::InsertWaveform(
 
   // inserting right after current selection
   auto selected = GetSelectedWaveform();
-  auto waveform_tag_index = (selected != nullptr) ? selected->GetTagIndex().Next() : mvvm::TagIndex::Append();
+  auto waveform_tag_index =
+      (selected != nullptr) ? selected->GetTagIndex().Next() : mvvm::TagIndex::Append();
 
   (void)GetModel()->InsertItem(std::move(waveform), GetWaveformContainer(), waveform_tag_index);
 
   return result_ptr;
 }
 
-void DtoWaveformActionHandler::InsertDataForWaveform(mvvm::LineSeriesItem *waveform)
+void DtoWaveformActionHandler::InsertDataForWaveform(mvvm::LineSeriesItem* waveform)
 {
   auto waveform_tag_index = waveform->GetTagIndex();
 

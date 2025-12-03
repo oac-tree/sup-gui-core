@@ -35,16 +35,16 @@ class CodeEditorSidebar : public QWidget
   Q_OBJECT
 
 public:
-  explicit CodeEditorSidebar(CodeEditor *editor);
+  explicit CodeEditorSidebar(CodeEditor* editor);
 
   QSize sizeHint() const override;
 
 protected:
-  void paintEvent(QPaintEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
+  void paintEvent(QPaintEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
-  CodeEditor *m_code_editor;
+  CodeEditor* m_code_editor;
 };
 
 }  // namespace sup::gui

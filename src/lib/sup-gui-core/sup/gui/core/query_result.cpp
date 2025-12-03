@@ -33,7 +33,7 @@ bool QueryResult::IsSuccess() const
   return m_status == Status::kSuccess;
 }
 
-QueryResult QueryResult::Failure(const sup::gui::MessageEvent &message)
+QueryResult QueryResult::Failure(const sup::gui::MessageEvent& message)
 {
   return {Status::kFailure, message};
 }

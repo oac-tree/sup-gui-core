@@ -20,8 +20,8 @@
 
 #include "sup/gui/views/dtoeditor/dto_composer_view.h"
 
-#include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/app/null_command_service.h>
+#include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/model_utils.h>

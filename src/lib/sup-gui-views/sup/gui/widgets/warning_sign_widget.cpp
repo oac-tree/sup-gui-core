@@ -53,7 +53,7 @@ QRect GetPixmapRect()
 namespace sup::gui
 {
 
-WarningSignWidget::WarningSignWidget(const MessageEvent &message, QWidget *parent_widget)
+WarningSignWidget::WarningSignWidget(const MessageEvent& message, QWidget* parent_widget)
     : QWidget(parent_widget), m_message(message)
 {
   setAttribute(Qt::WA_NoSystemBackground);
@@ -71,7 +71,7 @@ bool WarningSignWidget::IsBusy() const
   return m_is_busy;
 }
 
-void WarningSignWidget::paintEvent(QPaintEvent *event)
+void WarningSignWidget::paintEvent(QPaintEvent* event)
 {
   Q_UNUSED(event);
   QPainter painter(this);
@@ -79,7 +79,7 @@ void WarningSignWidget::paintEvent(QPaintEvent *event)
   painter.drawPixmap(GetPixmapRect(), m_pixmap);
 }
 
-void WarningSignWidget::mousePressEvent(QMouseEvent *event)
+void WarningSignWidget::mousePressEvent(QMouseEvent* event)
 {
   Q_UNUSED(event);
 

@@ -48,11 +48,11 @@ TEST_F(WaveformTableComponentProviderTest, InitialState)
   EXPECT_NE(provider.GetLastProxyModel(), nullptr);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
 
-  ASSERT_NE(dynamic_cast<QTransposeProxyModel *>(table_view.model()), nullptr);
+  ASSERT_NE(dynamic_cast<QTransposeProxyModel*>(table_view.model()), nullptr);
   EXPECT_EQ(provider.GetLastProxyModel(), table_view.model());
 
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem *>({}));
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({}));
   EXPECT_EQ(provider.GetSelectedPointIndex(), -1);
 }
 
@@ -146,7 +146,7 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   provider.SetSelectedItem(x_item);
 
   // should lead to the selection of the whole volumn
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem *>({x_item, y_item}));
+  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({x_item, y_item}));
 
   // should report correct index of selected point
   EXPECT_EQ(provider.GetSelectedPointIndex(), 1);

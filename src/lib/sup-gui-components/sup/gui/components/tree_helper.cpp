@@ -29,7 +29,7 @@
 namespace sup::gui
 {
 
-void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_view)
+void SetupCollapseExpandMenu(const QPoint& point, QMenu& menu, QTreeView& tree_view)
 {
   menu.setToolTipsVisible(true);
 
@@ -85,7 +85,7 @@ void SetupCollapseExpandMenu(const QPoint &point, QMenu &menu, QTreeView &tree_v
                          on_collapse_selected);
 }
 
-void AdjustWidthOfColumns(QHeaderView *header, std::vector<std::int32_t> stretch_factors)
+void AdjustWidthOfColumns(QHeaderView* header, std::vector<std::int32_t> stretch_factors)
 {
   // adjust array of stretch factors so it matches number of columns
   const std::int32_t default_stretch{1};
@@ -104,12 +104,12 @@ void AdjustWidthOfColumns(QHeaderView *header, std::vector<std::int32_t> stretch
   header->setStretchLastSection(true);
 }
 
-void AdjustWidthOfColumns(QTreeView &tree, std::vector<std::int32_t> stretch_factors)
+void AdjustWidthOfColumns(QTreeView& tree, std::vector<std::int32_t> stretch_factors)
 {
   AdjustWidthOfColumns(tree.header(), std::move(stretch_factors));
 }
 
-void ScrollTreeViewportToIndex(const QModelIndex &index, QTreeView &tree_view)
+void ScrollTreeViewportToIndex(const QModelIndex& index, QTreeView& tree_view)
 {
   auto visible_rectangle = tree_view.visualRect(index);
   if ((visible_rectangle.top() < 0) || (visible_rectangle.bottom() > tree_view.rect().bottom()))
@@ -118,10 +118,11 @@ void ScrollTreeViewportToIndex(const QModelIndex &index, QTreeView &tree_view)
   }
 }
 
-void ScrollTreeViewportToSelection(QTreeView &tree_view)
+void ScrollTreeViewportToSelection(QTreeView& tree_view)
 {
-  auto indexes = (tree_view.selectionModel() != nullptr) ? tree_view.selectionModel()->selectedIndexes()
-                                            : QModelIndexList();
+  auto indexes = (tree_view.selectionModel() != nullptr)
+                     ? tree_view.selectionModel()->selectedIndexes()
+                     : QModelIndexList();
   if (indexes.empty())
   {
     return;
@@ -130,7 +131,7 @@ void ScrollTreeViewportToSelection(QTreeView &tree_view)
   ScrollTreeViewportToIndex(indexes.front(), tree_view);
 }
 
-QModelIndex FindVisibleCandidate(const QTreeView &tree, const QModelIndex &child)
+QModelIndex FindVisibleCandidate(const QTreeView& tree, const QModelIndex& child)
 {
   if (!child.isValid())
   {

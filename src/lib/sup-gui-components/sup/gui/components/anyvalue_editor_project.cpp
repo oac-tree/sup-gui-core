@@ -27,7 +27,7 @@
 namespace sup::gui
 {
 
-AnyValueEditorProject::AnyValueEditorProject(const mvvm::ProjectContext &context)
+AnyValueEditorProject::AnyValueEditorProject(const mvvm::ProjectContext& context)
     : AppProject(context)
 {
   (void)RegisterModel<mvvm::ApplicationModel>();
@@ -35,7 +35,7 @@ AnyValueEditorProject::AnyValueEditorProject(const mvvm::ProjectContext &context
 
 AnyValueEditorProject::~AnyValueEditorProject() = default;
 
-mvvm::ApplicationModel *AnyValueEditorProject::GetApplicationModel()
+mvvm::ApplicationModel* AnyValueEditorProject::GetApplicationModel()
 {
   return (GetModelCount() > 0) ? GetModel<mvvm::ApplicationModel>() : nullptr;
 }

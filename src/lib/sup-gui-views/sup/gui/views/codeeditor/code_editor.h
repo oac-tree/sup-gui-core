@@ -39,7 +39,7 @@ class CodeEditor : public QPlainTextEdit
   Q_OBJECT
 
 public:
-  explicit CodeEditor(QWidget *parent_widget = nullptr);
+  explicit CodeEditor(QWidget* parent_widget = nullptr);
   ~CodeEditor() override;
 
   CodeEditor(const CodeEditor&) = delete;
@@ -50,28 +50,28 @@ public:
   /**
    * @brief Set editor content. Previous content will be cleared up.
    */
-  void SetText(const QString &text, const QString &definition_name = {});
+  void SetText(const QString& text, const QString& definition_name = {});
 
   /**
    * @brief Set language definition for given name (JSON, XML)
    */
-  void SetDefinition(const QString &definition_name);
+  void SetDefinition(const QString& definition_name);
 
 protected:
-  void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent* event) override;
 
 private:
   friend class CodeEditorSidebar;
 
   int sidebarWidth() const;
-  void sidebarPaintEvent(QPaintEvent *event);
+  void sidebarPaintEvent(QPaintEvent* event);
   void updateSidebarGeometry();
-  void updateSidebarArea(const QRect &rect, int dy);
+  void updateSidebarArea(const QRect& rect, int dy);
 
   QTextBlock blockAtPosition(int y) const;
-  bool isFoldable(const QTextBlock &block) const;
-  bool isFolded(const QTextBlock &block) const;
-  void toggleFold(const QTextBlock &block);
+  bool isFoldable(const QTextBlock& block) const;
+  bool isFolded(const QTextBlock& block) const;
+  void toggleFold(const QTextBlock& block);
 
   struct CodeEditorImpl;
   std::unique_ptr<CodeEditorImpl> p_impl;

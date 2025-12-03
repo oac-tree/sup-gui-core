@@ -25,8 +25,8 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/standarditems/container_item.h>
 #include <mvvm/providers/viewitem.h>
+#include <mvvm/standarditems/container_item.h>
 
 #include <sup/dto/anytype.h>
 
@@ -99,10 +99,11 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
 
   // it should be possible to change scalar type
-  auto scalar_type_combo =item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
+  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
   scalar_type_combo.SetValue(sup::dto::kBooleanTypeName);
 
-  EXPECT_TRUE(viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
+  EXPECT_TRUE(
+      viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
   EXPECT_EQ(item->Data<mvvm::boolean>(), false);
   EXPECT_EQ(item->GetAnyTypeName(), sup::dto::kBooleanTypeName);
 }

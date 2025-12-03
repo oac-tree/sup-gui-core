@@ -30,15 +30,15 @@
 namespace sup::gui
 {
 
-CustomHeaderView::CustomHeaderView(QWidget *parent) : CustomHeaderView({}, {}, parent) {}
+CustomHeaderView::CustomHeaderView(QWidget* parent) : CustomHeaderView({}, {}, parent) {}
 
-CustomHeaderView::CustomHeaderView(const QString &setting_name, QWidget *parent)
+CustomHeaderView::CustomHeaderView(const QString& setting_name, QWidget* parent)
     : CustomHeaderView(setting_name, {}, parent)
 {
 }
 
-CustomHeaderView::CustomHeaderView(const QString &setting_name,
-                                   const std::vector<int> &stretch_factors, QWidget *parent)
+CustomHeaderView::CustomHeaderView(const QString& setting_name,
+                                   const std::vector<int>& stretch_factors, QWidget* parent)
     : QHeaderView(Qt::Horizontal, parent)
     , m_setting_name(setting_name)
     , m_stretch_factors(stretch_factors)
@@ -58,7 +58,7 @@ CustomHeaderView::~CustomHeaderView()
   WriteSettings();
 }
 
-void CustomHeaderView::SetAsFavoriteState(const QByteArray &state)
+void CustomHeaderView::SetAsFavoriteState(const QByteArray& state)
 {
   // we set favorite state, but do not use it yet
   m_favorite_state = state;
@@ -107,7 +107,7 @@ void CustomHeaderView::ResetColumnWidth()
   AdjustColumnsWidth();
 }
 
-void CustomHeaderView::mousePressEvent(QMouseEvent *event)
+void CustomHeaderView::mousePressEvent(QMouseEvent* event)
 {
   // Catching when the user has started to resize columns. Ignoring press events for context
   // right-mouse button event.
@@ -118,7 +118,7 @@ void CustomHeaderView::mousePressEvent(QMouseEvent *event)
   QHeaderView::mousePressEvent(event);
 }
 
-void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
+void CustomHeaderView::mouseReleaseEvent(QMouseEvent* event)
 {
   // Catching when the user has stopped to resize columns. Ignoring release event for context
   // right-mouse button event.
@@ -129,7 +129,7 @@ void CustomHeaderView::mouseReleaseEvent(QMouseEvent *event)
   QHeaderView::mouseReleaseEvent(event);
 }
 
-void CustomHeaderView::showEvent(QShowEvent *event)
+void CustomHeaderView::showEvent(QShowEvent* event)
 {
   Q_UNUSED(event)
 
@@ -142,7 +142,7 @@ void CustomHeaderView::showEvent(QShowEvent *event)
   }
 }
 
-void CustomHeaderView::OnContextMenuRequest(const QPoint &point)
+void CustomHeaderView::OnContextMenuRequest(const QPoint& point)
 {
   QMenu menu;
 

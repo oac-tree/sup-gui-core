@@ -38,7 +38,7 @@ public:
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:
-  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem *item) override;
+  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem* item) override;
 };
 
 }  // namespace sup::gui

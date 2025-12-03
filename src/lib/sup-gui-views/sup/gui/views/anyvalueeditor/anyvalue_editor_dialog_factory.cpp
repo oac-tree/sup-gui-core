@@ -28,7 +28,7 @@ namespace sup::gui
 {
 
 std::unique_ptr<sup::gui::AnyValueEditorDialog> CreateWaveformEditorDialog(
-    const sup::gui::AnyValueItem *item, QWidget *parent)
+    const sup::gui::AnyValueItem* item, QWidget* parent)
 {
   auto editor = std::make_unique<sup::gui::AnyValueWaveformEditor>();
   editor->SetInitialValue(item);

@@ -29,7 +29,7 @@
 namespace sup::gui
 {
 
-CommonSettingsEditor::CommonSettingsEditor(QWidget *parent_widget)
+CommonSettingsEditor::CommonSettingsEditor(QWidget* parent_widget)
     : SessionItemWidget(parent_widget)
     , m_settings_view(new mvvm::PropertyFlatView)
     , m_property_view_model(std::make_unique<mvvm::PropertyViewModel>(nullptr))
@@ -44,7 +44,7 @@ CommonSettingsEditor::CommonSettingsEditor(QWidget *parent_widget)
 
 CommonSettingsEditor::~CommonSettingsEditor() = default;
 
-void CommonSettingsEditor::SetItem(mvvm::SessionItem *item)
+void CommonSettingsEditor::SetItem(mvvm::SessionItem* item)
 {
   m_property_view_model->SetRootSessionItem(item);
 }

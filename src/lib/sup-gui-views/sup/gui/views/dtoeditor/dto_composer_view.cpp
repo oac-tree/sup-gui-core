@@ -43,9 +43,9 @@ namespace
 {
 
 DtoComposerTabController::create_widget_callback_t CreateCallback(
-    IAppCommandService &command_service)
+    IAppCommandService& command_service)
 {
-  return [&command_service](mvvm::SessionItem *item) -> std::unique_ptr<AnyValueEditorWidget>
+  return [&command_service](mvvm::SessionItem* item) -> std::unique_ptr<AnyValueEditorWidget>
   {
     auto result = std::make_unique<AnyValueEditorWidget>(command_service);
     result->SetAnyValueItemContainer(item);
@@ -55,7 +55,7 @@ DtoComposerTabController::create_widget_callback_t CreateCallback(
 
 }  // namespace
 
-DtoComposerView::DtoComposerView(IAppCommandService &command_service, QWidget *parent_widget)
+DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_command_service(command_service)
     , m_tab_widget(new QTabWidget)
@@ -85,7 +85,7 @@ DtoComposerView::DtoComposerView(IAppCommandService &command_service, QWidget *p
 
 DtoComposerView::~DtoComposerView() = default;
 
-void DtoComposerView::SetModel(mvvm::ISessionModel *model)
+void DtoComposerView::SetModel(mvvm::ISessionModel* model)
 {
   m_action_handler->SetModel(model);
   m_tab_controller = std::make_unique<DtoComposerTabController>(
@@ -117,7 +117,7 @@ void DtoComposerView::SetupConnections()
           &DtoComposerActionHandler::OnRemoveContainer);
 }
 
-void DtoComposerView::SummonContextMenu(const QPoint &point)
+void DtoComposerView::SummonContextMenu(const QPoint& point)
 {
   QMenu menu;
   menu.setToolTipsVisible(true);

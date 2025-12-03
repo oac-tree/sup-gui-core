@@ -40,7 +40,7 @@
 namespace sup::gui
 {
 
-SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent_widget)
+SettingsEditor::SettingsEditor(const mvvm::ISessionModel& model, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_list_view(new QListView)
@@ -69,27 +69,27 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel &model, QWidget *parent
 
 SettingsEditor::~SettingsEditor() = default;
 
-void SettingsEditor::SetSettingsGroup(mvvm::SessionItem *item)
+void SettingsEditor::SetSettingsGroup(mvvm::SessionItem* item)
 {
   auto widget = m_stacked_widget_provider->SetCurrentWidget(item->GetType());
-  if (auto item_widget = dynamic_cast<SessionItemWidget *>(widget); item_widget)
+  if (auto item_widget = dynamic_cast<SessionItemWidget*>(widget); item_widget)
   {
     item_widget->SetItem(item);
   }
 }
 
-void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel &model)
+void SettingsEditor::PropagateSettingsToModel(mvvm::ISessionModel& model)
 {
   model.ReplaceRootItem(mvvm::utils::CopyItem(*m_working_settings_copy->GetRootItem()));
 }
 
-void SettingsEditor::RegisterWidget(const std::string &key,
-                                    const widget_factory_func_t &factory_func)
+void SettingsEditor::RegisterWidget(const std::string& key,
+                                    const widget_factory_func_t& factory_func)
 {
   m_stacked_widget_provider->RegisterWidget(key, factory_func);
 }
 
-void SettingsEditor::SetInitialValues(const mvvm::ISessionModel &model)
+void SettingsEditor::SetInitialValues(const mvvm::ISessionModel& model)
 {
   m_working_settings_copy = model.Clone();
 

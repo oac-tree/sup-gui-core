@@ -37,7 +37,7 @@ namespace
 /**
  * @brief Returns flags representing children visibility.
  */
-QList<std::int32_t> GetChildrenVisibilityFlags(QSplitter *splitter)
+QList<std::int32_t> GetChildrenVisibilityFlags(QSplitter* splitter)
 {
   QList<std::int32_t> result;
   for (std::int32_t index = 0; index < splitter->count(); ++index)
@@ -51,7 +51,7 @@ QList<std::int32_t> GetChildrenVisibilityFlags(QSplitter *splitter)
 /**
  * @brief Set children visibility according to given flags.
  */
-void ApplyChildrenVisibilityFlags(const QList<std::int32_t> &flags, QSplitter *splitter)
+void ApplyChildrenVisibilityFlags(const QList<std::int32_t>& flags, QSplitter* splitter)
 {
   if (flags.size() != splitter->count())
   {
@@ -68,8 +68,8 @@ void ApplyChildrenVisibilityFlags(const QList<std::int32_t> &flags, QSplitter *s
 
 }  // namespace
 
-CustomSplitterController::CustomSplitterController(const QString &settings_group_name,
-                                                   QSplitter *splitter)
+CustomSplitterController::CustomSplitterController(const QString& settings_group_name,
+                                                   QSplitter* splitter)
     : QObject(splitter), m_splitter(splitter), m_settings_group_name(settings_group_name)
 {
   if (m_splitter == nullptr)
@@ -78,7 +78,7 @@ CustomSplitterController::CustomSplitterController(const QString &settings_group
   }
 }
 
-void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func)
+void CustomSplitterController::ReadSettings(const read_variant_func_t& read_func)
 {
   if (m_settings_group_name.isEmpty())
   {
@@ -98,7 +98,7 @@ void CustomSplitterController::ReadSettings(const read_variant_func_t &read_func
   }
 }
 
-void CustomSplitterController::WriteSettings(const write_variant_func_t &write_func)
+void CustomSplitterController::WriteSettings(const write_variant_func_t& write_func)
 {
   if (m_settings_group_name.isEmpty())
   {
@@ -137,9 +137,9 @@ void CustomSplitterController::UpdateChildrenVisibilityCache()
   m_children_visibility_flags = GetChildrenVisibilityFlags(m_splitter);
 }
 
-bool CustomSplitterController::eventFilter(QObject *obj, QEvent *event)
+bool CustomSplitterController::eventFilter(QObject* obj, QEvent* event)
 {
-  (void) obj;
+  (void)obj;
   // We update the visibility cache each time the children's visibility flag changes wrt visibility
   // flag of splitter itself. This excludes subtle moment of destruction when all widgets are
   // changing to invisible state.

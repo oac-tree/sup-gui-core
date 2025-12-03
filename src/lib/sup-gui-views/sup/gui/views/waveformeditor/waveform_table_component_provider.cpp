@@ -31,8 +31,8 @@
 namespace sup::gui
 {
 
-WaveformTableComponentProvider::WaveformTableComponentProvider(mvvm::ApplicationModel *model,
-                                                               QTableView *view)
+WaveformTableComponentProvider::WaveformTableComponentProvider(mvvm::ApplicationModel* model,
+                                                               QTableView* view)
     : mvvm::ItemViewComponentProvider(std::make_unique<WaveformTwoColumnViewModel>(model), view)
 {
   AddProxyModel(std::make_unique<QTransposeProxyModel>());

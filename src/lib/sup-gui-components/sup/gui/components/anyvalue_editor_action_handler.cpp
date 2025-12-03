@@ -309,7 +309,8 @@ AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 {
-  if ((GetAnyValueItemContainer() != nullptr) && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
+  if ((GetAnyValueItemContainer() != nullptr)
+      && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
   {
     return GetAnyValueItemContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::First());
   }
@@ -396,8 +397,10 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
 {
   auto selected_item = GetSelectedItem();
 
-  auto parent_item = (selected_item != nullptr) ? selected_item->GetParent() : GetAnyValueItemContainer();
-  auto tagindex = (selected_item != nullptr) ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
+  auto parent_item =
+      (selected_item != nullptr) ? selected_item->GetParent() : GetAnyValueItemContainer();
+  auto tagindex =
+      (selected_item != nullptr) ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
   InsertItem(std::move(items), parent_item, tagindex);
 }
 

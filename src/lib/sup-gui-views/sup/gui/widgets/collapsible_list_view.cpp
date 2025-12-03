@@ -36,12 +36,12 @@ namespace
 const QString kDefaultSettingGroup = "CollapsibleListView";
 }
 
-CollapsibleListView::CollapsibleListView(QWidget *parent_widget)
+CollapsibleListView::CollapsibleListView(QWidget* parent_widget)
     : CollapsibleListView(kDefaultSettingGroup, parent_widget)
 {
 }
 
-CollapsibleListView::CollapsibleListView(const QString &setting_name, QWidget *parent_widget)
+CollapsibleListView::CollapsibleListView(const QString& setting_name, QWidget* parent_widget)
     : QWidget(parent_widget), m_splitter(new CustomSplitter(setting_name))
 {
   m_splitter->setOrientation(Qt::Vertical);
@@ -51,13 +51,13 @@ CollapsibleListView::CollapsibleListView(const QString &setting_name, QWidget *p
   layout->addWidget(m_splitter);
 }
 
-void CollapsibleListView::AddWidget(QWidget *content)
+void CollapsibleListView::AddWidget(QWidget* content)
 {
   m_splitter->addWidget(content);
 }
 
-CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
-                                                              const QList<QAction *> &actions,
+CollapsibleToolBar* CollapsibleListView::AddCollapsibleWidget(QWidget* content,
+                                                              const QList<QAction*>& actions,
                                                               bool set_initially_expanded)
 {
   if (content == nullptr)
@@ -72,7 +72,7 @@ CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
   return collapsible_widget->GetToolBar();
 }
 
-QSplitter *CollapsibleListView::GetSplitter() const
+QSplitter* CollapsibleListView::GetSplitter() const
 {
   return m_splitter;
 }

@@ -72,8 +72,8 @@ const QString kSplitterSettingName = kGroupName + "splitter";
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService &command_service,
-                                           QWidget *parent_widget)
+AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
+                                           QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_command_service(command_service)
     , m_action_handler(
@@ -107,7 +107,7 @@ AnyValueEditorWidget::~AnyValueEditorWidget()
   m_command_service.UnregisterWidgetUniqueId(this);
 }
 
-void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem *container)
+void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container)
 {
   m_action_handler->SetAnyValueItemContainer(container);
   m_tree_panel->SetAnyValueItemContainer(container);
@@ -152,12 +152,12 @@ void AnyValueEditorWidget::OnImportWaveformRequest()
   }
 }
 
-void AnyValueEditorWidget::SetInitialValue(const AnyValueItem &item)
+void AnyValueEditorWidget::SetInitialValue(const AnyValueItem& item)
 {
   m_action_handler->SetInitialValue(item);
 }
 
-AnyValueItem *AnyValueEditorWidget::GetTopItem()
+AnyValueItem* AnyValueEditorWidget::GetTopItem()
 {
   return m_action_handler->GetTopItem();
 }
@@ -226,7 +226,7 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
   AnyValueEditorContext result;
 
   result.selected_items = [this]() { return m_tree_panel->GetSelectedItems(); };
-  result.send_message = [](const auto &event) { SendWarningMessage(event); };
+  result.send_message = [](const auto& event) { SendWarningMessage(event); };
   result.notify_request = [this](auto item) { m_tree_panel->SetSelected(item); };
   result.get_mime_data = DefaultClipboardGetFunc();
   result.set_mime_data = DefaultClipboardSetFunc();
@@ -235,13 +235,13 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
 }
 
 //! Updates cached value for last working directory for later saving in widget's persistent settings
-void AnyValueEditorWidget::UpdateCurrentWorkdir(const QString &file_name)
+void AnyValueEditorWidget::UpdateCurrentWorkdir(const QString& file_name)
 {
   auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
   m_current_workdir = QString::fromStdString(parent_path);
 }
 
-void AnyValueEditorWidget::OnContextMenuRequest(const QPoint &point)
+void AnyValueEditorWidget::OnContextMenuRequest(const QPoint& point)
 {
   QMenu menu;
   menu.setToolTipsVisible(true);
@@ -253,21 +253,21 @@ void AnyValueEditorWidget::OnContextMenuRequest(const QPoint &point)
   menu.exec(m_tree_panel->GetTreeView()->mapToGlobal(point));
 }
 
-QWidget *AnyValueEditorWidget::CreateLeftPanel()
+QWidget* AnyValueEditorWidget::CreateLeftPanel()
 {
   auto result = new ItemStackWidget;
   result->AddWidget(m_tree_panel, m_actions->GetActions(GetToolBarActionKeys()));
   return result;
 }
 
-QWidget *AnyValueEditorWidget::CreateRightPanel()
+QWidget* AnyValueEditorWidget::CreateRightPanel()
 {
   auto result = new ItemStackWidget;
   result->AddWidget(m_text_panel, m_text_panel->actions());
   return result;
 }
 
-void AnyValueEditorWidget::ImportAnyValueFromFile(const QString &file_name)
+void AnyValueEditorWidget::ImportAnyValueFromFile(const QString& file_name)
 {
   m_action_handler->OnImportFromFileRequest(file_name.toStdString());
   m_tree_panel->GetTreeView()->expandAll();

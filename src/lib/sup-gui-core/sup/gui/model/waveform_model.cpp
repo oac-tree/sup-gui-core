@@ -40,12 +40,12 @@ void WaveformModel::Clear()
   PopulateModel();
 }
 
-mvvm::ChartViewportItem *WaveformModel::GetViewPort() const
+mvvm::ChartViewportItem* WaveformModel::GetViewPort() const
 {
   return mvvm::utils::GetTopItem<mvvm::ChartViewportItem>(*this);
 }
 
-mvvm::ContainerItem *WaveformModel::GetDataContainer() const
+mvvm::ContainerItem* WaveformModel::GetDataContainer() const
 {
   return mvvm::utils::GetTopItem<mvvm::ContainerItem>(*this);
 }

@@ -25,7 +25,7 @@
 namespace sup::gui
 {
 
-void StdMessageHandler::SendMessage(const MessageEvent &message)
+void StdMessageHandler::SendMessage(const MessageEvent& message)
 {
   std::cout << message.title << "\n";
   std::cout << message.text << "\n";
@@ -38,14 +38,14 @@ void StdMessageHandler::ClearMessages()
   // nothing to do
 }
 
-void NullMessageHandler::SendMessage(const MessageEvent &message)
+void NullMessageHandler::SendMessage(const MessageEvent& message)
 {
   (void)message;
 }
 
 void NullMessageHandler::ClearMessages()
 {
-   // nothing to do
+  // nothing to do
 }
 
 }  // namespace sup::gui

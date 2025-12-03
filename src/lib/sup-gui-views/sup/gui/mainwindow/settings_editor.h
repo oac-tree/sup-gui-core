@@ -55,7 +55,7 @@ class SettingsEditor : public QWidget
 public:
   using widget_factory_func_t = std::function<std::unique_ptr<QWidget>()>;
 
-  explicit SettingsEditor(const mvvm::ISessionModel &model, QWidget* parent_widget = nullptr);
+  explicit SettingsEditor(const mvvm::ISessionModel& model, QWidget* parent_widget = nullptr);
   ~SettingsEditor() override;
 
   SettingsEditor(const SettingsEditor&) = delete;
@@ -93,7 +93,6 @@ private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_list_component_provider;
   std::unique_ptr<StackedWidgetProvider> m_stacked_widget_provider;
 };
-
 
 }  // namespace sup::gui
 
