@@ -219,7 +219,7 @@ void DtoEditorMainWindowActions::OnChangeSystemFont()
 
 void DtoEditorMainWindowActions::OnApplicationSettingsDialog()
 {
-  if (!m_settings)
+  if (m_settings == nullptr)
   {
     return;
   }

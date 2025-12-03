@@ -72,13 +72,13 @@ mvvm::LineSeriesItem *WaveformTableWidget::GetLineSeriesItem()
 void WaveformTableWidget::SetLineSeriesItem(mvvm::LineSeriesItem *line_series_item)
 {
   m_current_line_series = line_series_item;
-  m_component_provider->SetItem(line_series_item ? line_series_item->GetDataItem() : nullptr);
+  m_component_provider->SetItem((line_series_item != nullptr) ? line_series_item->GetDataItem() : nullptr);
 }
 
 mvvm::PointItem *WaveformTableWidget::GetSelectedPoint()
 {
   auto selected = m_component_provider->GetSelectedItem();
-  auto parent_struct = selected ? selected->GetParent() : nullptr;
+  auto parent_struct = (selected != nullptr) ? selected->GetParent() : nullptr;
   return dynamic_cast<mvvm::PointItem *>(parent_struct);
 }
 

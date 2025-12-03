@@ -60,7 +60,7 @@ CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
                                                               const QList<QAction *> &actions,
                                                               bool set_initially_expanded)
 {
-  if (!content)
+  if (content == nullptr)
   {
     throw RuntimeException("CollapsibleListView: can't add a null widget");
   }

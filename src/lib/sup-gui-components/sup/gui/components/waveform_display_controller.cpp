@@ -59,7 +59,7 @@ void WaveformDisplayController::UpdateDisplayStatus()
 {
   for (auto waveform : m_chart_viewport->GetLineSeries())
   {
-    if (waveform)
+    if (waveform != nullptr)
     {
       if (m_current_display_mode == WaveformDisplayMode::kDisplayAll)
       {

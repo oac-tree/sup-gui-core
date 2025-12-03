@@ -72,7 +72,7 @@ CustomSplitterController::CustomSplitterController(const QString &settings_group
                                                    QSplitter *splitter)
     : QObject(splitter), m_splitter(splitter), m_settings_group_name(settings_group_name)
 {
-  if (!m_splitter)
+  if (m_splitter == nullptr)
   {
     throw RuntimeException("Not initialised splitter");
   }

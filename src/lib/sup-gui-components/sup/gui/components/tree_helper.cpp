@@ -120,7 +120,7 @@ void ScrollTreeViewportToIndex(const QModelIndex &index, QTreeView &tree_view)
 
 void ScrollTreeViewportToSelection(QTreeView &tree_view)
 {
-  auto indexes = tree_view.selectionModel() ? tree_view.selectionModel()->selectedIndexes()
+  auto indexes = (tree_view.selectionModel() != nullptr) ? tree_view.selectionModel()->selectedIndexes()
                                             : QModelIndexList();
   if (indexes.empty())
   {

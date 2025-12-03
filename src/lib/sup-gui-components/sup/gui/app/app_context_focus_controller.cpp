@@ -44,7 +44,7 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget* old, QWidget* now)
   Q_UNUSED(old)
 
   // Prevent changing the context object just because the menu or a menu item is activated
-  if (qobject_cast<QMenuBar*>(now) || qobject_cast<QMenu*>(now))
+  if ((qobject_cast<QMenuBar*>(now) != nullptr) || (qobject_cast<QMenu*>(now) != nullptr))
   {
     return;
   }
@@ -52,7 +52,7 @@ void AppContextFocusController::OnFocusWidgetUpdate(QWidget* old, QWidget* now)
   std::vector<sup::gui::AppCommandContext> context_summary;
 
   auto current = now;
-  while (current)
+  while (current != nullptr)
   {
     if (m_widget_map.HasContext(current))
     {

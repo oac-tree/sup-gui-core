@@ -28,7 +28,7 @@ namespace sup::gui
 StackedWidgetProvider::StackedWidgetProvider(QStackedWidget *stacked_widget)
     : m_stacked_widget(stacked_widget)
 {
-  if (!m_stacked_widget)
+  if (m_stacked_widget == nullptr)
   {
     throw RuntimeException("Widget stack is not initialised");
   }

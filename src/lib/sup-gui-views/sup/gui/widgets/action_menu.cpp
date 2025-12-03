@@ -42,7 +42,7 @@ ActionMenu::ActionMenu(const QIcon &icon, const QString &text, QObject *parent)
 QWidget *ActionMenu::createWidget(QWidget *parent)
 {
   auto toolbar = qobject_cast<QToolBar *>(parent);
-  if (!toolbar)
+  if (toolbar == nullptr)
   {
     return QWidgetAction::createWidget(parent);
   }

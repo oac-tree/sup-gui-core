@@ -31,7 +31,7 @@ namespace sup::gui
 MenuActionContainer::MenuActionContainer(const QString& name, QMenu* menu)
     : IActionContainer(), m_name(name), m_menu(menu)
 {
-  if (!m_menu)
+  if (m_menu == nullptr)
   {
     throw LogicErrorException("Menu is not initialised");
   }

@@ -70,7 +70,7 @@ void DtoComposerActionHandler::OnDuplicateContainer(std::size_t container_index)
 
 void DtoComposerActionHandler::ValidateModel()
 {
-  if (!m_model)
+  if (m_model == nullptr)
   {
     throw RuntimeException("DtoComposerActionHandler: model is not initialised");
   }

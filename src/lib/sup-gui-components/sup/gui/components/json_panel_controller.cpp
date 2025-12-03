@@ -71,7 +71,7 @@ std::string JsonPanelController::GenerateText()
 
 AnyValueItem* JsonPanelController::GetAnyValueItem()
 {
-  if (!GetContainer() || (GetContainer()->GetTotalItemCount() == 0))
+  if ((GetContainer() == nullptr) || (GetContainer()->GetTotalItemCount() == 0))
   {
     return nullptr;
   }

@@ -43,6 +43,6 @@ int WaveformTableComponentProvider::GetSelectedPointIndex() const
 {
   auto item = GetSelectedItem();
   // returning parent's index
-  return item ? item->GetParent()->GetTagIndex().GetIndex() : -1;
+  return (item != nullptr) ? item->GetParent()->GetTagIndex().GetIndex() : -1;
 }
 }  // namespace sup::gui

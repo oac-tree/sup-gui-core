@@ -60,7 +60,7 @@ void DtoWaveformPropertyPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_seri
 {
   m_plot_property_tree->SetItem(line_series_item);
   m_waveform_tree->SetItem(line_series_item ? line_series_item->GetDataItem() : nullptr);
-  m_viewport_property_tree->SetItem(line_series_item ? line_series_item->GetParent() : nullptr);
+  m_viewport_property_tree->SetItem((line_series_item != nullptr) ? line_series_item->GetParent() : nullptr);
   m_viewport_property_tree->GetTreeView()->setRootIsDecorated(true);
 }
 

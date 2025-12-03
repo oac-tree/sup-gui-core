@@ -39,7 +39,7 @@ DtoComposerTabController::DtoComposerTabController(mvvm::ISessionModel *model,
     , m_create_widget_callback(std::move(callback))
     , m_tab_widget(tab_widget)
 {
-  if (!tab_widget)
+  if (tab_widget == nullptr)
   {
     throw NullArgumentException("DtoComposerTabController: QTabWidget is not initialised");
   }

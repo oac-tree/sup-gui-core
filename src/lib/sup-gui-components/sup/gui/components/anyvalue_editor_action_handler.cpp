@@ -147,7 +147,7 @@ void AnyValueEditorActionHandler::RemoveSelected()
 
   mvvm::utils::EndMacro(*GetModel());
 
-  if (next_to_select)
+  if (next_to_select != nullptr)
   {
     // suggest to select something else instead of just deleted instruction
     RequestNotify(next_to_select);
@@ -156,7 +156,7 @@ void AnyValueEditorActionHandler::RemoveSelected()
 
 void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& file_name)
 {
-  if (!GetSelectedItem() && GetTopItem())
+  if ((GetSelectedItem() == nullptr) && (GetTopItem() != nullptr))
   {
     SendMessage("Please select an item where you want to add a field");
     return;
@@ -176,7 +176,7 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
 
 void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_name)
 {
-  if (!GetTopItem())
+  if (GetTopItem() == nullptr)
   {
     SendMessage("Nothing to save");
     return;
@@ -309,7 +309,7 @@ AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 {
-  if (GetAnyValueItemContainer() && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
+  if ((GetAnyValueItemContainer() != nullptr) && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
   {
     return GetAnyValueItemContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::First());
   }
@@ -318,8 +318,8 @@ const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 
 bool AnyValueEditorActionHandler::CanUndo() const
 {
-  auto command_stack = GetModel() ? GetModel()->GetCommandStack() : nullptr;
-  return command_stack && command_stack->CanUndo();
+  auto command_stack = (GetModel() != nullptr) ? GetModel()->GetCommandStack() : nullptr;
+  return (command_stack != nullptr) && command_stack->CanUndo();
 }
 
 void AnyValueEditorActionHandler::Undo()
@@ -334,8 +334,8 @@ void AnyValueEditorActionHandler::Undo()
 
 bool AnyValueEditorActionHandler::CanRedo() const
 {
-  auto command_stack = GetModel() ? GetModel()->GetCommandStack() : nullptr;
-  return command_stack && command_stack->CanRedo();
+  auto command_stack = (GetModel() != nullptr) ? GetModel()->GetCommandStack() : nullptr;
+  return (command_stack != nullptr) && command_stack->CanRedo();
 }
 
 void AnyValueEditorActionHandler::Redo()
@@ -371,7 +371,7 @@ void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item) const
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParentToInsert() const
 {
-  return GetSelectedItem() ? GetSelectedItem() : GetAnyValueItemContainer();
+  return (GetSelectedItem() != nullptr) ? GetSelectedItem() : GetAnyValueItemContainer();
 }
 
 mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const
@@ -396,8 +396,8 @@ void AnyValueEditorActionHandler::InsertAfterCurrentSelection(
 {
   auto selected_item = GetSelectedItem();
 
-  auto parent_item = selected_item ? selected_item->GetParent() : GetAnyValueItemContainer();
-  auto tagindex = selected_item ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
+  auto parent_item = (selected_item != nullptr) ? selected_item->GetParent() : GetAnyValueItemContainer();
+  auto tagindex = (selected_item != nullptr) ? selected_item->GetTagIndex().Next() : mvvm::TagIndex::Append();
   InsertItem(std::move(items), parent_item, tagindex);
 }
 
@@ -416,7 +416,7 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   static const std::string kFailedActionText(
       "Can't insert AnyValue of given type after current selection");
 
-  if (!GetAnyValueItemContainer())
+  if (GetAnyValueItemContainer() == nullptr)
   {
     return QueryResult::Failure({kFailedActionTitle, kFailedActionText, "No container exists", ""});
   }
@@ -458,12 +458,12 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
   static const std::string kFailedActionText(
       "Can't insert AnyValue of given type into current selection");
 
-  if (!GetAnyValueItemContainer())
+  if (GetAnyValueItemContainer() == nullptr)
   {
     return QueryResult::Failure({kFailedActionTitle, kFailedActionText, "No container exists", ""});
   }
 
-  if (!GetSelectedItem())
+  if (GetSelectedItem() == nullptr)
   {
     return QueryResult::Failure({kFailedActionTitle, kFailedActionText, "No item selected", ""});
   }
@@ -493,7 +493,7 @@ void AnyValueEditorActionHandler::InsertItem(std::vector<std::unique_ptr<mvvm::S
                                              mvvm::SessionItem* parent_item,
                                              const mvvm::TagIndex& index)
 {
-  if (!GetModel())
+  if (GetModel() == nullptr)
   {
     throw RuntimeException("Uninitialised model");
   }

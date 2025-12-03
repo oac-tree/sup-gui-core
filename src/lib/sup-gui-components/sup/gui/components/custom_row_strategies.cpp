@@ -39,7 +39,7 @@ namespace
 bool HasEditableDisplayName(const sup::gui::AnyValueItem &item)
 {
   auto item_parent = dynamic_cast<const sup::gui::AnyValueItem *>(item.GetParent());
-  return !(item_parent && item_parent->IsArray());
+  return !((item_parent != nullptr) && item_parent->IsArray());
 }
 
 }  // namespace
@@ -62,7 +62,7 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
     mvvm::SessionItem *item)
 {
   auto anyvalue_item = dynamic_cast<AnyValueItem *>(item);
-  if (!anyvalue_item)
+  if (anyvalue_item == nullptr)
   {
     return {};
   }

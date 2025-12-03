@@ -131,7 +131,7 @@ void CollapsibleToolBar::UpdateToolBar()
   UpdateIcon();
 
   // show/hide controlled widget
-  if (m_controlled_widget)
+  if (m_controlled_widget != nullptr)
   {
     m_controlled_widget->setVisible(m_is_expanded);
   }

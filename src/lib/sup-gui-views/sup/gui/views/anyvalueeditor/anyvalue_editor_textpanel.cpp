@@ -68,7 +68,7 @@ void AnyValueEditorTextPanel::SetAnyValueItemContainer(mvvm::SessionItem *contai
 
   m_container = container;
 
-  if (container && isVisible())
+  if ((container != nullptr) && isVisible())
   {
     SetContainerIntern(m_container);
   }
@@ -83,7 +83,7 @@ void AnyValueEditorTextPanel::SetJsonPretty(bool value)
 
 void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem *container)
 {
-  if (container)
+  if (container != nullptr)
   {
     auto on_json_update = [this](const auto &xml)
     {

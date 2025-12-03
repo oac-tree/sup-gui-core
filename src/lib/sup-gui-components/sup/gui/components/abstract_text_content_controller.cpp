@@ -35,7 +35,7 @@ AbstractTextContentController::AbstractTextContentController(mvvm::SessionItem *
     , m_send_text_func(std::move(send_text_func))
     , m_send_message_func(std::move(send_message_func))
 {
-  if (!m_container)
+  if (m_container == nullptr)
   {
     throw RuntimeException("Unitialised container");
   }

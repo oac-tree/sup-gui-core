@@ -30,7 +30,7 @@ namespace sup::gui
 
 std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_format)
 {
-  if (!mime_data || !mime_data->hasFormat(mime_format))
+  if ((mime_data == nullptr) || !mime_data->hasFormat(mime_format))
   {
     return {};
   }
@@ -81,7 +81,7 @@ std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItems(const QMimeD
 {
   std::vector<std::unique_ptr<mvvm::SessionItem> > result;
 
-  if (!mime_data || !mime_data->hasFormat(mime_format))
+  if ((mime_data == nullptr) || !mime_data->hasFormat(mime_format))
   {
     return {};
   }

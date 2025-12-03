@@ -42,7 +42,7 @@ std::unique_ptr<mvvm::PointItem> CreateShiftedPoint(const mvvm::PointItem* point
 {
   auto result = std::make_unique<mvvm::PointItem>();
 
-  if (point)
+  if (point != nullptr)
   {
     result->SetX(point->GetX() + x_shift);
     result->SetY(point->GetY());
@@ -130,7 +130,7 @@ std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
 
 std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* array_item)
 {
-  if (!array_item)
+  if (array_item == nullptr)
   {
     return {};
   }
@@ -145,7 +145,7 @@ std::unique_ptr<mvvm::PointItem> CreatePointToAppend(const mvvm::LineSeriesDataI
                                                      const mvvm::PointItem* selected_point)
 {
   // creating point slighly shifted to the right
-  auto base_point = selected_point ? selected_point : GetLastPoint(data_item);
+  auto base_point = (selected_point != nullptr) ? selected_point : GetLastPoint(data_item);
   return CreateShiftedPoint(base_point, kDefaultDx);
 }
 
@@ -153,7 +153,7 @@ std::unique_ptr<mvvm::PointItem> CreatePointToPrepend(const mvvm::LineSeriesData
                                                       const mvvm::PointItem* selected_point)
 {
   // creating point slighly shifted to the left
-  auto base_point = selected_point ? selected_point : GetFirstPoint(data_item);
+  auto base_point = (selected_point != nullptr) ? selected_point : GetFirstPoint(data_item);
   return CreateShiftedPoint(base_point, -kDefaultDx);
 }
 

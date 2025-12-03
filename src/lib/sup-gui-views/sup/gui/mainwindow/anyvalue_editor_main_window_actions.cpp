@@ -233,7 +233,7 @@ void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 
 void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
 {
-  if (!m_settings)
+  if (m_settings == nullptr)
   {
     return;
   }

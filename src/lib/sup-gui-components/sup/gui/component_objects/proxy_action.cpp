@@ -52,7 +52,7 @@ void ProxyAction::SetAction(QAction *action, flags_t proxy_options)
 }
 void ProxyAction::SetConnected(bool value)
 {
-  if (!m_action)
+  if (m_action == nullptr)
   {
     return;
   }
@@ -71,7 +71,7 @@ void ProxyAction::SetConnected(bool value)
 
 void ProxyAction::Update()
 {
-  if (m_action)
+  if (m_action != nullptr)
   {
     setText(m_action->text());
     setToolTip(m_action->toolTip());

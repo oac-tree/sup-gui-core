@@ -29,7 +29,7 @@ void SteadyMenu::mouseReleaseEvent(QMouseEvent *event)
 {
   auto action = activeAction();
 
-  if (action && action->isEnabled())
+  if ((action != nullptr) && action->isEnabled())
   {
     // do not call parent QMenu::mouseReleaseEvent to avoid menu close
     action->trigger();

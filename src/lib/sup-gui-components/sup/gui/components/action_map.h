@@ -46,7 +46,7 @@ public:
       throw RuntimeException("Key is already registered");
     }
 
-    if (!action)
+    if (action == nullptr)
     {
       throw RuntimeException("Can't register null action");
     }

@@ -39,12 +39,12 @@ QMenuBar *MenuBarActionRegistry::GetMenuBar()
 
 void MenuBarActionRegistry::SetMenuBar(QMenuBar *menubar)
 {
-  if (!menubar)
+  if (menubar == nullptr)
   {
     throw RuntimeException("Attempt to set uninitialized menubar");
   }
 
-  if (!m_menubar)
+  if (m_menubar == nullptr)
   {
     // registering menubar
     m_menubar = menubar;
@@ -106,7 +106,7 @@ void MenuBarActionRegistry::Reset()
 
 void MenuBarActionRegistry::ValidateMenuBar()
 {
-  if (!m_menubar)
+  if (m_menubar == nullptr)
   {
     throw LogicErrorException("No menubar was initialised");
   }

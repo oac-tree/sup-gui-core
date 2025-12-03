@@ -144,7 +144,7 @@ void AnyValueEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void AnyValueEditorMainWindow::OnProjectLoad()
 {
-  if (!m_project->GetApplicationModel())
+  if (m_project->GetApplicationModel() == nullptr)
   {
     throw RuntimeException("No model exists");
   }
