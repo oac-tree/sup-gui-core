@@ -96,6 +96,11 @@ void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem* item)
     m_tree_view->setExpanded(indices_of_inserted.front(), true);
     if (EnableInstantFieldNameEdit(*item))
     {
+      if (auto editor = m_tree_view->indexWidget(m_last_edited_index); editor != nullptr)
+      {
+        m_tree_view->itemDelegate()->closeEditor(editor, QAbstractItemDelegate::NoHint);
+      }
+      m_last_edited_index = indices_of_inserted.front();
       m_tree_view->edit(indices_of_inserted.front());
     }
   }

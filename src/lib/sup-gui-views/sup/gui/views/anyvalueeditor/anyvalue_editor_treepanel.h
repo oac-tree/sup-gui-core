@@ -22,6 +22,7 @@
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_TREEPANEL_H_
 
 #include <QWidget>
+#include <QModelIndex>
 
 class QTreeView;
 class QLineEdit;
@@ -77,6 +78,7 @@ private:
   QLineEdit* m_line_edit{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
   std::unique_ptr<TreeViewComponentProvider> m_component_provider;
+  QModelIndex m_last_edited_index;
 };
 
 }  // namespace sup::gui
