@@ -122,7 +122,7 @@ void DtoEditorMainWindow::ReadSettings()
   resize(settings.value(kWindowSizeSettingName, QSize(800, 600)).toSize());
 
   move(settings.value(kWindowPosSettingName, QPoint(800, 600)).toPoint());
-  ::sup::gui::ReadApplicationSettings(*m_settings);
+  ReadApplicationSettings(*m_settings);
 }
 
 void DtoEditorMainWindow::WriteSettings()
@@ -130,7 +130,7 @@ void DtoEditorMainWindow::WriteSettings()
   QSettings settings;
   settings.setValue(kWindowSizeSettingName, size());
   settings.setValue(kWindowPosSettingName, pos());
-  ::sup::gui::WriteApplicationSettings(*m_settings);
+  WriteApplicationSettings(*m_settings);
 }
 
 bool DtoEditorMainWindow::CanCloseApplication()
@@ -146,7 +146,7 @@ bool DtoEditorMainWindow::CanCloseApplication()
   return false;
 }
 
-void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
+void DtoEditorMainWindow::OnRestartRequest(AppExitCode exit_code)
 {
   if (CanCloseApplication())
   {
@@ -156,8 +156,8 @@ void DtoEditorMainWindow::OnRestartRequest(sup::gui::AppExitCode exit_code)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
-  const auto enable_undo = m_settings->Data<bool>(sup::gui::constants::kUseUndoSetting);
-  const auto undo_limit = m_settings->Data<int>(sup::gui::constants::kUndoLimitSetting);
+  const auto enable_undo = m_settings->Data<bool>(constants::kUseUndoSetting);
+  const auto undo_limit = m_settings->Data<int>(constants::kUndoLimitSetting);
   m_project->GetWaveformModel()->SetUndoEnabled(enable_undo, undo_limit);
   m_project->GetSupDtoModel()->SetUndoEnabled(enable_undo, undo_limit);
 

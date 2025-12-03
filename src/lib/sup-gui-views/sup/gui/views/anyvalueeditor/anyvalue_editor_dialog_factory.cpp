@@ -27,12 +27,12 @@
 namespace sup::gui
 {
 
-std::unique_ptr<sup::gui::AnyValueEditorDialog> CreateWaveformEditorDialog(
-    const sup::gui::AnyValueItem* item, QWidget* parent)
+std::unique_ptr<AnyValueEditorDialog> CreateWaveformEditorDialog(const AnyValueItem* item,
+                                                                 QWidget* parent)
 {
-  auto editor = std::make_unique<sup::gui::AnyValueWaveformEditor>();
+  auto editor = std::make_unique<AnyValueWaveformEditor>();
   editor->SetInitialValue(item);
-  auto result = std::make_unique<sup::gui::AnyValueEditorDialog>(std::move(editor), parent);
+  auto result = std::make_unique<AnyValueEditorDialog>(std::move(editor), parent);
   result->setWindowTitle("Import Waveform");
   return result;
 }

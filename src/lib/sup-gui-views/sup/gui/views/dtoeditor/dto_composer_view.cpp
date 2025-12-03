@@ -77,7 +77,7 @@ DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* p
 
   for (auto action : m_actions->GetActions())
   {
-    m_command_service.AddActionToMenuBar(sup::gui::constants::kToolsMenu, action);
+    m_command_service.AddActionToMenuBar(constants::kToolsMenu, action);
   }
 
   SetupConnections();

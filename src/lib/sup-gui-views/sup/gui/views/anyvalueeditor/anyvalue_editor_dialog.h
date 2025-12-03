@@ -38,7 +38,7 @@ class AnyValueEditorDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorDialog(std::unique_ptr<sup::gui::AbstractAnyValueEditor> editor,
+  explicit AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
                                 QWidget* parent_widget = nullptr);
   ~AnyValueEditorDialog() override;
 
@@ -50,14 +50,14 @@ public:
   /**
    * @brief Sets initial value to the editor.
    */
-  void SetInitialValue(const sup::gui::AnyValueItem* item);
+  void SetInitialValue(const AnyValueItem *item);
 
   /**
    * @brief Returns result of the editing.
    *
    * It is supposed to be used after the dialog close.
    */
-  std::unique_ptr<sup::gui::AnyValueItem> GetResult();
+  std::unique_ptr<AnyValueItem> GetResult();
 
   void SetDescription(const QString& description);
 
@@ -75,7 +75,7 @@ private:
    */
   void WriteSettings();
 
-  sup::gui::AbstractAnyValueEditor* m_anyvalue_editor{nullptr};
+  AbstractAnyValueEditor* m_anyvalue_editor{nullptr};
 };
 
 }  // namespace sup::gui

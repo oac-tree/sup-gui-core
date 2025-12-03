@@ -37,7 +37,7 @@ class WidgetOverlayMessagePublisher;
 /**
  * @brief The WidgetOverlayMessageHandler class displays messages in widget corner.
  */
-class WidgetOverlayMessageHandler : public sup::gui::IMessageHandler
+class WidgetOverlayMessageHandler : public IMessageHandler
 {
 public:
   explicit WidgetOverlayMessageHandler(
@@ -49,7 +49,7 @@ public:
   WidgetOverlayMessageHandler(WidgetOverlayMessageHandler&&) = delete;
   WidgetOverlayMessageHandler& operator=(WidgetOverlayMessageHandler&&) = delete;
 
-  void SendMessage(const sup::gui::MessageEvent& message) override;
+  void SendMessage(const MessageEvent& message) override;
 
   void ClearMessages() override;
 

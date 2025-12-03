@@ -86,9 +86,9 @@ void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar* status_bar)
   m_toggle_right_sidebar_button = new QToolButton;
   m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
   m_toggle_right_sidebar_button->setIcon(utils::FindIcon("dock-right"));
-  auto action = m_command_service.GetCommand(sup::gui::constants::kToggleRightPanelCommandId)
+  auto action = m_command_service.GetCommand(constants::kToggleRightPanelCommandId)
                     ->GetProxyAction();
-  sup::gui::SetupStatusBarButton(m_toggle_right_sidebar_button, action);
+  SetupStatusBarButton(m_toggle_right_sidebar_button, action);
 
   status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
 }
@@ -186,7 +186,7 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
   command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
   command->SetText("Redo").SetShortcut(QKeySequence::Redo);
 
-  m_command_service.AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
+  m_command_service.AppGetMenu(constants::kEditMenu)->addSeparator();
 
   command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
   command->SetText("Cut").SetShortcut(QKeySequence::Cut);
@@ -201,8 +201,8 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
       m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
 
-  command = m_command_service.AddCommandToMenu(sup::gui::constants::kEditMenu,
-                                               sup::gui::constants::kRemoveSelectedCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kEditMenu,
+                                               constants::kRemoveSelectedCommandId);
   command->SetText("Remove selected");
   command->GetProxyAction()->setShortcuts({Qt::Key_Delete, Qt::Key_Backspace});
 
@@ -214,7 +214,7 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
 void AnyValueEditorMainWindowActions::SetupViewMenu()
 {
   auto command = m_command_service.AddCommandToMenu(
-      sup::gui::constants::kViewMenu, sup::gui::constants::kToggleRightPanelCommandId);
+      constants::kViewMenu, constants::kToggleRightPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+Shift+0"));
 }
 
@@ -237,7 +237,7 @@ void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
   {
     return;
   }
-  sup::gui::SettingsEditorDialog dialog(*m_settings);
+  SettingsEditorDialog dialog(*m_settings);
   if (dialog.exec() == QDialog::Accepted)
   {
     dialog.PropagateSettingsToModel(*m_settings);

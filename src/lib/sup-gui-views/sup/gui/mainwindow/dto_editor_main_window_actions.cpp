@@ -177,7 +177,7 @@ void DtoEditorMainWindowActions::SetupEditMenu()
   command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kRedoCommandId);
   command->SetText("Redo").SetShortcut(QKeySequence::Redo);
 
-  m_command_service.AppGetMenu(sup::gui::constants::kEditMenu)->addSeparator();
+  m_command_service.AppGetMenu(constants::kEditMenu)->addSeparator();
 
   command = m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kCutCommandId);
   command->SetText("Cut").SetShortcut(QKeySequence::Cut);
@@ -195,12 +195,12 @@ void DtoEditorMainWindowActions::SetupEditMenu()
 
 void DtoEditorMainWindowActions::SetupViewMenu()
 {
-  auto command = m_command_service.AddCommandToMenu(sup::gui::constants::kViewMenu,
-                                                    sup::gui::constants::kToggleLeftPanelCommandId);
+  auto command = m_command_service.AddCommandToMenu(constants::kViewMenu,
+                                                    constants::kToggleLeftPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+0"));
 
-  command = m_command_service.AddCommandToMenu(sup::gui::constants::kViewMenu,
-                                               sup::gui::constants::kToggleRightPanelCommandId);
+  command = m_command_service.AddCommandToMenu(constants::kViewMenu,
+                                               constants::kToggleRightPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+Shift+0"));
 }
 
@@ -223,7 +223,7 @@ void DtoEditorMainWindowActions::OnApplicationSettingsDialog()
   {
     return;
   }
-  sup::gui::SettingsEditorDialog dialog(*m_settings);
+  SettingsEditorDialog dialog(*m_settings);
   if (dialog.exec() == QDialog::Accepted)
   {
     dialog.PropagateSettingsToModel(*m_settings);

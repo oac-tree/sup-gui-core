@@ -84,7 +84,7 @@ private:
   DtoWaveformActionHandler* m_action_handler{nullptr};
   DtoWaveformActions* m_actions{nullptr};
 
-  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
+  ItemStackWidget* m_stack_widget{nullptr};
   QListView* m_list_view{nullptr};
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 

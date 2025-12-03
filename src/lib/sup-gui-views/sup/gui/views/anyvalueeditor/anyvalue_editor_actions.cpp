@@ -141,7 +141,7 @@ void AnyValueEditorActions::SetupInsertRemoveActions()
           [this]() { m_action_handler->RemoveSelected(); });
 
   // remove action (own toolbar version to avoid disabled status)
-  m_remove_toolbar_action = new sup::gui::ProxyAction(this);
+  m_remove_toolbar_action = new ProxyAction(this);
   m_remove_toolbar_action->SetAction(m_remove_action);
   m_action_map.Add(ActionKey::kRemoveSelected, m_remove_toolbar_action);
 
@@ -212,7 +212,7 @@ void AnyValueEditorActions::SetupUndoRedoActions()
   connect(m_redo_action, &QAction::triggered, this, [this]() { m_action_handler->Redo(); });
 }
 
-std::unique_ptr<QMenu> AnyValueEditorActions::CreateInsertMenu()
+std::unique_ptr<QMenu> AnyValueEditorActions::CreateInsertMenu() const
 {
   auto result = std::make_unique<QMenu>();
   result->setToolTipsVisible(true);
@@ -234,7 +234,7 @@ void AnyValueEditorActions::AboutToShowInsertMenu()
 
   // scalar menu with scalar actions
   auto scalar_menu = menu->addMenu("scalar");
-  AddInsertActions(sup::gui::GetScalarTypeNames(), scalar_menu, insert_into);
+  AddInsertActions(GetScalarTypeNames(), scalar_menu, insert_into);
   SetEnabledToChildren(*scalar_menu);
 
   menu->addSeparator();

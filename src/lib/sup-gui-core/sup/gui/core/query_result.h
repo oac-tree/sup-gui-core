@@ -51,7 +51,7 @@ public:
   /**
    * @brief A factory method to build an object carrying a failure flag, and the message.
    */
-  static QueryResult Failure(const sup::gui::MessageEvent& message);
+  static QueryResult Failure(const MessageEvent& message);
 
   /**
    * @brief A factory method to build an object carrying a success flag.
@@ -61,13 +61,13 @@ public:
   /**
    * @brief Returns onboard message.
    */
-  sup::gui::MessageEvent GetMessage() const;
+  MessageEvent GetMessage() const;
 
 private:
-  QueryResult(Status status, sup::gui::MessageEvent message);
+  QueryResult(Status status, MessageEvent message);
 
   Status m_status{Status::kSuccess};
-  sup::gui::MessageEvent m_message;
+  MessageEvent m_message;
 };
 
 }  // namespace sup::gui

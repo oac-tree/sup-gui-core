@@ -23,7 +23,7 @@
 namespace sup::gui
 {
 
-void SendMessage(const sup::gui::MessageEvent& event, QMessageBox::Icon icon_type)
+void SendMessage(const MessageEvent& event, QMessageBox::Icon icon_type)
 {
   QMessageBox msg_box;
   msg_box.setWindowTitle(QString::fromStdString(event.title));
@@ -34,12 +34,12 @@ void SendMessage(const sup::gui::MessageEvent& event, QMessageBox::Icon icon_typ
   msg_box.exec();
 }
 
-void SendWarningMessage(const sup::gui::MessageEvent& event)
+void SendWarningMessage(const MessageEvent& event)
 {
   SendMessage(event, QMessageBox::Warning);
 }
 
-void SendInfoMessage(const sup::gui::MessageEvent& event)
+void SendInfoMessage(const MessageEvent &event)
 {
   SendMessage(event, QMessageBox::Information);
 }

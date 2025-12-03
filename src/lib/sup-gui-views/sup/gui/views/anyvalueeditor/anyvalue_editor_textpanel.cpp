@@ -39,7 +39,7 @@ namespace sup::gui
 AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_json_view(new CodeView(CodeView::kJSON))
-    , m_message_handler(sup::gui::CreateWidgetOverlayMessageHandler(m_json_view))
+    , m_message_handler(CreateWidgetOverlayMessageHandler(m_json_view))
 {
   setWindowTitle("JSON view");
 

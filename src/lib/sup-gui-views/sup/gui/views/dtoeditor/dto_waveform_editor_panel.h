@@ -64,7 +64,7 @@ public:
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
-  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
+  ItemStackWidget* m_stack_widget{nullptr};
   WaveformEditorWidget* m_waveform_editor{nullptr};
 };
 

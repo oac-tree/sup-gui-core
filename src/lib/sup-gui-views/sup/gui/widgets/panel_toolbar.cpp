@@ -31,7 +31,7 @@ namespace sup::gui
 PanelToolBar::PanelToolBar(QWidget* parent_widget) : QToolBar(parent_widget), m_label(new QLabel)
 {
   setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-  setIconSize(sup::gui::utils::ToolBarIconSize());
+  setIconSize(utils::ToolBarIconSize());
   //  setStyleSheet("QToolButton:!hover {background-color:#eff6fc} QToolBar {background: #eff6fc}");
 
   m_label_action = addWidget(m_label);
@@ -81,7 +81,7 @@ void PanelToolBar::SetupDotsButton()
 
   m_dots_button = new QToolButton;
   m_dots_button->setIcon(utils::FindIcon("dots-vertical"));
-  m_dots_button->setIconSize(sup::gui::utils::ToolBarIconSize());
+  m_dots_button->setIconSize(utils::ToolBarIconSize());
   addWidget(m_dots_button);
 }
 

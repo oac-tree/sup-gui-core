@@ -32,8 +32,8 @@ WaveformTwoColumnViewModel::WaveformTwoColumnViewModel(mvvm::ISessionModel* mode
                                                        QObject* parent_object)
     : ViewModel(parent_object)
 {
-  auto controller = mvvm::factory::CreateController<sup::gui::WaveformChildrenStrategy,
-                                                    sup::gui::TwoColumRowStrategy>(model, this);
+  auto controller =
+      mvvm::factory::CreateController<WaveformChildrenStrategy, TwoColumRowStrategy>(model, this);
   SetController(std::move(controller));
 }
 

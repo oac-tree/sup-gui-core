@@ -28,6 +28,9 @@
 
 #include <QColor>
 
+namespace sup::gui
+{
+
 namespace
 {
 
@@ -36,16 +39,13 @@ namespace
  *
  * @details The name of array elements should be read only.
  */
-bool HasEditableDisplayName(const sup::gui::AnyValueItem& item)
+bool HasEditableDisplayName(const AnyValueItem& item)
 {
-  auto item_parent = dynamic_cast<const sup::gui::AnyValueItem*>(item.GetParent());
+  auto item_parent = dynamic_cast<const AnyValueItem*>(item.GetParent());
   return !((item_parent != nullptr) && item_parent->IsArray());
 }
 
 }  // namespace
-
-namespace sup::gui
-{
 
 std::size_t AnyValueRowStrategy::GetSize() const
 {

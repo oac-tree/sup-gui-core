@@ -23,7 +23,7 @@
 namespace sup::gui
 {
 
-QueryResult::QueryResult(Status status, sup::gui::MessageEvent message)
+QueryResult::QueryResult(Status status, MessageEvent message)
     : m_status(status), m_message(std::move(message))
 {
 }
@@ -33,7 +33,7 @@ bool QueryResult::IsSuccess() const
   return m_status == Status::kSuccess;
 }
 
-QueryResult QueryResult::Failure(const sup::gui::MessageEvent& message)
+QueryResult QueryResult::Failure(const MessageEvent& message)
 {
   return {Status::kFailure, message};
 }
@@ -43,7 +43,7 @@ QueryResult QueryResult::Success()
   return {Status::kSuccess, {}};
 }
 
-sup::gui::MessageEvent QueryResult::GetMessage() const
+MessageEvent QueryResult::GetMessage() const
 {
   return m_message;
 }

@@ -62,8 +62,8 @@ std::string JsonPanelController::GenerateText()
     // If model is inconsistent, CreateAnyValue method will fail.
     // This will be caught and reported by the base class.
 
-    auto any_value = sup::gui::CreateAnyValue(*item);
-    return sup::gui::AnyValueToJSONString(any_value, m_pretty_json);
+    auto any_value = CreateAnyValue(*item);
+    return AnyValueToJSONString(any_value, m_pretty_json);
   }
 
   return {};

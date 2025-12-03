@@ -80,7 +80,7 @@ private:
    *
    * The code will be used to start the application again from the main.
    */
-  void OnRestartRequest(sup::gui::AppExitCode exit_code);
+  void OnRestartRequest(AppExitCode exit_code);
 
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.
@@ -98,7 +98,7 @@ private:
   std::unique_ptr<SettingsModel> m_settings;
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
-  sup::gui::AnyValueEditorWidget* m_anyvalue_editor{nullptr};
+  AnyValueEditorWidget* m_anyvalue_editor{nullptr};
 };
 
 }  // namespace sup::gui

@@ -74,7 +74,7 @@ std::string ScalarTypePropertyItem::GetScalarTypeName() const
   return HasData() ? Data<mvvm::ComboProperty>().GetValue() : std::string();
 }
 
-void sup::gui::ScalarTypePropertyItem::SetScalarTypeName(const std::string& type_name)
+void ScalarTypePropertyItem::SetScalarTypeName(const std::string& type_name)
 {
   auto combo_value = GetScalarTypeCombo();
   combo_value.SetValue(type_name);

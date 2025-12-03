@@ -35,7 +35,7 @@ std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_f
     return {};
   }
 
-  auto item = sup::gui::CreateSessionItem(mime_data, mime_format);
+  auto item = CreateSessionItem(mime_data, mime_format);
   return item ? item->GetType() : std::string();
 }
 

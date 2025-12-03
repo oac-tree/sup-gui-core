@@ -88,7 +88,7 @@ public:
    *
    * The context is normally provided by the parent widget.
    */
-  void RegisterActionsForContext(const sup::gui::AppCommandContext& context,
+  void RegisterActionsForContext(const AppCommandContext& context,
                                  IAppCommandService& service);
 
   /**
@@ -122,7 +122,7 @@ private:
   /**
    * @brief Creates a menu intended for insert actions.
    */
-  std::unique_ptr<QMenu> CreateInsertMenu();
+  std::unique_ptr<QMenu> CreateInsertMenu() const;
 
   /**
    * @brief Populates menu with actions to insert AnyValue items.
@@ -151,7 +151,7 @@ private:
   QAction* m_remove_action{nullptr};
 
   //!< toolbar version without enable/disable features
-  sup::gui::ProxyAction* m_remove_toolbar_action{nullptr};
+  ProxyAction* m_remove_toolbar_action{nullptr};
 
   QAction* m_move_up_action{nullptr};
   QAction* m_move_down_action{nullptr};
@@ -164,7 +164,7 @@ private:
   QAction* m_undo_action{nullptr};
   QAction* m_redo_action{nullptr};
 
-  sup::gui::ActionMap<ActionKey> m_action_map;
+  ActionMap<ActionKey> m_action_map;
 };
 
 }  // namespace sup::gui

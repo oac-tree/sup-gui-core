@@ -41,7 +41,7 @@ DtoWaveformListPanel::DtoWaveformListPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_action_handler(new DtoWaveformActionHandler(CreateContext(), this))
     , m_actions(new DtoWaveformActions(m_action_handler))
-    , m_stack_widget(new sup::gui::ItemStackWidget)
+    , m_stack_widget(new ItemStackWidget)
     , m_list_view(new QListView)
     , m_component_provider(mvvm::CreateProvider<mvvm::TopItemsViewModel>(m_list_view))
 {

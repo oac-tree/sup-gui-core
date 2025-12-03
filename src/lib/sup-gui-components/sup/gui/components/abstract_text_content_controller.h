@@ -50,7 +50,7 @@ class AbstractTextContentController
 {
 public:
   using send_text_func_t = std::function<void(const std::string&)>;
-  using send_message_func_t = std::function<void(const sup::gui::MessageEvent& message)>;
+  using send_message_func_t = std::function<void(const MessageEvent& message)>;
 
   /**
    * @brief Main c-tor.

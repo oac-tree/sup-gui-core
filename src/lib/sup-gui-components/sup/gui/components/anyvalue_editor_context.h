@@ -35,11 +35,8 @@ class SessionItem;
 
 namespace sup::gui
 {
-class AnyValueItem;
-}
 
-namespace sup::gui
-{
+class AnyValueItem;
 
 /**
  * @brief The AnyValueEditorContext class holds collection of callbacks to retrieve current state of
@@ -48,7 +45,7 @@ namespace sup::gui
 struct AnyValueEditorContext
 {
   //!< callback to retrieve currently selected AnyValueItem
-  std::function<std::vector<sup::gui::AnyValueItem*>()> selected_items;
+  std::function<std::vector<AnyValueItem*>()> selected_items;
 
   //!< A callback to notify the user that the item should be selected in a widget. This can
   //!< happen when a new item was just inserted, or some other item should be selected instead of
@@ -56,7 +53,7 @@ struct AnyValueEditorContext
   std::function<void(mvvm::SessionItem*)> notify_request;
 
   //!< callback to report an error
-  std::function<void(const sup::gui::MessageEvent&)> send_message;
+  std::function<void(const MessageEvent&)> send_message;
 
   //! callback to get mime data from the clipboard
   std::function<const QMimeData*()> get_mime_data;

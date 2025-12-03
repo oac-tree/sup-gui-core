@@ -47,7 +47,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
   {
     if (HasOneOfDefaultDisplayNames(child))
     {
-      return sup::gui::constants::kFieldNamePrefix
+      return constants::kFieldNamePrefix
              + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
     }
 
@@ -57,7 +57,7 @@ std::optional<std::string> SuggestDisplayName(const mvvm::SessionItem& parent,
   // For array element we suggest names: element0, element1, etc.
   if (parent.GetType() == mvvm::GetTypeName<AnyValueArrayItem>())
   {
-    return sup::gui::constants::kElementNamePrefix
+    return constants::kElementNamePrefix
            + std::to_string(parent.GetItemCount(constants::kAnyValueChildrenTag));
   }
 
@@ -118,7 +118,7 @@ void UpdateArrayElementNames(const mvvm::SessionItem& parent)
     std::uint32_t index{0};
     for (auto child : array_item->GetChildren())
     {
-      const auto name = sup::gui::constants::kElementNamePrefix + std::to_string(index++);
+      const auto name = constants::kElementNamePrefix + std::to_string(index++);
       (void)child->SetDisplayName(name);
     }
   }

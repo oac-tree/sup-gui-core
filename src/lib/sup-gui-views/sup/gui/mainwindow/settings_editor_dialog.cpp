@@ -56,7 +56,7 @@ SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model, QWi
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_settings_editor);
   layout->addWidget(m_label);
-  layout->addLayout(sup::gui::CreateButtonLayout(this, "Save settings", "Cancel").release());
+  layout->addLayout(CreateButtonLayout(this, "Save settings", "Cancel").release());
 
   ReadSettings();
 }

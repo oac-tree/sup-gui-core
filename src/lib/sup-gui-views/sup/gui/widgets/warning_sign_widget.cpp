@@ -28,6 +28,9 @@
 #include <QPainter>
 #include <QRect>
 
+namespace sup::gui
+{
+
 namespace
 {
 
@@ -36,7 +39,7 @@ namespace
  */
 QSize GetPixmapSize()
 {
-  return sup::gui::utils::ToolBarIconSize();
+  return utils::ToolBarIconSize();
 }
 
 /**
@@ -49,9 +52,6 @@ QRect GetPixmapRect()
 }
 
 }  // namespace
-
-namespace sup::gui
-{
 
 WarningSignWidget::WarningSignWidget(const MessageEvent& message, QWidget* parent_widget)
     : QWidget(parent_widget), m_message(message)

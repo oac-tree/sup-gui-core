@@ -33,7 +33,7 @@ WidgetOverlayMessageHandler::WidgetOverlayMessageHandler(
 
 WidgetOverlayMessageHandler::~WidgetOverlayMessageHandler() = default;
 
-void WidgetOverlayMessageHandler::SendMessage(const sup::gui::MessageEvent& message)
+void WidgetOverlayMessageHandler::SendMessage(const MessageEvent& message)
 {
   m_message_publisher->AddMessage(message);
 }

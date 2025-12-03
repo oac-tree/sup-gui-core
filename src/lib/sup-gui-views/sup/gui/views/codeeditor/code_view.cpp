@@ -32,26 +32,27 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
+namespace sup::gui
+{
+
 namespace
 {
 
 const QString kGroupName("CodeView");
 const QString kWorkdirSettingName = kGroupName + "/" + "workdir";
 
-QString SuggestFileName(sup::gui::CodeView::LanguageDefinition language)
+QString SuggestFileName(CodeView::LanguageDefinition language)
 {
-  return language == sup::gui::CodeView::kXML ? "untitled.xml" : "untitled.json";
+  return language == CodeView::kXML ? "untitled.xml" : "untitled.json";
 }
 
-QString LanguageName(sup::gui::CodeView::LanguageDefinition language)
+QString LanguageName(CodeView::LanguageDefinition language)
 {
-  return language == sup::gui::CodeView::kXML ? "XML" : "JSON";
+  return language == CodeView::kXML ? "XML" : "JSON";
 }
 
 }  // namespace
 
-namespace sup::gui
-{
 CodeView::CodeView(LanguageDefinition language, QWidget* parent_widget)
     : QWidget(parent_widget), m_text_edit(new CodeEditor), m_language(language)
 {

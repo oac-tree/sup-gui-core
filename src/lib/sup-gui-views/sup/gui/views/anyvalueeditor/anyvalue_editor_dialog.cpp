@@ -42,7 +42,7 @@ QString GetDialogSizeSettingName(const QString& editor_name)
 namespace sup::gui
 {
 
-AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<sup::gui::AbstractAnyValueEditor> editor,
+AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
                                            QWidget* parent_widget)
     : QDialog(parent_widget), m_anyvalue_editor(editor.release())
 {
@@ -61,12 +61,12 @@ AnyValueEditorDialog::~AnyValueEditorDialog()
   WriteSettings();
 }
 
-void AnyValueEditorDialog::SetInitialValue(const sup::gui::AnyValueItem* item)
+void AnyValueEditorDialog::SetInitialValue(const AnyValueItem* item)
 {
   m_anyvalue_editor->SetInitialValue(item);
 }
 
-std::unique_ptr<sup::gui::AnyValueItem> AnyValueEditorDialog::GetResult()
+std::unique_ptr<AnyValueItem> AnyValueEditorDialog::GetResult()
 {
   return m_anyvalue_editor->GetResult();
 }

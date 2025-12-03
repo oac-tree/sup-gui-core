@@ -53,13 +53,13 @@ int RunApplication(int argc, char** argv)
 
   const auto default_font = app.font();
 
-  sup::gui::SetupApplication(options.system_font_psize, options.style, options.info);
+  SetupApplication(options.system_font_psize, options.style, options.info);
 
   int exit_code{0};
 
   do
   {
-    if (exit_code == sup::gui::CleanSettingsAndRestart)
+    if (exit_code == CleanSettingsAndRestart)
     {
       QSettings settings;
       settings.clear();
@@ -76,7 +76,7 @@ int RunApplication(int argc, char** argv)
     win.show();
 
     exit_code = app.exec();
-  } while (exit_code != sup::gui::NormalExit);
+  } while (exit_code != NormalExit);
 
   return exit_code;
 }

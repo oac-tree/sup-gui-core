@@ -67,7 +67,7 @@ private:
   QAction* m_add_waveform_action{nullptr};
   QAction* m_remove_waveform_action{nullptr};
 
-  sup::gui::ActionMap<ActionKey> m_action_map;
+  ActionMap<ActionKey> m_action_map;
   DtoWaveformActionHandler* m_action_handler{nullptr};
 };
 

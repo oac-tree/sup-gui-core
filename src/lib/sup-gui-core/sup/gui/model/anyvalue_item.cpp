@@ -43,7 +43,7 @@ AnyValueItem::AnyValueItem(const std::string& item_type) : CompoundItem(item_typ
 std::unique_ptr<mvvm::SessionItem> AnyValueItem::Clone() const
 {
   // This base is not intended to be used directly
-  throw sup::gui::NotImplementedException("Clone for AnyValueItem is not implemented");
+  throw NotImplementedException("Clone for AnyValueItem is not implemented");
 }
 
 void AnyValueItem::SetAnyTypeName(const std::string& type_name)

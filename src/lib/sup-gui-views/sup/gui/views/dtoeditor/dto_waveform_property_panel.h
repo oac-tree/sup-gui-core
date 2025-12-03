@@ -64,7 +64,7 @@ public:
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
-  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
+  ItemStackWidget* m_stack_widget{nullptr};
   mvvm::AllItemsTreeView* m_plot_property_tree{nullptr};
   mvvm::AllItemsTreeView* m_waveform_tree{nullptr};
   mvvm::PropertyTreeView* m_viewport_property_tree{nullptr};

@@ -214,7 +214,7 @@ bool SummonChangeSystemFontDialog()
 
   if (font_was_changed)
   {
-    sup::gui::SaveAppFontInSettings(font);
+    SaveAppFontInSettings(font);
     QApplication::setFont(font);
   }
 
