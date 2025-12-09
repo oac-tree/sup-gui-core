@@ -23,10 +23,13 @@
 
 #include <QWidget>
 
+class QTreeView;
+
 namespace mvvm
 {
 class AllItemsTreeView;
 class LineSeriesItem;
+class ItemViewComponentProvider;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -50,7 +53,8 @@ public:
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
-  mvvm::AllItemsTreeView* m_waveform_points_tree{nullptr};
+  QTreeView* m_tree_view{nullptr};
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };
 
 }  // namespace sup::gui
