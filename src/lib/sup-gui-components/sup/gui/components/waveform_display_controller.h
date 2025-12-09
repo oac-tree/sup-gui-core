@@ -67,8 +67,6 @@ public:
 
   void SetSelected(mvvm::LineSeriesItem* selected_waveform);
 
-  void SetSelectedPoint(const mvvm::PointItem* item);
-
 private:
   /**
    * @brief Updates display status
