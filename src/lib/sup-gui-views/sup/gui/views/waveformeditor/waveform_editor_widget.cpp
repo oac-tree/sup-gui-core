@@ -130,6 +130,7 @@ void WaveformEditorWidget::SetViewportToContent()
 void WaveformEditorWidget::SetSelectedPoint(const mvvm::PointItem* item)
 {
   m_table_widget->SetSelectedPoint(item);
+  m_display_controller->SetSelectedPoint(item);
 }
 
 WaveformEditorContext WaveformEditorWidget::CreateActionContext() const

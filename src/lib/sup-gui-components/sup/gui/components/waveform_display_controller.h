@@ -32,6 +32,7 @@ namespace mvvm
 class ChartViewportItem;
 class LineSeriesItem;
 class ModelListener;
+class PointItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -65,6 +66,8 @@ public:
   void SetDisplayMode(WaveformDisplayMode display_mode);
 
   void SetSelected(mvvm::LineSeriesItem* selected_waveform);
+
+  void SetSelectedPoint(const mvvm::PointItem* item);
 
 private:
   /**

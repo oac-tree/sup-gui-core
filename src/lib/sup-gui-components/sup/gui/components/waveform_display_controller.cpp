@@ -22,7 +22,9 @@
 
 #include <mvvm/signals/model_listener.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
+#include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/point_item.h>
 
 namespace sup::gui
 {
@@ -53,6 +55,22 @@ void WaveformDisplayController::SetSelected(mvvm::LineSeriesItem* selected_wavef
   }
 
   UpdateDisplayStatus();
+}
+
+void WaveformDisplayController::SetSelectedPoint(const mvvm::PointItem* item)
+{
+  // FIXME simplified logic to select/deselect points. We do not have well thought mechanism to
+  // select points yet. We even don't know, if selection should be the property of PointItem. For
+  // the moment we rely on the fact, that PointItem has "selected" property, and we set it here.
+  for (auto waveform : m_chart_viewport->GetLineSeries())
+  {
+    for (auto points : waveform->GetDataItem()->GetPoints())
+    {
+      // FIXME consider removal of SetSelected from PointItem and corresponding controllers, and
+      // making selection machinery solely the responsibility of ChartCanvas
+      points->SetSelected(points == item);
+    }
+  }
 }
 
 void WaveformDisplayController::UpdateDisplayStatus()
