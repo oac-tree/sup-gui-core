@@ -54,6 +54,9 @@ DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(QWidget* parent_widget)
   m_stack_widget->AddWidget(m_viewport_property_tree);
 
   layout->addWidget(m_stack_widget);
+
+  connect(m_waveform_tree, &WaveformPointsTreeWidget::pointSelected, this,
+          &DtoWaveformPropertyPanel::pointSelected);
 }
 
 void DtoWaveformPropertyPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)

@@ -29,6 +29,7 @@ class AllItemsTreeView;
 class ISessionModel;
 class PropertyTreeView;
 class LineSeriesItem;
+class PointItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -53,6 +54,9 @@ public:
    * @brief Set waveform to show in property editor.
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
+
+signals:
+  void pointSelected(mvvm::PointItem* point_item);
 
 private:
   ItemStackWidget* m_stack_widget{nullptr};

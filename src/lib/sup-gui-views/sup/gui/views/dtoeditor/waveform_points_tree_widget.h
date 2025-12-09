@@ -30,6 +30,7 @@ namespace mvvm
 class AllItemsTreeView;
 class LineSeriesItem;
 class ItemViewComponentProvider;
+class PointItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -51,6 +52,14 @@ public:
    * @brief Set waveform to show in property editor.
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
+
+  /**
+   * @brief Sets point selected.
+   */
+  void SetPointSelected(mvvm::PointItem* item);
+
+signals:
+  void pointSelected(mvvm::PointItem* point_item);
 
 private:
   QTreeView* m_tree_view{nullptr};

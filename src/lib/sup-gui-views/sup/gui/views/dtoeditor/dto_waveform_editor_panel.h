@@ -27,6 +27,7 @@ namespace mvvm
 {
 class LineSeriesItem;
 class ChartViewportItem;
+class PointItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -62,6 +63,11 @@ public:
    * @brief Set waveform to show in waveform editor.
    */
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
+
+  /**
+   * @brief Sets point selected.
+   */
+  void SetSelectedPoint(mvvm::PointItem* item);
 
 private:
   ItemStackWidget* m_stack_widget{nullptr};

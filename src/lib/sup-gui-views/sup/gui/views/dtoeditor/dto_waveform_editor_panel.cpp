@@ -55,4 +55,9 @@ void DtoWaveformEditorPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series
   m_waveform_editor->SetLineSeriesItem(line_series_item);
 }
 
+void DtoWaveformEditorPanel::SetSelectedPoint(mvvm::PointItem *item)
+{
+  m_waveform_editor->SetSelectedPoint(item);
+}
+
 }  // namespace sup::gui

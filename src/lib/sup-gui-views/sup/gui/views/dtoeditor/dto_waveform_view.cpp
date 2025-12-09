@@ -61,6 +61,8 @@ DtoWaveformView::DtoWaveformView(IAppCommandService& command_service, QWidget* p
 
   connect(m_list_panel, &DtoWaveformListPanel::WaveformSelected, this,
           &DtoWaveformView::SetLineSeriesItem);
+  connect(m_property_panel, &DtoWaveformPropertyPanel::pointSelected, m_editor_panel,
+          &DtoWaveformEditorPanel::SetSelectedPoint);
 }
 
 DtoWaveformView::~DtoWaveformView() = default;
