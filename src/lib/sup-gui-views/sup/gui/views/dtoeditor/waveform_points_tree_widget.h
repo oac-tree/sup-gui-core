@@ -47,6 +47,12 @@ class WaveformPointsTreeWidget : public QWidget
 
 public:
   explicit WaveformPointsTreeWidget(QWidget* parent_widget = nullptr);
+  ~WaveformPointsTreeWidget() override;
+
+  WaveformPointsTreeWidget(const WaveformPointsTreeWidget&) = delete;
+  WaveformPointsTreeWidget& operator=(const WaveformPointsTreeWidget&) = delete;
+  WaveformPointsTreeWidget(WaveformPointsTreeWidget&&) = delete;
+  WaveformPointsTreeWidget& operator=(WaveformPointsTreeWidget&&) = delete;
 
   /**
    * @brief Set waveform to show in property editor.

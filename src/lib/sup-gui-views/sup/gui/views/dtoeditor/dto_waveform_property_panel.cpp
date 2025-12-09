@@ -26,11 +26,16 @@
 
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/views/all_items_tree_view.h>
 #include <mvvm/views/property_tree_view.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::PointItem*)
+#endif
 
 namespace sup::gui
 {
@@ -58,6 +63,8 @@ DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(QWidget* parent_widget)
   connect(m_waveform_tree, &WaveformPointsTreeWidget::pointSelected, this,
           &DtoWaveformPropertyPanel::pointSelected);
 }
+
+DtoWaveformPropertyPanel::~DtoWaveformPropertyPanel() = default;
 
 void DtoWaveformPropertyPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {

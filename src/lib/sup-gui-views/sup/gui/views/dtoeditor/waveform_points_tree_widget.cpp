@@ -29,6 +29,10 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::PointItem*)
+#endif
+
 namespace sup::gui
 {
 
@@ -49,6 +53,8 @@ WaveformPointsTreeWidget::WaveformPointsTreeWidget(QWidget* parent_widget)
   connect(m_component_provider.get(), &::mvvm::ItemViewComponentProvider::SelectedItemChanged, this,
           on_selection_changed);
 }
+
+WaveformPointsTreeWidget::~WaveformPointsTreeWidget() = default;
 
 void WaveformPointsTreeWidget::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {

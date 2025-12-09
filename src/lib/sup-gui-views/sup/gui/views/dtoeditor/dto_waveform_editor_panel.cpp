@@ -24,7 +24,13 @@
 #include <sup/gui/views/waveformeditor/waveform_editor_widget.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 
+#include <mvvm/standarditems/point_item.h>
+
 #include <QVBoxLayout>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::PointItem*)
+#endif
 
 namespace sup::gui
 {
@@ -55,7 +61,7 @@ void DtoWaveformEditorPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series
   m_waveform_editor->SetLineSeriesItem(line_series_item);
 }
 
-void DtoWaveformEditorPanel::SetSelectedPoint(mvvm::PointItem *item)
+void DtoWaveformEditorPanel::SetSelectedPoint(mvvm::PointItem* item)
 {
   m_waveform_editor->SetSelectedPoint(item);
 }

@@ -27,6 +27,7 @@
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
@@ -35,6 +36,7 @@
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::LineSeriesItem*)
+Q_DECLARE_METATYPE(mvvm::PointItem*)
 #endif
 
 namespace sup::gui::test

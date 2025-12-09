@@ -47,8 +47,15 @@ class WaveformPointsTreeWidget;
 class DtoWaveformPropertyPanel : public QWidget
 {
   Q_OBJECT
+
 public:
   explicit DtoWaveformPropertyPanel(QWidget* parent_widget = nullptr);
+  ~DtoWaveformPropertyPanel() override;
+
+  DtoWaveformPropertyPanel(const DtoWaveformPropertyPanel&) = delete;
+  DtoWaveformPropertyPanel& operator=(const DtoWaveformPropertyPanel&) = delete;
+  DtoWaveformPropertyPanel(DtoWaveformPropertyPanel&&) = delete;
+  DtoWaveformPropertyPanel& operator=(DtoWaveformPropertyPanel&&) = delete;
 
   /**
    * @brief Set waveform to show in property editor.
