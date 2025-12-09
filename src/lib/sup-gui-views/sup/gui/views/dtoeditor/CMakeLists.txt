@@ -15,4 +15,6 @@ target_sources(${library_name} PRIVATE
   dto_waveform_property_panel.h
   dto_waveform_view.cpp
   dto_waveform_view.h
+  waveform_points_tree_widget.cpp
+  waveform_points_tree_widget.h
 )

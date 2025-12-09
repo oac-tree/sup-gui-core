@@ -20,6 +20,8 @@
 
 #include "dto_waveform_property_panel.h"
 
+#include "waveform_points_tree_widget.h"
+
 #include <sup/gui/widgets/item_stack_widget.h>
 
 #include <mvvm/standarditems/line_series_data_item.h>
@@ -37,7 +39,7 @@ DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_stack_widget(new ItemStackWidget)
     , m_plot_property_tree(new mvvm::AllItemsTreeView)
-    , m_waveform_tree(new mvvm::AllItemsTreeView)
+    , m_waveform_tree(new WaveformPointsTreeWidget)
     , m_viewport_property_tree(new mvvm::PropertyTreeView)
 {
   auto layout = new QVBoxLayout(this);
@@ -54,12 +56,10 @@ DtoWaveformPropertyPanel::DtoWaveformPropertyPanel(QWidget* parent_widget)
   layout->addWidget(m_stack_widget);
 }
 
-DtoWaveformPropertyPanel::~DtoWaveformPropertyPanel() = default;
-
 void DtoWaveformPropertyPanel::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_plot_property_tree->SetItem(line_series_item);
-  m_waveform_tree->SetItem(line_series_item ? line_series_item->GetDataItem() : nullptr);
+  m_waveform_tree->SetLineSeriesItem(line_series_item);
   m_viewport_property_tree->SetItem((line_series_item != nullptr) ? line_series_item->GetParent()
                                                                   : nullptr);
   m_viewport_property_tree->GetTreeView()->setRootIsDecorated(true);
