@@ -85,6 +85,11 @@ mvvm::PointItem* WaveformTableWidget::GetSelectedPoint()
 
 void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem* item)
 {
+  if (item == nullptr)
+  {
+    return;
+  }
+
   // enough to select only x, will select the whole column
   auto points = item->GetAllItems();
   if (!points.empty())
