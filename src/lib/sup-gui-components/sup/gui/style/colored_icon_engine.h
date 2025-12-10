@@ -42,11 +42,11 @@ public:
   ColoredIconEngine(const QIcon& icon, const QColor& color_on, const QColor& color_off);
   ColoredIconEngine(const QIcon& icon, const QColor& icon_color);
   explicit ColoredIconEngine(const QIcon& icon);
-  ColoredIconEngine(const ColoredIconEngine& other);
   ~ColoredIconEngine() override = default;
 
+  ColoredIconEngine(const ColoredIconEngine& other) = default;
   ColoredIconEngine& operator=(const ColoredIconEngine&) = delete;
-  ColoredIconEngine(ColoredIconEngine&&) = delete;
+  ColoredIconEngine(ColoredIconEngine&&) = default;
   ColoredIconEngine& operator=(ColoredIconEngine&&) = delete;
 
   void paint(QPainter* painter, const QRect& rect, QIcon::Mode mode, QIcon::State state) override;

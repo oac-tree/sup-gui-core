@@ -30,7 +30,7 @@ CodeEditorSidebar::CodeEditorSidebar(CodeEditor* editor) : QWidget(editor), m_co
 
 QSize CodeEditorSidebar::sizeHint() const
 {
-  return QSize(m_code_editor->sidebarWidth(), 0);
+  return {m_code_editor->sidebarWidth(), 0};
 }
 
 void CodeEditorSidebar::paintEvent(QPaintEvent* event)

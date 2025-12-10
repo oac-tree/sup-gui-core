@@ -39,10 +39,11 @@ WaveformTableComponentProvider::WaveformTableComponentProvider(mvvm::Application
   SetSelectionFlags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Columns);
 }
 
-int WaveformTableComponentProvider::GetSelectedPointIndex() const
+std::int32_t WaveformTableComponentProvider::GetSelectedPointIndex() const
 {
   auto item = GetSelectedItem();
   // returning parent's index
-  return (item != nullptr) ? item->GetParent()->GetTagIndex().GetIndex() : -1;
+  return (item != nullptr) ? static_cast<std::int32_t>(item->GetParent()->GetTagIndex().GetIndex())
+                           : -1;
 }
 }  // namespace sup::gui

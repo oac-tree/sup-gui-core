@@ -112,7 +112,7 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconLayout()
 {
   auto result = std::make_unique<QVBoxLayout>();
 
-  QIcon icon = QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation);
+  const QIcon icon = QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation);
 
   auto pixmap_label = new QLabel;
   pixmap_label->setPixmap(icon.pixmap(mvvm::style::UnitSize(5)));

@@ -59,7 +59,7 @@ CollapsibleToolBar::CollapsibleToolBar(QWidget* parent_widget)
   m_tool_bar->addWidget(m_label);
   InsertStrech();
 
-  setFixedHeight(utils::NarrowToolBarIconSize().height() * 1.5);
+  setFixedHeight(static_cast<std::int32_t>(utils::NarrowToolBarIconSize().height() * 1.5));
 
   UpdateToolBar();
 }

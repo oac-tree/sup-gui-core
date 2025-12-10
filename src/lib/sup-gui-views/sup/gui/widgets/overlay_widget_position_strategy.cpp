@@ -85,7 +85,7 @@ QPoint OverlayWidgetPositionStrategy::CalculateWidgetPosition() const
   if (auto scroll_area = dynamic_cast<QAbstractScrollArea*>(m_area); scroll_area)
   {
     if (QScrollBar* horizontal = scroll_area->horizontalScrollBar();
-        horizontal && horizontal->isVisible())
+        (horizontal != nullptr) && horizontal->isVisible())
     {
       y -= horizontal->height();
     }

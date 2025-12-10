@@ -54,10 +54,10 @@ public:
 
   ~WidgetOverlayMessagePublisher() override;
 
-  WidgetOverlayMessagePublisher(const OverlayMessage&) = delete;
-  WidgetOverlayMessagePublisher& operator=(const OverlayMessage&) = delete;
-  WidgetOverlayMessagePublisher(OverlayMessage&&) = delete;
-  WidgetOverlayMessagePublisher& operator=(OverlayMessage&&) = delete;
+  WidgetOverlayMessagePublisher(const WidgetOverlayMessagePublisher&) = delete;
+  WidgetOverlayMessagePublisher& operator=(const WidgetOverlayMessagePublisher&) = delete;
+  WidgetOverlayMessagePublisher(WidgetOverlayMessagePublisher&&) = delete;
+  WidgetOverlayMessagePublisher& operator=(WidgetOverlayMessagePublisher&&) = delete;
 
   void AddMessage(const MessageEvent& message);
 

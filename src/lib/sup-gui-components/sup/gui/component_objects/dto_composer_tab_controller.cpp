@@ -92,7 +92,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
     auto container = parent->GetItem(tag_index);
     if (auto widget = GetWidgetForItem(container); widget)
     {
-      m_tab_widget->removeTab(tag_index.GetIndex());
+      m_tab_widget->removeTab(static_cast<std::int32_t>(tag_index.GetIndex()));
       delete widget;
 
       (void)m_widget_map.erase(container);

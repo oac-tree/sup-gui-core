@@ -47,7 +47,7 @@ class WaveformTableComponentProvider : public mvvm::ItemViewComponentProvider
 public:
   explicit WaveformTableComponentProvider(mvvm::ApplicationModel* model, QTableView* view);
 
-  int GetSelectedPointIndex() const;
+  std::int32_t GetSelectedPointIndex() const;
 };
 
 }  // namespace sup::gui

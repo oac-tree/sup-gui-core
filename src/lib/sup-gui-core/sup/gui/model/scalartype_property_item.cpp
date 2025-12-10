@@ -44,7 +44,7 @@ mvvm::ComboProperty GetScalarTypeCombo()
  */
 void UpdateParentDataToType(const std::string& type_name, mvvm::SessionItem* parent)
 {
-  if (!parent || type_name.empty())
+  if ((parent == nullptr) || type_name.empty())
   {
     return;
   }

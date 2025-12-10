@@ -42,7 +42,7 @@ namespace
 bool HasEditableDisplayName(const AnyValueItem& item)
 {
   auto item_parent = dynamic_cast<const AnyValueItem*>(item.GetParent());
-  return !((item_parent != nullptr) && item_parent->IsArray());
+  return (item_parent == nullptr) || !item_parent->IsArray();
 }
 
 }  // namespace

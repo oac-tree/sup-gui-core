@@ -80,7 +80,7 @@ mvvm::ISessionModel* WaveformEditorActionHandler::GetModel()
   return (GetLineSeries() != nullptr) ? GetLineSeries()->GetModel() : nullptr;
 }
 
-mvvm::LineSeriesItem* WaveformEditorActionHandler::GetLineSeries()
+mvvm::LineSeriesItem* WaveformEditorActionHandler::GetLineSeries() const
 {
   return m_context.selected_waveform_callback();
 }

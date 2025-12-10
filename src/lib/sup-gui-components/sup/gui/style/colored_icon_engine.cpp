@@ -59,11 +59,6 @@ ColoredIconEngine::ColoredIconEngine(const QIcon& icon)
 {
 }
 
-ColoredIconEngine::ColoredIconEngine(const ColoredIconEngine& other)
-    : QIconEngine(other), m_icon{other.m_icon}, m_color_map{other.m_color_map}
-{
-}
-
 void ColoredIconEngine::paint(QPainter* painter, const QRect& rect, QIcon::Mode mode,
                               QIcon::State state)
 {

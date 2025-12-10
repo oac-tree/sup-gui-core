@@ -88,7 +88,7 @@ struct CodeEditor::CodeEditorImpl
                  : m_repository.defaultTheme(KSyntaxHighlighting::Repository::LightTheme));
   }
 
-  void highlightCurrentLine()
+  void highlightCurrentLine() const
   {
     QTextEdit::ExtraSelection selection;
     selection.format.setBackground(

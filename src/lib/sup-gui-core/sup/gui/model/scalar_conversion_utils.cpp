@@ -124,7 +124,7 @@ dto::AnyValue GetAnyValueFromScalar(const mvvm::variant_t& variant)
 
 mvvm::variant_t GetVariantFromScalarTypeName(const std::string& type_name)
 {
-  sup::dto::AnyValue anyvalue(sup::dto::AnyType(GetScalarTypeCode(type_name)));
+  const sup::dto::AnyValue anyvalue(sup::dto::AnyType(GetScalarTypeCode(type_name)));
   return GetVariantFromScalar(anyvalue);
 }
 

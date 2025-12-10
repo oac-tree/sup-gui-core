@@ -55,7 +55,7 @@ class DtoEditorMainWindowActions : public QObject
 public:
   explicit DtoEditorMainWindowActions(mvvm::IProject* project, mvvm::ISessionModel* settings,
                                       IAppCommandService& command_service,
-                                      QMainWindow* mainwindow = nullptr);
+                                      QMainWindow* main_window = nullptr);
   ~DtoEditorMainWindowActions() override;
 
   DtoEditorMainWindowActions(const DtoEditorMainWindowActions&) = delete;

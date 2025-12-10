@@ -32,7 +32,6 @@ class ApplicationModel;
 class LineSeriesItem;
 class LineSeriesDataItem;
 class ChartViewportItem;
-class QToolBar;
 }  // namespace mvvm
 
 namespace sup::gui

@@ -54,7 +54,7 @@ void AboutApplicationDialog::ShowDialog(QWidget* parent, const QString& app_name
 
 QString AboutApplicationDialog::GetCopyRight()
 {
-  QDate date = QDate::currentDate();
+  const QDate date = QDate::currentDate();
   return QString("Copyright: 2010-%1 ITER Organization ").arg(date.toString("yyyy"));
 }
 
