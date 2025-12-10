@@ -67,7 +67,7 @@ std::size_t AppCommandRegistry::GetCommandCount() const
 
 void AppCommandRegistry::SetCurrentContext(const AppCommandContext& context)
 {
-  for (const auto& [command_id, command] : m_commands)
+  for (const auto& [_, command] : m_commands)
   {
     command->SetCurrentContext(context);
   }
@@ -75,7 +75,7 @@ void AppCommandRegistry::SetCurrentContext(const AppCommandContext& context)
 
 void AppCommandRegistry::SetContextStack(const std::vector<AppCommandContext>& context_stack)
 {
-  for (const auto& [command_id, command] : m_commands)
+  for (const auto& [_, command] : m_commands)
   {
     command->SetContextStack(context_stack);
   }

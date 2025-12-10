@@ -27,14 +27,19 @@
 
 namespace sup::dto
 {
+
 class AnyValue;
 class AnyType;
 class AnyTypeRegistry;
 enum class TypeCode : sup::dto::uint32;
+
 }  // namespace sup::dto
 
+namespace sup::gui
+{
 using anyvalue_t = sup::dto::AnyValue;
 using anytype_t = sup::dto::AnyType;
 using anytype_registry_t = sup::dto::AnyTypeRegistry;
+}  // namespace sup::gui
 
 #endif  // SUP_GUI_CORE_DTO_TYPES_FWD_H_

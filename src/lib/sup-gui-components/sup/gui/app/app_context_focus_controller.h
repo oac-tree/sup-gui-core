@@ -49,7 +49,7 @@ public:
   AppContextFocusController(AppContextFocusController&&) = delete;
   AppContextFocusController& operator=(AppContextFocusController&&) = delete;
 
-  void OnFocusWidgetUpdate(QWidget* old, QWidget* now);
+  void OnFocusWidgetUpdate(const QWidget* old, QWidget* now);
 
 private:
   IAppCommandContextWidgetMap& m_widget_map;

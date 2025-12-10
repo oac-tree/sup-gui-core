@@ -60,7 +60,7 @@ public:
   QList<QAction*> GetActions(const std::vector<ActionKeyT>& action_keys) const
   {
     QList<QAction*> result;
-    std::transform(action_keys.begin(), action_keys.end(), std::back_inserter(result),
+    (void)std::transform(action_keys.begin(), action_keys.end(), std::back_inserter(result),
                    [this](auto element) { return GetAction(element); });
 
     return result;
