@@ -24,7 +24,6 @@
 #include <QWidget>
 
 class QToolBar;
-class QSplitter;
 
 namespace mvvm
 {
@@ -43,6 +42,7 @@ class WaveformEditorActions;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 class WaveformDisplayController;
+class CustomSplitter;
 
 /**
  * @brief The WaveformEditorWidget class is a waveform editor intended for editing of one waveform
@@ -106,6 +106,8 @@ public:
 
 private:
   void SetupConnections();
+  void ReadSettings();
+  void WriteSettings();
 
   /**
    * @brief Places table widget together with own toolbar.
@@ -116,7 +118,7 @@ private:
   WaveformEditorActions* m_actions{nullptr};
   std::unique_ptr<WaveformDisplayController> m_display_controller;
 
-  QSplitter* m_splitter{nullptr};
+  CustomSplitter* m_splitter{nullptr};
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
   QToolBar* m_table_tool_bar{nullptr};
   WaveformTableWidget* m_table_widget{nullptr};

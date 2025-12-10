@@ -27,6 +27,7 @@
 #include <sup/gui/components/waveform_display_controller.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/style/style_helper.h>
+#include <sup/gui/widgets/custom_splitter.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/point_item.h>
@@ -41,6 +42,13 @@ namespace sup::gui
 
 namespace
 {
+
+constexpr auto kGroupName("WaveformEditorWidget");
+
+QString GetSplitterSettingName()
+{
+  return QString(kGroupName) + "/" + "splitter";
+}
 
 /**
  * @brief Returns list of actions intended for canvas toolbar.
@@ -69,7 +77,7 @@ WaveformEditorWidget::WaveformEditorWidget(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_action_handler(new WaveformEditorActionHandler(CreateActionContext(), this))
     , m_actions(new WaveformEditorActions(m_action_handler, this))
-    , m_splitter(new QSplitter)
+    , m_splitter(new CustomSplitter(GetSplitterSettingName()))
     , m_chart_canvas(new mvvm::ChartCanvas)
     , m_table_tool_bar(new QToolBar)
     , m_table_widget(new WaveformTableWidget(nullptr))
@@ -80,20 +88,25 @@ WaveformEditorWidget::WaveformEditorWidget(QWidget* parent_widget)
   m_splitter->setOrientation(Qt::Vertical);
   m_splitter->addWidget(m_chart_canvas);
   m_splitter->addWidget(CreateTableEnvelopWidget().release());
+  m_splitter->setSizes({300, 100});
 
   layout->addWidget(m_splitter);
 
   addActions(GetCanvasToolBarActions(m_actions));
 
   SetupConnections();
+  ReadSettings();
+}
+
+WaveformEditorWidget::~WaveformEditorWidget()
+{
+  WriteSettings();
 }
 
 mvvm::LineSeriesItem* WaveformEditorWidget::GetLineSeriesItem() const
 {
   return m_table_widget->GetLineSeriesItem();
 }
-
-WaveformEditorWidget::~WaveformEditorWidget() = default;
 
 void WaveformEditorWidget::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
@@ -163,6 +176,16 @@ void WaveformEditorWidget::SetupConnections()
   // propagate notification from canvas to toolbar, that
   connect(m_chart_canvas, &mvvm::ChartCanvas::OperationModeChanged, m_actions,
           &WaveformEditorActions::SetPointerButtonGroup);
+}
+
+void WaveformEditorWidget::ReadSettings()
+{
+  m_splitter->ReadSettings();
+}
+
+void WaveformEditorWidget::WriteSettings()
+{
+  m_splitter->WriteSettings();
 }
 
 std::unique_ptr<QWidget> WaveformEditorWidget::CreateTableEnvelopWidget()

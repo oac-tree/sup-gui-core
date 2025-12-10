@@ -64,9 +64,17 @@ std::vector<sup::gui::AnyValueEditorActions::ActionKey> GetToolBarActionKeys()
           ActionKey::kMoveUp, ActionKey::kMoveDown};
 }
 
-const QString kGroupName("AnyValueEditor/");
-const QString kCurrentWorkdirSettingName = kGroupName + "workdir";
-const QString kSplitterSettingName = kGroupName + "splitter";
+constexpr auto kGroupName("AnyValueEditor");
+
+QString GetWorkdirSettingName()
+{
+  return QString(kGroupName) + "/" + "workdir";
+}
+
+QString GetSplitterSettingName()
+{
+  return QString(kGroupName) + "/" + "splitter";
+}
 
 }  // namespace
 
@@ -85,7 +93,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
     , m_quick_toolbar(new ScalarQuickToolbar(m_action_handler.get()))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
-    , m_splitter(new CustomSplitter(kSplitterSettingName))
+    , m_splitter(new CustomSplitter(GetSplitterSettingName()))
 {
   auto layout = new QVBoxLayout(this);
 
@@ -177,14 +185,14 @@ std::unique_ptr<AnyValueItem> AnyValueEditorWidget::GetResult()
 void AnyValueEditorWidget::ReadSettings()
 {
   const QSettings settings;
-  m_current_workdir = settings.value(kCurrentWorkdirSettingName, QDir::homePath()).toString();
+  m_current_workdir = settings.value(GetWorkdirSettingName(), QDir::homePath()).toString();
   m_splitter->ReadSettings();
 }
 
 void AnyValueEditorWidget::WriteSettings()
 {
   QSettings settings;
-  settings.setValue(kCurrentWorkdirSettingName, m_current_workdir);
+  settings.setValue(GetWorkdirSettingName(), m_current_workdir);
   m_splitter->WriteSettings();
 }
 
