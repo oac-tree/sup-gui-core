@@ -34,7 +34,7 @@ namespace sup::gui
 /**
  * @brief Return scalar-like variant from AnyValue rpresenting a scalar.
  */
-mvvm::variant_t GetVariantFromScalar(const anyvalue_t& value);
+mvvm::variant_t GetVariantFromScalar(const sup::dto::AnyValue& value);
 
 /**
  * @brief Returns scalar AnyValue from variant_t containing a scalar.

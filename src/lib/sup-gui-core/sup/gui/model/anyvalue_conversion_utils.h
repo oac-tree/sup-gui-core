@@ -76,7 +76,7 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItem(const sup::dto::AnyValue& any_v
  * @details Will throw if AnyValue is not a scalar. It is possible to change the type of the scalar.
  * AnyTypeName and underlying variant on board of AnyValueItem will be updated accordingly.
  */
-void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item);
+void SetDataFromScalar(const sup::dto::AnyValue& value, AnyValueItem& item);
 
 /**
  * @brief Returns scalar AnyValue from AnyValueItem containing a scalar.

@@ -113,7 +113,7 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItem(const sup::dto::AnyValue& any_v
   return builder.MoveAnyValueItem();
 }
 
-void SetDataFromScalar(const anyvalue_t& value, AnyValueItem& item)
+void SetDataFromScalar(const dto::AnyValue& value, AnyValueItem& item)
 {
   auto variant = GetVariantFromScalar(value);
 

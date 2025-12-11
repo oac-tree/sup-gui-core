@@ -42,22 +42,22 @@ class AnyValueItemBuilder : public sup::dto::IAnyVisitor<const sup::dto::AnyValu
 public:
   std::unique_ptr<AnyValueItem> MoveAnyValueItem();
 
-  void EmptyProlog(const anyvalue_t* anyvalue) override;
-  void EmptyEpilog(const anyvalue_t* anyvalue) override;
+  void EmptyProlog(const sup::dto::AnyValue* anyvalue) override;
+  void EmptyEpilog(const sup::dto::AnyValue* anyvalue) override;
 
-  void StructProlog(const anyvalue_t* anyvalue) override;
+  void StructProlog(const sup::dto::AnyValue* anyvalue) override;
   void StructMemberSeparator() override;
-  void StructEpilog(const anyvalue_t* anyvalue) override;
+  void StructEpilog(const sup::dto::AnyValue* anyvalue) override;
 
-  void MemberProlog(const anyvalue_t* anyvalue, const std::string& member_name) override;
-  void MemberEpilog(const anyvalue_t* anyvalue, const std::string& member_name) override;
+  void MemberProlog(const sup::dto::AnyValue* anyvalue, const std::string& member_name) override;
+  void MemberEpilog(const sup::dto::AnyValue* anyvalue, const std::string& member_name) override;
 
-  void ArrayProlog(const anyvalue_t* anyvalue) override;
+  void ArrayProlog(const sup::dto::AnyValue* anyvalue) override;
   void ArrayElementSeparator() override;
-  void ArrayEpilog(const anyvalue_t* anyvalue) override;
+  void ArrayEpilog(const sup::dto::AnyValue* anyvalue) override;
 
-  void ScalarProlog(const anyvalue_t* anyvalue) override;
-  void ScalarEpilog(const anyvalue_t* anyvalue) override;
+  void ScalarProlog(const sup::dto::AnyValue* anyvalue) override;
+  void ScalarEpilog(const sup::dto::AnyValue* anyvalue) override;
 
 private:
   void AddItem(std::unique_ptr<AnyValueItem> item);

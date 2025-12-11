@@ -31,30 +31,31 @@
 namespace sup::gui
 {
 
-std::string AnyValueToJSONString(const anyvalue_t& value, bool is_pretty)
+std::string AnyValueToJSONString(const dto::AnyValue& value, bool is_pretty)
 {
   return sup::dto::AnyValueToJSONString(value, is_pretty);
 }
 
-std::string AnyTypeToJSONString(const anyvalue_t& value)
+std::string AnyTypeToJSONString(const dto::AnyValue& value)
 {
   return sup::dto::AnyTypeToJSONString(value.GetType());
 }
 
-std::string ValuesToJSONString(const anyvalue_t& value)
+std::string ValuesToJSONString(const dto::AnyValue& value)
 {
   return sup::dto::ValuesToJSONString(value);
 }
 
 sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
-                                        const anytype_registry_t* registry)
+                                        const dto::AnyTypeRegistry* registry)
 {
   sup::dto::JSONAnyValueParser parser;
   (void)parser.ParseFile(filename, registry);
   return parser.MoveAnyValue();
 }
 
-sup::dto::AnyType AnyTypeFromJSONString(const std::string& str, const anytype_registry_t* registry)
+sup::dto::AnyType AnyTypeFromJSONString(const std::string& str,
+                                        const dto::AnyTypeRegistry* registry)
 {
   sup::dto::JSONAnyTypeParser parser;
   if (!parser.ParseString(str, registry))
@@ -65,7 +66,7 @@ sup::dto::AnyType AnyTypeFromJSONString(const std::string& str, const anytype_re
 }
 
 sup::dto::AnyValue AnyValueFromJSONString(const std::string& str,
-                                          const anytype_registry_t* registry)
+                                          const dto::AnyTypeRegistry* registry)
 {
   sup::dto::JSONAnyValueParser parser;
   if (!parser.ParseString(str, registry))

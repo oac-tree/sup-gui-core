@@ -34,35 +34,35 @@ namespace sup::gui
 /**
  * @brief Returns JSON string representing AnyValue.
  */
-std::string AnyValueToJSONString(const anyvalue_t& value, bool is_pretty = false);
+std::string AnyValueToJSONString(const sup::dto::AnyValue& value, bool is_pretty = false);
 
 /**
  * @brief Returns JSON string representing AnyType.
  */
-std::string AnyTypeToJSONString(const anyvalue_t& value);
+std::string AnyTypeToJSONString(const sup::dto::AnyValue& value);
 
 /**
  * @brief Returns JSON string representing the values of an AnyValue.
  */
-std::string ValuesToJSONString(const anyvalue_t& value);
+std::string ValuesToJSONString(const sup::dto::AnyValue& value);
 
 /**
  * @brief Returns AnyValue as serialized in a JSON file.
  */
 sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
-                                        const anytype_registry_t* registry = nullptr);
+                                        const sup::dto::AnyTypeRegistry* registry = nullptr);
 
 /**
  * @brief Returns AnyType from its JSON representation.
  */
 sup::dto::AnyType AnyTypeFromJSONString(const std::string& str,
-                                        const anytype_registry_t* registry = nullptr);
+                                        const sup::dto::AnyTypeRegistry* registry = nullptr);
 
 /**
  * @brief Returns AnyValue from its JSON representation.
  */
 sup::dto::AnyValue AnyValueFromJSONString(const std::string& str,
-                                          const anytype_registry_t* registry = nullptr);
+                                          const sup::dto::AnyTypeRegistry* registry = nullptr);
 
 /**
  * @brief Returns AnyValue from AnyType and JSON representation of its value.

@@ -58,7 +58,7 @@ mvvm::variant_t GetVariantFromScalarT(const sup::dto::AnyValue& anyvalue)
 namespace sup::gui
 {
 
-mvvm::variant_t GetVariantFromScalar(const anyvalue_t& value)
+mvvm::variant_t GetVariantFromScalar(const dto::AnyValue& value)
 {
   using sup::dto::TypeCode;
   using get_variant_func_t = std::function<mvvm::variant_t(const sup::dto::AnyValue& anyvalue)>;
