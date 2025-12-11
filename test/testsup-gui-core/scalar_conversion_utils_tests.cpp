@@ -42,8 +42,8 @@ public:
   {
     T default_value{};
     auto variant = GetVariantFromScalarTypeName(type_name);
-    bool is_valid_type = std::holds_alternative<T>(variant);
-    bool is_valid_value = std::get<T>(variant) == default_value;
+    const bool is_valid_type = std::holds_alternative<T>(variant);
+    const bool is_valid_value = std::get<T>(variant) == default_value;
     return is_valid_type && is_valid_value;
   }
 };

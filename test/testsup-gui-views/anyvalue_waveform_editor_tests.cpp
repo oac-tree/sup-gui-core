@@ -21,8 +21,7 @@
 #include "sup/gui/views/waveformeditor/anyvalue_waveform_editor.h"
 
 #include <sup/gui/model/anyvalue_item.h>
-
-#include <sup/dto/anyvalue.h>
+#include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <gtest/gtest.h>
 
@@ -67,14 +66,14 @@ TEST_F(AnyValueWaveformEditorTest, CreateWaveformFromArrayItem)
   AnyValueWaveformEditor editor;
   auto array_item = std::make_unique<AnyValueArrayItem>();
   auto struct_item0 = std::make_unique<AnyValueStructItem>();
-  struct_item0->AddScalarField("a", sup::dto::kFloat64TypeName, 1.0);
-  struct_item0->AddScalarField("b", sup::dto::kFloat64TypeName, 10.0);
+  struct_item0->AddScalarField("a", constants::kFloat64TypeName, 1.0);
+  struct_item0->AddScalarField("b", constants::kFloat64TypeName, 10.0);
   auto struct_item1 = std::make_unique<AnyValueStructItem>();
-  struct_item1->AddScalarField("a", sup::dto::kFloat64TypeName, 2.0);
-  struct_item1->AddScalarField("b", sup::dto::kFloat64TypeName, 20.0);
+  struct_item1->AddScalarField("a", constants::kFloat64TypeName, 2.0);
+  struct_item1->AddScalarField("b", constants::kFloat64TypeName, 20.0);
   auto struct_item2 = std::make_unique<AnyValueStructItem>();
-  struct_item2->AddScalarField("a", sup::dto::kFloat64TypeName, 3.0);
-  struct_item2->AddScalarField("b", sup::dto::kFloat64TypeName, 30.0);
+  struct_item2->AddScalarField("a", constants::kFloat64TypeName, 3.0);
+  struct_item2->AddScalarField("b", constants::kFloat64TypeName, 30.0);
   array_item->InsertItem(std::move(struct_item0), mvvm::TagIndex::Append());
   array_item->InsertItem(std::move(struct_item1), mvvm::TagIndex::Append());
   array_item->InsertItem(std::move(struct_item2), mvvm::TagIndex::Append());
