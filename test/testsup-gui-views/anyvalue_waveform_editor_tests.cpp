@@ -51,7 +51,7 @@ TEST_F(AnyValueWaveformEditorTest, CreateWaveformFromWrongItem)
 {
   AnyValueWaveformEditor editor;
 
-  sup::gui::AnyValueScalarItem wrong_item;
+  AnyValueScalarItem wrong_item;
 
   editor.SetInitialValue(&wrong_item);
 

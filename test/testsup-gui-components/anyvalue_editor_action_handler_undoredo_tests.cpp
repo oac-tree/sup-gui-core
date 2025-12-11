@@ -110,7 +110,7 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForItemInsert)
 
 TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForCopyAndPasteTwoFields)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent = m_model.InsertItem<AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 

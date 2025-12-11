@@ -487,7 +487,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AddScalarToArrayWhenTypeMismath)
 {
   auto parent =
       m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
-  auto element0 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  auto element0 = m_model.InsertItem<AnyValueScalarItem>(parent);
   element0->SetAnyTypeName(sup::dto::kInt32TypeName);
 
   // creating action handler for the context, when parent is selected
@@ -547,7 +547,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 {
   auto parent =
-      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
@@ -575,7 +575,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 {
   auto parent =
-      m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
+      m_model.InsertItem<AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
@@ -596,7 +596,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 //! Attempt to add second top level array to the model.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 {
-  m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
+  m_model.InsertItem<AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({nullptr});
@@ -620,7 +620,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 {
   auto struct_item =
-      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({nullptr});
@@ -635,7 +635,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 {
   auto struct_item =
-      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
   // creating action handler for the context, pretending item is selected
@@ -652,7 +652,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 {
   auto parent =
-      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
   auto field2 = parent->AddScalarField("field2", sup::dto::kInt32TypeName, mvvm::int32{44});
@@ -675,7 +675,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
 {
   auto parent =
-      m_model.InsertItem<sup::gui::AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
@@ -698,7 +698,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
 
 TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent = m_model.InsertItem<AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
@@ -712,20 +712,20 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   handler->MoveUp();
 
   // validating that parent got new child
-  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+  EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
 
   // moving selected item up second time doesn't change anything
   handler->MoveUp();
 
-  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+  EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
 };
 
 TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
 {
-  auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto parent = m_model.InsertItem<AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 
@@ -740,14 +740,14 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
   handler->MoveDown();
 
   // validating that parent got new child
-  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+  EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
 
   // moving selected item up second time doesn't change anything
   handler->MoveDown();
 
-  EXPECT_EQ(parent->GetChildren(), std::vector<sup::gui::AnyValueItem*>({field1, field0}));
+  EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
   EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
 };
 

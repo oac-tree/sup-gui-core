@@ -91,9 +91,9 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = mvvm::utils::GetTopItem<sup::gui::AnyValueScalarItem>(m_model);
+  auto inserted_item = mvvm::utils::GetTopItem<AnyValueScalarItem>(m_model);
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 
@@ -114,7 +114,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
   auto json_content = AnyValueToJSONString(anyvalue);
   mvvm::test::CreateTextFile(file_path, json_content);
 
-  auto structure = m_model.InsertItem<sup::gui::AnyValueStructItem>();
+  auto structure = m_model.InsertItem<AnyValueStructItem>();
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
   // creating action handler for the context, making structure selected
@@ -128,9 +128,9 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
   // testing new child of the structure
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(structure->GetChildren().size(), 1);
-  auto inserted_item = dynamic_cast<sup::gui::AnyValueScalarItem*>(structure->GetChildren().at(0));
+  auto inserted_item = dynamic_cast<AnyValueScalarItem*>(structure->GetChildren().at(0));
   ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), sup::gui::constants::kScalarTypeName);
+  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kScalarTypeName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
   EXPECT_EQ(inserted_item->Data<int>(), 42);
 };
@@ -144,7 +144,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
   auto json_content = AnyValueToJSONString(anyvalue);
   mvvm::test::CreateTextFile(file_path, json_content);
 
-  auto scalar_item = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  auto scalar_item = m_model.InsertItem<AnyValueScalarItem>();
 
   // creating action handler for the context, making structure selected
   auto handler = CreateActionHandler({scalar_item});
@@ -159,7 +159,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
 TEST_F(AnyValueEditorActionHandlerFolderTest, ExportToFile)
 {
   // preparing scalar
-  auto scalar = m_model.InsertItem<sup::gui::AnyValueScalarItem>();
+  auto scalar = m_model.InsertItem<AnyValueScalarItem>();
   scalar->SetAnyTypeName(sup::dto::kInt32TypeName);
   scalar->SetData(99);
 
@@ -178,7 +178,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ExportToFile)
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
   // reading our exported file for the validation
-  auto exported_value = sup::gui::AnyValueFromJSONFile(file_path);
+  auto exported_value = AnyValueFromJSONFile(file_path);
 
   const sup::dto::AnyValue expected_anyvalue{sup::dto::SignedInteger32Type, 99};
   EXPECT_EQ(exported_value, expected_anyvalue);
@@ -201,11 +201,11 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, AttemptToExportEmptyModelToFile)
 TEST_F(AnyValueEditorActionHandlerFolderTest, AttemptToExportInvalidAnyValueItem)
 {
   // creating invalid array with mixex element types
-  auto parent = m_model.InsertItem<sup::gui::AnyValueArrayItem>();
-  auto element0 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  auto parent = m_model.InsertItem<AnyValueArrayItem>();
+  auto element0 = m_model.InsertItem<AnyValueScalarItem>(parent);
   element0->SetDisplayName("element0");
   element0->SetAnyTypeName(sup::dto::kInt32TypeName);
-  auto element1 = m_model.InsertItem<sup::gui::AnyValueScalarItem>(parent);
+  auto element1 = m_model.InsertItem<AnyValueScalarItem>(parent);
   element1->SetDisplayName("element1");
   element1->SetAnyTypeName(sup::dto::kStringTypeName);
 
