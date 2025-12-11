@@ -20,6 +20,7 @@
 
 #include "sup/gui/plotting/waveform_helper.h"
 
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
@@ -30,8 +31,6 @@
 #include <sup/dto/anytype.h>
 
 #include <gtest/gtest.h>
-
-#include <stdexcept>
 
 namespace sup::gui::test
 {
@@ -63,7 +62,7 @@ TEST_F(WaveformHelperTest, CreateFromPoint)
 
 TEST_F(WaveformHelperTest, CreateFromWaveform)
 {
-  auto plot_data = CreateFromWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+  const auto plot_data = CreateFromWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
   EXPECT_TRUE(plot_data->IsArray());
 
   auto structs = plot_data->GetChildren();
@@ -80,20 +79,49 @@ TEST_F(WaveformHelperTest, CreateFromWaveform)
 
 TEST_F(WaveformHelperTest, GetXY)
 {
-  sup::gui::AnyValueItem item("Base");
-  EXPECT_THROW(GetPoint(item), std::runtime_error);
+  {  // invalid point (not struct)
+    const sup::gui::AnyValueItem item("Base");
+    EXPECT_THROW(GetPoint(item), RuntimeException);
+  }
 
-  auto point = CreateFromPoint(1, 2);
-  EXPECT_TRUE(point->IsStruct());
+  {  // invalid point (struct with wrong fields)
+    const sup::gui::AnyValueStructItem item;
+    EXPECT_THROW(GetPoint(item), RuntimeException);
+  }
 
-  EXPECT_EQ(GetPoint(*point), std::make_pair(1.0, 2.0));
+  {  // invalid point (struct with wrong fields)
+    sup::gui::AnyValueStructItem item;
+    (void)item.AddScalarField("a", sup::dto::kFloat64TypeName, 1.0);
+    (void)item.AddScalarField("b", sup::dto::kFloat64TypeName, 2.0);
+    (void)item.AddScalarField("c", sup::dto::kFloat64TypeName, 2.0);
+    EXPECT_THROW(GetPoint(item), RuntimeException);
+  }
+
+  {  // invalid point (struct with wrong fields)
+    sup::gui::AnyValueStructItem item;
+    (void)item.AddScalarField("a", sup::dto::kStringTypeName, "abc");
+    (void)item.AddScalarField("b", sup::dto::kStringTypeName, "def");
+    EXPECT_THROW(GetPoint(item), RuntimeException);
+  }
+
+  {  // creation of valid point (from struct which can be used for point)
+    sup::gui::AnyValueStructItem item;
+    (void)item.AddScalarField("a", sup::dto::kFloat64TypeName, 1.0);
+    (void)item.AddScalarField("b", sup::dto::kFloat64TypeName, 2.0);
+    EXPECT_EQ(GetPoint(item), std::make_pair(1.0, 2.0));
+  }
+
+  {  // creation of valid point
+    auto point_item = CreateFromPoint(1, 2);
+    EXPECT_TRUE(point_item->IsStruct());
+    EXPECT_EQ(GetPoint(*point_item), std::make_pair(1.0, 2.0));
+  }
 }
 
-//! Testing method CreatePointToAppend.
 TEST_F(WaveformHelperTest, CreatePointToAppend)
 {
   {  // waveform without points
-    mvvm::LineSeriesDataItem data_item;
+    const mvvm::LineSeriesDataItem data_item;
 
     auto new_point = CreatePointToAppend(data_item, nullptr);
 
@@ -130,11 +158,10 @@ TEST_F(WaveformHelperTest, CreatePointToAppend)
   }
 }
 
-//! Testing method CreatePointToAppend.
 TEST_F(WaveformHelperTest, CreatePointToPrepend)
 {
   {  // waveform without points
-    mvvm::LineSeriesDataItem data_item;
+    const mvvm::LineSeriesDataItem data_item;
 
     auto new_point = CreatePointToPrepend(data_item, nullptr);
 
@@ -173,10 +200,16 @@ TEST_F(WaveformHelperTest, CreatePointToPrepend)
 
 TEST_F(WaveformHelperTest, GetWaveform)
 {
-  const std::vector<std::pair<double, double>> expected = {{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}};
-  auto array_item = CreateFromWaveform(expected);
+  {  // waveform from invalid item
+    const AnyValueScalarItem item;
+    EXPECT_TRUE(GetWaveform(item).empty());
+  }
 
-  EXPECT_EQ(GetWaveform(array_item.get()), expected);
+  {  // waveform from valid array item
+    const std::vector<std::pair<double, double>> expected = {{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}};
+    auto array_item = CreateFromWaveform(expected);
+    EXPECT_EQ(GetWaveform(*array_item), expected);
+  }
 }
 
 TEST_F(WaveformHelperTest, SetupNewWaveform)

@@ -45,8 +45,9 @@ AnyValueWaveformEditor::~AnyValueWaveformEditor() = default;
 
 void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem* item)
 {
-  // FIXME introduce check that AnyValueItem is suitable for waveform
-  m_waveform_editor->SetWaveform(GetWaveform(dynamic_cast<const AnyValueArrayItem*>(item)), "");
+  const auto waveform_points =
+      (item == nullptr) ? std::vector<std::pair<double, double>>{} : GetWaveform(*item);
+  m_waveform_editor->SetWaveform(waveform_points, "");
 }
 
 std::unique_ptr<AnyValueItem> AnyValueWaveformEditor::GetResult()

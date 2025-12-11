@@ -77,9 +77,12 @@ std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
     const std::vector<std::pair<double, double>>& data);
 
 /**
- * @brief Return vector of (x,y) points from given AnyValueItemArray.
+ * @brief Return vector of (x,y) points from given AnyValueItem.
+ *
+ * It is expected that the AnyValueItem is an array of struct, where each struct has two float64
+ * fields for "x" and "y" values. Will return empty vector if conversion is not possible.
  */
-std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* array_item);
+std::vector<std::pair<double, double>> GetWaveform(const AnyValueItem& point_item);
 
 /**
  * @brief Create a point which can be added after the given point.

@@ -20,6 +20,7 @@
 
 #include "waveform_helper.h"
 
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/standarditems/line_series_data_item.h>
@@ -29,8 +30,6 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <sup/dto/anytype.h>
-
-#include <stdexcept>
 
 namespace
 {
@@ -96,7 +95,7 @@ std::pair<double, double> GetPoint(const AnyValueItem& item)
   auto children = item.GetChildren();
   if (!item.IsStruct() || (children.size() != 2))
   {
-    throw std::runtime_error("Error in GetXY: this item can't represent a point");
+    throw RuntimeException("Error in GetXY: this item can't represent a point");
   }
 
   auto xpos = children.at(0)->Data();
@@ -112,7 +111,7 @@ std::pair<double, double> GetPoint(const AnyValueItem& item)
     return {std::get<float>(xpos), std::get<float>(ypos)};
   }
 
-  throw std::runtime_error("Error in GetXY: can't get float or double values from point");
+  throw RuntimeException("Error in GetXY: can't get float or double values from point");
 }
 
 std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
@@ -128,17 +127,22 @@ std::unique_ptr<AnyValueArrayItem> CreateFromWaveform(
   return result;
 }
 
-std::vector<std::pair<double, double>> GetWaveform(const AnyValueArrayItem* array_item)
+std::vector<std::pair<double, double>> GetWaveform(const AnyValueItem& point_item)
 {
-  if (array_item == nullptr)
-  {
-    return {};
-  }
   std::vector<std::pair<double, double>> result;
-  auto points = array_item->GetChildren();
-  auto on_point = [](auto item) { return GetPoint(*item); };
-  (void)std::transform(std::begin(points), std::end(points), std::back_inserter(result), on_point);
-  return result;
+  try
+  {
+    auto points = point_item.GetChildren();
+    auto on_point = [](auto item) { return GetPoint(*item); };
+    (void)std::transform(std::begin(points), std::end(points), std::back_inserter(result),
+                         on_point);
+    return result;
+  }
+  catch (const std::exception&)
+  {
+    // conversion of given AnyValueItem to waveform failed, return empty vector
+    return result;
+  }
 }
 
 std::unique_ptr<mvvm::PointItem> CreatePointToAppend(const mvvm::LineSeriesDataItem& data_item,
