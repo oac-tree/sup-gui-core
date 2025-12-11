@@ -45,7 +45,7 @@ struct WaveformEditorContext;
  * @brief The WaveformEditor class is a widget with a line series canvas, a two-column table, and a
  * toolbar for a single waveform editing.
  *
- * Internally the editor operates via mvvm::LineSeriesItem machinery. This editor has its model on
+ * This editor has its model on
  * board and is intended to communicate with the outside world via GetWaveform, and SetWaveform
  * methods.
  */

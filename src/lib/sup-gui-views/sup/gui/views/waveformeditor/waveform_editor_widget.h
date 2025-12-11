@@ -48,7 +48,8 @@ class CustomSplitter;
  * @brief The WaveformEditorWidget class is a waveform editor intended for editing of one waveform
  * at a time.
  *
- * It has a viewport at the top, and horizontal table with (x,y) points at the bottom.
+ * It has a viewport at the top, and horizontal table with (x,y) points at the bottom. Internally
+ * the editor operates via mvvm::LineSeriesItem machinery.
  */
 class WaveformEditorWidget : public QWidget
 {

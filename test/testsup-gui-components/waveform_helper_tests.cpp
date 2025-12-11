@@ -60,12 +60,19 @@ TEST_F(WaveformHelperTest, CreateFromPoint)
   EXPECT_EQ(fields.at(1)->Data<double>(), 2.0);
 }
 
+TEST_F(WaveformHelperTest, CreateFromEmptyWaveform)
+{
+  const auto array_item = CreateFromWaveform({});
+  EXPECT_TRUE(array_item->IsArray());
+  EXPECT_EQ(array_item->GetChildrenCount(), 0U);
+}
+
 TEST_F(WaveformHelperTest, CreateFromWaveform)
 {
-  const auto plot_data = CreateFromWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
-  EXPECT_TRUE(plot_data->IsArray());
+  const auto array_item = CreateFromWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+  EXPECT_TRUE(array_item->IsArray());
 
-  auto structs = plot_data->GetChildren();
+  auto structs = array_item->GetChildren();
   ASSERT_EQ(structs.size(), 3);
 
   auto fields = structs.at(1)->GetChildren();  // middle point
