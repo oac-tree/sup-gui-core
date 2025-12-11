@@ -106,8 +106,8 @@ TEST_F(WaveformHelperTest, GetXY)
 
   {  // invalid point (struct with wrong fields)
     sup::gui::AnyValueStructItem item;
-    (void)item.AddScalarField("a", sup::dto::kStringTypeName, "abc");
-    (void)item.AddScalarField("b", sup::dto::kStringTypeName, "def");
+    (void)item.AddScalarField("a", sup::dto::kStringTypeName, std::string("abc"));
+    (void)item.AddScalarField("b", sup::dto::kStringTypeName, std::string("def"));
     EXPECT_THROW(GetPoint(item), RuntimeException);
   }
 
