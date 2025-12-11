@@ -158,6 +158,12 @@ void AnyValueEditorWidget::OnImportWaveformRequest()
   auto dialog = CreateWaveformEditorDialog(GetTopItem(), this);
   if (dialog->exec() == QDialog::Accepted)
   {
+    // For the moment we replace entire top item with the new waveform. This might be changed later
+    // when we understand better user needs
+    if (auto top_item = GetTopItem(); top_item)
+    {
+      mvvm::utils::RemoveItem(*top_item);
+    }
     SetInitialValue(*dialog->GetResult());
   }
 }
