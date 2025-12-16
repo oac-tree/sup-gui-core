@@ -164,11 +164,11 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
 
   auto anyvalue = AnyValueFromJSONFile(file_name);
   auto item = CreateAnyValueItem(anyvalue);
-  if (auto query =
-          mvvm::utils::CanInsertItem(item.get(), GetParentToInsert(), mvvm::TagIndex::Append());
-      !query.first)
+  const auto error_code = mvvm::utils::GetInsertItemErrorCode(item.get(), GetParentToInsert(),
+                                                              mvvm::TagIndex::Append());
+  if (error_code)
   {
-    SendMessage(query.second);
+    SendMessage(error_code.message());
     return;
   }
   (void)GetModel()->InsertItem(std::move(item), GetParentToInsert(), mvvm::TagIndex::Append());
@@ -444,11 +444,12 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeAfterCurrentSelection(
   // parent should have the room for more items.
   if (auto selected_item = GetSelectedItem(); selected_item)
   {
-    auto [success_flag, informative] = mvvm::utils::CanInsertType(
+    const auto error_code = mvvm::utils::GetInsertTypeErrorCode(
         item_type, selected_item->GetParent(), selected_item->GetTagIndex().Next());
-    if (!success_flag)
+    if (error_code)
     {
-      return QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative, ""});
+      return QueryResult::Failure(
+          {kFailedActionTitle, kFailedActionText, error_code.message(), ""});
     }
   }
 
@@ -481,11 +482,13 @@ QueryResult AnyValueEditorActionHandler::CanInsertTypeIntoCurrentSelection(
   // parent should have the room for more items.
   if (auto selected_item = GetSelectedItem(); selected_item)
   {
-    auto [success_flag, informative] =
-        mvvm::utils::CanInsertType(item_type, selected_item, mvvm::TagIndex::Append());
-    if (!success_flag)
+    const auto error_code =
+        mvvm::utils::GetInsertTypeErrorCode(item_type, selected_item, mvvm::TagIndex::Append());
+
+    if (error_code)
     {
-      return QueryResult::Failure({kFailedActionTitle, kFailedActionText, informative, ""});
+      return QueryResult::Failure(
+          {kFailedActionTitle, kFailedActionText, error_code.message(), ""});
     }
   }
 
