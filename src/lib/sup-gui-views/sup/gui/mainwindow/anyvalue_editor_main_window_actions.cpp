@@ -86,8 +86,8 @@ void AnyValueEditorMainWindowActions::SetupStatusBar(QStatusBar* status_bar)
   m_toggle_right_sidebar_button = new QToolButton;
   m_toggle_right_sidebar_button->setToolTip("Show/hide right panel");
   m_toggle_right_sidebar_button->setIcon(utils::FindIcon("dock-right"));
-  auto action = m_command_service.GetCommand(constants::kToggleRightPanelCommandId)
-                    ->GetProxyAction();
+  auto action =
+      m_command_service.GetCommand(constants::kToggleRightPanelCommandId)->GetProxyAction();
   SetupStatusBarButton(m_toggle_right_sidebar_button, action);
 
   status_bar->addPermanentWidget(m_toggle_right_sidebar_button, 0);
@@ -201,8 +201,8 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
       m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kPasteSpecialCommandId);
   command->SetText("Paste Special").SetShortcut(QKeySequence("Ctrl+Shift+V"));
 
-  command = m_command_service.AddCommandToMenu(constants::kEditMenu,
-                                               constants::kRemoveSelectedCommandId);
+  command =
+      m_command_service.AddCommandToMenu(constants::kEditMenu, constants::kRemoveSelectedCommandId);
   command->SetText("Remove selected");
   command->GetProxyAction()->setShortcuts({Qt::Key_Delete, Qt::Key_Backspace});
 
@@ -213,8 +213,8 @@ void AnyValueEditorMainWindowActions::SetupEditMenu()
 
 void AnyValueEditorMainWindowActions::SetupViewMenu()
 {
-  auto command = m_command_service.AddCommandToMenu(
-      constants::kViewMenu, constants::kToggleRightPanelCommandId);
+  auto command = m_command_service.AddCommandToMenu(constants::kViewMenu,
+                                                    constants::kToggleRightPanelCommandId);
   command->SetShortcut(QKeySequence("Alt+Shift+0"));
 }
 

@@ -546,8 +546,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 //! Adding array as a field to another structure (which is marked as selected).
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 {
-  auto parent =
-      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+  auto parent = m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
@@ -574,8 +573,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToStruct)
 //! Attempt to add array as a field to a scalar.
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddArrayToScalar)
 {
-  auto parent =
-      m_model.InsertItem<AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
+  auto parent = m_model.InsertItem<AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
@@ -651,8 +649,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 
 TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 {
-  auto parent =
-      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+  auto parent = m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
   auto field2 = parent->AddScalarField("field2", sup::dto::kInt32TypeName, mvvm::int32{44});
@@ -674,8 +671,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 
 TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
 {
-  auto parent =
-      m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
+  auto parent = m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
   auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
   auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
 

@@ -39,7 +39,7 @@ AppContextFocusController::AppContextFocusController(IAppCommandContextWidgetMap
 
 AppContextFocusController::~AppContextFocusController() = default;
 
-void AppContextFocusController::OnFocusWidgetUpdate(const QWidget *old, QWidget* now)
+void AppContextFocusController::OnFocusWidgetUpdate(const QWidget* old, QWidget* now)
 {
   Q_UNUSED(old)
 

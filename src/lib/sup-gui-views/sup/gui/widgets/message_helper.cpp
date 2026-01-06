@@ -39,7 +39,7 @@ void SendWarningMessage(const MessageEvent& event)
   SendMessage(event, QMessageBox::Warning);
 }
 
-void SendInfoMessage(const MessageEvent &event)
+void SendInfoMessage(const MessageEvent& event)
 {
   SendMessage(event, QMessageBox::Information);
 }

@@ -35,9 +35,10 @@ class AboutApplicationDialog : public QDialog
 {
   Q_OBJECT
 public:
-  explicit AboutApplicationDialog(QWidget* parent_widget = nullptr, const QString& app_name = QString(),
-                         const QString& description = QString(),
-                         const QString& version = QString());
+  explicit AboutApplicationDialog(QWidget* parent_widget = nullptr,
+                                  const QString& app_name = QString(),
+                                  const QString& description = QString(),
+                                  const QString& version = QString());
   ~AboutApplicationDialog() override = default;
 
   AboutApplicationDialog(const AboutApplicationDialog&) = delete;

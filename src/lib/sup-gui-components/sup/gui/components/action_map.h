@@ -61,7 +61,7 @@ public:
   {
     QList<QAction*> result;
     (void)std::transform(action_keys.begin(), action_keys.end(), std::back_inserter(result),
-                   [this](auto element) { return GetAction(element); });
+                         [this](auto element) { return GetAction(element); });
 
     return result;
   }

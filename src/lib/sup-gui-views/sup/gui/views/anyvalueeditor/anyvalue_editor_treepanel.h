@@ -21,8 +21,8 @@
 #ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_TREEPANEL_H_
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_TREEPANEL_H_
 
-#include <QWidget>
 #include <QModelIndex>
+#include <QWidget>
 
 class QTreeView;
 class QLineEdit;

@@ -50,7 +50,7 @@ public:
   /**
    * @brief Sets initial value to the editor.
    */
-  void SetInitialValue(const AnyValueItem *item);
+  void SetInitialValue(const AnyValueItem* item);
 
   /**
    * @brief Returns result of the editing.

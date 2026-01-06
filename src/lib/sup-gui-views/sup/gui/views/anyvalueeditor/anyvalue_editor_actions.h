@@ -88,8 +88,7 @@ public:
    *
    * The context is normally provided by the parent widget.
    */
-  void RegisterActionsForContext(const AppCommandContext& context,
-                                 IAppCommandService& service);
+  void RegisterActionsForContext(const AppCommandContext& context, IAppCommandService& service);
 
   /**
    * @brief Update enabled/disabled status of all actions.
