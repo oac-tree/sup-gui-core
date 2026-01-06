@@ -56,4 +56,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif
+#endif  // SUP_GUI_VIEWS_ANYVALUEEDITOR_SCALAR_QUICK_TOOLBAR_H_
