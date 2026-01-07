@@ -21,14 +21,16 @@
 #ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_SCALAR_QUICK_TOOLBAR_H_
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_SCALAR_QUICK_TOOLBAR_H_
 
-#include <QToolBar>
+#include <QWidget>
+
+class QLayout;
 
 namespace sup::gui
 {
 
 class AnyValueEditorActionHandler;
 
-class ScalarQuickToolbar : public QToolBar
+class ScalarQuickToolbar : public QWidget
 {
   Q_OBJECT
 
@@ -43,7 +45,7 @@ public:
   ScalarQuickToolbar& operator=(ScalarQuickToolbar&&) = delete;
 
 private:
-  void PopulateAddScalarButtons();
+  void PopulateAddScalarButtons(QLayout* layout);
   /**
    * @brief Inserts scalar of the given type.
    *
