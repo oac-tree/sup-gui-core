@@ -24,8 +24,6 @@
 #include <mvvm/widgets/appearance_helper.h>
 
 #include <QAction>
-#include <QApplication>
-#include <QPalette>
 #include <QStatusBar>
 #include <QToolButton>
 
@@ -56,13 +54,11 @@ void AddPermanentStretch(QStatusBar* status_bar, int stretch)
 void SetupStatusBarButton(QToolButton* button, QAction* action)
 {
   const int size = GetButtonSize();
-  const auto palette = QApplication::palette();
-  const auto background_color = palette.color(QPalette::Window);
 
   // set button appearance
   button->setText("");
   button->setToolButtonStyle(Qt::ToolButtonIconOnly);
-  button->setStyleSheet(mvvm::GetFlatButtonStyleString(background_color));
+  button->setStyleSheet(mvvm::GetStatusBarButtonStyleString());
   button->setFixedSize(GetButtonSize(), size);
   button->setIconSize(QSize(size, size));
 

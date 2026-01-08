@@ -31,7 +31,6 @@
 #include <QResource>
 #include <QSize>
 #include <QTreeView>
-#include <cmath>
 
 namespace sup::gui::utils
 {
