@@ -25,7 +25,6 @@
 namespace sup::gui
 {
 
-//! [1]
 FlowLayout::FlowLayout(QWidget* parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent), m_hSpace(hSpacing), m_vSpace(vSpacing)
 {
@@ -37,35 +36,30 @@ FlowLayout::FlowLayout(int margin, int hSpacing, int vSpacing)
 {
   setContentsMargins(margin, margin, margin, margin);
 }
-//! [1]
 
-//! [2]
 FlowLayout::~FlowLayout()
 {
-  QLayoutItem* item;
-  while ((item = takeAt(0)))
+  const QLayoutItem* item = takeAt(0);
+  while (item != nullptr)
+  {
     delete item;
+    item = takeAt(0);
+  }
 }
-//! [2]
 
-//! [3]
 void FlowLayout::addItem(QLayoutItem* item)
 {
-  itemList.append(item);
+  // ownership of item is transferred to the layout
+  m_item_list.append(item);
 }
-//! [3]
 
-//! [4]
 int FlowLayout::horizontalSpacing() const
 {
   if (m_hSpace >= 0)
   {
     return m_hSpace;
   }
-  else
-  {
-    return smartSpacing(QStyle::PM_LayoutHorizontalSpacing);
-  }
+  return smartSpacing(QStyle::PM_LayoutHorizontalSpacing);
 }
 
 int FlowLayout::verticalSpacing() const
@@ -74,40 +68,34 @@ int FlowLayout::verticalSpacing() const
   {
     return m_vSpace;
   }
-  else
-  {
-    return smartSpacing(QStyle::PM_LayoutVerticalSpacing);
-  }
+  return smartSpacing(QStyle::PM_LayoutVerticalSpacing);
 }
-//! [4]
 
-//! [5]
 int FlowLayout::count() const
 {
-  return itemList.size();
+  return static_cast<int>(m_item_list.size());
 }
 
 QLayoutItem* FlowLayout::itemAt(int index) const
 {
-  return itemList.value(index);
+  return m_item_list.value(index);
 }
 
 QLayoutItem* FlowLayout::takeAt(int index)
 {
-  if (index >= 0 && index < itemList.size())
-    return itemList.takeAt(index);
+  if (index >= 0 && index < m_item_list.size())
+  {
+    return m_item_list.takeAt(index);
+  }
+
   return nullptr;
 }
-//! [5]
 
-//! [6]
 Qt::Orientations FlowLayout::expandingDirections() const
 {
   return {};
 }
-//! [6]
 
-//! [7]
 bool FlowLayout::hasHeightForWidth() const
 {
   return true;
@@ -115,12 +103,10 @@ bool FlowLayout::hasHeightForWidth() const
 
 int FlowLayout::heightForWidth(int width) const
 {
-  int height = doLayout(QRect(0, 0, width, 0), true);
-  return height;
+  // To adjust to widgets of which height is dependent on width, we implement
+  return doLayout(QRect(0, 0, width, 0), true);
 }
-//! [7]
 
-//! [8]
 void FlowLayout::setGeometry(const QRect& rect)
 {
   QLayout::setGeometry(rect);
@@ -135,76 +121,85 @@ QSize FlowLayout::sizeHint() const
 QSize FlowLayout::minimumSize() const
 {
   QSize size;
-  for (const QLayoutItem* item : std::as_const(itemList))
+  for (const QLayoutItem* item : std::as_const(m_item_list))
+  {
     size = size.expandedTo(item->minimumSize());
+  }
 
   const QMargins margins = contentsMargins();
   size += QSize(margins.left() + margins.right(), margins.top() + margins.bottom());
   return size;
 }
-//! [8]
 
-//! [9]
-int FlowLayout::doLayout(const QRect& rect, bool testOnly) const
+int FlowLayout::doLayout(const QRect& rect, bool test_only) const
 {
-  int left, top, right, bottom;
-  getContentsMargins(&left, &top, &right, &bottom);
-  QRect effectiveRect = rect.adjusted(+left, +top, -right, -bottom);
-  int x = effectiveRect.x();
-  int y = effectiveRect.y();
-  int lineHeight = 0;
-  //! [9]
+  // handles the layout if horizontalSpacing() or verticalSpacing() don't return the default value.
+  int left{0};
+  int top{0};
+  int right{0};
+  int bottom{0};
 
-  //! [10]
-  for (QLayoutItem* item : std::as_const(itemList))
+  getContentsMargins(&left, &top, &right, &bottom);
+  const QRect effective_rect = rect.adjusted(+left, +top, -right, -bottom);
+  int x = effective_rect.x();
+  int y = effective_rect.y();
+  int lineHeight = 0;
+
+  for (QLayoutItem* item : std::as_const(m_item_list))
   {
     const QWidget* wid = item->widget();
     int spaceX = horizontalSpacing();
     if (spaceX == -1)
+    {
       spaceX = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton,
                                            Qt::Horizontal);
+    }
     int spaceY = verticalSpacing();
     if (spaceY == -1)
+    {
       spaceY = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton,
                                            Qt::Vertical);
-    //! [10]
-    //! [11]
+    }
+
+    //  sets the proper amount of spacing for each widget in the layout, based on the current style.
+    // The position of each item in the layout is then calculated by adding the items width and the
+    // line height to the initial x and y coordinates.
+
     int nextX = x + item->sizeHint().width() + spaceX;
-    if (nextX - spaceX > effectiveRect.right() && lineHeight > 0)
+    if (nextX - spaceX > effective_rect.right() && lineHeight > 0)
     {
-      x = effectiveRect.x();
+      x = effective_rect.x();
       y = y + lineHeight + spaceY;
       nextX = x + item->sizeHint().width() + spaceX;
       lineHeight = 0;
     }
 
-    if (!testOnly)
+    if (!test_only)
+    {
       item->setGeometry(QRect(QPoint(x, y), item->sizeHint()));
+    }
 
     x = nextX;
     lineHeight = qMax(lineHeight, item->sizeHint().height());
   }
   return y + lineHeight - rect.y() + bottom;
 }
-//! [11]
-//! [12]
+
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {
   QObject* parent = this->parent();
-  if (!parent)
+  if (parent == nullptr)
   {
     return -1;
   }
-  else if (parent->isWidgetType())
+
+  if (parent->isWidgetType())
   {
-    QWidget* pw = static_cast<QWidget*>(parent);
+    auto pw = dynamic_cast<QWidget*>(parent);
     return pw->style()->pixelMetric(pm, nullptr, pw);
   }
-  else
-  {
-    return static_cast<QLayout*>(parent)->spacing();
-  }
+
+  return dynamic_cast<QLayout*>(parent)->spacing();
 }
-//! [12]
 
 }  // namespace sup::gui

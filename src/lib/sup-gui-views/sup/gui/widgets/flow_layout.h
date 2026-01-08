@@ -39,14 +39,19 @@ class FlowLayout : public QLayout
 public:
   explicit FlowLayout(QWidget* parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
   explicit FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
-  ~FlowLayout();
+  ~FlowLayout() override;
+
+  FlowLayout(const FlowLayout&) = delete;
+  FlowLayout& operator=(const FlowLayout&) = delete;
+  FlowLayout(FlowLayout&&) = delete;
+  FlowLayout& operator=(FlowLayout&&) = delete;
 
   void addItem(QLayoutItem* item) override;
   int horizontalSpacing() const;
   int verticalSpacing() const;
   Qt::Orientations expandingDirections() const override;
   bool hasHeightForWidth() const override;
-  int heightForWidth(int) const override;
+  int heightForWidth(int width) const override;
   int count() const override;
   QLayoutItem* itemAt(int index) const override;
   QSize minimumSize() const override;
@@ -55,10 +60,10 @@ public:
   QLayoutItem* takeAt(int index) override;
 
 private:
-  int doLayout(const QRect& rect, bool testOnly) const;
+  int doLayout(const QRect& rect, bool test_only) const;
   int smartSpacing(QStyle::PixelMetric pm) const;
 
-  QList<QLayoutItem*> itemList;
+  QList<QLayoutItem*> m_item_list;
   int m_hSpace;
   int m_vSpace;
 };
