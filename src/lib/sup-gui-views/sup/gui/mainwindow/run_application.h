@@ -21,10 +21,6 @@
 #ifndef SUP_GUI_MAINWINDOW_RUN_APPLICATION_H_
 #define SUP_GUI_MAINWINDOW_RUN_APPLICATION_H_
 
-//! @file
-//! Collection of helper methods common for all sequencer main windows.
-
-#include <sup/gui/app/main_window_types.h>
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/mainwindow/anyvalue_editor_app_context.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
@@ -34,16 +30,15 @@
 #include <mvvm/widgets/app_utils.h>
 
 #include <QApplication>
-#include <QSettings>
 
 namespace sup::gui
 {
 
 /**
  * @brief Create QApplication and main window.
+ *
  * @tparam MainWindowT The type of main window to create.
  */
-
 template <typename MainWindowT>
 int RunApplication(int argc, char** argv)
 {

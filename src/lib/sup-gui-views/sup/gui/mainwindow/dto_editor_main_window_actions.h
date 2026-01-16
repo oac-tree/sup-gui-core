@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_MAINWINDOW_DTO_EDITOR_MAIN_WINDOW_ACTIONS_H_
 #define SUP_GUI_MAINWINDOW_DTO_EDITOR_MAIN_WINDOW_ACTIONS_H_
 
-#include <sup/gui/app/main_window_types.h>
+#include <mvvm/widgets/main_window_types.h>
 
 #include <QObject>
 #include <memory>
@@ -88,7 +88,7 @@ public:
   void SetupStatusBar(QStatusBar* status_bar);
 
 signals:
-  void RestartApplicationRequest(sup::gui::AppExitCode);
+  void RestartApplicationRequest(mvvm::AppExitRequest);
   void ProjectLoaded();
 
 private:

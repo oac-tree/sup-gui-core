@@ -36,6 +36,7 @@
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 
 #include <mvvm/widgets/main_vertical_bar_widget.h>
+#include <mvvm/widgets/app_restarter.h>
 
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -146,11 +147,12 @@ bool DtoEditorMainWindow::CanCloseApplication()
   return false;
 }
 
-void DtoEditorMainWindow::OnRestartRequest(AppExitCode exit_code)
+void DtoEditorMainWindow::OnRestartRequest(mvvm::AppExitRequest exit_request)
 {
   if (CanCloseApplication())
   {
-    QCoreApplication::exit(exit_code);
+    mvvm::AppRestarter::StoreExitRequest(exit_request);
+    close();
   }
 }
 

@@ -213,7 +213,7 @@ void DtoEditorMainWindowActions::OnChangeSystemFont()
 {
   if (SummonChangeSystemFontDialog())
   {
-    emit RestartApplicationRequest(Restart);
+    emit RestartApplicationRequest(mvvm::AppExitRequest::Restart);
   }
 }
 
@@ -234,7 +234,7 @@ void DtoEditorMainWindowActions::OnResetSettings()
 {
   if (ShouldResetSettingsAndRestart())
   {
-    emit RestartApplicationRequest(CleanSettingsAndRestart);
+    emit RestartApplicationRequest(mvvm::AppExitRequest::CleanSettingsAndRestart);
   }
 }
 
