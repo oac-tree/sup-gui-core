@@ -22,15 +22,13 @@
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/dto_editor_main_window.h>
 #include <sup/gui/mainwindow/run_application.h>
-#include <sup/gui/model/register_items.h>
 
 int main(int argc, char** argv)
 {
-  auto version = QString::fromStdString(sup::gui::ProjectVersion());
-  sup::gui::InitCoreApplication("sup-dto-editor", version);
+  sup::gui::RegisterCustomMetaTypes();  // before InitCoreApplication for QSettings
 
-  sup::gui::RegisterCustomMetaTypes();
-  sup::gui::RegisterSessionItems();
+  const auto version = QString::fromStdString(sup::gui::ProjectVersion());
+  sup::gui::InitCoreApplication("sup-dto-editor", version);
 
   return sup::gui::RunApplication<sup::gui::DtoEditorMainWindow>(argc, argv);
 }

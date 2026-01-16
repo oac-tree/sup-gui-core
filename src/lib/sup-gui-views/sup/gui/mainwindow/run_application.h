@@ -25,6 +25,7 @@
 #include <sup/gui/mainwindow/anyvalue_editor_app_context.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/anyvalueeditor/command_line_options.h>
+#include <sup/gui/model/register_items.h>
 
 #include <mvvm/widgets/app_restarter.h>
 #include <mvvm/widgets/app_utils.h>
@@ -43,6 +44,8 @@ template <typename MainWindowT>
 int RunApplication(int argc, char** argv)
 {
   mvvm::AppRestarter restarter(argc, argv);
+
+  sup::gui::RegisterSessionItems();
 
   auto options = ParseOptions(argc, argv);
   mvvm::utils::SetupHighDpiScaling(options.scale);
