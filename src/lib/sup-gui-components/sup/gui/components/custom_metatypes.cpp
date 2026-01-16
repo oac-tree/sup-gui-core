@@ -23,6 +23,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
+#include <mvvm/widgets/main_window_types.h>
 
 #include <QDataStream>
 #include <mutex>
@@ -39,6 +40,7 @@ void RegisterCustomMetaTypes()
     (void)qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
     (void)qRegisterMetaType<mvvm::PointItem*>("mvvm::PointItem*");
     (void)qRegisterMetaType<QList<int>>("QList<int>");
+    (void)qRegisterMetaType<mvvm::AppExitRequest>("mvvm::AppExitRequest");
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
