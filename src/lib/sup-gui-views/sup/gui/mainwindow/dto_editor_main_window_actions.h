@@ -88,7 +88,7 @@ public:
   void SetupStatusBar(QStatusBar* status_bar);
 
 signals:
-  void RestartApplicationRequest(mvvm::AppExitRequest);
+  void ExitRequest(mvvm::AppExitRequest exit_request);
   void ProjectLoaded();
 
 private:

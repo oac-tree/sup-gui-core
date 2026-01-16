@@ -80,11 +80,9 @@ private:
   bool CanCloseApplication();
 
   /**
-   * @brief Check if the application can be restarted and exit the application with the given code.
-   *
-   * The code will be used to start the application again from the main.
+   * @brief Handle application exit request.
    */
-  void OnRestartRequest(mvvm::AppExitRequest exit_request);
+  void OnExitRequest(mvvm::AppExitRequest exit_request);
 
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.

@@ -39,7 +39,6 @@
 #include <mvvm/widgets/app_restarter.h>
 
 #include <QCloseEvent>
-#include <QCoreApplication>
 #include <QMenuBar>
 #include <QSettings>
 
@@ -109,8 +108,8 @@ void DtoEditorMainWindow::InitComponents()
 
   setCentralWidget(m_tab_widget);
 
-  connect(m_action_manager, &DtoEditorMainWindowActions::RestartApplicationRequest, this,
-          &DtoEditorMainWindow::OnRestartRequest);
+  connect(m_action_manager, &DtoEditorMainWindowActions::ExitRequest, this,
+          &DtoEditorMainWindow::OnExitRequest);
   connect(m_action_manager, &DtoEditorMainWindowActions::ProjectLoaded, this,
           &DtoEditorMainWindow::OnProjectLoad);
 
@@ -147,7 +146,7 @@ bool DtoEditorMainWindow::CanCloseApplication()
   return false;
 }
 
-void DtoEditorMainWindow::OnRestartRequest(mvvm::AppExitRequest exit_request)
+void DtoEditorMainWindow::OnExitRequest(mvvm::AppExitRequest exit_request)
 {
   if (CanCloseApplication())
   {
