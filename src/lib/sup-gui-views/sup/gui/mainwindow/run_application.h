@@ -30,6 +30,7 @@
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
+#include <mvvm/widgets/app_restarter.h>
 #include <mvvm/widgets/app_utils.h>
 
 #include <QApplication>
@@ -46,39 +47,24 @@ namespace sup::gui
 template <typename MainWindowT>
 int RunApplication(int argc, char** argv)
 {
+  mvvm::AppRestarter restarter(argc, argv);
+
   auto options = ParseOptions(argc, argv);
   mvvm::utils::SetupHighDpiScaling(options.scale);
 
-  QApplication app(argc, argv);
-
-  const auto default_font = app.font();
+  const QApplication app(argc, argv);
 
   SetupApplication(options.system_font_psize, options.style, options.info);
 
-  int exit_code{0};
-
-  do
+  AnyValueEditorAppContext context;
+  MainWindowT win(context);
+  if (options.window_size.has_value())
   {
-    if (exit_code == CleanSettingsAndRestart)
-    {
-      QSettings settings;
-      settings.clear();
-      QApplication::setFont(default_font);
-    }
+    win.resize(options.window_size.value());
+  }
+  win.show();
 
-    AnyValueEditorAppContext context;
-    MainWindowT win(context);
-
-    if (options.window_size.has_value())
-    {
-      win.resize(options.window_size.value());
-    }
-    win.show();
-
-    exit_code = app.exec();
-  } while (exit_code != NormalExit);
-
-  return exit_code;
+  return restarter.HandleExit(app.exec());
 }
 
 }  // namespace sup::gui

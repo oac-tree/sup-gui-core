@@ -227,7 +227,7 @@ void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 {
   if (SummonChangeSystemFontDialog())
   {
-    emit RestartApplicationRequest(Restart);
+    emit RestartApplicationRequest(mvvm::AppExitRequest::Restart);
   }
 }
 
@@ -248,7 +248,7 @@ void AnyValueEditorMainWindowActions::OnResetSettings()
 {
   if (ShouldResetSettingsAndRestart())
   {
-    emit RestartApplicationRequest(CleanSettingsAndRestart);
+    emit RestartApplicationRequest(mvvm::AppExitRequest::CleanSettingsAndRestart);
   }
 }
 

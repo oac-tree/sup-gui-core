@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_MAINWINDOW_ANYVALUE_EDITOR_MAIN_WINDOW_H_
 #define SUP_GUI_MAINWINDOW_ANYVALUE_EDITOR_MAIN_WINDOW_H_
 
-#include <sup/gui/app/main_window_types.h>
+#include <mvvm/widgets/main_window_types.h>
 
 #include <QMainWindow>
 
@@ -80,7 +80,7 @@ private:
    *
    * The code will be used to start the application again from the main.
    */
-  void OnRestartRequest(AppExitCode exit_code);
+  void OnRestartRequest(mvvm::AppExitRequest exit_request);
 
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.

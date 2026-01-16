@@ -33,6 +33,7 @@
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/widgets/app_restarter.h>
 
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -134,11 +135,12 @@ bool AnyValueEditorMainWindow::CanCloseApplication()
   return false;
 }
 
-void AnyValueEditorMainWindow::OnRestartRequest(AppExitCode exit_code)
+void AnyValueEditorMainWindow::OnRestartRequest(mvvm::AppExitRequest exit_request)
 {
   if (CanCloseApplication())
   {
-    QCoreApplication::exit(exit_code);
+    mvvm::AppRestarter::StoreExitRequest(exit_request);
+    close();
   }
 }
 
