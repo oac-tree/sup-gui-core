@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_SETTINGS_MODEL_H_
-#define SUP_GUI_MODEL_SETTINGS_MODEL_H_
+#ifndef SUP_GUI_MODEL_PERSISTENT_SETTINGS_MODEL_H_
+#define SUP_GUI_MODEL_PERSISTENT_SETTINGS_MODEL_H_
 
 #include <sup/gui/model/settings_constants.h>
 #include <sup/gui/model/settings_item.h>
@@ -30,15 +30,18 @@ namespace sup::gui
 {
 
 /**
- * @brief Contains common application settings.
+ * @brief Contains application settings common across sessions.
  *
- * It provides a collection of editable setting items, which is written in persistent storage thanks
+ * These settings can be: flags denoting whether undo/redo is enabled, lists of plugins to load,
+ * etc.
+ *
+ * The model contains various editable setting items, which are written in persistent storage thanks
  * to QSettings machinery.
  */
-class SettingsModel : public mvvm::ApplicationModel
+class PersistentSettingsModel : public mvvm::ApplicationModel
 {
 public:
-  SettingsModel();
+  PersistentSettingsModel();
 
   std::unique_ptr<ISessionModel> Clone() const override;
 
@@ -60,7 +63,7 @@ private:
 };
 
 template <typename T>
-inline T SettingsModel::Data(const std::string& setting_name) const
+inline T PersistentSettingsModel::Data(const std::string& setting_name) const
 {
   // for the moment we assume that there is only one settings item, might change in the future
   return GetSettingsItems().at(0)->Property<T>(setting_name);
@@ -68,4 +71,4 @@ inline T SettingsModel::Data(const std::string& setting_name) const
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_MODEL_SETTINGS_MODEL_H_
+#endif  // SUP_GUI_MODEL_PERSISTENT_SETTINGS_MODEL_H_

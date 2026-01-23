@@ -20,7 +20,7 @@
 
 #include "settings_helper.h"
 
-#include <sup/gui/model/settings_model.h>
+#include <sup/gui/model/persistent_settings_model.h>
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>

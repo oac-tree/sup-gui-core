@@ -38,7 +38,7 @@ namespace sup::gui
 class AnyValueEditorWidget;
 class AnyValueEditorMainWindowActions;
 class AnyValueEditorProject;
-class SettingsModel;
+class PersistentSettingsModel;
 class AnyValueEditorAppContext;
 
 /**
@@ -93,7 +93,7 @@ private:
   std::unique_ptr<AnyValueEditorProject> CreateProject();
 
   AnyValueEditorAppContext& m_context;
-  std::unique_ptr<SettingsModel> m_settings;
+  std::unique_ptr<PersistentSettingsModel> m_settings;
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   AnyValueEditorWidget* m_anyvalue_editor{nullptr};

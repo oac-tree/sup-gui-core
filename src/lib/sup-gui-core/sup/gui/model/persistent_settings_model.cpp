@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "settings_model.h"
+#include "persistent_settings_model.h"
 
 #include "settings_item.h"
 
@@ -27,28 +27,28 @@
 namespace sup::gui
 {
 
-SettingsModel::SettingsModel() : ApplicationModel("SettingsModel")
+PersistentSettingsModel::PersistentSettingsModel() : ApplicationModel("PersistentSettingsModel")
 {
   PopulateModel();
 }
 
-std::unique_ptr<mvvm::ISessionModel> SettingsModel::Clone() const
+std::unique_ptr<mvvm::ISessionModel> PersistentSettingsModel::Clone() const
 {
-  return std::make_unique<SettingsModel>(*this);
+  return std::make_unique<PersistentSettingsModel>(*this);
 }
 
-void SettingsModel::Clear()
+void PersistentSettingsModel::Clear()
 {
   mvvm::ApplicationModel::Clear();
   PopulateModel();
 }
 
-std::vector<mvvm::CompoundItem*> SettingsModel::GetSettingsItems() const
+std::vector<mvvm::CompoundItem*> PersistentSettingsModel::GetSettingsItems() const
 {
   return mvvm::utils::GetTopItems<mvvm::CompoundItem>(*this);
 }
 
-void SettingsModel::PopulateModel()
+void PersistentSettingsModel::PopulateModel()
 {
   (void)InsertItem<CommonSettingsItem>();
 }

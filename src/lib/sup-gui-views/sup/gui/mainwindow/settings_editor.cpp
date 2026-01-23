@@ -24,7 +24,7 @@
 #include "settings_helper.h"
 #include "stacked_widget_provider.h"
 
-#include <sup/gui/model/settings_model.h>
+#include <sup/gui/model/persistent_settings_model.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/model_utils.h>

@@ -21,8 +21,8 @@ target_sources(${library_name} PRIVATE
   settings_constants.h
   settings_item.cpp
   settings_item.h
-  settings_model.cpp
-  settings_model.h
+  persistent_settings_model.cpp
+  persistent_settings_model.h
   sup_dto_model.cpp
   sup_dto_model.h
   waveform_model.cpp

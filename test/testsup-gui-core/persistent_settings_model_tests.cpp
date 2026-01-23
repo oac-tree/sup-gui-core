@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/model/settings_model.h"
+#include "sup/gui/model/persistent_settings_model.h"
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
@@ -27,15 +27,15 @@ namespace sup::gui::test
 {
 
 /**
- * @brief Tests for SettingsModel class.
+ * @brief Tests for PersistentSettingsModel class.
  */
-class SettingsModelTest : public ::testing::Test
+class PersistentSettingsModelTest : public ::testing::Test
 {
 };
 
-TEST_F(SettingsModelTest, InitialState)
+TEST_F(PersistentSettingsModelTest, InitialState)
 {
-  const SettingsModel model;
+  const PersistentSettingsModel model;
 
   EXPECT_EQ(model.GetSettingsItems().size(), 1);
 
@@ -43,9 +43,9 @@ TEST_F(SettingsModelTest, InitialState)
   EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
 }
 
-TEST_F(SettingsModelTest, Clear)
+TEST_F(PersistentSettingsModelTest, Clear)
 {
-  SettingsModel model;
+  PersistentSettingsModel model;
 
   model.GetSettingsItems().at(0)->SetProperty(constants::kUndoLimitSetting, 42);
   EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), 42);
@@ -57,9 +57,9 @@ TEST_F(SettingsModelTest, Clear)
   EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
 }
 
-TEST_F(SettingsModelTest, AutoDisableSettings)
+TEST_F(PersistentSettingsModelTest, AutoDisableSettings)
 {
-  const SettingsModel model;
+  const PersistentSettingsModel model;
 
   auto common_settings = model.GetSettingsItems().at(0);
   ASSERT_EQ(model.GetSettingsItems().size(), 1);
@@ -74,12 +74,12 @@ TEST_F(SettingsModelTest, AutoDisableSettings)
   EXPECT_FALSE(common_settings->GetItem(constants::kUndoLimitSetting)->IsEnabled());
 }
 
-TEST_F(SettingsModelTest, Clone)
+TEST_F(PersistentSettingsModelTest, Clone)
 {
-  const SettingsModel model;
+  const PersistentSettingsModel model;
 
   auto clone = model.Clone();
-  auto cloned_model = dynamic_cast<SettingsModel*>(clone.get());
+  auto cloned_model = dynamic_cast<PersistentSettingsModel*>(clone.get());
   ASSERT_NE(cloned_model, nullptr);
   EXPECT_EQ(cloned_model->GetSettingsItems().size(), 1);
   EXPECT_EQ(cloned_model->Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);

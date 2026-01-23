@@ -28,8 +28,8 @@
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/model/persistent_settings_model.h>
 #include <sup/gui/model/settings_constants.h>
-#include <sup/gui/model/settings_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 
 #include <mvvm/model/application_model.h>
@@ -60,7 +60,9 @@ QString GetWindowPosSettingName()
 }  // namespace
 
 AnyValueEditorMainWindow::AnyValueEditorMainWindow(AnyValueEditorAppContext& context)
-    : m_context(context), m_settings(std::make_unique<SettingsModel>()), m_project(CreateProject())
+    : m_context(context)
+    , m_settings(std::make_unique<PersistentSettingsModel>())
+    , m_project(CreateProject())
 {
   InitApplication();
 

@@ -27,16 +27,16 @@
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
+#include <sup/gui/model/persistent_settings_model.h>
 #include <sup/gui/model/settings_constants.h>
-#include <sup/gui/model/settings_model.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 
-#include <mvvm/widgets/main_vertical_bar_widget.h>
 #include <mvvm/widgets/app_restarter.h>
+#include <mvvm/widgets/main_vertical_bar_widget.h>
 
 #include <QCloseEvent>
 #include <QMenuBar>
@@ -53,7 +53,9 @@ namespace sup::gui
 {
 
 DtoEditorMainWindow::DtoEditorMainWindow(AnyValueEditorAppContext& context)
-    : m_context(context), m_settings(std::make_unique<SettingsModel>()), m_project(CreateProject())
+    : m_context(context)
+    , m_settings(std::make_unique<PersistentSettingsModel>())
+    , m_project(CreateProject())
 {
   InitApplication();
 
