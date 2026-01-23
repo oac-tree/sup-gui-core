@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/model/settings_item.h"
+#include "sup/gui/model/common_settings_item.h"
 
 #include <sup/gui/model/settings_constants.h>
 
@@ -31,13 +31,13 @@ namespace sup::gui::test
 {
 
 /**
- * @brief Tests for items defined settings
+ * @brief Tests for CommonSettingsItem class.
  */
-class SettingsItemTest : public testing::Test
+class CommonSettingsItemTest : public testing::Test
 {
 };
 
-TEST_F(SettingsItemTest, CommonSettingsItem)
+TEST_F(CommonSettingsItemTest, CommonSettingsItem)
 {
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<CommonSettingsItem>());
 
@@ -49,7 +49,7 @@ TEST_F(SettingsItemTest, CommonSettingsItem)
 
 //! We validate that changing a boolean stored in "Enable undo/redo" setting will
 //! automatically mark "Undo limit" setting as disabled.
-TEST_F(SettingsItemTest, DataStrategy)
+TEST_F(CommonSettingsItemTest, DataStrategy)
 {
   const CommonSettingsItem item;
 
@@ -63,7 +63,7 @@ TEST_F(SettingsItemTest, DataStrategy)
   EXPECT_FALSE(item.GetItem(constants::kUndoLimitSetting)->IsEnabled());
 }
 
-TEST_F(SettingsItemTest, CloneItem)
+TEST_F(CommonSettingsItemTest, CloneItem)
 {
   const CommonSettingsItem item;
 

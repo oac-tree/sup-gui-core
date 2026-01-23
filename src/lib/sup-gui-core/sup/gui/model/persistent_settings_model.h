@@ -22,7 +22,7 @@
 #define SUP_GUI_MODEL_PERSISTENT_SETTINGS_MODEL_H_
 
 #include <sup/gui/model/settings_constants.h>
-#include <sup/gui/model/settings_item.h>
+#include <sup/gui/model/common_settings_item.h>
 
 #include <mvvm/model/application_model.h>
 
@@ -30,7 +30,7 @@ namespace sup::gui
 {
 
 /**
- * @brief Contains application settings common across sessions.
+ * @brief Contains editable application settings common across sessions.
  *
  * These settings can be: flags denoting whether undo/redo is enabled, lists of plugins to load,
  * etc.

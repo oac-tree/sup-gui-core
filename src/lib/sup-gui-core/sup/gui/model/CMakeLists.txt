@@ -19,8 +19,8 @@ target_sources(${library_name} PRIVATE
   scalartype_property_item.cpp
   scalartype_property_item.h
   settings_constants.h
-  settings_item.cpp
-  settings_item.h
+  common_settings_item.cpp
+  common_settings_item.h
   persistent_settings_model.cpp
   persistent_settings_model.h
   sup_dto_model.cpp

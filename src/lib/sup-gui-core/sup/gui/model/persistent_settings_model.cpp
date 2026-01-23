@@ -20,7 +20,7 @@
 
 #include "persistent_settings_model.h"
 
-#include "settings_item.h"
+#include "common_settings_item.h"
 
 #include <mvvm/model/model_utils.h>
 

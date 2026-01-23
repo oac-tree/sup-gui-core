@@ -18,23 +18,19 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_SETTINGS_ITEM_H_
-#define SUP_GUI_MODEL_SETTINGS_ITEM_H_
+#ifndef SUP_GUI_MODEL_COMMON_SETTINGS_ITEM_H_
+#define SUP_GUI_MODEL_COMMON_SETTINGS_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
-
-namespace mvvm
-{
-class PropertyChangedEvent;
-}
 
 namespace sup::gui
 {
 
 /**
- * @brief The CommonSettingsItem class represents a group of individual application settings.
+ * @brief The CommonSettingsItem class represents a group of common, editable, persistent
+ * application settings.
  *
- * It's a compound item, where each property corresponds to an individual application settings.
+ * These settings (i.e. undo/redo) are expected to appear in every our GUI.
  */
 class CommonSettingsItem : public mvvm::CompoundItem
 {
@@ -69,4 +65,4 @@ struct item_traits<sup::gui::CommonSettingsItem>
 
 }  // namespace mvvm
 
-#endif  // SUP_GUI_MODEL_SETTINGS_ITEM_H_
+#endif  // SUP_GUI_MODEL_COMMON_SETTINGS_ITEM_H_

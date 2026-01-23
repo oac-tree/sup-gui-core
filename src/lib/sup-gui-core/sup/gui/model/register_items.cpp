@@ -22,7 +22,7 @@
 
 #include "anyvalue_item.h"
 #include "scalartype_property_item.h"
-#include "settings_item.h"
+#include "common_settings_item.h"
 
 #include <mvvm/model/item_factory.h>
 
@@ -31,10 +31,10 @@ namespace sup::gui
 
 void RegisterSessionItems()
 {
+  (void)mvvm::RegisterGlobalItem<AnyValueArrayItem>();
   (void)mvvm::RegisterGlobalItem<AnyValueEmptyItem>();
   (void)mvvm::RegisterGlobalItem<AnyValueScalarItem>();
   (void)mvvm::RegisterGlobalItem<AnyValueStructItem>();
-  (void)mvvm::RegisterGlobalItem<AnyValueArrayItem>();
   (void)mvvm::RegisterGlobalItem<CommonSettingsItem>();
   (void)mvvm::RegisterGlobalItem<ScalarTypePropertyItem>();
 }

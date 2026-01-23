@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "settings_item.h"
+#include "common_settings_item.h"
 
 #include "settings_constants.h"
 
