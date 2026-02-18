@@ -118,11 +118,6 @@ bool ShouldResetSettingsAndRestart();
  */
 bool SummonChangeSystemFontDialog();
 
-/**
- * @brief Checks if we are without monitor (i.e. Jenkins on CODAC)
- */
-bool IsHeadlessMode();
-
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_MAINWINDOW_MAIN_WINDOW_HELPER_H_

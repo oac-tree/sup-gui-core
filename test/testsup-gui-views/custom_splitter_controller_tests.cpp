@@ -22,10 +22,11 @@
 
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
-#include <sup/gui/mainwindow/main_window_helper.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <mvvm/core/platform.h>
 
 #include <QSplitter>
 #include <QTest>
@@ -102,7 +103,7 @@ TEST_F(CustomSplitterControllerTest, AttemptToWriteSettingsWhenNoGroupIsDefined)
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 {
-  if (IsHeadlessMode())
+  if (mvvm::IsHeadless())
   {
     GTEST_SKIP();
   }
@@ -139,7 +140,7 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgetsWhenOneIsHidden)
 {
-  if (IsHeadlessMode())
+  if (mvvm::IsHeadless())
   {
     GTEST_SKIP();
   }
@@ -223,7 +224,7 @@ TEST_F(CustomSplitterControllerTest, AttemptToReadSettingsWhenNoGroupIsDefined)
 //! large and vice versa.
 TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
 {
-  if (IsHeadlessMode())
+  if (mvvm::IsHeadless())
   {
     GTEST_SKIP();
   }
