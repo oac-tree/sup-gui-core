@@ -20,6 +20,7 @@
 
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/model/register_items.h>
+#include <mvvm/core/platform.h>
 
 #include <gtest/gtest.h>
 
@@ -32,7 +33,8 @@ int main(int argc, char** argv)
   sup::gui::RegisterCustomMetaTypes();
   sup::gui::RegisterSessionItems();
 
-  QApplication app(argc, argv);
+  mvvm::SetHeadless();
+  const QApplication app(argc, argv);
   Q_UNUSED(app)
 
   // run all google tests

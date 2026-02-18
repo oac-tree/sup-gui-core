@@ -52,7 +52,6 @@ add_custom_target(sup-gui-core-testall
 
 file(WRITE ${TEST_OUTPUT_DIRECTORY}/test.sh
 "#!/bin/bash
-export QT_QPA_PLATFORM=offscreen
 fail=0
 " ${TEST_OUTPUT_DIRECTORY}/testsup-gui-core " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-gui-components " || fail=1
