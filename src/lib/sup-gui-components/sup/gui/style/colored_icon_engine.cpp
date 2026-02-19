@@ -62,37 +62,47 @@ ColoredIconEngine::ColoredIconEngine(const QIcon& icon)
 void ColoredIconEngine::paint(QPainter* painter, const QRect& rect, QIcon::Mode mode,
                               QIcon::State state)
 {
-  painter->save();
-  painter->setRenderHint(QPainter::Antialiasing);
-
   if (m_icon.isNull())
   {
-    painter->setCompositionMode(QPainter::CompositionMode_Clear);
-    painter->eraseRect(rect);
     return;
   }
 
-  painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
-  painter->drawPixmap(rect, pixmap(rect.size(), mode, state));
-  painter->restore();
+  const qreal dpr = painter->device() ? painter->device()->devicePixelRatioF() : 1.0;
+  const QSize pixmapSize(qRound(rect.width() * dpr), qRound(rect.height() * dpr));
+
+  QPixmap pix(pixmapSize);
+  pix.setDevicePixelRatio(dpr);
+  pix.fill(Qt::transparent);
+
+  // Paint the source icon at full device resolution, preserving SVG vector quality
+  QPainter pixPainter(&pix);
+  m_icon.paint(&pixPainter, QRect(QPoint(0, 0), rect.size()), Qt::AlignCenter, mode, state);
+
+  // Apply color tint: keeps alpha from icon, uses RGB from our color
+  pixPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+  pixPainter.fillRect(QRect(QPoint(0, 0), rect.size()), m_color_map.value({mode, state}));
+  pixPainter.end();
+
+  painter->drawPixmap(rect.topLeft(), pix);
 }
 
 QPixmap ColoredIconEngine::pixmap(const QSize& size, QIcon::Mode mode, QIcon::State state)
 {
-  // TODO: Implement QPixmap caching to mitigate the performance impact
-
   if (m_icon.isNull())
   {
     return QPixmap();
   }
 
-  QPixmap pix{size};
+  const qreal dpr = qApp->devicePixelRatio();
+  const QSize pixmapSize(qRound(size.width() * dpr), qRound(size.height() * dpr));
+
+  QPixmap pix(pixmapSize);
+  pix.setDevicePixelRatio(dpr);
   pix.fill(Qt::transparent);
 
-  QRect rect{{}, size};
+  QRect rect(QPoint(0, 0), size);
   QPainter painter(&pix);
-  painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-  painter.drawPixmap(rect, m_icon.pixmap(size, mode, state));
+  m_icon.paint(&painter, rect, Qt::AlignCenter, mode, state);
   painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
   painter.fillRect(rect, m_color_map.value({mode, state}));
 
