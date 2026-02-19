@@ -62,6 +62,9 @@ ColoredIconEngine::ColoredIconEngine(const QIcon& icon)
 void ColoredIconEngine::paint(QPainter* painter, const QRect& rect, QIcon::Mode mode,
                               QIcon::State state)
 {
+  painter->save();
+  painter->setRenderHint(QPainter::Antialiasing);
+
   if (m_icon.isNull())
   {
     painter->setCompositionMode(QPainter::CompositionMode_Clear);
@@ -69,8 +72,9 @@ void ColoredIconEngine::paint(QPainter* painter, const QRect& rect, QIcon::Mode 
     return;
   }
 
-  painter->setCompositionMode(QPainter::CompositionMode_Source);
+  painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
   painter->drawPixmap(rect, pixmap(rect.size(), mode, state));
+  painter->restore();
 }
 
 QPixmap ColoredIconEngine::pixmap(const QSize& size, QIcon::Mode mode, QIcon::State state)

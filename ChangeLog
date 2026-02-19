@@ -1,5 +1,6 @@
 Changes for 2.2.0:
 
+- Fix color engine for svg icon rendering when embedded in QTreeView
 - Switch to a new "application restarter" machinery in AnyValue and SupDto editors.
 
 Changes for 2.1.0:
