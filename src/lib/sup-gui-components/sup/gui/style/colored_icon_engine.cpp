@@ -62,35 +62,14 @@ ColoredIconEngine::ColoredIconEngine(const QIcon& icon)
 void ColoredIconEngine::paint(QPainter* painter, const QRect& rect, QIcon::Mode mode,
                               QIcon::State state)
 {
-  if (m_icon.isNull())
-  {
-    return;
-  }
-
-  const qreal dpr = painter->device() ? painter->device()->devicePixelRatioF() : 1.0;
-  const QSize pixmapSize(qRound(rect.width() * dpr), qRound(rect.height() * dpr));
-
-  QPixmap pix(pixmapSize);
-  pix.setDevicePixelRatio(dpr);
-  pix.fill(Qt::transparent);
-
-  // Paint the source icon at full device resolution, preserving SVG vector quality
-  QPainter pixPainter(&pix);
-  m_icon.paint(&pixPainter, QRect(QPoint(0, 0), rect.size()), Qt::AlignCenter, mode, state);
-
-  // Apply color tint: keeps alpha from icon, uses RGB from our color
-  pixPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-  pixPainter.fillRect(QRect(QPoint(0, 0), rect.size()), m_color_map.value({mode, state}));
-  pixPainter.end();
-
-  painter->drawPixmap(rect.topLeft(), pix);
+  painter->drawPixmap(rect.topLeft(), pixmap(rect.size(), mode, state));
 }
 
 QPixmap ColoredIconEngine::pixmap(const QSize& size, QIcon::Mode mode, QIcon::State state)
 {
   if (m_icon.isNull())
   {
-    return QPixmap();
+    return {};
   }
 
   const qreal dpr = qApp->devicePixelRatio();
@@ -100,9 +79,11 @@ QPixmap ColoredIconEngine::pixmap(const QSize& size, QIcon::Mode mode, QIcon::St
   pix.setDevicePixelRatio(dpr);
   pix.fill(Qt::transparent);
 
-  QRect rect(QPoint(0, 0), size);
+  const QRect rect(QPoint(0, 0), size);
   QPainter painter(&pix);
   m_icon.paint(&painter, rect, Qt::AlignCenter, mode, state);
+
+  // Apply color tint: keeps alpha from icon, uses RGB from our color
   painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
   painter.fillRect(rect, m_color_map.value({mode, state}));
 
