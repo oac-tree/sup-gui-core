@@ -23,10 +23,10 @@
 #include <sup/gui/components/custom_metatypes.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
-#include <QDebug>
 #include <QEvent>
 #include <QSplitter>
 #include <cstdint>
+#include <iostream>
 
 namespace sup::gui
 {
@@ -55,8 +55,8 @@ void ApplyChildrenVisibilityFlags(const QList<std::int32_t>& flags, QSplitter* s
 {
   if (flags.size() != splitter->count())
   {
-    qInfo() << "Flags stored in persistent storage doesn't match number of widgets "
-               "populating the splitter";
+    std::cerr << "Flags stored in persistent storage doesn't match number of widgets "
+                 "populating the splitter";
     return;
   }
 
