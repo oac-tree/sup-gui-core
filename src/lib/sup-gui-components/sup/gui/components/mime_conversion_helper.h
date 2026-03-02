@@ -66,6 +66,9 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(
 /**
  * @brief Creates mime data to copy given list of items.
  *
+ * This functions packs given list of items into a single mime data. It is expected that items are
+ * not in parent-child relationship, otherwise the resulting mime data will contain duplicates.
+ *
  * @param item Items to copy.
  * @param mime_format String representing format.
  * @param filter_func Predicate to filter out some children.

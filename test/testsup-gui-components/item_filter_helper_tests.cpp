@@ -24,6 +24,7 @@
 
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/model/session_model.h>
 
 #include <gtest/gtest.h>
@@ -57,8 +58,8 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionTwoItems)
 TEST_F(ItemFilterHelperTest, GetTopLevelSelectionTwoItemsWithChildren)
 {
   mvvm::SessionModel model;
-  auto item0 = model.InsertItem<mvvm::PropertyItem>();
-  auto item1 = model.InsertItem<mvvm::PropertyItem>();
+  auto item0 = model.InsertItem<mvvm::VectorItem>();
+  auto item1 = model.InsertItem<mvvm::VectorItem>();
   const std::vector<mvvm::SessionItem*> expected({item0, item1});
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
@@ -73,6 +74,19 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueStructWithChildren)
 
   const std::vector<mvvm::SessionItem*> selection({struct0, scalar1, scalar2});
   const std::vector<mvvm::SessionItem*> expected({struct0});
+  EXPECT_EQ(GetTopLevelSelection(selection), expected);
+}
+
+TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueStructWhenChildrenSelected)
+{
+  mvvm::SessionModel model;
+
+  auto struct0 = model.InsertItem<AnyValueStructItem>();
+  auto scalar1 = model.InsertItem<AnyValueScalarItem>(struct0);
+  auto scalar2 = model.InsertItem<AnyValueScalarItem>(struct0);
+
+  const std::vector<mvvm::SessionItem*> selection({scalar1, scalar2});
+  const std::vector<mvvm::SessionItem*> expected({scalar1, scalar2});
   EXPECT_EQ(GetTopLevelSelection(selection), expected);
 }
 

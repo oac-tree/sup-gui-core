@@ -40,7 +40,16 @@ namespace sup::gui
  * The method is used in the copy-and-paste scenario when a large tree is partly copied while only
  * some children and parents are selected.
  *
- * Example:
+ * Example #0:
+ *
+ * parent0
+ *   child0
+ *   child1
+ *
+ * a) For the list of items selection [parent0, child0, child1] the result will be [parent0].
+ * b) For the list of items selection [child0, child1] the result will be [child0, child1].
+ *
+ * Example #1:
  *
  * parent0
  *   child0   <-selected
