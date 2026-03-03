@@ -242,4 +242,23 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionIdentifierToMimeData)
   EXPECT_EQ(identifiers.at(1), parent1->GetIdentifier());
 }
 
+TEST_F(MimeConversionHelperTests, CreateItemSelectionIdentifierToMimeData)
+{
+  constexpr auto kMimeType = "kMimeType";
+  mvvm::SessionModel model;
+
+  auto parent0 = model.InsertItem<AnyValueStructItem>();
+  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto parent1 = model.InsertItem<AnyValueStructItem>();
+
+  auto data = CreateItemSelectionIdentifierMimeData({parent0, child0, parent1}, kMimeType);
+  EXPECT_TRUE(data->hasFormat(kMimeType));
+
+  auto identifiers = GetStringListFromMime(*data, kMimeType);
+  ASSERT_EQ(identifiers.size(), 2);
+  EXPECT_EQ(identifiers.at(0), parent0->GetIdentifier());
+  EXPECT_EQ(identifiers.at(1), parent1->GetIdentifier());
+}
+
 }  // namespace sup::gui::test

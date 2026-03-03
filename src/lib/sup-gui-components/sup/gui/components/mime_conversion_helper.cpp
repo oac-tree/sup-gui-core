@@ -150,7 +150,7 @@ std::unique_ptr<QMimeData> CreateItemSelectionIdentifierMimeData(
     const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format)
 {
   auto result = std::make_unique<QMimeData>();
-  AddItemSelectionCopyToMimeData(items, mime_format, *result);
+  AddItemSelectionIdentifierToMimeData(items, mime_format, *result);
   return result;
 }
 
