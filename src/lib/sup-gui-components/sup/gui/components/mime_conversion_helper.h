@@ -50,7 +50,7 @@ constexpr auto kCopyAnyValueMimeType = "application/coa.sequencer.anyvalue.copy"
  * @param mime_data The mime data.
  * @param mime_format Expected format in mime data.
  */
-std::string GetSessionItemType(const QMimeData* mime_data, const QString& mime_format);
+std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_format);
 
 /**
  * @brief Creates mime data to copy given item.
@@ -84,7 +84,7 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(
  * @param mime_format String representing format.
  * @return New item.
  */
-std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
+std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData& mime_data,
                                                      const QString& mime_format);
 
 /**
@@ -96,7 +96,7 @@ std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
  * @param mime_format String representing format.
  * @return Item list.
  */
-std::vector<std::unique_ptr<mvvm::SessionItem>> CreateSessionItems(const QMimeData* mime_data,
+std::vector<std::unique_ptr<mvvm::SessionItem>> CreateSessionItems(const QMimeData &mime_data,
                                                                    const QString& mime_format);
 
 /**

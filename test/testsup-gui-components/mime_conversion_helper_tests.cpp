@@ -54,23 +54,19 @@ TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 
     auto mime_data = CreateCopyMimeData(items, kCopyAnyValueMimeType);
     // current implementation returns type of the first element only
-    EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item1.GetType());
+    EXPECT_EQ(GetSessionItemType(*mime_data, kCopyAnyValueMimeType), item1.GetType());
   }
-
-  EXPECT_TRUE(GetSessionItemType(nullptr, QString()).empty());
 
   const AnyValueStructItem item;
   auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
-  EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
+  EXPECT_EQ(GetSessionItemType(*mime_data, kCopyAnyValueMimeType), item.GetType());
 }
 
 TEST_F(MimeConversionHelperTests, GetSessionItemType)
 {
-  EXPECT_TRUE(GetSessionItemType(nullptr, QString()).empty());
-
   const AnyValueStructItem item;
   auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
-  EXPECT_EQ(GetSessionItemType(mime_data.get(), kCopyAnyValueMimeType), item.GetType());
+  EXPECT_EQ(GetSessionItemType(*mime_data, kCopyAnyValueMimeType), item.GetType());
 }
 
 TEST_F(MimeConversionHelperTests, CreatePropertyFromMime)
@@ -79,7 +75,7 @@ TEST_F(MimeConversionHelperTests, CreatePropertyFromMime)
   {
     // wrong mime type
     const QMimeData data;
-    auto item = CreateSessionItem(&data, mime_type);
+    auto item = CreateSessionItem(data, mime_type);
     EXPECT_EQ(item.get(), nullptr);
   }
 
@@ -92,7 +88,7 @@ TEST_F(MimeConversionHelperTests, CreatePropertyFromMime)
     auto data = CreateCopyMimeData(item, mime_type);
     EXPECT_TRUE(data->hasFormat(mime_type));
 
-    auto reconstructed_item = CreateSessionItem(data.get(), mime_type);
+    auto reconstructed_item = CreateSessionItem(*data, mime_type);
     EXPECT_EQ(reconstructed_item->GetDisplayName(), expected_name);
 
     auto reconstructed_property = dynamic_cast<mvvm::PropertyItem*>(reconstructed_item.get());
@@ -117,7 +113,7 @@ TEST_F(MimeConversionHelperTests, CreateTwoItemsFromMime)
   auto data = CreateCopyMimeData({&property, &compound}, mime_type);
   EXPECT_TRUE(data->hasFormat(mime_type));
 
-  auto reconstructed_items = CreateSessionItems(data.get(), mime_type);
+  auto reconstructed_items = CreateSessionItems(*data, mime_type);
   ASSERT_EQ(reconstructed_items.size(), 2);
 
   auto reconstructed_property = reconstructed_items.at(0).get();
@@ -152,7 +148,7 @@ TEST_F(MimeConversionHelperTests, CopyAndPasteWithFiltering)
 
   auto data = CreateCopyMimeData(compound, mime_type, item_accept_func);
 
-  auto reconstructed_items = CreateSessionItems(data.get(), mime_type);
+  auto reconstructed_items = CreateSessionItems(*data, mime_type);
   ASSERT_EQ(reconstructed_items.size(), 1);
 
   auto reconstructed_compound = reconstructed_items.at(0).get();
@@ -175,7 +171,7 @@ TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
   auto data = CreateItemSelectionCopyMimeData({parent0, child0, parent1}, kCopyAnyValueMimeType);
   EXPECT_TRUE(data->hasFormat(kCopyAnyValueMimeType));
 
-  auto reconstructed_items = CreateSessionItems(data.get(), kCopyAnyValueMimeType);
+  auto reconstructed_items = CreateSessionItems(*data, kCopyAnyValueMimeType);
   ASSERT_EQ(reconstructed_items.size(), 2);
 
   auto anyvalue_items =
@@ -207,7 +203,7 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
   AddItemSelectionCopyToMimeData({parent0, child0, parent1}, kMimeType, data);
   EXPECT_TRUE(data.hasFormat(kMimeType));
 
-  auto reconstructed_items = CreateSessionItems(&data, kMimeType);
+  auto reconstructed_items = CreateSessionItems(data, kMimeType);
   ASSERT_EQ(reconstructed_items.size(), 2);
 
   auto anyvalue_items =

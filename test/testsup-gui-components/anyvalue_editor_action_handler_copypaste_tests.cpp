@@ -320,7 +320,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);
   EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kCopyAnyValueMimeType));
   auto removed_field =
-      CreateSessionItem(m_mock_context.GetClipboardContent(), kCopyAnyValueMimeType);
+      CreateSessionItem(*m_mock_context.GetClipboardContent(), kCopyAnyValueMimeType);
   EXPECT_EQ(removed_field->GetDisplayName(), std::string("field0"));
 }
 

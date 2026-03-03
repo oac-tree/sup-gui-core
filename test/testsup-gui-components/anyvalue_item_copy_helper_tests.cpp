@@ -73,7 +73,7 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
 
     const auto mime_data = CreateAnyValueItemSelectionCopyMimeData(selection);
 
-    auto reconstructed_items = CreateAnyValueItems(mime_data.get());
+    auto reconstructed_items = CreateAnyValueItems(*mime_data);
     auto reconstructed_anyvalues = GetItemsPtr(reconstructed_items);
 
     ASSERT_EQ(reconstructed_anyvalues.size(), 2);
@@ -89,7 +89,7 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
 
     const auto mime_data = CreateAnyValueItemSelectionCopyMimeData(selection);
 
-    auto reconstructed_items = CreateAnyValueItems(mime_data.get());
+    auto reconstructed_items = CreateAnyValueItems(*mime_data);
     auto reconstructed_anyvalues = GetItemsPtr(reconstructed_items);
 
     ASSERT_EQ(reconstructed_anyvalues.size(), 1);

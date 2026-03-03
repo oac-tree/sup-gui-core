@@ -252,8 +252,12 @@ void AnyValueEditorActionHandler::Copy()
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
 {
-  auto query = CanInsertTypeAfterCurrentSelection(
-      GetSessionItemType(GetClipboardContent(), kCopyAnyValueMimeType));
+  auto mime = GetClipboardContent();
+  if (!mime)
+  {
+    return false;
+  }
+  auto query = CanInsertTypeAfterCurrentSelection(GetSessionItemType(*mime, kCopyAnyValueMimeType));
   return query.IsSuccess();
 }
 
@@ -264,13 +268,18 @@ void AnyValueEditorActionHandler::PasteAfter()
     return;
   }
 
-  InsertAfterCurrentSelection(CreateAnyValueItems(GetClipboardContent()));
+  InsertAfterCurrentSelection(CreateAnyValueItems(*GetClipboardContent()));
 }
 
 bool AnyValueEditorActionHandler::CanPasteInto() const
 {
-  auto query = CanInsertTypeIntoCurrentSelection(
-      GetSessionItemType(GetClipboardContent(), kCopyAnyValueMimeType));
+  auto mime = GetClipboardContent();
+  if (!mime)
+  {
+    return false;
+  }
+
+  auto query = CanInsertTypeIntoCurrentSelection(GetSessionItemType(*mime, kCopyAnyValueMimeType));
   return query.IsSuccess();
 }
 
@@ -281,7 +290,7 @@ void AnyValueEditorActionHandler::PasteInto()
     return;
   }
 
-  InsertIntoCurrentSelection(CreateAnyValueItems(GetClipboardContent()));
+  InsertIntoCurrentSelection(CreateAnyValueItems(*GetClipboardContent()));
 }
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)

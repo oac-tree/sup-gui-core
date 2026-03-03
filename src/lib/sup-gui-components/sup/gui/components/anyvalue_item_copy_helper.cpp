@@ -52,7 +52,7 @@ std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
   return CreateCopyMimeData(top_level_selection, kCopyAnyValueMimeType, filter_func);
 }
 
-std::vector<std::unique_ptr<mvvm::SessionItem> > CreateAnyValueItems(const QMimeData* mime_data)
+std::vector<std::unique_ptr<mvvm::SessionItem> > CreateAnyValueItems(const QMimeData& mime_data)
 {
   return CreateSessionItems(mime_data, kCopyAnyValueMimeType);
 }
