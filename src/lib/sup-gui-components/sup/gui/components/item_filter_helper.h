@@ -63,7 +63,8 @@ namespace sup::gui
  * For the list of items selection [child0, parent1, child1, parent2, child3, parent3] the result
  * will be [parent1, parent2, parent3].
  */
-std::vector<mvvm::SessionItem*> GetTopLevelSelection(const std::vector<mvvm::SessionItem*>& items);
+std::vector<const mvvm::SessionItem*> GetTopLevelSelection(
+    const std::vector<const mvvm::SessionItem*>& items);
 
 /**
  * @brief Returns the list of items which are located on the bottom level.
@@ -85,8 +86,8 @@ std::vector<mvvm::SessionItem*> GetTopLevelSelection(const std::vector<mvvm::Ses
  * For the list of items selection [child0, parent1, child1, parent2, child3, parent3] the result
  * will be [child0, child1, child3].
  */
-std::vector<mvvm::SessionItem*> GetBottomLevelSelection(
-    const std::vector<mvvm::SessionItem*>& items);
+std::vector<const mvvm::SessionItem*> GetBottomLevelSelection(
+    const std::vector<const mvvm::SessionItem*>& items);
 
 /**
  * @brief Removes all children from the given list.
@@ -99,7 +100,8 @@ std::vector<mvvm::SessionItem*> GetBottomLevelSelection(
  * @param items Mixture of parents and their children.
  * @return List of parent items.
  */
-std::vector<mvvm::SessionItem*> FilterOutChildren(const std::vector<mvvm::SessionItem*>& items);
+std::vector<const mvvm::SessionItem*> FilterOutChildren(
+    const std::vector<const mvvm::SessionItem*>& items);
 
 }  // namespace sup::gui
 

@@ -38,11 +38,11 @@ class ItemFilterHelperTest : public ::testing::Test
 
 TEST_F(ItemFilterHelperTest, GetTopLevelSelection)
 {
-  EXPECT_TRUE(GetTopLevelSelection(std::vector<mvvm::SessionItem*>()).empty());
+  EXPECT_TRUE(GetTopLevelSelection(std::vector<const mvvm::SessionItem*>()).empty());
 
   // item without parent
-  mvvm::SessionItem item;
-  const std::vector<mvvm::SessionItem*> expected({&item});
+  const mvvm::SessionItem item;
+  const std::vector<const mvvm::SessionItem*> expected({&item});
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
 
@@ -51,7 +51,7 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionTwoItems)
   mvvm::SessionModel model;
   auto item0 = model.InsertItem<mvvm::PropertyItem>();
   auto item1 = model.InsertItem<mvvm::PropertyItem>();
-  const std::vector<mvvm::SessionItem*> expected({item0, item1});
+  const std::vector<const mvvm::SessionItem*> expected({item0, item1});
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
 
@@ -60,7 +60,7 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionTwoItemsWithChildren)
   mvvm::SessionModel model;
   auto item0 = model.InsertItem<mvvm::VectorItem>();
   auto item1 = model.InsertItem<mvvm::VectorItem>();
-  const std::vector<mvvm::SessionItem*> expected({item0, item1});
+  const std::vector<const mvvm::SessionItem*> expected({item0, item1});
   EXPECT_EQ(GetTopLevelSelection(expected), expected);
 }
 
@@ -72,8 +72,8 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueStructWithChildren)
   auto scalar1 = model.InsertItem<AnyValueScalarItem>(struct0);
   auto scalar2 = model.InsertItem<AnyValueScalarItem>(struct0);
 
-  const std::vector<mvvm::SessionItem*> selection({struct0, scalar1, scalar2});
-  const std::vector<mvvm::SessionItem*> expected({struct0});
+  const std::vector<const mvvm::SessionItem*> selection({struct0, scalar1, scalar2});
+  const std::vector<const mvvm::SessionItem*> expected({struct0});
   EXPECT_EQ(GetTopLevelSelection(selection), expected);
 }
 
@@ -85,8 +85,8 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueStructWhenChildrenSelec
   auto scalar1 = model.InsertItem<AnyValueScalarItem>(struct0);
   auto scalar2 = model.InsertItem<AnyValueScalarItem>(struct0);
 
-  const std::vector<mvvm::SessionItem*> selection({scalar1, scalar2});
-  const std::vector<mvvm::SessionItem*> expected({scalar1, scalar2});
+  const std::vector<const mvvm::SessionItem*> selection({scalar1, scalar2});
+  const std::vector<const mvvm::SessionItem*> expected({scalar1, scalar2});
   EXPECT_EQ(GetTopLevelSelection(selection), expected);
 }
 
@@ -109,18 +109,18 @@ TEST_F(ItemFilterHelperTest, GetTopLevelSelectionAnyValueTwoStructWithChildren)
   auto parent3 = model.InsertItem<AnyValueStructItem>();
 
   {  // top level selection
-    const std::vector<mvvm::SessionItem*> selection(
+    const std::vector<const mvvm::SessionItem*> selection(
         {child0, parent1, child1, parent2, child3, parent3});
 
-    const std::vector<mvvm::SessionItem*> expected_top({parent1, parent2, parent3});
+    const std::vector<const mvvm::SessionItem*> expected_top({parent1, parent2, parent3});
     EXPECT_EQ(GetTopLevelSelection(selection), expected_top);
   }
 
   {  // bottom level selection
-    const std::vector<mvvm::SessionItem*> selection(
+    const std::vector<const mvvm::SessionItem*> selection(
         {child0, parent1, child1, child2, parent2, child3, parent3});
 
-    const std::vector<mvvm::SessionItem*> expected_bottom({child0, child1, child2, child3});
+    const std::vector<const mvvm::SessionItem*> expected_bottom({child0, child1, child2, child3});
     EXPECT_EQ(GetBottomLevelSelection(selection), expected_bottom);
   }
 }
@@ -142,32 +142,32 @@ TEST_F(ItemFilterHelperTest, FilterOutChildren)
   auto parent3 = model.InsertItem<AnyValueStructItem>();
 
   {
-    const std::vector<mvvm::SessionItem*> selection;
+    const std::vector<const mvvm::SessionItem*> selection;
     EXPECT_TRUE(FilterOutChildren(selection).empty());
   }
 
   {
-    const std::vector<mvvm::SessionItem*> selection({child0});
-    const std::vector<mvvm::SessionItem*> expected({child0});
+    const std::vector<const mvvm::SessionItem*> selection({child0});
+    const std::vector<const mvvm::SessionItem*> expected({child0});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 
   {
-    const std::vector<mvvm::SessionItem*> selection({child0, parent0});
-    const std::vector<mvvm::SessionItem*> expected({parent0});
+    const std::vector<const mvvm::SessionItem*> selection({child0, parent0});
+    const std::vector<const mvvm::SessionItem*> expected({parent0});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 
   {
-    const std::vector<mvvm::SessionItem*> selection({parent0, child0});
-    const std::vector<mvvm::SessionItem*> expected({parent0});
+    const std::vector<const mvvm::SessionItem*> selection({parent0, child0});
+    const std::vector<const mvvm::SessionItem*> expected({parent0});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 
   {
-    const std::vector<mvvm::SessionItem*> selection(
+    const std::vector<const mvvm::SessionItem*> selection(
         {child0, parent1, child1, parent2, child3, parent3});
-    const std::vector<mvvm::SessionItem*> expected({child0, parent1, parent2, parent3});
+    const std::vector<const mvvm::SessionItem*> expected({child0, parent1, parent2, parent3});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 }

@@ -101,8 +101,7 @@ void AddItemSelectionCopyToMimeData(const std::vector<const mvvm::SessionItem*>&
                                     const QString& mime_format, QMimeData& mime_data)
 {
   // clean up selection from items which are in parent-child relationship to avoid duplicates
-  auto top_level_selection =
-      GetTopLevelSelection(mvvm::utils::RemoveConst<mvvm::SessionItem>(items));
+  auto top_level_selection = GetTopLevelSelection(items);
 
   // no further filtering
   auto copy_data = CreateCopyMimeData(mvvm::utils::MakeConst(top_level_selection), mime_format, {});
@@ -135,8 +134,7 @@ std::vector<std::string> GetStringListFromMime(const QMimeData& mime_data, const
 void AddItemSelectionIdentifierToMimeData(const std::vector<const mvvm::SessionItem*>& items,
                                           const QString& mime_format, QMimeData& mime_data)
 {
-  const auto top_level_selection =
-      GetTopLevelSelection(mvvm::utils::RemoveConst<mvvm::SessionItem>(items));
+  const auto top_level_selection = GetTopLevelSelection(items);
 
   QStringList identifiers;
   identifiers.reserve(static_cast<qsizetype>(items.size()));

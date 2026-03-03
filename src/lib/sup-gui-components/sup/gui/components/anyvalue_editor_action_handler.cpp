@@ -136,12 +136,12 @@ void AnyValueEditorActionHandler::RemoveSelected()
 
   // remove children from the selection list to avoid double delete
   mvvm::SessionItem* next_to_select{nullptr};
-  auto selected = mvvm::utils::CastItems<mvvm::SessionItem>(GetSelectedItems());
+  auto selected = mvvm::utils::CastItems<const mvvm::SessionItem>(GetSelectedItems());
   for (auto item : FilterOutChildren(selected))
   {
-    next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
+    next_to_select = mvvm::utils::FindNextSiblingToSelect(const_cast<mvvm::SessionItem*>(item));
     auto parent = item->GetParent();
-    GetModel()->RemoveItem(item);
+    GetModel()->RemoveItem(const_cast<mvvm::SessionItem*>(item));
     UpdateArrayElementNames(*parent);
   }
 
@@ -164,8 +164,8 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
 
   auto anyvalue = AnyValueFromJSONFile(file_name);
   auto item = CreateAnyValueItem(anyvalue);
-  const auto error_code = mvvm::utils::GetInsertItemErrorCode(*item, *GetParentToInsert(),
-                                                              mvvm::TagIndex::Append());
+  const auto error_code =
+      mvvm::utils::GetInsertItemErrorCode(*item, *GetParentToInsert(), mvvm::TagIndex::Append());
   if (error_code)
   {
     SendMessage(error_code.message());
