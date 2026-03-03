@@ -22,7 +22,11 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 
+#include <mvvm/core/variant.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/session_model.h>
+
+#include <sup/dto/anyvalue.h>
 
 #include <gtest/gtest.h>
 
@@ -126,7 +130,7 @@ TEST_F(MimeConversionHelperTests, CreateTwoItemsFromMime)
   EXPECT_EQ(reconstructed_compound->GetType(), mvvm::GetTypeName<mvvm::CompoundItem>());
 }
 
-TEST_F(MimeConversionHelperTests, CoopyAndPasteWithFiltering)
+TEST_F(MimeConversionHelperTests, CopyAndPasteWithFiltering)
 {
   const QString mime_type = "application.coa.tests";
   const std::string expected_name1("abc");
@@ -155,6 +159,63 @@ TEST_F(MimeConversionHelperTests, CoopyAndPasteWithFiltering)
   EXPECT_EQ(reconstructed_compound->GetItemCount("defaultTag"), 1);
   EXPECT_EQ(reconstructed_compound->GetItem("defaultTag")->GetDisplayName(),
             std::string("child_name1"));
+}
+
+TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
+{
+  mvvm::SessionModel model;
+
+  auto parent0 = model.InsertItem<AnyValueStructItem>();
+  parent0->SetAnyTypeName("abc");
+  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto parent1 = model.InsertItem<AnyValueStructItem>();
+  parent1->SetAnyTypeName("def");
+
+  auto data = CreateItemSelectionCopyMimeData({parent0, child0, parent1}, kCopyAnyValueMimeType);
+  EXPECT_TRUE(data->hasFormat(kCopyAnyValueMimeType));
+
+  auto reconstructed_items = CreateSessionItems(data.get(), kCopyAnyValueMimeType);
+  ASSERT_EQ(reconstructed_items.size(), 2);
+
+  auto anyvalue_items =
+      mvvm::utils::CastItems<AnyValueItem>(mvvm::utils::GetVectorOfPtrs(reconstructed_items));
+  ASSERT_EQ(anyvalue_items.size(), 2);
+  EXPECT_EQ(anyvalue_items.at(0)->GetAnyTypeName(), std::string("abc"));
+  EXPECT_EQ(anyvalue_items.at(0)->GetChildrenCount(), 2);
+  EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(0)->GetDisplayName(), std::string("field0"));
+  EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(1)->GetDisplayName(), std::string("field1"));
+  EXPECT_EQ(anyvalue_items.at(1)->GetAnyTypeName(), std::string("def"));
+}
+
+TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
+{
+  mvvm::SessionModel model;
+
+  auto parent0 = model.InsertItem<AnyValueStructItem>();
+  parent0->SetAnyTypeName("abc");
+  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto parent1 = model.InsertItem<AnyValueStructItem>();
+  parent1->SetAnyTypeName("def");
+
+  QMimeData data;
+  EXPECT_FALSE(data.hasFormat(kCopyAnyValueMimeType));
+
+  AddItemSelectionCopyToMimeData({parent0, child0, parent1}, kCopyAnyValueMimeType, data);
+  EXPECT_TRUE(data.hasFormat(kCopyAnyValueMimeType));
+
+  auto reconstructed_items = CreateSessionItems(&data, kCopyAnyValueMimeType);
+  ASSERT_EQ(reconstructed_items.size(), 2);
+
+  auto anyvalue_items =
+      mvvm::utils::CastItems<AnyValueItem>(mvvm::utils::GetVectorOfPtrs(reconstructed_items));
+  ASSERT_EQ(anyvalue_items.size(), 2);
+  EXPECT_EQ(anyvalue_items.at(0)->GetAnyTypeName(), std::string("abc"));
+  EXPECT_EQ(anyvalue_items.at(0)->GetChildrenCount(), 2);
+  EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(0)->GetDisplayName(), std::string("field0"));
+  EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(1)->GetDisplayName(), std::string("field1"));
+  EXPECT_EQ(anyvalue_items.at(1)->GetAnyTypeName(), std::string("def"));
 }
 
 }  // namespace sup::gui::test

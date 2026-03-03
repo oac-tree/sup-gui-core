@@ -99,6 +99,36 @@ std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData* mime_data,
 std::vector<std::unique_ptr<mvvm::SessionItem>> CreateSessionItems(const QMimeData* mime_data,
                                                                    const QString& mime_format);
 
+/**
+ * @brief Creates mime data to copy given list of items.
+ *
+ * If parent is selected, all its children will be also copied. The item list will be first filtered
+ * to exclude children, if their parents are already present in the list to avoid duplicates.
+ *
+ * The method is used in copy-and-paste, and drag-and-drop scenario, when the user manually picks
+ * parent and child items from a large tree.
+ *
+ * @param item Items to copy.
+ * @param mime_format String representing format.
+ *
+ * @see GetTopLevelSelection()
+ */
+std::unique_ptr<QMimeData> CreateItemSelectionCopyMimeData(
+    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format);
+
+/**
+ * @brief Adds item selection to the given mime data.
+ *
+ * @param items Items to copy.
+ * @param mime_format String representing format.
+ * @param mime_data Mime data to add information to.
+ *
+ * @see CreateItemSelectionCopyMimeData()
+ */
+void AddItemSelectionCopyToMimeData(const std::vector<const mvvm::SessionItem*>& items,
+                                    const QString& mime_format, QMimeData& mime_data);
+
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_MIME_CONVERSION_HELPER_H_

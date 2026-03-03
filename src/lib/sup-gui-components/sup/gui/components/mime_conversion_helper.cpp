@@ -20,6 +20,8 @@
 
 #include "mime_conversion_helper.h"
 
+#include "item_filter_helper.h"
+
 #include <mvvm/model/item_utils.h>
 #include <mvvm/providers/qtcore_helper.h>
 
@@ -93,6 +95,28 @@ std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItems(const QMimeD
   }
 
   return result;
+}
+
+std::unique_ptr<QMimeData> CreateItemSelectionCopyMimeData(
+    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format)
+{
+  // clean up selection from items which are in parent-child relationship to avoid duplicates
+  auto top_level_selection =
+      GetTopLevelSelection(mvvm::utils::RemoveConst<mvvm::SessionItem>(items));
+
+  // no further filtering
+  return CreateCopyMimeData(mvvm::utils::MakeConst(top_level_selection), mime_format, {});
+}
+
+void AddItemSelectionCopyToMimeData(const std::vector<const mvvm::SessionItem*>& items,
+                                    const QString& mime_format, QMimeData& mime_data)
+{
+  auto copy_data = CreateItemSelectionCopyMimeData(items, mime_format);
+  if (copy_data)
+  {
+    mime_data.setData(mime_format, copy_data->data(mime_format));
+    mime_data.setText(copy_data->text());
+  }
 }
 
 }  // namespace sup::gui
