@@ -128,6 +128,37 @@ std::unique_ptr<QMimeData> CreateItemSelectionCopyMimeData(
 void AddItemSelectionCopyToMimeData(const std::vector<const mvvm::SessionItem*>& items,
                                     const QString& mime_format, QMimeData& mime_data);
 
+/**
+ * @brief Returns vector of strings from the given mime data.
+ *
+ * @param mime_data Mime data carrying the list of strings.
+ * @param mime_type Expected mime type of the data.
+ */
+std::vector<std::string> GetStringListFromMime(const QMimeData& mime_data,
+                                               const QString& mime_type);
+
+/**
+ * @brief Adds the list of item's identifiers to mime data.
+ *
+ * The item list will be first filtered to exclude children, if their parents are already present in
+ * the list to avoid duplicates.
+ *
+ * The method is used in the context of internal tree move, when the user manually picks parent and
+ * child items and moves them in another place
+ *
+ * @param item Items to copy.
+ * @param mime_format String representing format.
+ */
+void AddItemSelectionIdentifierToMimeData(const std::vector<const mvvm::SessionItem*>& items,
+                                          const QString& mime_format, QMimeData& mime_data);
+
+/**
+ * @brief Creates mime data containing the list of item's identifiers.
+ *
+ * @see AddItemSelectionIdentifierToMimeData()
+ */
+std::unique_ptr<QMimeData> CreateItemSelectionIdentifierMimeData(
+    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format);
 
 }  // namespace sup::gui
 

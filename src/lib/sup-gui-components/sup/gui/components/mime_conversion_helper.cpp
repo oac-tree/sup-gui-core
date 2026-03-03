@@ -119,4 +119,38 @@ void AddItemSelectionCopyToMimeData(const std::vector<const mvvm::SessionItem*>&
   }
 }
 
+std::vector<std::string> GetStringListFromMime(const QMimeData& mime_data, const QString& mime_type)
+{
+  if (!mime_data.hasFormat(mime_type))
+  {
+    return {};
+  }
+  const auto string_list = mvvm::utils::GetStringList(mime_data.data(mime_type));
+  return mvvm::utils::GetStdStringVector(string_list);
+}
+
+void AddItemSelectionIdentifierToMimeData(const std::vector<const mvvm::SessionItem*>& items,
+                                          const QString& mime_format, QMimeData& mime_data)
+{
+  const auto top_level_selection =
+      GetTopLevelSelection(mvvm::utils::RemoveConst<mvvm::SessionItem>(items));
+
+  QStringList identifiers;
+  identifiers.reserve(static_cast<qsizetype>(items.size()));
+  for (const auto& item : top_level_selection)
+  {
+    identifiers.push_back(QString::fromStdString(item->GetIdentifier()));
+  }
+
+  mime_data.setData(mime_format, mvvm::utils::GetByteArray(identifiers));
+}
+
+std::unique_ptr<QMimeData> CreateItemSelectionIdentifierMimeData(
+    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format)
+{
+  auto result = std::make_unique<QMimeData>();
+  AddItemSelectionCopyToMimeData(items, mime_format, *result);
+  return result;
+}
+
 }  // namespace sup::gui

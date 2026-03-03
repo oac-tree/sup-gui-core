@@ -190,6 +190,8 @@ TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
 
 TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
 {
+  constexpr auto kMimeType = "kMimeType";
+
   mvvm::SessionModel model;
 
   auto parent0 = model.InsertItem<AnyValueStructItem>();
@@ -200,12 +202,12 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
   parent1->SetAnyTypeName("def");
 
   QMimeData data;
-  EXPECT_FALSE(data.hasFormat(kCopyAnyValueMimeType));
+  EXPECT_FALSE(data.hasFormat(kMimeType));
 
-  AddItemSelectionCopyToMimeData({parent0, child0, parent1}, kCopyAnyValueMimeType, data);
-  EXPECT_TRUE(data.hasFormat(kCopyAnyValueMimeType));
+  AddItemSelectionCopyToMimeData({parent0, child0, parent1}, kMimeType, data);
+  EXPECT_TRUE(data.hasFormat(kMimeType));
 
-  auto reconstructed_items = CreateSessionItems(&data, kCopyAnyValueMimeType);
+  auto reconstructed_items = CreateSessionItems(&data, kMimeType);
   ASSERT_EQ(reconstructed_items.size(), 2);
 
   auto anyvalue_items =
@@ -216,6 +218,28 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
   EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(0)->GetDisplayName(), std::string("field0"));
   EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(1)->GetDisplayName(), std::string("field1"));
   EXPECT_EQ(anyvalue_items.at(1)->GetAnyTypeName(), std::string("def"));
+}
+
+TEST_F(MimeConversionHelperTests, AddItemSelectionIdentifierToMimeData)
+{
+  constexpr auto kMimeType = "kMimeType";
+  mvvm::SessionModel model;
+
+  auto parent0 = model.InsertItem<AnyValueStructItem>();
+  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto parent1 = model.InsertItem<AnyValueStructItem>();
+
+  QMimeData data;
+  EXPECT_FALSE(data.hasFormat(kMimeType));
+
+  AddItemSelectionIdentifierToMimeData({parent0, child0, parent1}, kMimeType, data);
+  EXPECT_TRUE(data.hasFormat(kMimeType));
+
+  auto identifiers = GetStringListFromMime(data, kMimeType);
+  ASSERT_EQ(identifiers.size(), 2);
+  EXPECT_EQ(identifiers.at(0), parent0->GetIdentifier());
+  EXPECT_EQ(identifiers.at(1), parent1->GetIdentifier());
 }
 
 }  // namespace sup::gui::test
