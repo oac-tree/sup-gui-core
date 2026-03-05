@@ -25,6 +25,7 @@
 
 #include <mvvm/editors/allint_spinbox_editor.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/test/test_helper.h>
@@ -98,7 +99,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   EXPECT_EQ(proxymodel->data(item_value_index, Qt::DisplayRole).toInt(), 42);
 
   // making item selected
-  provider.SetSelectedItem(item);
+  provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelectedItem(), item);
   EXPECT_EQ(provider.GetSelectedItems(),
             std::vector<mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
@@ -143,7 +144,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   EXPECT_EQ(proxymodel->data(item_value_index, Qt::DisplayRole).toInt(), 42);
 
   // making item selected
-  provider.SetSelectedItem(item);
+  provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelectedItem(), item);
   EXPECT_EQ(provider.GetSelectedItems(),
             std::vector<mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));

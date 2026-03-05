@@ -23,6 +23,7 @@
 #include <sup/gui/views/waveformeditor/waveform_table_component_provider.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
@@ -95,7 +96,7 @@ void WaveformTableWidget::SetSelectedPoint(const mvvm::PointItem* item)
   if (!points.empty())
   {
     auto x_cell = points.at(0);
-    m_component_provider->SetSelectedItem(x_cell);
+    m_component_provider->SetSelection(mvvm::ItemSelection(x_cell));
 
     // make sure cell is visible
     auto indexes = m_component_provider->GetViewIndexes(x_cell);

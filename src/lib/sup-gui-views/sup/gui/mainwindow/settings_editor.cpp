@@ -27,6 +27,7 @@
 #include <sup/gui/model/persistent_settings_model.h>
 
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
@@ -94,7 +95,8 @@ void SettingsEditor::SetInitialValues(const mvvm::ISessionModel& model)
   m_working_settings_copy = model.Clone();
 
   m_list_component_provider->SetApplicationModel(m_working_settings_copy.get());
-  m_list_component_provider->SetSelectedItem(mvvm::utils::GetTopItem(*m_working_settings_copy));
+  auto top_item = mvvm::utils::GetTopItem(*m_working_settings_copy);
+  m_list_component_provider->SetSelection(mvvm::ItemSelection(top_item));
 }
 
 }  // namespace sup::gui

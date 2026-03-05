@@ -25,6 +25,7 @@
 #include <sup/gui/views/dtoeditor/dto_waveform_actions.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 
+#include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/line_series_item.h>
@@ -81,7 +82,7 @@ mvvm::LineSeriesItem* DtoWaveformListPanel::GetSelectedWaveform()
 
 void DtoWaveformListPanel::SetSelectedWaveform(mvvm::LineSeriesItem* waveform)
 {
-  m_component_provider->SetSelectedItem(waveform);
+  m_component_provider->SetSelection(mvvm::ItemSelection(waveform));
 }
 
 DtoWaveformEditorContext DtoWaveformListPanel::CreateContext()

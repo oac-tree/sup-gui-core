@@ -24,6 +24,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
+#include <mvvm/model/item_selection.h>
 
 #include <QLineEdit>
 #include <QSettings>
@@ -89,7 +90,7 @@ std::vector<AnyValueItem*> AnyValueEditorTreePanel::GetSelectedItems() const
 
 void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem* item)
 {
-  m_component_provider->SetSelectedItem(item);
+  m_component_provider->SetSelection(mvvm::ItemSelection(item));
   auto indices_of_inserted = m_component_provider->GetViewIndexes(item);
   if (!indices_of_inserted.empty())
   {

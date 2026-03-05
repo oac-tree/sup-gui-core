@@ -22,6 +22,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/point_item.h>
 
@@ -143,7 +144,7 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   auto y_item = points.at(1)->GetItem(mvvm::constants::kY);
 
   // selecting middle x-cell
-  provider.SetSelectedItem(x_item);
+  provider.SetSelection(mvvm::ItemSelection(x_item));
 
   // should lead to the selection of the whole volumn
   EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({x_item, y_item}));

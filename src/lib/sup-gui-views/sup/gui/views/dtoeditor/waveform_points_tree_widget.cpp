@@ -20,6 +20,7 @@
 
 #include "waveform_points_tree_widget.h"
 
+#include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
@@ -64,7 +65,7 @@ void WaveformPointsTreeWidget::SetLineSeriesItem(mvvm::LineSeriesItem* line_seri
 
 void WaveformPointsTreeWidget::SetPointSelected(mvvm::PointItem* item)
 {
-  m_component_provider->SetSelectedItem(item);
+  m_component_provider->SetSelection(mvvm::ItemSelection(item));
 }
 
 }  // namespace sup::gui
