@@ -23,6 +23,7 @@
 #include <sup/gui/component_objects/waveform_twocolumn_viewmodel.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/session_item.h>
 
 #include <QTableView>
@@ -41,7 +42,7 @@ WaveformTableComponentProvider::WaveformTableComponentProvider(mvvm::Application
 
 std::int32_t WaveformTableComponentProvider::GetSelectedPointIndex() const
 {
-  auto item = GetSelectedItem();
+  auto item = GetSelection().GetSelectedItem();
   // returning parent's index
   return (item != nullptr) ? static_cast<std::int32_t>(item->GetParent()->GetTagIndex().GetIndex())
                            : -1;

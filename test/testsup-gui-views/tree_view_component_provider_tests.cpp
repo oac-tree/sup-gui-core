@@ -61,8 +61,7 @@ TEST_F(TreeViewComponentProviderTests, InitialState)
   EXPECT_NE(provider.GetViewModel(), nullptr);
   EXPECT_NE(provider.GetLastProxyModel(), nullptr);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
-  EXPECT_TRUE(provider.GetSelectedItems().empty());
+  EXPECT_TRUE(provider.GetSelection().IsEmpty());
 
   ASSERT_NE(dynamic_cast<mvvm::FilterNameViewModel*>(m_tree.model()), nullptr);
   EXPECT_EQ(provider.GetLastProxyModel(), m_tree.model());
@@ -84,7 +83,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   auto proxymodel = provider.GetLastProxyModel();
 
   // no item is selected
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
+  EXPECT_TRUE(provider.GetSelection().IsEmpty());
 
   // check if we can get back to item using visible indices
   auto item_displayname_index = proxymodel->index(0, 0);
@@ -100,7 +99,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
 
   // making item selected
   provider.SetSelection(mvvm::ItemSelection(item));
-  EXPECT_EQ(provider.GetSelectedItem(), item);
+  EXPECT_EQ(provider.GetSelection().GetSelectedItem(), item);
   EXPECT_EQ(provider.GetSelectedItems(),
             std::vector<mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
 
@@ -145,9 +144,10 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
 
   // making item selected
   provider.SetSelection(mvvm::ItemSelection(item));
-  EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(),
-            std::vector<mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
+  EXPECT_EQ(provider.GetSelection().GetSelectedItem(), item);
+  EXPECT_EQ(
+      provider.GetSelection().GetSelectedItems(),
+      std::vector<const mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
 }
 
 //! Testing how struct looks like with two children, one filtered out

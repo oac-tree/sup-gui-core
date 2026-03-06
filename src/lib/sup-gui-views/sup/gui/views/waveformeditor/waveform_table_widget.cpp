@@ -79,7 +79,8 @@ void WaveformTableWidget::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_it
 
 mvvm::PointItem* WaveformTableWidget::GetSelectedPoint()
 {
-  auto selected = m_component_provider->GetSelectedItem();
+  auto selection = m_component_provider->GetSelection();
+  auto selected = selection.GetSelectedItem();
   auto parent_struct = (selected != nullptr) ? selected->GetParent() : nullptr;
   return dynamic_cast<mvvm::PointItem*>(parent_struct);
 }

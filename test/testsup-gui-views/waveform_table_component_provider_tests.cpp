@@ -52,8 +52,7 @@ TEST_F(WaveformTableComponentProviderTest, InitialState)
   ASSERT_NE(dynamic_cast<QTransposeProxyModel*>(table_view.model()), nullptr);
   EXPECT_EQ(provider.GetLastProxyModel(), table_view.model());
 
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({}));
+  EXPECT_TRUE(provider.GetSelection().IsEmpty());
   EXPECT_EQ(provider.GetSelectedPointIndex(), -1);
 }
 
