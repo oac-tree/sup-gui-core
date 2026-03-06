@@ -24,6 +24,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
+
 #include <mvvm/model/item_selection.h>
 
 #include <QLineEdit>
@@ -71,8 +72,8 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
   auto on_text = [this]() { m_component_provider->SetFilterPattern(m_line_edit->text()); };
   connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
 
-  connect(m_component_provider.get(), &TreeViewComponentProvider::SelectedItemChanged, this,
-          &AnyValueEditorTreePanel::SelectedItemChanged);
+  connect(m_component_provider.get(), &TreeViewComponentProvider::SelectionChanged, this,
+          &AnyValueEditorTreePanel::SelectionChanged);
 }
 
 AnyValueEditorTreePanel::~AnyValueEditorTreePanel() = default;

@@ -56,7 +56,7 @@ DtoWaveformListPanel::DtoWaveformListPanel(QWidget* parent_widget)
   m_stack_widget->AddWidget(
       m_list_view, m_actions->GetActions({ActionKey::kAddWaveform, ActionKey::kRemoveWaveform}));
 
-  connect(m_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectedItemChanged, this,
+  connect(m_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectionChanged, this,
           [this](auto) { emit WaveformSelected(GetSelectedWaveform()); });
 
   connect(m_action_handler, &DtoWaveformActionHandler::SelectWaveformRequest, this,

@@ -31,6 +31,7 @@ namespace mvvm
 {
 class ISessionModel;
 class SessionItem;
+class ItemSelection;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -69,7 +70,7 @@ public:
   QTreeView* GetTreeView();
 
 signals:
-  void SelectedItemChanged(mvvm::SessionItem*);
+  void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
   void AdjustTreeAppearance();

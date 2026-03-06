@@ -62,8 +62,9 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel& model, QWidget* parent
       mvvm::GetTypeName<CommonSettingsItem>());
   m_stacked_widget_provider->RegisterDefaultWidget<CommonSettingsEditor>();
 
-  connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectedItemChanged,
-          this, [this](auto item) { SetSettingsGroup(item); });
+  connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectionChanged, this,
+          [this](const mvvm::ItemSelection& selection)
+          { SetSettingsGroup(const_cast<mvvm::SessionItem*>(selection.GetSelectedItem())); });
 
   SetInitialValues(model);
 }

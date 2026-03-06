@@ -46,13 +46,12 @@ WaveformPointsTreeWidget::WaveformPointsTreeWidget(QWidget* parent_widget)
   layout->setContentsMargins(0, 0, 0, 0);
   layout->addWidget(m_tree_view);
 
-  auto on_selection_changed = [this](auto)
+  auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
   {
-    auto selection = m_component_provider->GetSelection();
     auto point = const_cast<mvvm::PointItem*>(selection.GetSelected<mvvm::PointItem>());
     emit pointSelected(point);
   };
-  connect(m_component_provider.get(), &::mvvm::ItemViewComponentProvider::SelectedItemChanged, this,
+  connect(m_component_provider.get(), &::mvvm::ItemViewComponentProvider::SelectionChanged, this,
           on_selection_changed);
 }
 

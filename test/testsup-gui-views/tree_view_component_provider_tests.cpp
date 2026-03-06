@@ -77,7 +77,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
 
   TreeViewComponentProvider provider(&m_model, &m_tree);
 
-  QSignalSpy spy_selected(&provider, &TreeViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(&provider, &TreeViewComponentProvider::SelectionChanged);
 
   // to test tree view we will be looking at proxy model.
   auto proxymodel = provider.GetLastProxyModel();
@@ -100,12 +100,12 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   // making item selected
   provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelection().GetSelectedItem(), item);
-  EXPECT_EQ(
-      provider.GetSelection().GetSelectedItems(),
-      std::vector<const mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
+
+  mvvm::ItemSelection expected_selection({item, item->GetItem(constants::kAnyValueTypeTag)});
+  EXPECT_EQ(provider.GetSelection(), expected_selection);
 
   EXPECT_EQ(spy_selected.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), expected_selection);
 }
 
 //! Testing how tree view looks for a single scalar. The difference with previous test is that

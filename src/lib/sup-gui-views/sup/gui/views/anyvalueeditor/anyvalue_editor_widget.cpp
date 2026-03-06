@@ -40,6 +40,7 @@
 #include <sup/gui/widgets/message_helper.h>
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
@@ -218,7 +219,7 @@ void AnyValueEditorWidget::SetupConnections()
           &AnyValueEditorWidget::OnContextMenuRequest);
 
   // selection change from tree panel
-  connect(m_tree_panel, &AnyValueEditorTreePanel::SelectedItemChanged, this,
+  connect(m_tree_panel, &AnyValueEditorTreePanel::SelectionChanged, this,
           [this](auto) { m_actions->UpdateEnabledStatus(); });
 }
 
