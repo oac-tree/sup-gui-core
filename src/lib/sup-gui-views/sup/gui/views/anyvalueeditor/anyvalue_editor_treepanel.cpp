@@ -85,7 +85,8 @@ void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem* contai
 
 std::vector<AnyValueItem*> AnyValueEditorTreePanel::GetSelectedItems() const
 {
-  return m_component_provider->GetSelectedItems<AnyValueItem>();
+  auto selection = m_component_provider->GetSelection();
+  return mvvm::utils::RemoveConst(selection.GetSelectedItems<AnyValueItem>());
 }
 
 void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem* item)

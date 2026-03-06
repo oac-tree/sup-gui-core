@@ -146,7 +146,8 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   provider.SetSelection(mvvm::ItemSelection(x_item));
 
   // should lead to the selection of the whole volumn
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({x_item, y_item}));
+  EXPECT_EQ(provider.GetSelection().GetSelectedItems(),
+            std::vector<const mvvm::SessionItem*>({x_item, y_item}));
 
   // should report correct index of selected point
   EXPECT_EQ(provider.GetSelectedPointIndex(), 1);
