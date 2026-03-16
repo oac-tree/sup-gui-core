@@ -36,6 +36,24 @@ class AnyValueConversionUtilsTest : public ::testing::Test
 {
 };
 
+TEST_F(AnyValueConversionUtilsTest, CompareWithDomainConstants)
+{
+  EXPECT_EQ(mvvm::constants::kEmptyTypeName, sup::dto::kEmptyTypeName);
+  EXPECT_EQ(mvvm::constants::kBooleanTypeName, sup::dto::kBooleanTypeName);
+  EXPECT_EQ(mvvm::constants::kChar8TypeName, sup::dto::kChar8TypeName);
+  EXPECT_EQ(mvvm::constants::kInt8TypeName, sup::dto::kInt8TypeName);
+  EXPECT_EQ(mvvm::constants::kUInt8TypeName, sup::dto::kUInt8TypeName);
+  EXPECT_EQ(mvvm::constants::kInt16TypeName, sup::dto::kInt16TypeName);
+  EXPECT_EQ(mvvm::constants::kUInt16TypeName, sup::dto::kUInt16TypeName);
+  EXPECT_EQ(mvvm::constants::kInt32TypeName, sup::dto::kInt32TypeName);
+  EXPECT_EQ(mvvm::constants::kUInt32TypeName, sup::dto::kUInt32TypeName);
+  EXPECT_EQ(mvvm::constants::kInt64TypeName, sup::dto::kInt64TypeName);
+  EXPECT_EQ(mvvm::constants::kUInt64TypeName, sup::dto::kUInt64TypeName);
+  EXPECT_EQ(mvvm::constants::kFloat32TypeName, sup::dto::kFloat32TypeName);
+  EXPECT_EQ(mvvm::constants::kFloat64TypeName, sup::dto::kFloat64TypeName);
+  EXPECT_EQ(mvvm::constants::kStringTypeName, sup::dto::kStringTypeName);
+}
+
 TEST_F(AnyValueConversionUtilsTest, GetTypeCode)
 {
   using sup::dto::TypeCode;
