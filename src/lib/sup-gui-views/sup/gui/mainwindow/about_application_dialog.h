@@ -53,7 +53,7 @@ public:
   static QString GetCopyRight();
 
 private:
-  std::unique_ptr<QLabel> CreateLinkLabel(const QString& link, const QString& name);
+  static std::unique_ptr<QLabel> CreateLinkLabel(const QString& link, const QString& name);
 
   std::unique_ptr<QLayout> CreateLogoLayout();
   std::unique_ptr<QLayout> CreateTextLayout(const QString& app_name, const QString& description,

@@ -42,7 +42,7 @@ class AppContextFocusController
 public:
   explicit AppContextFocusController(IAppCommandContextWidgetMap& widget_map,
                                      IAppCommandRegistry& command_registry);
-  ~AppContextFocusController();
+  ~AppContextFocusController() = default;
 
   AppContextFocusController(const AppContextFocusController&) = delete;
   AppContextFocusController& operator=(const AppContextFocusController&) = delete;

@@ -111,7 +111,7 @@ void CustomHeaderView::mousePressEvent(QMouseEvent* event)
 {
   // Catching when the user has started to resize columns. Ignoring press events for context
   // right-mouse button event.
-  if (event->buttons() & Qt::LeftButton)
+  if (event->button() == Qt::LeftButton)
   {
     m_interaction_state.Set(InteractionState::kInteractiveMode);
   }

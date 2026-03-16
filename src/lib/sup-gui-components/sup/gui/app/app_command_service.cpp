@@ -38,8 +38,7 @@ AppCommandService::AppCommandService(
     std::unique_ptr<IAppCommandRegistry> command_registry,
     std::unique_ptr<IAppCommandContextWidgetMap> context_widget_map,
     std::unique_ptr<IActionContainerRegistry> menubar_action_registry)
-    : IAppCommandService()
-    , m_command_registry(std::move(command_registry))
+    : m_command_registry(std::move(command_registry))
     , m_command_context_widget_map(std::move(context_widget_map))
     , m_app_menubar_action_registry(std::move(menubar_action_registry))
     , m_focus_controller(std::make_unique<AppContextFocusController>(*m_command_context_widget_map,

@@ -62,7 +62,7 @@ struct CodeEditor::CodeEditorImpl
   /**
    * @brief Sets editor main highlighting theme.
    */
-  void SetTheme(const KSyntaxHighlighting::Theme& theme)
+  void SetTheme(const KSyntaxHighlighting::Theme& theme) const
   {
     auto pal = qApp->palette();
     if (theme.isValid())
@@ -156,7 +156,7 @@ int CodeEditor::sidebarWidth() const
     ++digits;
     count /= 10;
   }
-  return 4 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits
+  return 4 + (fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits)
          + fontMetrics().lineSpacing();
 }
 

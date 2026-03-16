@@ -24,7 +24,7 @@ namespace sup::gui
 {
 
 MessageHandlerDecorator::MessageHandlerDecorator(IMessageHandler* component)
-    : IMessageHandler(), m_component(component)
+    : m_component(component)
 {
 }
 

@@ -68,7 +68,7 @@ AppCommandContext AppCommandContextWidgetMap::GetContext(const QWidget* widget) 
 
 const QWidget* AppCommandContextWidgetMap::GetWidget(const AppCommandContext& context) const
 {
-  auto on_element = [&context](auto element) { return element.second == context; };
+  auto on_element = [&context](const auto& element) { return element.second == context; };
   auto iter =
       std::find_if(std::begin(m_widget_to_context), std::end(m_widget_to_context), on_element);
   return iter == m_widget_to_context.end() ? nullptr : iter->first;

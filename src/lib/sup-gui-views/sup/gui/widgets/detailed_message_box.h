@@ -57,7 +57,7 @@ public:
    * @param message A message event to display.
    * @param parent_widget An optional parent widget.
    */
-  DetailedMessageBox(const QString& setting_group, const MessageEvent& message,
+  DetailedMessageBox(const QString& setting_key, const MessageEvent& message,
                      QWidget* parent_widget = nullptr);
 
   QPlainTextEdit* GetTextEdit() const;

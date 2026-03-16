@@ -102,7 +102,7 @@ private:
   void OnChangeSystemFont();
   void OnApplicationSettingsDialog();
   void OnResetSettings();
-  void OnAbout();
+  static void OnAbout();
 
   QAction* m_system_font_action{nullptr};
   QAction* m_settings_dialog_action{nullptr};

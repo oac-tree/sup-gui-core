@@ -253,7 +253,7 @@ void AnyValueEditorActionHandler::Copy()
 bool AnyValueEditorActionHandler::CanPasteAfter() const
 {
   auto mime = GetClipboardContent();
-  if (!mime)
+  if (mime == nullptr)
   {
     return false;
   }
@@ -274,7 +274,7 @@ void AnyValueEditorActionHandler::PasteAfter()
 bool AnyValueEditorActionHandler::CanPasteInto() const
 {
   auto mime = GetClipboardContent();
-  if (!mime)
+  if (mime == nullptr)
   {
     return false;
   }

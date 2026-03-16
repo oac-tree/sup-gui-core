@@ -63,7 +63,7 @@ signals:
 private:
   mvvm::ISessionModel* GetModel();
   mvvm::LineSeriesItem* GetLineSeries() const;
-  mvvm::PointItem* GetSelectedPoint();
+  mvvm::PointItem* GetSelectedPoint() const;
 
   mvvm::SessionItem* GetParent();
 

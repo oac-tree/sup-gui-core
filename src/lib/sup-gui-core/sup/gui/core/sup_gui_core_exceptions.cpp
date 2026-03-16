@@ -24,7 +24,7 @@ namespace sup::gui
 {
 
 MessageException::MessageException(std::string message)
-    : std::exception(), m_message{std::move(message)}
+    : m_message{std::move(message)}
 {
 }
 

@@ -105,7 +105,7 @@ private:
   void OnChangeSystemFont();
   void OnApplicationSettingsDialog();
   void OnResetSettings();
-  void OnAbout();
+  static void OnAbout();
 
   QAction* m_import_action{nullptr};
   QAction* m_import_waveform_action{nullptr};

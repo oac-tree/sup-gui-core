@@ -58,7 +58,7 @@ void AssignStringBasedVariant(const QVariant& variant, mvvm::SessionItem& item);
  * @param model The model that contains a collection of items representing settings.
  * @param A function to write into QSetting file.
  */
-void WriteApplicationSettings(const mvvm::ISessionModel& model, write_variant_func_t func);
+void WriteApplicationSettings(const mvvm::ISessionModel& model, const write_variant_func_t &func);
 
 /**
  * @brief Save application settings to configured QSettings storage.

@@ -73,7 +73,7 @@ void AssignStringBasedVariant(const QVariant& variant, mvvm::SessionItem& item)
       mvvm::utils::ValueFromString(mvvm::GetTypeCode(item_data), variant.toString().toStdString()));
 }
 
-void WriteApplicationSettings(const mvvm::ISessionModel& model, write_variant_func_t func)
+void WriteApplicationSettings(const mvvm::ISessionModel& model, const write_variant_func_t& func)
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 

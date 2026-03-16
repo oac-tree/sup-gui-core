@@ -39,8 +39,8 @@
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
 
-#include <mvvm/model/item_utils.h>
 #include <mvvm/model/item_selection.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <QAction>
@@ -130,7 +130,8 @@ void AnyValueEditorWidget::OnImportFromFileRequest()
   dialog.setFileMode(QFileDialog::ExistingFile);
   dialog.setNameFilter("All JSON files (*.json *.JSON)");
   //  dialog.setOption(QFileDialog::DontUseNativeDialog);
-  const QStringList selected_files = dialog.exec() ? dialog.selectedFiles() : QStringList();
+  const QStringList selected_files =
+      (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
   auto file_name = selected_files.empty() ? QString() : selected_files.at(0);
 
   if (!file_name.isEmpty())
