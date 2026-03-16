@@ -28,8 +28,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/test/mock_model_listener.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 #include <stdexcept>
@@ -58,9 +56,9 @@ TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
   EXPECT_EQ(GetAnyValueItemTypeFromTypeName(constants::kStructTypeName),
             mvvm::GetTypeName<AnyValueStructItem>());
 
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kInt32TypeName),
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(mvvm::constants::kInt32TypeName),
             mvvm::GetTypeName<AnyValueScalarItem>());
-  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(sup::dto::kBooleanTypeName),
+  EXPECT_EQ(GetAnyValueItemTypeFromTypeName(mvvm::constants::kBooleanTypeName),
             mvvm::GetTypeName<AnyValueScalarItem>());
 }
 
@@ -96,22 +94,22 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemScalarData)
 
   {  // two scalars, same type
     AnyValueScalarItem source;
-    source.SetAnyTypeName(sup::dto::kInt32TypeName);
+    source.SetAnyTypeName(mvvm::constants::kInt32TypeName);
     source.SetData(42);
 
     AnyValueScalarItem target;
-    target.SetAnyTypeName(sup::dto::kInt8TypeName);
+    target.SetAnyTypeName(mvvm::constants::kInt8TypeName);
 
     EXPECT_THROW(UpdateAnyValueItemScalarData(source, target), std::logic_error);
   }
 
   {  // two scalars, same type
     AnyValueScalarItem source;
-    source.SetAnyTypeName(sup::dto::kInt32TypeName);
+    source.SetAnyTypeName(mvvm::constants::kInt32TypeName);
     source.SetData(42);
 
     AnyValueScalarItem target;
-    target.SetAnyTypeName(sup::dto::kInt32TypeName);
+    target.SetAnyTypeName(mvvm::constants::kInt32TypeName);
     target.SetData(0);
     EXPECT_EQ(target.Data<int>(), 0);
 
@@ -134,11 +132,11 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromEmptyItem)
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromScalar)
 {
   AnyValueScalarItem source;
-  source.SetAnyTypeName(sup::dto::kInt32TypeName);
+  source.SetAnyTypeName(mvvm::constants::kInt32TypeName);
   source.SetData(42);
 
   AnyValueScalarItem target;
-  target.SetAnyTypeName(sup::dto::kInt32TypeName);
+  target.SetAnyTypeName(mvvm::constants::kInt32TypeName);
   target.SetData(0);
   EXPECT_EQ(target.Data<int>(), 0);
 
@@ -151,11 +149,11 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 {
   mvvm::ApplicationModel model;
   auto source = model.InsertItem<AnyValueScalarItem>();
-  source->SetAnyTypeName(sup::dto::kInt32TypeName);
+  source->SetAnyTypeName(mvvm::constants::kInt32TypeName);
   source->SetData(42);
 
   auto target = model.InsertItem<AnyValueScalarItem>();
-  target->SetAnyTypeName(sup::dto::kInt32TypeName);
+  target->SetAnyTypeName(mvvm::constants::kInt32TypeName);
   target->SetData(0);
   EXPECT_EQ(target->Data<int>(), 0);
 
@@ -173,11 +171,11 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScal
 {
   mvvm::ApplicationModel model;
   auto source = model.InsertItem<AnyValueScalarItem>();
-  source->SetAnyTypeName(sup::dto::kInt32TypeName);
+  source->SetAnyTypeName(mvvm::constants::kInt32TypeName);
   source->SetData(42);
 
   auto target = model.InsertItem<AnyValueScalarItem>();
-  target->SetAnyTypeName(sup::dto::kInt32TypeName);
+  target->SetAnyTypeName(mvvm::constants::kInt32TypeName);
   target->SetData(42);
 
   mock_listener_t listener(&model);
@@ -193,7 +191,7 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScal
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
 {
   AnyValueStructItem source;
-  source.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
+  source.AddScalarField("signed", 42);
 
   AnyValueStructItem target;
 
@@ -205,10 +203,10 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithSingleField)
 {
   AnyValueStructItem source;
-  source.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
+  source.AddScalarField("signed", 42);
 
   AnyValueStructItem target;
-  auto scalar1 = target.AddScalarField("signed", sup::dto::kInt32TypeName, 43);
+  auto scalar1 = target.AddScalarField("signed", 43);
 
   EXPECT_NO_THROW(UpdateAnyValueItemData(source, target));
   EXPECT_EQ(scalar1->Data<int>(), 42);
@@ -220,15 +218,14 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithNestedField)
   AnyValueStructItem source;
   auto source_inner_struct = source.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   source_inner_struct->SetDisplayName("struct0");
-  source_inner_struct->AddScalarField("value", sup::dto::kInt32TypeName, 42);
-  source_inner_struct->AddScalarField("flag", sup::dto::kBooleanTypeName, true);
+  source_inner_struct->AddScalarField("value", 42);
+  source_inner_struct->AddScalarField("flag", true);
 
   AnyValueStructItem target;
   auto targets_inner_struct = target.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   targets_inner_struct->SetDisplayName("struct0");
-  auto target_scalar0 = targets_inner_struct->AddScalarField("value", sup::dto::kInt32TypeName, 0);
-  auto target_scalar1 =
-      targets_inner_struct->AddScalarField("flag", sup::dto::kBooleanTypeName, false);
+  auto target_scalar0 = targets_inner_struct->AddScalarField("value", 0);
+  auto target_scalar1 = targets_inner_struct->AddScalarField("flag", false);
 
   EXPECT_NO_THROW(UpdateAnyValueItemData(source, target));
   EXPECT_EQ(target_scalar0->Data<int>(), 42);
@@ -239,24 +236,24 @@ TEST_F(AnyValueItemUtilsTest, IsSuitableScalarType)
 {
   {  // empty array
     AnyValueArrayItem item;
-    EXPECT_TRUE(IsSuitableScalarType(item, sup::dto::kInt32TypeName));
+    EXPECT_TRUE(IsSuitableScalarType(item, mvvm::constants::kInt32TypeName));
   }
 
   {  // array with matching type
     AnyValueArrayItem item;
     item.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append())
-        ->SetAnyTypeName(sup::dto::kInt32TypeName);
-    EXPECT_TRUE(IsSuitableScalarType(item, sup::dto::kInt32TypeName));
-    EXPECT_FALSE(IsSuitableScalarType(item, sup::dto::kInt16TypeName));
+        ->SetAnyTypeName(mvvm::constants::kInt32TypeName);
+    EXPECT_TRUE(IsSuitableScalarType(item, mvvm::constants::kInt32TypeName));
+    EXPECT_FALSE(IsSuitableScalarType(item, mvvm::constants::kInt16TypeName));
   }
 
   {  // array with wrong type
     AnyValueArrayItem item;
     item.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append())
-        ->SetAnyTypeName(sup::dto::kInt32TypeName);
+        ->SetAnyTypeName(mvvm::constants::kInt32TypeName);
     item.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append())
-        ->SetAnyTypeName(sup::dto::kInt32TypeName);
-    EXPECT_FALSE(IsSuitableScalarType(item, sup::dto::kInt16TypeName));
+        ->SetAnyTypeName(mvvm::constants::kInt32TypeName);
+    EXPECT_FALSE(IsSuitableScalarType(item, mvvm::constants::kInt16TypeName));
   }
 }
 

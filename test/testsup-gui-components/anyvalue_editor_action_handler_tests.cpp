@@ -30,8 +30,6 @@
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 #include <testutils/mock_anyvalue_editor_context.h>
 
@@ -116,7 +114,7 @@ TEST_F(AnyValueEditorActionHandlerTest, HandlerWithNoContainerDefined)
 TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
 {
   AnyValueScalarItem item;
-  item.SetAnyTypeName(sup::dto::kInt32TypeName);
+  item.SetAnyTypeName(mvvm::constants::kInt32TypeName);
   item.SetData(42);
 
   // expecting no callbacks
@@ -140,7 +138,7 @@ TEST_F(AnyValueEditorActionHandlerTest, SetInitialValue)
 TEST_F(AnyValueEditorActionHandlerTest, AttemptToSetInitialValueTwice)
 {
   AnyValueScalarItem item;
-  item.SetAnyTypeName(sup::dto::kInt32TypeName);
+  item.SetAnyTypeName(mvvm::constants::kInt32TypeName);
   item.SetData(42);
 
   auto handler = CreateActionHandler({});
@@ -332,14 +330,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as top level item
-  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt32TypeName);
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   auto inserted_item = GetContainer()->GetItem<AnyValueScalarItem>(mvvm::TagIndex::First());
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
@@ -347,7 +345,7 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding another scalar when nothing is selected should trigger the warning
-  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt32TypeName);
 
   // the amount of items should stay the same
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -362,14 +360,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
 
-  EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
+  EXPECT_TRUE(handler->CanInsertInto(mvvm::constants::kInt32TypeName));
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->InsertAnyValueItemInto(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemInto(mvvm::constants::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -378,16 +376,16 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToStruct)
   auto inserted_item = parent->GetChildren().at(0);
   const std::string expected_field_name(std::string(constants::kFieldNamePrefix) + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), mvvm::constants::kInt32TypeName);
 };
 
 //! Structure has two fields, first field is selected. Adding new field between two existing ones.
 TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
 {
   auto parent = m_model.InsertItem<sup::gui::AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, 42);
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, 42);
+  auto field0 = parent->AddScalarField("field0", 42);
+  auto field1 = parent->AddScalarField("field1", 42);
 
   // creating action handler for the context, when field0 is selected
   auto handler = CreateActionHandler({field0});
@@ -397,7 +395,7 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt32TypeName);
 
   // validating that parent got new child
   ASSERT_EQ(parent->GetChildren().size(), 3);
@@ -405,8 +403,8 @@ TEST_F(AnyValueEditorActionHandlerTest, InsertFieldInStruct)
   auto inserted_item = parent->GetChildren().at(1);
   const std::string expected_field_name(std::string(constants::kFieldNamePrefix) + "2");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), mvvm::constants::kInt32TypeName);
 
   const std::vector<sup::gui::AnyValueItem*> expected_children({field0, inserted_item, field1});
   EXPECT_EQ(parent->GetChildren(), expected_children);
@@ -421,14 +419,14 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
 
-  EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
+  EXPECT_TRUE(handler->CanInsertInto(mvvm::constants::kInt32TypeName));
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->InsertAnyValueItemInto(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemInto(mvvm::constants::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -437,8 +435,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToArray)
   auto inserted_item = parent->GetChildren().at(0);
   const std::string expected_field_name(std::string(constants::kElementNamePrefix) + "0");
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt32TypeName);
-  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), mvvm::constants::kInt32TypeName);
 };
 
 //! Attempt to add scalar as a field to another scalar.
@@ -450,13 +448,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddScalarToScalar)
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({parent});
 
-  EXPECT_FALSE(handler->CanInsertInto(sup::dto::kInt32TypeName));
+  EXPECT_FALSE(handler->CanInsertInto(mvvm::constants::kInt32TypeName));
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field
-  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt32TypeName);
 
   // validating that nothing was changed in the model
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -471,13 +469,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({nullptr});
 
-  EXPECT_FALSE(handler->CanInsertAfter(sup::dto::kInt32TypeName));
+  EXPECT_FALSE(handler->CanInsertAfter(mvvm::constants::kInt32TypeName));
 
   // expecting warning callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   // attempt to add second top level scalar
-  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt32TypeName);
 
   // checking that model still have a single item
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -488,7 +486,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AddScalarToArrayWhenTypeMismath)
   auto parent =
       m_model.InsertItem<sup::gui::AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
   auto element0 = m_model.InsertItem<AnyValueScalarItem>(parent);
-  element0->SetAnyTypeName(sup::dto::kInt32TypeName);
+  element0->SetAnyTypeName(mvvm::constants::kInt32TypeName);
 
   // creating action handler for the context, when parent is selected
   auto handler = CreateActionHandler({element0});
@@ -497,14 +495,14 @@ TEST_F(AnyValueEditorActionHandlerTest, AddScalarToArrayWhenTypeMismath)
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(2);
 
   // adding AnyValueItem scalar as a field. The type matches what is already in the array.
-  handler->InsertAnyValueItemAfter(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt32TypeName);
 
   // validating that parent got new child
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
   ASSERT_EQ(parent->GetChildren().size(), 2);
 
   // We allow adding mixed types to the array. We assume, that user will fix them before the use.
-  handler->InsertAnyValueItemAfter(sup::dto::kInt16TypeName);
+  handler->InsertAnyValueItemAfter(mvvm::constants::kInt16TypeName);
 
   EXPECT_EQ(parent->GetChildren().size(), 3);
 };
@@ -650,10 +648,10 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveSelectedItem)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
-  auto field2 = parent->AddScalarField("field2", sup::dto::kInt32TypeName, mvvm::int32{44});
-  auto field3 = parent->AddScalarField("field3", sup::dto::kInt32TypeName, mvvm::int32{45});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{43});
+  auto field2 = parent->AddScalarField("field2", mvvm::int32{44});
+  auto field3 = parent->AddScalarField("field3", mvvm::int32{45});
 
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
@@ -672,8 +670,8 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
 TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{43});
 
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
 
@@ -695,8 +693,8 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
 TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{43});
 
   auto handler = CreateActionHandler({field1});
 
@@ -722,8 +720,8 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
 TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{43});
 
   // creating action handler for the context, when field1 is selected
   auto handler = CreateActionHandler({field0});

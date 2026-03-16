@@ -24,8 +24,6 @@
 
 #include <mvvm/model/application_model.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 
 #include <QMimeData>
@@ -60,13 +58,13 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
   struct0->SetAnyTypeName("struct0");
 
   // children
-  auto field0 = struct0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = struct0->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field0 = struct0->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = struct0->AddScalarField("field1", mvvm::int32{43});
   auto struct1 = model.InsertItem<AnyValueStructItem>(struct0);
   struct1->SetAnyTypeName("struct1");
 
   // grandchildren
-  auto field2 = struct1->AddScalarField("field2", sup::dto::kInt32TypeName, mvvm::int32{44});
+  auto field2 = struct1->AddScalarField("field2", mvvm::int32{44});
 
   {  // user selection contains two children only
     const std::vector<AnyValueItem*> selection({field0, struct1});

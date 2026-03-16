@@ -27,8 +27,6 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/test/test_helper.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -135,12 +133,12 @@ TEST_F(AnyValueItemTest, SetAnyTypeName)
   {  // AnyValueScalarItem (set boolean)
     AnyValueScalarItem item;
 
-    item.SetAnyTypeName(sup::dto::kBooleanTypeName);
+    item.SetAnyTypeName(mvvm::constants::kBooleanTypeName);
 
     EXPECT_TRUE(item.IsScalar());
-    EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
+    EXPECT_EQ(item.GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
     EXPECT_EQ(item.Data<mvvm::boolean>(), false);
-    EXPECT_EQ(item.GetToolTip(), sup::dto::kBooleanTypeName);
+    EXPECT_EQ(item.GetToolTip(), mvvm::constants::kBooleanTypeName);
     EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
     EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
@@ -149,22 +147,22 @@ TEST_F(AnyValueItemTest, SetAnyTypeName)
   {  // AnyValueScalarItem (change type)
     AnyValueScalarItem item;
 
-    item.SetAnyTypeName(sup::dto::kInt8TypeName);
+    item.SetAnyTypeName(mvvm::constants::kInt8TypeName);
 
     EXPECT_TRUE(item.IsScalar());
-    EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kInt8TypeName);
+    EXPECT_EQ(item.GetAnyTypeName(), mvvm::constants::kInt8TypeName);
     EXPECT_EQ(item.Data<mvvm::int8>(), 0);
-    EXPECT_EQ(item.GetToolTip(), sup::dto::kInt8TypeName);
+    EXPECT_EQ(item.GetToolTip(), mvvm::constants::kInt8TypeName);
     EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
     EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
 
     // change scalar type
-    item.SetAnyTypeName(sup::dto::kBooleanTypeName);
+    item.SetAnyTypeName(mvvm::constants::kBooleanTypeName);
     EXPECT_TRUE(item.IsScalar());
-    EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
+    EXPECT_EQ(item.GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
     EXPECT_EQ(item.Data<bool>(), false);
-    EXPECT_EQ(item.GetToolTip(), sup::dto::kBooleanTypeName);
+    EXPECT_EQ(item.GetToolTip(), mvvm::constants::kBooleanTypeName);
     EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
     EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
     EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
@@ -185,10 +183,10 @@ TEST_F(AnyValueItemTest, SetAnyTypeName)
 TEST_F(AnyValueItemTest, AddScalarField)
 {
   AnyValueStructItem item;
-  auto scalar = item.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
+  auto scalar = item.AddScalarField("signed", 42);
 
   EXPECT_EQ(scalar->GetDisplayName(), "signed");
-  EXPECT_EQ(scalar->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(scalar->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
   EXPECT_EQ(scalar->Data<int>(), 42);
   EXPECT_EQ(item.GetChildren(), std::vector<AnyValueItem*>({scalar}));
   EXPECT_EQ(item.GetChildrenCount(), 1);
@@ -206,23 +204,23 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItem)
 {
   AnyValueScalarItem item;
 
-  item.SetAnyTypeName(sup::dto::kInt8TypeName);
+  item.SetAnyTypeName(mvvm::constants::kInt8TypeName);
 
   EXPECT_TRUE(item.IsScalar());
-  EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(item.GetAnyTypeName(), mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item.Data<mvvm::int8>(), 0);
-  EXPECT_EQ(item.GetToolTip(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(item.GetToolTip(), mvvm::constants::kInt8TypeName);
   EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
   EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
   EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
 
   // change scalar type via property item
   auto property_item = item.GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
-  property_item->SetScalarTypeName(sup::dto::kBooleanTypeName);
+  property_item->SetScalarTypeName(mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(item.IsScalar());
-  EXPECT_EQ(item.GetAnyTypeName(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(item.GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
   EXPECT_EQ(item.Data<bool>(), false);
-  EXPECT_EQ(item.GetToolTip(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(item.GetToolTip(), mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(mvvm::utils::IsValid(item.Data()));
   EXPECT_TRUE(item.HasData(mvvm::DataRole::kData));
   EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
@@ -232,12 +230,12 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItemAfterClone)
 {
   AnyValueScalarItem orig;
 
-  orig.SetAnyTypeName(sup::dto::kInt8TypeName);
+  orig.SetAnyTypeName(mvvm::constants::kInt8TypeName);
 
   EXPECT_TRUE(orig.IsScalar());
-  EXPECT_EQ(orig.GetAnyTypeName(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(orig.GetAnyTypeName(), mvvm::constants::kInt8TypeName);
   EXPECT_EQ(orig.Data<mvvm::int8>(), 0);
-  EXPECT_EQ(orig.GetToolTip(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(orig.GetToolTip(), mvvm::constants::kInt8TypeName);
   EXPECT_TRUE(mvvm::utils::IsValid(orig.Data()));
   EXPECT_TRUE(orig.HasData(mvvm::DataRole::kData));
   EXPECT_TRUE(mvvm::utils::HasTag(orig, constants::kAnyValueTypeTag));
@@ -246,11 +244,11 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItemAfterClone)
 
   // change scalar type via property item
   auto property_item = clone->GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
-  property_item->SetScalarTypeName(sup::dto::kBooleanTypeName);
+  property_item->SetScalarTypeName(mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(clone->IsScalar());
-  EXPECT_EQ(clone->GetAnyTypeName(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(clone->GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
   EXPECT_EQ(clone->Data<bool>(), false);
-  EXPECT_EQ(clone->GetToolTip(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(clone->GetToolTip(), mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(mvvm::utils::IsValid(clone->Data()));
   EXPECT_TRUE(clone->HasData(mvvm::DataRole::kData));
   EXPECT_TRUE(mvvm::utils::HasTag(*clone, constants::kAnyValueTypeTag));

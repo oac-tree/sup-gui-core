@@ -29,8 +29,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 #include <testutils/mock_anyvalue_editor_context.h>
 
@@ -213,14 +211,14 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   const std::string expected_field_name("abc");
 
   AnyValueScalarItem item_to_paste;
-  item_to_paste.SetAnyTypeName(sup::dto::kInt16TypeName);
+  item_to_paste.SetAnyTypeName(mvvm::constants::kInt16TypeName);
   item_to_paste.SetData(mvvm::int16{42});
   item_to_paste.SetDisplayName(expected_field_name);
   auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
 
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{1});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{0});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{1});
 
   // field0 is selected, copied item in a buffer
   auto handler = CreateActionHandler({field0}, std::move(mime_data));
@@ -239,8 +237,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
 
   // current implementation: pasted item will have the same field name as original display name
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt16TypeName);
-  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt16TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), mvvm::constants::kInt16TypeName);
   EXPECT_EQ(inserted_item->Data<mvvm::int16>(), 42);
 
   const std::vector<AnyValueItem*> expected_children({field0, inserted_item, field1});
@@ -257,13 +255,13 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   const std::string expected_field_name("abc");
 
   AnyValueScalarItem item_to_paste;
-  item_to_paste.SetAnyTypeName(sup::dto::kInt16TypeName);
+  item_to_paste.SetAnyTypeName(mvvm::constants::kInt16TypeName);
   item_to_paste.SetData(mvvm::int16{42});
   item_to_paste.SetDisplayName(expected_field_name);
   auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
 
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{0});
 
   // struct is selected, copied item in a buffer
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
@@ -281,8 +279,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   auto inserted_item = parent->GetChildren().at(1);
   // current implementation: pasted item will have the same field name as original display name
   EXPECT_EQ(inserted_item->GetDisplayName(), expected_field_name);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), sup::dto::kInt16TypeName);
-  EXPECT_EQ(inserted_item->GetToolTip(), sup::dto::kInt16TypeName);
+  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt16TypeName);
+  EXPECT_EQ(inserted_item->GetToolTip(), mvvm::constants::kInt16TypeName);
   EXPECT_EQ(inserted_item->Data<mvvm::int16>(), 42);
 
   const std::vector<AnyValueItem*> expected_children({field0, inserted_item});
@@ -297,8 +295,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{0});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{0});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{0});
 
   // struct is selected, mime buffer is empty
   auto handler = CreateActionHandler({field0}, {});
@@ -327,8 +325,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteBetweenTwoFields)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{43});
 
   // struct is selected, mime buffer is empty
   auto handler = CreateActionHandler({field0, field1}, {});
@@ -368,10 +366,10 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteArrayElements)
 {
   auto parent = m_model.InsertItem<AnyValueArrayItem>();
   auto element0 = m_model.InsertItem<AnyValueScalarItem>(parent);
-  element0->SetAnyTypeName(sup::dto::kInt32TypeName);
+  element0->SetAnyTypeName(mvvm::constants::kInt32TypeName);
   element0->SetDisplayName("element0");
   auto element1 = m_model.InsertItem<AnyValueScalarItem>(parent);
-  element1->SetAnyTypeName(sup::dto::kInt32TypeName);
+  element1->SetAnyTypeName(mvvm::constants::kInt32TypeName);
   element1->SetDisplayName("element1");
 
   // struct is selected, mime buffer is empty
@@ -456,12 +454,12 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
   //       scalar2
 
   auto struct0 = m_model.InsertItem<AnyValueStructItem>();
-  auto scalar0 = struct0->AddScalarField("scalar0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto scalar0 = struct0->AddScalarField("scalar0", mvvm::int32{42});
   auto struct1 = m_model.InsertItem<AnyValueStructItem>(struct0);
   struct1->SetDisplayName("struct1");
   struct1->SetAnyTypeName("struct1_typename");
-  auto scalar1 = struct1->AddScalarField("scalar1", sup::dto::kInt32TypeName, mvvm::int32{43});
-  auto scalar2 = struct1->AddScalarField("scalar2", sup::dto::kInt32TypeName, mvvm::int32{44});
+  auto scalar1 = struct1->AddScalarField("scalar1", mvvm::int32{43});
+  auto scalar2 = struct1->AddScalarField("scalar2", mvvm::int32{44});
   auto struct2 = m_model.InsertItem<AnyValueStructItem>(struct0);
 
   // struct is selected, mime buffer is empty
@@ -504,8 +502,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopySequenceIntoSequence)
 
   auto parent = m_model.InsertItem<AnyValueStructItem>();
   parent->SetAnyTypeName(expected_struct_name);
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{0});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{1});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{0});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{1});
 
   auto handler = CreateActionHandler({parent, field1});
 
@@ -526,7 +524,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopySequenceIntoSequence)
   EXPECT_EQ(copied_struct->GetAnyTypeName(), expected_struct_name);
   EXPECT_EQ(copied_struct->GetDisplayName(), "field2");
   auto copied_field = copied_struct->GetChildren().at(0);
-  EXPECT_EQ(copied_field->GetAnyTypeName(), sup::dto::kInt32TypeName);
+  EXPECT_EQ(copied_field->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
   EXPECT_EQ(copied_field->GetDisplayName(), "field1");
 }
 

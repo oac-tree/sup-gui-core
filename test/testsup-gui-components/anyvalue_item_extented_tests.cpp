@@ -24,8 +24,6 @@
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -44,7 +42,7 @@ TEST_F(AnyValueItemExtendedTest, StructWithScalarFieldInAllItemsViewModel)
   // AllItemsViewModel
   mvvm::ApplicationModel model;
   auto struct_item = model.InsertItem<AnyValueStructItem>();
-  auto scalar0 = struct_item->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
+  auto scalar0 = struct_item->AddScalarField("field0", mvvm::int32{42});
 
   const mvvm::AllItemsViewModel view_model(&model);
   EXPECT_EQ(view_model.rowCount(), 1);

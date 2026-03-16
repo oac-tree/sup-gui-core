@@ -47,7 +47,7 @@ public:
   /**
    * @brief Test function to report if display name of the given item is editable
    */
-  bool HasEditableDisplayName(const mvvm::SessionItem& item)
+  static bool HasEditableDisplayName(const mvvm::SessionItem& item)
   {
     AnyValueViewModel viewmodel(item.GetModel());
     auto indexes = viewmodel.GetIndexOfSessionItem(&item);
@@ -163,7 +163,7 @@ TEST_F(AnyValueViewModelTest, StructWithScalarItem)
 {
   mvvm::ApplicationModel model;
   auto struct_item = model.InsertItem<AnyValueStructItem>();
-  auto scalar_item = struct_item->AddScalarField("scalar", sup::dto::kInt32TypeName, 42);
+  auto scalar_item = struct_item->AddScalarField("scalar", 42);
 
   AnyValueViewModel viewmodel(&model);
 
@@ -318,7 +318,7 @@ TEST_F(AnyValueViewModelTest, BooleanScalarItem)
   item->SetAnyTypeName(sup::dto::kBooleanTypeName);
   item->SetData(true);
 
-  AnyValueViewModel viewmodel(&model);
+  const AnyValueViewModel viewmodel(&model);
   EXPECT_EQ(viewmodel.rowCount(), 1);
   EXPECT_EQ(viewmodel.columnCount(), 3);
 

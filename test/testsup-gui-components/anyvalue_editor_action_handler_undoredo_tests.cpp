@@ -30,8 +30,6 @@
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/test/test_helper.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 #include <testutils/mock_anyvalue_editor_context.h>
 
@@ -111,8 +109,8 @@ TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForItemInsert)
 TEST_F(AnyValueEditorActionHandlerUndoRedoTest, UndoRedoForCopyAndPasteTwoFields)
 {
   auto parent = m_model.InsertItem<AnyValueStructItem>();
-  auto field0 = parent->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto field1 = parent->AddScalarField("field1", sup::dto::kInt32TypeName, mvvm::int32{43});
+  auto field0 = parent->AddScalarField("field0", mvvm::int32{42});
+  auto field1 = parent->AddScalarField("field1", mvvm::int32{43});
 
   m_model.SetUndoEnabled(true);
 

@@ -153,11 +153,10 @@ bool AnyValueStructItem::IsStruct() const
 }
 
 AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_name,
-                                                       const std::string& field_type,
                                                        const mvvm::variant_t& value)
 {
   auto child = std::make_unique<AnyValueScalarItem>();
-  child->SetAnyTypeName(field_type);
+  child->SetAnyTypeName(mvvm::utils::TypeName(value));
   (void)child->SetData(value);
   (void)child->SetDisplayName(field_name);
   auto child_ptr = child.get();

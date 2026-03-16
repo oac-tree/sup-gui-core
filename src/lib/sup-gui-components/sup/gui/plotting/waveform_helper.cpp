@@ -29,8 +29,6 @@
 #include <mvvm/standarditems/waveform_helper.h>
 #include <mvvm/widgets/widget_utils.h>
 
-#include <sup/dto/anytype.h>
-
 namespace
 {
 
@@ -84,8 +82,8 @@ std::unique_ptr<AnyValueItem> CreateFromPoint(double xpos, double ypos)
 {
   auto result = std::make_unique<AnyValueStructItem>();
 
-  (void)result->AddScalarField(kXFieldName, sup::dto::kFloat64TypeName, xpos);
-  (void)result->AddScalarField(kYFieldName, sup::dto::kFloat64TypeName, ypos);
+  (void)result->AddScalarField(kXFieldName, xpos);
+  (void)result->AddScalarField(kYFieldName, ypos);
 
   return result;
 }

@@ -119,7 +119,7 @@ TEST_F(DomainAnyValueBuilderTest, FromEmptyStruct)
 TEST_F(DomainAnyValueBuilderTest, FromStructWithSingleScalar)
 {
   AnyValueStructItem item;
-  item.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
+  item.AddScalarField("signed", mvvm::int32{42});
 
   const sup::dto::AnyValue expected_anyvalue = {{{"signed", {sup::dto::SignedInteger32Type, 42}}}};
   auto any_value = CreateAnyValue(item);
@@ -130,8 +130,8 @@ TEST_F(DomainAnyValueBuilderTest, FromStructWithTwoScalars)
 {
   AnyValueStructItem item;
   item.SetAnyTypeName("my_struct");
-  item.AddScalarField("signed", sup::dto::kInt32TypeName, 42);
-  item.AddScalarField("bool", sup::dto::kBooleanTypeName, true);
+  item.AddScalarField("signed", mvvm::int32{42});
+  item.AddScalarField("bool", true);
 
   const sup::dto::AnyValue expected_anyvalue = {
       {{"signed", {sup::dto::SignedInteger32Type, 42}}, {"bool", {sup::dto::BooleanType, true}}},
@@ -147,8 +147,8 @@ TEST_F(DomainAnyValueBuilderTest, FromNestedStruct)
   auto inner_struct = item.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   inner_struct->SetDisplayName("scalars");
   const mvvm::int8 num(1);
-  inner_struct->AddScalarField("signed", sup::dto::kInt8TypeName, num);
-  inner_struct->AddScalarField("bool", sup::dto::kBooleanTypeName, true);
+  inner_struct->AddScalarField("signed", num);
+  inner_struct->AddScalarField("bool", true);
 
   sup::dto::AnyValue two_scalars = {
       {{"signed", {sup::dto::SignedInteger8Type, 1}}, {"bool", {sup::dto::BooleanType, 12}}}};
@@ -169,15 +169,15 @@ TEST_F(DomainAnyValueBuilderTest, FromTwoNestedStructs)
   inner_struct0->SetDisplayName("struct0");
   const mvvm::int8 num1(-1);
   const mvvm::uint8 num2(1);
-  inner_struct0->AddScalarField("signed", sup::dto::kInt8TypeName, num1);
-  inner_struct0->AddScalarField("unsigned", sup::dto::kUInt8TypeName, num2);
+  inner_struct0->AddScalarField("signed", num1);
+  inner_struct0->AddScalarField("unsigned", num2);
 
   auto inner_struct1 = item.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   inner_struct1->SetDisplayName("struct1");
   const mvvm::int8 num3(0);
   const mvvm::int8 num4(5);
-  inner_struct1->AddScalarField("first", sup::dto::kInt8TypeName, num3);
-  inner_struct1->AddScalarField("second", sup::dto::kInt8TypeName, num4);
+  inner_struct1->AddScalarField("first", num3);
+  inner_struct1->AddScalarField("second", num4);
 
   const std::string nested_name = "nested_struct";
   sup::dto::AnyValue two_scalars = {{{"signed", {sup::dto::SignedInteger8Type, num1}},
@@ -314,15 +314,15 @@ TEST_F(DomainAnyValueBuilderTest, ArrayWithTwoStructureElements)
   struct0->SetAnyTypeName("struct_name");
   const mvvm::int16 num1(-43);
   const mvvm::uint16 num2(44);
-  struct0->AddScalarField("first", sup::dto::kInt16TypeName, num1);
-  struct0->AddScalarField("second", sup::dto::kUInt16TypeName, num2);
+  struct0->AddScalarField("first", num1);
+  struct0->AddScalarField("second", num2);
 
   auto struct1 = item.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   struct1->SetAnyTypeName("struct_name");
   const mvvm::int16 num3(42);
   const mvvm::uint16 num4(43);
-  struct1->AddScalarField("first", sup::dto::kInt16TypeName, num3);
-  struct1->AddScalarField("second", sup::dto::kUInt16TypeName, num4);
+  struct1->AddScalarField("first", num3);
+  struct1->AddScalarField("second", num4);
 
   auto any_value = CreateAnyValue(item);
   EXPECT_EQ(any_value, expected_array_value);
@@ -354,15 +354,15 @@ TEST_F(DomainAnyValueBuilderTest, StructureWithArrayWithStructure)
   struct1->SetAnyTypeName("struct_name");
   const mvvm::int64 num1(-43);
   const mvvm::uint64 num2(44);
-  struct1->AddScalarField("first", sup::dto::kInt64TypeName, num1);
-  struct1->AddScalarField("second", sup::dto::kUInt64TypeName, num2);
+  struct1->AddScalarField("first", num1);
+  struct1->AddScalarField("second", num2);
 
   auto struct2 = array->InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   struct2->SetAnyTypeName("struct_name");
   const mvvm::int64 num3(42);
   const mvvm::uint64 num4(43);
-  struct2->AddScalarField("first", sup::dto::kInt64TypeName, num3);
-  struct2->AddScalarField("second", sup::dto::kUInt64TypeName, num4);
+  struct2->AddScalarField("first", num3);
+  struct2->AddScalarField("second", num4);
 
   auto any_value = CreateAnyValue(item);
   EXPECT_EQ(any_value, expected_struct_value);

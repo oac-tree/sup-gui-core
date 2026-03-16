@@ -28,8 +28,6 @@
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -53,8 +51,8 @@ TEST_F(WaveformHelperTest, CreateFromPoint)
   EXPECT_EQ(fields.at(0)->GetDisplayName(), kXFieldName);
   EXPECT_EQ(fields.at(1)->GetDisplayName(), kYFieldName);
 
-  EXPECT_EQ(fields.at(0)->GetAnyTypeName(), sup::dto::kFloat64TypeName);
-  EXPECT_EQ(fields.at(1)->GetAnyTypeName(), sup::dto::kFloat64TypeName);
+  EXPECT_EQ(fields.at(0)->GetAnyTypeName(), mvvm::constants::kFloat64TypeName);
+  EXPECT_EQ(fields.at(1)->GetAnyTypeName(), mvvm::constants::kFloat64TypeName);
 
   EXPECT_EQ(fields.at(0)->Data<double>(), 1.0);
   EXPECT_EQ(fields.at(1)->Data<double>(), 2.0);
@@ -77,8 +75,8 @@ TEST_F(WaveformHelperTest, CreateFromWaveform)
 
   auto fields = structs.at(1)->GetChildren();  // middle point
 
-  EXPECT_EQ(fields.at(0)->GetAnyTypeName(), sup::dto::kFloat64TypeName);
-  EXPECT_EQ(fields.at(1)->GetAnyTypeName(), sup::dto::kFloat64TypeName);
+  EXPECT_EQ(fields.at(0)->GetAnyTypeName(), mvvm::constants::kFloat64TypeName);
+  EXPECT_EQ(fields.at(1)->GetAnyTypeName(), mvvm::constants::kFloat64TypeName);
 
   EXPECT_EQ(fields.at(0)->Data<double>(), 2.0);
   EXPECT_EQ(fields.at(1)->Data<double>(), 20.0);
@@ -98,23 +96,23 @@ TEST_F(WaveformHelperTest, GetXY)
 
   {  // invalid point (struct with wrong fields)
     sup::gui::AnyValueStructItem item;
-    (void)item.AddScalarField("a", sup::dto::kFloat64TypeName, 1.0);
-    (void)item.AddScalarField("b", sup::dto::kFloat64TypeName, 2.0);
-    (void)item.AddScalarField("c", sup::dto::kFloat64TypeName, 2.0);
+    (void)item.AddScalarField("a", 1.0);
+    (void)item.AddScalarField("b", 2.0);
+    (void)item.AddScalarField("c", 2.0);
     EXPECT_THROW(GetPoint(item), RuntimeException);
   }
 
   {  // invalid point (struct with wrong fields)
     sup::gui::AnyValueStructItem item;
-    (void)item.AddScalarField("a", sup::dto::kStringTypeName, std::string("abc"));
-    (void)item.AddScalarField("b", sup::dto::kStringTypeName, std::string("def"));
+    (void)item.AddScalarField("a", std::string("abc"));
+    (void)item.AddScalarField("b", std::string("def"));
     EXPECT_THROW(GetPoint(item), RuntimeException);
   }
 
   {  // creation of valid point (from struct which can be used for point)
     sup::gui::AnyValueStructItem item;
-    (void)item.AddScalarField("a", sup::dto::kFloat64TypeName, 1.0);
-    (void)item.AddScalarField("b", sup::dto::kFloat64TypeName, 2.0);
+    (void)item.AddScalarField("a", 1.0);
+    (void)item.AddScalarField("b", 2.0);
     EXPECT_EQ(GetPoint(item), std::make_pair(1.0, 2.0));
   }
 

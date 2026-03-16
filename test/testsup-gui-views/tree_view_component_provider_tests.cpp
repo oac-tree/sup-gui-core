@@ -155,8 +155,8 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
 TEST_F(TreeViewComponentProviderTests, FilteredStruct)
 {
   auto struct_item = m_model.InsertItem<AnyValueStructItem>();
-  auto scalar_item0 = struct_item->AddScalarField("scalar", sup::dto::kInt32TypeName, 42);
-  auto scalar_item1 = struct_item->AddScalarField("abc", sup::dto::kInt32TypeName, 43);
+  auto scalar_item0 = struct_item->AddScalarField("scalar", 42);
+  auto scalar_item1 = struct_item->AddScalarField("abc", 43);
 
   TreeViewComponentProvider provider(&m_model, &m_tree);
 
@@ -241,8 +241,8 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainerAfterModelReset)
 TEST_F(TreeViewComponentProviderTests, CheckCellEditorInFilteredStruct)
 {
   auto struct_item = m_model.InsertItem<AnyValueStructItem>();
-  auto scalar_item0 = struct_item->AddScalarField("scalar", sup::dto::kInt32TypeName, 42);
-  auto scalar_item1 = struct_item->AddScalarField("abc", sup::dto::kInt8TypeName, mvvm::int8{43});
+  auto scalar_item0 = struct_item->AddScalarField("scalar", 42);
+  auto scalar_item1 = struct_item->AddScalarField("abc", mvvm::int8{43});
 
   TreeViewComponentProvider provider(&m_model, &m_tree);
 

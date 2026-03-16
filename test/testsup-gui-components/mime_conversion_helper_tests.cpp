@@ -26,8 +26,6 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_model.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 
 #include <QMimeData>
@@ -163,8 +161,8 @@ TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
 
   auto parent0 = model.InsertItem<AnyValueStructItem>();
   parent0->SetAnyTypeName("abc");
-  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto child0 = parent0->AddScalarField("field0", mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", mvvm::boolean{true});
   auto parent1 = model.InsertItem<AnyValueStructItem>();
   parent1->SetAnyTypeName("def");
 
@@ -192,8 +190,8 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
 
   auto parent0 = model.InsertItem<AnyValueStructItem>();
   parent0->SetAnyTypeName("abc");
-  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto child0 = parent0->AddScalarField("field0", mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", mvvm::boolean{true});
   auto parent1 = model.InsertItem<AnyValueStructItem>();
   parent1->SetAnyTypeName("def");
 
@@ -222,8 +220,8 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionIdentifierToMimeData)
   mvvm::SessionModel model;
 
   auto parent0 = model.InsertItem<AnyValueStructItem>();
-  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto child0 = parent0->AddScalarField("field0", mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", mvvm::boolean{true});
   auto parent1 = model.InsertItem<AnyValueStructItem>();
 
   QMimeData data;
@@ -244,8 +242,8 @@ TEST_F(MimeConversionHelperTests, CreateItemSelectionIdentifierToMimeData)
   mvvm::SessionModel model;
 
   auto parent0 = model.InsertItem<AnyValueStructItem>();
-  auto child0 = parent0->AddScalarField("field0", sup::dto::kInt32TypeName, mvvm::int32{42});
-  auto child1 = parent0->AddScalarField("field1", sup::dto::kBooleanTypeName, mvvm::boolean{true});
+  auto child0 = parent0->AddScalarField("field0", mvvm::int32{42});
+  auto child1 = parent0->AddScalarField("field1", mvvm::boolean{true});
   auto parent1 = model.InsertItem<AnyValueStructItem>();
 
   auto data = CreateItemSelectionIdentifierMimeData({parent0, child0, parent1}, kMimeType);
