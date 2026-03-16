@@ -24,7 +24,6 @@
 
 #include <mvvm/core/variant.h>
 
-#include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/basic_scalar_types.h>
 

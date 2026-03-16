@@ -25,8 +25,6 @@
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/application_model.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -44,9 +42,9 @@ TEST_F(AnyValueItemTest, ChangeScalarType)
   mvvm::ApplicationModel model;
 
   auto scalar = model.InsertItem<AnyValueScalarItem>();
-  scalar->SetAnyTypeName(sup::dto::kInt8TypeName);
+  scalar->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   scalar->SetData(mvvm::int8{42});
-  EXPECT_EQ(scalar->GetAnyTypeName(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(scalar->GetAnyTypeName(), mvvm::constants::kInt8TypeName);
   EXPECT_EQ(scalar->Data<mvvm::int8>(), mvvm::int8{42});
 
   model.SetUndoEnabled(true);
@@ -55,7 +53,7 @@ TEST_F(AnyValueItemTest, ChangeScalarType)
   EXPECT_FALSE(commands->CanRedo());
   EXPECT_EQ(commands->GetCommandCount(), 0U);
 
-  scalar->SetAnyTypeName(sup::dto::kStringTypeName);
+  scalar->SetAnyTypeName(mvvm::constants::kStringTypeName);
   EXPECT_EQ(scalar->Data<std::string>(), std::string());
 
   EXPECT_TRUE(commands->CanUndo());
@@ -64,11 +62,11 @@ TEST_F(AnyValueItemTest, ChangeScalarType)
 
   commands->Undo();
   // macro command was able to return everything in one go
-  EXPECT_EQ(scalar->GetAnyTypeName(), sup::dto::kInt8TypeName);
+  EXPECT_EQ(scalar->GetAnyTypeName(), mvvm::constants::kInt8TypeName);
   EXPECT_EQ(scalar->Data<mvvm::int8>(), mvvm::int8{42});
 
   commands->Redo();
-  scalar->SetAnyTypeName(sup::dto::kStringTypeName);
+  scalar->SetAnyTypeName(mvvm::constants::kStringTypeName);
   EXPECT_EQ(scalar->Data<std::string>(), std::string());
 }
 

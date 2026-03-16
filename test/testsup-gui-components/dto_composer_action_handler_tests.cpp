@@ -26,8 +26,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/container_item.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -78,7 +76,7 @@ TEST_F(DtoComposerActionHandlerTest, OnDuplicateContainer)
   auto container1 = m_model.InsertItem<mvvm::ContainerItem>();
 
   auto scalar_item = container0->InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
-  scalar_item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  scalar_item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   scalar_item->SetData(mvvm::int8{42});
 
   DtoComposerActionHandler action_handler(&m_model);

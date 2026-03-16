@@ -43,8 +43,6 @@
 #include <mvvm/model/item_selection.h>
 #include <mvvm/utils/file_utils.h>
 
-#include <sup/dto/anyvalue.h>
-
 #include <QAction>
 #include <QFileDialog>
 #include <QMenu>

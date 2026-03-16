@@ -22,8 +22,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 namespace sup::gui::test
@@ -47,11 +45,11 @@ TEST_F(ScalarTypePropertyItemTest, SetScalarTypeName)
 {
   ScalarTypePropertyItem item;
 
-  item.SetScalarTypeName(sup::dto::kInt32TypeName);
-  EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kInt32TypeName);
+  item.SetScalarTypeName(mvvm::constants::kInt32TypeName);
+  EXPECT_EQ(item.GetScalarTypeName(), mvvm::constants::kInt32TypeName);
 
-  item.SetScalarTypeName(sup::dto::kBooleanTypeName);
-  EXPECT_EQ(item.GetScalarTypeName(), sup::dto::kBooleanTypeName);
+  item.SetScalarTypeName(mvvm::constants::kBooleanTypeName);
+  EXPECT_EQ(item.GetScalarTypeName(), mvvm::constants::kBooleanTypeName);
 
   EXPECT_THROW(item.SetScalarTypeName("abc"), mvvm::RuntimeException);
 }

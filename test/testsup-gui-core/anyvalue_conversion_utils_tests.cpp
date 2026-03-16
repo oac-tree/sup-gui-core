@@ -25,7 +25,6 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 #include <sup/gui/model/scalar_conversion_utils.h>
 
-#include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 
 #include <gtest/gtest.h>

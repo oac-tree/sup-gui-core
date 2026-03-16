@@ -31,8 +31,6 @@
 #include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 #include <QSignalSpy>
@@ -56,7 +54,7 @@ public:
 
 TEST_F(TreeViewComponentProviderTests, InitialState)
 {
-  TreeViewComponentProvider provider(&m_model, &m_tree);
+  const TreeViewComponentProvider provider(&m_model, &m_tree);
 
   EXPECT_NE(provider.GetViewModel(), nullptr);
   EXPECT_NE(provider.GetLastProxyModel(), nullptr);
@@ -72,7 +70,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
 {
   // single scalar in a model
   auto item = m_model.InsertItem<AnyValueScalarItem>();
-  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   item->SetData(mvvm::int8{42});
 
   TreeViewComponentProvider provider(&m_model, &m_tree);
@@ -101,7 +99,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelection().GetSelectedItem(), item);
 
-  mvvm::ItemSelection expected_selection({item, item->GetItem(constants::kAnyValueTypeTag)});
+  const mvvm::ItemSelection expected_selection({item, item->GetItem(constants::kAnyValueTypeTag)});
   EXPECT_EQ(provider.GetSelection(), expected_selection);
 
   EXPECT_EQ(spy_selected.count(), 1);
@@ -117,7 +115,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   // single scalar in a model
   auto container = m_model.InsertItem<mvvm::ContainerItem>();
   auto item = m_model.InsertItem<AnyValueScalarItem>(container, mvvm::TagIndex::Append());
-  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   item->SetData(mvvm::int8{42});
 
   // to test tree view we will be looking at proxy model.
@@ -214,7 +212,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainerAfterModelReset)
   auto new_root = mvvm::utils::CreateEmptyRootItem();
   auto new_container = new_root->InsertItem<mvvm::ContainerItem>(mvvm::TagIndex::Append());
   auto item = m_model.InsertItem<AnyValueScalarItem>(new_container, mvvm::TagIndex::Append());
-  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   item->SetData(mvvm::int8{42});
 
   // mimicking model load from disk

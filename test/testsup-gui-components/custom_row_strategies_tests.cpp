@@ -25,8 +25,6 @@
 
 #include <mvvm/providers/viewitem.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -50,7 +48,7 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
 
   AnyValueScalarItem item;
 
-  item.SetAnyTypeName(sup::dto::kInt8TypeName);
+  item.SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item.Data<mvvm::int8>(), 0);
 
   auto expected_variant =

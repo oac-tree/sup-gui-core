@@ -28,8 +28,6 @@
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/standarditems/container_item.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gtest/gtest.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -62,7 +60,7 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
 {
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<AnyValueScalarItem>();
-  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
   AnyValueViewModel viewmodel(&model);
@@ -100,12 +98,12 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
 
   // it should be possible to change scalar type
   auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
-  scalar_type_combo.SetValue(sup::dto::kBooleanTypeName);
+  scalar_type_combo.SetValue(mvvm::constants::kBooleanTypeName);
 
   EXPECT_TRUE(
       viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
   EXPECT_EQ(item->Data<mvvm::boolean>(), false);
-  EXPECT_EQ(item->GetAnyTypeName(), sup::dto::kBooleanTypeName);
+  EXPECT_EQ(item->GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
 }
 
 //! Testing how an empty struct item looks in a view model.
@@ -232,7 +230,7 @@ TEST_F(AnyValueViewModelTest, EmptyArrayItem)
   // column. Empty variant doesn't have it's own editor, so it is not possible to type anything in.
   // However, the value can be changed programmatically. Leaving it under test to trace possible
   // changes in the future.
-  mvvm::int8 new_value(42);
+  const mvvm::int8 new_value(42);
   EXPECT_TRUE(viewmodel.setData(item_value_index, QVariant::fromValue(new_value), Qt::EditRole));
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
 
@@ -315,7 +313,7 @@ TEST_F(AnyValueViewModelTest, BooleanScalarItem)
 {
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<AnyValueScalarItem>();
-  item->SetAnyTypeName(sup::dto::kBooleanTypeName);
+  item->SetAnyTypeName(mvvm::constants::kBooleanTypeName);
   item->SetData(true);
 
   const AnyValueViewModel viewmodel(&model);
@@ -349,7 +347,7 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   auto container = model.InsertItem<mvvm::ContainerItem>();
 
   auto item = model.InsertItem<AnyValueScalarItem>(container, mvvm::TagIndex::Append());
-  item->SetAnyTypeName(sup::dto::kInt8TypeName);
+  item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
   auto expected_variant =

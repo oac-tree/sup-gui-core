@@ -32,9 +32,6 @@
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/utils/file_utils.h>
 
-#include <sup/dto/anytype.h>
-#include <sup/dto/anyvalue.h>
-
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 #include <testutils/mock_anyvalue_editor_context.h>
@@ -80,14 +77,14 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
   // creating action handler for the context, when struct is selected
   auto handler = CreateActionHandler({struct_item});
 
-  EXPECT_TRUE(handler->CanInsertInto(sup::dto::kInt32TypeName));
+  EXPECT_TRUE(handler->CanInsertInto(mvvm::constants::kInt32TypeName));
 
   // expecting no callbacks
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(0);
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
 
   // adding AnyValueItem struct as a field.
-  handler->InsertAnyValueItemInto(sup::dto::kInt32TypeName);
+  handler->InsertAnyValueItemInto(mvvm::constants::kInt32TypeName);
 
   EXPECT_EQ(struct_item->GetChildren().size(), 1);
 };
@@ -97,7 +94,7 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, AddingArrayWithStructWithScalar)
 TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
 {
   AnyValueScalarItem item;
-  item.SetAnyTypeName(sup::dto::kInt32TypeName);
+  item.SetAnyTypeName(mvvm::constants::kInt32TypeName);
   item.SetData(42);
   item.SetEnabled(false);
   item.SetEditable(false);

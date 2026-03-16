@@ -28,7 +28,6 @@
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
-#include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 

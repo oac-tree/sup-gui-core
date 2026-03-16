@@ -27,8 +27,6 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/container_item.h>
 
-#include <sup/dto/anytype.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -136,7 +134,7 @@ TEST_F(JsonPanelControllerTest, JsonUpdateOnScalarInsert)
 TEST_F(JsonPanelControllerTest, CheckErrorMessagesOnScalarTypeChange)
 {
   auto scalar_item = m_model.InsertItem<AnyValueScalarItem>(m_container, mvvm::TagIndex::Append());
-  scalar_item->SetAnyTypeName(sup::dto::kInt32TypeName);
+  scalar_item->SetAnyTypeName(mvvm::constants::kInt32TypeName);
 
   const std::string expected_json1(
       R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"int32"}},{"instance":0}])RAW");
@@ -158,13 +156,13 @@ TEST_F(JsonPanelControllerTest, CheckErrorMessagesOnScalarTypeChange)
     // empty variant was replaced with bool variant
     EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
   }
-  scalar_item->SetAnyTypeName(sup::dto::kBooleanTypeName);
+  scalar_item->SetAnyTypeName(mvvm::constants::kBooleanTypeName);
 }
 
 TEST_F(JsonPanelControllerTest, JsonUpdateOnPrettyChange)
 {
   auto scalar_item = m_model.InsertItem<AnyValueScalarItem>(m_container, mvvm::TagIndex::Append());
-  scalar_item->SetAnyTypeName(sup::dto::kInt32TypeName);
+  scalar_item->SetAnyTypeName(mvvm::constants::kInt32TypeName);
 
   const std::string expected_json1(
       R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"int32"}},{"instance":0}])RAW");
