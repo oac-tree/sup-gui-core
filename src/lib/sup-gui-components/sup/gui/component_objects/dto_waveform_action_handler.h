@@ -79,7 +79,7 @@ private:
   /**
    * @brief Returns currently selected waveform.
    */
-  mvvm::LineSeriesItem* GetSelectedWaveform() const;
+  const mvvm::LineSeriesItem *GetSelectedWaveform() const;
 
   /**
    * @brief Returns container used to store LineSeriesItem.

@@ -85,7 +85,7 @@ mvvm::LineSeriesItem* WaveformEditorActionHandler::GetLineSeries() const
   return m_context.selected_waveform_callback();
 }
 
-mvvm::PointItem* WaveformEditorActionHandler::GetSelectedPoint() const
+const mvvm::PointItem* WaveformEditorActionHandler::GetSelectedPoint() const
 {
   return m_context.selected_point_callback();
 }

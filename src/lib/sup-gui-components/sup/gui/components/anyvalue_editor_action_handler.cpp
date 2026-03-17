@@ -141,7 +141,7 @@ void AnyValueEditorActionHandler::RemoveSelected()
   {
     next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
     auto parent = item->GetParent();
-    GetModel()->RemoveItem(const_cast<mvvm::SessionItem*>(item));
+    GetModel()->RemoveItem(item);
     UpdateArrayElementNames(*parent);
   }
 

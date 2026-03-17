@@ -83,7 +83,7 @@ void DtoWaveformActionHandler::RemoveWaveform()
     return;
   }
 
-  auto selected_waveform = GetSelectedWaveform();
+  const auto* selected_waveform = GetSelectedWaveform();
   auto next_to_select = dynamic_cast<const mvvm::LineSeriesItem*>(
       mvvm::utils::FindNextSiblingToSelect(selected_waveform));
 
@@ -95,7 +95,7 @@ void DtoWaveformActionHandler::RemoveWaveform()
   emit SelectWaveformRequest(next_to_select);
 }
 
-mvvm::LineSeriesItem* DtoWaveformActionHandler::GetSelectedWaveform() const
+const mvvm::LineSeriesItem* DtoWaveformActionHandler::GetSelectedWaveform() const
 {
   return m_context.selected_waveform();
 }
