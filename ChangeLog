@@ -1,5 +1,7 @@
 Changes for 2.2.0:
 
+- Remove default arguments from viewmodel virtual methods
+- Switch to const in item selection/notification machinery
 - Switch machinery to new ItemSelection class
 - Implement helper methods to handle mime data for item copying
 - Fix color engine for svg icon rendering when embedded in QTreeView
