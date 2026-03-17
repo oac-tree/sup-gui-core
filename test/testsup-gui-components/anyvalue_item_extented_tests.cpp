@@ -45,8 +45,8 @@ TEST_F(AnyValueItemExtendedTest, StructWithScalarFieldInAllItemsViewModel)
   auto scalar0 = struct_item->AddScalarField("field0", mvvm::int32{42});
 
   const mvvm::AllItemsViewModel view_model(&model);
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   auto struct_index = view_model.index(0, 0, QModelIndex());
   EXPECT_EQ(view_model.rowCount(struct_index), 1);

@@ -64,12 +64,12 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
   AnyValueViewModel viewmodel(&model);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
 
-  auto item_displayname_index = viewmodel.index(0, 0);
-  auto item_value_index = viewmodel.index(0, 1);
-  auto item_type_index = viewmodel.index(0, 2);
+  auto item_displayname_index = viewmodel.index(0, 0, QModelIndex());
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
   auto views = viewmodel.FindViews(item);
   ASSERT_EQ(views.size(), 2);
@@ -114,12 +114,12 @@ TEST_F(AnyValueViewModelTest, EmptyStructItem)
   auto item = model.InsertItem<AnyValueStructItem>();
 
   AnyValueViewModel viewmodel(&model);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
 
-  auto item_displayname_index = viewmodel.index(0, 0);
-  auto item_value_index = viewmodel.index(0, 1);
-  auto item_type_index = viewmodel.index(0, 2);
+  auto item_displayname_index = viewmodel.index(0, 0, QModelIndex());
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
   auto views = viewmodel.FindViews(item);
   EXPECT_EQ(views.size(), 2);
@@ -165,7 +165,7 @@ TEST_F(AnyValueViewModelTest, StructWithScalarItem)
 
   AnyValueViewModel viewmodel(&model);
 
-  auto struct_index = viewmodel.index(0, 0);
+  auto struct_index = viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(viewmodel.rowCount(struct_index), 1);
   EXPECT_EQ(viewmodel.columnCount(struct_index), 3);
 
@@ -198,12 +198,12 @@ TEST_F(AnyValueViewModelTest, EmptyArrayItem)
   auto item = model.InsertItem<AnyValueArrayItem>();
 
   AnyValueViewModel viewmodel(&model);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
 
-  auto item_displayname_index = viewmodel.index(0, 0);
-  auto item_value_index = viewmodel.index(0, 1);
-  auto item_type_index = viewmodel.index(0, 2);
+  auto item_displayname_index = viewmodel.index(0, 0, QModelIndex());
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
   auto views = viewmodel.FindViews(item);
   ASSERT_EQ(views.size(), 2);
@@ -317,12 +317,12 @@ TEST_F(AnyValueViewModelTest, BooleanScalarItem)
   item->SetData(true);
 
   const AnyValueViewModel viewmodel(&model);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
 
-  auto item_displayname_index = viewmodel.index(0, 0);
-  auto item_value_index = viewmodel.index(0, 1);
-  auto item_type_index = viewmodel.index(0, 2);
+  auto item_displayname_index = viewmodel.index(0, 0, QModelIndex());
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
   EXPECT_FALSE(viewmodel.data(item_displayname_index, Qt::CheckStateRole).isValid());
   EXPECT_TRUE(viewmodel.data(item_value_index, Qt::CheckStateRole).isValid());
@@ -353,17 +353,17 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   auto expected_variant =
       QVariant::fromValue(item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>());
 
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
 
   viewmodel.SetRootSessionItem(container);
 
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 3);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
 
-  auto item_displayname_index = viewmodel.index(0, 0);
-  auto item_value_index = viewmodel.index(0, 1);
-  auto item_type_index = viewmodel.index(0, 2);
+  auto item_displayname_index = viewmodel.index(0, 0, QModelIndex());
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             constants::kScalarTypeName);

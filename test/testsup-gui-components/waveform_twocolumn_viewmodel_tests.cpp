@@ -46,24 +46,24 @@ TEST_F(WaveformTwoColumnViewModelTest, ViewModelData)
   WaveformTwoColumnViewModel viewmodel(&model);
   viewmodel.SetRootSessionItem(data_item);
 
-  EXPECT_EQ(viewmodel.rowCount(), 3);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // first point
-  auto x_index = viewmodel.index(0, 0);
-  auto y_index = viewmodel.index(0, 1);
+  auto x_index = viewmodel.index(0, 0, QModelIndex());
+  auto y_index = viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(viewmodel.data(x_index, Qt::DisplayRole).toDouble(), 1.0);
   EXPECT_EQ(viewmodel.data(y_index, Qt::DisplayRole).toDouble(), 10.0);
 
   // second point
-  x_index = viewmodel.index(1, 0);
-  y_index = viewmodel.index(1, 1);
+  x_index = viewmodel.index(1, 0, QModelIndex());
+  y_index = viewmodel.index(1, 1, QModelIndex());
   EXPECT_EQ(viewmodel.data(x_index, Qt::DisplayRole).toDouble(), 2.0);
   EXPECT_EQ(viewmodel.data(y_index, Qt::DisplayRole).toDouble(), 20.0);
 
   // third point
-  x_index = viewmodel.index(2, 0);
-  y_index = viewmodel.index(2, 1);
+  x_index = viewmodel.index(2, 0, QModelIndex());
+  y_index = viewmodel.index(2, 1, QModelIndex());
   EXPECT_EQ(viewmodel.data(x_index, Qt::DisplayRole).toDouble(), 3.0);
   EXPECT_EQ(viewmodel.data(y_index, Qt::DisplayRole).toDouble(), 30.0);
 }
@@ -127,18 +127,18 @@ TEST_F(WaveformTwoColumnViewModelTest, AppendPoints)
   mvvm::ApplicationModel model;
 
   WaveformTwoColumnViewModel viewmodel(&model);
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   auto data_item = model.InsertItem<mvvm::LineSeriesDataItem>();
   viewmodel.SetRootSessionItem(data_item);
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // adding a point to the array
   data_item->InsertPoint(0, {1.0, 10.0});
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 }
 
 //! Validating viewmodel while removing points from the model.
@@ -153,25 +153,25 @@ TEST_F(WaveformTwoColumnViewModelTest, RemovePoints)
   WaveformTwoColumnViewModel viewmodel(&model);
   viewmodel.SetRootSessionItem(data_item);
 
-  EXPECT_EQ(viewmodel.rowCount(), 3);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // removing middle point
   data_item->RemovePoint(1);
 
   // viewmodel should see only first and last point
-  EXPECT_EQ(viewmodel.rowCount(), 2);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // first point
-  auto x_index = viewmodel.index(0, 0);
-  auto y_index = viewmodel.index(0, 1);
+  auto x_index = viewmodel.index(0, 0, QModelIndex());
+  auto y_index = viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(viewmodel.data(x_index, Qt::DisplayRole).toDouble(), 1.0);
   EXPECT_EQ(viewmodel.data(y_index, Qt::DisplayRole).toDouble(), 10.0);
 
   // last point
-  x_index = viewmodel.index(1, 0);
-  y_index = viewmodel.index(1, 1);
+  x_index = viewmodel.index(1, 0, QModelIndex());
+  y_index = viewmodel.index(1, 1, QModelIndex());
   EXPECT_EQ(viewmodel.data(x_index, Qt::DisplayRole).toDouble(), 3.0);
   EXPECT_EQ(viewmodel.data(y_index, Qt::DisplayRole).toDouble(), 30.0);
 }
