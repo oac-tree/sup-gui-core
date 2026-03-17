@@ -140,10 +140,10 @@ void WaveformEditorWidget::SetViewportToContent()
   m_chart_canvas->SetViewportToContent();
 }
 
-void WaveformEditorWidget::SetSelectedPoint(mvvm::PointItem* item)
+void WaveformEditorWidget::SetSelectedPoint(const mvvm::PointItem* item)
 {
   m_table_widget->SetSelectedPoint(item);
-  m_chart_canvas->SetSelectedPoints({item});
+  m_chart_canvas->SetSelectedPoints({const_cast<mvvm::PointItem*>(item)});
 }
 
 WaveformEditorContext WaveformEditorWidget::CreateActionContext() const
@@ -167,7 +167,7 @@ void WaveformEditorWidget::SetupConnections()
           on_display_mode_change);
 
   connect(m_action_handler, &WaveformEditorActionHandler::SelectItemRequest, this,
-          [this](auto item) { SetSelectedPoint(dynamic_cast<mvvm::PointItem*>(item)); });
+          [this](auto item) { SetSelectedPoint(dynamic_cast<const mvvm::PointItem*>(item)); });
 
   // propagate request to change canvas operation mode (select/pan) from toolbar to canvas
   connect(m_actions, &WaveformEditorActions::ChangeOperationModeRequest, m_chart_canvas,

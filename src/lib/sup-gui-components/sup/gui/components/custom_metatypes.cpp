@@ -37,9 +37,9 @@ void RegisterCustomMetaTypes()
   static std::once_flag register_once_flag;
   auto register_func = []()
   {
-    (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
-    (void)qRegisterMetaType<mvvm::LineSeriesItem*>("mvvm::LineSeriesItem*");
-    (void)qRegisterMetaType<mvvm::PointItem*>("mvvm::PointItem*");
+    (void)qRegisterMetaType<const mvvm::SessionItem*>("const mvvm::SessionItem*");
+    (void)qRegisterMetaType<const mvvm::LineSeriesItem*>("const mvvm::LineSeriesItem*");
+    (void)qRegisterMetaType<const mvvm::PointItem*>("const mvvm::PointItem*");
     (void)qRegisterMetaType<QList<int>>("QList<int>");
     (void)qRegisterMetaType<mvvm::AppExitRequest>("mvvm::AppExitRequest");
     (void)qRegisterMetaType<mvvm::ItemSelection>("mvvm::ItemSelection");

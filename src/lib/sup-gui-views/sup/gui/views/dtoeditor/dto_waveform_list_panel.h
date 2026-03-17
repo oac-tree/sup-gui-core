@@ -68,7 +68,7 @@ public:
 
   mvvm::LineSeriesItem* GetSelectedWaveform();
 
-  void SetSelectedWaveform(mvvm::LineSeriesItem* waveform);
+  void SetSelectedWaveform(const mvvm::LineSeriesItem *waveform);
 
 signals:
   void WaveformSelected(mvvm::LineSeriesItem* waveform);

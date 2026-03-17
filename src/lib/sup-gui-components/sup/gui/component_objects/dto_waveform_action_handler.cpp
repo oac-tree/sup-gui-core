@@ -84,8 +84,8 @@ void DtoWaveformActionHandler::RemoveWaveform()
   }
 
   auto selected_waveform = GetSelectedWaveform();
-  auto next_to_select =
-      dynamic_cast<mvvm::LineSeriesItem*>(mvvm::utils::FindNextSiblingToSelect(selected_waveform));
+  auto next_to_select = dynamic_cast<const mvvm::LineSeriesItem*>(
+      mvvm::utils::FindNextSiblingToSelect(selected_waveform));
 
   auto corresponding_data = selected_waveform->GetDataItem();
 

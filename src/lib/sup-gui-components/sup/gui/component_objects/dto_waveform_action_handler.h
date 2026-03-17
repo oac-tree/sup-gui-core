@@ -73,7 +73,7 @@ public:
   void RemoveWaveform();
 
 signals:
-  void SelectWaveformRequest(mvvm::LineSeriesItem* item);
+  void SelectWaveformRequest(const mvvm::LineSeriesItem* item);
 
 private:
   /**

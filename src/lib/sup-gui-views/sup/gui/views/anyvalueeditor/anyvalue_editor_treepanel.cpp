@@ -84,13 +84,13 @@ void AnyValueEditorTreePanel::SetAnyValueItemContainer(mvvm::SessionItem* contai
   AdjustTreeAppearance();
 }
 
-std::vector<AnyValueItem*> AnyValueEditorTreePanel::GetSelectedItems() const
+std::vector<const AnyValueItem *> AnyValueEditorTreePanel::GetSelectedItems() const
 {
   auto selection = m_component_provider->GetSelection();
-  return mvvm::utils::RemoveConst(selection.GetSelectedItems<AnyValueItem>());
+  return selection.GetSelectedItems<AnyValueItem>();
 }
 
-void AnyValueEditorTreePanel::SetSelected(mvvm::SessionItem* item)
+void AnyValueEditorTreePanel::SetSelected(const mvvm::SessionItem* item)
 {
   m_component_provider->SetSelection(mvvm::ItemSelection(item));
   auto indices_of_inserted = m_component_provider->GetViewIndexes(item);

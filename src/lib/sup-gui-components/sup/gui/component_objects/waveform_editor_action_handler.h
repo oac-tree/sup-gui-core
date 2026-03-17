@@ -58,7 +58,7 @@ public:
   void OnRemoveColumnRequest();
 
 signals:
-  void SelectItemRequest(mvvm::SessionItem* item);
+  void SelectItemRequest(const mvvm::SessionItem* item);
 
 private:
   mvvm::ISessionModel* GetModel();

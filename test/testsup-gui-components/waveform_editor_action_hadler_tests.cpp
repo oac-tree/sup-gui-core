@@ -28,13 +28,14 @@
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
 #include <QSignalSpy>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(mvvm::SessionItem*)
+Q_DECLARE_METATYPE(const mvvm::SessionItem*)
 #endif
 
 namespace sup::gui::test
@@ -82,22 +83,6 @@ public:
         CreateContext(current_line_series, selected_point));
   }
 
-  /**
-   * @brief Helper function that retrieves SessionItem from QSignalSpy arguments.
-   */
-  mvvm::SessionItem* GetSendItem(QSignalSpy& signal_spy)
-  {
-    if (signal_spy.count() == 1)
-    {
-      auto arguments = signal_spy.takeFirst();
-      if (arguments.size() == 1)
-      {
-        return arguments.at(0).value<mvvm::SessionItem*>();
-      }
-    }
-    return nullptr;
-  }
-
   mvvm::ApplicationModel m_model;
   mvvm::LineSeriesDataItem* m_data_item{nullptr};
   mvvm::ChartViewportItem* m_viewport_item{nullptr};
@@ -122,7 +107,7 @@ TEST_F(WaveformEditorActionHandlerTest, AddAfterEmptyLineSeries)
   EXPECT_EQ(x, 0.0);
   EXPECT_EQ(y, 0.0);
 
-  EXPECT_EQ(GetSendItem(spy_selection_request), points.at(0));
+  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::SessionItem*>(spy_selection_request), points.at(0));
 }
 
 //! Appending points to non-empty line series. For the moment action handler has following behavior:
@@ -201,7 +186,8 @@ TEST_F(WaveformEditorActionHandlerTest, RemoveMiddlePoint)
   EXPECT_EQ(m_data_item->GetWaveform(), expected);
 
   // algorithm should suggest the last point for selection
-  EXPECT_EQ(GetSendItem(spy_selection_request), m_data_item->GetPoint(1));
+  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::SessionItem*>(spy_selection_request),
+            m_data_item->GetPoint(1));
 }
 
 //! Prepending points to empty line series.

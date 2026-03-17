@@ -111,13 +111,13 @@ public:
   void Redo() override;
 
 private:
-  AnyValueItem* GetSelectedItem() const;
+  const AnyValueItem* GetSelectedItem() const;
 
-  std::vector<AnyValueItem*> GetSelectedItems() const;
+  std::vector<const AnyValueItem *> GetSelectedItems() const;
 
   mvvm::SessionItem* GetAnyValueItemContainer() const;
 
-  void RequestNotify(mvvm::SessionItem* item) const;
+  void RequestNotify(const mvvm::SessionItem *item) const;
 
   mvvm::SessionItem* GetParentToInsert() const;
 

@@ -81,7 +81,7 @@ mvvm::LineSeriesItem* DtoWaveformListPanel::GetSelectedWaveform()
   return const_cast<mvvm::LineSeriesItem*>(selection.GetSelected<mvvm::LineSeriesItem>());
 }
 
-void DtoWaveformListPanel::SetSelectedWaveform(mvvm::LineSeriesItem* waveform)
+void DtoWaveformListPanel::SetSelectedWaveform(const mvvm::LineSeriesItem* waveform)
 {
   m_component_provider->SetSelection(mvvm::ItemSelection(waveform));
 }

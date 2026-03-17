@@ -50,7 +50,7 @@ public:
    * @param clipboard The content of the clipboard.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      const std::vector<AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
+      const std::vector<const AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
   {
     m_mock_context.SetClipboardContent(std::move(clipboard));
     return m_mock_context.CreateActionHandler(GetContainer(), selection);
@@ -201,7 +201,8 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
   EXPECT_EQ(items.at(0)->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
   // validating request to select just inserted item
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({items.at(0)}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(),
+            std::vector<const mvvm::SessionItem*>({items.at(0)}));
 }
 
 //! Testing PasteAfter operation when container has a struct with two fields. First field is
@@ -245,7 +246,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({inserted_item}));
 }
 
 //! Testing PasteInto operation when container has a struct with single fields.
@@ -287,7 +288,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select just inserted item
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({inserted_item}));
 }
 
 //! Testing Cut operation, when structure has two fields, first field is selected.
@@ -312,7 +313,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
   EXPECT_EQ(parent->GetChildren(), expected_children);
 
   // validating request to select remaining item
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({field1}));
 
   // as a result of cut operation, QMimeData object was created
   ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);
@@ -359,7 +360,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteBetweenTwoFields)
   EXPECT_EQ(pasted_field1->Data<mvvm::int32>(), mvvm::int32{43});
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(),
-            std::vector<mvvm::SessionItem*>({pasted_field0, pasted_field1}));
+            std::vector<const mvvm::SessionItem*>({pasted_field0, pasted_field1}));
 }
 
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteArrayElements)
@@ -474,7 +475,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
 
   EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
   EXPECT_CALL(m_mock_context, NotifyRequest(::testing::_)).Times(1);
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({struct2}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({struct2}));
   m_mock_context.SetAsCurrentSelection({struct2});
 
   handler->PasteInto();
@@ -493,7 +494,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutAndPastePartOfTreeAsField)
   EXPECT_EQ(pasted_scalar2->GetDisplayName(), "scalar2");
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(),
-            std::vector<mvvm::SessionItem*>({struct2, pasted_struct1}));
+            std::vector<const mvvm::SessionItem*>({struct2, pasted_struct1}));
 }
 
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopySequenceIntoSequence)

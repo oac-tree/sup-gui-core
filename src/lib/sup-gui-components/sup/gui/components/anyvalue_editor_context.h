@@ -45,12 +45,12 @@ class AnyValueItem;
 struct AnyValueEditorContext
 {
   //!< callback to retrieve currently selected AnyValueItem
-  std::function<std::vector<AnyValueItem*>()> selected_items;
+  std::function<std::vector<const AnyValueItem*>()> selected_items;
 
   //!< A callback to notify the user that the item should be selected in a widget. This can
   //!< happen when a new item was just inserted, or some other item should be selected instead of
   //!< just removed.
-  std::function<void(mvvm::SessionItem*)> notify_request;
+  std::function<void(const mvvm::SessionItem*)> notify_request;
 
   //!< callback to report an error
   std::function<void(const MessageEvent&)> send_message;

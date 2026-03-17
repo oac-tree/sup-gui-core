@@ -54,7 +54,7 @@ class AnyValueItem;
  * containing a single "field1". "fild0" child will be ignored.
  */
 std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
-    const std::vector<AnyValueItem*>& selection);
+    const std::vector<const AnyValueItem*>& selection);
 
 /**
  * @brief Returns vector of AnyValueItems from given mime data.

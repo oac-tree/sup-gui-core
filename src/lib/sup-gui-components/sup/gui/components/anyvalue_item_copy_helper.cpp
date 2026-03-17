@@ -34,7 +34,7 @@ namespace sup::gui
 {
 
 std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
-    const std::vector<AnyValueItem*>& selection)
+    const std::vector<const AnyValueItem *> &selection)
 {
   // accept all items that are AnyValueItem and in the selection list, accept all properties
   auto filter_func = [&selection](const mvvm::SessionItem& item)

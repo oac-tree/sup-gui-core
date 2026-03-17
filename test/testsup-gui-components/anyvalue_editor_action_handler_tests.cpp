@@ -52,7 +52,7 @@ public:
    * @param selection Currently selected items.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      const std::vector<AnyValueItem*>& selection)
+      const std::vector<const AnyValueItem*>& selection)
   {
     return m_mock_context.CreateActionHandler(GetContainer(), selection);
   }
@@ -76,13 +76,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToCreateWhenNoContextIsInitialise
 
   {
     AnyValueEditorContext context;
-    context.selected_items = []() { return std::vector<AnyValueItem*>(); };
+    context.selected_items = []() { return std::vector<const AnyValueItem*>(); };
     EXPECT_THROW((AnyValueEditorActionHandler{context, nullptr}), RuntimeException);
   }
 
   {
     AnyValueEditorContext context;
-    context.selected_items = []() { return std::vector<AnyValueItem*>(); };
+    context.selected_items = []() { return std::vector<const AnyValueItem*>(); };
     context.notify_request = [](auto item) { (void)item; };
     EXPECT_NO_THROW((AnyValueEditorActionHandler{context, nullptr}));
   }
@@ -184,7 +184,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueToEmptyModel)
   ASSERT_NE(inserted_item, nullptr);
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(),
+            std::vector<const mvvm::SessionItem*>({inserted_item}));
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -217,7 +218,8 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
   EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
   EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kStructTypeName);
 
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({inserted_item}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(),
+            std::vector<const mvvm::SessionItem*>({inserted_item}));
 };
 
 //! Attempt to add a structure to a non-empty model when nothing is selected.
@@ -664,7 +666,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveFieldsInTheMiddle)
   handler->RemoveSelected();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field0, field3}));
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field3}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({field3}));
 };
 
 TEST_F(AnyValueEditorActionHandlerTest, RemoveParentWhenChildIsSelectedToo)
@@ -708,13 +710,13 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveUp)
   // validating that parent got new child
   EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
 
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({field1}));
 
   // moving selected item up second time doesn't change anything
   handler->MoveUp();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field1}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({field1}));
 };
 
 TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
@@ -736,13 +738,13 @@ TEST_F(AnyValueEditorActionHandlerTest, MoveDown)
   // validating that parent got new child
   EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
 
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({field0}));
 
   // moving selected item up second time doesn't change anything
   handler->MoveDown();
 
   EXPECT_EQ(parent->GetChildren(), std::vector<AnyValueItem*>({field1, field0}));
-  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<mvvm::SessionItem*>({field0}));
+  EXPECT_EQ(m_mock_context.GetNotifyRequests(), std::vector<const mvvm::SessionItem*>({field0}));
 };
 
 }  // namespace sup::gui::test

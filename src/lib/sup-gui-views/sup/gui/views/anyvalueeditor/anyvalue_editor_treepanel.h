@@ -63,9 +63,9 @@ public:
    */
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
-  std::vector<AnyValueItem*> GetSelectedItems() const;
+  std::vector<const AnyValueItem*> GetSelectedItems() const;
 
-  void SetSelected(mvvm::SessionItem* item);
+  void SetSelected(const mvvm::SessionItem *item);
 
   QTreeView* GetTreeView();
 

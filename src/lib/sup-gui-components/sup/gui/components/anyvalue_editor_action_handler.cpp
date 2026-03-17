@@ -135,11 +135,11 @@ void AnyValueEditorActionHandler::RemoveSelected()
   mvvm::utils::BeginMacro(*GetModel(), "Remove AnyValueItem");
 
   // remove children from the selection list to avoid double delete
-  mvvm::SessionItem* next_to_select{nullptr};
+  const mvvm::SessionItem* next_to_select{nullptr};
   auto selected = mvvm::utils::CastItems<const mvvm::SessionItem>(GetSelectedItems());
-  for (auto item : FilterOutChildren(selected))
+  for (const auto* item : FilterOutChildren(selected))
   {
-    next_to_select = mvvm::utils::FindNextSiblingToSelect(const_cast<mvvm::SessionItem*>(item));
+    next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
     auto parent = item->GetParent();
     GetModel()->RemoveItem(const_cast<mvvm::SessionItem*>(item));
     UpdateArrayElementNames(*parent);
@@ -196,7 +196,7 @@ void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_
 
 void AnyValueEditorActionHandler::MoveUp()
 {
-  if (auto item = GetSelectedItem(); item)
+  if (const auto* item = GetSelectedItem(); item)
   {
     if (mvvm::utils::MoveUp(*item))
     {
@@ -207,7 +207,7 @@ void AnyValueEditorActionHandler::MoveUp()
 
 void AnyValueEditorActionHandler::MoveDown()
 {
-  if (auto item = GetSelectedItem(); item)
+  if (const auto* item = GetSelectedItem(); item)
   {
     if (mvvm::utils::MoveDown(*item))
     {
@@ -358,13 +358,13 @@ void AnyValueEditorActionHandler::Redo()
   GetModel()->GetCommandStack()->Redo();
 }
 
-AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
+const AnyValueItem *AnyValueEditorActionHandler::GetSelectedItem() const
 {
   auto items = GetSelectedItems();
   return items.empty() ? nullptr : items.front();
 }
 
-std::vector<AnyValueItem*> AnyValueEditorActionHandler::GetSelectedItems() const
+std::vector<const AnyValueItem*> AnyValueEditorActionHandler::GetSelectedItems() const
 {
   return m_context.selected_items();
 }
@@ -374,14 +374,15 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetAnyValueItemContainer() const
   return m_container;
 }
 
-void AnyValueEditorActionHandler::RequestNotify(mvvm::SessionItem* item) const
+void AnyValueEditorActionHandler::RequestNotify(const mvvm::SessionItem* item) const
 {
   m_context.notify_request(item);
 }
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParentToInsert() const
 {
-  return (GetSelectedItem() != nullptr) ? GetSelectedItem() : GetAnyValueItemContainer();
+  auto selection = (GetSelectedItem() != nullptr) ? GetSelectedItem() : GetAnyValueItemContainer();
+  return const_cast<mvvm::SessionItem*>(selection);
 }
 
 mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const

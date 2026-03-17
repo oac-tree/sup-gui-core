@@ -98,7 +98,7 @@ public:
   /**
    * @brief Set point selected.
    */
-  void SetSelectedPoint(mvvm::PointItem* item);
+  void SetSelectedPoint(const mvvm::PointItem *item);
 
   /**
    * @brief Returns context representing current widget state which is relevant for action handler.

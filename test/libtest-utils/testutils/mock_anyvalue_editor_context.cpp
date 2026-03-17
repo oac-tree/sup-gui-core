@@ -29,7 +29,7 @@ namespace sup::gui::test
 {
 
 AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
-    const std::vector<sup::gui::AnyValueItem*>& current_selection)
+    const std::vector<const sup::gui::AnyValueItem*>& current_selection)
 {
   AnyValueEditorContext result;
 
@@ -37,7 +37,7 @@ AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
 
   result.selected_items = [this]() { return m_current_selection; };
 
-  result.notify_request = [this](auto item)
+  result.notify_request = [this](const auto* item)
   {
     m_notify_request.push_back(item);
     NotifyRequest(item);
@@ -61,7 +61,7 @@ AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
 }
 
 std::unique_ptr<AnyValueEditorActionHandler> MockAnyValueEditorContext::CreateActionHandler(
-    mvvm::SessionItem* container, const std::vector<AnyValueItem*>& current_selection)
+    mvvm::SessionItem* container, const std::vector<const AnyValueItem*>& current_selection)
 {
   return std::make_unique<AnyValueEditorActionHandler>(CreateContext(current_selection), container);
 }
@@ -76,13 +76,13 @@ void MockAnyValueEditorContext::SetClipboardContent(std::unique_ptr<QMimeData> c
   m_clipboard_content = std::move(clipboard);
 }
 
-std::vector<mvvm::SessionItem*> MockAnyValueEditorContext::GetNotifyRequests()
+std::vector<const mvvm::SessionItem *> MockAnyValueEditorContext::GetNotifyRequests()
 {
   return m_notify_request;
 }
 
 void MockAnyValueEditorContext::SetAsCurrentSelection(
-    const std::vector<sup::gui::AnyValueItem*>& selection)
+    const std::vector<const sup::gui::AnyValueItem*>& selection)
 {
   m_current_selection = selection;
 }

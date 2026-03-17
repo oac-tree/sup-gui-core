@@ -67,7 +67,7 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
   auto field2 = struct1->AddScalarField("field2", mvvm::int32{44});
 
   {  // user selection contains two children only
-    const std::vector<AnyValueItem*> selection({field0, struct1});
+    const std::vector<const AnyValueItem*> selection({field0, struct1});
 
     const auto mime_data = CreateAnyValueItemSelectionCopyMimeData(selection);
 
@@ -83,7 +83,7 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
   }
 
   {  // user selection contains main sequence
-    const std::vector<AnyValueItem*> selection({struct0, struct1, field2});
+    const std::vector<const AnyValueItem*> selection({struct0, struct1, field2});
 
     const auto mime_data = CreateAnyValueItemSelectionCopyMimeData(selection);
 
