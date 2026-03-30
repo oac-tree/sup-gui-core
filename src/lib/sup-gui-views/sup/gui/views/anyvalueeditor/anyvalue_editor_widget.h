@@ -100,12 +100,12 @@ public:
   /**
    * @brief Returns top AnyValueItem, which is our result.
    */
-  AnyValueItem* GetTopItem();
+  const AnyValueItem* GetTopItem() const;
 
   /**
    * @brief Returns the result of editing.
    */
-  std::unique_ptr<AnyValueItem> GetResult();
+  std::unique_ptr<AnyValueItem> GetResult() const;
 
 private:
   void ReadSettings();

@@ -173,14 +173,14 @@ void AnyValueEditorWidget::SetInitialValue(const AnyValueItem& item)
   m_action_handler->SetInitialValue(item);
 }
 
-AnyValueItem* AnyValueEditorWidget::GetTopItem()
+const AnyValueItem* AnyValueEditorWidget::GetTopItem() const
 {
   return m_action_handler->GetTopItem();
 }
 
-std::unique_ptr<AnyValueItem> AnyValueEditorWidget::GetResult()
+std::unique_ptr<AnyValueItem> AnyValueEditorWidget::GetResult() const
 {
-  if (auto top_item = GetTopItem(); top_item)
+  if (const auto* top_item = GetTopItem(); top_item)
   {
     return mvvm::utils::CloneItem(*top_item);
   }
@@ -219,7 +219,7 @@ void AnyValueEditorWidget::SetupConnections()
 
   // selection change from tree panel
   connect(m_tree_panel, &AnyValueEditorTreePanel::SelectionChanged, this,
-          [this](auto) { m_actions->UpdateEnabledStatus(); });
+          [this](const auto&) { m_actions->UpdateEnabledStatus(); });
 }
 
 void AnyValueEditorWidget::SetupWidgetActions()

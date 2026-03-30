@@ -56,9 +56,9 @@ public:
 
   void SetInitialValue(const sup::gui::AnyValueItem* item) override;
 
-  std::unique_ptr<sup::gui::AnyValueItem> GetResult() override;
+  std::unique_ptr<sup::gui::AnyValueItem> GetResult() const override;
 
-  AnyValueItem* GetTopItem();
+  const AnyValueItem* GetTopItem() const;
 
 private:
   std::unique_ptr<NullCommandService> m_command_service;

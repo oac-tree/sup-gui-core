@@ -50,7 +50,7 @@ public:
 
   void SetInitialValue(const sup::gui::AnyValueItem* item) override;
 
-  std::unique_ptr<sup::gui::AnyValueItem> GetResult() override;
+  std::unique_ptr<sup::gui::AnyValueItem> GetResult() const override;
 
 private:
   WaveformEditor* m_waveform_editor{nullptr};

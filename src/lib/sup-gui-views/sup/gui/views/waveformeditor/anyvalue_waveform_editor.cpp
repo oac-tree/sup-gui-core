@@ -50,7 +50,7 @@ void AnyValueWaveformEditor::SetInitialValue(const AnyValueItem* item)
   m_waveform_editor->SetWaveform(waveform_points, "");
 }
 
-std::unique_ptr<AnyValueItem> AnyValueWaveformEditor::GetResult()
+std::unique_ptr<AnyValueItem> AnyValueWaveformEditor::GetResult() const
 {
   return CreateFromWaveform(m_waveform_editor->GetWaveform());
 }

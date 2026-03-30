@@ -67,12 +67,12 @@ void AnyValueEditor::SetInitialValue(const AnyValueItem* item)
   m_editor_widget->SetInitialValue(*item);
 }
 
-std::unique_ptr<AnyValueItem> AnyValueEditor::GetResult()
+std::unique_ptr<AnyValueItem> AnyValueEditor::GetResult() const
 {
   return m_editor_widget->GetResult();
 }
 
-AnyValueItem* AnyValueEditor::GetTopItem()
+const AnyValueItem* AnyValueEditor::GetTopItem() const
 {
   return m_editor_widget->GetTopItem();
 }

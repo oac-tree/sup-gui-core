@@ -55,7 +55,7 @@ public:
   /**
    * @brief Returns the result of editing.
    */
-  virtual std::unique_ptr<sup::gui::AnyValueItem> GetResult() = 0;
+  virtual std::unique_ptr<sup::gui::AnyValueItem> GetResult() const = 0;
 };
 
 }  // namespace sup::gui
