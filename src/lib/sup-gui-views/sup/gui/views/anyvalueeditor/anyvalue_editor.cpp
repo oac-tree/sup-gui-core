@@ -60,6 +60,10 @@ AnyValueEditor::~AnyValueEditor() = default;
 
 void AnyValueEditor::SetInitialValue(const AnyValueItem* item)
 {
+  if (item == nullptr)
+  {
+    return;
+  }
   m_editor_widget->SetInitialValue(*item);
 }
 
