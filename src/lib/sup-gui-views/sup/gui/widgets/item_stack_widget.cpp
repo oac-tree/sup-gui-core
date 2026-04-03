@@ -87,6 +87,10 @@ std::int32_t ItemStackWidget::GetCurrentIndex() const
 
 void ItemStackWidget::SetCurrentIndex(std::int32_t index)
 {
+  if (index < 0 || index >= m_stacked_widget->count())
+  {
+    return;
+  }
   m_stacked_widget->setCurrentIndex(index);
   m_widget_selection_menu->actions().at(index)->setChecked(true);
   UpdateControlElementsVisibility();
