@@ -1,5 +1,6 @@
 Changes for 2.3.0:
 
+- Modify VisibilityAgent so it can handle more than one target
 - Fix ItemStackWidget for wrong index set
 
 Changes for 2.2.0:

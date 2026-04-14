@@ -53,8 +53,9 @@ AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget* parent_widget)
 
   auto on_subscribe = [this]() { SetContainerIntern(m_container); };
   auto on_unsubscribe = [this]() { SetContainerIntern(nullptr); };
-  // will be deleted as a child of QObject
-  m_visibility_agent = new VisibilityAgentBase(this, on_subscribe, on_unsubscribe);
+
+  m_visibility_agent = std::make_unique<VisibilityAgentBase>(on_subscribe, on_unsubscribe);
+  m_visibility_agent->SetTarget(this);
 }
 
 AnyValueEditorTextPanel::~AnyValueEditorTextPanel() = default;

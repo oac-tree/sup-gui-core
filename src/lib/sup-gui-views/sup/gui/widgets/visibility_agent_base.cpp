@@ -25,13 +25,22 @@
 namespace sup::gui
 {
 
+VisibilityAgentBase::VisibilityAgentBase(callback_t subscribe, callback_t unsubscribe)
+    : VisibilityAgentBase(nullptr, subscribe, unsubscribe)
+{
+}
+
 VisibilityAgentBase::VisibilityAgentBase(QObject* parent_object, callback_t subscribe,
                                          callback_t unsubscribe)
     : QObject(parent_object)
     , m_subscribe_callback(std::move(subscribe))
     , m_unsubscribe_callback(std::move(unsubscribe))
 {
-  parent_object->installEventFilter(this);
+}
+
+void VisibilityAgentBase::SetTarget(QObject* target)
+{
+  target->installEventFilter(this);
 }
 
 bool VisibilityAgentBase::eventFilter(QObject* obj, QEvent* event)

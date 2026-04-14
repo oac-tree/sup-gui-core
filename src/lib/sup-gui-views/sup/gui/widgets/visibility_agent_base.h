@@ -29,9 +29,9 @@ namespace sup::gui
 
 /**
  * @brief The VisibilityAgentBase class calls two different callbacks depending on whether the
- * parent widget is visible or not.
+ * target widget is visible or not.
  *
- * @details It is used to unsubscribe from model notifications when widget is hidden.
+ * It is used to unsubscribe from model notifications when widget is hidden.
  */
 
 class VisibilityAgentBase : public QObject
@@ -41,7 +41,15 @@ class VisibilityAgentBase : public QObject
 public:
   using callback_t = std::function<void()>;
 
+  VisibilityAgentBase(callback_t subscribe, callback_t unsubscribe);
   VisibilityAgentBase(QObject* parent_object, callback_t subscribe, callback_t unsubscribe);
+
+  /**
+   * @brief SetTarget sets the widget to monitor for visibility changes.
+   *
+   * The callbacks will be called when the widget is shown or hidden.
+   */
+  void SetTarget(QObject* widget);
 
 protected:
   bool eventFilter(QObject* obj, QEvent* event) override;

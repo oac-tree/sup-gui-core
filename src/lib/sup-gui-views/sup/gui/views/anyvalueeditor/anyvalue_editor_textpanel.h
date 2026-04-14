@@ -77,7 +77,7 @@ private:
 
   CodeView* m_json_view{nullptr};
   mvvm::SessionItem* m_container{nullptr};
-  VisibilityAgentBase* m_visibility_agent{nullptr};
+  std::unique_ptr<VisibilityAgentBase> m_visibility_agent;
   std::unique_ptr<IMessageHandler> m_message_handler;
   std::unique_ptr<JsonPanelController> m_panel_controller;
 };
