@@ -37,6 +37,70 @@ class MimeConversionHelperTests : public ::testing::Test
 {
 };
 
+TEST_F(MimeConversionHelperTests, SetStringListToMimeAndGetItBack)
+{
+  {  // empty mime
+    const QMimeData mime_data;
+    EXPECT_TRUE(GetStringListFromMime(mime_data, "").empty());
+  }
+
+  {  // single entry in mime
+    const QString mime_type = "application.coa.tests";
+    const QStringList expected_list({"abc"});
+    QMimeData mime_data;
+    GetStringListToMime(expected_list, mime_type, mime_data);
+    EXPECT_EQ(GetStringListFromMime(mime_data, mime_type), expected_list);
+  }
+
+  {  // two entries
+    const QString mime_type = "application.coa.tests";
+    const QStringList expected_list({"abc", "def"});
+    QMimeData mime_data;
+    GetStringListToMime(expected_list, mime_type, mime_data);
+    EXPECT_EQ(GetStringListFromMime(mime_data, mime_type), expected_list);
+  }
+}
+
+TEST_F(MimeConversionHelperTests, AddItemTypesToMimeAndGetItBack)
+{
+  {  //  empty mime
+    const QMimeData mime_data;
+    EXPECT_TRUE(GetSessionItemType(mime_data, "").empty());
+  }
+
+  {  // wrong mime type
+    const QMimeData mime_data;
+    EXPECT_TRUE(GetSessionItemType(mime_data, "application.coa.tests").empty());
+  }
+
+  {  // single item
+    AnyValueStructItem item;
+    const std::vector<const mvvm::SessionItem*> items({&item});
+    const QString mime_type = "application.coa.tests";
+    QMimeData mime_data;
+    SetItemTypesToMime(items, mime_type, mime_data);
+    EXPECT_EQ(GetItemTypesFromMime(mime_data, mime_type),
+              std::vector<std::string>({item.GetType()}));
+  }
+
+  {  // two items
+    AnyValueStructItem item1;
+    AnyValueArrayItem item2;
+
+    const std::vector<const mvvm::SessionItem*> items({&item1, &item2});
+    const QString mime_type = "application.coa.tests";
+    QMimeData mime_data;
+    SetItemTypesToMime(items, mime_type, mime_data);
+    EXPECT_EQ(GetItemTypesFromMime(mime_data, mime_type),
+              std::vector<std::string>({item1.GetType(), item2.GetType()}));
+  }
+}
+
+
+
+
+
+
 TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 {
   {  // empty list
@@ -132,7 +196,8 @@ TEST_F(MimeConversionHelperTests, CopyAndPasteWithFiltering)
 
   mvvm::CompoundItem compound;
   compound.SetDisplayName(expected_name1);
-  compound.RegisterTag(mvvm::TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  compound.RegisterTag(mvvm::TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/
+                       true);
 
   auto child0 =
       compound.InsertItem(std::make_unique<mvvm::PropertyItem>(), mvvm::TagIndex::Append());

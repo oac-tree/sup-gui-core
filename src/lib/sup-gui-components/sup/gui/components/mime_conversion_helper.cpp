@@ -30,6 +30,21 @@
 namespace sup::gui
 {
 
+QStringList GetStringListFromMime(const QMimeData& mime_data, const QString& mime_type)
+{
+  if (!mime_data.hasFormat(mime_type))
+  {
+    return {};
+  }
+  return mvvm::utils::GetStringList(mime_data.data(mime_type));
+}
+
+void GetStringListToMime(const QStringList& string_list, const QString& mime_type,
+                         QMimeData& mime_data)
+{
+  mime_data.setData(mime_type, mvvm::utils::GetByteArray(string_list));
+}
+
 std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_format)
 {
   if (!mime_data.hasFormat(mime_format))
@@ -41,11 +56,34 @@ std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_f
   return item ? item->GetType() : std::string();
 }
 
+std::vector<std::string> GetItemTypesFromMime(const QMimeData& mime_data, const QString& mime_type)
+{
+  if (!mime_data.hasFormat(mime_type))
+  {
+    return {};
+  }
+
+  const auto string_list = GetStringListFromMime(mime_data, mime_type);
+  return mvvm::utils::GetStdStringVector(string_list);
+}
+
 std::unique_ptr<QMimeData> CreateCopyMimeData(
     const mvvm::SessionItem& item, const QString& mime_format,
     const std::function<bool(const mvvm::SessionItem&)>& filter_func)
 {
   return CreateCopyMimeData({&item}, mime_format, filter_func);
+}
+
+void SetItemTypesToMime(const std::vector<const mvvm::SessionItem*>& items,
+                        const QString& mime_type, QMimeData& mime_data)
+{
+  QStringList item_types;
+  item_types.reserve(static_cast<qsizetype>(items.size()));
+  for (const auto& item : items)
+  {
+    item_types.push_back(QString::fromStdString(item->GetType()));
+  }
+  GetStringListToMime(item_types, mime_type, mime_data);
 }
 
 std::unique_ptr<QMimeData> CreateCopyMimeData(
@@ -119,16 +157,6 @@ std::unique_ptr<QMimeData> CreateItemSelectionCopyMimeData(
   auto result = std::make_unique<QMimeData>();
   AddItemSelectionCopyToMimeData(items, mime_format, *result);
   return result;
-}
-
-std::vector<std::string> GetStringListFromMime(const QMimeData& mime_data, const QString& mime_type)
-{
-  if (!mime_data.hasFormat(mime_type))
-  {
-    return {};
-  }
-  const auto string_list = mvvm::utils::GetStringList(mime_data.data(mime_type));
-  return mvvm::utils::GetStdStringVector(string_list);
 }
 
 void AddItemSelectionIdentifierToMimeData(const std::vector<const mvvm::SessionItem*>& items,
