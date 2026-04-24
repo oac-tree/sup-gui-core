@@ -66,12 +66,12 @@ TEST_F(MimeConversionHelperTests, SetItemTypesToMimeAndGetItBack)
 {
   {  //  empty mime
     const QMimeData mime_data;
-    EXPECT_TRUE(GetSessionItemType(mime_data, "").empty());
+    EXPECT_TRUE(GetItemTypesFromMime(mime_data, "").empty());
   }
 
   {  // wrong mime type
     const QMimeData mime_data;
-    EXPECT_TRUE(GetSessionItemType(mime_data, "application.coa.tests").empty());
+    EXPECT_TRUE(GetItemTypesFromMime(mime_data, "application.coa.tests").empty());
   }
 
   {  // single item

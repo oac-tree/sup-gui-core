@@ -257,7 +257,7 @@ bool AnyValueEditorActionHandler::CanPasteAfter() const
   {
     return false;
   }
-  auto query = CanInsertTypeAfterCurrentSelection(GetSessionItemType(*mime, kCopyAnyValueMimeType));
+  auto query = CanInsertTypeAfterCurrentSelection(GetSessionItemType(*mime, kAnyValueCopyMimeType));
   return query.IsSuccess();
 }
 
@@ -279,7 +279,7 @@ bool AnyValueEditorActionHandler::CanPasteInto() const
     return false;
   }
 
-  auto query = CanInsertTypeIntoCurrentSelection(GetSessionItemType(*mime, kCopyAnyValueMimeType));
+  auto query = CanInsertTypeIntoCurrentSelection(GetSessionItemType(*mime, kAnyValueCopyMimeType));
   return query.IsSuccess();
 }
 

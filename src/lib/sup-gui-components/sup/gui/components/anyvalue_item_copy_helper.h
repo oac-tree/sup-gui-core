@@ -37,8 +37,14 @@ class SessionItem;
 namespace sup::gui
 {
 
+//! mime type describing generic topic
+constexpr auto kAnyValueEditorTopic = "application/coa.sequencer.anyvalue.editor";
+
 //! mime type to copy-and-paste AnyValue
-constexpr auto kCopyAnyValueMimeType = "application/coa.sequencer.anyvalue.copy";
+constexpr auto kAnyValueCopyMimeType = "application/coa.sequencer.anyvalue.copy";
+
+//! mime type to hold top selected items types in copy-and-paste scenario
+constexpr auto kAnyValueTypeMimeType = "application/coa.sequencer.anyvalue.type";
 
 class AnyValueItem;
 

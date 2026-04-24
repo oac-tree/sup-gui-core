@@ -90,7 +90,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyOperationWhenItemIsSelected
 
   // As a result of copy QMimeData object was created
   ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);
-  EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kCopyAnyValueMimeType));
+  EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kAnyValueCopyMimeType));
 }
 
 //! Testing CanPasteAfter and CanPasteInto methods at different selections.
@@ -117,7 +117,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
 
   {  // nothing is selected, correct mime data
     const AnyValueStructItem item_to_paste;
-    auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+    auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
     auto handler = CreateActionHandler({}, std::move(mime_data));
 
     EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
@@ -134,7 +134,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPaste)
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteSecondTopLevelItem)
 {
   const AnyValueScalarItem item_to_paste;
-  auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
 
   auto parent = m_model.InsertItem<AnyValueStructItem>();
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
@@ -151,7 +151,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteIntoScalar)
   auto parent = m_model.InsertItem<AnyValueScalarItem>();
 
   const AnyValueScalarItem item_to_paste;
-  auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
   auto handler = CreateActionHandler({parent}, std::move(mime_data));
 
   EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
@@ -167,7 +167,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CanPasteStructIntoStruct)
   auto child = m_model.InsertItem<AnyValueStructItem>(parent);
 
   const AnyValueScalarItem item_to_paste;
-  auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
   auto handler = CreateActionHandler({child}, std::move(mime_data));
 
   EXPECT_CALL(m_mock_context, OnGetMimeData()).Times(2);
@@ -181,7 +181,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteAfterIntoEmptyContainer)
 {
   AnyValueScalarItem item_to_paste;
   item_to_paste.SetDisplayName("abc");
-  auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
 
   // nothing is selected, copied item in a buffer
   auto handler = CreateActionHandler({}, std::move(mime_data));
@@ -216,7 +216,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteFieldInsideSequence)
   item_to_paste.SetAnyTypeName(mvvm::constants::kInt16TypeName);
   item_to_paste.SetData(mvvm::int16{42});
   item_to_paste.SetDisplayName(expected_field_name);
-  auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
 
   auto parent = m_model.InsertItem<AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", mvvm::int32{0});
@@ -260,7 +260,7 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, PasteIntoSequence)
   item_to_paste.SetAnyTypeName(mvvm::constants::kInt16TypeName);
   item_to_paste.SetData(mvvm::int16{42});
   item_to_paste.SetDisplayName(expected_field_name);
-  auto mime_data = CreateCopyMimeData(item_to_paste, kCopyAnyValueMimeType);
+  auto mime_data = CreateCopyMimeData(item_to_paste, kAnyValueCopyMimeType);
 
   auto parent = m_model.InsertItem<AnyValueStructItem>();
   auto field0 = parent->AddScalarField("field0", mvvm::int32{0});
@@ -318,10 +318,11 @@ TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CutOperation)
 
   // as a result of cut operation, QMimeData object was created
   ASSERT_NE(m_mock_context.GetClipboardContent(), nullptr);
-  EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kCopyAnyValueMimeType));
-  auto removed_field =
-      CreateSessionItem(*m_mock_context.GetClipboardContent(), kCopyAnyValueMimeType);
-  EXPECT_EQ(removed_field->GetDisplayName(), std::string("field0"));
+  EXPECT_TRUE(m_mock_context.GetClipboardContent()->hasFormat(kAnyValueCopyMimeType));
+  auto removed_fields =
+      CreateSessionItemsFromMimeData(*m_mock_context.GetClipboardContent(), kAnyValueCopyMimeType);
+  ASSERT_EQ(removed_fields.size(), 1);
+  EXPECT_EQ(removed_fields.at(0)->GetDisplayName(), std::string("field0"));
 }
 
 TEST_F(AnyValueEditorActionHandlerCopyPasteTest, CopyAndPasteBetweenTwoFields)

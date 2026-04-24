@@ -34,7 +34,7 @@ namespace sup::gui
 {
 
 std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
-    const std::vector<const AnyValueItem *> &selection)
+    const std::vector<const AnyValueItem*>& selection)
 {
   // accept all items that are AnyValueItem and in the selection list, accept all properties
   auto filter_func = [&selection](const mvvm::SessionItem& item)
@@ -49,12 +49,17 @@ std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
   // FIXME Find the way to fix this CastItems/MakeConst mess
   auto top_level_selection =
       GetTopLevelSelection(mvvm::utils::CastItems<const mvvm::SessionItem>(selection));
-  return CreateCopyMimeData(top_level_selection, kCopyAnyValueMimeType, filter_func);
+
+  auto result = std::make_unique<QMimeData>();
+  CopyItemsToMimeData(top_level_selection, kAnyValueCopyMimeType, *result, filter_func);
+
+
+  return result;
 }
 
 std::vector<std::unique_ptr<mvvm::SessionItem> > CreateAnyValueItems(const QMimeData& mime_data)
 {
-  return CreateSessionItemsFromMimeData(mime_data, kCopyAnyValueMimeType);
+  return CreateSessionItemsFromMimeData(mime_data, kAnyValueCopyMimeType);
 }
 
 }  // namespace sup::gui
