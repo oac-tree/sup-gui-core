@@ -78,7 +78,7 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
     EXPECT_EQ(reconstructed_anyvalues.at(0)->GetDisplayName(), std::string("field0"));
     EXPECT_EQ(reconstructed_anyvalues.at(1)->GetAnyTypeName(), std::string("struct1"));
 
-    // sequence doesn't contain any childre
+    // sequence doesn't contain any children
     EXPECT_TRUE(reconstructed_anyvalues.at(1)->GetChildren().empty());
   }
 

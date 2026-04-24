@@ -201,28 +201,4 @@ std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItems(const QMimeD
   return result;
 }
 
-void AddItemSelectionCopyToMimeData(const std::vector<const mvvm::SessionItem*>& items,
-                                    const QString& mime_format, QMimeData& mime_data)
-{
-  // clean up selection from items which are in parent-child relationship to avoid duplicates
-  auto top_level_selection = GetTopLevelSelection(items);
-
-  // no further filtering
-  auto copy_data = CreateCopyMimeData(mvvm::utils::MakeConst(top_level_selection), mime_format, {});
-
-  if (copy_data)
-  {
-    mime_data.setData(mime_format, copy_data->data(mime_format));
-    mime_data.setText(copy_data->text());
-  }
-}
-
-std::unique_ptr<QMimeData> CreateItemSelectionCopyMimeData(
-    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format)
-{
-  auto result = std::make_unique<QMimeData>();
-  AddItemSelectionCopyToMimeData(items, mime_format, *result);
-  return result;
-}
-
 }  // namespace sup::gui
