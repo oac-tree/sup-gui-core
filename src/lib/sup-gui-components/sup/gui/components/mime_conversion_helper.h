@@ -214,18 +214,6 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(
 std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData& mime_data,
                                                      const QString& mime_format);
 
-/**
- * @brief Creates items from the given mime data.
- *
- * It is expected that mime data contains vector of items.
- *
- * @param mime_data Mime data from copy operation.
- * @param mime_format String representing format.
- * @return Item list.
- */
-std::vector<std::unique_ptr<mvvm::SessionItem>> CreateSessionItems(const QMimeData& mime_data,
-                                                                   const QString& mime_format);
-
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_MIME_CONVERSION_HELPER_H_

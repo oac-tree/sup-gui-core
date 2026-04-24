@@ -182,23 +182,4 @@ std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData& mime_data,
   return items.empty() ? std::unique_ptr<mvvm::SessionItem>() : std::move(items.front());
 }
 
-std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItems(const QMimeData& mime_data,
-                                                                    const QString& mime_format)
-{
-  std::vector<std::unique_ptr<mvvm::SessionItem> > result;
-
-  if (!mime_data.hasFormat(mime_format))
-  {
-    return {};
-  }
-
-  auto binary_data = mime_data.data(mime_format);
-  for (const auto& xml_str : mvvm::utils::GetStringList(binary_data))
-  {
-    (void)result.emplace_back(mvvm::utils::SessionItemFromXMLString(xml_str.toStdString()));
-  }
-
-  return result;
-}
-
 }  // namespace sup::gui
