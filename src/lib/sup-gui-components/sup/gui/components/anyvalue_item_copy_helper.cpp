@@ -52,7 +52,7 @@ std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
 
   auto result = std::make_unique<QMimeData>();
   CopyItemsToMimeData(top_level_selection, kAnyValueCopyMimeType, *result, filter_func);
-
+  SetItemTypesToMime(top_level_selection, kAnyValueTypeMimeType, *result);
 
   return result;
 }

@@ -20,6 +20,7 @@
 
 #include "sup/gui/components/anyvalue_item_copy_helper.h"
 
+#include <sup/gui/components/mime_conversion_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 
 #include <mvvm/model/application_model.h>
@@ -71,6 +72,9 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
 
     const auto mime_data = CreateAnyValueItemSelectionCopyMimeData(selection);
 
+    EXPECT_TRUE(mime_data->hasFormat(kAnyValueCopyMimeType));
+    EXPECT_TRUE(mime_data->hasFormat(kAnyValueTypeMimeType));
+
     auto reconstructed_items = CreateAnyValueItems(*mime_data);
     auto reconstructed_anyvalues = GetItemsPtr(reconstructed_items);
 
@@ -80,12 +84,20 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
 
     // sequence doesn't contain any children
     EXPECT_TRUE(reconstructed_anyvalues.at(1)->GetChildren().empty());
+
+    // item type block
+    auto item_types = GetItemTypesFromMime(*mime_data, kAnyValueTypeMimeType);
+    EXPECT_EQ(item_types, std::vector<std::string>({mvvm::GetTypeName<AnyValueScalarItem>(),
+                                                    mvvm::GetTypeName<AnyValueStructItem>()}));
   }
 
   {  // user selection contains main sequence
     const std::vector<const AnyValueItem*> selection({struct0, struct1, field2});
 
     const auto mime_data = CreateAnyValueItemSelectionCopyMimeData(selection);
+
+    EXPECT_TRUE(mime_data->hasFormat(kAnyValueCopyMimeType));
+    EXPECT_TRUE(mime_data->hasFormat(kAnyValueTypeMimeType));
 
     auto reconstructed_items = CreateAnyValueItems(*mime_data);
     auto reconstructed_anyvalues = GetItemsPtr(reconstructed_items);
@@ -104,6 +116,11 @@ TEST_F(AnyValueItemCopyHelperTest, CreateAnyValueItemSelectionCopyMimeData)
     auto reconstructed_grandchild = reconstructed_child->GetChildren().at(0);
     EXPECT_EQ(reconstructed_grandchild->GetDisplayName(), std::string("field2"));
     EXPECT_EQ(reconstructed_grandchild->Data<mvvm::int32>(), 44);
+
+    // item type block
+    auto item_types = GetItemTypesFromMime(*mime_data, kAnyValueTypeMimeType);
+    EXPECT_EQ(item_types, std::vector<std::string>({mvvm::GetTypeName<AnyValueStructItem>()}));
+
   }
 }
 
