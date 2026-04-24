@@ -99,6 +99,44 @@ void SetItemIdentifiersToMime(const std::vector<const mvvm::SessionItem*>& items
   SetStringListToMime(identifiers, mime_type, mime_data);
 }
 
+void CopyItemsToMimeData(const std::vector<const mvvm::SessionItem*>& top_level_items,
+                         const QString& mime_type, QMimeData& mime_data)
+{
+  CopyItemsToMimeData(top_level_items, mime_type, mime_data, {});
+}
+
+void CopyItemsToMimeData(const std::vector<const mvvm::SessionItem*>& top_level_items,
+                         const QString& mime_type, QMimeData& mime_data,
+                         const std::function<bool(const mvvm::SessionItem&)>& filter_func)
+{
+  QStringList xml_representation;
+  for (const auto& item : top_level_items)
+  {
+    xml_representation.push_back(
+        QString::fromStdString(mvvm::utils::ToXMLString(*item, filter_func)));
+  }
+  SetStringListToMime(xml_representation, mime_type, mime_data);
+}
+
+std::vector<std::unique_ptr<mvvm::SessionItem> > CreateSessionItemsFromMimeData(
+    const QMimeData& mime_data, const QString& mime_format)
+{
+  if (!mime_data.hasFormat(mime_format))
+  {
+    return {};
+  }
+
+  std::vector<std::unique_ptr<mvvm::SessionItem> > result;
+
+  auto binary_data = mime_data.data(mime_format);
+  for (const auto& xml_str : mvvm::utils::GetStringList(binary_data))
+  {
+    (void)result.emplace_back(mvvm::utils::SessionItemFromXMLString(xml_str.toStdString()));
+  }
+
+  return result;
+}
+
 // ===============================================================================================
 // Will be refactored section
 // ===============================================================================================

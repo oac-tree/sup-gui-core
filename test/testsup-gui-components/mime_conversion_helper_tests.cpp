@@ -25,6 +25,7 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_model.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 
@@ -129,6 +130,80 @@ TEST_F(MimeConversionHelperTests, SetItemIdentifiersToMimeAndGetItBack)
     EXPECT_EQ(GetItemIdentifiersFromMime(mime_data, mime_type),
               std::vector<std::string>({item1.GetIdentifier(), item2.GetIdentifier()}));
   }
+}
+
+TEST_F(MimeConversionHelperTests, CopyItemsToMimeDataAndCreateBack)
+{
+  {  // two independent items
+    const QString mime_type = "application.coa.tests";
+    AnyValueStructItem item1;
+    item1.SetDisplayName("item1");
+    AnyValueArrayItem item2;
+    item2.SetDisplayName("item2");
+
+    const std::vector<const mvvm::SessionItem*> items({&item1, &item2});
+    QMimeData mime_data;
+    CopyItemsToMimeData(items, mime_type, mime_data);
+
+    EXPECT_TRUE(mime_data.hasFormat(mime_type));
+
+    auto reconstructed_items = CreateSessionItemsFromMimeData(mime_data, mime_type);
+    ASSERT_EQ(reconstructed_items.size(), 2);
+    EXPECT_EQ(reconstructed_items.at(0)->GetDisplayName(), "item1");
+    EXPECT_EQ(reconstructed_items.at(0)->GetType(), item1.GetType());
+    EXPECT_EQ(reconstructed_items.at(1)->GetDisplayName(), "item2");
+    EXPECT_EQ(reconstructed_items.at(1)->GetType(), item2.GetType());
+  }
+
+  {  // VectorItem
+    mvvm::VectorItem item;
+
+    item.SetXYZ(1.0, 2.0, 3.0);
+    const QString mime_type = "application.coa.tests";
+    QMimeData mime_data;
+    CopyItemsToMimeData({&item}, mime_type, mime_data);
+    EXPECT_TRUE(mime_data.hasFormat(mime_type));
+    auto reconstructed_items = CreateSessionItemsFromMimeData(mime_data, mime_type);
+    ASSERT_EQ(reconstructed_items.size(), 1);
+    auto reconstructed_vector = dynamic_cast<mvvm::VectorItem*>(reconstructed_items.at(0).get());
+    ASSERT_NE(reconstructed_vector, nullptr);
+    EXPECT_DOUBLE_EQ(reconstructed_vector->X(), 1.0);
+    EXPECT_DOUBLE_EQ(reconstructed_vector->Y(), 2.0);
+    EXPECT_DOUBLE_EQ(reconstructed_vector->Z(), 3.0);
+  }
+}
+
+TEST_F(MimeConversionHelperTests, CopyFilteredItemsToMimeDataAndCreateBack)
+{
+  const QString mime_type = "application.coa.tests";
+  const std::string expected_name1("abc");
+  const std::string expected_name2("def");
+
+  mvvm::CompoundItem compound;
+  compound.SetDisplayName(expected_name1);
+  compound.RegisterTag(mvvm::TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/
+                       true);
+
+  auto child0 =
+      compound.InsertItem(std::make_unique<mvvm::PropertyItem>(), mvvm::TagIndex::Append());
+  child0->SetDisplayName("child_name0");
+  auto child1 =
+      compound.InsertItem(std::make_unique<mvvm::PropertyItem>(), mvvm::TagIndex::Append());
+  child1->SetDisplayName("child_name1");
+
+  auto item_accept_func = [](const auto& item) -> bool
+  { return item.GetDisplayName() != "child_name0"; };
+
+  QMimeData mime_data;
+  CopyItemsToMimeData({&compound}, mime_type, mime_data, item_accept_func);
+
+  auto reconstructed_items = CreateSessionItemsFromMimeData(mime_data, mime_type);
+  ASSERT_EQ(reconstructed_items.size(), 1);
+
+  auto reconstructed_compound = reconstructed_items.at(0).get();
+  EXPECT_EQ(reconstructed_compound->GetItemCount("defaultTag"), 1);
+  EXPECT_EQ(reconstructed_compound->GetItem("defaultTag")->GetDisplayName(),
+            std::string("child_name1"));
 }
 
 // ===============================================================================================

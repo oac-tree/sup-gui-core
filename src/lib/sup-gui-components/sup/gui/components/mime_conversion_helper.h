@@ -111,6 +111,51 @@ std::vector<std::string> GetItemIdentifiersFromMime(const QMimeData& mime_data,
 void SetItemIdentifiersToMime(const std::vector<const mvvm::SessionItem*>& items,
                               const QString& mime_type, QMimeData& mime_data);
 
+/**
+ * @brief Copy given items and all its children to the given mime data.
+ *
+ * This functions packs given list of items into a single mime data. It is expected that items from
+ * the input list are not in parent-child relationship, otherwise the resulting mime data will
+ * contain duplicates.
+ *
+ * @param top_level_items List of items to copy.
+ * @param mime_type Mime type to set in the data.
+ * @param mime_data Mime data to set the copied items to.
+ */
+void CopyItemsToMimeData(const std::vector<const mvvm::SessionItem*>& top_level_items,
+                         const QString& mime_type, QMimeData& mime_data);
+
+/**
+ * @brief Copy given items and all its children to the given mime data.
+ *
+ * This functions packs given list of items into a single mime data. It is expected that items from
+ * the input list are not in parent-child relationship, otherwise the resulting mime data will
+ * contain duplicates.
+ *
+ * By default it will create copy of the whole item tree, but it is possible to provide filter
+ * function to exclude some children from the copy. Thus, if filter function exists and returns
+ * false for some item, the child will be excluded from the copy. Note that filter function will be
+ * called for all items in the tree, including the root item.
+ *
+ * @param top_level_items List of items to copy.
+ * @param mime_type Mime type to set in the data.
+ * @param mime_data Mime data to set the copied items to.
+ * @param filter_func Predicate to filter out some children.
+ */
+void CopyItemsToMimeData(const std::vector<const mvvm::SessionItem*>& top_level_items,
+                         const QString& mime_type, QMimeData& mime_data,
+                         const std::function<bool(const mvvm::SessionItem&)>& filter_func);
+
+/**
+ * @brief Creates items from given mime data.
+ *
+ * @param mime_data Mime data from copy operation.
+ * @param mime_format String representing format.
+ * @return New item.
+ */
+std::vector<std::unique_ptr<mvvm::SessionItem>> CreateSessionItemsFromMimeData(
+    const QMimeData& mime_data, const QString& mime_format);
+
 // ===============================================================================================
 // Will be refactored section
 // ===============================================================================================
