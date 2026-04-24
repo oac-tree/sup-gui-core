@@ -54,7 +54,7 @@ std::unique_ptr<QMimeData> CreateAnyValueItemSelectionCopyMimeData(
 
 std::vector<std::unique_ptr<mvvm::SessionItem> > CreateAnyValueItems(const QMimeData& mime_data)
 {
-  return CreateSessionItems(mime_data, kCopyAnyValueMimeType);
+  return CreateSessionItemsFromMimeData(mime_data, kCopyAnyValueMimeType);
 }
 
 }  // namespace sup::gui

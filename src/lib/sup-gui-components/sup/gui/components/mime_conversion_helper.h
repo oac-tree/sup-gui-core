@@ -118,6 +118,8 @@ void SetItemIdentifiersToMime(const std::vector<const mvvm::SessionItem*>& items
  * the input list are not in parent-child relationship, otherwise the resulting mime data will
  * contain duplicates.
  *
+ * Function is used in copy-and-paste scenario when se
+ *
  * @param top_level_items List of items to copy.
  * @param mime_type Mime type to set in the data.
  * @param mime_data Mime data to set the copied items to.

@@ -178,7 +178,7 @@ std::unique_ptr<QMimeData> CreateCopyMimeData(
 std::unique_ptr<mvvm::SessionItem> CreateSessionItem(const QMimeData& mime_data,
                                                      const QString& mime_format)
 {
-  auto items = CreateSessionItems(mime_data, mime_format);
+  auto items = CreateSessionItemsFromMimeData(mime_data, mime_format);
   return items.empty() ? std::unique_ptr<mvvm::SessionItem>() : std::move(items.front());
 }
 
