@@ -225,27 +225,4 @@ std::unique_ptr<QMimeData> CreateItemSelectionCopyMimeData(
   return result;
 }
 
-void AddItemSelectionIdentifierToMimeData(const std::vector<const mvvm::SessionItem*>& items,
-                                          const QString& mime_format, QMimeData& mime_data)
-{
-  const auto top_level_selection = GetTopLevelSelection(items);
-
-  QStringList identifiers;
-  identifiers.reserve(static_cast<qsizetype>(items.size()));
-  for (const auto& item : top_level_selection)
-  {
-    identifiers.push_back(QString::fromStdString(item->GetIdentifier()));
-  }
-
-  mime_data.setData(mime_format, mvvm::utils::GetByteArray(identifiers));
-}
-
-std::unique_ptr<QMimeData> CreateItemSelectionIdentifierMimeData(
-    const std::vector<const mvvm::SessionItem*>& items, const QString& mime_format)
-{
-  auto result = std::make_unique<QMimeData>();
-  AddItemSelectionIdentifierToMimeData(items, mime_format, *result);
-  return result;
-}
-
 }  // namespace sup::gui

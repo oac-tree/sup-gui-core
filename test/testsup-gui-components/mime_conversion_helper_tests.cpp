@@ -301,7 +301,6 @@ TEST_F(MimeConversionHelperTests, CreatePropertyFromMime)
   }
 }
 
-
 TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
 {
   const QString mime_type = "application.coa.tests";
@@ -360,47 +359,6 @@ TEST_F(MimeConversionHelperTests, AddItemSelectionCopyToMimeData)
   EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(0)->GetDisplayName(), std::string("field0"));
   EXPECT_EQ(anyvalue_items.at(0)->GetChildren().at(1)->GetDisplayName(), std::string("field1"));
   EXPECT_EQ(anyvalue_items.at(1)->GetAnyTypeName(), std::string("def"));
-}
-
-TEST_F(MimeConversionHelperTests, AddItemSelectionIdentifierToMimeData)
-{
-  constexpr auto kMimeType = "kMimeType";
-  mvvm::SessionModel model;
-
-  auto parent0 = model.InsertItem<AnyValueStructItem>();
-  auto child0 = parent0->AddScalarField("field0", mvvm::int32{42});
-  auto child1 = parent0->AddScalarField("field1", mvvm::boolean{true});
-  auto parent1 = model.InsertItem<AnyValueStructItem>();
-
-  QMimeData data;
-  EXPECT_FALSE(data.hasFormat(kMimeType));
-
-  AddItemSelectionIdentifierToMimeData({parent0, child0, parent1}, kMimeType, data);
-  EXPECT_TRUE(data.hasFormat(kMimeType));
-
-  auto identifiers = GetStringListFromMime(data, kMimeType);
-  ASSERT_EQ(identifiers.size(), 2);
-  EXPECT_EQ(identifiers.at(0), parent0->GetIdentifier());
-  EXPECT_EQ(identifiers.at(1), parent1->GetIdentifier());
-}
-
-TEST_F(MimeConversionHelperTests, CreateItemSelectionIdentifierToMimeData)
-{
-  constexpr auto kMimeType = "kMimeType";
-  mvvm::SessionModel model;
-
-  auto parent0 = model.InsertItem<AnyValueStructItem>();
-  auto child0 = parent0->AddScalarField("field0", mvvm::int32{42});
-  auto child1 = parent0->AddScalarField("field1", mvvm::boolean{true});
-  auto parent1 = model.InsertItem<AnyValueStructItem>();
-
-  auto data = CreateItemSelectionIdentifierMimeData({parent0, child0, parent1}, kMimeType);
-  EXPECT_TRUE(data->hasFormat(kMimeType));
-
-  auto identifiers = GetStringListFromMime(*data, kMimeType);
-  ASSERT_EQ(identifiers.size(), 2);
-  EXPECT_EQ(identifiers.at(0), parent0->GetIdentifier());
-  EXPECT_EQ(identifiers.at(1), parent1->GetIdentifier());
 }
 
 }  // namespace sup::gui::test
