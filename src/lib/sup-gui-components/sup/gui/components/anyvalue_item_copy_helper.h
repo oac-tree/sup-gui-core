@@ -37,6 +37,9 @@ class SessionItem;
 namespace sup::gui
 {
 
+//! mime type to copy-and-paste AnyValue
+constexpr auto kCopyAnyValueMimeType = "application/coa.sequencer.anyvalue.copy";
+
 class AnyValueItem;
 
 /**

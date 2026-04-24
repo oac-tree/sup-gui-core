@@ -137,6 +137,8 @@ TEST_F(MimeConversionHelperTests, SetItemIdentifiersToMimeAndGetItBack)
 
 TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 {
+  const QString mime_type = "application.coa.tests";
+
   {  // empty list
     auto mime_data = CreateCopyMimeData(std::vector<const mvvm::SessionItem*>{}, QString());
     EXPECT_EQ(mime_data.get(), nullptr);
@@ -148,21 +150,22 @@ TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 
     const std::vector<const mvvm::SessionItem*> items({&item1, &item2});
 
-    auto mime_data = CreateCopyMimeData(items, kCopyAnyValueMimeType);
+    auto mime_data = CreateCopyMimeData(items, mime_type);
     // current implementation returns type of the first element only
-    EXPECT_EQ(GetSessionItemType(*mime_data, kCopyAnyValueMimeType), item1.GetType());
+    EXPECT_EQ(GetSessionItemType(*mime_data, mime_type), item1.GetType());
   }
 
   const AnyValueStructItem item;
-  auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
-  EXPECT_EQ(GetSessionItemType(*mime_data, kCopyAnyValueMimeType), item.GetType());
+  auto mime_data = CreateCopyMimeData(item, mime_type);
+  EXPECT_EQ(GetSessionItemType(*mime_data, mime_type), item.GetType());
 }
 
 TEST_F(MimeConversionHelperTests, GetSessionItemType)
 {
+  const QString mime_type = "application.coa.tests";
   const AnyValueStructItem item;
-  auto mime_data = CreateCopyMimeData(item, kCopyAnyValueMimeType);
-  EXPECT_EQ(GetSessionItemType(*mime_data, kCopyAnyValueMimeType), item.GetType());
+  auto mime_data = CreateCopyMimeData(item, mime_type);
+  EXPECT_EQ(GetSessionItemType(*mime_data, mime_type), item.GetType());
 }
 
 TEST_F(MimeConversionHelperTests, CreatePropertyFromMime)
@@ -256,6 +259,7 @@ TEST_F(MimeConversionHelperTests, CopyAndPasteWithFiltering)
 
 TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
 {
+  const QString mime_type = "application.coa.tests";
   mvvm::SessionModel model;
 
   auto parent0 = model.InsertItem<AnyValueStructItem>();
@@ -265,10 +269,10 @@ TEST_F(MimeConversionHelperTests, CreateItemSelectionCopyMimeData)
   auto parent1 = model.InsertItem<AnyValueStructItem>();
   parent1->SetAnyTypeName("def");
 
-  auto data = CreateItemSelectionCopyMimeData({parent0, child0, parent1}, kCopyAnyValueMimeType);
-  EXPECT_TRUE(data->hasFormat(kCopyAnyValueMimeType));
+  auto data = CreateItemSelectionCopyMimeData({parent0, child0, parent1}, mime_type);
+  EXPECT_TRUE(data->hasFormat(mime_type));
 
-  auto reconstructed_items = CreateSessionItems(*data, kCopyAnyValueMimeType);
+  auto reconstructed_items = CreateSessionItems(*data, mime_type);
   ASSERT_EQ(reconstructed_items.size(), 2);
 
   auto anyvalue_items =

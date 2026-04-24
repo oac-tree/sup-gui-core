@@ -23,6 +23,7 @@
 #include <sup/gui/components/anyvalue_editor_context.h>
 #include <sup/gui/components/anyvalue_editor_helper.h>
 #include <sup/gui/components/mime_conversion_helper.h>
+#include <sup/gui/components/anyvalue_item_copy_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
