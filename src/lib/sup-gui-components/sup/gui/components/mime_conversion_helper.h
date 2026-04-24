@@ -57,20 +57,8 @@ QStringList GetStringListFromMime(const QMimeData& mime_data, const QString& mim
  * @param mime_type Mime type to set in the data.
  * @param mime_data Mime data to set the list of strings to.
  */
-void GetStringListToMime(const QStringList& string_list, const QString& mime_type,
+void SetStringListToMime(const QStringList& string_list, const QString& mime_type,
                          QMimeData& mime_data);
-
-/**
- * @brief Returns type of item enclosed inside the given mime data.
- *
- * FIXME: remove in the favor of GetItemTypesFromMime later.
- *
- * Will return empty string if mime has wrong format.
- *
- * @param mime_type The mime data.
- * @param mime_format Expected format in mime data.
- */
-std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_type);
 
 /**
  * @brief Returns list of item types enclosed inside the given mime data.
@@ -104,14 +92,43 @@ std::vector<std::string> GetItemTypesFromMime(const QMimeData& mime_data, const 
 void SetItemTypesToMime(const std::vector<const mvvm::SessionItem*>& items,
                         const QString& mime_type, QMimeData& mime_data);
 
+/**
+ * @brief Returns list of item identifiers enclosed inside the given mime data.
+ *
+ * @param mime_data The mime data.
+ * @param mime_type Expected mime type of the data (i.e. key in data map).
+ *
+ * @see GetItemTypesFromMime()
+ */
+std::vector<std::string> GetItemIdentifiersFromMime(const QMimeData& mime_data,
+                                                    const QString& mime_type);
 
+/**
+ * @brief Sets list of item identifiers to the given mime data.
+ *
+ * @param mime_data The mime data.
+ * @param mime_type Expected mime type of the data (i.e. key in data map).
+ *
+ * @see SetItemTypesToMime()
+ */
+void SetItemIdentifiersToMime(const std::vector<const mvvm::SessionItem*>& items,
+                              const QString& mime_type, QMimeData& mime_data);
 
+// ===============================================================================================
+// Will be refactored section
+// ===============================================================================================
 
-
-
-
-
-
+/**
+ * @brief Returns type of item enclosed inside the given mime data.
+ *
+ * FIXME: remove in the favor of GetItemTypesFromMime later.
+ *
+ * Will return empty string if mime has wrong format.
+ *
+ * @param mime_type The mime data.
+ * @param mime_format Expected format in mime data.
+ */
+std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_type);
 
 /**
  * @brief Creates mime data to copy given item.

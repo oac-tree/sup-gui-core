@@ -48,7 +48,7 @@ TEST_F(MimeConversionHelperTests, SetStringListToMimeAndGetItBack)
     const QString mime_type = "application.coa.tests";
     const QStringList expected_list({"abc"});
     QMimeData mime_data;
-    GetStringListToMime(expected_list, mime_type, mime_data);
+    SetStringListToMime(expected_list, mime_type, mime_data);
     EXPECT_EQ(GetStringListFromMime(mime_data, mime_type), expected_list);
   }
 
@@ -56,12 +56,12 @@ TEST_F(MimeConversionHelperTests, SetStringListToMimeAndGetItBack)
     const QString mime_type = "application.coa.tests";
     const QStringList expected_list({"abc", "def"});
     QMimeData mime_data;
-    GetStringListToMime(expected_list, mime_type, mime_data);
+    SetStringListToMime(expected_list, mime_type, mime_data);
     EXPECT_EQ(GetStringListFromMime(mime_data, mime_type), expected_list);
   }
 }
 
-TEST_F(MimeConversionHelperTests, AddItemTypesToMimeAndGetItBack)
+TEST_F(MimeConversionHelperTests, SetItemTypesToMimeAndGetItBack)
 {
   {  //  empty mime
     const QMimeData mime_data;
@@ -96,10 +96,44 @@ TEST_F(MimeConversionHelperTests, AddItemTypesToMimeAndGetItBack)
   }
 }
 
+TEST_F(MimeConversionHelperTests, SetItemIdentifiersToMimeAndGetItBack)
+{
+  {  // empty mime
+    const QMimeData mime_data;
+    EXPECT_TRUE(GetItemIdentifiersFromMime(mime_data, "").empty());
+  }
 
+  {  // wrong mime type
+    const QMimeData mime_data;
+    EXPECT_TRUE(GetItemIdentifiersFromMime(mime_data, "application.coa.tests").empty());
+  }
 
+  {  // single item
+    AnyValueStructItem item;
+    const std::vector<const mvvm::SessionItem*> items({&item});
+    const QString mime_type = "application.coa.tests";
+    QMimeData mime_data;
+    SetItemIdentifiersToMime(items, mime_type, mime_data);
+    EXPECT_EQ(GetItemIdentifiersFromMime(mime_data, mime_type),
+              std::vector<std::string>({item.GetIdentifier()}));
+  }
 
+  {  // two items
+    AnyValueStructItem item1;
+    AnyValueArrayItem item2;
 
+    const std::vector<const mvvm::SessionItem*> items({&item1, &item2});
+    const QString mime_type = "application.coa.tests";
+    QMimeData mime_data;
+    SetItemIdentifiersToMime(items, mime_type, mime_data);
+    EXPECT_EQ(GetItemIdentifiersFromMime(mime_data, mime_type),
+              std::vector<std::string>({item1.GetIdentifier(), item2.GetIdentifier()}));
+  }
+}
+
+// ===============================================================================================
+// Will be refactored section
+// ===============================================================================================
 
 TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 {

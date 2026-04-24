@@ -39,21 +39,10 @@ QStringList GetStringListFromMime(const QMimeData& mime_data, const QString& mim
   return mvvm::utils::GetStringList(mime_data.data(mime_type));
 }
 
-void GetStringListToMime(const QStringList& string_list, const QString& mime_type,
+void SetStringListToMime(const QStringList& string_list, const QString& mime_type,
                          QMimeData& mime_data)
 {
   mime_data.setData(mime_type, mvvm::utils::GetByteArray(string_list));
-}
-
-std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_format)
-{
-  if (!mime_data.hasFormat(mime_format))
-  {
-    return {};
-  }
-
-  auto item = CreateSessionItem(mime_data, mime_format);
-  return item ? item->GetType() : std::string();
 }
 
 std::vector<std::string> GetItemTypesFromMime(const QMimeData& mime_data, const QString& mime_type)
@@ -83,7 +72,46 @@ void SetItemTypesToMime(const std::vector<const mvvm::SessionItem*>& items,
   {
     item_types.push_back(QString::fromStdString(item->GetType()));
   }
-  GetStringListToMime(item_types, mime_type, mime_data);
+  SetStringListToMime(item_types, mime_type, mime_data);
+}
+
+std::vector<std::string> GetItemIdentifiersFromMime(const QMimeData& mime_data,
+                                                    const QString& mime_type)
+{
+  if (!mime_data.hasFormat(mime_type))
+  {
+    return {};
+  }
+
+  const auto string_list = GetStringListFromMime(mime_data, mime_type);
+  return mvvm::utils::GetStdStringVector(string_list);
+}
+
+void SetItemIdentifiersToMime(const std::vector<const mvvm::SessionItem*>& items,
+                              const QString& mime_type, QMimeData& mime_data)
+{
+  QStringList identifiers;
+  identifiers.reserve(static_cast<qsizetype>(items.size()));
+  for (const auto& item : items)
+  {
+    identifiers.push_back(QString::fromStdString(item->GetIdentifier()));
+  }
+  SetStringListToMime(identifiers, mime_type, mime_data);
+}
+
+// ===============================================================================================
+// Will be refactored section
+// ===============================================================================================
+
+std::string GetSessionItemType(const QMimeData& mime_data, const QString& mime_format)
+{
+  if (!mime_data.hasFormat(mime_format))
+  {
+    return {};
+  }
+
+  auto item = CreateSessionItem(mime_data, mime_format);
+  return item ? item->GetType() : std::string();
 }
 
 std::unique_ptr<QMimeData> CreateCopyMimeData(
