@@ -257,7 +257,9 @@ bool AnyValueEditorActionHandler::CanPasteAfter() const
   {
     return false;
   }
-  auto query = CanInsertTypeAfterCurrentSelection(GetSessionItemType(*mime, kAnyValueCopyMimeType));
+  auto item_types = GetItemTypesFromMime(*mime, kAnyValueTypeMimeType);
+  auto query =
+      CanInsertTypeAfterCurrentSelection(item_types.empty() ? std::string() : item_types.front());
   return query.IsSuccess();
 }
 
@@ -279,7 +281,9 @@ bool AnyValueEditorActionHandler::CanPasteInto() const
     return false;
   }
 
-  auto query = CanInsertTypeIntoCurrentSelection(GetSessionItemType(*mime, kAnyValueCopyMimeType));
+  auto item_types = GetItemTypesFromMime(*mime, kAnyValueTypeMimeType);
+  auto query =
+      CanInsertTypeIntoCurrentSelection(item_types.empty() ? std::string() : item_types.front());
   return query.IsSuccess();
 }
 
@@ -358,7 +362,7 @@ void AnyValueEditorActionHandler::Redo()
   GetModel()->GetCommandStack()->Redo();
 }
 
-const AnyValueItem *AnyValueEditorActionHandler::GetSelectedItem() const
+const AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 {
   auto items = GetSelectedItems();
   return items.empty() ? nullptr : items.front();
