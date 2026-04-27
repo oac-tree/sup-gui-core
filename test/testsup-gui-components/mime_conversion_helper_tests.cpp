@@ -207,7 +207,6 @@ TEST_F(MimeConversionHelperTests, CopyFilteredItemsToMimeDataAndCreateBack)
 {
   const QString mime_type = "application.coa.tests";
   const std::string expected_name1("abc");
-  const std::string expected_name2("def");
 
   mvvm::CompoundItem compound;
   compound.SetDisplayName(expected_name1);
@@ -236,41 +235,22 @@ TEST_F(MimeConversionHelperTests, CopyFilteredItemsToMimeDataAndCreateBack)
             std::string("child_name1"));
 }
 
-// ===============================================================================================
-// Will be refactored section
-// ===============================================================================================
-
 TEST_F(MimeConversionHelperTests, CreateCopyMimeData)
 {
-  const QString mime_type = "application.coa.tests";
+  mvvm::PropertyItem item;
+  item.SetData(42);
+  item.SetDisplayName("abc");
 
-  {  // empty list
-    auto mime_data = CreateCopyMimeData(std::vector<const mvvm::SessionItem*>{}, QString());
-    EXPECT_EQ(mime_data.get(), nullptr);
-  }
-
-  {  // two items
-    AnyValueStructItem item1;
-    AnyValueArrayItem item2;
-
-    const std::vector<const mvvm::SessionItem*> items({&item1, &item2});
-
-    auto mime_data = CreateCopyMimeData(items, mime_type);
-    // current implementation returns type of the first element only
-    EXPECT_EQ(GetSessionItemType(*mime_data, mime_type), item1.GetType());
-  }
-
-  const AnyValueStructItem item;
-  auto mime_data = CreateCopyMimeData(item, mime_type);
-  EXPECT_EQ(GetSessionItemType(*mime_data, mime_type), item.GetType());
-}
-
-TEST_F(MimeConversionHelperTests, GetSessionItemType)
-{
-  const QString mime_type = "application.coa.tests";
-  const AnyValueStructItem item;
-  auto mime_data = CreateCopyMimeData(item, mime_type);
-  EXPECT_EQ(GetSessionItemType(*mime_data, mime_type), item.GetType());
+  auto mime = CreateCopyMimeData({&item}, "test_mime_type");
+  EXPECT_TRUE(mime->hasFormat("test_mime_type"));
+  auto reconstructed_items = CreateSessionItemsFromMimeData(*mime, "test_mime_type");
+  ASSERT_EQ(reconstructed_items.size(), 1);
+  auto reconstructed_item = reconstructed_items.at(0).get();
+  EXPECT_EQ(reconstructed_item->GetDisplayName(), std::string("abc"));
+  auto reconstructed_property = dynamic_cast<mvvm::PropertyItem*>(reconstructed_item);
+  ASSERT_NE(reconstructed_property, nullptr);
+  EXPECT_EQ(reconstructed_property->Data<int>(), 42);
+  EXPECT_EQ(reconstructed_property->GetDisplayName(), std::string("abc"));
 }
 
 }  // namespace sup::gui::test
