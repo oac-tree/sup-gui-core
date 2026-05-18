@@ -350,8 +350,8 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
-  auto expected_variant =
-      QVariant::fromValue(item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>());
+  const auto combo = item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
+  const auto expected_variant = QVariant::fromValue(combo);
 
   EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
   EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 3);
@@ -367,8 +367,12 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             constants::kScalarTypeName);
-  EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole).toInt(), 0);
-  EXPECT_EQ(viewmodel.data(item_type_index, Qt::DisplayRole), expected_variant);
+  EXPECT_EQ(viewmodel.data(item_value_index, Qt::DisplayRole).toString(), QString("0"));
+  EXPECT_EQ(viewmodel.data(item_value_index, Qt::EditRole).toInt(), 0);
+
+  EXPECT_EQ(viewmodel.data(item_type_index, Qt::DisplayRole).toString(),
+            QString::fromStdString(combo.GetLabel()));
+  EXPECT_EQ(viewmodel.data(item_type_index, Qt::EditRole), expected_variant);
 }
 
 }  // namespace sup::gui::test

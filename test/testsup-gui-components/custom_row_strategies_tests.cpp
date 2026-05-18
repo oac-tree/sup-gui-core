@@ -51,8 +51,8 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
   item.SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item.Data<mvvm::int8>(), 0);
 
-  auto expected_variant =
-      QVariant::fromValue(item.GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>());
+  const auto combo = item.GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
+  const auto expected_variant = QVariant::fromValue(combo);
 
   AnyValueRowStrategy strategy;
   auto view_items = strategy.ConstructRow(&item);
@@ -66,11 +66,11 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
   EXPECT_EQ(view_items.at(0)->Data(Qt::EditRole).toString().toStdString(),
             constants::kScalarTypeName);
 
-  EXPECT_EQ(view_items.at(1)->Data(Qt::DisplayRole).toInt(), 0);
+  EXPECT_EQ(view_items.at(1)->Data(Qt::DisplayRole).toString(), QString("0"));
   EXPECT_EQ(view_items.at(1)->Data(Qt::EditRole).toInt(), 0);
 
-  EXPECT_EQ(view_items.at(2)->Data(Qt::DisplayRole), expected_variant);
-  EXPECT_TRUE(view_items.at(2)->Data(Qt::EditRole).isValid());
+  EXPECT_EQ(view_items.at(2)->Data(Qt::DisplayRole), QString::fromStdString(combo.GetLabel()));
+  EXPECT_EQ(view_items.at(2)->Data(Qt::EditRole), expected_variant);
 
   // more tests in AnyValueViewModelTest
 }
