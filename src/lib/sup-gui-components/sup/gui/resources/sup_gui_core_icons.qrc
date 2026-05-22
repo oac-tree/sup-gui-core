@@ -8,6 +8,7 @@
         <file>icons/arrow-up-thin-circle-outline.svg</file>
         <file>icons/beaker-remove-outline.svg</file>
         <file>icons/bell-alert-outline.svg</file>
+        <file>icons/bookmark-outline.svg</file>
         <file>icons/branch-end.svg</file>
         <file>icons/branch-more.svg</file>
         <file>icons/camera-metering-center.svg</file>
@@ -22,6 +23,7 @@
         <file>icons/dots-horizontal.svg</file>
         <file>icons/dots-vertical.svg</file>
         <file>icons/file-export-outline.svg</file>
+        <file>icons/file-import-outline.svg</file>
         <file>icons/file-tree-outline.svg</file>
         <file>icons/hand-back-right-outline.svg</file>
         <file>icons/iter_logo.png</file>
