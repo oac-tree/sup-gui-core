@@ -1,6 +1,12 @@
 # Configuration editor source
 
 target_sources(${library_name} PRIVATE
+  dto_compare_tools_panel.cpp
+  dto_compare_tools_panel.cpp
+  dto_compare_tools_panel.h
+  dto_compare_tools_panel.h
+  dto_compare_view.cpp
+  dto_compare_view.h
   dto_composer_actions.cpp
   dto_composer_actions.h
   dto_composer_view.cpp
