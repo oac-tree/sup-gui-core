@@ -48,7 +48,7 @@ class FileTreeView : public QWidget
   Q_OBJECT
 
 public:
-  explicit FileTreeView(QWidget* parent_widget = nullptr);
+  explicit FileTreeView(const QString& settings_group_name, QWidget* parent_widget = nullptr);
   ~FileTreeView() override;
 
   FileTreeView(const FileTreeView&) = delete;
@@ -62,8 +62,8 @@ public:
   void SetCurrentDir(const QString& dirname);
 
 signals:
-  void FileTreeClicked(const QString& filename);
-  void ProcedureFileDoubleClicked(const QString& filename);
+  void FileClicked(const QString& filename);
+  void FileDoubleClicked(const QString& filename);
 
 private:
   /**

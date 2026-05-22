@@ -37,12 +37,12 @@
 namespace sup::gui
 {
 
-FileTreeView::FileTreeView(QWidget* parent_widget)
+FileTreeView::FileTreeView(const QString& settings_group_name, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_file_system_model(new QFileSystemModel(this))
     , m_tree_view(new QTreeView)
     , m_path_label(new QLabel)
-    , m_recent_dirs(std::make_unique<mvvm::RecentProjectSettings>("FileTreeView"))
+    , m_recent_dirs(std::make_unique<mvvm::RecentProjectSettings>(settings_group_name))
     , m_bookmark_menu(std::make_unique<QMenu>())
 {
   setWindowTitle("EXPLORER");
@@ -113,7 +113,7 @@ void FileTreeView::OnImportFromFileRequest()
       const QFileInfo info(m_file_system_model->filePath(index));
       if (info.isFile())
       {
-        emit ProcedureFileDoubleClicked(info.filePath());
+        emit FileDoubleClicked(info.filePath());
       }
     }
   }
@@ -125,7 +125,7 @@ void FileTreeView::OnTreeSingleClick(const QModelIndex& index)
 
   if (info.isFile())
   {
-    emit FileTreeClicked(info.filePath());
+    emit FileClicked(info.filePath());
   }
 }
 
@@ -134,7 +134,7 @@ void FileTreeView::SetupActions()
   m_import_file_action = new QAction(this);
   m_import_file_action->setText("Import Selected");
   m_import_file_action->setToolTip(
-      "Import procedure from currently selected XML file\n"
+      "Import currently selected file\n"
       "(alternatively, double-click on it)");
   m_import_file_action->setIcon(utils::FindIcon("file-import-outline"));
   connect(m_import_file_action, &QAction::triggered, this, &FileTreeView::OnImportFromFileRequest);
