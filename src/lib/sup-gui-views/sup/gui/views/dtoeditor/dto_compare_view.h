@@ -30,13 +30,12 @@ class CustomSplitter;
 class DtoCompareToolsPanel;
 class SplittableConfigEditor;
 
-    class DtoCompareView : public QWidget
+class DtoCompareView : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit DtoCompareView(QWidget* parent_widget = nullptr);
-
 
 private:
   CustomSplitter* m_splitter{nullptr};

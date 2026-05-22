@@ -20,9 +20,33 @@
 
 #include "dto_compare_tools_panel.h"
 
+#include <sup/gui/widgets/file_tree_view.h>
+#include <sup/gui/widgets/item_stack_widget.h>
+
+#include <QVBoxLayout>
+
 namespace sup::gui
 {
 
-DtoCompareToolsPanel::DtoCompareToolsPanel(QWidget* parent_widget) : QWidget(parent_widget) {}
+namespace
+{
+constexpr auto kFileTreeSettingsGroup = "FileTreeView";
+
+}
+
+DtoCompareToolsPanel::DtoCompareToolsPanel(QWidget* parent_widget)
+    : QWidget(parent_widget)
+    , m_file_tree_view(new sup::gui::FileTreeView(kFileTreeSettingsGroup))
+    , m_stack_widget(new sup::gui::ItemStackWidget)
+{
+  m_file_tree_view->setWindowTitle("Explorer View");
+
+  auto layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+
+  m_stack_widget->AddWidget(m_file_tree_view, m_file_tree_view->actions());
+  layout->addWidget(m_stack_widget);
+}
 
 }  // namespace sup::gui

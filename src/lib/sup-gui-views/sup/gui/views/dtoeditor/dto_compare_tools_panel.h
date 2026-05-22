@@ -26,12 +26,19 @@
 namespace sup::gui
 {
 
+class FileTreeView;
+class ItemStackWidget;
+
 class DtoCompareToolsPanel : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit DtoCompareToolsPanel(QWidget* parent_widget = nullptr);
+
+private:
+  FileTreeView* m_file_tree_view;
+  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
 };
 
 }  // namespace sup::gui

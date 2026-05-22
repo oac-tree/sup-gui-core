@@ -44,7 +44,7 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
     , m_splittable_config_editor(new SplittableConfigEditor)
 {
   auto layout = new QVBoxLayout(this);
-  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setContentsMargins(4, 1, 4, 4);
   layout->setSpacing(0);
   layout->addWidget(m_splitter);
 
