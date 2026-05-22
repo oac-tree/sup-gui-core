@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "dto_compare_tools_panel.h"
+#include "dto_explorer_panel.h"
 
 #include <sup/gui/widgets/file_tree_view.h>
 #include <sup/gui/widgets/item_stack_widget.h>
@@ -34,7 +34,7 @@ constexpr auto kFileTreeSettingsGroup = "FileTreeView";
 
 }
 
-DtoCompareToolsPanel::DtoCompareToolsPanel(QWidget* parent_widget)
+DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_file_tree_view(new sup::gui::FileTreeView(kFileTreeSettingsGroup))
     , m_stack_widget(new sup::gui::ItemStackWidget)

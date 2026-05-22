@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPARE_TOOLS_PANEL_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPARE_TOOLS_PANEL_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_EXPLORER_PANEL_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_DTO_EXPLORER_PANEL_H_
 
 #include <QWidget>
 
@@ -29,12 +29,12 @@ namespace sup::gui
 class FileTreeView;
 class ItemStackWidget;
 
-class DtoCompareToolsPanel : public QWidget
+class DtoExplorerPanel : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit DtoCompareToolsPanel(QWidget* parent_widget = nullptr);
+  explicit DtoExplorerPanel(QWidget* parent_widget = nullptr);
 
 private:
   FileTreeView* m_file_tree_view;
@@ -43,4 +43,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPARE_TOOLS_PANEL_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_EXPLORER_PANEL_H_

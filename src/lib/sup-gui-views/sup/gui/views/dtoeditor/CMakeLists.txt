@@ -1,16 +1,14 @@
 # Configuration editor source
 
 target_sources(${library_name} PRIVATE
-  dto_compare_tools_panel.cpp
-  dto_compare_tools_panel.cpp
-  dto_compare_tools_panel.h
-  dto_compare_tools_panel.h
   dto_compare_view.cpp
   dto_compare_view.h
   dto_composer_actions.cpp
   dto_composer_actions.h
   dto_composer_view.cpp
   dto_composer_view.h
+  dto_explorer_panel.cpp
+  dto_explorer_panel.h
   dto_waveform_actions.cpp
   dto_waveform_actions.h
   dto_waveform_editor_panel.cpp
