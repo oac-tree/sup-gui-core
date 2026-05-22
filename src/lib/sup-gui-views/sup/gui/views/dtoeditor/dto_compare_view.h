@@ -26,12 +26,22 @@
 namespace sup::gui
 {
 
-class DtoCompareView : public QWidget
+class CustomSplitter;
+class DtoCompareToolsPanel;
+class SplittableConfigEditor;
+
+    class DtoCompareView : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit DtoCompareView(QWidget* parent_widget = nullptr);
+
+
+private:
+  CustomSplitter* m_splitter{nullptr};
+  DtoCompareToolsPanel* m_tools_panel{nullptr};
+  SplittableConfigEditor* m_splittable_config_editor{nullptr};
 };
 
 }  // namespace sup::gui

@@ -32,6 +32,7 @@
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
+#include <sup/gui/views/dtoeditor/dto_compare_view.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 
@@ -98,8 +99,10 @@ void DtoEditorMainWindow::InitComponents()
       m_waveform_view, "Waveforms",
       utils::FindIcon("chart-timeline-variant-shimmer", mvvm::ColorFlavor::kForDarkThemes));
 
+  m_compare_view = new DtoCompareView;
+
   m_tab_widget->AddWidget(
-      new QWidget, "Compare",
+      m_compare_view, "Compare",
       utils::FindIcon("application-brackets-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   m_tab_widget->AddWidget(new QWidget, "Bulk Edit",

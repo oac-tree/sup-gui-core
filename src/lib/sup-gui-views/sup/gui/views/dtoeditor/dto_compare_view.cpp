@@ -20,12 +20,36 @@
 
 #include "dto_compare_view.h"
 
+#include "dto_compare_tools_panel.h"
+#include "splittable_config_editor.h"
+
+#include <sup/gui/widgets/custom_splitter.h>
+
+#include <QVBoxLayout>
+
 namespace sup::gui
 {
 
-DtoCompareView::DtoCompareView(QWidget *parent_widget) : QWidget(parent_widget)
+namespace
 {
 
-}
+constexpr auto kSplitterSettingName("DtoCompareView/splitter");
 
 }
+
+DtoCompareView::DtoCompareView(QWidget* parent_widget)
+    : QWidget(parent_widget)
+    , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
+    , m_tools_panel(new DtoCompareToolsPanel)
+    , m_splittable_config_editor(new SplittableConfigEditor)
+{
+  auto layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+  layout->addWidget(m_splitter);
+
+  m_splitter->addWidget(m_tools_panel);
+  m_splitter->addWidget(m_splittable_config_editor);
+}
+
+}  // namespace sup::gui

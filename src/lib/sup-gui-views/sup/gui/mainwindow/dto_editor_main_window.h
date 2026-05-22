@@ -37,13 +37,14 @@ class MainVerticalBarWidget;
 namespace sup::gui
 {
 
+class AnyValueEditorAppContext;
+class DtoCompareView;
 class DtoComposerView;
 class DtoEditorMainWindowActions;
-class DtoWaveformView;
 class DtoEditorProject;
-class PersistentSettingsModel;
-class AnyValueEditorAppContext;
+class DtoWaveformView;
 class IAppCommandService;
+class PersistentSettingsModel;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -106,6 +107,7 @@ private:
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoComposerView* m_composer_view{nullptr};
   DtoWaveformView* m_waveform_view{nullptr};
+  DtoCompareView* m_compare_view{nullptr};
 };
 
 }  // namespace sup::gui
