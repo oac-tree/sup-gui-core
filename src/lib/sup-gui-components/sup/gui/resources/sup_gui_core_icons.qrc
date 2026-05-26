@@ -18,6 +18,7 @@
         <file>icons/chevron-down.svg</file>
         <file>icons/chevron-right.svg</file>
         <file>icons/code-json.svg</file>
+        <file>icons/dialog-close-16.svg</file>
         <file>icons/dock-left.svg</file>
         <file>icons/dock-right.svg</file>
         <file>icons/dots-horizontal.svg</file>
@@ -35,6 +36,7 @@
         <file>icons/table-column-plus-after.svg</file>
         <file>icons/table-column-plus-before.svg</file>
         <file>icons/table-column-remove.svg</file>
+        <file>icons/view-split-left-right-16.svg</file>
         <file>icons/vline.svg</file>
     </qresource>
 </RCC>
