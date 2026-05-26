@@ -50,6 +50,23 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
 
   m_splitter->addWidget(m_explorer_panel);
   m_splitter->addWidget(m_splittable_config_editor);
+
+  ReadSettings();
+}
+
+DtoCompareView::~DtoCompareView()
+{
+  WriteSettings();
+}
+
+void DtoCompareView::ReadSettings()
+{
+  m_splitter->ReadSettings();
+}
+
+void DtoCompareView::WriteSettings()
+{
+  m_splitter->WriteSettings();
 }
 
 }  // namespace sup::gui

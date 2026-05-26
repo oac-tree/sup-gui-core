@@ -28,6 +28,7 @@ namespace sup::gui
 
 class FileTreeView;
 class ItemStackWidget;
+class CollapsibleListView;
 
 class DtoExplorerPanel : public QWidget
 {
@@ -36,7 +37,18 @@ class DtoExplorerPanel : public QWidget
 public:
   explicit DtoExplorerPanel(QWidget* parent_widget = nullptr);
 
+  ~DtoExplorerPanel() override;
+
+  DtoExplorerPanel(const DtoExplorerPanel&) = delete;
+  DtoExplorerPanel& operator=(const DtoExplorerPanel&) = delete;
+  DtoExplorerPanel(DtoExplorerPanel&&) noexcept = delete;
+  DtoExplorerPanel& operator=(DtoExplorerPanel&&) noexcept  = delete;
+
 private:
+  void ReadSettings();
+  void WriteSettings();
+
+  sup::gui::CollapsibleListView* m_collapsible_list{nullptr};
   FileTreeView* m_file_tree_view;
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
 };

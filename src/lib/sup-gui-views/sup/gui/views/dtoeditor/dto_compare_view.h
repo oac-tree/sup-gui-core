@@ -36,8 +36,17 @@ class DtoCompareView : public QWidget
 
 public:
   explicit DtoCompareView(QWidget* parent_widget = nullptr);
+  ~DtoCompareView() override;
+
+  DtoCompareView(const DtoCompareView&) = delete;
+  DtoCompareView& operator=(const DtoCompareView&) = delete;
+  DtoCompareView(DtoCompareView&&) noexcept = delete;
+  DtoCompareView& operator=(DtoCompareView&&) noexcept  = delete;
 
 private:
+  void ReadSettings();
+  void WriteSettings();
+
   CustomSplitter* m_splitter{nullptr};
   DtoExplorerPanel* m_explorer_panel{nullptr};
   SplittableConfigEditor* m_splittable_config_editor{nullptr};
