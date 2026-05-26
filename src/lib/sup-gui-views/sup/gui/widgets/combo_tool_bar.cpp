@@ -1,0 +1,176 @@
+/******************************************************************************
+ *
+ * Project       : Graphical User Interface for SUP and PSPS
+ *
+ * Description   : Common libraries and tools for Operation Application GUIs
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2026 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "combo_tool_bar.h"
+
+#include <sup/gui/style/style_helper.h>
+
+#include <mvvm/model/session_item.h>
+#include <mvvm/style/mvvm_style_helper.h>
+
+#include <QAction>
+#include <QMenu>
+#include <QPainter>
+#include <QToolButton>
+
+namespace sup::gui
+{
+
+namespace
+{
+constexpr auto kNoItemSelected = " < no selection >";
+}
+
+ComboToolBar::ComboToolBar(const ItemCallback& item_callback, QWidget* parent_widget)
+    : QToolBar(parent_widget)
+    , m_available_items(item_callback)
+    , m_select_item_menu(CreateSelectItemMenu())
+    , m_selector_button(new QToolButton(this))
+    , m_split_horizontally_button(new QToolButton(this))
+    , m_close_current_view_button(new QToolButton(this))
+{
+  setIconSize(utils::NarrowToolBarIconSize());
+
+  m_selector_button->setText(kNoItemSelected);
+  m_selector_button->setMenu(m_select_item_menu.get());
+  m_selector_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  m_selector_button->setPopupMode(QToolButton::MenuButtonPopup);
+  m_selector_button->setToolTip("Select one of the existing items for editing in this widget");
+  m_selector_button->setAutoRaise(true);
+  m_selector_button->setFocusPolicy(Qt::NoFocus);
+  m_selector_button->setMaximumWidth(mvvm::style::UnitSize(25));
+  addWidget(m_selector_button);
+
+  InsertStretch();
+
+  m_split_horizontally_button->setToolTip("Split current view to the right");
+  m_split_horizontally_button->setIcon(utils::FindIcon("view-split-left-right-16"));
+  m_split_horizontally_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  connect(m_split_horizontally_button, &QToolButton::clicked, this,
+          &ComboToolBar::splitViewRequest);
+  addWidget(m_split_horizontally_button);
+
+  m_close_current_view_button->setToolTip("Close this view");
+  m_close_current_view_button->setIcon(utils::FindIcon("dialog-close-16"));
+  m_close_current_view_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  connect(m_close_current_view_button, &QToolButton::clicked, this,
+          &ComboToolBar::closeViewRequest);
+  addWidget(m_close_current_view_button);
+}
+
+ComboToolBar::~ComboToolBar() = default;
+
+void ComboToolBar::ShowAsActive(bool value)
+{
+  m_show_as_active = value;
+  update();
+}
+
+void ComboToolBar::ShowAsLastEditor(bool value)
+{
+  // we don't want to allow closing the last editor in the splitter
+  m_close_current_view_button->setDisabled(value);
+
+  // no need to visually mark the last editor as active
+  ShowAsActive(false);
+}
+
+void ComboToolBar::UpdateSelectionMenu(mvvm::SessionItem* selected_item)
+{
+  // for the moment nothing to do rather then set proper text to button
+  if (selected_item != nullptr)
+  {
+    m_selector_button->setText(QString::fromStdString(selected_item->GetDisplayName()));
+  }
+  else
+  {
+    m_selector_button->setText(kNoItemSelected);
+  }
+}
+
+QString ComboToolBar::GetSelectedItemName() const
+{
+  return m_selector_button->text();
+}
+
+void ComboToolBar::paintEvent(QPaintEvent* event)
+{
+  static const QColor kMediumGreen(39, 189, 114);  // #27bd72
+  if (m_show_as_active)
+  {
+    // thin horizontal green line at the bottom
+    QPainter painter(this);
+    QPen pen(kMediumGreen);
+    pen.setWidth(2);
+    painter.setPen(pen);
+    painter.drawLine(0, height() - 1, width(), height() - 1);
+  }
+
+  QToolBar::paintEvent(event);
+}
+
+void ComboToolBar::InsertStretch()
+{
+  auto empty = new QWidget(this);
+  empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  addWidget(empty);
+}
+
+std::unique_ptr<QMenu> ComboToolBar::CreateSelectItemMenu()
+{
+  auto result = std::make_unique<QMenu>();
+  result->setToolTipsVisible(true);
+  connect(result.get(), &QMenu::aboutToShow, this, &ComboToolBar::OnAboutToShowMenu);
+  return result;
+}
+
+void ComboToolBar::OnAboutToShowMenu()
+{
+  if (!m_available_items)
+  {
+    return;
+  }
+
+  auto menu = m_select_item_menu.get();
+  menu->clear();
+
+  // action when no item is selected
+  auto action = menu->addAction(kNoItemSelected);
+  auto on_action = [this]()
+  {
+    m_selector_button->setText(kNoItemSelected);
+    emit selectItemRequest(nullptr);
+  };
+  connect(action, &QAction::triggered, this, on_action);
+
+  // build a menu containing list of items available for selection in this widget
+  for (auto item : m_available_items())
+  {
+    auto action = menu->addAction(QString::fromStdString(item->GetDisplayName()));
+    auto on_action = [this, item]()
+    {
+      m_selector_button->setText(QString::fromStdString(item->GetDisplayName()));
+      emit selectItemRequest(item);
+    };
+    connect(action, &QAction::triggered, this, on_action);
+  }
+}
+
+}  // namespace sup::gui

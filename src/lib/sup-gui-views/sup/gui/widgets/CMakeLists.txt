@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   collapsible_toolbar.h
   collapsible_widget.cpp
   collapsible_widget.h
+  combo_tool_bar.cpp
+  combo_tool_bar.h
   container_helper.cpp
   container_helper.h
   custom_header_view.cpp
