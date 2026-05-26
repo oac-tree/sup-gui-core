@@ -20,6 +20,8 @@
 
 #include "dto_explorer_panel.h"
 
+#include "anyvalue_list_widget.h"
+
 #include <sup/gui/widgets/file_tree_view.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/collapsible_list_view.h>
@@ -40,11 +42,13 @@ DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_collapsible_list(new sup::gui::CollapsibleListView(kCollapsibleListSettingName))
     , m_file_tree_view(new sup::gui::FileTreeView(kFileTreeSettingsGroup))
+    , m_anyvalue_list_widget(new AnyValueListWidget)
     , m_stack_widget(new sup::gui::ItemStackWidget)
 {
   m_collapsible_list->setWindowTitle("Explorer View");
 
   m_collapsible_list->AddWidget(m_file_tree_view);
+  m_collapsible_list->AddCollapsibleWidget(m_anyvalue_list_widget, {});
 
   // m_file_tree_view->setWindowTitle("Explorer View");
 

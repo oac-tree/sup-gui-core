@@ -29,6 +29,7 @@ namespace sup::gui
 class FileTreeView;
 class ItemStackWidget;
 class CollapsibleListView;
+class AnyValueListWidget;
 
 class DtoExplorerPanel : public QWidget
 {
@@ -50,6 +51,7 @@ private:
 
   sup::gui::CollapsibleListView* m_collapsible_list{nullptr};
   FileTreeView* m_file_tree_view;
+  AnyValueListWidget* m_anyvalue_list_widget{nullptr};
   sup::gui::ItemStackWidget* m_stack_widget{nullptr};
 };
 
