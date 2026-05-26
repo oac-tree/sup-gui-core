@@ -1,6 +1,8 @@
 # Configuration editor source
 
 target_sources(${library_name} PRIVATE
+  config_tab_widget.cpp
+  config_tab_widget.h
   dto_compare_view.cpp
   dto_compare_view.h
   dto_composer_actions.cpp

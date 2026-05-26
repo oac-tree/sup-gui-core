@@ -20,9 +20,21 @@
 
 #include "splittable_config_editor.h"
 
+#include "config_tab_widget.h"
+
+#include <QVBoxLayout>
+
 namespace sup::gui
 {
 
-SplittableConfigEditor::SplittableConfigEditor(QWidget* parent_widget) : QWidget(parent_widget) {}
+SplittableConfigEditor::SplittableConfigEditor(QWidget* parent_widget)
+    : QWidget(parent_widget), m_config_tab_widget(new ConfigTabWidget)
+{
+  auto layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+
+  layout->addWidget(m_config_tab_widget);
+}
 
 }  // namespace sup::gui
