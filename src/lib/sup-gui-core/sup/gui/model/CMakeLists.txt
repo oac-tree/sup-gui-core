@@ -16,6 +16,8 @@ target_sources(${library_name} PRIVATE
   configuration_container_item.h
   domain_anyvalue_builder.cpp
   domain_anyvalue_builder.h
+  import_helper.cpp
+  import_helper.h
   persistent_settings_model.cpp
   persistent_settings_model.h
   register_items.cpp

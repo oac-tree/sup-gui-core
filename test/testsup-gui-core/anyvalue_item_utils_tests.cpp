@@ -35,13 +35,15 @@
 namespace sup::gui::test
 {
 
+/**
+ * @brief Tests for helper methods from anyvalie_item_utils.h
+ */
 class AnyValueItemUtilsTest : public ::testing::Test
 {
 public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 };
 
-//! Testing GetAnyValueItemTypeFromTypeName function.
 TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
 {
   EXPECT_TRUE(GetAnyValueItemTypeFromTypeName(std::string()).empty());
@@ -62,7 +64,6 @@ TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
             mvvm::GetTypeName<AnyValueScalarItem>());
 }
 
-//! Testing CreateAnyValueItemFromTypeName function.
 TEST_F(AnyValueItemUtilsTest, CreateAnyValueItemFromTypeName)
 {
   // basic items
@@ -83,11 +84,10 @@ TEST_F(AnyValueItemUtilsTest, CreateAnyValueItemFromTypeName)
   EXPECT_THROW(CreateAnyValueItemFromTypeName("int42"), mvvm::RuntimeException);
 }
 
-//! Testing UpdateAnyValueItemScalarData method.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemScalarData)
 {
   {  // empty items
-    AnyValueEmptyItem source;
+    const AnyValueEmptyItem source;
     AnyValueEmptyItem target;
     EXPECT_THROW(UpdateAnyValueItemScalarData(source, target), std::logic_error);
   }
@@ -118,19 +118,17 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemScalarData)
   }
 }
 
-//! Testing UpdateAnyValueItemData method. Updating one empty item from another. Nothing wrong is
-//! expected.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromEmptyItem)
 {
-  AnyValueEmptyItem source;
+  // Updating one empty item from another. Nothing wrong is expected.
+  const AnyValueEmptyItem source;
   AnyValueEmptyItem target;
   EXPECT_NO_THROW(UpdateAnyValueItemData(source, target));
 }
 
-//! Testing UpdateAnyValueItemData method. Updating one scalar item from another scalar item. The
-//! value of the target should change.
-TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromScalar)
+TEST_F(AnyValueItemUtilsTest, UpdateAnyValueScalarItemDataFromAnotherScalar)
 {
+  // the value of the target should change
   AnyValueScalarItem source;
   source.SetAnyTypeName(mvvm::constants::kInt32TypeName);
   source.SetData(42);
@@ -144,7 +142,6 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromScalar)
   EXPECT_EQ(target.Data<int>(), 42);
 }
 
-//! Testing signaling while updating the data with UpdateAnyValueItemData method.
 TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
 {
   mvvm::ApplicationModel model;
@@ -165,8 +162,6 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromScalar)
   EXPECT_EQ(target->Data<int>(), 42);
 }
 
-//! Testing signaling while updating the data with UpdateAnyValueItemData method using the same
-//! data.
 TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScalar)
 {
   mvvm::ApplicationModel model;
@@ -186,10 +181,9 @@ TEST_F(AnyValueItemUtilsTest, SignalingWhileUpdatingAnyValueItemDataFromSameScal
   EXPECT_EQ(target->Data<int>(), 42);
 }
 
-//! Testing UpdateAnyValueItemData method.
-//! Attempt to update structure from the source with different layout.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
 {
+  // Attempt to update structure from the source with different layout.
   AnyValueStructItem source;
   source.AddScalarField("signed", 42);
 
@@ -198,8 +192,6 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromDifferentStructs)
   EXPECT_THROW(UpdateAnyValueItemData(source, target), RuntimeException);
 }
 
-//! Testing UpdateAnyValueItemData method. Updating one structure from another structure. Both
-//! structuers have the same layout (single field with the same scalar).
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithSingleField)
 {
   AnyValueStructItem source;
@@ -212,9 +204,9 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithSingleField)
   EXPECT_EQ(scalar1->Data<int>(), 42);
 }
 
-//! Testing UpdateAnyValueItemData method. Same as above with nested fields.
 TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithNestedField)
 {
+  // same as above with nested fields
   AnyValueStructItem source;
   auto source_inner_struct = source.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
   source_inner_struct->SetDisplayName("struct0");
@@ -235,7 +227,7 @@ TEST_F(AnyValueItemUtilsTest, UpdateAnyValueItemDataFromStructWithNestedField)
 TEST_F(AnyValueItemUtilsTest, IsSuitableScalarType)
 {
   {  // empty array
-    AnyValueArrayItem item;
+    const AnyValueArrayItem item;
     EXPECT_TRUE(IsSuitableScalarType(item, mvvm::constants::kInt32TypeName));
   }
 
