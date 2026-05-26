@@ -22,15 +22,13 @@
 
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
-#include <sup/gui/model/anyvalue_utils.h>
-
-#include <mvvm/test/test_helper.h>
 
 #include <sup/dto/anyvalue.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
+#include <testutils/test_helper.h>
 
 namespace sup::gui::test
 {
@@ -51,8 +49,7 @@ TEST_F(ImportHelperTest, ImportFromFile)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  mvvm::test::CreateTextFile(file_path, json_content);
+  test::CreateSerializedFile(anyvalue, file_path);
 
   EXPECT_CALL(m_error_callback, Call(::testing::_)).Times(0);
 

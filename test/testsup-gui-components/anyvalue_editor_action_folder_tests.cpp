@@ -27,7 +27,6 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/test/test_helper.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
@@ -35,6 +34,7 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 #include <testutils/mock_anyvalue_editor_context.h>
+#include <testutils/test_helper.h>
 
 #include <QMimeData>
 
@@ -78,8 +78,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  mvvm::test::CreateTextFile(file_path, json_content);
+  test::CreateSerializedFile(anyvalue, file_path);
 
   // creating action handler for the context, when nothing is selected by the user
   auto handler = CreateActionHandler({});
@@ -111,8 +110,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  mvvm::test::CreateTextFile(file_path, json_content);
+  test::CreateSerializedFile(anyvalue, file_path);
 
   auto structure = m_model.InsertItem<AnyValueStructItem>();
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
@@ -141,8 +139,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
   // preparing file with content for further import
   const auto file_path = GetFilePath("AnyValueScalar.xml");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
-  auto json_content = AnyValueToJSONString(anyvalue);
-  mvvm::test::CreateTextFile(file_path, json_content);
+  test::CreateSerializedFile(anyvalue, file_path);
 
   auto scalar_item = m_model.InsertItem<AnyValueScalarItem>();
 

@@ -11,4 +11,6 @@ target_sources(${library_name} PRIVATE
   mock_app_command_context_widget_map.h
   mock_app_command_registry.cpp
   mock_app_command_registry.h
+  test_helper.cpp
+  test_helper.h
 )
