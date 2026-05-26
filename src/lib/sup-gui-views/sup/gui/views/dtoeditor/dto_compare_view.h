@@ -44,6 +44,8 @@ public:
   DtoCompareView& operator=(DtoCompareView&&) noexcept  = delete;
 
 private:
+  void OnImportFromFileRequest(const QString& file_name);
+
   void ReadSettings();
   void WriteSettings();
 

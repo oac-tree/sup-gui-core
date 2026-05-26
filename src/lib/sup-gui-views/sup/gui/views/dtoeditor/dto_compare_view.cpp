@@ -23,7 +23,10 @@
 #include "dto_explorer_panel.h"
 #include "splittable_config_editor.h"
 
+#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/import_helper.h>
 #include <sup/gui/widgets/custom_splitter.h>
+#include <sup/gui/widgets/message_helper.h>
 
 #include <QVBoxLayout>
 
@@ -52,11 +55,21 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
   m_splitter->addWidget(m_splittable_config_editor);
 
   ReadSettings();
+
+  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
+          &DtoCompareView::OnImportFromFileRequest);
 }
 
 DtoCompareView::~DtoCompareView()
 {
   WriteSettings();
+}
+
+void DtoCompareView::OnImportFromFileRequest(const QString& file_name)
+{
+  auto on_error = [](const MessageEvent& event) { SendWarningMessage(event); };
+  auto item = CreateAnyValueItemFromFile(file_name.toStdString(), on_error);
+  // TODO place in the model
 }
 
 void DtoCompareView::ReadSettings()

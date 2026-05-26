@@ -45,6 +45,10 @@ public:
   DtoExplorerPanel(DtoExplorerPanel&&) noexcept = delete;
   DtoExplorerPanel& operator=(DtoExplorerPanel&&) noexcept  = delete;
 
+signals:
+  void FileClicked(const QString& filename);
+  void FileDoubleClicked(const QString& filename);
+
 private:
   void ReadSettings();
   void WriteSettings();

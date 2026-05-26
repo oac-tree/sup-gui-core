@@ -22,10 +22,11 @@
 
 #include "anyvalue_list_widget.h"
 
+#include <sup/gui/widgets/collapsible_list_view.h>
 #include <sup/gui/widgets/file_tree_view.h>
 #include <sup/gui/widgets/item_stack_widget.h>
-#include <sup/gui/widgets/collapsible_list_view.h>
 
+#include <QFileInfo>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -36,7 +37,16 @@ namespace
 constexpr auto kFileTreeSettingsGroup = "FileTreeView";
 constexpr auto kCollapsibleListSettingName = "DtoExplorerPanel/collapsible_list";
 
+/**
+ * @brief Checks if given file is AnyValue JSON file candidate.
+ */
+bool IsJSONFile(const QString& file_info)
+{
+  const QFileInfo info(file_info);
+  return info.isFile() && info.completeSuffix().toLower() == QStringLiteral("json");
 }
+
+}  // namespace
 
 DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
@@ -60,6 +70,18 @@ DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
   layout->addWidget(m_stack_widget);
 
   ReadSettings();
+
+  connect(m_file_tree_view, &FileTreeView::FileClicked, this, &DtoExplorerPanel::FileClicked);
+
+  auto on_file_double_clicked = [this](const QString& file_name)
+  {
+    if (IsJSONFile(file_name))
+    {
+      emit FileDoubleClicked(file_name);
+    }
+  };
+
+  connect(m_file_tree_view, &FileTreeView::FileDoubleClicked, this, on_file_double_clicked);
 }
 
 DtoExplorerPanel::~DtoExplorerPanel()
