@@ -10,8 +10,14 @@ target_sources(${library_name} PRIVATE
   anyvalue_item_utils.h
   anyvalue_utils.cpp
   anyvalue_utils.h
+  common_settings_item.cpp
+  common_settings_item.h
+  configuration_container_item.cpp
+  configuration_container_item.h
   domain_anyvalue_builder.cpp
   domain_anyvalue_builder.h
+  persistent_settings_model.cpp
+  persistent_settings_model.h
   register_items.cpp
   register_items.h
   scalar_conversion_utils.cpp
@@ -19,10 +25,6 @@ target_sources(${library_name} PRIVATE
   scalartype_property_item.cpp
   scalartype_property_item.h
   settings_constants.h
-  common_settings_item.cpp
-  common_settings_item.h
-  persistent_settings_model.cpp
-  persistent_settings_model.h
   sup_dto_model.cpp
   sup_dto_model.h
   waveform_model.cpp
