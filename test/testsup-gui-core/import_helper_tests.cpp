@@ -91,6 +91,7 @@ TEST_F(ImportHelperTest, AppendConfigurationFromFile)
   auto configuration_item = container.GetConfigurations().at(0);
   EXPECT_EQ(configuration_item->GetDisplayName(),
             "AppendConfigurationFromFile");  // as JSON file stem
+  EXPECT_EQ(configuration_item->GetFileName(), file_path);
 
   auto anyvalue_item = configuration_item->GetConfiguration();
 
