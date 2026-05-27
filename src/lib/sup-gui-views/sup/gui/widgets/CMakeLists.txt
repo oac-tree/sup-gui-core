@@ -45,6 +45,8 @@ target_sources(${library_name} PRIVATE
   overlay_widget_position_strategy.h
   panel_toolbar.cpp
   panel_toolbar.h
+  placeholder_widget.cpp
+  placeholder_widget.h
   settings_callbacks.cpp
   settings_callbacks.h
   steady_menu.cpp
