@@ -25,6 +25,10 @@ target_sources(${library_name} PRIVATE
   dialog_helper.h
   file_tree_view.cpp
   file_tree_view.h
+  flatlist_delegate.cpp
+  flatlist_delegate.h
+  flatlist_view.cpp
+  flatlist_view.h
   flow_layout.cpp
   flow_layout.h
   item_stack_widget.cpp
