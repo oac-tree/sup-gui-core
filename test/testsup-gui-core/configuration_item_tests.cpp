@@ -39,7 +39,7 @@ TEST_F(ConfigurationItemTest, InitialSate)
   ConfigurationItem configuration;
 
   EXPECT_TRUE(configuration.GetFileName().empty());
-  EXPECT_EQ(configuration.GetConfiguration(), nullptr);
+  EXPECT_EQ(configuration.GetValue(), nullptr);
 }
 
 TEST_F(ConfigurationItemTest, GetSetFileName)
@@ -56,7 +56,7 @@ TEST_F(ConfigurationItemTest, InsertAnyValueItem)
 
   auto anyvalue_item = configuration.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
   EXPECT_NE(anyvalue_item, nullptr);
-  EXPECT_EQ(configuration.GetConfiguration(), anyvalue_item);
+  EXPECT_EQ(configuration.GetValue(), anyvalue_item);
 
   // you can't insert second item
   EXPECT_THROW(configuration.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append()),

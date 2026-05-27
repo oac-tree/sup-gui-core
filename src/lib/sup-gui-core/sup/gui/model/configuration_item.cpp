@@ -49,7 +49,7 @@ std::unique_ptr<mvvm::SessionItem> ConfigurationItem::Clone() const
   return std::make_unique<ConfigurationItem>(*this);
 }
 
-AnyValueItem* ConfigurationItem::GetConfiguration()
+AnyValueItem* ConfigurationItem::GetValue()
 {
   return GetItem<AnyValueItem>(constants::kAnyValueChildrenTag);
 }

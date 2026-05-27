@@ -93,7 +93,7 @@ TEST_F(ImportHelperTest, AppendConfigurationFromFile)
             "AppendConfigurationFromFile");  // as JSON file stem
   EXPECT_EQ(configuration_item->GetFileName(), file_path);
 
-  auto anyvalue_item = configuration_item->GetConfiguration();
+  auto anyvalue_item = configuration_item->GetValue();
 
   auto stored_anyvalue = CreateAnyValue(*anyvalue_item);
   EXPECT_EQ(stored_anyvalue, anyvalue);

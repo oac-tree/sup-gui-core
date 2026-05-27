@@ -43,9 +43,9 @@ public:
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**
-   * @brief Returns main configuration item.
+   * @brief Returns the configuration value item.
    */
-  AnyValueItem* GetConfiguration();
+  AnyValueItem* GetValue();
 
   /**
    * @brief Returns file name from which the configuration was initially imported.
