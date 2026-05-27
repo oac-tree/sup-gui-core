@@ -35,7 +35,6 @@ constexpr auto kAnyValueTypeTag = "kAnyValueTypeTag";
 constexpr auto kFieldNamePrefix = "field";
 constexpr auto kElementNamePrefix = "element";
 constexpr auto kAnyValueDefaultDisplayName = "value";
-
 }  // namespace sup::gui::constants
 
 #endif  // SUP_GUI_MODEL_ANYVALUE_ITEM_CONSTANTS_H_

@@ -12,6 +12,8 @@ target_sources(${library_name} PRIVATE
   anyvalue_utils.h
   common_settings_item.cpp
   common_settings_item.h
+  configuration_container_item.cpp
+  configuration_container_item.h
   configuration_item.cpp
   configuration_item.h
   domain_anyvalue_builder.cpp

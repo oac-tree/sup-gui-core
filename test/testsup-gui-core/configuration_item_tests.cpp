@@ -36,30 +36,30 @@ class ConfigurationItemTest : public ::testing::Test
 
 TEST_F(ConfigurationItemTest, InitialSate)
 {
-  ConfigurationItem container;
+  ConfigurationItem configuration;
 
-  EXPECT_TRUE(container.GetFileName().empty());
-  EXPECT_EQ(container.GetConfiguration(), nullptr);
+  EXPECT_TRUE(configuration.GetFileName().empty());
+  EXPECT_EQ(configuration.GetConfiguration(), nullptr);
 }
 
 TEST_F(ConfigurationItemTest, GetSetFileName)
 {
-  ConfigurationItem container;
+  ConfigurationItem configuration;
 
-  container.SetFileName("abc");
-  EXPECT_EQ(container.GetFileName(), std::string("abc"));
+  configuration.SetFileName("abc");
+  EXPECT_EQ(configuration.GetFileName(), std::string("abc"));
 }
 
 TEST_F(ConfigurationItemTest, InsertAnyValueItem)
 {
-  ConfigurationItem container;
+  ConfigurationItem configuration;
 
-  auto anyvalue_item = container.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
+  auto anyvalue_item = configuration.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
   EXPECT_NE(anyvalue_item, nullptr);
-  EXPECT_EQ(container.GetConfiguration(), anyvalue_item);
+  EXPECT_EQ(configuration.GetConfiguration(), anyvalue_item);
 
   // you can't insert second item
-  EXPECT_THROW(container.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append()),
+  EXPECT_THROW(configuration.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append()),
                mvvm::InvalidOperationException);
 }
 

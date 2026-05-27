@@ -44,14 +44,14 @@ ConfigurationItem::ConfigurationItem()
               /*as_default*/ true);
 }
 
-AnyValueItem* ConfigurationItem::GetConfiguration()
-{
-  return GetItem<AnyValueItem>(constants::kAnyValueChildrenTag);
-}
-
 std::unique_ptr<mvvm::SessionItem> ConfigurationItem::Clone() const
 {
   return std::make_unique<ConfigurationItem>(*this);
+}
+
+AnyValueItem* ConfigurationItem::GetConfiguration()
+{
+  return GetItem<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
 std::string ConfigurationItem::GetFileName() const
