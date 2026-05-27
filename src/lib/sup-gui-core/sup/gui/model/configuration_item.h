@@ -29,7 +29,7 @@ namespace sup::gui
 class AnyValueItem;
 
 /**
- * @brief The ConfigurationItem class is holds a configuration and auxiliary information.
+ * @brief The ConfigurationItem class holds a configuration and auxiliary information.
  *
  * Holds a single instance of AnyValueItem representing a configuration.
  * Might hold more data in the future (i.e. backup values, reference to other items to compare,
