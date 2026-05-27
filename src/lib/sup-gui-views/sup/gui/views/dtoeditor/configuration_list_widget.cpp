@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "anyvalue_list_widget.h"
+#include "configuration_list_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
 
@@ -31,7 +31,7 @@
 namespace sup::gui
 {
 
-AnyValueListWidget::AnyValueListWidget(QWidget* parent_widget)
+ConfigurationListWidget::ConfigurationListWidget(QWidget* parent_widget)
     : QWidget(parent_widget), m_tree_view(new QTreeView), m_component_provider(CreateProvider())
 
 {
@@ -45,12 +45,12 @@ AnyValueListWidget::AnyValueListWidget(QWidget* parent_widget)
   layout->addWidget(m_tree_view);
 }
 
-void AnyValueListWidget::SetConfigurationContainer(ConfigurationContainerItem* container)
+void ConfigurationListWidget::SetConfigurationContainer(ConfigurationContainerItem* container)
 {
   m_component_provider->SetItem(container);
 }
 
-std::unique_ptr<mvvm::ItemViewComponentProvider> AnyValueListWidget::CreateProvider() const
+std::unique_ptr<mvvm::ItemViewComponentProvider> ConfigurationListWidget::CreateProvider() const
 {
   auto viewmodel = std::make_unique<mvvm::TopItemsViewModel>(nullptr);
 

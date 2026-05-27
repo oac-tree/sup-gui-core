@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_ANYVALUE_LIST_WIDGET_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_ANYVALUE_LIST_WIDGET_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_LIST_WIDGET_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_LIST_WIDGET_H_
 
 #include <QWidget>
 
@@ -38,12 +38,12 @@ class ConfigurationContainerItem;
 /**
  * @brief The AnyValueListWidget class represents a list of AnyValue with simple editable names.
  */
-class AnyValueListWidget : public QWidget
+class ConfigurationListWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit AnyValueListWidget(QWidget* parent_widget = nullptr);
+  explicit ConfigurationListWidget(QWidget* parent_widget = nullptr);
 
   void SetConfigurationContainer(ConfigurationContainerItem* container);
 
@@ -56,4 +56,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_ANYVALUE_LIST_WIDGET_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_LIST_WIDGET_H_
