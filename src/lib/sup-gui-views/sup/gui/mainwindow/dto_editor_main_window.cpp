@@ -169,6 +169,8 @@ void DtoEditorMainWindow::OnProjectLoad()
 
   m_composer_view->SetModel(m_project->GetSupDtoModel());
   m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
+  m_compare_view->SetConfigurationModel(m_project->GetConfigurationModel());
+
   UpdateProjectNames();
 }
 

@@ -20,6 +20,8 @@
 
 #include "anyvalue_list_widget.h"
 
+#include <sup/gui/model/configuration_container_item.h>
+
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
 
@@ -41,6 +43,11 @@ AnyValueListWidget::AnyValueListWidget(QWidget* parent_widget)
   layout->setSpacing(0);
 
   layout->addWidget(m_tree_view);
+}
+
+void AnyValueListWidget::SetConfigurationContainer(ConfigurationContainerItem* container)
+{
+  m_component_provider->SetItem(container);
 }
 
 std::unique_ptr<mvvm::ItemViewComponentProvider> AnyValueListWidget::CreateProvider() const

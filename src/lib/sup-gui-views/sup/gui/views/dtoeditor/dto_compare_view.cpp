@@ -23,7 +23,8 @@
 #include "dto_explorer_panel.h"
 #include "splittable_config_editor.h"
 
-#include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_model.h>
 #include <sup/gui/model/import_helper.h>
 #include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/message_helper.h>
@@ -65,11 +66,28 @@ DtoCompareView::~DtoCompareView()
   WriteSettings();
 }
 
+void DtoCompareView::SetConfigurationModel(ConfigurationModel* model)
+{
+  m_configuration_model = model;
+
+  if (!m_configuration_model)
+  {
+    return;
+  }
+
+  m_explorer_panel->SetConfigurationContainer(m_configuration_model->GetConfigurationContainer());
+}
+
 void DtoCompareView::OnImportFromFileRequest(const QString& file_name)
 {
+  if (m_configuration_model == nullptr)
+  {
+    return;
+  }
   auto on_error = [](const MessageEvent& event) { SendWarningMessage(event); };
-  auto item = CreateAnyValueItemFromFile(file_name.toStdString(), on_error);
-  // TODO place in the model
+
+  AppendConfigurationFromFile(file_name.toStdString(), on_error,
+                              *m_configuration_model->GetConfigurationContainer());
 }
 
 void DtoCompareView::ReadSettings()

@@ -29,6 +29,7 @@ namespace sup::gui
 class CustomSplitter;
 class DtoExplorerPanel;
 class SplittableConfigEditor;
+class ConfigurationModel;
 
 class DtoCompareView : public QWidget
 {
@@ -43,6 +44,11 @@ public:
   DtoCompareView(DtoCompareView&&) noexcept = delete;
   DtoCompareView& operator=(DtoCompareView&&) noexcept  = delete;
 
+  /**
+   * @brief Perform widgets setup on new project creation or project load from disk.
+   */
+  void SetConfigurationModel(ConfigurationModel* model);
+
 private:
   void OnImportFromFileRequest(const QString& file_name);
 
@@ -52,6 +58,8 @@ private:
   CustomSplitter* m_splitter{nullptr};
   DtoExplorerPanel* m_explorer_panel{nullptr};
   SplittableConfigEditor* m_splittable_config_editor{nullptr};
+
+  ConfigurationModel* m_configuration_model{nullptr};
 };
 
 }  // namespace sup::gui

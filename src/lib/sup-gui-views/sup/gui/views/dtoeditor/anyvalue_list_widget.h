@@ -33,6 +33,8 @@ class ItemViewComponentProvider;
 namespace sup::gui
 {
 
+class ConfigurationContainerItem;
+
 /**
  * @brief The AnyValueListWidget class represents a list of AnyValue with simple editable names.
  */
@@ -42,6 +44,8 @@ class AnyValueListWidget : public QWidget
 
 public:
   explicit AnyValueListWidget(QWidget* parent_widget = nullptr);
+
+  void SetConfigurationContainer(ConfigurationContainerItem* container);
 
 private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> CreateProvider() const;

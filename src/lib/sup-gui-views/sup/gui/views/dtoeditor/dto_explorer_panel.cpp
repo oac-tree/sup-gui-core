@@ -89,6 +89,11 @@ DtoExplorerPanel::~DtoExplorerPanel()
   WriteSettings();
 }
 
+void DtoExplorerPanel::SetConfigurationContainer(ConfigurationContainerItem* container)
+{
+  m_anyvalue_list_widget->SetConfigurationContainer(container);
+}
+
 void DtoExplorerPanel::ReadSettings()
 {
   m_collapsible_list->ReadSettings();

@@ -30,6 +30,7 @@ class FileTreeView;
 class ItemStackWidget;
 class CollapsibleListView;
 class AnyValueListWidget;
+class ConfigurationContainerItem;
 
 class DtoExplorerPanel : public QWidget
 {
@@ -43,7 +44,9 @@ public:
   DtoExplorerPanel(const DtoExplorerPanel&) = delete;
   DtoExplorerPanel& operator=(const DtoExplorerPanel&) = delete;
   DtoExplorerPanel(DtoExplorerPanel&&) noexcept = delete;
-  DtoExplorerPanel& operator=(DtoExplorerPanel&&) noexcept  = delete;
+  DtoExplorerPanel& operator=(DtoExplorerPanel&&) noexcept = delete;
+
+  void SetConfigurationContainer(ConfigurationContainerItem* container);
 
 signals:
   void FileClicked(const QString& filename);
