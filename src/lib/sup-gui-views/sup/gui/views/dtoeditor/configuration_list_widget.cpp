@@ -21,7 +21,10 @@
 #include "configuration_list_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/widgets/flatlist_delegate.h>
+#include <sup/gui/widgets/flatlist_view.h>
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
 
@@ -32,7 +35,7 @@ namespace sup::gui
 {
 
 ConfigurationListWidget::ConfigurationListWidget(QWidget* parent_widget)
-    : QWidget(parent_widget), m_tree_view(new QTreeView), m_component_provider(CreateProvider())
+    : QWidget(parent_widget), m_list_view(new FlatListView), m_component_provider(CreateProvider())
 
 {
   setWindowTitle("CONFIGURATIONS");
@@ -42,7 +45,9 @@ ConfigurationListWidget::ConfigurationListWidget(QWidget* parent_widget)
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_tree_view);
+  layout->addWidget(m_list_view);
+
+  SetupConnections();
 }
 
 void ConfigurationListWidget::SetConfigurationContainer(ConfigurationContainerItem* container)
@@ -53,8 +58,25 @@ void ConfigurationListWidget::SetConfigurationContainer(ConfigurationContainerIt
 std::unique_ptr<mvvm::ItemViewComponentProvider> ConfigurationListWidget::CreateProvider() const
 {
   auto viewmodel = std::make_unique<mvvm::TopItemsViewModel>(nullptr);
+  auto delegate = std::make_unique<sup::gui::FlatListDelegate>();
 
-  return std::make_unique<mvvm::ItemViewComponentProvider>(std::move(viewmodel), m_tree_view);
+  return std::make_unique<mvvm::ItemViewComponentProvider>(std::move(delegate),
+                                                           std::move(viewmodel), m_list_view);
+}
+
+void ConfigurationListWidget::SetupConnections()
+{
+  // handles click on close button in column=1
+  auto on_close = [this](const QModelIndex& index)
+  {
+    auto configuration_item = m_component_provider->GetItemFromViewIndex(index);
+    if (configuration_item != nullptr)
+    {
+      mvvm::utils::RemoveItem(*configuration_item);
+    }
+  };
+
+  connect(m_list_view, &sup::gui::FlatListView::closeHandleClicked, this, on_close);
 }
 
 }  // namespace sup::gui

@@ -23,8 +23,6 @@
 
 #include <QWidget>
 
-class QTreeView;
-
 namespace mvvm
 {
 class ItemViewComponentProvider;
@@ -34,6 +32,7 @@ namespace sup::gui
 {
 
 class ConfigurationContainerItem;
+class FlatListView;
 
 /**
  * @brief The AnyValueListWidget class represents a list of AnyValue with simple editable names.
@@ -49,8 +48,10 @@ public:
 
 private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> CreateProvider() const;
+  void SetupConnections();
 
-  QTreeView* m_tree_view{nullptr};
+  FlatListView* m_list_view{nullptr};
+
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };
 
