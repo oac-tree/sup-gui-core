@@ -25,6 +25,11 @@
 #include <memory>
 #include <string>
 
+namespace mvvm
+{
+class SessionItem;
+}
+
 namespace sup::gui
 {
 
@@ -39,6 +44,15 @@ class MessageEvent;
  */
 std::unique_ptr<AnyValueItem> CreateAnyValueItemFromFile(
     const std::string& file_name, const std::function<void(const MessageEvent&)>& report_error);
+
+/**
+ * @brief Will import AnyValue from file and append it as ConfigurationItem to given container.
+ *
+ * The file should contain JSON with AnyValue content.
+ */
+void AppendConfigurationFromFile(const std::string& file_name,
+                                 const std::function<void(const MessageEvent&)>& report_error,
+                                 mvvm::SessionItem& container);
 
 }  // namespace sup::gui
 

@@ -20,8 +20,11 @@
 
 #include "sup/gui/model/import_helper.h"
 
+#include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
+#include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_item.h>
 
 #include <sup/dto/anyvalue.h>
 
@@ -47,7 +50,7 @@ public:
 TEST_F(ImportHelperTest, ImportFromFile)
 {
   // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalar.xml");
+  const auto file_path = GetFilePath("ImportFromFile.json");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   test::CreateSerializedFile(anyvalue, file_path);
 
@@ -67,6 +70,32 @@ TEST_F(ImportHelperTest, ImportFromNonExistingFile)
 {
   EXPECT_CALL(m_error_callback, Call(::testing::_)).Times(0);
   auto item = CreateAnyValueItemFromFile("non-existinf-file", m_error_callback.AsStdFunction());
+}
+
+TEST_F(ImportHelperTest, AppendConfigurationFromFile)
+{
+  ConfigurationContainerItem container;
+
+  // preparing file with content for further import
+  const auto file_path = GetFilePath("AppendConfigurationFromFile.json");
+  const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
+  test::CreateSerializedFile(anyvalue, file_path);
+
+  EXPECT_CALL(m_error_callback, Call(::testing::_)).Times(0);
+
+  AppendConfigurationFromFile(file_path, m_error_callback.AsStdFunction(), container);
+
+  // validating that configuration got correct name and content
+  ASSERT_EQ(container.GetConfigurationCount(), 1U);
+
+  auto configuration_item = container.GetConfigurations().at(0);
+  EXPECT_EQ(configuration_item->GetDisplayName(),
+            "AppendConfigurationFromFile");  // as JSON file stem
+
+  auto anyvalue_item = configuration_item->GetConfiguration();
+
+  auto stored_anyvalue = CreateAnyValue(*anyvalue_item);
+  EXPECT_EQ(stored_anyvalue, anyvalue);
 }
 
 }  // namespace sup::gui::test

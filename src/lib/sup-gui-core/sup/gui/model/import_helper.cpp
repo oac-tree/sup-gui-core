@@ -23,9 +23,12 @@
 #include "anyvalue_conversion_utils.h"
 #include "anyvalue_item.h"
 #include "anyvalue_utils.h"
+#include "configuration_item.h"
 
 #include <sup/gui/core/message_event.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
+
+#include <mvvm/utils/file_utils.h>
 
 #include <sup/dto/anyvalue.h>
 
@@ -51,6 +54,27 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItemFromFile(
   }
 
   return {};
+}
+
+void AppendConfigurationFromFile(const std::string& file_name,
+                                 const std::function<void(const MessageEvent&)>& report_error,
+                                 mvvm::SessionItem& container)
+{
+  auto anyvalue_item = CreateAnyValueItemFromFile(file_name, report_error);
+  if (!anyvalue_item)
+  {
+    return;
+  }
+
+  auto configuration_item = std::make_unique<ConfigurationItem>();
+  configuration_item->InsertItem(std::move(anyvalue_item), mvvm::TagIndex::Append());
+
+  // name of the configuration is the same as file name without extension
+  auto configuration_name = mvvm::utils::GetPathStem(file_name);
+  configuration_item->SetDisplayName(configuration_name);
+
+  // appending configuration to the container
+  container.InsertItem(std::move(configuration_item), mvvm::TagIndex::Append());
 }
 
 }  // namespace sup::gui
