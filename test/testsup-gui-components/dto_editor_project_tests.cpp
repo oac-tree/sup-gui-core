@@ -63,6 +63,7 @@ TEST_F(DtoEditorProjectTest, InitialState)
 
   EXPECT_EQ(project->GetSupDtoModel(), nullptr);
   EXPECT_EQ(project->GetWaveformModel(), nullptr);
+  EXPECT_EQ(project->GetConfigurationModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
 }
 
@@ -78,6 +79,7 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_FALSE(project->HasPath());
   EXPECT_NE(project->GetSupDtoModel(), nullptr);
   EXPECT_NE(project->GetWaveformModel(), nullptr);
+  EXPECT_NE(project->GetConfigurationModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
 
   // setting up expectation before project modification
@@ -92,6 +94,7 @@ TEST_F(DtoEditorProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_TRUE(project->Close());
   EXPECT_EQ(project->GetWaveformModel(), nullptr);
   EXPECT_EQ(project->GetSupDtoModel(), nullptr);
+  EXPECT_EQ(project->GetConfigurationModel(), nullptr);
   EXPECT_FALSE(project->IsModified());
 }
 

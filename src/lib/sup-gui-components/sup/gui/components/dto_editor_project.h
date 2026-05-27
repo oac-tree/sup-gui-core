@@ -28,6 +28,7 @@ namespace sup::gui
 
 class SupDtoModel;
 class WaveformModel;
+class ConfigurationModel;
 
 /**
  * @brief The DtoEditorProject class is a main project for sup-dto-editor application.
@@ -48,16 +49,19 @@ public:
 
   DtoEditorProject(const DtoEditorProject&) = delete;
   DtoEditorProject& operator=(const DtoEditorProject&) = delete;
-  DtoEditorProject(DtoEditorProject&&) = delete;
-  DtoEditorProject& operator=(DtoEditorProject&&) = delete;
+  DtoEditorProject(DtoEditorProject&&) noexcept = delete;
+  DtoEditorProject& operator=(DtoEditorProject&&) noexcept = delete;
 
   SupDtoModel* GetSupDtoModel();
 
   WaveformModel* GetWaveformModel();
 
+  ConfigurationModel* GetConfigurationModel();
+
 private:
-  std::size_t m_sup_dto_model_index;
-  std::size_t m_waveform_model_index;
+  std::size_t m_sup_dto_model_index{0U};
+  std::size_t m_waveform_model_index{0U};
+  std::size_t m_configuration_model_index{0U};
 };
 
 }  // namespace sup::gui

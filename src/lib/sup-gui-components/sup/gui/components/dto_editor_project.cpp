@@ -21,6 +21,7 @@
 #include "dto_editor_project.h"
 
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/model/configuration_model.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/model/waveform_model.h>
 
@@ -33,6 +34,7 @@ DtoEditorProject::DtoEditorProject(const mvvm::ProjectContext& context)
     : mvvm::AppProject(context)
     , m_sup_dto_model_index(RegisterModel<SupDtoModel>())
     , m_waveform_model_index(RegisterModel<WaveformModel>())
+    , m_configuration_model_index(RegisterModel<ConfigurationModel>())
 {
 }
 
@@ -48,6 +50,13 @@ WaveformModel* DtoEditorProject::GetWaveformModel()
 {
   return (GetModelCount() > m_waveform_model_index)
              ? GetModel<WaveformModel>(m_waveform_model_index)
+             : nullptr;
+}
+
+ConfigurationModel* DtoEditorProject::GetConfigurationModel()
+{
+  return (GetModelCount() > m_configuration_model_index)
+             ? GetModel<ConfigurationModel>(m_configuration_model_index)
              : nullptr;
 }
 
