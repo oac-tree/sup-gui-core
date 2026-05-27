@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "configuration_container_item.h"
+#include "configuration_item.h"
 
 #include "anyvalue_item.h"
 #include "anyvalue_item_constants.h"
@@ -32,34 +32,34 @@ namespace
 constexpr auto kFileName = "kFileName";
 }
 
-ConfigurationContainerItem::ConfigurationContainerItem()
-    : CompoundItem(mvvm::GetTypeName<ConfigurationContainerItem>())
+ConfigurationItem::ConfigurationItem()
+    : CompoundItem(mvvm::GetTypeName<ConfigurationItem>())
 {
   (void)AddProperty(kFileName, std::string())
       .SetDisplayName("File name")
-      .SetToolTip("The name of the file from which a procedure was imported");
+      .SetToolTip("The name of the file from which a configuration was imported");
 
   // tag for AnyValueItem, can hold one maximum
   RegisterTag(mvvm::TagInfo(constants::kAnyValueChildrenTag, 0, 1, GetAnyValueItemTypes()),
               /*as_default*/ true);
 }
 
-AnyValueItem* ConfigurationContainerItem::GetConfiguration()
+AnyValueItem* ConfigurationItem::GetConfiguration()
 {
   return GetItem<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
-std::unique_ptr<mvvm::SessionItem> ConfigurationContainerItem::Clone() const
+std::unique_ptr<mvvm::SessionItem> ConfigurationItem::Clone() const
 {
-  return std::make_unique<ConfigurationContainerItem>(*this);
+  return std::make_unique<ConfigurationItem>(*this);
 }
 
-std::string ConfigurationContainerItem::GetFileName() const
+std::string ConfigurationItem::GetFileName() const
 {
   return Property<std::string>(kFileName);
 }
 
-void ConfigurationContainerItem::SetFileName(const std::string& value)
+void ConfigurationItem::SetFileName(const std::string& value)
 {
   (void)SetProperty(kFileName, value);
 }

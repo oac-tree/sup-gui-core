@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/model/configuration_container_item.h"
+#include "sup/gui/model/configuration_item.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_item.h>
@@ -30,29 +30,29 @@
 namespace sup::gui::test
 {
 
-class ConfigurationContainerItemTest : public ::testing::Test
+class ConfigurationItemTest : public ::testing::Test
 {
 };
 
-TEST_F(ConfigurationContainerItemTest, InitialSate)
+TEST_F(ConfigurationItemTest, InitialSate)
 {
-  ConfigurationContainerItem container;
+  ConfigurationItem container;
 
   EXPECT_TRUE(container.GetFileName().empty());
   EXPECT_EQ(container.GetConfiguration(), nullptr);
 }
 
-TEST_F(ConfigurationContainerItemTest, GetSetFileName)
+TEST_F(ConfigurationItemTest, GetSetFileName)
 {
-  ConfigurationContainerItem container;
+  ConfigurationItem container;
 
   container.SetFileName("abc");
   EXPECT_EQ(container.GetFileName(), std::string("abc"));
 }
 
-TEST_F(ConfigurationContainerItemTest, InsertAnyValueItem)
+TEST_F(ConfigurationItemTest, InsertAnyValueItem)
 {
-  ConfigurationContainerItem container;
+  ConfigurationItem container;
 
   auto anyvalue_item = container.InsertItem<AnyValueScalarItem>(mvvm::TagIndex::Append());
   EXPECT_NE(anyvalue_item, nullptr);

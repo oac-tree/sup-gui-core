@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_CONFIGURATION_CONTAINER_ITEM_H_
-#define SUP_GUI_MODEL_CONFIGURATION_CONTAINER_ITEM_H_
+#ifndef SUP_GUI_MODEL_CONFIGURATION_ITEM_H_
+#define SUP_GUI_MODEL_CONFIGURATION_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
 
@@ -29,16 +29,16 @@ namespace sup::gui
 class AnyValueItem;
 
 /**
- * @brief The ConfigurationContainerItem class is a basic container for configurations.
+ * @brief The ConfigurationItem class is holds a configuration and auxiliary information.
  *
  * Holds a single instance of AnyValueItem representing a configuration.
  * Might hold more data in the future (i.e. backup values, reference to other items to compare,
  * etc).
  */
-class ConfigurationContainerItem : public mvvm::CompoundItem
+class ConfigurationItem : public mvvm::CompoundItem
 {
 public:
-  ConfigurationContainerItem();
+  ConfigurationItem();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -48,12 +48,12 @@ public:
   AnyValueItem* GetConfiguration();
 
   /**
-   * @brief Returns file name from which procedure was imported.
+   * @brief Returns file name from which the configuration was initially imported.
    */
   std::string GetFileName() const;
 
   /**
-   * @brief Sets file name from which procedure was imported.
+   * @brief Sets file name from which the configuration was imported.
    */
   void SetFileName(const std::string& value);
 };
@@ -64,9 +64,9 @@ namespace mvvm
 {
 
 template <>
-struct item_traits<sup::gui::ConfigurationContainerItem>
+struct item_traits<sup::gui::ConfigurationItem>
 {
-  static constexpr std::string_view type_name() noexcept { return "ConfigurationContainerItem"; }
+  static constexpr std::string_view type_name() noexcept { return "ConfigurationItem"; }
 };
 
 }  // namespace mvvm
