@@ -37,7 +37,6 @@ namespace sup::gui
 
 namespace
 {
-constexpr auto kNoSelection = " < no selection >";
 constexpr auto kPlaceholderText = "Select one of available configurations";
 }  // namespace
 
@@ -62,6 +61,11 @@ ConfigComboPanel::ConfigComboPanel(QWidget* parent_widget)
   SetupConnections();
 }
 
+ConfigurationModel *ConfigComboPanel::GetModel()
+{
+  return m_model;
+}
+
 void ConfigComboPanel::SetModel(ConfigurationModel* model)
 {
   m_model = model;
@@ -74,15 +78,9 @@ void ConfigComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
   ShowConfigurationInEditor(configuration_item);
 }
 
-QList<QString> ConfigComboPanel::GetAvailableConfigurationNames() const
+ConfigurationItem *ConfigComboPanel::GetCurrentConfiguration()
 {
-  QList<QString> result{kNoSelection};
-  const auto configurations = GetAvailableConfigurations();
-  for (const auto& item : configurations)
-  {
-    result.append(QString::fromStdString(item->GetDisplayName()));
-  }
-  return result;
+  return m_current_configuration_item;
 }
 
 std::vector<ConfigurationItem*> ConfigComboPanel::GetAvailableConfigurations() const
@@ -132,7 +130,7 @@ std::function<QList<QString>()> ConfigComboPanel::CreateConfigurationNamesCallba
 {
   return [this]()
   {
-    ConfigComboAdapter adapter(GetAvailableConfigurations());
+    const ConfigComboAdapter adapter(GetAvailableConfigurations());
     return adapter.GetAvailableItemNames();
   };
 }

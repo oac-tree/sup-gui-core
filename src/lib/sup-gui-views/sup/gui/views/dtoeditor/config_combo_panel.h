@@ -63,6 +63,8 @@ public:
 
   explicit ConfigComboPanel(QWidget* parent_widget = nullptr);
 
+  ConfigurationModel* GetModel();
+
   void SetModel(ConfigurationModel* model);
 
   /**
@@ -70,7 +72,10 @@ public:
    */
   void SetConfiguration(ConfigurationItem* configuration_item);
 
-  QList<QString> GetAvailableConfigurationNames() const;
+  /**
+   * @brief Gets the currently edited configuration.
+   */
+  ConfigurationItem* GetCurrentConfiguration();
 
   std::vector<ConfigurationItem*> GetAvailableConfigurations() const;
 
