@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   config_tab_widget.h
   configuration_list_widget.cpp
   configuration_list_widget.h
+  config_combo_adapter.cpp
+  config_combo_adapter.h
   dto_compare_view.cpp
   dto_compare_view.h
   dto_composer_actions.cpp
