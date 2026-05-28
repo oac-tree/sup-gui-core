@@ -28,6 +28,7 @@
 
 #include <QDataStream>
 #include <mutex>
+#include <cstdint>
 
 namespace sup::gui
 {
@@ -46,6 +47,7 @@ void RegisterCustomMetaTypes()
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
+    (void)qRegisterMetaType<std::int32_t>("std::int32_t");
 #endif
   };
 
