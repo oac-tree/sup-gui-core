@@ -63,6 +63,11 @@ ConfigTabWidget::ConfigTabWidget(QWidget* parent_widget)
   UpdateToolbarButtons();
 }
 
+void ConfigTabWidget::SetConfiguration(ConfigurationItem* configuration_item)
+{
+  (void)configuration_item;
+}
+
 void ConfigTabWidget::UpdateToolbarButtons()
 {
   m_tool_bar->clear();

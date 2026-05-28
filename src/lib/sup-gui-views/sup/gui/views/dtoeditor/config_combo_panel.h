@@ -49,6 +49,17 @@ class ConfigComboPanel : public QWidget
   Q_OBJECT
 
 public:
+  /**
+   * @brief The PlaceholderMode enum defines modes of the placeholder widget.
+   *
+   * Placeholder hides the main editor when it is not ready.
+   */
+  enum class PlaceholderMode : std::uint8_t
+  {
+    kShowPlaceholder,
+    kShowEditor
+  };
+
   explicit ConfigComboPanel(QWidget* parent_widget = nullptr);
 
   void SetModel(ConfigurationModel* model);
@@ -58,7 +69,41 @@ public:
    */
   void SetConfiguration(ConfigurationItem* configuration_item);
 
+  QList<QString> GetAvailableConfigurationNames() const;
+
+  std::vector<ConfigurationItem*> GetAvailableConfigurations() const;
+
+signals:
+  void splitViewRequest();
+  void closeViewRequest();
+  void panelFocusRequest();
+  void selectedConfigurationChanged(const sup::gui::ConfigurationItem* item);
+
 private:
+  /**
+   * @brief Sets the placeholder mode.
+   *
+   * Placeholders hides the main editor when it is not ready.
+   */
+  void SetPlaceholderMode(PlaceholderMode mode);
+
+  void SetupConnections();
+
+  /**
+   * @brief Show given configuration in ConfigTabWidget.
+   */
+  void ShowConfigurationInEditor(ConfigurationItem* item);
+
+  /**
+   * @brief Get configuration item corresponding to the currently selected item in combo toolbar.
+   */
+  ConfigurationItem *GetConfigurationFromComboIndex(std::int32_t combo_index) const;
+
+  /**
+   * @brief Get combo toolbar index corresponding to the given configuration item.
+   */
+  std::int32_t GetComboIndexFromConfiguration(const ConfigurationItem* item);
+
   ComboToolBar* m_tool_bar{nullptr};
   QStackedWidget* m_stacked_widget{nullptr};
   PlaceholderWidget* m_placeholder_widget{nullptr};

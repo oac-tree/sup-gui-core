@@ -31,10 +31,11 @@ namespace sup::gui
 
 class AnyValueEditorTreePanel;
 class AnyValueEditorTextPanel;
+class ConfigurationItem;
 
 /**
- * @brief The ConfigTabWidget class is a configuration editor with multiple different views of the
- * same data.
+ * @brief The ConfigTabWidget class is a configuration editor with multiple different views of
+ * the same data.
  *
  * Views are placed in QTabWidget. For the moment contains
  * - AnyValueEditorTreePanel
@@ -46,6 +47,11 @@ class ConfigTabWidget : public QWidget
 
 public:
   explicit ConfigTabWidget(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Sets the configuration to be edited.
+   */
+  void SetConfiguration(ConfigurationItem* configuration_item);
 
 private:
   void UpdateToolbarButtons();
