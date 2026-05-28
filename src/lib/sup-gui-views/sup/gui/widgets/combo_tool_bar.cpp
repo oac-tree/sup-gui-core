@@ -20,9 +20,9 @@
 
 #include "combo_tool_bar.h"
 
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/style/style_helper.h>
 
-#include <mvvm/model/session_item.h>
 #include <mvvm/style/mvvm_style_helper.h>
 
 #include <QAction>
@@ -33,11 +33,6 @@
 namespace sup::gui
 {
 
-namespace
-{
-constexpr auto kNoItemSelected = " < no selection >";
-}
-
 ComboToolBar::ComboToolBar(const ItemCallback& item_callback, QWidget* parent_widget)
     : QToolBar(parent_widget)
     , m_available_items(item_callback)
@@ -46,9 +41,13 @@ ComboToolBar::ComboToolBar(const ItemCallback& item_callback, QWidget* parent_wi
     , m_split_horizontally_button(new QToolButton(this))
     , m_close_current_view_button(new QToolButton(this))
 {
+  if (!m_available_items)
+  {
+    throw RuntimeException("Item callback is not set");
+  }
+
   setIconSize(utils::NarrowToolBarIconSize());
 
-  m_selector_button->setText(kNoItemSelected);
   m_selector_button->setMenu(m_select_item_menu.get());
   m_selector_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   m_selector_button->setPopupMode(QToolButton::MenuButtonPopup);
@@ -92,22 +91,39 @@ void ComboToolBar::ShowAsLastEditor(bool value)
   ShowAsActive(false);
 }
 
-void ComboToolBar::UpdateSelectionMenu(mvvm::SessionItem* selected_item)
+void ComboToolBar::SetCurrentIndex(std::int32_t index)
 {
-  // for the moment nothing to do rather then set proper text to button
-  if (selected_item != nullptr)
+  auto items = m_available_items();
+
+  // invalid index is ignored
+  if (index < 0 || index >= static_cast<std::int32_t>(items.size()))
   {
-    m_selector_button->setText(QString::fromStdString(selected_item->GetDisplayName()));
+    return;
   }
-  else
+
+  if (index == m_current_index)
   {
-    m_selector_button->setText(kNoItemSelected);
+    return;
   }
+
+  m_current_index = index;
+  m_selector_button->setText(m_available_items().at(m_current_index));
+  emit selectItemRequest(index);
 }
 
-QString ComboToolBar::GetSelectedItemName() const
+int32_t ComboToolBar::GetCurrentIndex() const
+{
+  return m_current_index;
+}
+
+QString ComboToolBar::GetCurrentText() const
 {
   return m_selector_button->text();
+}
+
+QMenu* ComboToolBar::GetMenu()
+{
+  return m_select_item_menu.get();
 }
 
 void ComboToolBar::paintEvent(QPaintEvent* event)
@@ -151,25 +167,13 @@ void ComboToolBar::OnAboutToShowMenu()
   auto menu = m_select_item_menu.get();
   menu->clear();
 
-  // action when no item is selected
-  auto action = menu->addAction(kNoItemSelected);
-  auto on_action = [this]()
+  std::int32_t index{0};
+  for (const auto& item_name : m_available_items())
   {
-    m_selector_button->setText(kNoItemSelected);
-    emit selectItemRequest(nullptr);
-  };
-  connect(action, &QAction::triggered, this, on_action);
-
-  // build a menu containing list of items available for selection in this widget
-  for (auto item : m_available_items())
-  {
-    auto action = menu->addAction(QString::fromStdString(item->GetDisplayName()));
-    auto on_action = [this, item]()
-    {
-      m_selector_button->setText(QString::fromStdString(item->GetDisplayName()));
-      emit selectItemRequest(item);
-    };
+    auto action = menu->addAction(item_name);
+    auto on_action = [this, index]() { SetCurrentIndex(index); };
     connect(action, &QAction::triggered, this, on_action);
+    ++index;
   }
 }
 

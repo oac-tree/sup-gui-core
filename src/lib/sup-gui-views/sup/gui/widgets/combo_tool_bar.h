@@ -21,16 +21,13 @@
 #ifndef SUP_GUI_WIDGETS_COMBO_TOOL_BAR_H_
 #define SUP_GUI_WIDGETS_COMBO_TOOL_BAR_H_
 
+#include <QList>
+#include <QString>
 #include <QToolBar>
 #include <functional>
 
 class QMenu;
 class QToolButton;
-
-namespace mvvm
-{
-class SessionItem;
-}
 
 namespace sup::gui
 {
@@ -38,15 +35,26 @@ namespace sup::gui
 /**
  * @brief The ComboToolBar class contains a combo selector to switch between different documents,
  * and control elements to split/close views.
+ *
+ * It uses callback to retrieve names and populate combo box with possible choice.
+ *
+ * Combo selector is implemented as a QToolButton with text. This provides better "flat" appearance
+ * in the toolbar, than usual QComboBox.
  */
 class ComboToolBar : public QToolBar
 {
   Q_OBJECT
 
 public:
-  using ItemCallback = std::function<std::vector<mvvm::SessionItem*>()>;
+  using ItemCallback = std::function<QList<QString>()>;
 
-  explicit ComboToolBar(const ItemCallback& item_callback, QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * @param entries_callback A callback allowing to retrieve list of strings.
+   * @param parent_widget The parent widget.
+   */
+  explicit ComboToolBar(const ItemCallback& entries_callback, QWidget* parent_widget = nullptr);
   ~ComboToolBar() override;
 
   ComboToolBar(const ComboToolBar&) = delete;
@@ -64,23 +72,35 @@ public:
 
   /**
    * @brief Marks this toolbar as the last editor in the splitter.
+   *
+   * Disables "close" button, since the last widget can't be closed.
    */
   void ShowAsLastEditor(bool value);
 
   /**
-   * @brief Updates the item selection menu to highlight given item.
+   * @brief Updates the item selection menu to highlight entry with the given index.
    */
-  void UpdateSelectionMenu(mvvm::SessionItem* selected_item);
+  void SetCurrentIndex(std::int32_t index);
+
+  /**
+   * @brief Returns index of the currently selected item in a toolbar combo.
+   */
+  std::int32_t GetCurrentIndex() const;
 
   /**
    * @brief Returns item name selected in a toolbar combo.
    */
-  QString GetSelectedItemName() const;
+  QString GetCurrentText() const;
+
+  /**
+   * @brief Returns underlying menu embedded in selector button.
+   */
+  QMenu* GetMenu();
 
 signals:
   void splitViewRequest();
   void closeViewRequest();
-  void selectItemRequest(const mvvm::SessionItem* item);
+  void selectItemRequest(std::int32_t index);
 
 protected:
   void paintEvent(QPaintEvent* event) override;
@@ -96,6 +116,7 @@ private:
   QToolButton* m_split_horizontally_button{nullptr};
   QToolButton* m_close_current_view_button{nullptr};
   bool m_show_as_active{false};
+  std::int32_t m_current_index{-1};
 };
 
 }  // namespace sup::gui
