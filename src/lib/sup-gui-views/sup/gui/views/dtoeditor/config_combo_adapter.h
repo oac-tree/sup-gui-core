@@ -23,7 +23,6 @@
 
 #include <QList>
 #include <QString>
-#include <functional>
 
 namespace sup::gui
 {
@@ -54,7 +53,7 @@ public:
   /**
    * @brief Get configuration item corresponding to the currently selected item in combo toolbar.
    */
-  const ConfigurationItem* GetItemFromComboIndex(std::int32_t combo_index) const;
+  ConfigurationItem* GetItemFromComboIndex(std::int32_t combo_index);
 
   /**
    * @brief Get combo toolbar index corresponding to the given configuration item.

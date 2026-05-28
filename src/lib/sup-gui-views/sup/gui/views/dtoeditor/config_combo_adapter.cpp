@@ -42,7 +42,7 @@ QList<QString> ConfigComboAdapter::GetAvailableItemNames() const
   return result;
 }
 
-const ConfigurationItem* ConfigComboAdapter::GetItemFromComboIndex(std::int32_t combo_index) const
+ConfigurationItem* ConfigComboAdapter::GetItemFromComboIndex(std::int32_t combo_index)
 {
   // first index means "no selection"
   if (combo_index < 1)

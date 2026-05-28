@@ -22,6 +22,7 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_PANEL_H_
 
 #include <QWidget>
+#include <functional>
 
 class QStackedWidget;
 
@@ -95,14 +96,9 @@ private:
   void ShowConfigurationInEditor(ConfigurationItem* item);
 
   /**
-   * @brief Get configuration item corresponding to the currently selected item in combo toolbar.
+   * @brief Creates a callback to get list of configuration names for combo toolbar.
    */
-  ConfigurationItem *GetConfigurationFromComboIndex(std::int32_t combo_index) const;
-
-  /**
-   * @brief Get combo toolbar index corresponding to the given configuration item.
-   */
-  std::int32_t GetComboIndexFromConfiguration(const ConfigurationItem* item);
+  std::function<QList<QString>()> CreateConfigurationNamesCallback();
 
   ComboToolBar* m_tool_bar{nullptr};
   QStackedWidget* m_stacked_widget{nullptr};

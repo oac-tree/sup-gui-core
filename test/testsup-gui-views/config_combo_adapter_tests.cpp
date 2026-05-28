@@ -57,7 +57,7 @@ TEST_F(ConfigComboAdapterTest, ThreeConfigItems)
   ConfigurationItem item3;
   item3.SetDisplayName("Third");
 
-  const ConfigComboAdapter adapter({&item1, &item2, &item3});
+  ConfigComboAdapter adapter({&item1, &item2, &item3});
 
   EXPECT_EQ(adapter.GetAvailableItemNames(),
             QList<QString>({QString(ConfigComboAdapter::kNoSelection), QString("First"),

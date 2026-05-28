@@ -20,6 +20,7 @@
 
 #include "config_combo_panel.h"
 
+#include "config_combo_adapter.h"
 #include "config_tab_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
@@ -42,7 +43,7 @@ constexpr auto kPlaceholderText = "Select one of available configurations";
 
 ConfigComboPanel::ConfigComboPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_tool_bar(new ComboToolBar({}))
+    , m_tool_bar(new ComboToolBar(CreateConfigurationNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
     , m_config_widget(new ConfigTabWidget())
@@ -68,8 +69,9 @@ void ConfigComboPanel::SetModel(ConfigurationModel* model)
 
 void ConfigComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
 {
-  // m_tool_bar->UpdateProcedureSelectionMenu(procedure_item);
-  // SetProcedureIntern(procedure_item);
+  ConfigComboAdapter adapter(GetAvailableConfigurations());
+  m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
+  ShowConfigurationInEditor(configuration_item);
 }
 
 QList<QString> ConfigComboPanel::GetAvailableConfigurationNames() const
@@ -105,10 +107,9 @@ void ConfigComboPanel::SetupConnections()
 
   auto on_combo_index_changed = [this](auto index)
   {
-    auto item = GetConfigurationFromComboIndex(index);
-    ShowConfigurationInEditor(item);
+    ConfigComboAdapter adapter(GetAvailableConfigurations());
+    ShowConfigurationInEditor(adapter.GetItemFromComboIndex(index));
   };
-
   connect(m_tool_bar, &ComboToolBar::selectItemRequest, this, on_combo_index_changed);
 }
 
@@ -127,29 +128,13 @@ void ConfigComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
   emit selectedConfigurationChanged(m_current_configuration_item);
 }
 
-ConfigurationItem* ConfigComboPanel::GetConfigurationFromComboIndex(
-    std::int32_t combo_index) const
+std::function<QList<QString>()> ConfigComboPanel::CreateConfigurationNamesCallback()
 {
-  // first index is always "no selection"
-  const std::int32_t index = combo_index - 1;
-  const auto configurations = GetAvailableConfigurations();
-  if (index < 0 || index >= static_cast<std::int32_t>(configurations.size()))
+  return [this]()
   {
-    return nullptr;
-  }
-
-  return configurations.at(index);
-}
-
-std::int32_t ConfigComboPanel::GetComboIndexFromConfiguration(const ConfigurationItem* item)
-{
-  // first index is always "no selection"
-  if (item == nullptr)
-  {
-    return 0;
-  }
-
-  return static_cast<std::int32_t>(item->GetTagIndex().GetIndex() + 1);
+    ConfigComboAdapter adapter(GetAvailableConfigurations());
+    return adapter.GetAvailableItemNames();
+  };
 }
 
 }  // namespace sup::gui
