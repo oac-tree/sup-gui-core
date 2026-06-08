@@ -32,6 +32,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QMenu>
 #include <QSignalSpy>
 #include <QStackedWidget>
 
@@ -160,6 +161,86 @@ TEST_F(ConfigComboPanelTest, SetConfigurationProgrammatically)
   // placeholder widget is back again
   EXPECT_EQ(stacked_widget->currentIndex(),
             static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+}
+
+TEST_F(ConfigComboPanelTest, SetConfigurationViaToolbar)
+{
+  ConfigurationModel model;
+  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
+                                                            mvvm::TagIndex::Append());
+  configuration0->SetDisplayName("Config0");
+  auto configuration1 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
+                                                            mvvm::TagIndex::Append());
+  configuration1->SetDisplayName("Config1");
+
+  ConfigComboPanel widget;
+  widget.show();
+
+  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+
+  widget.SetModel(&model);
+
+  EXPECT_EQ(widget.GetModel(), &model);
+  EXPECT_EQ(widget.GetCurrentConfiguration(), nullptr);
+
+  auto stacked_widget = widget.findChild<QStackedWidget*>();
+  ASSERT_NE(stacked_widget, nullptr);
+  EXPECT_EQ(stacked_widget->currentIndex(),
+            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+
+  auto toolbar = widget.findChild<ComboToolBar*>();
+  ASSERT_NE(toolbar, nullptr);
+
+  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
+
+  // select first configuration via toolbar
+  toolbar->SetCurrentIndex(1);
+
+  ASSERT_EQ(selected_changed_spy.count(), 1);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
+            mvvm::ItemSelection(configuration0));
+
+  EXPECT_EQ(widget.GetCurrentConfiguration(), configuration0);
+  EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
+  EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
+
+  // select second configuration via toolbar menu
+  // make menu pop-up to populate it with actions
+  toolbar->GetMenu()->popup(toolbar->mapToGlobal(toolbar->rect().bottomLeft()));
+  auto actions = toolbar->GetMenu()->actions();
+  ASSERT_EQ(actions.size(), 3);  // no selection + 2 configurations
+
+  // trigger action for second configuration
+  actions.at(2)->trigger();
+
+  ASSERT_EQ(selected_changed_spy.count(), 1);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
+            mvvm::ItemSelection(configuration1));
+
+  EXPECT_EQ(widget.GetCurrentConfiguration(), configuration1);
+  EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration1->GetDisplayName()));
+  EXPECT_EQ(toolbar->GetCurrentIndex(), 2);
+}
+
+TEST_F(ConfigComboPanelTest, SplitViewCloseViewRequestsArePropagated)
+{
+  ConfigComboPanel widget;
+  widget.show();
+
+  auto toolbar = widget.findChild<ComboToolBar*>();
+  ASSERT_NE(toolbar, nullptr);
+
+  QSignalSpy spy_split(&widget, &ConfigComboPanel::splitViewRequest);
+  QSignalSpy spy_close(&widget, &ConfigComboPanel::closeViewRequest);
+
+  // trigger split view request
+  toolbar->splitViewRequest();
+  ASSERT_EQ(spy_split.count(), 1);
+
+  // trigger close view request
+  toolbar->closeViewRequest();
+  ASSERT_EQ(spy_close.count(), 1);
 }
 
 }  // namespace sup::gui::test
