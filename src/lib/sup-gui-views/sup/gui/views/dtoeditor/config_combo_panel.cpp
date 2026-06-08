@@ -29,6 +29,9 @@
 #include <sup/gui/widgets/combo_tool_bar.h>
 #include <sup/gui/widgets/placeholder_widget.h>
 
+#include <mvvm/model/item_utils.h>
+#include <mvvm/signals/model_listener.h>
+
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
@@ -61,6 +64,8 @@ ConfigComboPanel::ConfigComboPanel(QWidget* parent_widget)
   SetupConnections();
 }
 
+ConfigComboPanel::~ConfigComboPanel() = default;
+
 ConfigurationModel* ConfigComboPanel::GetModel()
 {
   return m_model;
@@ -69,6 +74,15 @@ ConfigurationModel* ConfigComboPanel::GetModel()
 void ConfigComboPanel::SetModel(ConfigurationModel* model)
 {
   m_model = model;
+  if (m_model != nullptr)
+  {
+    SetupModelListener();
+  }
+  else
+  {
+    m_listener.reset();
+  }
+
   m_tool_bar->SetCurrentIndex(0);
 }
 
@@ -112,6 +126,33 @@ void ConfigComboPanel::SetupConnections()
     ShowConfigurationInEditor(adapter.GetItemFromComboIndex(index));
   };
   connect(m_tool_bar, &ComboToolBar::selectItemRequest, this, on_combo_index_changed);
+}
+
+void ConfigComboPanel::SetupModelListener()
+{
+  m_listener = std::make_unique<mvvm::ModelListener>(m_model);
+
+  auto on_data_changed = [this](const mvvm::DataChangedEvent& event)
+  {
+    if (event.item == m_current_configuration_item)
+    {
+      // FIXME update text here
+      // m_tool_bar->UpdateProcedureSelectionMenu(m_current_procedure_item);
+    }
+  };
+  m_listener->Connect<mvvm::DataChangedEvent>(on_data_changed);
+
+  auto on_about_to_remove_item = [this](const mvvm::AboutToRemoveItemEvent& event)
+  {
+    auto item_to_remove = event.item->GetItem(event.tag_index);
+
+    if ((item_to_remove == m_current_configuration_item)
+        || mvvm::utils::IsItemAncestor(m_current_configuration_item, item_to_remove))
+    {
+      SetConfiguration(nullptr);
+    }
+  };
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(on_about_to_remove_item);
 }
 
 void ConfigComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)

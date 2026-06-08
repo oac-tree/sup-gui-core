@@ -28,6 +28,11 @@
 
 class QStackedWidget;
 
+namespace mvvm
+{
+class ModelListener;
+}
+
 namespace sup::gui
 {
 
@@ -65,6 +70,13 @@ public:
 
   explicit ConfigComboPanel(QWidget* parent_widget = nullptr);
 
+  ~ConfigComboPanel() override;
+
+  ConfigComboPanel(const ConfigComboPanel& other) = delete;
+  ConfigComboPanel& operator=(const ConfigComboPanel&) = delete;
+  ConfigComboPanel(ConfigComboPanel&&) = delete;
+  ConfigComboPanel& operator=(ConfigComboPanel&&) = delete;
+
   ConfigurationModel* GetModel();
 
   void SetModel(ConfigurationModel* model);
@@ -98,6 +110,11 @@ private:
   void SetupConnections();
 
   /**
+   * @brief Setup model listener to track when configuration us renamed, or deleted.
+   */
+  void SetupModelListener();
+
+  /**
    * @brief Show given configuration in ConfigTabWidget.
    */
   void ShowConfigurationInEditor(ConfigurationItem* item);
@@ -112,6 +129,7 @@ private:
   PlaceholderWidget* m_placeholder_widget{nullptr};
   ConfigTabWidget* m_config_widget{nullptr};
   ConfigurationItem* m_current_configuration_item{nullptr};
+  std::unique_ptr<mvvm::ModelListener> m_listener;
   ConfigurationModel* m_model{nullptr};
 };
 

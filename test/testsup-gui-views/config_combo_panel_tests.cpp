@@ -29,6 +29,7 @@
 
 #include <mvvm/model/item_selection.h>
 #include <mvvm/test/test_helper.h>
+#include <mvvm/signals/model_listener.h>
 
 #include <gtest/gtest.h>
 
