@@ -21,6 +21,8 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_PANEL_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_PANEL_H_
 
+#include <mvvm/model/item_selection.h>
+
 #include <QWidget>
 #include <functional>
 
@@ -83,7 +85,7 @@ signals:
   void splitViewRequest();
   void closeViewRequest();
   void panelFocusRequest();
-  void selectedConfigurationChanged(const sup::gui::ConfigurationItem* item);
+  void selectedConfigurationChanged(mvvm::ItemSelection selection);
 
 private:
   /**

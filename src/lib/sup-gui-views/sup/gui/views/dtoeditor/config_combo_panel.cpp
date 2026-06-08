@@ -61,7 +61,7 @@ ConfigComboPanel::ConfigComboPanel(QWidget* parent_widget)
   SetupConnections();
 }
 
-ConfigurationModel *ConfigComboPanel::GetModel()
+ConfigurationModel* ConfigComboPanel::GetModel()
 {
   return m_model;
 }
@@ -69,16 +69,19 @@ ConfigurationModel *ConfigComboPanel::GetModel()
 void ConfigComboPanel::SetModel(ConfigurationModel* model)
 {
   m_model = model;
+  m_tool_bar->SetCurrentIndex(0);
 }
 
 void ConfigComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
 {
   ConfigComboAdapter adapter(GetAvailableConfigurations());
   m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
-  ShowConfigurationInEditor(configuration_item);
+
+  // the combo index change will trigger the ShowConfigurationInEditor method, so no need to call it
+  // here explicitly
 }
 
-ConfigurationItem *ConfigComboPanel::GetCurrentConfiguration()
+ConfigurationItem* ConfigComboPanel::GetCurrentConfiguration()
 {
   return m_current_configuration_item;
 }
@@ -121,9 +124,9 @@ void ConfigComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
   m_current_configuration_item = item;
 
   m_config_widget->SetConfiguration(m_current_configuration_item);
-  SetPlaceholderMode(item == nullptr ? PlaceholderMode::kShowPlaceholder
-                                     : PlaceholderMode::kShowEditor);
-  emit selectedConfigurationChanged(m_current_configuration_item);
+  SetPlaceholderMode(m_current_configuration_item == nullptr ? PlaceholderMode::kShowPlaceholder
+                                                             : PlaceholderMode::kShowEditor);
+  emit selectedConfigurationChanged(mvvm::ItemSelection(m_current_configuration_item));
 }
 
 std::function<QList<QString>()> ConfigComboPanel::CreateConfigurationNamesCallback()

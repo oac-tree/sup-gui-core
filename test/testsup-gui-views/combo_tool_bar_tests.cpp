@@ -57,7 +57,7 @@ TEST_F(ComboToolBarTest, InitializationWithEmptyCallback)
 
 TEST_F(ComboToolBarTest, ListOfThreeItems)
 {
-  const QList<QString> kItems{"First", "Second", "Third"};
+  QList<QString> kItems{"First", "Second", "Third"};
   auto entries = [&kItems]() -> QList<QString> { return kItems; };
   ComboToolBar tool_bar(entries);
 
@@ -96,9 +96,31 @@ TEST_F(ComboToolBarTest, ListOfThreeItems)
   tool_bar.SetCurrentIndex(static_cast<std::int32_t>(kItems.size()));
 }
 
+TEST_F(ComboToolBarTest, ListOfItemsChangesOnTheNextPopUp)
+{
+  QList<QString> kItems{"First", "Second", "Third"};
+  auto entries = [&kItems]() -> QList<QString> { return kItems; };
+  ComboToolBar tool_bar(entries);
+
+  // make menu pop-up to populate it with actions
+  tool_bar.GetMenu()->popup(tool_bar.mapToGlobal(tool_bar.rect().bottomLeft()));
+  auto actions = tool_bar.GetMenu()->actions();
+  ASSERT_EQ(actions.size(), kItems.size());
+
+  kItems.append("Fourth");
+  // make menu pop-up again to update it with new actions
+  tool_bar.GetMenu()->popup(tool_bar.mapToGlobal(tool_bar.rect().bottomLeft()));
+  actions = tool_bar.GetMenu()->actions();
+  ASSERT_EQ(actions.size(), kItems.size());
+  for (int i = 0; i < kItems.size(); ++i)
+  {
+    EXPECT_EQ(actions.at(i)->text(), kItems.at(i));
+  }
+}
+
 TEST_F(ComboToolBarTest, Notifications)
 {
-  const QList<QString> kItems{"First", "Second", "Third"};
+  QList<QString> kItems{"First", "Second", "Third"};
   auto entries = [&kItems]() -> QList<QString> { return kItems; };
   ComboToolBar tool_bar(entries);
 
