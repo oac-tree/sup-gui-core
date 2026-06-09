@@ -28,8 +28,8 @@
 #include <sup/gui/widgets/combo_tool_bar.h>
 
 #include <mvvm/model/item_selection.h>
-#include <mvvm/test/test_helper.h>
 #include <mvvm/signals/model_listener.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -232,8 +232,8 @@ TEST_F(ConfigComboPanelTest, SplitViewCloseViewRequestsArePropagated)
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
 
-  QSignalSpy spy_split(&widget, &ConfigComboPanel::splitViewRequest);
-  QSignalSpy spy_close(&widget, &ConfigComboPanel::closeViewRequest);
+  const QSignalSpy spy_split(&widget, &ConfigComboPanel::splitViewRequest);
+  const QSignalSpy spy_close(&widget, &ConfigComboPanel::closeViewRequest);
 
   // trigger split view request
   toolbar->splitViewRequest();
@@ -242,6 +242,75 @@ TEST_F(ConfigComboPanelTest, SplitViewCloseViewRequestsArePropagated)
   // trigger close view request
   toolbar->closeViewRequest();
   ASSERT_EQ(spy_close.count(), 1);
+}
+
+TEST_F(ConfigComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
+{
+  ConfigurationModel model;
+  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
+                                                            mvvm::TagIndex::Append());
+  configuration0->SetDisplayName("Config0");
+
+  ConfigComboPanel widget;
+  widget.show();
+
+  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  widget.SetModel(&model);
+
+  // select the configuration
+  widget.SetConfiguration(configuration0);
+  ASSERT_EQ(selected_changed_spy.count(), 1);
+
+  auto stacked_widget = widget.findChild<QStackedWidget*>();
+  ASSERT_NE(stacked_widget, nullptr);
+  EXPECT_EQ(stacked_widget->currentIndex(),
+            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowEditor));
+
+  auto toolbar = widget.findChild<ComboToolBar*>();
+  ASSERT_NE(toolbar, nullptr);
+  EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
+  EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
+
+  // delete item
+  model.RemoveItem(configuration0);
+
+  // expecting placeholder widget
+  EXPECT_EQ(stacked_widget->currentIndex(),
+            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+
+  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
+}
+
+TEST_F(ConfigComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges)
+{
+  ConfigurationModel model;
+  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
+                                                            mvvm::TagIndex::Append());
+  configuration0->SetDisplayName("Config0");
+
+  ConfigComboPanel widget;
+  widget.show();
+
+  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  widget.SetModel(&model);
+
+  // select the configuration
+  widget.SetConfiguration(configuration0);
+  ASSERT_EQ(selected_changed_spy.count(), 1);
+
+  auto toolbar = widget.findChild<ComboToolBar*>();
+  ASSERT_NE(toolbar, nullptr);
+  EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
+  EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
+
+  // change display name
+  configuration0->SetDisplayName("NewConfig0");
+
+  // expecting button text to be updated
+  EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
+
+  ASSERT_EQ(selected_changed_spy.count(), 1);
 }
 
 }  // namespace sup::gui::test

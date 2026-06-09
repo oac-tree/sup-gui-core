@@ -136,8 +136,8 @@ void ConfigComboPanel::SetupModelListener()
   {
     if (event.item == m_current_configuration_item)
     {
-      // FIXME update text here
-      // m_tool_bar->UpdateProcedureSelectionMenu(m_current_procedure_item);
+      // assume that the display name might be changed and update the combo box text
+      m_tool_bar->UpdateAppearance();
     }
   };
   m_listener->Connect<mvvm::DataChangedEvent>(on_data_changed);
