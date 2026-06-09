@@ -126,6 +126,18 @@ QMenu* ComboToolBar::GetMenu()
   return m_select_item_menu.get();
 }
 
+void ComboToolBar::UpdateAppearance()
+{
+  // in theory this can be called programmatically at any moment, but we assume that menu is not
+  // open at the moment of calling this method, so we don't care about its state
+
+  // need to update only button text
+  if (m_current_index >= 0)
+  {
+    m_selector_button->setText(m_available_items().at(m_current_index));
+  }
+}
+
 void ComboToolBar::paintEvent(QPaintEvent* event)
 {
   static const QColor kMediumGreen(39, 189, 114);  // #27bd72

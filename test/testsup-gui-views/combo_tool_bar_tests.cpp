@@ -159,4 +159,26 @@ TEST_F(ComboToolBarTest, Notifications)
   EXPECT_EQ(tool_bar.GetCurrentText(), QString("Third"));
 }
 
+TEST_F(ComboToolBarTest, UpdateAppearance)
+{
+  QList<QString> kItems{"First", "Second", "Third"};
+  auto entries = [&kItems]() -> QList<QString> { return kItems; };
+  ComboToolBar tool_bar(entries);
+
+  tool_bar.SetCurrentIndex(2);
+
+  // make menu pop-up to populate it with actions
+  tool_bar.GetMenu()->popup(tool_bar.mapToGlobal(tool_bar.rect().bottomLeft()));
+
+  EXPECT_EQ(tool_bar.GetCurrentIndex(), 2);
+  EXPECT_EQ(tool_bar.GetCurrentText(), QString("Third"));
+
+  // rename current item and update appearance
+  kItems[2] = "Third (renamed)";
+
+  tool_bar.UpdateAppearance();
+  EXPECT_EQ(tool_bar.GetCurrentIndex(), 2);
+  EXPECT_EQ(tool_bar.GetCurrentText(), QString("Third (renamed)"));
+}
+
 }  // namespace sup::gui::test

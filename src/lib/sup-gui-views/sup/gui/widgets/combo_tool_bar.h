@@ -97,6 +97,13 @@ public:
    */
   QMenu* GetMenu();
 
+  /**
+   * @brief Updates the toolbar appearance.
+   *
+   * Should be called when the list of items is changed, to update the item selection menu.
+   */
+  void UpdateAppearance();
+
 signals:
   void splitViewRequest();
   void closeViewRequest();
