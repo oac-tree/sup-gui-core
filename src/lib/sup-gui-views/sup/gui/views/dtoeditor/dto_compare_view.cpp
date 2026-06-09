@@ -70,12 +70,13 @@ void DtoCompareView::SetConfigurationModel(ConfigurationModel* model)
 {
   m_configuration_model = model;
 
-  if (!m_configuration_model)
+  if (m_configuration_model == nullptr)
   {
     return;
   }
 
   m_explorer_panel->SetConfigurationContainer(m_configuration_model->GetConfigurationContainer());
+  m_splittable_config_editor->SetModel(m_configuration_model);
 }
 
 void DtoCompareView::OnImportFromFileRequest(const QString& file_name)

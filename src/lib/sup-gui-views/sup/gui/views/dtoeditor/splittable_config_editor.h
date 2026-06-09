@@ -27,6 +27,7 @@ namespace sup::gui
 {
 
 class ConfigComboPanel;
+class ConfigurationModel;
 
 /**
  * @brief The SplittableConfigEditor class is a main widget of DtoComposerVIew.
@@ -39,6 +40,8 @@ class SplittableConfigEditor : public QWidget
 
 public:
   explicit SplittableConfigEditor(QWidget* parent_widget = nullptr);
+
+  void SetModel(ConfigurationModel* model);
 
 private:
   ConfigComboPanel* m_config_combo_panel{nullptr};

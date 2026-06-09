@@ -37,4 +37,9 @@ SplittableConfigEditor::SplittableConfigEditor(QWidget* parent_widget)
   layout->addWidget(m_config_combo_panel);
 }
 
+void SplittableConfigEditor::SetModel(ConfigurationModel *model)
+{
+  m_config_combo_panel->SetModel(model);
+}
+
 }  // namespace sup::gui
