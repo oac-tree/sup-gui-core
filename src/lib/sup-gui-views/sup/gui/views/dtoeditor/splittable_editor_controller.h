@@ -50,6 +50,12 @@ public:
    * @param splitter External splitter widget, where the panels will be added/removed.
    */
   explicit SplittableEditorController(QSplitter* splitter, QObject* parent_object = nullptr);
+  ~SplittableEditorController() override;
+
+  SplittableEditorController(const SplittableEditorController&) = delete;
+  SplittableEditorController& operator=(const SplittableEditorController&) = delete;
+  SplittableEditorController(SplittableEditorController&&) noexcept = delete;
+  SplittableEditorController& operator=(SplittableEditorController&&) noexcept = delete;
 
   /**
    * @brief Adds a new widget to the splitter.
@@ -57,22 +63,24 @@ public:
    * @param after_widget If nullptr, the new widget is added at the end. Otherwise, it is added
    * after the specified widget.
    */
-  QWidget* CreatePanel(QWidget* after_widget = nullptr);
+  SplittableComboPanel* CreatePanel(SplittableComboPanel* after_widget = nullptr);
 
   /**
    * @brief Closes and deletes the specified widget in the splitter.
    */
-  void ClosePanel(QWidget* widget_to_close);
+  void ClosePanel(SplittableComboPanel* widget_to_close);
 
   /**
    * @brief Returns the widget currently in focus.
    */
-  QWidget* GetFocusWidget();
+  SplittableComboPanel* GetFocusWidget();
 
 private:
+  std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
   virtual std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
 
   QSplitter* m_splitter{nullptr};
+  std::unique_ptr<WidgetFocusHandler<SplittableComboPanel>> m_focus_handler;
 };
 
 }  // namespace sup::gui
