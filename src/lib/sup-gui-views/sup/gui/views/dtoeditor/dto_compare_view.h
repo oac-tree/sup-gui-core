@@ -28,7 +28,7 @@ namespace sup::gui
 
 class CustomSplitter;
 class DtoExplorerPanel;
-class SplittableConfigEditor;
+class SplittableEditorWidget;
 class ConfigurationModel;
 
 class DtoCompareView : public QWidget
@@ -57,7 +57,7 @@ private:
 
   CustomSplitter* m_splitter{nullptr};
   DtoExplorerPanel* m_explorer_panel{nullptr};
-  SplittableConfigEditor* m_splittable_config_editor{nullptr};
+  SplittableEditorWidget* m_splittable_config_editor{nullptr};
 
   ConfigurationModel* m_configuration_model{nullptr};
 };

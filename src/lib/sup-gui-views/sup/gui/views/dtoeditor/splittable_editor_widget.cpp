@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "splittable_config_editor.h"
+#include "splittable_editor_widget.h"
 
 #include "config_combo_panel.h"
 
@@ -27,7 +27,7 @@
 namespace sup::gui
 {
 
-SplittableConfigEditor::SplittableConfigEditor(QWidget* parent_widget)
+SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
     : QWidget(parent_widget), m_config_combo_panel(new ConfigComboPanel)
 {
   auto layout = new QVBoxLayout(this);
@@ -37,7 +37,7 @@ SplittableConfigEditor::SplittableConfigEditor(QWidget* parent_widget)
   layout->addWidget(m_config_combo_panel);
 }
 
-void SplittableConfigEditor::SetModel(ConfigurationModel *model)
+void SplittableEditorWidget::SetModel(ConfigurationModel *model)
 {
   m_config_combo_panel->SetModel(model);
 }

@@ -21,7 +21,7 @@
 #include "dto_compare_view.h"
 
 #include "dto_explorer_panel.h"
-#include "splittable_config_editor.h"
+#include "splittable_editor_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_model.h>
@@ -45,7 +45,7 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
     , m_explorer_panel(new DtoExplorerPanel)
-    , m_splittable_config_editor(new SplittableConfigEditor)
+    , m_splittable_config_editor(new SplittableEditorWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(4, 1, 4, 4);

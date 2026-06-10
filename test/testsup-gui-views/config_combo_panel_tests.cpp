@@ -254,7 +254,7 @@ TEST_F(ConfigComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
   ConfigComboPanel widget;
   widget.show();
 
-  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  const QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
   widget.SetModel(&model);
 
   // select the configuration
@@ -292,7 +292,7 @@ TEST_F(ConfigComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges)
   ConfigComboPanel widget;
   widget.show();
 
-  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  const QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
   widget.SetModel(&model);
 
   // select the configuration

@@ -18,35 +18,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_CONFIG_EDITOR_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_CONFIG_EDITOR_H_
+#include "sup/gui/views/dtoeditor/splittable_editor_widget.h"
 
-#include <QWidget>
+#include <gtest/gtest.h>
 
-namespace sup::gui
+namespace sup::gui::test
 {
-
-class ConfigComboPanel;
-class ConfigurationModel;
 
 /**
- * @brief The SplittableConfigEditor class is a main widget of DtoComposerVIew.
- *
- * Represents a splittable area populated with ComfigTabWidget instances.
+ * @brief Tests for SplittableEditorWidget class.
  */
-class SplittableConfigEditor : public QWidget
+class SplittableEditorWidgetTest : public ::testing::Test
 {
-  Q_OBJECT
-
-public:
-  explicit SplittableConfigEditor(QWidget* parent_widget = nullptr);
-
-  void SetModel(ConfigurationModel* model);
-
-private:
-  ConfigComboPanel* m_config_combo_panel{nullptr};
 };
 
-}  // namespace sup::gui
+TEST_F(SplittableEditorWidgetTest, InitialState) {}
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_CONFIG_EDITOR_H_
+}  // namespace sup::gui::test

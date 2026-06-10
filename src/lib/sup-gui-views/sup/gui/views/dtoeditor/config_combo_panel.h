@@ -96,7 +96,6 @@ public:
 signals:
   void splitViewRequest();
   void closeViewRequest();
-  void panelFocusRequest();
   void selectedConfigurationChanged(mvvm::ItemSelection selection);
 
 private:

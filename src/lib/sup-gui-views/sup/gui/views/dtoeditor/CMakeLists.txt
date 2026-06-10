@@ -1,14 +1,14 @@
 # Configuration editor source
 
 target_sources(${library_name} PRIVATE
+  config_combo_adapter.cpp
+  config_combo_adapter.h
   config_combo_panel.cpp
   config_combo_panel.h
   config_tab_widget.cpp
   config_tab_widget.h
   configuration_list_widget.cpp
   configuration_list_widget.h
-  config_combo_adapter.cpp
-  config_combo_adapter.h
   dto_compare_view.cpp
   dto_compare_view.h
   dto_composer_actions.cpp
@@ -27,8 +27,8 @@ target_sources(${library_name} PRIVATE
   dto_waveform_property_panel.h
   dto_waveform_view.cpp
   dto_waveform_view.h
-  splittable_config_editor.cpp
-  splittable_config_editor.h
+  splittable_editor_widget.cpp
+  splittable_editor_widget.h
   waveform_points_tree_widget.cpp
   waveform_points_tree_widget.h
 )
