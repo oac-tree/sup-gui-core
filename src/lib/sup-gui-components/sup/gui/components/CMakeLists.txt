@@ -30,4 +30,5 @@ target_sources(${library_name} PRIVATE
   tree_helper.h
   waveform_display_controller.cpp
   waveform_display_controller.h
+  widget_focus_handler.h
 )
