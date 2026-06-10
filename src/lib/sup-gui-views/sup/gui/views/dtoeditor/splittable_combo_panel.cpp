@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "config_combo_panel.h"
+#include "splittable_combo_panel.h"
 
 #include "config_combo_adapter.h"
 #include "config_tab_widget.h"
@@ -43,7 +43,7 @@ namespace
 constexpr auto kPlaceholderText = "Select one of available configurations";
 }  // namespace
 
-ConfigComboPanel::ConfigComboPanel(QWidget* parent_widget)
+SplittableComboPanel::SplittableComboPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_tool_bar(new ComboToolBar(CreateConfigurationNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
@@ -64,14 +64,14 @@ ConfigComboPanel::ConfigComboPanel(QWidget* parent_widget)
   SetupConnections();
 }
 
-ConfigComboPanel::~ConfigComboPanel() = default;
+SplittableComboPanel::~SplittableComboPanel() = default;
 
-ConfigurationModel* ConfigComboPanel::GetModel()
+ConfigurationModel* SplittableComboPanel::GetModel()
 {
   return m_model;
 }
 
-void ConfigComboPanel::SetModel(ConfigurationModel* model)
+void SplittableComboPanel::SetModel(ConfigurationModel* model)
 {
   m_model = model;
   if (m_model != nullptr)
@@ -86,7 +86,7 @@ void ConfigComboPanel::SetModel(ConfigurationModel* model)
   m_tool_bar->SetCurrentIndex(0);
 }
 
-void ConfigComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
+void SplittableComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
 {
   ConfigComboAdapter adapter(GetAvailableConfigurations());
   m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
@@ -95,12 +95,12 @@ void ConfigComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
   // here explicitly
 }
 
-ConfigurationItem* ConfigComboPanel::GetCurrentConfiguration()
+ConfigurationItem* SplittableComboPanel::GetCurrentConfiguration()
 {
   return m_current_configuration_item;
 }
 
-std::vector<ConfigurationItem*> ConfigComboPanel::GetAvailableConfigurations() const
+std::vector<ConfigurationItem*> SplittableComboPanel::GetAvailableConfigurations() const
 {
   if ((m_model == nullptr) || !m_model->GetConfigurationContainer())
   {
@@ -110,15 +110,17 @@ std::vector<ConfigurationItem*> ConfigComboPanel::GetAvailableConfigurations() c
   return m_model->GetConfigurationContainer()->GetConfigurations();
 }
 
-void ConfigComboPanel::SetPlaceholderMode(PlaceholderMode mode)
+void SplittableComboPanel::SetPlaceholderMode(PlaceholderMode mode)
 {
   m_stacked_widget->setCurrentIndex(static_cast<std::int32_t>(mode));
 }
 
-void ConfigComboPanel::SetupConnections()
+void SplittableComboPanel::SetupConnections()
 {
-  connect(m_tool_bar, &ComboToolBar::splitViewRequest, this, &ConfigComboPanel::splitViewRequest);
-  connect(m_tool_bar, &ComboToolBar::closeViewRequest, this, &ConfigComboPanel::closeViewRequest);
+  connect(m_tool_bar, &ComboToolBar::splitViewRequest, this,
+          &SplittableComboPanel::splitViewRequest);
+  connect(m_tool_bar, &ComboToolBar::closeViewRequest, this,
+          &SplittableComboPanel::closeViewRequest);
 
   auto on_combo_index_changed = [this](auto index)
   {
@@ -128,7 +130,7 @@ void ConfigComboPanel::SetupConnections()
   connect(m_tool_bar, &ComboToolBar::selectItemRequest, this, on_combo_index_changed);
 }
 
-void ConfigComboPanel::SetupModelListener()
+void SplittableComboPanel::SetupModelListener()
 {
   m_listener = std::make_unique<mvvm::ModelListener>(m_model);
 
@@ -155,7 +157,7 @@ void ConfigComboPanel::SetupModelListener()
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(on_about_to_remove_item);
 }
 
-void ConfigComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
+void SplittableComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
 {
   if (m_current_configuration_item == item)
   {
@@ -170,7 +172,7 @@ void ConfigComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
   emit selectedConfigurationChanged(mvvm::ItemSelection(m_current_configuration_item));
 }
 
-std::function<QList<QString>()> ConfigComboPanel::CreateConfigurationNamesCallback()
+std::function<QList<QString>()> SplittableComboPanel::CreateConfigurationNamesCallback()
 {
   return [this]()
   {

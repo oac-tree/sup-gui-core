@@ -3,8 +3,6 @@
 target_sources(${library_name} PRIVATE
   config_combo_adapter.cpp
   config_combo_adapter.h
-  config_combo_panel.cpp
-  config_combo_panel.h
   config_tab_widget.cpp
   config_tab_widget.h
   configuration_list_widget.cpp
@@ -27,6 +25,8 @@ target_sources(${library_name} PRIVATE
   dto_waveform_property_panel.h
   dto_waveform_view.cpp
   dto_waveform_view.h
+  splittable_combo_panel.cpp
+  splittable_combo_panel.h
   splittable_editor_widget.cpp
   splittable_editor_widget.h
   waveform_points_tree_widget.cpp

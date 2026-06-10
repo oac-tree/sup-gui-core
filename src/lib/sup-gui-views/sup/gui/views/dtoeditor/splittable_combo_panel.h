@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_PANEL_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_PANEL_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_COMBO_PANEL_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_COMBO_PANEL_H_
 
 #include <mvvm/model/item_selection.h>
 
@@ -43,16 +43,18 @@ class ConfigurationItem;
 class ConfigurationModel;
 
 /**
- * @brief The ConfigComboPanel class contains complex configuration value editor with the
- * possibility to switch between different configurations.
+ * @brief The SplittableComboPanel class contains an item editor with the possibility to switch
+ * between different items.
+ *
+ * It is a part of SplittableEditorWidget.
  *
  * The widget contains
  * - toolbar with a combo selector to select between various configurations
  * - tool buttons to request the split of the view, or current view close
- * - an instance of complex configuration value editor (ConfigTabWidget)
+ * - an instance of concrete item editor
  * - a placeholder to show when no configuration is opened.
  */
-class ConfigComboPanel : public QWidget
+class SplittableComboPanel : public QWidget
 {
   Q_OBJECT
 
@@ -68,14 +70,14 @@ public:
     kShowEditor
   };
 
-  explicit ConfigComboPanel(QWidget* parent_widget = nullptr);
+  explicit SplittableComboPanel(QWidget* parent_widget = nullptr);
 
-  ~ConfigComboPanel() override;
+  ~SplittableComboPanel() override;
 
-  ConfigComboPanel(const ConfigComboPanel& other) = delete;
-  ConfigComboPanel& operator=(const ConfigComboPanel&) = delete;
-  ConfigComboPanel(ConfigComboPanel&&) = delete;
-  ConfigComboPanel& operator=(ConfigComboPanel&&) = delete;
+  SplittableComboPanel(const SplittableComboPanel& other) = delete;
+  SplittableComboPanel& operator=(const SplittableComboPanel&) = delete;
+  SplittableComboPanel(SplittableComboPanel&&) = delete;
+  SplittableComboPanel& operator=(SplittableComboPanel&&) = delete;
 
   ConfigurationModel* GetModel();
 
@@ -134,4 +136,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_PANEL_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_COMBO_PANEL_H_

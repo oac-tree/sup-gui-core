@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/views/dtoeditor/config_combo_panel.h"
+#include "sup/gui/views/dtoeditor/splittable_combo_panel.h"
 
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
@@ -41,15 +41,15 @@ namespace sup::gui::test
 {
 
 /**
- * @brief Tests for ConfigComboPanel class.
+ * @brief Tests for SplittableComboPanel class.
  */
-class ConfigComboPanelTest : public ::testing::Test
+class SplittableComboPanelTest : public ::testing::Test
 {
 };
 
-TEST_F(ConfigComboPanelTest, InitialState)
+TEST_F(SplittableComboPanelTest, InitialState)
 {
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
   EXPECT_EQ(widget.GetModel(), nullptr);
@@ -58,7 +58,7 @@ TEST_F(ConfigComboPanelTest, InitialState)
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
@@ -73,13 +73,13 @@ TEST_F(ConfigComboPanelTest, InitialState)
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
-TEST_F(ConfigComboPanelTest, SetEmptyModel)
+TEST_F(SplittableComboPanelTest, SetEmptyModel)
 {
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
   const QSignalSpy selected_configuration_changed_spy(
-      &widget, &ConfigComboPanel::selectedConfigurationChanged);
+      &widget, &SplittableComboPanel::selectedConfigurationChanged);
 
   ConfigurationModel model;
   widget.SetModel(&model);
@@ -92,7 +92,7 @@ TEST_F(ConfigComboPanelTest, SetEmptyModel)
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
@@ -101,7 +101,7 @@ TEST_F(ConfigComboPanelTest, SetEmptyModel)
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
-TEST_F(ConfigComboPanelTest, SetConfigurationProgrammatically)
+TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
 {
   ConfigurationModel model;
   auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
@@ -111,10 +111,10 @@ TEST_F(ConfigComboPanelTest, SetConfigurationProgrammatically)
                                                             mvvm::TagIndex::Append());
   configuration1->SetDisplayName("Config1");
 
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
-  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  QSignalSpy selected_changed_spy(&widget, &SplittableComboPanel::selectedConfigurationChanged);
 
   widget.SetModel(&model);
 
@@ -124,7 +124,7 @@ TEST_F(ConfigComboPanelTest, SetConfigurationProgrammatically)
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
@@ -144,7 +144,7 @@ TEST_F(ConfigComboPanelTest, SetConfigurationProgrammatically)
 
   // check that the stacked widget now is showing the editor, not the placeholder
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowEditor));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowEditor));
 
   // setting same configuration again doesn't emit signal
   widget.SetConfiguration(configuration0);
@@ -161,10 +161,10 @@ TEST_F(ConfigComboPanelTest, SetConfigurationProgrammatically)
 
   // placeholder widget is back again
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 }
 
-TEST_F(ConfigComboPanelTest, SetConfigurationViaToolbar)
+TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
 {
   ConfigurationModel model;
   auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
@@ -174,10 +174,10 @@ TEST_F(ConfigComboPanelTest, SetConfigurationViaToolbar)
                                                             mvvm::TagIndex::Append());
   configuration1->SetDisplayName("Config1");
 
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
-  QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  QSignalSpy selected_changed_spy(&widget, &SplittableComboPanel::selectedConfigurationChanged);
 
   widget.SetModel(&model);
 
@@ -187,7 +187,7 @@ TEST_F(ConfigComboPanelTest, SetConfigurationViaToolbar)
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
@@ -224,16 +224,16 @@ TEST_F(ConfigComboPanelTest, SetConfigurationViaToolbar)
   EXPECT_EQ(toolbar->GetCurrentIndex(), 2);
 }
 
-TEST_F(ConfigComboPanelTest, SplitViewCloseViewRequestsArePropagated)
+TEST_F(SplittableComboPanelTest, SplitViewCloseViewRequestsArePropagated)
 {
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
 
-  const QSignalSpy spy_split(&widget, &ConfigComboPanel::splitViewRequest);
-  const QSignalSpy spy_close(&widget, &ConfigComboPanel::closeViewRequest);
+  const QSignalSpy spy_split(&widget, &SplittableComboPanel::splitViewRequest);
+  const QSignalSpy spy_close(&widget, &SplittableComboPanel::closeViewRequest);
 
   // trigger split view request
   toolbar->splitViewRequest();
@@ -244,17 +244,18 @@ TEST_F(ConfigComboPanelTest, SplitViewCloseViewRequestsArePropagated)
   ASSERT_EQ(spy_close.count(), 1);
 }
 
-TEST_F(ConfigComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
+TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
 {
   ConfigurationModel model;
   auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
                                                             mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
 
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
-  const QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  const QSignalSpy selected_changed_spy(&widget,
+                                        &SplittableComboPanel::selectedConfigurationChanged);
   widget.SetModel(&model);
 
   // select the configuration
@@ -264,7 +265,7 @@ TEST_F(ConfigComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowEditor));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowEditor));
 
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
@@ -276,23 +277,24 @@ TEST_F(ConfigComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
 
   // expecting placeholder widget
   EXPECT_EQ(stacked_widget->currentIndex(),
-            static_cast<std::int32_t>(ConfigComboPanel::PlaceholderMode::kShowPlaceholder));
+            static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 
   EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
-TEST_F(ConfigComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges)
+TEST_F(SplittableComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges)
 {
   ConfigurationModel model;
   auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
                                                             mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
 
-  ConfigComboPanel widget;
+  SplittableComboPanel widget;
   widget.show();
 
-  const QSignalSpy selected_changed_spy(&widget, &ConfigComboPanel::selectedConfigurationChanged);
+  const QSignalSpy selected_changed_spy(&widget,
+                                        &SplittableComboPanel::selectedConfigurationChanged);
   widget.SetModel(&model);
 
   // select the configuration

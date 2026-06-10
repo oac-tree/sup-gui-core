@@ -20,7 +20,7 @@
 
 #include "splittable_editor_widget.h"
 
-#include "config_combo_panel.h"
+#include "splittable_combo_panel.h"
 
 #include <QVBoxLayout>
 
@@ -28,7 +28,7 @@ namespace sup::gui
 {
 
 SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
-    : QWidget(parent_widget), m_config_combo_panel(new ConfigComboPanel)
+    : QWidget(parent_widget), m_config_combo_panel(new SplittableComboPanel)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -37,7 +37,7 @@ SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
   layout->addWidget(m_config_combo_panel);
 }
 
-void SplittableEditorWidget::SetModel(ConfigurationModel *model)
+void SplittableEditorWidget::SetModel(ConfigurationModel* model)
 {
   m_config_combo_panel->SetModel(model);
 }

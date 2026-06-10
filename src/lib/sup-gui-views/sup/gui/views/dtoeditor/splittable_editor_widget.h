@@ -26,7 +26,7 @@
 namespace sup::gui
 {
 
-class ConfigComboPanel;
+class SplittableComboPanel;
 class ConfigurationModel;
 
 /**
@@ -45,7 +45,7 @@ public:
   void SetModel(ConfigurationModel* model);
 
 private:
-  ConfigComboPanel* m_config_combo_panel{nullptr};
+  SplittableComboPanel* m_config_combo_panel{nullptr};
 };
 
 }  // namespace sup::gui
