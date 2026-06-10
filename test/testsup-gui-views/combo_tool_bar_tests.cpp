@@ -40,7 +40,7 @@ class ComboToolBarTest : public ::testing::Test
 TEST_F(ComboToolBarTest, InitializationWithEmptyCallback)
 {
   // attempt to initialize with wrong callback
-  EXPECT_THROW(ComboToolBar tool_bar({}), RuntimeException);
+  EXPECT_THROW(const ComboToolBar tool_bar({}), RuntimeException);
 
   // callback return empty list
   auto entries = []() -> QList<QString> { return {}; };

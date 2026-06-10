@@ -27,6 +27,8 @@ target_sources(${library_name} PRIVATE
   dto_waveform_view.h
   splittable_combo_panel.cpp
   splittable_combo_panel.h
+  splittable_editor_controller.cpp
+  splittable_editor_controller.h
   splittable_editor_widget.cpp
   splittable_editor_widget.h
   waveform_points_tree_widget.cpp
