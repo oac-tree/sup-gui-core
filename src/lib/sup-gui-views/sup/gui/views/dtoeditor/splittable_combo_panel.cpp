@@ -110,6 +110,16 @@ std::vector<ConfigurationItem*> SplittableComboPanel::GetAvailableConfigurations
   return m_model->GetConfigurationContainer()->GetConfigurations();
 }
 
+void SplittableComboPanel::ShowAsActive(bool value)
+{
+  m_tool_bar->ShowAsActive(value);
+}
+
+void SplittableComboPanel::ShowAsLastEditor(bool value)
+{
+  m_tool_bar->ShowAsLastEditor(value);
+}
+
 void SplittableComboPanel::SetPlaceholderMode(PlaceholderMode mode)
 {
   m_stacked_widget->setCurrentIndex(static_cast<std::int32_t>(mode));

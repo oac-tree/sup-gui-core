@@ -95,6 +95,21 @@ public:
 
   std::vector<ConfigurationItem*> GetAvailableConfigurations() const;
 
+  /**
+   * @brief Shows (paints) this editor as active.
+   *
+   * Active editor normally has a toolbar with the green line at the bottom. It is the one where the
+   * user clicked last.
+   */
+  void ShowAsActive(bool value);
+
+  /**
+   * @brief Shows (paints) this editor as the last editor in the splitter.
+   *
+   * The last editor might have different appearance (close button is disabled).
+   */
+  void ShowAsLastEditor(bool value);
+
 signals:
   void splitViewRequest();
   void closeViewRequest();
