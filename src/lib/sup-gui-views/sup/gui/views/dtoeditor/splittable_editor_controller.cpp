@@ -89,6 +89,11 @@ SplittableComboPanel* SplittableEditorController::GetFocusWidget()
   return m_focus_handler->GetFocusWidget();
 }
 
+void SplittableEditorController::SetFocusWidget(SplittableComboPanel* widget)
+{
+  m_focus_handler->SetFocusWidget(widget);
+}
+
 std::unique_ptr<SplittableComboPanel>
 SplittableEditorController::CreateAndConnectSplittableComboPanel()
 {

@@ -84,6 +84,11 @@ public:
    */
   SplittableComboPanel* GetFocusWidget();
 
+  /**
+   * @brief Sets the focus to the specified widget (should be already added to the splitter).
+   */
+  void SetFocusWidget(SplittableComboPanel* widget);
+
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
   std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();

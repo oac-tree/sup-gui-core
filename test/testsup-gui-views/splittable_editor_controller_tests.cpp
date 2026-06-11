@@ -168,4 +168,18 @@ TEST_F(SplittableEditorControllerTest, CreateThreePanelsAndThenCloseFirstOneViaW
   EXPECT_EQ(controller->GetFocusWidget(), panel2);  // focus should move to the previous widget
 }
 
+TEST_F(SplittableEditorControllerTest, SetFocusProgrammatically)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  EXPECT_EQ(controller->GetFocusWidget(), panel3);
+
+  controller->SetFocusWidget(panel1);
+  EXPECT_EQ(controller->GetFocusWidget(), panel1);
+}
+
 }  // namespace sup::gui::test
