@@ -129,9 +129,15 @@ public:
    */
   void ShowAsLastEditor(bool value);
 
+  /**
+   * @brief Will track the activity in children widgets and request focus change.
+   */
+  bool eventFilter(QObject* watched, QEvent* event) override;
+
 signals:
   void splitViewRequest();
   void closeViewRequest();
+  void panelFocusRequest();
   void itemSelectionChanged(mvvm::ItemSelection selection);
 
 private:

@@ -29,6 +29,8 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/signals/model_listener.h>
 
+#include <QApplication>
+#include <QEvent>
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
@@ -67,6 +69,9 @@ SplittableComboPanel::SplittableComboPanel(std::unique_ptr<SessionItemWidget> it
 
   SetPlaceholderMode(PlaceholderMode::kShowPlaceholder);
   SetupConnections();
+
+  // to track mouse click activity in descendant widgets and request focus change
+  qApp->installEventFilter(this);
 }
 
 SplittableComboPanel::~SplittableComboPanel() = default;
@@ -118,6 +123,21 @@ void SplittableComboPanel::ShowAsActive(bool value)
 void SplittableComboPanel::ShowAsLastEditor(bool value)
 {
   m_tool_bar->ShowAsLastEditor(value);
+}
+
+bool SplittableComboPanel::eventFilter(QObject* watched, QEvent* event)
+{
+  // will invoke panelFocusRequest on any mouse click activity in descendant widgets, so the
+  // controller will be able to set focus to this panel and remove focus from other panels.
+
+  if (event->type() == QEvent::MouseButtonPress)
+  {
+    if (auto* widget = qobject_cast<QWidget*>(watched); (widget != nullptr) && isAncestorOf(widget))
+    {
+      emit panelFocusRequest();
+    }
+  }
+  return QWidget::eventFilter(watched, event);
 }
 
 void SplittableComboPanel::SetPlaceholderMode(PlaceholderMode mode)
