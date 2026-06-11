@@ -57,6 +57,14 @@ void SplittableEditorWidget::SetModel(ConfigurationModel* model)
   // m_config_combo_panel->SetModel(model);
 }
 
+void SplittableEditorWidget::SetConfiguration(ConfigurationItem* config)
+{
+  if (auto focus_widget = m_splitter_controller->GetFocusWidget(); focus_widget)
+  {
+    focus_widget->SetItem(config);
+  }
+}
+
 void SplittableEditorWidget::CreatePanel()
 {
   m_splitter_controller->CreatePanel();

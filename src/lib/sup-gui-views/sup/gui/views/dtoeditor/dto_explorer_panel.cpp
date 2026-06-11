@@ -82,6 +82,8 @@ DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
   };
 
   connect(m_file_tree_view, &FileTreeView::FileDoubleClicked, this, on_file_double_clicked);
+  connect(m_configuration_list_widget, &ConfigurationListWidget::SelectionChanged, this,
+          &DtoExplorerPanel::SelectionChanged);
 }
 
 DtoExplorerPanel::~DtoExplorerPanel()

@@ -31,6 +31,7 @@ namespace sup::gui
 
 class SplittableComboPanel;
 class ConfigurationModel;
+class ConfigurationItem;
 class SplittableEditorController;
 
 /**
@@ -54,6 +55,8 @@ public:
   SplittableEditorWidget& operator=(SplittableEditorWidget&&) noexcept = delete;
 
   void SetModel(ConfigurationModel* model);
+
+  void SetConfiguration(ConfigurationItem* config);
 
   /**
    * @brief Adds panel to the splitter.

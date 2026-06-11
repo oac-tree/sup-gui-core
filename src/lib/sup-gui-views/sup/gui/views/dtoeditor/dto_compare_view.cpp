@@ -24,10 +24,13 @@
 #include "splittable_editor_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
 #include <sup/gui/model/import_helper.h>
 #include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/message_helper.h>
+
+#include <mvvm/model/item_selection.h>
 
 #include <QVBoxLayout>
 
@@ -59,6 +62,13 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
 
   connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
           &DtoCompareView::OnImportFromFileRequest);
+
+  auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
+  {
+    auto selected_config = selection.GetSelected<ConfigurationItem>();
+    m_splittable_config_editor->SetConfiguration(const_cast<ConfigurationItem*>(selected_config));
+  };
+  connect(m_explorer_panel, &DtoExplorerPanel::SelectionChanged, this, on_selection_changed);
 
   m_splittable_config_editor->CreatePanel();
 }

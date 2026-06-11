@@ -23,6 +23,11 @@
 
 #include <QWidget>
 
+namespace mvvm
+{
+class ItemSelection;
+}  // namespace mvvm
+
 namespace sup::gui
 {
 
@@ -51,6 +56,7 @@ public:
 signals:
   void FileClicked(const QString& filename);
   void FileDoubleClicked(const QString& filename);
+  void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
   void ReadSettings();
