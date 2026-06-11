@@ -86,7 +86,7 @@ void SplittableComboPanel::SetModel(ConfigurationModel* model)
   m_tool_bar->SetCurrentIndex(0);
 }
 
-void SplittableComboPanel::SetConfiguration(ConfigurationItem* configuration_item)
+void SplittableComboPanel::SetItem(ConfigurationItem* configuration_item)
 {
   ConfigComboAdapter adapter(GetAvailableConfigurations());
   m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
@@ -95,7 +95,7 @@ void SplittableComboPanel::SetConfiguration(ConfigurationItem* configuration_ite
   // here explicitly
 }
 
-ConfigurationItem* SplittableComboPanel::GetCurrentConfiguration()
+ConfigurationItem* SplittableComboPanel::GetCurrentItem()
 {
   return m_current_configuration_item;
 }
@@ -161,7 +161,7 @@ void SplittableComboPanel::SetupModelListener()
     if ((item_to_remove == m_current_configuration_item)
         || mvvm::utils::IsItemAncestor(m_current_configuration_item, item_to_remove))
     {
-      SetConfiguration(nullptr);
+      SetItem(nullptr);
     }
   };
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(on_about_to_remove_item);

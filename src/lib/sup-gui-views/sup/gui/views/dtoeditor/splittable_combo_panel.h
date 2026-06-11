@@ -81,17 +81,20 @@ public:
 
   ConfigurationModel* GetModel();
 
+  /**
+   * @brief Sets the model for this editor.
+   */
   void SetModel(ConfigurationModel* model);
 
   /**
-   * @brief Sets the configuration to be edited.
+   * @brief Sets the item to be edited.
    */
-  void SetConfiguration(ConfigurationItem* configuration_item);
+  void SetItem(ConfigurationItem* configuration_item);
 
   /**
-   * @brief Gets the currently edited configuration.
+   * @brief Gets the currently edited item.
    */
-  ConfigurationItem* GetCurrentConfiguration();
+  ConfigurationItem* GetCurrentItem();
 
   std::vector<ConfigurationItem*> GetAvailableConfigurations() const;
 

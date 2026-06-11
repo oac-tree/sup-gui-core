@@ -57,7 +57,7 @@ TEST_F(SplittableComboPanelTest, InitialState)
   widget.show();
 
   EXPECT_EQ(widget.GetModel(), nullptr);
-  EXPECT_EQ(widget.GetCurrentConfiguration(), nullptr);
+  EXPECT_EQ(widget.GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
@@ -72,7 +72,7 @@ TEST_F(SplittableComboPanelTest, InitialState)
   EXPECT_TRUE(toolbar->GetCurrentText().isEmpty());
   EXPECT_EQ(toolbar->GetCurrentIndex(), -1);
 
-  widget.SetConfiguration(nullptr);
+  widget.SetItem(nullptr);
   EXPECT_EQ(toolbar->GetCurrentText(), QString(ConfigComboAdapter::kNoSelection));
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
@@ -91,7 +91,7 @@ TEST_F(SplittableComboPanelTest, SetEmptyModel)
   EXPECT_EQ(selected_configuration_changed_spy.count(), 0);
 
   EXPECT_EQ(widget.GetModel(), &model);
-  EXPECT_EQ(widget.GetCurrentConfiguration(), nullptr);
+  EXPECT_EQ(widget.GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
@@ -123,7 +123,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   widget.SetModel(&model);
 
   EXPECT_EQ(widget.GetModel(), &model);
-  EXPECT_EQ(widget.GetCurrentConfiguration(), nullptr);
+  EXPECT_EQ(widget.GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
@@ -136,13 +136,13 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 
-  widget.SetConfiguration(configuration0);
+  widget.SetItem(configuration0);
 
   ASSERT_EQ(selected_changed_spy.count(), 1);
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(configuration0));
 
-  EXPECT_EQ(widget.GetCurrentConfiguration(), configuration0);
+  EXPECT_EQ(widget.GetCurrentItem(), configuration0);
   EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
   EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
 
@@ -151,15 +151,15 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
             static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowEditor));
 
   // setting same configuration again doesn't emit signal
-  widget.SetConfiguration(configuration0);
+  widget.SetItem(configuration0);
   EXPECT_EQ(selected_changed_spy.count(), 0);
 
   // setting null configuration
-  widget.SetConfiguration(nullptr);
+  widget.SetItem(nullptr);
   ASSERT_EQ(selected_changed_spy.count(), 1);
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(nullptr));
-  EXPECT_EQ(widget.GetCurrentConfiguration(), nullptr);
+  EXPECT_EQ(widget.GetCurrentItem(), nullptr);
   EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 
@@ -186,7 +186,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   widget.SetModel(&model);
 
   EXPECT_EQ(widget.GetModel(), &model);
-  EXPECT_EQ(widget.GetCurrentConfiguration(), nullptr);
+  EXPECT_EQ(widget.GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget.findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
@@ -206,7 +206,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(configuration0));
 
-  EXPECT_EQ(widget.GetCurrentConfiguration(), configuration0);
+  EXPECT_EQ(widget.GetCurrentItem(), configuration0);
   EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
   EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
 
@@ -223,7 +223,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(configuration1));
 
-  EXPECT_EQ(widget.GetCurrentConfiguration(), configuration1);
+  EXPECT_EQ(widget.GetCurrentItem(), configuration1);
   EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration1->GetDisplayName()));
   EXPECT_EQ(toolbar->GetCurrentIndex(), 2);
 }
@@ -263,7 +263,7 @@ TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
   widget.SetModel(&model);
 
   // select the configuration
-  widget.SetConfiguration(configuration0);
+  widget.SetItem(configuration0);
   ASSERT_EQ(selected_changed_spy.count(), 1);
 
   auto stacked_widget = widget.findChild<QStackedWidget*>();
@@ -302,7 +302,7 @@ TEST_F(SplittableComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges
   widget.SetModel(&model);
 
   // select the configuration
-  widget.SetConfiguration(configuration0);
+  widget.SetItem(configuration0);
   ASSERT_EQ(selected_changed_spy.count(), 1);
 
   auto toolbar = widget.findChild<ComboToolBar*>();
