@@ -113,6 +113,13 @@ SplittableEditorController::CreateAndConnectSplittableComboPanel()
   };
   connect(result.get(), &SplittableComboPanel::closeViewRequest, this, on_remove_panel);
 
+  auto on_focus_request = [this]()
+  {
+    auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+    m_focus_handler->SetFocusWidget(sending_panel);
+  };
+  connect(result.get(), &SplittableComboPanel::panelFocusRequest, this, on_focus_request);
+
   return result;
 }
 

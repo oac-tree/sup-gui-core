@@ -182,4 +182,18 @@ TEST_F(SplittableEditorControllerTest, SetFocusProgrammatically)
   EXPECT_EQ(controller->GetFocusWidget(), panel1);
 }
 
+TEST_F(SplittableEditorControllerTest, SetFocusViaFocusRequest)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  EXPECT_EQ(controller->GetFocusWidget(), panel3);
+
+  panel1->panelFocusRequest();  // should set focus to panel1
+  EXPECT_EQ(controller->GetFocusWidget(), panel1);
+}
+
 }  // namespace sup::gui::test
