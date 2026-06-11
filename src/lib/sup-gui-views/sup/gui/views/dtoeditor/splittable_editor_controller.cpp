@@ -30,14 +30,22 @@
 namespace sup::gui
 {
 
-SplittableEditorController::SplittableEditorController(QSplitter* splitter, QObject* parent_object)
+SplittableEditorController::SplittableEditorController(QSplitter* splitter,
+                                                       create_panel_func_t factory_func,
+                                                       QObject* parent_object)
     : QObject(parent_object)
     , m_splitter(splitter)
+    , m_factory_func(std::move(factory_func))
     , m_focus_handler(std::make_unique<WidgetFocusHandler<SplittableComboPanel>>())
 {
   if (m_splitter == nullptr)
   {
     throw RuntimeException("Splitter is not initialized");
+  }
+
+  if (!m_factory_func)
+  {
+    throw RuntimeException("Factory function is not initialized");
   }
 }
 
@@ -105,7 +113,7 @@ SplittableEditorController::CreateAndConnectSplittableComboPanel()
 
 std::unique_ptr<SplittableComboPanel> SplittableEditorController::CreateSplittableComboPanel()
 {
-  return std::make_unique<SplittableComboPanel>();
+  return m_factory_func();
 }
 
 }  // namespace sup::gui

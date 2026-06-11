@@ -22,6 +22,7 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_EDITOR_CONTROLLER_H_
 
 #include <QObject>
+#include <functional>
 #include <memory>
 
 class QSplitter;
@@ -44,12 +45,17 @@ class WidgetFocusHandler;
 class SplittableEditorController : public QObject
 {
 public:
+  using create_panel_func_t = std::function<std::unique_ptr<SplittableComboPanel>()>;
+
   /**
    * @brief Main c-tor
    *
    * @param splitter External splitter widget, where the panels will be added/removed.
+   * @param factory_func Factory function to create new panels when requested.
+   * @param parent_object Optional parent object for Qt ownership.
    */
-  explicit SplittableEditorController(QSplitter* splitter, QObject* parent_object = nullptr);
+  explicit SplittableEditorController(QSplitter* splitter, create_panel_func_t factory_func,
+                                      QObject* parent_object = nullptr);
   ~SplittableEditorController() override;
 
   SplittableEditorController(const SplittableEditorController&) = delete;
@@ -67,6 +73,9 @@ public:
 
   /**
    * @brief Closes and deletes the specified widget in the splitter.
+   *
+   * The widget first will be hidden, and deleted later, when the event loop will process the
+   * deletion event.
    */
   void ClosePanel(SplittableComboPanel* widget_to_close);
 
@@ -77,9 +86,10 @@ public:
 
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
-  virtual std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
+  std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
 
   QSplitter* m_splitter{nullptr};
+  create_panel_func_t m_factory_func;
   std::unique_ptr<WidgetFocusHandler<SplittableComboPanel>> m_focus_handler;
 };
 
