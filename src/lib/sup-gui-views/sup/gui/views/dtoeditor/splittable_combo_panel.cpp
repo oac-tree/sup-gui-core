@@ -45,7 +45,7 @@ constexpr auto kPlaceholderText = "Select one of available configurations";
 
 SplittableComboPanel::SplittableComboPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_tool_bar(new ComboToolBar(CreateConfigurationNamesCallback()))
+    , m_tool_bar(new ComboToolBar(CreateItemNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
     , m_config_widget(new ConfigTabWidget())
@@ -102,7 +102,7 @@ mvvm::SessionItem* SplittableComboPanel::GetCurrentItem()
 
 std::vector<ConfigurationItem*> SplittableComboPanel::GetAvailableConfigurations() const
 {
-  if ((m_model == nullptr) || (m_model->GetConfigurationContainer() == 0))
+  if ((m_model == nullptr) || (m_model->GetConfigurationContainer() == nullptr))
   {
     return {};
   }
@@ -177,13 +177,13 @@ void SplittableComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
 
   m_current_item = item;
 
-  m_config_widget->SetConfiguration(dynamic_cast<ConfigurationItem*>(m_current_item));
+  m_config_widget->SetItem(m_current_item);
   SetPlaceholderMode(m_current_item == nullptr ? PlaceholderMode::kShowPlaceholder
                                                : PlaceholderMode::kShowEditor);
-  emit selectedItemChanged(mvvm::ItemSelection(m_current_item));
+  emit itemSelectionChanged(mvvm::ItemSelection(m_current_item));
 }
 
-std::function<QList<QString>()> SplittableComboPanel::CreateConfigurationNamesCallback()
+std::function<QList<QString>()> SplittableComboPanel::CreateItemNamesCallback()
 {
   return [this]()
   {

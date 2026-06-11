@@ -51,10 +51,10 @@ class ConfigurationModel;
  * It is a part of SplittableEditorWidget.
  *
  * The widget contains
- * - toolbar with a combo selector to select between various configurations
+ * - toolbar with a combo selector to select between various items to edit
  * - tool buttons to request the split of the view, or current view close
  * - an instance of concrete item editor
- * - a placeholder to show when no configuration is opened.
+ * - a placeholder to show instead of the editor when no item is set
  */
 class SplittableComboPanel : public QWidget
 {
@@ -118,7 +118,7 @@ public:
 signals:
   void splitViewRequest();
   void closeViewRequest();
-  void selectedItemChanged(mvvm::ItemSelection selection);
+  void itemSelectionChanged(mvvm::ItemSelection selection);
 
 private:
   /**
@@ -141,9 +141,9 @@ private:
   void ShowConfigurationInEditor(ConfigurationItem* item);
 
   /**
-   * @brief Creates a callback to get list of configuration names for combo toolbar.
+   * @brief Creates a callback to get list of possible item names for combo toolbar.
    */
-  std::function<QList<QString>()> CreateConfigurationNamesCallback();
+  std::function<QList<QString>()> CreateItemNamesCallback();
 
   ComboToolBar* m_tool_bar{nullptr};
   QStackedWidget* m_stacked_widget{nullptr};

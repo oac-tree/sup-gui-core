@@ -63,9 +63,11 @@ ConfigTabWidget::ConfigTabWidget(QWidget* parent_widget)
   UpdateToolbarButtons();
 }
 
-void ConfigTabWidget::SetConfiguration(ConfigurationItem* configuration_item)
+void ConfigTabWidget::SetItem(mvvm::SessionItem* configuration_item)
 {
-  (void)configuration_item;
+  // configuration_item is a container with a single AnyValueItem
+  m_tree_panel->SetAnyValueItemContainer(configuration_item);
+  m_text_panel->SetAnyValueItemContainer(configuration_item);
 }
 
 void ConfigTabWidget::UpdateToolbarButtons()

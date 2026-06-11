@@ -26,12 +26,16 @@
 class QTabWidget;
 class QToolBar;
 
+namespace mvvm
+{
+class SessionItem;
+}
+
 namespace sup::gui
 {
 
 class AnyValueEditorTreePanel;
 class AnyValueEditorTextPanel;
-class ConfigurationItem;
 
 /**
  * @brief The ConfigTabWidget class is a configuration editor with multiple different views of
@@ -51,7 +55,7 @@ public:
   /**
    * @brief Sets the configuration to be edited.
    */
-  void SetConfiguration(ConfigurationItem* configuration_item);
+  void SetItem(mvvm::SessionItem* configuration_item);
 
 private:
   void UpdateToolbarButtons();
