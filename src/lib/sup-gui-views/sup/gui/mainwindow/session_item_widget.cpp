@@ -25,9 +25,9 @@ namespace sup::gui
 
 SessionItemWidget::SessionItemWidget(QWidget* parent_widget) : QWidget(parent_widget) {}
 
-void SessionItemWidget::SetItem(mvvm::SessionItem* item)
+void SessionItemWidget::SetModel(mvvm::ISessionModel *model)
 {
-  (void)item;
+  (void) model;
 }
 
 }  // namespace sup::gui

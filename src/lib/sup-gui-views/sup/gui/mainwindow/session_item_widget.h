@@ -26,7 +26,8 @@
 namespace mvvm
 {
 class SessionItem;
-}
+class ISessionModel;
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -41,7 +42,18 @@ class SessionItemWidget : public QWidget
 public:
   explicit SessionItemWidget(QWidget* parent_widget = nullptr);
 
-  virtual void SetItem(mvvm::SessionItem* item);
+  /**
+   * @brief Sets the model.
+   *
+   * The default implementation does nothing. Some widgets might want to implement
+   * model listeners and react to model changes.
+   */
+  virtual void SetModel(mvvm::ISessionModel* model);
+
+  /**
+   * @brief Sets the item to be served by this widget.
+   */
+  virtual void SetItem(mvvm::SessionItem* item) = 0;
 };
 
 }  // namespace sup::gui
