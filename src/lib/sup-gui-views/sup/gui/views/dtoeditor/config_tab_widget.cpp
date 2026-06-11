@@ -34,7 +34,7 @@ namespace sup::gui
 {
 
 ConfigTabWidget::ConfigTabWidget(QWidget* parent_widget)
-    : QWidget(parent_widget)
+    : SessionItemWidget(parent_widget)
     , m_tool_bar(new QToolBar)
     , m_tree_panel(new AnyValueEditorTreePanel)
     , m_text_panel(new AnyValueEditorTextPanel)

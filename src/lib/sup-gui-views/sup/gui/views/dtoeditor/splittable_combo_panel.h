@@ -40,9 +40,10 @@ namespace sup::gui
 
 class ComboToolBar;
 class PlaceholderWidget;
-class ConfigTabWidget;
 class ConfigurationItem;
 class ConfigurationModel;
+class SessionItemWidget;
+
 
 /**
  * @brief The SplittableComboPanel class contains an item editor with the possibility to switch
@@ -148,7 +149,7 @@ private:
   ComboToolBar* m_tool_bar{nullptr};
   QStackedWidget* m_stacked_widget{nullptr};
   PlaceholderWidget* m_placeholder_widget{nullptr};
-  ConfigTabWidget* m_config_widget{nullptr};
+  SessionItemWidget* m_item_editor_widget{nullptr}; //! main item editor
 
   mvvm::SessionItem* m_current_item{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;

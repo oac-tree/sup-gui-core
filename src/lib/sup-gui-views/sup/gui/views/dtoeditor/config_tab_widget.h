@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIG_TAB_WIDGET_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_CONFIG_TAB_WIDGET_H_
 
-#include <QWidget>
+#include <sup/gui/mainwindow/session_item_widget.h>
 
 class QTabWidget;
 class QToolBar;
@@ -45,7 +45,7 @@ class AnyValueEditorTextPanel;
  * - AnyValueEditorTreePanel
  * - AnyValueEditorTextPanel
  */
-class ConfigTabWidget : public QWidget
+class ConfigTabWidget : public SessionItemWidget
 {
   Q_OBJECT
 

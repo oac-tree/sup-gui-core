@@ -48,7 +48,7 @@ SplittableComboPanel::SplittableComboPanel(QWidget* parent_widget)
     , m_tool_bar(new ComboToolBar(CreateItemNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
-    , m_config_widget(new ConfigTabWidget())
+    , m_item_editor_widget(new ConfigTabWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -58,7 +58,7 @@ SplittableComboPanel::SplittableComboPanel(QWidget* parent_widget)
   layout->addWidget(m_stacked_widget);
 
   m_stacked_widget->addWidget(m_placeholder_widget);
-  m_stacked_widget->addWidget(m_config_widget);
+  m_stacked_widget->addWidget(m_item_editor_widget);
 
   SetPlaceholderMode(PlaceholderMode::kShowPlaceholder);
   SetupConnections();
@@ -177,9 +177,9 @@ void SplittableComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
 
   m_current_item = item;
 
-  m_config_widget->SetItem(m_current_item);
   SetPlaceholderMode(m_current_item == nullptr ? PlaceholderMode::kShowPlaceholder
                                                : PlaceholderMode::kShowEditor);
+  m_item_editor_widget->SetItem(m_current_item);
   emit itemSelectionChanged(mvvm::ItemSelection(m_current_item));
 }
 
