@@ -21,6 +21,7 @@
 #include "sup/gui/views/dtoeditor/splittable_combo_panel.h"
 
 #include <sup/gui/components/item_display_name_combo_adapter.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
@@ -68,6 +69,12 @@ public:
 
   ConfigurationModel m_model;
 };
+
+TEST_F(SplittableComboPanelTest, MissedCallback)
+{
+  auto main_editor = std::make_unique<ConfigTabWidget>();
+  EXPECT_THROW(SplittableComboPanel(std::move(main_editor), nullptr), RuntimeException);
+}
 
 TEST_F(SplittableComboPanelTest, InitialState)
 {

@@ -23,9 +23,6 @@
 #include <sup/gui/components/item_display_name_combo_adapter.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/session_item_widget.h>
-#include <sup/gui/model/configuration_container_item.h>
-#include <sup/gui/model/configuration_item.h>
-#include <sup/gui/model/configuration_model.h>
 #include <sup/gui/widgets/combo_tool_bar.h>
 #include <sup/gui/widgets/placeholder_widget.h>
 
@@ -51,7 +48,7 @@ SplittableComboPanel::SplittableComboPanel(std::unique_ptr<SessionItemWidget> it
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
     , m_item_editor_widget(item_editor.release())
-    , m_item_list_callback(item_list_callback)
+    , m_item_list_callback(std::move(item_list_callback))
 {
   if (!m_item_list_callback)
   {
@@ -74,12 +71,12 @@ SplittableComboPanel::SplittableComboPanel(std::unique_ptr<SessionItemWidget> it
 
 SplittableComboPanel::~SplittableComboPanel() = default;
 
-ConfigurationModel* SplittableComboPanel::GetModel()
+mvvm::ISessionModel* SplittableComboPanel::GetModel()
 {
   return m_model;
 }
 
-void SplittableComboPanel::SetModel(ConfigurationModel* model)
+void SplittableComboPanel::SetModel(mvvm::ISessionModel* model)
 {
   m_model = model;
   if (m_model != nullptr)
@@ -94,10 +91,10 @@ void SplittableComboPanel::SetModel(ConfigurationModel* model)
   m_tool_bar->SetCurrentIndex(0);
 }
 
-void SplittableComboPanel::SetItem(mvvm::SessionItem* configuration_item)
+void SplittableComboPanel::SetItem(mvvm::SessionItem* item)
 {
-  ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
-  m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
+  ItemDisplayNameComboAdapter adapter(GetAvailableItems());
+  m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(item));
 
   // the combo index change will trigger the ShowConfigurationInEditor method, so no need to call it
   // here explicitly
@@ -108,7 +105,7 @@ mvvm::SessionItem* SplittableComboPanel::GetCurrentItem()
   return m_current_item;
 }
 
-std::vector<mvvm::SessionItem*> SplittableComboPanel::GetAvailableConfigurations() const
+std::vector<mvvm::SessionItem*> SplittableComboPanel::GetAvailableItems() const
 {
   return m_item_list_callback();
 }
@@ -137,9 +134,8 @@ void SplittableComboPanel::SetupConnections()
 
   auto on_combo_index_changed = [this](auto index)
   {
-    ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
-    ShowConfigurationInEditor(
-        dynamic_cast<ConfigurationItem*>(adapter.GetItemFromComboIndex(index)));
+    ItemDisplayNameComboAdapter adapter(GetAvailableItems());
+    ShowItemInEditor(adapter.GetItemFromComboIndex(index));
   };
   connect(m_tool_bar, &ComboToolBar::selectItemRequest, this, on_combo_index_changed);
 }
@@ -171,7 +167,7 @@ void SplittableComboPanel::SetupModelListener()
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(on_about_to_remove_item);
 }
 
-void SplittableComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
+void SplittableComboPanel::ShowItemInEditor(mvvm::SessionItem* item)
 {
   if (m_current_item == item)
   {
@@ -190,7 +186,7 @@ std::function<QList<QString>()> SplittableComboPanel::CreateItemNamesCallback()
 {
   return [this]()
   {
-    const ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
+    const ItemDisplayNameComboAdapter adapter(GetAvailableItems());
     return adapter.GetAvailableItemNames();
   };
 }

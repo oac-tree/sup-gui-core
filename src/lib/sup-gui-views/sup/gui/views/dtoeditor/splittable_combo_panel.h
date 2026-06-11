@@ -41,8 +41,6 @@ namespace sup::gui
 
 class ComboToolBar;
 class PlaceholderWidget;
-class ConfigurationItem;
-class ConfigurationModel;
 class SessionItemWidget;
 
 /**
@@ -94,24 +92,27 @@ public:
   SplittableComboPanel(SplittableComboPanel&&) noexcept = delete;
   SplittableComboPanel& operator=(SplittableComboPanel&&) noexcept = delete;
 
-  ConfigurationModel* GetModel();
+  mvvm::ISessionModel* GetModel();
 
   /**
    * @brief Sets the model for this editor.
    */
-  void SetModel(ConfigurationModel* model);
+  void SetModel(mvvm::ISessionModel* model);
 
   /**
    * @brief Sets the item to be edited.
    */
-  void SetItem(mvvm::SessionItem* configuration_item);
+  void SetItem(mvvm::SessionItem* item);
 
   /**
    * @brief Gets the currently edited item.
    */
   mvvm::SessionItem* GetCurrentItem();
 
-  std::vector<mvvm::SessionItem*> GetAvailableConfigurations() const;
+  /**
+   * @brief Returns list of items available for editing in this widget.
+   */
+  std::vector<mvvm::SessionItem*> GetAvailableItems() const;
 
   /**
    * @brief Shows (paints) this editor as active.
@@ -144,14 +145,14 @@ private:
   void SetupConnections();
 
   /**
-   * @brief Setup model listener to track when configuration us renamed, or deleted.
+   * @brief Setup model listener to track when item being edited is renamed, or deleted.
    */
   void SetupModelListener();
 
   /**
-   * @brief Show given configuration in ConfigTabWidget.
+   * @brief Show given item in the main item editor.
    */
-  void ShowConfigurationInEditor(ConfigurationItem* item);
+  void ShowItemInEditor(mvvm::SessionItem* item);
 
   /**
    * @brief Creates a callback to get list of possible item names for combo toolbar.
@@ -167,7 +168,7 @@ private:
 
   mvvm::SessionItem* m_current_item{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;
-  ConfigurationModel* m_model{nullptr};
+  mvvm::ISessionModel* m_model{nullptr};
 };
 
 }  // namespace sup::gui
