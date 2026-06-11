@@ -18,30 +18,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_ADAPTER_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_ADAPTER_H_
+#ifndef SUP_GUI_COMPONENTS_ITEM_DISPLAY_NAME_COMBO_ADAPTER_H_
+#define SUP_GUI_COMPONENTS_ITEM_DISPLAY_NAME_COMBO_ADAPTER_H_
 
 #include <QList>
 #include <QString>
 
+namespace mvvm
+{
+class SessionItem;
+}
+
 namespace sup::gui
 {
 
-class ConfigurationItem;
-
 /**
- * @brief The ConfigComboAdapter class is a helper to convert ConfigurationItem to combo selector
- * indexes and back.
+ * @brief The ItemDisplayNameComboAdapter class is a helper to convert collection of items to combo
+ * box entries.
  *
- * The first entry of ComboSelector means "no selection", so the whole class is about substracting
- * or adding an index.
+ * The first entry of QComboBox means "no selection", all other intries contains simple item
+ * display names. The adapter allows to convert items to combo indexes and back.
  */
-class ConfigComboAdapter
+class ItemDisplayNameComboAdapter
 {
 public:
   static constexpr auto kNoSelection = " < no selection >";
 
-  explicit ConfigComboAdapter(const std::vector<ConfigurationItem*>& items);
+  template <typename ElementT>
+  explicit ItemDisplayNameComboAdapter(const std::vector<ElementT>& items);
 
   /**
    * @brief Get list of item names to be shown in combo toolbar.
@@ -53,17 +57,27 @@ public:
   /**
    * @brief Get configuration item corresponding to the currently selected item in combo toolbar.
    */
-  ConfigurationItem* GetItemFromComboIndex(std::int32_t combo_index);
+  mvvm::SessionItem* GetItemFromComboIndex(std::int32_t combo_index);
 
   /**
    * @brief Get combo toolbar index corresponding to the given configuration item.
    */
-  std::int32_t GetComboIndexFromItem(const ConfigurationItem* item);
+  std::int32_t GetComboIndexFromItem(const mvvm::SessionItem* item);
 
 private:
-  std::vector<ConfigurationItem*> m_items;
+  std::vector<mvvm::SessionItem*> m_items;
 };
+
+template <typename ElementT>
+inline ItemDisplayNameComboAdapter::ItemDisplayNameComboAdapter(const std::vector<ElementT>& items)
+{
+  m_items.reserve(items.size());
+  for (auto* item : items)
+  {
+    m_items.push_back(item);
+  }
+}
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_CONFIG_COMBO_ADAPTER_H_
+#endif  // SUP_GUI_COMPONENTS_ITEM_DISPLAY_NAME_COMBO_ADAPTER_H_

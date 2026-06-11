@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "config_combo_adapter.h"
+#include "item_display_name_combo_adapter.h"
 
 #include <sup/gui/model/configuration_item.h>
 
@@ -27,12 +27,9 @@
 namespace sup::gui
 {
 
-ConfigComboAdapter::ConfigComboAdapter(const std::vector<ConfigurationItem*>& items)
-    : m_items(items)
-{
-}
 
-QList<QString> ConfigComboAdapter::GetAvailableItemNames() const
+
+QList<QString> ItemDisplayNameComboAdapter::GetAvailableItemNames() const
 {
   QList<QString> result{kNoSelection};
   for (const auto& item : m_items)
@@ -42,7 +39,7 @@ QList<QString> ConfigComboAdapter::GetAvailableItemNames() const
   return result;
 }
 
-ConfigurationItem* ConfigComboAdapter::GetItemFromComboIndex(std::int32_t combo_index)
+mvvm::SessionItem* ItemDisplayNameComboAdapter::GetItemFromComboIndex(std::int32_t combo_index)
 {
   // first index means "no selection"
   if (combo_index < 1)
@@ -59,7 +56,7 @@ ConfigurationItem* ConfigComboAdapter::GetItemFromComboIndex(std::int32_t combo_
   return m_items.at(item_index);
 }
 
-std::int32_t ConfigComboAdapter::GetComboIndexFromItem(const ConfigurationItem* item)
+std::int32_t ItemDisplayNameComboAdapter::GetComboIndexFromItem(const mvvm::SessionItem* item)
 {
   if (item == nullptr)
   {

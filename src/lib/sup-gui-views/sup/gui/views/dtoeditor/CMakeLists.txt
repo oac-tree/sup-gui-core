@@ -1,8 +1,6 @@
 # Configuration editor source
 
 target_sources(${library_name} PRIVATE
-  config_combo_adapter.cpp
-  config_combo_adapter.h
   config_tab_widget.cpp
   config_tab_widget.h
   configuration_list_widget.cpp

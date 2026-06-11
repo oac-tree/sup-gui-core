@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/views/dtoeditor/config_combo_adapter.h"
+#include "sup/gui/components/item_display_name_combo_adapter.h"
 
 #include <sup/gui/model/configuration_item.h>
 
@@ -28,27 +28,27 @@ namespace sup::gui::test
 {
 
 /**
- * @brief Tests for ConfigComboAdapter class.
+ * @brief Tests for ItemDisplayNameComboAdapter class.
  */
-class ConfigComboAdapterTest : public ::testing::Test
+class ItemDisplayNameComboAdapterTest : public ::testing::Test
 {
 };
 
-TEST_F(ConfigComboAdapterTest, EmptyList)
+TEST_F(ItemDisplayNameComboAdapterTest, EmptyList)
 {
-  ConfigComboAdapter adapter({});
+  ItemDisplayNameComboAdapter adapter(std::vector<mvvm::SessionItem*>{});
 
   const ConfigurationItem item;
 
   EXPECT_EQ(adapter.GetAvailableItemNames(),
-            QList<QString>({QString(ConfigComboAdapter::kNoSelection)}));
+            QList<QString>({QString(ItemDisplayNameComboAdapter::kNoSelection)}));
   EXPECT_EQ(adapter.GetItemFromComboIndex(-1), nullptr);
   EXPECT_EQ(adapter.GetItemFromComboIndex(0), nullptr);
   EXPECT_EQ(adapter.GetItemFromComboIndex(1), nullptr);
   EXPECT_EQ(adapter.GetComboIndexFromItem(&item), 0);
 }
 
-TEST_F(ConfigComboAdapterTest, ThreeConfigItems)
+TEST_F(ItemDisplayNameComboAdapterTest, ThreeConfigItems)
 {
   ConfigurationItem item1;
   item1.SetDisplayName("First");
@@ -57,10 +57,10 @@ TEST_F(ConfigComboAdapterTest, ThreeConfigItems)
   ConfigurationItem item3;
   item3.SetDisplayName("Third");
 
-  ConfigComboAdapter adapter({&item1, &item2, &item3});
+  ItemDisplayNameComboAdapter adapter(std::vector<mvvm::SessionItem*>{&item1, &item2, &item3});
 
   EXPECT_EQ(adapter.GetAvailableItemNames(),
-            QList<QString>({QString(ConfigComboAdapter::kNoSelection), QString("First"),
+            QList<QString>({QString(ItemDisplayNameComboAdapter::kNoSelection), QString("First"),
                             QString("Second"), QString("Third")}));
   EXPECT_EQ(adapter.GetItemFromComboIndex(-1), nullptr);
 

@@ -20,9 +20,9 @@
 
 #include "splittable_combo_panel.h"
 
-#include "config_combo_adapter.h"
 #include "config_tab_widget.h"
 
+#include <sup/gui/components/item_display_name_combo_adapter.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
@@ -88,7 +88,7 @@ void SplittableComboPanel::SetModel(ConfigurationModel* model)
 
 void SplittableComboPanel::SetItem(ConfigurationItem* configuration_item)
 {
-  ConfigComboAdapter adapter(GetAvailableConfigurations());
+  ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
   m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
 
   // the combo index change will trigger the ShowConfigurationInEditor method, so no need to call it
@@ -134,8 +134,9 @@ void SplittableComboPanel::SetupConnections()
 
   auto on_combo_index_changed = [this](auto index)
   {
-    ConfigComboAdapter adapter(GetAvailableConfigurations());
-    ShowConfigurationInEditor(adapter.GetItemFromComboIndex(index));
+    ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
+    ShowConfigurationInEditor(
+        dynamic_cast<ConfigurationItem*>(adapter.GetItemFromComboIndex(index)));
   };
   connect(m_tool_bar, &ComboToolBar::selectItemRequest, this, on_combo_index_changed);
 }
@@ -186,7 +187,7 @@ std::function<QList<QString>()> SplittableComboPanel::CreateConfigurationNamesCa
 {
   return [this]()
   {
-    const ConfigComboAdapter adapter(GetAvailableConfigurations());
+    const ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
     return adapter.GetAvailableItemNames();
   };
 }

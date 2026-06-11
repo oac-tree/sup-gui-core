@@ -20,6 +20,8 @@ target_sources(${library_name} PRIVATE
   dto_editor_project.h
   dto_waveform_editor_context.h
   i_anyvalue_editor_action_handler.h
+  item_display_name_combo_adapter.cpp
+  item_display_name_combo_adapter.h
   item_filter_helper.cpp
   item_filter_helper.h
   json_panel_controller.cpp

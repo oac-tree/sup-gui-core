@@ -20,10 +20,10 @@
 
 #include "sup/gui/views/dtoeditor/splittable_combo_panel.h"
 
+#include <sup/gui/components/item_display_name_combo_adapter.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
-#include <sup/gui/views/dtoeditor/config_combo_adapter.h>
 #include <sup/gui/views/dtoeditor/config_tab_widget.h>
 #include <sup/gui/widgets/combo_tool_bar.h>
 
@@ -73,7 +73,7 @@ TEST_F(SplittableComboPanelTest, InitialState)
   EXPECT_EQ(toolbar->GetCurrentIndex(), -1);
 
   widget.SetItem(nullptr);
-  EXPECT_EQ(toolbar->GetCurrentText(), QString(ConfigComboAdapter::kNoSelection));
+  EXPECT_EQ(toolbar->GetCurrentText(), QString(ItemDisplayNameComboAdapter::kNoSelection));
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
@@ -101,7 +101,7 @@ TEST_F(SplittableComboPanelTest, SetEmptyModel)
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
 
-  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentText(), ItemDisplayNameComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
@@ -133,7 +133,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
 
-  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentText(), ItemDisplayNameComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 
   widget.SetItem(configuration0);
@@ -160,7 +160,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(nullptr));
   EXPECT_EQ(widget.GetCurrentItem(), nullptr);
-  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentText(), ItemDisplayNameComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 
   // placeholder widget is back again
@@ -196,7 +196,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   auto toolbar = widget.findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
 
-  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentText(), ItemDisplayNameComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 
   // select first configuration via toolbar
@@ -283,7 +283,7 @@ TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
   EXPECT_EQ(stacked_widget->currentIndex(),
             static_cast<std::int32_t>(SplittableComboPanel::PlaceholderMode::kShowPlaceholder));
 
-  EXPECT_EQ(toolbar->GetCurrentText(), ConfigComboAdapter::kNoSelection);
+  EXPECT_EQ(toolbar->GetCurrentText(), ItemDisplayNameComboAdapter::kNoSelection);
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
