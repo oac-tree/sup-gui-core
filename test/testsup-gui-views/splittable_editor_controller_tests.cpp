@@ -121,4 +121,26 @@ TEST_F(SplittableEditorControllerTest, CreatePanelAndThenCreatePanelsViaWidgetSi
   EXPECT_EQ(controller.GetFocusWidget(), panel2);
 }
 
+TEST_F(SplittableEditorControllerTest, CreateThreePanelsAndThenCloseFirstOneViaWidgetSignal)
+{
+  SplittableEditorController controller(&m_splitter);
+  auto* panel1 = controller.CreatePanel();
+  auto* panel2 = controller.CreatePanel(panel1);
+  auto* panel3 = controller.CreatePanel(panel1);
+
+  EXPECT_EQ(controller.GetFocusWidget(), panel3);
+
+  panel1->closeViewRequest();        // should close panel1
+  EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
+  EXPECT_FALSE(panel1->isVisible());
+
+  EXPECT_EQ(controller.GetFocusWidget(), panel3);
+
+  // closing focused panel
+  panel3->closeViewRequest();        // should close panel3
+  EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
+  EXPECT_FALSE(panel3->isVisible());
+  EXPECT_EQ(controller.GetFocusWidget(), panel2);  // focus should move to the previous widget
+}
+
 }  // namespace sup::gui::test
