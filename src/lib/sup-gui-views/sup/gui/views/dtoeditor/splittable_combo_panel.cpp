@@ -20,9 +20,8 @@
 
 #include "splittable_combo_panel.h"
 
-#include "config_tab_widget.h"
-
 #include <sup/gui/components/item_display_name_combo_adapter.h>
+#include <sup/gui/mainwindow/session_item_widget.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
@@ -43,12 +42,13 @@ namespace
 constexpr auto kPlaceholderText = "Select one of available configurations";
 }  // namespace
 
-SplittableComboPanel::SplittableComboPanel(QWidget* parent_widget)
+SplittableComboPanel::SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
+                                           QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_tool_bar(new ComboToolBar(CreateItemNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
-    , m_item_editor_widget(new ConfigTabWidget)
+    , m_item_editor_widget(item_editor.release())
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

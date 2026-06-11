@@ -25,6 +25,7 @@
 
 #include <QWidget>
 #include <functional>
+#include <memory>
 
 class QStackedWidget;
 
@@ -43,7 +44,6 @@ class PlaceholderWidget;
 class ConfigurationItem;
 class ConfigurationModel;
 class SessionItemWidget;
-
 
 /**
  * @brief The SplittableComboPanel class contains an item editor with the possibility to switch
@@ -73,14 +73,15 @@ public:
     kShowEditor
   };
 
-  explicit SplittableComboPanel(QWidget* parent_widget = nullptr);
+  explicit SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
+                                QWidget* parent_widget = nullptr);
 
   ~SplittableComboPanel() override;
 
   SplittableComboPanel(const SplittableComboPanel& other) = delete;
   SplittableComboPanel& operator=(const SplittableComboPanel&) = delete;
-  SplittableComboPanel(SplittableComboPanel&&) = delete;
-  SplittableComboPanel& operator=(SplittableComboPanel&&) = delete;
+  SplittableComboPanel(SplittableComboPanel&&) noexcept = delete;
+  SplittableComboPanel& operator=(SplittableComboPanel&&) noexcept = delete;
 
   ConfigurationModel* GetModel();
 
@@ -149,7 +150,7 @@ private:
   ComboToolBar* m_tool_bar{nullptr};
   QStackedWidget* m_stacked_widget{nullptr};
   PlaceholderWidget* m_placeholder_widget{nullptr};
-  SessionItemWidget* m_item_editor_widget{nullptr}; //! main item editor
+  SessionItemWidget* m_item_editor_widget{nullptr};  //! main item editor
 
   mvvm::SessionItem* m_current_item{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;

@@ -20,6 +20,7 @@
 
 #include "splittable_editor_widget.h"
 
+#include "config_tab_widget.h"
 #include "splittable_combo_panel.h"
 #include "splittable_editor_controller.h"
 
@@ -57,7 +58,10 @@ void SplittableEditorWidget::CreatePanel()
 std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitterController() const
 {
   auto factory_func = []() -> std::unique_ptr<SplittableComboPanel>
-  { return std::make_unique<SplittableComboPanel>(); };
+  {
+    auto main_editor = std::make_unique<ConfigTabWidget>();
+    return std::make_unique<SplittableComboPanel>(std::move(main_editor));
+  };
   return std::make_unique<SplittableEditorController>(m_splitter, factory_func);
 }
 

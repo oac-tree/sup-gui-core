@@ -21,6 +21,7 @@
 #include "sup/gui/views/dtoeditor/splittable_editor_controller.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
+#include <sup/gui/views/dtoeditor/config_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
 #include <gtest/gtest.h>
@@ -39,7 +40,10 @@ public:
   std::unique_ptr<SplittableEditorController> CreateController()
   {
     auto factory_func = []() -> std::unique_ptr<SplittableComboPanel>
-    { return std::make_unique<SplittableComboPanel>(); };
+    {
+      auto main_editor = std::make_unique<ConfigTabWidget>();
+      return std::make_unique<SplittableComboPanel>(std::move(main_editor));
+    };
 
     return std::make_unique<SplittableEditorController>(&m_splitter, factory_func);
   }
