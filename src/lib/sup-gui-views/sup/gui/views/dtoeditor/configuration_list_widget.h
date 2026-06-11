@@ -26,16 +26,20 @@
 namespace mvvm
 {
 class ItemViewComponentProvider;
+class ItemSelection;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
+class ConfigurationItem;
 class ConfigurationContainerItem;
 class FlatListView;
 
 /**
- * @brief The AnyValueListWidget class represents a list of AnyValue with simple editable names.
+ * @brief The ConfigurationListWidget class shows the list of all opened configurations.
+ *
+ * Contains FlatListView with the possibility to close opened configurations.
  */
 class ConfigurationListWidget : public QWidget
 {
@@ -44,7 +48,23 @@ class ConfigurationListWidget : public QWidget
 public:
   explicit ConfigurationListWidget(QWidget* parent_widget = nullptr);
 
+  ~ConfigurationListWidget() override;
+
+  ConfigurationListWidget(const ConfigurationListWidget&) = delete;
+  ConfigurationListWidget& operator=(const ConfigurationListWidget&) = delete;
+  ConfigurationListWidget(ConfigurationListWidget&&) noexcept = delete;
+  ConfigurationListWidget& operator=(ConfigurationListWidget&&) noexcept = delete;
+
   void SetConfigurationContainer(ConfigurationContainerItem* container);
+
+  const ConfigurationItem* GetSelectedConfiguration() const;
+
+  std::vector<const ConfigurationItem*> GetSelectedConfigurations() const;
+
+  void SetSelectedConfiguration(const ConfigurationItem* config);
+
+signals:
+  void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> CreateProvider() const;

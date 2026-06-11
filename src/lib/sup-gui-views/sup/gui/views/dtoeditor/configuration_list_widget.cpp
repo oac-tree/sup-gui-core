@@ -21,9 +21,11 @@
 #include "configuration_list_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_item.h>
 #include <sup/gui/widgets/flatlist_delegate.h>
 #include <sup/gui/widgets/flatlist_view.h>
 
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
@@ -50,9 +52,28 @@ ConfigurationListWidget::ConfigurationListWidget(QWidget* parent_widget)
   SetupConnections();
 }
 
+ConfigurationListWidget::~ConfigurationListWidget() = default;
+
 void ConfigurationListWidget::SetConfigurationContainer(ConfigurationContainerItem* container)
 {
   m_component_provider->SetItem(container);
+}
+
+const ConfigurationItem* ConfigurationListWidget::GetSelectedConfiguration() const
+{
+  auto selected = GetSelectedConfigurations();
+  return selected.empty() ? nullptr : selected.front();
+}
+
+std::vector<const ConfigurationItem*> ConfigurationListWidget::GetSelectedConfigurations() const
+{
+  auto selection = m_component_provider->GetSelection();
+  return selection.GetSelectedItems<ConfigurationItem>();
+}
+
+void ConfigurationListWidget::SetSelectedConfiguration(const ConfigurationItem* config)
+{
+  m_component_provider->SetSelection(mvvm::ItemSelection(config));
 }
 
 std::unique_ptr<mvvm::ItemViewComponentProvider> ConfigurationListWidget::CreateProvider() const
@@ -77,6 +98,9 @@ void ConfigurationListWidget::SetupConnections()
   };
 
   connect(m_list_view, &sup::gui::FlatListView::closeHandleClicked, this, on_close);
+
+  connect(m_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectionChanged, this,
+          &ConfigurationListWidget::SelectionChanged);
 }
 
 }  // namespace sup::gui
