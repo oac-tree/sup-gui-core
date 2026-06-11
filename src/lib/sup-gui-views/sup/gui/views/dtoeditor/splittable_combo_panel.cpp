@@ -86,7 +86,7 @@ void SplittableComboPanel::SetModel(ConfigurationModel* model)
   m_tool_bar->SetCurrentIndex(0);
 }
 
-void SplittableComboPanel::SetItem(ConfigurationItem* configuration_item)
+void SplittableComboPanel::SetItem(mvvm::SessionItem* configuration_item)
 {
   ItemDisplayNameComboAdapter adapter(GetAvailableConfigurations());
   m_tool_bar->SetCurrentIndex(adapter.GetComboIndexFromItem(configuration_item));
@@ -95,14 +95,14 @@ void SplittableComboPanel::SetItem(ConfigurationItem* configuration_item)
   // here explicitly
 }
 
-ConfigurationItem* SplittableComboPanel::GetCurrentItem()
+mvvm::SessionItem* SplittableComboPanel::GetCurrentItem()
 {
-  return m_current_configuration_item;
+  return m_current_item;
 }
 
 std::vector<ConfigurationItem*> SplittableComboPanel::GetAvailableConfigurations() const
 {
-  if ((m_model == nullptr) || !m_model->GetConfigurationContainer())
+  if ((m_model == nullptr) || (m_model->GetConfigurationContainer() == 0))
   {
     return {};
   }
@@ -147,7 +147,7 @@ void SplittableComboPanel::SetupModelListener()
 
   auto on_data_changed = [this](const mvvm::DataChangedEvent& event)
   {
-    if (event.item == m_current_configuration_item)
+    if (event.item == m_current_item)
     {
       // assume that the display name might be changed and update the combo box text
       m_tool_bar->UpdateAppearance();
@@ -159,8 +159,8 @@ void SplittableComboPanel::SetupModelListener()
   {
     auto item_to_remove = event.item->GetItem(event.tag_index);
 
-    if ((item_to_remove == m_current_configuration_item)
-        || mvvm::utils::IsItemAncestor(m_current_configuration_item, item_to_remove))
+    if ((item_to_remove == m_current_item)
+        || mvvm::utils::IsItemAncestor(m_current_item, item_to_remove))
     {
       SetItem(nullptr);
     }
@@ -170,17 +170,17 @@ void SplittableComboPanel::SetupModelListener()
 
 void SplittableComboPanel::ShowConfigurationInEditor(ConfigurationItem* item)
 {
-  if (m_current_configuration_item == item)
+  if (m_current_item == item)
   {
     return;
   }
 
-  m_current_configuration_item = item;
+  m_current_item = item;
 
-  m_config_widget->SetConfiguration(m_current_configuration_item);
-  SetPlaceholderMode(m_current_configuration_item == nullptr ? PlaceholderMode::kShowPlaceholder
-                                                             : PlaceholderMode::kShowEditor);
-  emit selectedConfigurationChanged(mvvm::ItemSelection(m_current_configuration_item));
+  m_config_widget->SetConfiguration(dynamic_cast<ConfigurationItem*>(m_current_item));
+  SetPlaceholderMode(m_current_item == nullptr ? PlaceholderMode::kShowPlaceholder
+                                               : PlaceholderMode::kShowEditor);
+  emit selectedItemChanged(mvvm::ItemSelection(m_current_item));
 }
 
 std::function<QList<QString>()> SplittableComboPanel::CreateConfigurationNamesCallback()

@@ -83,7 +83,7 @@ TEST_F(SplittableComboPanelTest, SetEmptyModel)
   widget.show();
 
   const QSignalSpy selected_configuration_changed_spy(
-      &widget, &SplittableComboPanel::selectedConfigurationChanged);
+      &widget, &SplittableComboPanel::selectedItemChanged);
 
   ConfigurationModel model;
   widget.SetModel(&model);
@@ -118,7 +118,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   SplittableComboPanel widget;
   widget.show();
 
-  QSignalSpy selected_changed_spy(&widget, &SplittableComboPanel::selectedConfigurationChanged);
+  QSignalSpy selected_changed_spy(&widget, &SplittableComboPanel::selectedItemChanged);
 
   widget.SetModel(&model);
 
@@ -181,7 +181,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   SplittableComboPanel widget;
   widget.show();
 
-  QSignalSpy selected_changed_spy(&widget, &SplittableComboPanel::selectedConfigurationChanged);
+  QSignalSpy selected_changed_spy(&widget, &SplittableComboPanel::selectedItemChanged);
 
   widget.SetModel(&model);
 
@@ -259,7 +259,7 @@ TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
   widget.show();
 
   const QSignalSpy selected_changed_spy(&widget,
-                                        &SplittableComboPanel::selectedConfigurationChanged);
+                                        &SplittableComboPanel::selectedItemChanged);
   widget.SetModel(&model);
 
   // select the configuration
@@ -298,7 +298,7 @@ TEST_F(SplittableComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges
   widget.show();
 
   const QSignalSpy selected_changed_spy(&widget,
-                                        &SplittableComboPanel::selectedConfigurationChanged);
+                                        &SplittableComboPanel::selectedItemChanged);
   widget.SetModel(&model);
 
   // select the configuration

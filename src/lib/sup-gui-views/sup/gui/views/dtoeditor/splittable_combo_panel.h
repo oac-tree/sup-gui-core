@@ -30,8 +30,10 @@ class QStackedWidget;
 
 namespace mvvm
 {
+class ISessionModel;
 class ModelListener;
-}
+class SessionItem;
+}  // namespace mvvm
 
 namespace sup::gui
 {
@@ -89,12 +91,12 @@ public:
   /**
    * @brief Sets the item to be edited.
    */
-  void SetItem(ConfigurationItem* configuration_item);
+  void SetItem(mvvm::SessionItem* configuration_item);
 
   /**
    * @brief Gets the currently edited item.
    */
-  ConfigurationItem* GetCurrentItem();
+  mvvm::SessionItem* GetCurrentItem();
 
   std::vector<ConfigurationItem*> GetAvailableConfigurations() const;
 
@@ -116,7 +118,7 @@ public:
 signals:
   void splitViewRequest();
   void closeViewRequest();
-  void selectedConfigurationChanged(mvvm::ItemSelection selection);
+  void selectedItemChanged(mvvm::ItemSelection selection);
 
 private:
   /**
@@ -147,7 +149,8 @@ private:
   QStackedWidget* m_stacked_widget{nullptr};
   PlaceholderWidget* m_placeholder_widget{nullptr};
   ConfigTabWidget* m_config_widget{nullptr};
-  ConfigurationItem* m_current_configuration_item{nullptr};
+
+  mvvm::SessionItem* m_current_item{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;
   ConfigurationModel* m_model{nullptr};
 };
