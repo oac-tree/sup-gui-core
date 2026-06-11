@@ -62,10 +62,13 @@ class SplittableComboPanel : public QWidget
   Q_OBJECT
 
 public:
+  //! a callback to retrieve list of items to select from
+  using ItemListCallback = std::function<std::vector<mvvm::SessionItem*>()>;
+
   /**
    * @brief The PlaceholderMode enum defines modes of the placeholder widget.
    *
-   * Placeholder hides the main editor when it is not ready.
+   * Placeholder hides the main editor when there is no item set.
    */
   enum class PlaceholderMode : std::uint8_t
   {
@@ -73,7 +76,15 @@ public:
     kShowEditor
   };
 
+  /**
+   * @brief Main c-tor.
+   *
+   * @param item_editor The main widget which will be shown, when there is an item set.
+   * @param item_list_callback A callback to retrieve list of items to select from.
+   * @param parent_widget The parent widget.
+   */
   explicit SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
+                                ItemListCallback item_list_callback,
                                 QWidget* parent_widget = nullptr);
 
   ~SplittableComboPanel() override;
@@ -100,7 +111,7 @@ public:
    */
   mvvm::SessionItem* GetCurrentItem();
 
-  std::vector<ConfigurationItem*> GetAvailableConfigurations() const;
+  std::vector<mvvm::SessionItem*> GetAvailableConfigurations() const;
 
   /**
    * @brief Shows (paints) this editor as active.
@@ -151,6 +162,8 @@ private:
   QStackedWidget* m_stacked_widget{nullptr};
   PlaceholderWidget* m_placeholder_widget{nullptr};
   SessionItemWidget* m_item_editor_widget{nullptr};  //! main item editor
+
+  ItemListCallback m_item_list_callback;
 
   mvvm::SessionItem* m_current_item{nullptr};
   std::unique_ptr<mvvm::ModelListener> m_listener;

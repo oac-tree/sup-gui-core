@@ -65,6 +65,7 @@ private:
 
   QSplitter* m_splitter{nullptr};
   std::unique_ptr<SplittableEditorController> m_splitter_controller;
+  ConfigurationModel* m_model{nullptr};
 };
 
 }  // namespace sup::gui

@@ -46,15 +46,16 @@ class ComboToolBar : public QToolBar
   Q_OBJECT
 
 public:
-  using ItemCallback = std::function<QList<QString>()>;
+  using NamesCallback = std::function<QList<QString>()>;
 
   /**
    * @brief Main c-tor.
    *
-   * @param entries_callback A callback allowing to retrieve list of strings.
+   * @param names_callback A callback allowing to retrieve list of strings which will sevre as menu
+   * entries.
    * @param parent_widget The parent widget.
    */
-  explicit ComboToolBar(const ItemCallback& entries_callback, QWidget* parent_widget = nullptr);
+  explicit ComboToolBar(const NamesCallback& names_callback, QWidget* parent_widget = nullptr);
   ~ComboToolBar() override;
 
   ComboToolBar(const ComboToolBar&) = delete;
@@ -117,7 +118,7 @@ private:
   std::unique_ptr<QMenu> CreateSelectItemMenu();
   void OnAboutToShowMenu();
 
-  ItemCallback m_available_items;
+  NamesCallback m_available_items;
   std::unique_ptr<QMenu> m_select_item_menu;
   QToolButton* m_selector_button{nullptr};
   QToolButton* m_split_horizontally_button{nullptr};

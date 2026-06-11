@@ -30,6 +30,7 @@
 #include <mvvm/model/item_selection.h>
 #include <mvvm/signals/model_listener.h>
 #include <mvvm/test/test_helper.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
 
@@ -53,11 +54,19 @@ public:
   /**
    * @brief Creates test panel;
    */
-  static std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel()
+  std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel()
   {
+    auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
+    {
+      return mvvm::utils::CastItems<mvvm::SessionItem>(
+          m_model.GetConfigurationContainer()->GetConfigurations());
+    };
+
     auto main_editor = std::make_unique<ConfigTabWidget>();
-    return std::make_unique<SplittableComboPanel>(std::move(main_editor));
+    return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
   }
+
+  ConfigurationModel m_model;
 };
 
 TEST_F(SplittableComboPanelTest, InitialState)
@@ -94,12 +103,11 @@ TEST_F(SplittableComboPanelTest, SetEmptyModel)
   const QSignalSpy selected_configuration_changed_spy(widget.get(),
                                                       &SplittableComboPanel::itemSelectionChanged);
 
-  ConfigurationModel model;
-  widget->SetModel(&model);
+  widget->SetModel(&m_model);
 
   EXPECT_EQ(selected_configuration_changed_spy.count(), 0);
 
-  EXPECT_EQ(widget->GetModel(), &model);
+  EXPECT_EQ(widget->GetModel(), &m_model);
   EXPECT_EQ(widget->GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget->findChild<QStackedWidget*>();
@@ -116,12 +124,11 @@ TEST_F(SplittableComboPanelTest, SetEmptyModel)
 
 TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
 {
-  ConfigurationModel model;
-  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration0 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
-  auto configuration1 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration1 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration1->SetDisplayName("Config1");
 
   auto widget = CreateSplittableComboPanel();
@@ -129,9 +136,9 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
 
   QSignalSpy selected_changed_spy(widget.get(), &SplittableComboPanel::itemSelectionChanged);
 
-  widget->SetModel(&model);
+  widget->SetModel(&m_model);
 
-  EXPECT_EQ(widget->GetModel(), &model);
+  EXPECT_EQ(widget->GetModel(), &m_model);
   EXPECT_EQ(widget->GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget->findChild<QStackedWidget*>();
@@ -179,12 +186,11 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
 
 TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
 {
-  ConfigurationModel model;
-  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration0 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
-  auto configuration1 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration1 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration1->SetDisplayName("Config1");
 
   auto widget = CreateSplittableComboPanel();
@@ -192,9 +198,9 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
 
   QSignalSpy selected_changed_spy(widget.get(), &SplittableComboPanel::itemSelectionChanged);
 
-  widget->SetModel(&model);
+  widget->SetModel(&m_model);
 
-  EXPECT_EQ(widget->GetModel(), &model);
+  EXPECT_EQ(widget->GetModel(), &m_model);
   EXPECT_EQ(widget->GetCurrentItem(), nullptr);
 
   auto stacked_widget = widget->findChild<QStackedWidget*>();
@@ -259,16 +265,15 @@ TEST_F(SplittableComboPanelTest, SplitViewCloseViewRequestsArePropagated)
 
 TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
 {
-  ConfigurationModel model;
-  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration0 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
 
   auto widget = CreateSplittableComboPanel();
   widget->show();
 
   const QSignalSpy selected_changed_spy(widget.get(), &SplittableComboPanel::itemSelectionChanged);
-  widget->SetModel(&model);
+  widget->SetModel(&m_model);
 
   // select the configuration
   widget->SetItem(configuration0);
@@ -285,7 +290,7 @@ TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
   EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
 
   // delete item
-  model.RemoveItem(configuration0);
+  m_model.RemoveItem(configuration0);
 
   // expecting placeholder widget
   EXPECT_EQ(stacked_widget->currentIndex(),
@@ -297,16 +302,15 @@ TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
 
 TEST_F(SplittableComboPanelTest, ButtonTextIsChangedWhenConfigDisplayNameChanges)
 {
-  ConfigurationModel model;
-  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration0 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
 
   auto widget = CreateSplittableComboPanel();
   widget->show();
 
   const QSignalSpy selected_changed_spy(widget.get(), &SplittableComboPanel::itemSelectionChanged);
-  widget->SetModel(&model);
+  widget->SetModel(&m_model);
 
   // select the configuration
   widget->SetItem(configuration0);

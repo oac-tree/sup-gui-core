@@ -42,7 +42,10 @@ public:
     auto factory_func = []() -> std::unique_ptr<SplittableComboPanel>
     {
       auto main_editor = std::make_unique<ConfigTabWidget>();
-      return std::make_unique<SplittableComboPanel>(std::move(main_editor));
+
+      auto item_list_callback = []() -> std::vector<mvvm::SessionItem*> { return {}; };
+
+      return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
     };
 
     return std::make_unique<SplittableEditorController>(&m_splitter, factory_func);

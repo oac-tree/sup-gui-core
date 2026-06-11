@@ -24,6 +24,13 @@
 #include "splittable_combo_panel.h"
 #include "splittable_editor_controller.h"
 
+#include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_item.h>
+#include <sup/gui/model/configuration_model.h>
+
+#include <mvvm/model/session_item.h>
+#include <mvvm/utils/container_utils.h>
+
 #include <QSplitter>
 #include <QVBoxLayout>
 
@@ -46,7 +53,7 @@ SplittableEditorWidget::~SplittableEditorWidget() = default;
 
 void SplittableEditorWidget::SetModel(ConfigurationModel* model)
 {
-  (void)model;
+  m_model = model;
   // m_config_combo_panel->SetModel(model);
 }
 
@@ -57,10 +64,17 @@ void SplittableEditorWidget::CreatePanel()
 
 std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitterController() const
 {
-  auto factory_func = []() -> std::unique_ptr<SplittableComboPanel>
+  auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
   {
     auto main_editor = std::make_unique<ConfigTabWidget>();
-    return std::make_unique<SplittableComboPanel>(std::move(main_editor));
+
+    auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
+    {
+      return mvvm::utils::CastItems<mvvm::SessionItem>(
+          m_model->GetConfigurationContainer()->GetConfigurations());
+    };
+
+    return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
   };
   return std::make_unique<SplittableEditorController>(m_splitter, factory_func);
 }

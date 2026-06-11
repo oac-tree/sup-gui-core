@@ -33,9 +33,9 @@
 namespace sup::gui
 {
 
-ComboToolBar::ComboToolBar(const ItemCallback& item_callback, QWidget* parent_widget)
+ComboToolBar::ComboToolBar(const NamesCallback& entry_callback, QWidget* parent_widget)
     : QToolBar(parent_widget)
-    , m_available_items(item_callback)
+    , m_available_items(entry_callback)
     , m_select_item_menu(CreateSelectItemMenu())
     , m_selector_button(new QToolButton(this))
     , m_split_horizontally_button(new QToolButton(this))

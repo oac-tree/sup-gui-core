@@ -21,6 +21,7 @@
 #include "splittable_combo_panel.h"
 
 #include <sup/gui/components/item_display_name_combo_adapter.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/session_item_widget.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
@@ -43,13 +44,20 @@ constexpr auto kPlaceholderText = "Select one of available configurations";
 }  // namespace
 
 SplittableComboPanel::SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
+                                           ItemListCallback item_list_callback,
                                            QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_tool_bar(new ComboToolBar(CreateItemNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
     , m_item_editor_widget(item_editor.release())
+    , m_item_list_callback(item_list_callback)
 {
+  if (!m_item_list_callback)
+  {
+    throw RuntimeException("Item list callback is not set");
+  }
+
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
@@ -100,14 +108,9 @@ mvvm::SessionItem* SplittableComboPanel::GetCurrentItem()
   return m_current_item;
 }
 
-std::vector<ConfigurationItem*> SplittableComboPanel::GetAvailableConfigurations() const
+std::vector<mvvm::SessionItem*> SplittableComboPanel::GetAvailableConfigurations() const
 {
-  if ((m_model == nullptr) || (m_model->GetConfigurationContainer() == nullptr))
-  {
-    return {};
-  }
-
-  return m_model->GetConfigurationContainer()->GetConfigurations();
+  return m_item_list_callback();
 }
 
 void SplittableComboPanel::ShowAsActive(bool value)
