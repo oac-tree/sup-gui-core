@@ -59,6 +59,8 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
 
   connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
           &DtoCompareView::OnImportFromFileRequest);
+
+  m_splittable_config_editor->CreatePanel();
 }
 
 DtoCompareView::~DtoCompareView()

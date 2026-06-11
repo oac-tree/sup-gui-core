@@ -22,12 +22,16 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_EDITOR_WIDGET_H_
 
 #include <QWidget>
+#include <memory>
+
+class QSplitter;
 
 namespace sup::gui
 {
 
 class SplittableComboPanel;
 class ConfigurationModel;
+class SplittableEditorController;
 
 /**
  * @brief The SplittableEditorWidget class is a complex editor with the possibility to split
@@ -42,10 +46,25 @@ class SplittableEditorWidget : public QWidget
 public:
   explicit SplittableEditorWidget(QWidget* parent_widget = nullptr);
 
+  ~SplittableEditorWidget() override;
+
+  SplittableEditorWidget(const SplittableEditorWidget&) = delete;
+  SplittableEditorWidget& operator=(const SplittableEditorWidget&) = delete;
+  SplittableEditorWidget(SplittableEditorWidget&&) noexcept = delete;
+  SplittableEditorWidget& operator=(SplittableEditorWidget&&) noexcept = delete;
+
   void SetModel(ConfigurationModel* model);
 
+  /**
+   * @brief Adds panel to the splitter.
+   */
+  void CreatePanel();
+
 private:
-  SplittableComboPanel* m_config_combo_panel{nullptr};
+  std::unique_ptr<SplittableEditorController> CreateSplitterController() const;
+
+  QSplitter* m_splitter{nullptr};
+  std::unique_ptr<SplittableEditorController> m_splitter_controller;
 };
 
 }  // namespace sup::gui

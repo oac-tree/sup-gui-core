@@ -21,25 +21,44 @@
 #include "splittable_editor_widget.h"
 
 #include "splittable_combo_panel.h"
+#include "splittable_editor_controller.h"
 
+#include <QSplitter>
 #include <QVBoxLayout>
 
 namespace sup::gui
 {
 
 SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
-    : QWidget(parent_widget), m_config_combo_panel(new SplittableComboPanel)
+    : QWidget(parent_widget)
+    , m_splitter(new QSplitter)
+    , m_splitter_controller(CreateSplitterController())
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_config_combo_panel);
+  layout->addWidget(m_splitter);
 }
+
+SplittableEditorWidget::~SplittableEditorWidget() = default;
 
 void SplittableEditorWidget::SetModel(ConfigurationModel* model)
 {
-  m_config_combo_panel->SetModel(model);
+  (void)model;
+  // m_config_combo_panel->SetModel(model);
+}
+
+void SplittableEditorWidget::CreatePanel()
+{
+  m_splitter_controller->CreatePanel();
+}
+
+std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitterController() const
+{
+  auto factory_func = []() -> std::unique_ptr<SplittableComboPanel>
+  { return std::make_unique<SplittableComboPanel>(); };
+  return std::make_unique<SplittableEditorController>(m_splitter, factory_func);
 }
 
 }  // namespace sup::gui

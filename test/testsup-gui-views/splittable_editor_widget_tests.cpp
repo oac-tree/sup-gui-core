@@ -22,6 +22,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QSplitter>
+
 namespace sup::gui::test
 {
 
@@ -32,6 +34,29 @@ class SplittableEditorWidgetTest : public ::testing::Test
 {
 };
 
-TEST_F(SplittableEditorWidgetTest, InitialState) {}
+TEST_F(SplittableEditorWidgetTest, InitialState)
+{
+  SplittableEditorWidget editor;
+  editor.show();
+
+  auto splitter = editor.findChild<QSplitter*>();
+
+  // empty splitter
+  ASSERT_NE(splitter, nullptr);
+  EXPECT_EQ(splitter->count(), 0);
+}
+
+TEST_F(SplittableEditorWidgetTest, CreatePanel)
+{
+  SplittableEditorWidget editor;
+  editor.show();
+
+  auto splitter = editor.findChild<QSplitter*>();
+
+  // add first panel
+  editor.CreatePanel();
+
+  ASSERT_EQ(splitter->count(), 1);
+}
 
 }  // namespace sup::gui::test
