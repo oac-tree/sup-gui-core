@@ -50,11 +50,15 @@ public:
    */
   std::unique_ptr<SplittableEditorController> CreateController()
   {
-    auto factory_func = []() -> std::unique_ptr<SplittableComboPanel>
+    auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
     {
       auto main_editor = std::make_unique<ConfigTabWidget>();
 
-      auto item_list_callback = []() -> std::vector<mvvm::SessionItem*> { return {}; };
+      auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
+      {
+        return mvvm::utils::CastItems<mvvm::SessionItem>(
+            m_model.GetConfigurationContainer()->GetConfigurations());
+      };
 
       return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
     };
@@ -63,6 +67,7 @@ public:
   }
 
   QSplitter m_splitter;
+  ConfigurationModel m_model;
 };
 
 TEST_F(SplittableEditorControllerTest, InitialState)
@@ -285,18 +290,32 @@ TEST_F(SplittableEditorControllerTest, SetModel)
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
-  ConfigurationModel model;
-  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration0 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration0->SetDisplayName("Config0");
-  auto configuration1 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
-                                                            mvvm::TagIndex::Append());
+  auto configuration1 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
   configuration1->SetDisplayName("Config1");
 
-  controller->SetModel(&model);
-  EXPECT_EQ(panel1->GetModel(), &model);
-  EXPECT_EQ(panel2->GetModel(), &model);
-  EXPECT_EQ(panel3->GetModel(), &model);
+  controller->SetModel(&m_model);
+  EXPECT_EQ(panel1->GetModel(), &m_model);
+  EXPECT_EQ(panel2->GetModel(), &m_model);
+  EXPECT_EQ(panel3->GetModel(), &m_model);
+
+  // validating that listener is working
+  QSignalSpy spy_selection_changed(controller.get(),
+                                   &SplittableEditorController::focusPanelSelectionChanged);
+
+  controller->GetFocusWidget()->SetItem(configuration0);
+
+  EXPECT_EQ(panel1->GetCurrentItem(), nullptr);
+  EXPECT_EQ(panel2->GetCurrentItem(), nullptr);
+  EXPECT_EQ(panel3->GetCurrentItem(), configuration0);
+
+  EXPECT_EQ(spy_selection_changed.count(), 1);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed),
+            mvvm::ItemSelection(configuration0));
 }
 
 }  // namespace sup::gui::test
