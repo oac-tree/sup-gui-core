@@ -24,9 +24,17 @@
 #include <sup/gui/views/dtoeditor/config_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
+#include <mvvm/model/session_item.h>
+#include <mvvm/test/test_helper.h>
+
 #include <gtest/gtest.h>
 
+#include <QSignalSpy>
 #include <QSplitter>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::ItemSelection)
+#endif
 
 namespace sup::gui::test
 {
@@ -155,14 +163,14 @@ TEST_F(SplittableEditorControllerTest, CreateThreePanelsAndThenCloseFirstOneViaW
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
-  panel1->closePanelRequest();        // should close panel1
+  panel1->closePanelRequest();       // should close panel1
   EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
   EXPECT_FALSE(panel1->isVisible());
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
   // closing focused panel
-  panel3->closePanelRequest();        // should close panel3
+  panel3->closePanelRequest();       // should close panel3
   EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
   EXPECT_FALSE(panel3->isVisible());
   EXPECT_EQ(controller->GetFocusWidget(), panel2);  // focus should move to the previous widget
@@ -194,6 +202,60 @@ TEST_F(SplittableEditorControllerTest, SetFocusViaFocusRequest)
 
   panel1->focusPanelRequest();  // should set focus to panel1
   EXPECT_EQ(controller->GetFocusWidget(), panel1);
+}
+
+TEST_F(SplittableEditorControllerTest, FocusPanelEmitsSelectionRequest)
+{
+  const mvvm::SessionItem item1;
+  const mvvm::ItemSelection selection1(&item1);
+  const mvvm::SessionItem item2;
+  const mvvm::ItemSelection selection2(&item2);
+
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  EXPECT_EQ(controller->GetFocusWidget(), panel3);
+
+  QSignalSpy spy_selection_changed(controller.get(),
+                                   &SplittableEditorController::focusPanelItemSelectionChanged);
+
+  // focus panel emit request
+  panel3->itemSelectionChanged(selection1);
+  EXPECT_EQ(spy_selection_changed.count(), 1);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed), selection1);
+
+  // emitting the same selection should not trigger the signal
+  panel3->itemSelectionChanged(selection1);
+  EXPECT_EQ(spy_selection_changed.count(), 0);
+
+  // selecting another one
+  panel3->itemSelectionChanged(selection2);
+  EXPECT_EQ(spy_selection_changed.count(), 1);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed), selection2);
+}
+
+TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
+{
+  const mvvm::SessionItem item1;
+  const mvvm::ItemSelection selection1(&item1);
+
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  EXPECT_EQ(controller->GetFocusWidget(), panel3);
+
+  const QSignalSpy spy_selection_changed(
+      controller.get(), &SplittableEditorController::focusPanelItemSelectionChanged);
+
+  // non-focused panel emit request, controller should be silent
+  panel2->itemSelectionChanged(selection1);
+  EXPECT_EQ(spy_selection_changed.count(), 0);
 }
 
 }  // namespace sup::gui::test

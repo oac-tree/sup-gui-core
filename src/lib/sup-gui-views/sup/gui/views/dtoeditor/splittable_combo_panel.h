@@ -92,6 +92,9 @@ public:
   SplittableComboPanel(SplittableComboPanel&&) noexcept = delete;
   SplittableComboPanel& operator=(SplittableComboPanel&&) noexcept = delete;
 
+  /**
+   * @brief Returns the model of this panel.
+   */
   mvvm::ISessionModel* GetModel();
 
   /**
@@ -115,17 +118,17 @@ public:
   std::vector<mvvm::SessionItem*> GetAvailableItems() const;
 
   /**
-   * @brief Shows (paints) this editor as active.
+   * @brief Shows (paints) this panel as active.
    *
-   * Active editor normally has a toolbar with the green line at the bottom. It is the one where the
+   * Active panel normally has a toolbar with the green line at the bottom. It is the one where the
    * user clicked last.
    */
   void ShowAsActive(bool value);
 
   /**
-   * @brief Shows (paints) this editor as the last editor in the splitter.
+   * @brief Shows (paints) this panel as the last panel in the splitter.
    *
-   * The last editor might have different appearance (close button is disabled).
+   * The last panel has different appearance (e.g. close button is disabled).
    */
   void ShowAsLastEditor(bool value);
 

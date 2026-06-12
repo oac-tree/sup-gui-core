@@ -27,6 +27,8 @@
 
 class QSplitter;
 
+#include <mvvm/model/item_selection.h>
+
 namespace sup::gui
 {
 
@@ -44,6 +46,8 @@ class WidgetFocusHandler;
  */
 class SplittableEditorController : public QObject
 {
+  Q_OBJECT
+
 public:
   using create_panel_func_t = std::function<std::unique_ptr<SplittableComboPanel>()>;
 
@@ -89,17 +93,24 @@ public:
    */
   void SetFocusWidget(SplittableComboPanel* widget);
 
+signals:
+  //! The signal is emitted when user changes the selection in the combo box of any panel.
+  //! It is used to propagate the selection back to list view.
+  void focusPanelItemSelectionChanged(mvvm::ItemSelection selection);
+
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
   std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
 
-  void OnSplitPanelRequest();
-  void OnClosePanelRequest();
-  void OnFocusPanelRequest();
+  void onSplitPanelRequest();
+  void onClosePanelRequest();
+  void onFocusPanelRequest();
+  void onItemSelectionChanged(mvvm::ItemSelection selection);
 
   QSplitter* m_splitter{nullptr};
   create_panel_func_t m_factory_func;
   std::unique_ptr<WidgetFocusHandler<SplittableComboPanel>> m_focus_handler;
+  mvvm::ItemSelection m_previous_selection_in_focus_widget;
 };
 
 }  // namespace sup::gui

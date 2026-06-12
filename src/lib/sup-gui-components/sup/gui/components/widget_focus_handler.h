@@ -31,7 +31,10 @@ namespace sup::gui
  * @brief The WidgetFocusHandler handles the logic of which widget in the list is currently in
  * the user's focus.
  *
- * It is used in the context of multiple split views, when we need to decide which panel is
+ * When we set the widget as "in focus", this class upadtes its visual appearance, and also notifies
+ * the previous focus widget about the change.
+ *
+ * It is used in the context of multiple split views, when we need to keep track which panel is
  * currently active to show new content in the appropriate place.
  */
 template <typename WidgetT>

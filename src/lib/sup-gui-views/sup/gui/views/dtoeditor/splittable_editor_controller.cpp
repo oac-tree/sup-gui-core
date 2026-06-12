@@ -100,11 +100,13 @@ SplittableEditorController::CreateAndConnectSplittableComboPanel()
   auto result = CreateSplittableComboPanel();
 
   connect(result.get(), &SplittableComboPanel::splitPanelRequest, this,
-          &SplittableEditorController::OnSplitPanelRequest);
+          &SplittableEditorController::onSplitPanelRequest);
   connect(result.get(), &SplittableComboPanel::closePanelRequest, this,
-          &SplittableEditorController::OnClosePanelRequest);
+          &SplittableEditorController::onClosePanelRequest);
   connect(result.get(), &SplittableComboPanel::focusPanelRequest, this,
-          &SplittableEditorController::OnFocusPanelRequest);
+          &SplittableEditorController::onFocusPanelRequest);
+  connect(result.get(), &SplittableComboPanel::itemSelectionChanged, this,
+          &SplittableEditorController::onItemSelectionChanged);
 
   return result;
 }
@@ -114,22 +116,37 @@ std::unique_ptr<SplittableComboPanel> SplittableEditorController::CreateSplittab
   return m_factory_func();
 }
 
-void SplittableEditorController::OnSplitPanelRequest()
+void SplittableEditorController::onSplitPanelRequest()
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
   CreatePanel(/*add after*/ sending_panel);
 }
 
-void SplittableEditorController::OnClosePanelRequest()
+void SplittableEditorController::onClosePanelRequest()
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
   ClosePanel(sending_panel);
 }
 
-void SplittableEditorController::OnFocusPanelRequest()
+void SplittableEditorController::onFocusPanelRequest()
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
   m_focus_handler->SetFocusWidget(sending_panel);
+}
+
+void SplittableEditorController::onItemSelectionChanged(mvvm::ItemSelection selection)
+{
+  auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+  if (sending_panel != GetFocusWidget())
+  {
+    return;
+  }
+
+  if (m_previous_selection_in_focus_widget != selection)
+  {
+    m_previous_selection_in_focus_widget = selection;
+    emit focusPanelItemSelectionChanged(m_previous_selection_in_focus_widget);
+  }
 }
 
 }  // namespace sup::gui
