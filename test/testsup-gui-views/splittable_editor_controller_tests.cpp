@@ -69,6 +69,8 @@ TEST_F(SplittableEditorControllerTest, InitialState)
 
   auto controller = CreateController();
   EXPECT_EQ(controller->GetFocusWidget(), nullptr);
+  EXPECT_EQ(m_splitter.count(), 0);
+  EXPECT_TRUE(controller->GetPanels().empty());
 }
 
 TEST_F(SplittableEditorControllerTest, CreatePanel)
@@ -91,6 +93,13 @@ TEST_F(SplittableEditorControllerTest, CreatePanel)
   EXPECT_EQ(m_splitter.widget(0), panel1);
   EXPECT_EQ(m_splitter.widget(1), panel3);
   EXPECT_EQ(m_splitter.widget(2), panel2);
+
+  std::vector<SplittableComboPanel*> expected_panels;
+  expected_panels.push_back(qobject_cast<SplittableComboPanel*>(m_splitter.widget(0)));
+  expected_panels.push_back(qobject_cast<SplittableComboPanel*>(m_splitter.widget(1)));
+  expected_panels.push_back(qobject_cast<SplittableComboPanel*>(m_splitter.widget(2)));
+
+  EXPECT_EQ(controller->GetPanels(), expected_panels);
 }
 
 TEST_F(SplittableEditorControllerTest, CreateSinglePanelAndThenClose)
@@ -122,6 +131,11 @@ TEST_F(SplittableEditorControllerTest, CreateThreePanelsAndThenCloseTheMiddle)
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
   EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
   EXPECT_FALSE(panel2->isVisible());
+
+  std::vector<SplittableComboPanel*> expected_panels;
+  expected_panels.push_back(qobject_cast<SplittableComboPanel*>(m_splitter.widget(0)));
+  expected_panels.push_back(qobject_cast<SplittableComboPanel*>(m_splitter.widget(1)));
+  EXPECT_EQ(controller->GetPanels(), expected_panels);
 }
 
 TEST_F(SplittableEditorControllerTest, CreateThreePanelsAndThenCloseTheFocused)
@@ -250,8 +264,8 @@ TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
-  const QSignalSpy spy_selection_changed(
-      controller.get(), &SplittableEditorController::focusPanelSelectionChanged);
+  const QSignalSpy spy_selection_changed(controller.get(),
+                                         &SplittableEditorController::focusPanelSelectionChanged);
 
   // non-focused panel emit request, controller should be silent
   panel2->itemSelectionChanged(selection1);

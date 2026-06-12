@@ -68,6 +68,11 @@ public:
    */
   void CreatePanel();
 
+  /**
+   * @brief Returns controller of the editor, which allows to manipulate panels and their content.
+   *
+   * Used for testing.
+   */
   SplittableEditorController* GetController() const;
 
 signals:

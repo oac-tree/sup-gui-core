@@ -93,6 +93,13 @@ public:
    */
   void SetFocusWidget(SplittableComboPanel* widget);
 
+  /**
+   * @brief Returns list of panels currently in the editor.
+   *
+   * Used for testing.
+   */
+  std::vector<SplittableComboPanel*> GetPanels() const;
+
 signals:
   //! The signal is emitted when user changes the selection in the combo box of any panel.
   //! It is used to propagate the selection back to list view.
