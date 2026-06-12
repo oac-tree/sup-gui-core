@@ -24,10 +24,13 @@
 #include <QObject>
 #include <functional>
 #include <memory>
+#include <mvvm/model/item_selection.h>
 
 class QSplitter;
 
-#include <mvvm/model/item_selection.h>
+namespace mvvm {
+class ISessionModel;
+}
 
 namespace sup::gui
 {
@@ -66,6 +69,11 @@ public:
   SplittableEditorController& operator=(const SplittableEditorController&) = delete;
   SplittableEditorController(SplittableEditorController&&) noexcept = delete;
   SplittableEditorController& operator=(SplittableEditorController&&) noexcept = delete;
+
+  /**
+   * @brief Sets the model to all editors.
+   */
+  void SetModel(mvvm::ISessionModel* model);
 
   /**
    * @brief Adds a new widget to the splitter.

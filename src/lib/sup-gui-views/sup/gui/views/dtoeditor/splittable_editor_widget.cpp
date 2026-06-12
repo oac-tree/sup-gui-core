@@ -57,7 +57,7 @@ SplittableEditorWidget::~SplittableEditorWidget() = default;
 void SplittableEditorWidget::SetModel(ConfigurationModel* model)
 {
   m_model = model;
-  // m_config_combo_panel->SetModel(model);
+  m_splitter_controller->SetModel(model);
 }
 
 void SplittableEditorWidget::SetConfiguration(ConfigurationItem* config)

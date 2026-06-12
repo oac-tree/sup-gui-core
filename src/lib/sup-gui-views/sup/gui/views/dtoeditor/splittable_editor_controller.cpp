@@ -51,6 +51,14 @@ SplittableEditorController::SplittableEditorController(QSplitter* splitter,
 
 SplittableEditorController::~SplittableEditorController() = default;
 
+void SplittableEditorController::SetModel(mvvm::ISessionModel* model)
+{
+  for (auto& widget : m_focus_handler->GetWidgets())
+  {
+    widget->SetModel(model);
+  }
+}
+
 SplittableComboPanel* SplittableEditorController::CreatePanel(SplittableComboPanel* after_widget)
 {
   auto new_widget = CreateAndConnectSplittableComboPanel();

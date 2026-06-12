@@ -112,6 +112,8 @@ TEST_F(SplittableComboPanelTest, SetEmptyModel)
 
   widget->SetModel(&m_model);
 
+  EXPECT_EQ(widget->GetModel(), &m_model);
+
   EXPECT_EQ(selected_configuration_changed_spy.count(), 0);
 
   EXPECT_EQ(widget->GetModel(), &m_model);

@@ -21,6 +21,9 @@
 #include "sup/gui/views/dtoeditor/splittable_editor_controller.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
+#include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_item.h>
+#include <sup/gui/model/configuration_model.h>
 #include <sup/gui/views/dtoeditor/config_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
@@ -270,6 +273,30 @@ TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
   // non-focused panel emit request, controller should be silent
   panel2->itemSelectionChanged(selection1);
   EXPECT_EQ(spy_selection_changed.count(), 0);
+}
+
+TEST_F(SplittableEditorControllerTest, SetModel)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  EXPECT_EQ(controller->GetFocusWidget(), panel3);
+
+  ConfigurationModel model;
+  auto configuration0 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
+                                                            mvvm::TagIndex::Append());
+  configuration0->SetDisplayName("Config0");
+  auto configuration1 = model.InsertItem<ConfigurationItem>(model.GetConfigurationContainer(),
+                                                            mvvm::TagIndex::Append());
+  configuration1->SetDisplayName("Config1");
+
+  controller->SetModel(&model);
+  EXPECT_EQ(panel1->GetModel(), &model);
+  EXPECT_EQ(panel2->GetModel(), &model);
+  EXPECT_EQ(panel3->GetModel(), &model);
 }
 
 }  // namespace sup::gui::test
