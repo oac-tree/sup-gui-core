@@ -145,7 +145,7 @@ void SplittableEditorController::onItemSelectionChanged(mvvm::ItemSelection sele
   if (m_previous_selection_in_focus_widget != selection)
   {
     m_previous_selection_in_focus_widget = selection;
-    emit focusPanelItemSelectionChanged(m_previous_selection_in_focus_widget);
+    emit focusPanelSelectionChanged(m_previous_selection_in_focus_widget);
   }
 }
 

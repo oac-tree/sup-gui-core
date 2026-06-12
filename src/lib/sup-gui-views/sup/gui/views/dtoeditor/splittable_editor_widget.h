@@ -26,6 +26,11 @@
 
 class QSplitter;
 
+namespace mvvm
+{
+class ItemSelection;
+}
+
 namespace sup::gui
 {
 
@@ -62,6 +67,11 @@ public:
    * @brief Adds panel to the splitter.
    */
   void CreatePanel();
+
+  SplittableEditorController* GetController() const;
+
+signals:
+  void focusPanelSelectionChanged(mvvm::ItemSelection selection);
 
 private:
   std::unique_ptr<SplittableEditorController> CreateSplitterController() const;

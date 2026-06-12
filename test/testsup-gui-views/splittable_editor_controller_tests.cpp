@@ -220,7 +220,7 @@ TEST_F(SplittableEditorControllerTest, FocusPanelEmitsSelectionRequest)
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
   QSignalSpy spy_selection_changed(controller.get(),
-                                   &SplittableEditorController::focusPanelItemSelectionChanged);
+                                   &SplittableEditorController::focusPanelSelectionChanged);
 
   // focus panel emit request
   panel3->itemSelectionChanged(selection1);
@@ -251,7 +251,7 @@ TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
   const QSignalSpy spy_selection_changed(
-      controller.get(), &SplittableEditorController::focusPanelItemSelectionChanged);
+      controller.get(), &SplittableEditorController::focusPanelSelectionChanged);
 
   // non-focused panel emit request, controller should be silent
   panel2->itemSelectionChanged(selection1);

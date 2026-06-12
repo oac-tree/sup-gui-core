@@ -47,6 +47,9 @@ SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
   layout->setSpacing(0);
 
   layout->addWidget(m_splitter);
+
+  connect(m_splitter_controller.get(), &SplittableEditorController::focusPanelSelectionChanged,
+          this, &SplittableEditorWidget::focusPanelSelectionChanged);
 }
 
 SplittableEditorWidget::~SplittableEditorWidget() = default;
@@ -68,6 +71,11 @@ void SplittableEditorWidget::SetConfiguration(ConfigurationItem* config)
 void SplittableEditorWidget::CreatePanel()
 {
   m_splitter_controller->CreatePanel();
+}
+
+SplittableEditorController* SplittableEditorWidget::GetController() const
+{
+  return m_splitter_controller.get();
 }
 
 std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitterController() const

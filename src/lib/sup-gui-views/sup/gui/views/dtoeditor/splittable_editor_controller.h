@@ -96,7 +96,7 @@ public:
 signals:
   //! The signal is emitted when user changes the selection in the combo box of any panel.
   //! It is used to propagate the selection back to list view.
-  void focusPanelItemSelectionChanged(mvvm::ItemSelection selection);
+  void focusPanelSelectionChanged(mvvm::ItemSelection selection);
 
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
