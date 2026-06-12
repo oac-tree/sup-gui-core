@@ -54,6 +54,7 @@ private:
 
   void ReadSettings();
   void WriteSettings();
+  void SetupConnections();
 
   CustomSplitter* m_splitter{nullptr};
   DtoExplorerPanel* m_explorer_panel{nullptr};

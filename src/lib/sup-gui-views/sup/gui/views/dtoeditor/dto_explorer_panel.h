@@ -53,6 +53,8 @@ public:
 
   void SetConfigurationContainer(ConfigurationContainerItem* container);
 
+  void SetSelection(const mvvm::ItemSelection& selection);
+
 signals:
   void FileClicked(const QString& filename);
   void FileDoubleClicked(const QString& filename);

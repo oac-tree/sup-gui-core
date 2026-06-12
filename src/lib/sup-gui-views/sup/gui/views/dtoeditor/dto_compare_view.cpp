@@ -60,15 +60,7 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
 
   ReadSettings();
 
-  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
-          &DtoCompareView::OnImportFromFileRequest);
-
-  auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
-  {
-    auto selected_config = selection.GetSelected<ConfigurationItem>();
-    m_splittable_config_editor->SetConfiguration(const_cast<ConfigurationItem*>(selected_config));
-  };
-  connect(m_explorer_panel, &DtoExplorerPanel::SelectionChanged, this, on_selection_changed);
+  SetupConnections();
 
   m_splittable_config_editor->CreatePanel();
 }
@@ -111,6 +103,22 @@ void DtoCompareView::ReadSettings()
 void DtoCompareView::WriteSettings()
 {
   m_splitter->WriteSettings();
+}
+
+void DtoCompareView::SetupConnections()
+{
+  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
+          &DtoCompareView::OnImportFromFileRequest);
+
+  auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
+  {
+    auto selected_config = selection.GetSelected<ConfigurationItem>();
+    m_splittable_config_editor->SetConfiguration(const_cast<ConfigurationItem*>(selected_config));
+  };
+  connect(m_explorer_panel, &DtoExplorerPanel::SelectionChanged, this, on_selection_changed);
+
+  connect(m_splittable_config_editor, &SplittableEditorWidget::focusPanelSelectionChanged,
+          m_explorer_panel, &DtoExplorerPanel::SetSelection);
 }
 
 }  // namespace sup::gui

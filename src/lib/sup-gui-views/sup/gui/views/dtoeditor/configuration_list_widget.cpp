@@ -76,6 +76,11 @@ void ConfigurationListWidget::SetSelectedConfiguration(const ConfigurationItem* 
   m_component_provider->SetSelection(mvvm::ItemSelection(config));
 }
 
+void ConfigurationListWidget::SetSelection(const mvvm::ItemSelection& selection)
+{
+  m_component_provider->SetSelection(selection);
+}
+
 std::unique_ptr<mvvm::ItemViewComponentProvider> ConfigurationListWidget::CreateProvider() const
 {
   auto viewmodel = std::make_unique<mvvm::TopItemsViewModel>(nullptr);

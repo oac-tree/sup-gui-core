@@ -96,6 +96,11 @@ void DtoExplorerPanel::SetConfigurationContainer(ConfigurationContainerItem* con
   m_configuration_list_widget->SetConfigurationContainer(container);
 }
 
+void DtoExplorerPanel::SetSelection(const mvvm::ItemSelection& selection)
+{
+  m_configuration_list_widget->SetSelection(selection);
+}
+
 void DtoExplorerPanel::ReadSettings()
 {
   m_collapsible_list->ReadSettings();
