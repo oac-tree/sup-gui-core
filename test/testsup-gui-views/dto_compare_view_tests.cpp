@@ -24,9 +24,13 @@
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
 #include <sup/gui/views/dtoeditor/dto_explorer_panel.h>
+#include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
+#include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_widget.h>
 
 #include <gtest/gtest.h>
+
+#include <QSignalSpy>
 
 namespace sup::gui::test
 {
@@ -54,8 +58,43 @@ TEST_F(DtoCompareViewTest, SelectionLogic)
   auto explorer_panel = view.findChild<DtoExplorerPanel*>();
   ASSERT_NE(explorer_panel, nullptr);
   auto splittable_config_editor = view.findChild<SplittableEditorWidget*>();
+  auto controller = splittable_config_editor->GetController();
 
   view.SetConfigurationModel(&model);
-}
 
+  auto panels = controller->GetPanels();
+  ASSERT_EQ(panels.size(), 1);
+
+  // no selection
+  EXPECT_EQ(panels.at(0)->GetCurrentItem(), nullptr);
+  EXPECT_EQ(panels.at(0)->GetModel(), &model);
+  EXPECT_EQ(explorer_panel->GetSelection(), mvvm::ItemSelection());
+
+  QSignalSpy explorer_selection_changed_spy(explorer_panel, &DtoExplorerPanel::SelectionChanged);
+  QSignalSpy editor_selection_changed_spy(controller,
+                                          &SplittableEditorController::focusPanelSelectionChanged);
+  QSignalSpy controller_selection_changed_spy(
+      controller, &SplittableEditorController::focusPanelSelectionChanged);
+
+  // making selection via explorer
+  explorer_panel->SetSelection(mvvm::ItemSelection(configuration0));
+
+  ASSERT_EQ(explorer_selection_changed_spy.count(), 1);
+  ASSERT_EQ(editor_selection_changed_spy.count(), 1);
+  ASSERT_EQ(controller_selection_changed_spy.count(), 1);
+
+  EXPECT_EQ(panels.at(0)->GetCurrentItem(), configuration0);
+  EXPECT_EQ(explorer_panel->GetSelection(), mvvm::ItemSelection(configuration0));
+
+  // making selection via panel
+  // panels.at(0)->SetItem(configuration1);
+  panels.at(0)->itemSelectionChanged(mvvm::ItemSelection(configuration1));
+
+  ASSERT_EQ(explorer_selection_changed_spy.count(), 2);
+  ASSERT_EQ(editor_selection_changed_spy.count(), 2);
+  ASSERT_EQ(controller_selection_changed_spy.count(), 2);
+
+  // EXPECT_EQ(panels.at(0)->GetCurrentItem(), configuration1);
+  // EXPECT_EQ(explorer_panel->GetSelection(), mvvm::ItemSelection(configuration1));
+}
 }  // namespace sup::gui::test

@@ -51,6 +51,7 @@ TEST_F(ConfigurationListWidgetTest, InitialState)
 
   EXPECT_EQ(widget.GetSelectedConfiguration(), nullptr);
   EXPECT_TRUE(widget.GetSelectedConfigurations().empty());
+  EXPECT_EQ(widget.GetSelection(), mvvm::ItemSelection());
 }
 
 TEST_F(ConfigurationListWidgetTest, SelectConfiguration)

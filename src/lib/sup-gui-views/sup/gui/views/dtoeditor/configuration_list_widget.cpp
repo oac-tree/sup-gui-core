@@ -76,6 +76,11 @@ void ConfigurationListWidget::SetSelectedConfiguration(const ConfigurationItem* 
   m_component_provider->SetSelection(mvvm::ItemSelection(config));
 }
 
+mvvm::ItemSelection ConfigurationListWidget::GetSelection() const
+{
+  return m_component_provider->GetSelection();
+}
+
 void ConfigurationListWidget::SetSelection(const mvvm::ItemSelection& selection)
 {
   m_component_provider->SetSelection(selection);

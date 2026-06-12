@@ -26,6 +26,8 @@
 #include <sup/gui/widgets/file_tree_view.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 
+#include <mvvm/model/item_selection.h>
+
 #include <QFileInfo>
 #include <QVBoxLayout>
 
@@ -94,6 +96,11 @@ DtoExplorerPanel::~DtoExplorerPanel()
 void DtoExplorerPanel::SetConfigurationContainer(ConfigurationContainerItem* container)
 {
   m_configuration_list_widget->SetConfigurationContainer(container);
+}
+
+mvvm::ItemSelection DtoExplorerPanel::GetSelection() const
+{
+  return m_configuration_list_widget->GetSelection();
 }
 
 void DtoExplorerPanel::SetSelection(const mvvm::ItemSelection& selection)

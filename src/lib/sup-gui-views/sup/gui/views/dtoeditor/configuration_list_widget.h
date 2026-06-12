@@ -63,6 +63,8 @@ public:
 
   void SetSelectedConfiguration(const ConfigurationItem* config);
 
+  mvvm::ItemSelection GetSelection() const;
+
   void SetSelection(const mvvm::ItemSelection& selection);
 
 signals:

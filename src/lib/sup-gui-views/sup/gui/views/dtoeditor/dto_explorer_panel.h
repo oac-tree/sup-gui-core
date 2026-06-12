@@ -53,6 +53,8 @@ public:
 
   void SetConfigurationContainer(ConfigurationContainerItem* container);
 
+  mvvm::ItemSelection GetSelection() const;
+
   void SetSelection(const mvvm::ItemSelection& selection);
 
 signals:
