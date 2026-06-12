@@ -134,7 +134,7 @@ bool SplittableComboPanel::eventFilter(QObject* watched, QEvent* event)
   {
     if (auto* widget = qobject_cast<QWidget*>(watched); (widget != nullptr) && isAncestorOf(widget))
     {
-      emit panelFocusRequest();
+      emit focusPanelRequest();
     }
   }
   return QWidget::eventFilter(watched, event);
@@ -148,9 +148,9 @@ void SplittableComboPanel::SetPlaceholderMode(PlaceholderMode mode)
 void SplittableComboPanel::SetupConnections()
 {
   connect(m_tool_bar, &ComboToolBar::splitViewRequest, this,
-          &SplittableComboPanel::splitViewRequest);
+          &SplittableComboPanel::splitPanelRequest);
   connect(m_tool_bar, &ComboToolBar::closeViewRequest, this,
-          &SplittableComboPanel::closeViewRequest);
+          &SplittableComboPanel::closePanelRequest);
 
   auto on_combo_index_changed = [this](auto index)
   {

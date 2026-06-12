@@ -99,26 +99,12 @@ SplittableEditorController::CreateAndConnectSplittableComboPanel()
 {
   auto result = CreateSplittableComboPanel();
 
-  auto on_add_panel = [this]()
-  {
-    auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
-    CreatePanel(/*add after*/ sending_panel);
-  };
-  connect(result.get(), &SplittableComboPanel::splitViewRequest, this, on_add_panel);
-
-  auto on_remove_panel = [this]()
-  {
-    auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
-    ClosePanel(sending_panel);
-  };
-  connect(result.get(), &SplittableComboPanel::closeViewRequest, this, on_remove_panel);
-
-  auto on_focus_request = [this]()
-  {
-    auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
-    m_focus_handler->SetFocusWidget(sending_panel);
-  };
-  connect(result.get(), &SplittableComboPanel::panelFocusRequest, this, on_focus_request);
+  connect(result.get(), &SplittableComboPanel::splitPanelRequest, this,
+          &SplittableEditorController::OnSplitPanelRequest);
+  connect(result.get(), &SplittableComboPanel::closePanelRequest, this,
+          &SplittableEditorController::OnClosePanelRequest);
+  connect(result.get(), &SplittableComboPanel::focusPanelRequest, this,
+          &SplittableEditorController::OnFocusPanelRequest);
 
   return result;
 }
@@ -126,6 +112,24 @@ SplittableEditorController::CreateAndConnectSplittableComboPanel()
 std::unique_ptr<SplittableComboPanel> SplittableEditorController::CreateSplittableComboPanel()
 {
   return m_factory_func();
+}
+
+void SplittableEditorController::OnSplitPanelRequest()
+{
+  auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+  CreatePanel(/*add after*/ sending_panel);
+}
+
+void SplittableEditorController::OnClosePanelRequest()
+{
+  auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+  ClosePanel(sending_panel);
+}
+
+void SplittableEditorController::OnFocusPanelRequest()
+{
+  auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+  m_focus_handler->SetFocusWidget(sending_panel);
 }
 
 }  // namespace sup::gui

@@ -93,6 +93,10 @@ private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
   std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
 
+  void OnSplitPanelRequest();
+  void OnClosePanelRequest();
+  void OnFocusPanelRequest();
+
   QSplitter* m_splitter{nullptr};
   create_panel_func_t m_factory_func;
   std::unique_ptr<WidgetFocusHandler<SplittableComboPanel>> m_focus_handler;

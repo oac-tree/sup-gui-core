@@ -258,8 +258,8 @@ TEST_F(SplittableComboPanelTest, SplitViewCloseViewRequestsArePropagated)
   auto toolbar = widget->findChild<ComboToolBar*>();
   ASSERT_NE(toolbar, nullptr);
 
-  const QSignalSpy spy_split(widget.get(), &SplittableComboPanel::splitViewRequest);
-  const QSignalSpy spy_close(widget.get(), &SplittableComboPanel::closeViewRequest);
+  const QSignalSpy spy_split(widget.get(), &SplittableComboPanel::splitPanelRequest);
+  const QSignalSpy spy_close(widget.get(), &SplittableComboPanel::closePanelRequest);
 
   // trigger split view request
   toolbar->splitViewRequest();

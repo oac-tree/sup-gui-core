@@ -139,7 +139,7 @@ TEST_F(SplittableEditorControllerTest, CreatePanelAndThenCreatePanelsViaWidgetSi
 
   EXPECT_EQ(controller->GetFocusWidget(), panel1);
 
-  panel1->splitViewRequest();  // should create panel2 after panel1
+  panel1->splitPanelRequest();  // should create panel2 after panel1
   EXPECT_EQ(m_splitter.count(), 2);
   auto* panel2 = qobject_cast<SplittableComboPanel*>(m_splitter.widget(1));
   EXPECT_EQ(controller->GetFocusWidget(), panel2);
@@ -155,14 +155,14 @@ TEST_F(SplittableEditorControllerTest, CreateThreePanelsAndThenCloseFirstOneViaW
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
-  panel1->closeViewRequest();        // should close panel1
+  panel1->closePanelRequest();        // should close panel1
   EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
   EXPECT_FALSE(panel1->isVisible());
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
   // closing focused panel
-  panel3->closeViewRequest();        // should close panel3
+  panel3->closePanelRequest();        // should close panel3
   EXPECT_EQ(m_splitter.count(), 3);  // because deletion is deferred
   EXPECT_FALSE(panel3->isVisible());
   EXPECT_EQ(controller->GetFocusWidget(), panel2);  // focus should move to the previous widget
@@ -192,7 +192,7 @@ TEST_F(SplittableEditorControllerTest, SetFocusViaFocusRequest)
 
   EXPECT_EQ(controller->GetFocusWidget(), panel3);
 
-  panel1->panelFocusRequest();  // should set focus to panel1
+  panel1->focusPanelRequest();  // should set focus to panel1
   EXPECT_EQ(controller->GetFocusWidget(), panel1);
 }
 

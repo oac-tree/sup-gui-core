@@ -135,9 +135,9 @@ public:
   bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
-  void splitViewRequest();
-  void closeViewRequest();
-  void panelFocusRequest();
+  void splitPanelRequest();
+  void closePanelRequest();
+  void focusPanelRequest();
   void itemSelectionChanged(mvvm::ItemSelection selection);
 
 private:
