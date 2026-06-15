@@ -22,6 +22,7 @@
 
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
+#include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
 
 #include <mvvm/model/item_selection.h>
@@ -72,6 +73,23 @@ TEST_F(SplittableEditorWidgetTest, CreatePanel)
   editor.CreatePanel();
 
   ASSERT_EQ(splitter->count(), 1);
+}
+
+TEST_F(SplittableEditorWidgetTest, SetModelAfterPanelCreation)
+{
+  ConfigurationModel model;
+
+  SplittableEditorWidget editor;
+  editor.show();
+
+  editor.CreatePanel();
+  editor.SetModel(&model);
+  editor.CreatePanel();
+
+  auto panels = editor.GetController()->GetPanels();
+  ASSERT_EQ(panels.size(), 2);
+  EXPECT_EQ(panels.at(0)->GetModel(), &model);
+  EXPECT_EQ(panels.at(1)->GetModel(), &model);
 }
 
 TEST_F(SplittableEditorWidgetTest, focusPanelSelectionChanged)

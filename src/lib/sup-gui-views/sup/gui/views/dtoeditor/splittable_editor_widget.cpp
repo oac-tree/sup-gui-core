@@ -86,11 +86,15 @@ std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitt
 
     auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
     {
-      return mvvm::utils::CastItems<mvvm::SessionItem>(
-          m_model->GetConfigurationContainer()->GetConfigurations());
+      return m_model == nullptr ? std::vector<mvvm::SessionItem*>()
+                                : mvvm::utils::CastItems<mvvm::SessionItem>(
+                                      m_model->GetConfigurationContainer()->GetConfigurations());
     };
 
-    return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
+    auto result =
+        std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
+    result->SetModel(m_model);
+    return result;
   };
   return std::make_unique<SplittableEditorController>(m_splitter, factory_func);
 }
