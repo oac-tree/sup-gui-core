@@ -147,7 +147,7 @@ signals:
   void splitPanelRequest();
   void closePanelRequest();
   void focusPanelRequest();
-  void itemSelectionChanged(mvvm::ItemSelection selection);
+  void itemSelectionChanged(const mvvm::ItemSelection& selection);
 
 private:
   /**

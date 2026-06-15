@@ -111,7 +111,7 @@ public:
 signals:
   //! The signal is emitted when user changes the selection in the combo box of any panel.
   //! It is used to propagate the selection back to list view.
-  void focusPanelSelectionChanged(mvvm::ItemSelection selection);
+  void focusPanelSelectionChanged(const mvvm::ItemSelection& selection);
 
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
@@ -120,7 +120,7 @@ private:
   void onSplitPanelRequest();
   void onClosePanelRequest();
   void onFocusPanelRequest();
-  void onItemSelectionChanged(mvvm::ItemSelection selection);
+  void onItemSelectionChanged(const mvvm::ItemSelection& selection);
 
   QSplitter* m_splitter{nullptr};
   create_panel_func_t m_factory_func;

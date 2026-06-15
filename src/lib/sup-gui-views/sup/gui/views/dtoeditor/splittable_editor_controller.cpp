@@ -147,7 +147,7 @@ void SplittableEditorController::onFocusPanelRequest()
   m_focus_handler->SetFocusWidget(sending_panel);
 }
 
-void SplittableEditorController::onItemSelectionChanged(mvvm::ItemSelection selection)
+void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelection &selection)
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
   if (sending_panel != GetFocusWidget())

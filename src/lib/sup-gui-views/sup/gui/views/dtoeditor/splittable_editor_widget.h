@@ -76,7 +76,7 @@ public:
   SplittableEditorController* GetController() const;
 
 signals:
-  void focusPanelSelectionChanged(mvvm::ItemSelection selection);
+  void focusPanelSelectionChanged(const mvvm::ItemSelection& selection);
 
 private:
   std::unique_ptr<SplittableEditorController> CreateSplitterController() const;
