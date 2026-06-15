@@ -59,23 +59,6 @@ void ConfigurationListWidget::SetConfigurationContainer(ConfigurationContainerIt
   m_component_provider->SetItem(container);
 }
 
-const ConfigurationItem* ConfigurationListWidget::GetSelectedConfiguration() const
-{
-  auto selected = GetSelectedConfigurations();
-  return selected.empty() ? nullptr : selected.front();
-}
-
-std::vector<const ConfigurationItem*> ConfigurationListWidget::GetSelectedConfigurations() const
-{
-  auto selection = m_component_provider->GetSelection();
-  return selection.GetSelectedItems<ConfigurationItem>();
-}
-
-void ConfigurationListWidget::SetSelectedConfiguration(const ConfigurationItem* config)
-{
-  m_component_provider->SetSelection(mvvm::ItemSelection(config));
-}
-
 mvvm::ItemSelection ConfigurationListWidget::GetSelection() const
 {
   return m_component_provider->GetSelection();

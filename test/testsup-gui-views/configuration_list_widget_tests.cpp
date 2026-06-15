@@ -49,8 +49,6 @@ TEST_F(ConfigurationListWidgetTest, InitialState)
 {
   const ConfigurationListWidget widget;
 
-  EXPECT_EQ(widget.GetSelectedConfiguration(), nullptr);
-  EXPECT_TRUE(widget.GetSelectedConfigurations().empty());
   EXPECT_EQ(widget.GetSelection(), mvvm::ItemSelection());
 }
 
@@ -64,27 +62,27 @@ TEST_F(ConfigurationListWidgetTest, SelectConfiguration)
   ConfigurationListWidget widget;
   widget.SetConfigurationContainer(model.GetConfigurationContainer());
 
-  EXPECT_TRUE(widget.GetSelectedConfigurations().empty());
+  EXPECT_TRUE(widget.GetSelection().IsEmpty());
   QSignalSpy selection_changed_spy(&widget, &ConfigurationListWidget::SelectionChanged);
 
-  widget.SetSelectedConfiguration(config0);
+  widget.SetSelection(mvvm::ItemSelection(config0));
 
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selection_changed_spy),
             mvvm::ItemSelection(config0));
 
-  EXPECT_EQ(widget.GetSelectedConfigurations(), std::vector<const ConfigurationItem*>({config0}));
+  EXPECT_EQ(widget.GetSelection(), mvvm::ItemSelection(config0));
 
   // selecting the same second time
-  widget.SetSelectedConfiguration(config0);
-  EXPECT_EQ(widget.GetSelectedConfigurations(), std::vector<const ConfigurationItem*>({config0}));
+  widget.SetSelection(mvvm::ItemSelection(config0));
+  EXPECT_EQ(widget.GetSelection(), mvvm::ItemSelection(config0));
 
   EXPECT_EQ(selection_changed_spy.count(), 0);  // was consumed by the first GetSendItem
 
   // removing selection
-  widget.SetSelectedConfiguration(nullptr);
+  widget.SetSelection(mvvm::ItemSelection());
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selection_changed_spy),
             mvvm::ItemSelection(nullptr));
-  EXPECT_TRUE(widget.GetSelectedConfigurations().empty());
+  EXPECT_TRUE(widget.GetSelection().IsEmpty());
 }
 
 }  // namespace sup::gui::test

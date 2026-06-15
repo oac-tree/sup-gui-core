@@ -57,18 +57,12 @@ public:
 
   void SetConfigurationContainer(ConfigurationContainerItem* container);
 
-  const ConfigurationItem* GetSelectedConfiguration() const;
-
-  std::vector<const ConfigurationItem*> GetSelectedConfigurations() const;
-
-  void SetSelectedConfiguration(const ConfigurationItem* config);
-
   mvvm::ItemSelection GetSelection() const;
 
   void SetSelection(const mvvm::ItemSelection& selection);
 
 signals:
-  void SelectionChanged(const mvvm::ItemSelection&);
+  void SelectionChanged(const mvvm::ItemSelection& selection);
 
 private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> CreateProvider() const;
