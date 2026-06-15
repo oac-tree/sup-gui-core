@@ -137,6 +137,12 @@ public:
    */
   bool eventFilter(QObject* watched, QEvent* event) override;
 
+  /**
+   * @brief Returns main editor.
+   */
+  template <typename EditorT = QWidget>
+  EditorT* GetMainEditor() const;
+
 signals:
   void splitPanelRequest();
   void closePanelRequest();
@@ -179,6 +185,12 @@ private:
   std::unique_ptr<mvvm::ModelListener> m_listener;
   mvvm::ISessionModel* m_model{nullptr};
 };
+
+template <typename EditorT>
+inline EditorT* SplittableComboPanel::GetMainEditor() const
+{
+  return qobject_cast<EditorT*>(m_item_editor_widget);
+}
 
 }  // namespace sup::gui
 

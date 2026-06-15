@@ -102,6 +102,21 @@ TEST_F(SplittableComboPanelTest, InitialState)
   EXPECT_EQ(toolbar->GetCurrentIndex(), 0);
 }
 
+TEST_F(SplittableComboPanelTest, GetMainEditor)
+{
+  auto main_editor = std::make_unique<ConfigTabWidget>();
+  auto main_editor_ptr = main_editor.get();
+
+  auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
+  {
+    return mvvm::utils::CastItems<mvvm::SessionItem>(
+        m_model.GetConfigurationContainer()->GetConfigurations());
+  };
+
+  SplittableComboPanel panel(std::move(main_editor), item_list_callback);
+  EXPECT_EQ(panel.GetMainEditor<ConfigTabWidget>(), main_editor_ptr);
+}
+
 TEST_F(SplittableComboPanelTest, SetEmptyModel)
 {
   auto widget = CreateSplittableComboPanel();
