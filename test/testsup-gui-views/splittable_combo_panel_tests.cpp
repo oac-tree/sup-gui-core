@@ -179,7 +179,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   widget->SetItem(configuration0);
 
   ASSERT_EQ(selected_changed_spy.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(configuration0));
 
   EXPECT_EQ(widget->GetCurrentItem(), configuration0);
@@ -197,7 +197,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
   // setting null configuration
   widget->SetItem(nullptr);
   ASSERT_EQ(selected_changed_spy.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(nullptr));
   EXPECT_EQ(widget->GetCurrentItem(), nullptr);
   EXPECT_EQ(toolbar->GetCurrentText(), ItemDisplayNameComboAdapter::kNoSelection);
@@ -242,7 +242,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   toolbar->SetCurrentIndex(1);
 
   ASSERT_EQ(selected_changed_spy.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(configuration0));
 
   EXPECT_EQ(widget->GetCurrentItem(), configuration0);
@@ -259,7 +259,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationViaToolbar)
   actions.at(2)->trigger();
 
   ASSERT_EQ(selected_changed_spy.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selected_changed_spy),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(selected_changed_spy),
             mvvm::ItemSelection(configuration1));
 
   EXPECT_EQ(widget->GetCurrentItem(), configuration1);

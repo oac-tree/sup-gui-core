@@ -103,7 +103,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   EXPECT_EQ(provider.GetSelection(), expected_selection);
 
   EXPECT_EQ(spy_selected.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), expected_selection);
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected), expected_selection);
 }
 
 //! Testing how tree view looks for a single scalar. The difference with previous test is that

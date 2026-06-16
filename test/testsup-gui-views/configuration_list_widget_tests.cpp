@@ -67,7 +67,7 @@ TEST_F(ConfigurationListWidgetTest, SelectConfiguration)
 
   widget.SetSelection(mvvm::ItemSelection(config0));
 
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selection_changed_spy),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(selection_changed_spy),
             mvvm::ItemSelection(config0));
 
   EXPECT_EQ(widget.GetSelection(), mvvm::ItemSelection(config0));
@@ -80,7 +80,7 @@ TEST_F(ConfigurationListWidgetTest, SelectConfiguration)
 
   // removing selection
   widget.SetSelection(mvvm::ItemSelection());
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(selection_changed_spy),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(selection_changed_spy),
             mvvm::ItemSelection(nullptr));
   EXPECT_TRUE(widget.GetSelection().IsEmpty());
 }

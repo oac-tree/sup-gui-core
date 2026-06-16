@@ -107,7 +107,7 @@ TEST_F(SplittableEditorWidgetTest, focusPanelSelectionChanged)
   // emit selection changed from controller
   editor.GetController()->focusPanelSelectionChanged(selection);
   ASSERT_EQ(spy_selection_changed.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed), selection);
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed), selection);
 }
 
 }  // namespace sup::gui::test

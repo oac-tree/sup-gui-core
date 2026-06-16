@@ -247,7 +247,7 @@ TEST_F(SplittableEditorControllerTest, FocusPanelEmitsSelectionRequest)
   // focus panel emit request
   panel3->itemSelectionChanged(selection1);
   EXPECT_EQ(spy_selection_changed.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed), selection1);
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed), selection1);
 
   // emitting the same selection should not trigger the signal
   panel3->itemSelectionChanged(selection1);
@@ -256,7 +256,7 @@ TEST_F(SplittableEditorControllerTest, FocusPanelEmitsSelectionRequest)
   // selecting another one
   panel3->itemSelectionChanged(selection2);
   EXPECT_EQ(spy_selection_changed.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed), selection2);
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed), selection2);
 }
 
 TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
@@ -314,7 +314,7 @@ TEST_F(SplittableEditorControllerTest, SetModel)
 
   EXPECT_EQ(spy_selection_changed.count(), 1);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selection_changed),
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed),
             mvvm::ItemSelection(configuration0));
 }
 

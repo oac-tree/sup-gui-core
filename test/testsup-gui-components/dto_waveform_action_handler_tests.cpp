@@ -148,7 +148,7 @@ TEST_F(DtoWaveformActionHandlerTest, AddWaveformToEmptyModel)
   ASSERT_EQ(inserted_waveform->GetDataItem(), inserted_data);
 
   // request to select just inserted waveform
-  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::LineSeriesItem*>(spy_selection_request),
+  EXPECT_EQ(mvvm::test::TakeValue<const mvvm::LineSeriesItem*>(spy_selection_request),
             inserted_waveform);
 }
 
@@ -190,7 +190,7 @@ TEST_F(DtoWaveformActionHandlerTest, InsertWaveformBetweenTwoWaveforms)
   ASSERT_EQ(inserted_waveform->GetDataItem(), inserted_data);
 
   // request to select just inserted waveform
-  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::LineSeriesItem*>(spy_selection_request),
+  EXPECT_EQ(mvvm::test::TakeValue<const mvvm::LineSeriesItem*>(spy_selection_request),
             inserted_waveform);
 
   EXPECT_EQ(GetWaveformContainer()->GetLineSeries(),
@@ -234,7 +234,7 @@ TEST_F(DtoWaveformActionHandlerTest, RemoveWaveformFromTheMiddle)
   EXPECT_EQ(GetDataContainer()->GetSize(), 2);
 
   // request to select next waveform after the one which was just removed
-  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::LineSeriesItem*>(spy_selection_request), waveform2);
+  EXPECT_EQ(mvvm::test::TakeValue<const mvvm::LineSeriesItem*>(spy_selection_request), waveform2);
 
   EXPECT_EQ(GetWaveformContainer()->GetLineSeries(),
             std::vector<mvvm::LineSeriesItem*>({waveform0, waveform2}));

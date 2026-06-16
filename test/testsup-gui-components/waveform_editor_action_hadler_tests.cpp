@@ -107,7 +107,7 @@ TEST_F(WaveformEditorActionHandlerTest, AddAfterEmptyLineSeries)
   EXPECT_EQ(x, 0.0);
   EXPECT_EQ(y, 0.0);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::SessionItem*>(spy_selection_request), points.at(0));
+  EXPECT_EQ(mvvm::test::TakeValue<const mvvm::SessionItem*>(spy_selection_request), points.at(0));
 }
 
 //! Appending points to non-empty line series. For the moment action handler has following behavior:
@@ -186,7 +186,7 @@ TEST_F(WaveformEditorActionHandlerTest, RemoveMiddlePoint)
   EXPECT_EQ(m_data_item->GetWaveform(), expected);
 
   // algorithm should suggest the last point for selection
-  EXPECT_EQ(mvvm::test::GetSendItem<const mvvm::SessionItem*>(spy_selection_request),
+  EXPECT_EQ(mvvm::test::TakeValue<const mvvm::SessionItem*>(spy_selection_request),
             m_data_item->GetPoint(1));
 }
 

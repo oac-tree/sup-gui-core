@@ -55,7 +55,7 @@ public:
   /**
    * @brief Sets the configuration to be edited.
    */
-  void SetItem(mvvm::SessionItem* configuration_item);
+  void SetItem(mvvm::SessionItem* configuration_item) override;
 
 private:
   void UpdateToolbarButtons();
