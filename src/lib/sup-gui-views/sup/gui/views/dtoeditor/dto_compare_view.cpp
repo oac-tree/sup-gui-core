@@ -20,7 +20,7 @@
 
 #include "dto_compare_view.h"
 
-#include "dto_explorer_panel.h"
+#include "dto_compare_tools_panel.h"
 #include "splittable_editor_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
@@ -47,7 +47,7 @@ constexpr auto kSplitterSettingName("DtoCompareView/splitter");
 DtoCompareView::DtoCompareView(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
-    , m_explorer_panel(new DtoExplorerPanel)
+    , m_explorer_panel(new DtoCompareToolsPanel)
     , m_splittable_config_editor(new SplittableEditorWidget)
 {
   auto layout = new QVBoxLayout(this);
@@ -107,21 +107,15 @@ void DtoCompareView::WriteSettings()
 
 void DtoCompareView::SetupConnections()
 {
-  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
-          &DtoCompareView::OnImportFromFileRequest);
-
   auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
   {
     auto selected_config = selection.GetItem<ConfigurationItem>();
     m_splittable_config_editor->SetConfiguration(const_cast<ConfigurationItem*>(selected_config));
   };
-  connect(m_explorer_panel, &DtoExplorerPanel::SelectionChanged, this, on_selection_changed);
+  connect(m_explorer_panel, &DtoCompareToolsPanel::SelectionChanged, this, on_selection_changed);
 
   connect(m_splittable_config_editor, &SplittableEditorWidget::focusPanelSelectionChanged,
-          m_explorer_panel, &DtoExplorerPanel::SetSelection);
-
-  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
-          &DtoCompareView::OnImportFromFileRequest);
+          m_explorer_panel, &DtoCompareToolsPanel::SetSelection);
 }
 
 }  // namespace sup::gui

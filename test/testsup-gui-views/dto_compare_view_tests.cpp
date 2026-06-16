@@ -23,7 +23,7 @@
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
-#include <sup/gui/views/dtoeditor/dto_explorer_panel.h>
+#include <sup/gui/views/dtoeditor/dto_compare_tools_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_widget.h>
@@ -55,7 +55,7 @@ TEST_F(DtoCompareViewTest, SelectionLogic)
   DtoCompareView view;
   view.show();
 
-  auto explorer_panel = view.findChild<DtoExplorerPanel*>();
+  auto explorer_panel = view.findChild<DtoCompareToolsPanel*>();
   ASSERT_NE(explorer_panel, nullptr);
   auto splittable_config_editor = view.findChild<SplittableEditorWidget*>();
   auto controller = splittable_config_editor->GetController();
@@ -71,7 +71,7 @@ TEST_F(DtoCompareViewTest, SelectionLogic)
   EXPECT_EQ(explorer_panel->GetSelection(), mvvm::ItemSelection());
 
   const QSignalSpy explorer_selection_changed_spy(explorer_panel,
-                                                  &DtoExplorerPanel::SelectionChanged);
+                                                  &DtoCompareToolsPanel::SelectionChanged);
   const QSignalSpy editor_selection_changed_spy(
       controller, &SplittableEditorController::focusPanelSelectionChanged);
   const QSignalSpy controller_selection_changed_spy(

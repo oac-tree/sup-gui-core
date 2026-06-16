@@ -38,7 +38,7 @@ constexpr auto kSyncToolTip =
 DtoCompareToolBar::DtoCompareToolBar(QWidget* parent_widget)
     : QToolBar(parent_widget), m_sync_check_box(new QCheckBox)
 {
-  setIconSize(utils::NarrowToolBarIconSize());
+  setIconSize(utils::ToolBarIconSize());
 
   m_sync_check_box->setToolTip(kSyncToolTip);
   addWidget(m_sync_check_box);
