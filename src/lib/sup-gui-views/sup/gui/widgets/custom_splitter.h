@@ -23,6 +23,7 @@
 
 #include <QSplitter>
 #include <memory>
+#include <sup/gui/widgets/settings_callbacks.h>
 
 namespace sup::gui
 {
@@ -68,7 +69,7 @@ public:
    *
    * This method shall be called after all widgets have been already added.
    */
-  void ReadSettings();
+  void ReadSettings(const read_variant_func_t& read_func = GetSettingsReadFunc());
 
   /**
    * @brief Writes splitter state.
@@ -76,7 +77,7 @@ public:
    * This method can be safely called at any moment, even on the main window destruction. All last
    * known visibility flags of widgets populating a splitter will be correctly preserved.
    */
-  void WriteSettings();
+  void WriteSettings(const write_variant_func_t& write_func = GetSettingsWriteFunc());
 
 private:
   std::unique_ptr<CustomSplitterController> m_controller;

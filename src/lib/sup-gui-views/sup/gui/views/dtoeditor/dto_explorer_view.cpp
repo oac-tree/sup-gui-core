@@ -103,14 +103,14 @@ void DtoExplorerView::OnImportFromFileRequest(const QString& file_name)
                               *m_configuration_model->GetConfigurationContainer());
 }
 
-void DtoExplorerView::ReadSettings()
+void DtoExplorerView::ReadSettings(const read_variant_func_t& read_func)
 {
-  m_splitter->ReadSettings();
+  m_splitter->ReadSettings(read_func);
 }
 
-void DtoExplorerView::WriteSettings()
+void DtoExplorerView::WriteSettings(const write_variant_func_t& write_func)
 {
-  m_splitter->WriteSettings();
+  m_splitter->WriteSettings(write_func);
 }
 
 }  // namespace sup::gui

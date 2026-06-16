@@ -23,7 +23,6 @@
 #include "custom_splitter_controller.h"
 
 #include <QChildEvent>
-#include <QDebug>
 #include <QSettings>
 
 namespace sup::gui
@@ -37,15 +36,15 @@ CustomSplitter::CustomSplitter(const QString& settings_group_name, QWidget* pare
 
 CustomSplitter::~CustomSplitter() = default;
 
-void CustomSplitter::ReadSettings()
+void CustomSplitter::ReadSettings(const read_variant_func_t& read_func)
 {
-  m_controller->ReadSettings(GetSettingsReadFunc());
+  m_controller->ReadSettings(read_func);
   m_controller->StartChildrenListening();
 }
 
-void CustomSplitter::WriteSettings()
+void CustomSplitter::WriteSettings(const write_variant_func_t& write_func)
 {
-  m_controller->WriteSettings(GetSettingsWriteFunc());
+  m_controller->WriteSettings(write_func);
 }
 
 }  // namespace sup::gui

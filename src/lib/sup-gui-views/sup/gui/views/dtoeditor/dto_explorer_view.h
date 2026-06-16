@@ -22,6 +22,7 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_EXPLORER_VIEW_H_
 
 #include <QWidget>
+#include <sup/gui/widgets/settings_callbacks.h>
 
 namespace sup::gui
 {
@@ -62,9 +63,10 @@ public:
 
   void OnImportFromFileRequest(const QString& file_name);
 
+  void ReadSettings(const read_variant_func_t& read_func);
+  void WriteSettings(const write_variant_func_t& write_func);
+
 private:
-  void ReadSettings();
-  void WriteSettings();
 
   DtoExplorerPanel* m_explorer_panel{nullptr};
   CodeView* m_json_view{nullptr};
