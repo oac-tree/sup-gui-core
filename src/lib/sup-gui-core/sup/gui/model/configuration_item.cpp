@@ -42,6 +42,8 @@ ConfigurationItem::ConfigurationItem()
   // tag for AnyValueItem, can hold one maximum
   RegisterTag(mvvm::TagInfo(constants::kAnyValueChildrenTag, 0, 1, GetAnyValueItemTypes()),
               /*as_default*/ true);
+
+  (void)SetFlag(mvvm::Appearance::kEditableDisplayName, true);
 }
 
 std::unique_ptr<mvvm::SessionItem> ConfigurationItem::Clone() const
