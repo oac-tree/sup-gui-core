@@ -50,6 +50,8 @@ ConfigurationListWidget::ConfigurationListWidget(QWidget* parent_widget)
   layout->addWidget(m_list_view);
 
   SetupConnections();
+
+  m_list_view->setAlternatingRowColors(true);
 }
 
 ConfigurationListWidget::~ConfigurationListWidget() = default;
