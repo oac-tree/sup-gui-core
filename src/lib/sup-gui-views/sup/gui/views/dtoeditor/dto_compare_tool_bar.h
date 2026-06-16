@@ -24,9 +24,13 @@
 #include <QToolBar>
 
 class QCheckBox;
+class QToolButton;
+class QMenu;
 
 namespace sup::gui
 {
+
+class ActionMenu;
 
 class DtoCompareToolBar : public QToolBar
 {
@@ -35,8 +39,18 @@ class DtoCompareToolBar : public QToolBar
 public:
   explicit DtoCompareToolBar(QWidget* parent_widget = nullptr);
 
+
+signals:
+  void configurationViewModeRequest(int mode);
+
 private:
+  void InsertStrech();
+  std::unique_ptr<QMenu> CreateSetEditorMenu();
+
+  std::unique_ptr<QMenu> m_select_viewer_menu;
+  ActionMenu* m_select_viewer_action{nullptr};
   QCheckBox* m_sync_check_box{nullptr};
+  QToolButton* m_dots_button{nullptr};
 };
 
 }  // namespace sup::gui

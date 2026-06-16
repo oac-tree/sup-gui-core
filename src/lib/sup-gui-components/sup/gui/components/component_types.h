@@ -40,6 +40,18 @@ enum class WaveformDisplayMode : std::uint8_t
   kTotalCount,
 };
 
+/**
+ * @brief The ConfigurationViewMode enum gives various ways how configuration can be presented in a
+ * view.
+ */
+enum class ConfigurationViewMode : std::uint8_t
+{
+  kTree,  //!< display configuration in a tree view
+  kJSON,  //!< display configuration in a JSON view
+  kFlat,  //!< display configuration in a flat view
+  kTotalCount
+};
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_COMPONENT_TYPES_H_
