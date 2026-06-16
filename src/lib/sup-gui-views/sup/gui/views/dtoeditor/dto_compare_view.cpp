@@ -119,6 +119,9 @@ void DtoCompareView::SetupConnections()
 
   connect(m_splittable_config_editor, &SplittableEditorWidget::focusPanelSelectionChanged,
           m_explorer_panel, &DtoExplorerPanel::SetSelection);
+
+  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
+          &DtoCompareView::OnImportFromFileRequest);
 }
 
 }  // namespace sup::gui

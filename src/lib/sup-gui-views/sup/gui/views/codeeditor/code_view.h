@@ -62,6 +62,8 @@ public:
 
   void SetContent(const QString& content);
 
+  QString GetContent() const;
+
   void ClearText();
 
   void OnExportToFileRequest();

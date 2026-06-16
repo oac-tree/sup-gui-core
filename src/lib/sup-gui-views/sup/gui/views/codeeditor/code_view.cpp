@@ -103,6 +103,11 @@ void CodeView::SetContent(const QString& content)
   RestoreScrollBarPosition();
 }
 
+QString CodeView::GetContent() const
+{
+  return m_text_edit->toPlainText();
+}
+
 void CodeView::ClearText()
 {
   m_text_edit->clear();

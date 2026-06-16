@@ -63,8 +63,11 @@ public:
   void OnImportFromFileRequest(const QString& file_name);
 
 private:
+  void ReadSettings();
+  void WriteSettings();
+
   DtoExplorerPanel* m_explorer_panel{nullptr};
-  CodeView* m_xml_view{nullptr};
+  CodeView* m_json_view{nullptr};
   ItemStackWidget* m_right_panel{nullptr};
   CustomSplitter* m_splitter{nullptr};
   ConfigurationModel* m_configuration_model{nullptr};

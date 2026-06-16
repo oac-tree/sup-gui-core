@@ -45,7 +45,7 @@ constexpr auto kSplitterSettingName = "DtoExplorerView/splitter";
 DtoExplorerView::DtoExplorerView(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_explorer_panel(new DtoExplorerPanel())
-    , m_xml_view(new sup::gui::CodeView)
+    , m_json_view(new sup::gui::CodeView(CodeView::kJSON))
     , m_right_panel(new sup::gui::ItemStackWidget)
     , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
 {
@@ -54,13 +54,15 @@ DtoExplorerView::DtoExplorerView(QWidget* parent_widget)
 
   m_splitter->addWidget(m_explorer_panel);
 
-  m_right_panel->AddWidget(m_xml_view);
+  m_right_panel->AddWidget(m_json_view);
   m_splitter->addWidget(m_right_panel);
 
   layout->addWidget(m_splitter);
 
   connect(m_explorer_panel, &DtoExplorerPanel::FileClicked, this,
           &DtoExplorerView::ShowFileContent);
+  connect(m_explorer_panel, &DtoExplorerPanel::FileDoubleClicked, this,
+          &DtoExplorerView::OnImportFromFileRequest);
 }
 
 DtoExplorerView::~DtoExplorerView() = default;
@@ -81,11 +83,11 @@ void DtoExplorerView::ShowFileContent(const QString& file_name)
 {
   if (mvvm::utils::IsBinaryFile(file_name.toStdString()))
   {
-    m_xml_view->ClearText();
+    m_json_view->ClearText();
   }
   else
   {
-    m_xml_view->SetFile(file_name);
+    m_json_view->SetFile(file_name);
   }
 }
 
@@ -99,6 +101,16 @@ void DtoExplorerView::OnImportFromFileRequest(const QString& file_name)
 
   AppendConfigurationFromFile(file_name.toStdString(), on_error,
                               *m_configuration_model->GetConfigurationContainer());
+}
+
+void DtoExplorerView::ReadSettings()
+{
+  m_splitter->ReadSettings();
+}
+
+void DtoExplorerView::WriteSettings()
+{
+  m_splitter->WriteSettings();
 }
 
 }  // namespace sup::gui
