@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   config_tab_widget.h
   configuration_list_widget.cpp
   configuration_list_widget.h
+  dto_compare_tool_bar.cpp
+  dto_compare_tool_bar.h
   dto_compare_view.cpp
   dto_compare_view.h
   dto_composer_actions.cpp
