@@ -42,7 +42,7 @@ WaveformTableComponentProvider::WaveformTableComponentProvider(mvvm::Application
 
 std::int32_t WaveformTableComponentProvider::GetSelectedPointIndex() const
 {
-  auto item = GetSelection().GetSelectedItem();
+  auto item = GetSelection().GetItem();
   // returning parent's index
   return (item != nullptr) ? static_cast<std::int32_t>(item->GetParent()->GetTagIndex().GetIndex())
                            : -1;

@@ -97,7 +97,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
 
   // making item selected
   provider.SetSelection(mvvm::ItemSelection(item));
-  EXPECT_EQ(provider.GetSelection().GetSelectedItem(), item);
+  EXPECT_EQ(provider.GetSelection().GetItem(), item);
 
   const mvvm::ItemSelection expected_selection({item, item->GetItem(constants::kAnyValueTypeTag)});
   EXPECT_EQ(provider.GetSelection(), expected_selection);
@@ -143,9 +143,9 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
 
   // making item selected
   provider.SetSelection(mvvm::ItemSelection(item));
-  EXPECT_EQ(provider.GetSelection().GetSelectedItem(), item);
+  EXPECT_EQ(provider.GetSelection().GetItem(), item);
   EXPECT_EQ(
-      provider.GetSelection().GetSelectedItems(),
+      provider.GetSelection().GetItems(),
       std::vector<const mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
 }
 

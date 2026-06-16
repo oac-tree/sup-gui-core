@@ -112,7 +112,7 @@ void DtoCompareView::SetupConnections()
 
   auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
   {
-    auto selected_config = selection.GetSelected<ConfigurationItem>();
+    auto selected_config = selection.GetItem<ConfigurationItem>();
     m_splittable_config_editor->SetConfiguration(const_cast<ConfigurationItem*>(selected_config));
   };
   connect(m_explorer_panel, &DtoExplorerPanel::SelectionChanged, this, on_selection_changed);

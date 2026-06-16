@@ -48,7 +48,7 @@ WaveformPointsTreeWidget::WaveformPointsTreeWidget(QWidget* parent_widget)
 
   auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
   {
-    auto point = const_cast<mvvm::PointItem*>(selection.GetSelected<mvvm::PointItem>());
+    auto point = const_cast<mvvm::PointItem*>(selection.GetItem<mvvm::PointItem>());
     emit pointSelected(point);
   };
   connect(m_component_provider.get(), &::mvvm::ItemViewComponentProvider::SelectionChanged, this,
