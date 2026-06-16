@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   dto_composer_view.h
   dto_explorer_panel.cpp
   dto_explorer_panel.h
+  dto_explorer_view.cpp
+  dto_explorer_view.h
   dto_waveform_actions.cpp
   dto_waveform_actions.h
   dto_waveform_editor_panel.cpp

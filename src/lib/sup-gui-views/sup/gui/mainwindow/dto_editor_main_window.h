@@ -42,6 +42,7 @@ class DtoCompareView;
 class DtoComposerView;
 class DtoEditorMainWindowActions;
 class DtoEditorProject;
+class DtoExplorerView;
 class DtoWaveformView;
 class IAppCommandService;
 class PersistentSettingsModel;
@@ -105,6 +106,7 @@ private:
   std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
+  DtoExplorerView* m_explorer_view{nullptr};
   DtoComposerView* m_composer_view{nullptr};
   DtoWaveformView* m_waveform_view{nullptr};
   DtoCompareView* m_compare_view{nullptr};

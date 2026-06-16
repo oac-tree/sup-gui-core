@@ -34,6 +34,7 @@
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/dtoeditor/dto_compare_view.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
+#include <sup/gui/views/dtoeditor/dto_explorer_view.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 
 #include <mvvm/widgets/app_restarter.h>
@@ -89,6 +90,11 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget = new mvvm::MainVerticalBarWidget;
 
   m_tab_widget->SetBaseColor(GetMainToolBarColor());
+
+  m_explorer_view = new DtoExplorerView;
+  m_tab_widget->AddWidget(
+      m_explorer_view, "Explore",
+      utils::FindIcon("file-search-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   m_composer_view = new DtoComposerView(m_context.GetCommandService());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
