@@ -173,6 +173,7 @@ void DtoEditorMainWindow::OnProjectLoad()
   m_project->GetWaveformModel()->SetUndoEnabled(enable_undo, undo_limit);
   m_project->GetSupDtoModel()->SetUndoEnabled(enable_undo, undo_limit);
 
+  m_explorer_view->SetConfigurationModel(m_project->GetConfigurationModel());
   m_composer_view->SetModel(m_project->GetSupDtoModel());
   m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
   m_compare_view->SetConfigurationModel(m_project->GetConfigurationModel());

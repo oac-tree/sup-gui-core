@@ -20,9 +20,85 @@
 
 #include "dto_explorer_view.h"
 
+#include "dto_explorer_panel.h"
+
+#include <sup/gui/model/configuration_container_item.h>
+#include <sup/gui/model/configuration_model.h>
+#include <sup/gui/model/import_helper.h>
+#include <sup/gui/views/codeeditor/code_view.h>
+#include <sup/gui/widgets/custom_splitter.h>
+#include <sup/gui/widgets/item_stack_widget.h>
+#include <sup/gui/widgets/message_helper.h>
+
+#include <mvvm/utils/bin_utils.h>
+
+#include <QVBoxLayout>
+
 namespace sup::gui
 {
 
-DtoExplorerView::DtoExplorerView(QWidget* parent_widget) : QWidget(parent_widget) {}
+namespace
+{
+constexpr auto kSplitterSettingName = "DtoExplorerView/splitter";
+}
+
+DtoExplorerView::DtoExplorerView(QWidget* parent_widget)
+    : QWidget(parent_widget)
+    , m_explorer_panel(new DtoExplorerPanel())
+    , m_xml_view(new sup::gui::CodeView)
+    , m_right_panel(new sup::gui::ItemStackWidget)
+    , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
+{
+  auto layout = new QVBoxLayout(this);
+  layout->setContentsMargins(4, 1, 4, 4);
+
+  m_splitter->addWidget(m_explorer_panel);
+
+  m_right_panel->AddWidget(m_xml_view);
+  m_splitter->addWidget(m_right_panel);
+
+  layout->addWidget(m_splitter);
+
+  connect(m_explorer_panel, &DtoExplorerPanel::FileClicked, this,
+          &DtoExplorerView::ShowFileContent);
+}
+
+DtoExplorerView::~DtoExplorerView() = default;
+
+void DtoExplorerView::SetConfigurationModel(ConfigurationModel* model)
+{
+  m_configuration_model = model;
+
+  if (m_configuration_model == nullptr)
+  {
+    return;
+  }
+
+  m_explorer_panel->SetConfigurationContainer(m_configuration_model->GetConfigurationContainer());
+}
+
+void DtoExplorerView::ShowFileContent(const QString& file_name)
+{
+  if (mvvm::utils::IsBinaryFile(file_name.toStdString()))
+  {
+    m_xml_view->ClearText();
+  }
+  else
+  {
+    m_xml_view->SetFile(file_name);
+  }
+}
+
+void DtoExplorerView::OnImportFromFileRequest(const QString& file_name)
+{
+  if (m_configuration_model == nullptr)
+  {
+    return;
+  }
+  auto on_error = [](const MessageEvent& event) { SendWarningMessage(event); };
+
+  AppendConfigurationFromFile(file_name.toStdString(), on_error,
+                              *m_configuration_model->GetConfigurationContainer());
+}
 
 }  // namespace sup::gui

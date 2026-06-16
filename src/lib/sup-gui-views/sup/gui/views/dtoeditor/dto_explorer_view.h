@@ -26,14 +26,48 @@
 namespace sup::gui
 {
 
+class CodeView;
+class CustomSplitter;
+class DtoExplorerPanel;
+class ItemStackWidget;
+class ConfigurationModel;
+
+/**
+ * @brief The DtoExplorerView is a main widget to browse configurations on disk.
+ *
+ * Contains a file browser and list of opened configurations on the left, and JSON viewer on the
+ * right.
+ *
+ * It is a first main view of DtoEditorMainWindow.
+ */
 class DtoExplorerView : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit DtoExplorerView(QWidget* parent_widget = nullptr);
+  ~DtoExplorerView() override;
+
+  DtoExplorerView(const DtoExplorerView&) = delete;
+  DtoExplorerView& operator=(const DtoExplorerView&) = delete;
+  DtoExplorerView(DtoExplorerView&&) = delete;
+  DtoExplorerView& operator=(DtoExplorerView&&) = delete;
+
+  /**
+   * @brief Perform widgets setup on new project creation or project load from disk.
+   */
+  void SetConfigurationModel(ConfigurationModel* model);
+
+  void ShowFileContent(const QString& file_name);
+
+  void OnImportFromFileRequest(const QString& file_name);
 
 private:
+  DtoExplorerPanel* m_explorer_panel{nullptr};
+  CodeView* m_xml_view{nullptr};
+  ItemStackWidget* m_right_panel{nullptr};
+  CustomSplitter* m_splitter{nullptr};
+  ConfigurationModel* m_configuration_model{nullptr};
 };
 
 }  // namespace sup::gui
