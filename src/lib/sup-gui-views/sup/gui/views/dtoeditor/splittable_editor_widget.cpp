@@ -20,7 +20,7 @@
 
 #include "splittable_editor_widget.h"
 
-#include "config_tab_widget.h"
+#include "configuration_tab_widget.h"
 #include "splittable_combo_panel.h"
 #include "splittable_editor_controller.h"
 
@@ -82,7 +82,7 @@ std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitt
 {
   auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
   {
-    auto main_editor = std::make_unique<ConfigTabWidget>();
+    auto main_editor = std::make_unique<ConfigurationTabWidget>();
 
     auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
     {

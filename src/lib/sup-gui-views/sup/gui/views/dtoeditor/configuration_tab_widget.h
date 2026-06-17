@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIG_TAB_WIDGET_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_CONFIG_TAB_WIDGET_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_TAB_WIDGET_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_TAB_WIDGET_H_
 
 #include <sup/gui/mainwindow/session_item_widget.h>
 
@@ -38,19 +38,19 @@ class AnyValueEditorTreePanel;
 class AnyValueEditorTextPanel;
 
 /**
- * @brief The ConfigTabWidget class is a configuration editor with multiple different views of
- * the same data.
+ * @brief The ConfigurationTabWidget class is a configuration editor with multiple different views
+ * of the same data.
  *
  * Views are placed in QTabWidget. For the moment contains
  * - AnyValueEditorTreePanel
  * - AnyValueEditorTextPanel
  */
-class ConfigTabWidget : public SessionItemWidget
+class ConfigurationTabWidget : public SessionItemWidget
 {
   Q_OBJECT
 
 public:
-  explicit ConfigTabWidget(QWidget* parent_widget = nullptr);
+  explicit ConfigurationTabWidget(QWidget* parent_widget = nullptr);
 
   /**
    * @brief Sets the configuration to be edited.
@@ -69,4 +69,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_CONFIG_TAB_WIDGET_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_TAB_WIDGET_H_

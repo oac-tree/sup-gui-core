@@ -25,7 +25,7 @@
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
-#include <sup/gui/views/dtoeditor/config_tab_widget.h>
+#include <sup/gui/views/dtoeditor/configuration_tab_widget.h>
 #include <sup/gui/widgets/combo_tool_bar.h>
 
 #include <mvvm/model/item_selection.h>
@@ -63,7 +63,7 @@ public:
           m_model.GetConfigurationContainer()->GetConfigurations());
     };
 
-    auto main_editor = std::make_unique<ConfigTabWidget>();
+    auto main_editor = std::make_unique<ConfigurationTabWidget>();
     return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
   }
 
@@ -72,7 +72,7 @@ public:
 
 TEST_F(SplittableComboPanelTest, MissedCallback)
 {
-  auto main_editor = std::make_unique<ConfigTabWidget>();
+  auto main_editor = std::make_unique<ConfigurationTabWidget>();
   EXPECT_THROW(SplittableComboPanel(std::move(main_editor), nullptr), RuntimeException);
 }
 
@@ -104,7 +104,7 @@ TEST_F(SplittableComboPanelTest, InitialState)
 
 TEST_F(SplittableComboPanelTest, GetMainEditor)
 {
-  auto main_editor = std::make_unique<ConfigTabWidget>();
+  auto main_editor = std::make_unique<ConfigurationTabWidget>();
   auto main_editor_ptr = main_editor.get();
 
   auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
@@ -114,7 +114,7 @@ TEST_F(SplittableComboPanelTest, GetMainEditor)
   };
 
   SplittableComboPanel panel(std::move(main_editor), item_list_callback);
-  EXPECT_EQ(panel.GetMainEditor<ConfigTabWidget>(), main_editor_ptr);
+  EXPECT_EQ(panel.GetMainEditor<ConfigurationTabWidget>(), main_editor_ptr);
 }
 
 TEST_F(SplittableComboPanelTest, SetEmptyModel)

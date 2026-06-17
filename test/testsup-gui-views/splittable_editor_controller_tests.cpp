@@ -24,7 +24,7 @@
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
-#include <sup/gui/views/dtoeditor/config_tab_widget.h>
+#include <sup/gui/views/dtoeditor/configuration_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
 #include <mvvm/model/session_item.h>
@@ -53,7 +53,7 @@ public:
   {
     auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
     {
-      auto main_editor = std::make_unique<ConfigTabWidget>();
+      auto main_editor = std::make_unique<ConfigurationTabWidget>();
 
       auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
       {
@@ -320,8 +320,7 @@ TEST_F(SplittableEditorControllerTest, AboutToClosePanelSignal)
   auto* panel1 = controller->CreatePanel();
   auto* panel2 = controller->CreatePanel(panel1);
 
-  QSignalSpy spy_about_to_close(controller.get(),
-                                &SplittableEditorController::aboutToClosePanel);
+  QSignalSpy spy_about_to_close(controller.get(), &SplittableEditorController::aboutToClosePanel);
 
   controller->ClosePanel(panel2);
   ASSERT_EQ(spy_about_to_close.count(), 1);
@@ -339,8 +338,7 @@ TEST_F(SplittableEditorControllerTest, AboutToClosePanelSignalViaWidgetSignal)
   auto* panel1 = controller->CreatePanel();
   auto* panel2 = controller->CreatePanel(panel1);
 
-  QSignalSpy spy_about_to_close(controller.get(),
-                                &SplittableEditorController::aboutToClosePanel);
+  QSignalSpy spy_about_to_close(controller.get(), &SplittableEditorController::aboutToClosePanel);
 
   // closing a panel via its own signal should emit the controller signal
   panel1->closePanelRequest();
