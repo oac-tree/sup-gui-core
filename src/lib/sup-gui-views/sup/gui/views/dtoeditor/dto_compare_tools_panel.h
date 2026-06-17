@@ -55,6 +55,7 @@ public:
 
 signals:
   void SelectionChanged(const mvvm::ItemSelection&);
+  void panelSyncAppearanceFlagChanged(bool value);
 
 private:
   DtoCompareToolBar* m_tool_bar{nullptr};

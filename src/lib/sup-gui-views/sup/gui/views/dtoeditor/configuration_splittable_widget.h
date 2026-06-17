@@ -65,6 +65,11 @@ public:
   void SetConfiguration(ConfigurationItem* config);
 
   /**
+   * @brief Sets panel appearance sync flag to a given value.
+   */
+  void SetPanelSyncAppearance(bool value);
+
+  /**
    * @brief Adds panel to the splitter.
    */
   void CreatePanel();
@@ -91,7 +96,7 @@ private:
 
   QSplitter* m_splitter{nullptr};
   std::unique_ptr<SplittableEditorController> m_splitter_controller;
-  std::unique_ptr<ConfigurationPanelMirrorController> m_panel_mirror_controller;
+  std::unique_ptr<ConfigurationPanelMirrorController> m_panel_sync_controller;
   ConfigurationModel* m_model{nullptr};
 };
 

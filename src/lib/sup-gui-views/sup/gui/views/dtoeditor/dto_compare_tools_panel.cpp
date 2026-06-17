@@ -42,9 +42,10 @@ DtoCompareToolsPanel::DtoCompareToolsPanel(QWidget* parent_widget)
   layout->addWidget(m_tool_bar);
   layout->addWidget(m_configuration_list_widget);
 
+  connect(m_tool_bar, &DtoCompareToolBar::panelSyncAppearanceFlagChanged, this,
+          &DtoCompareToolsPanel::panelSyncAppearanceFlagChanged);
   connect(m_configuration_list_widget, &ConfigurationListWidget::SelectionChanged, this,
           &DtoCompareToolsPanel::SelectionChanged);
-
 }
 
 void DtoCompareToolsPanel::SetConfigurationContainer(ConfigurationContainerItem* container)

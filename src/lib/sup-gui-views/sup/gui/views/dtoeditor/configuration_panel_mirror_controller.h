@@ -51,6 +51,14 @@ public:
       delete;
 
   /**
+   * @brief Sets active flag to a give value.
+   *
+   * All controllers that synchronise the appearance of SplittableComboPanel instances will be
+   * activated or deactivated.
+   */
+  void SetActive(bool value);
+
+  /**
    * @brief Registers a newly added panel with the underlying synchronisation controllers.
    *
    * @note The actual registration logic will be implemented in the next step.

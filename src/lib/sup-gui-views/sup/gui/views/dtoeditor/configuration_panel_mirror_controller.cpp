@@ -46,12 +46,16 @@ namespace sup::gui
 {
 
 ConfigurationPanelMirrorController::ConfigurationPanelMirrorController(QObject* parent_object)
-    : QObject(parent_object)
-    , m_tab_widget_controller(std::make_unique<TabWidgetController>())
+    : QObject(parent_object), m_tab_widget_controller(std::make_unique<TabWidgetController>())
 {
 }
 
 ConfigurationPanelMirrorController::~ConfigurationPanelMirrorController() = default;
+
+void ConfigurationPanelMirrorController::SetActive(bool value)
+{
+  m_tab_widget_controller->SetActive(value);
+}
 
 void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableComboPanel* panel)
 {

@@ -26,9 +26,7 @@
 
 #include <QCheckBox>
 #include <QLabel>
-#include <QMenu>
 #include <QToolButton>
-#include <map>
 
 namespace sup::gui
 {
@@ -39,40 +37,18 @@ constexpr auto kSyncToolTip =
     "Will synchronize panel behaviour, if checked.\nFor multiple panels their behavior will be "
     "synchronised,\nwhere possible (e.g. synchronious scroll bar move,\nreaction on filter, etc).";
 
-QString GetTextForViewMode(ConfigurationViewMode mode)
-{
-  static const std::map<ConfigurationViewMode, QString> kModeToText = {
-      {ConfigurationViewMode::kTree, "Tree view"},
-      {ConfigurationViewMode::kJSON, "JSON view"},
-      {ConfigurationViewMode::kFlat, "Flat view"}};
-  auto it = kModeToText.find(mode);
-  if (it != kModeToText.end())
-  {
-    return it->second;
-  }
-  return {"Unknown view"};
-}
-
 }  // namespace
 
 DtoCompareToolBar::DtoCompareToolBar(QWidget* parent_widget)
-    : QToolBar(parent_widget)
-    , m_select_viewer_menu(CreateSetEditorMenu())
-    , m_select_viewer_action(new ActionMenu("Set editor", this))
-    , m_sync_check_box(new QCheckBox)
-    , m_dots_button(new QToolButton)
+    : QToolBar(parent_widget), m_sync_check_box(new QCheckBox), m_dots_button(new QToolButton)
 {
   setIconSize(utils::ToolBarIconSize());
   setToolButtonStyle(Qt::ToolButtonTextOnly);
 
-  // action to select editor for the set
-  m_select_viewer_action->setIcon(utils::FindIcon("plus-circle-outline"));
-  m_select_viewer_action->setToolTip("Select the viewer to look at the configuration");
-  m_select_viewer_action->setMenu(m_select_viewer_menu.get());
-  addAction(m_select_viewer_action);
-
   // sync checkbox
   m_sync_check_box->setToolTip(kSyncToolTip);
+  connect(m_sync_check_box, &QCheckBox::toggled, this,
+          &DtoCompareToolBar::panelSyncAppearanceFlagChanged);
   addWidget(m_sync_check_box);
 
   // sync label
@@ -92,27 +68,6 @@ void DtoCompareToolBar::InsertStrech()
   auto empty = new QWidget(this);
   empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   addWidget(empty);
-}
-
-std::unique_ptr<QMenu> DtoCompareToolBar::CreateSetEditorMenu()
-{
-  auto result = std::make_unique<QMenu>();
-  result->setToolTipsVisible(true);
-
-  for (int mode = 0; mode < static_cast<int>(ConfigurationViewMode::kTotalCount); ++mode)
-  {
-    auto view_mode = static_cast<ConfigurationViewMode>(mode);
-    const auto text = GetTextForViewMode(view_mode);
-    auto action = result->addAction(text);
-    auto on_triggered = [this, mode, text]()
-    {
-      m_select_viewer_action->setText(text);
-      emit configurationViewModeRequest(mode);
-    };
-    connect(action, &QAction::triggered, this, on_triggered);
-  }
-
-  return result;
 }
 
 }  // namespace sup::gui

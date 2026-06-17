@@ -94,7 +94,7 @@ TEST_F(ConfigurationSplittableWidgetTest, SetModelAfterPanelCreation)
   EXPECT_EQ(panels.at(1)->GetModel(), &model);
 }
 
-TEST_F(ConfigurationSplittableWidgetTest, focusPanelSelectionChanged)
+TEST_F(ConfigurationSplittableWidgetTest, FocusPanelSelectionChanged)
 {
   const ConfigurationItem item;
   const mvvm::ItemSelection selection(&item);
