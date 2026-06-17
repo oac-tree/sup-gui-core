@@ -21,7 +21,7 @@
 #ifndef SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
 #define SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
 
-//! file
+//! @file
 //! Registration of custom types in Qt meta type system to provide support in signal/slot and
 //! QVariant.
 

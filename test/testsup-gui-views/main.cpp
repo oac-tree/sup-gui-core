@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include <sup/gui/components/custom_metatypes.h>
+#include <sup/gui/views_metatypes.h>
 #include <sup/gui/model/register_items.h>
 #include <mvvm/core/platform.h>
 
@@ -31,6 +32,7 @@ int main(int argc, char** argv)
   ::testing::InitGoogleTest(&argc, argv);
 
   sup::gui::components::RegisterCustomMetaTypes();
+  sup::gui::views::RegisterCustomMetaTypes();
   sup::gui::RegisterSessionItems();
 
   mvvm::SetHeadless();
