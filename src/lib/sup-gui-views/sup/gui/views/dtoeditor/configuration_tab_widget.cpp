@@ -20,6 +20,7 @@
 
 #include "configuration_tab_widget.h"
 
+#include <sup/gui/components/tree_helper.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_textpanel.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_treepanel.h>
@@ -28,6 +29,7 @@
 
 #include <mvvm/style/mvvm_style_helper.h>
 
+#include <QMenu>
 #include <QTabWidget>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -53,6 +55,9 @@ ConfigurationTabWidget::ConfigurationTabWidget(QWidget* parent_widget)
          "Configuration view with JSON representation of the configuration");
 
   m_tab_widget->setTabPosition(QTabWidget::South);
+
+  connect(m_tree_panel->GetTreeView(), &QTreeView::customContextMenuRequested, this,
+          &ConfigurationTabWidget::OnContextMenuRequest);
 }
 
 void ConfigurationTabWidget::SetItem(mvvm::SessionItem* configuration_item)
@@ -87,6 +92,15 @@ void ConfigurationTabWidget::AddTab(QWidget* widget, const QString& label, const
 {
   m_tab_widget->addTab(widget, label);
   m_tab_widget->setTabToolTip(m_tab_widget->indexOf(widget), tooltip);
+}
+
+void ConfigurationTabWidget::OnContextMenuRequest(const QPoint& point)
+{
+  QMenu menu;
+  menu.setToolTipsVisible(true);
+
+  SetupCollapseExpandMenu(point, menu, *m_tree_panel->GetTreeView());
+  menu.exec(m_tree_panel->GetTreeView()->mapToGlobal(point));
 }
 
 }  // namespace sup::gui

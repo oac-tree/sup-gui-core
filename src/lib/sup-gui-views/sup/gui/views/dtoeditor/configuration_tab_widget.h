@@ -74,6 +74,7 @@ public:
 
 private:
   void AddTab(QWidget* widget, const QString& label, const QString& tooltip);
+  void OnContextMenuRequest(const QPoint& point);
 
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};
