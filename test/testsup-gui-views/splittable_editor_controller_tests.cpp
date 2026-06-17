@@ -280,6 +280,73 @@ TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
   EXPECT_EQ(spy_selection_changed.count(), 0);
 }
 
+TEST_F(SplittableEditorControllerTest, NewPanelAddedSignal)
+{
+  auto controller = CreateController();
+
+  QSignalSpy spy_new_panel(controller.get(), &SplittableEditorController::newPanelAdded);
+
+  // appending a panel at the end
+  auto* panel1 = controller->CreatePanel();
+  ASSERT_EQ(spy_new_panel.count(), 1);
+  EXPECT_EQ(spy_new_panel.takeFirst().at(0).value<SplittableComboPanel*>(), panel1);
+
+  // inserting a panel after an existing one
+  auto* panel2 = controller->CreatePanel(panel1);
+  ASSERT_EQ(spy_new_panel.count(), 1);
+  EXPECT_EQ(spy_new_panel.takeFirst().at(0).value<SplittableComboPanel*>(), panel2);
+}
+
+TEST_F(SplittableEditorControllerTest, NewPanelAddedSignalViaWidgetSignal)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+
+  QSignalSpy spy_new_panel(controller.get(), &SplittableEditorController::newPanelAdded);
+
+  // splitting a panel should create a new one and emit the signal
+  panel1->splitPanelRequest();
+  ASSERT_EQ(spy_new_panel.count(), 1);
+  auto* panel2 = qobject_cast<SplittableComboPanel*>(m_splitter.widget(1));
+  EXPECT_EQ(spy_new_panel.takeFirst().at(0).value<SplittableComboPanel*>(), panel2);
+}
+
+TEST_F(SplittableEditorControllerTest, AboutToClosePanelSignal)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel(panel1);
+
+  QSignalSpy spy_about_to_close(controller.get(),
+                                &SplittableEditorController::aboutToClosePanel);
+
+  controller->ClosePanel(panel2);
+  ASSERT_EQ(spy_about_to_close.count(), 1);
+  EXPECT_EQ(spy_about_to_close.takeFirst().at(0).value<SplittableComboPanel*>(), panel2);
+
+  // closing nullptr should not emit the signal
+  controller->ClosePanel(nullptr);
+  EXPECT_EQ(spy_about_to_close.count(), 0);
+}
+
+TEST_F(SplittableEditorControllerTest, AboutToClosePanelSignalViaWidgetSignal)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel(panel1);
+
+  QSignalSpy spy_about_to_close(controller.get(),
+                                &SplittableEditorController::aboutToClosePanel);
+
+  // closing a panel via its own signal should emit the controller signal
+  panel1->closePanelRequest();
+  ASSERT_EQ(spy_about_to_close.count(), 1);
+  EXPECT_EQ(spy_about_to_close.takeFirst().at(0).value<SplittableComboPanel*>(), panel1);
+}
+
 TEST_F(SplittableEditorControllerTest, SetModel)
 {
   auto controller = CreateController();

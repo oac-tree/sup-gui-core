@@ -78,6 +78,9 @@ SplittableComboPanel* SplittableEditorController::CreatePanel(SplittableComboPan
     m_focus_handler->AddWidget(new_widget_ptr, after_widget);
     new_widget_ptr->SetItem(after_widget->GetCurrentItem());
   }
+
+  emit newPanelAdded(new_widget_ptr);
+
   return new_widget_ptr;
 }
 
@@ -87,6 +90,9 @@ void SplittableEditorController::ClosePanel(SplittableComboPanel* widget_to_clos
   {
     return;
   }
+
+  emit aboutToClosePanel(widget_to_close);
+
   m_focus_handler->RemoveWidget(widget_to_close);
   widget_to_close->hide();
   widget_to_close->deleteLater();

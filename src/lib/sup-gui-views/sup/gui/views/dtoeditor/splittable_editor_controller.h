@@ -113,6 +113,12 @@ signals:
   //! It is used to propagate the selection back to list view.
   void focusPanelSelectionChanged(const mvvm::ItemSelection& selection);
 
+  //! The signal is emitted right after a new panel has been added to the splitter.
+  void newPanelAdded(sup::gui::SplittableComboPanel* panel);
+
+  //! The signal is emitted just before a panel is closed and scheduled for deletion.
+  void aboutToClosePanel(sup::gui::SplittableComboPanel* panel);
+
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
   std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
