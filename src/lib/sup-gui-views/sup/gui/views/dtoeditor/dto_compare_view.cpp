@@ -20,8 +20,8 @@
 
 #include "dto_compare_view.h"
 
+#include "configuration_splittable_widget.h"
 #include "dto_compare_tools_panel.h"
-#include "splittable_editor_widget.h"
 
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
@@ -48,7 +48,7 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
     , m_explorer_panel(new DtoCompareToolsPanel)
-    , m_splittable_config_editor(new SplittableEditorWidget)
+    , m_splittable_config_editor(new ConfigurationSplittableWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(4, 1, 4, 4);
@@ -114,7 +114,7 @@ void DtoCompareView::SetupConnections()
   };
   connect(m_explorer_panel, &DtoCompareToolsPanel::SelectionChanged, this, on_selection_changed);
 
-  connect(m_splittable_config_editor, &SplittableEditorWidget::focusPanelSelectionChanged,
+  connect(m_splittable_config_editor, &ConfigurationSplittableWidget::focusPanelSelectionChanged,
           m_explorer_panel, &DtoCompareToolsPanel::SetSelection);
 }
 

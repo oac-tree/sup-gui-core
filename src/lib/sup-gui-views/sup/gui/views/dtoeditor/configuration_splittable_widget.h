@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_EDITOR_WIDGET_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_EDITOR_WIDGET_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_SPLITTABLE_WIDGET_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_SPLITTABLE_WIDGET_H_
 
 #include <QWidget>
 #include <memory>
@@ -45,19 +45,19 @@ class SplittableEditorController;
  *
  * Each area contains a vertical panel with the selector of one of the opened documents.
  */
-class SplittableEditorWidget : public QWidget
+class ConfigurationSplittableWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SplittableEditorWidget(QWidget* parent_widget = nullptr);
+  explicit ConfigurationSplittableWidget(QWidget* parent_widget = nullptr);
 
-  ~SplittableEditorWidget() override;
+  ~ConfigurationSplittableWidget() override;
 
-  SplittableEditorWidget(const SplittableEditorWidget&) = delete;
-  SplittableEditorWidget& operator=(const SplittableEditorWidget&) = delete;
-  SplittableEditorWidget(SplittableEditorWidget&&) noexcept = delete;
-  SplittableEditorWidget& operator=(SplittableEditorWidget&&) noexcept = delete;
+  ConfigurationSplittableWidget(const ConfigurationSplittableWidget&) = delete;
+  ConfigurationSplittableWidget& operator=(const ConfigurationSplittableWidget&) = delete;
+  ConfigurationSplittableWidget(ConfigurationSplittableWidget&&) noexcept = delete;
+  ConfigurationSplittableWidget& operator=(ConfigurationSplittableWidget&&) noexcept = delete;
 
   void SetModel(ConfigurationModel* model);
 
@@ -88,4 +88,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_EDITOR_WIDGET_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_SPLITTABLE_WIDGET_H_

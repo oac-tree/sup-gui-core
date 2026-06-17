@@ -3,6 +3,8 @@
 target_sources(${library_name} PRIVATE
   configuration_list_widget.cpp
   configuration_list_widget.h
+  configuration_splittable_widget.cpp
+  configuration_splittable_widget.h
   configuration_tab_widget.cpp
   configuration_tab_widget.h
   dto_compare_tool_bar.cpp
@@ -33,8 +35,6 @@ target_sources(${library_name} PRIVATE
   splittable_combo_panel.h
   splittable_editor_controller.cpp
   splittable_editor_controller.h
-  splittable_editor_widget.cpp
-  splittable_editor_widget.h
   waveform_points_tree_widget.cpp
   waveform_points_tree_widget.h
 )

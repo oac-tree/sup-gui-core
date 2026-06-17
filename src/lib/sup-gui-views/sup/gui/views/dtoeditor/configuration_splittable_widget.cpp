@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "splittable_editor_widget.h"
+#include "configuration_splittable_widget.h"
 
 #include "configuration_tab_widget.h"
 #include "splittable_combo_panel.h"
@@ -37,7 +37,7 @@
 namespace sup::gui
 {
 
-SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
+ConfigurationSplittableWidget::ConfigurationSplittableWidget(QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_splitter_controller(CreateSplitterController())
@@ -49,18 +49,18 @@ SplittableEditorWidget::SplittableEditorWidget(QWidget* parent_widget)
   layout->addWidget(m_splitter);
 
   connect(m_splitter_controller.get(), &SplittableEditorController::focusPanelSelectionChanged,
-          this, &SplittableEditorWidget::focusPanelSelectionChanged);
+          this, &ConfigurationSplittableWidget::focusPanelSelectionChanged);
 }
 
-SplittableEditorWidget::~SplittableEditorWidget() = default;
+ConfigurationSplittableWidget::~ConfigurationSplittableWidget() = default;
 
-void SplittableEditorWidget::SetModel(ConfigurationModel* model)
+void ConfigurationSplittableWidget::SetModel(ConfigurationModel* model)
 {
   m_model = model;
   m_splitter_controller->SetModel(model);
 }
 
-void SplittableEditorWidget::SetConfiguration(ConfigurationItem* config)
+void ConfigurationSplittableWidget::SetConfiguration(ConfigurationItem* config)
 {
   if (auto focus_widget = m_splitter_controller->GetFocusWidget(); focus_widget)
   {
@@ -68,17 +68,18 @@ void SplittableEditorWidget::SetConfiguration(ConfigurationItem* config)
   }
 }
 
-void SplittableEditorWidget::CreatePanel()
+void ConfigurationSplittableWidget::CreatePanel()
 {
   m_splitter_controller->CreatePanel();
 }
 
-SplittableEditorController* SplittableEditorWidget::GetController() const
+SplittableEditorController* ConfigurationSplittableWidget::GetController() const
 {
   return m_splitter_controller.get();
 }
 
-std::unique_ptr<SplittableEditorController> SplittableEditorWidget::CreateSplitterController() const
+std::unique_ptr<SplittableEditorController>
+ConfigurationSplittableWidget::CreateSplitterController() const
 {
   auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
   {

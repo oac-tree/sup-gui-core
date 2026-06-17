@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/views/dtoeditor/splittable_editor_widget.h"
+#include "sup/gui/views/dtoeditor/configuration_splittable_widget.h"
 
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
@@ -41,16 +41,16 @@ namespace sup::gui::test
 {
 
 /**
- * @brief Tests for SplittableEditorWidget class.
+ * @brief Tests for ConfigurationSplittableWidget class.
  */
-class SplittableEditorWidgetTest : public ::testing::Test
+class ConfigurationSplittableWidgetTest : public ::testing::Test
 {
 public:
 };
 
-TEST_F(SplittableEditorWidgetTest, InitialState)
+TEST_F(ConfigurationSplittableWidgetTest, InitialState)
 {
-  SplittableEditorWidget editor;
+  ConfigurationSplittableWidget editor;
   editor.show();
 
   ASSERT_NE(editor.GetController(), nullptr);
@@ -62,9 +62,9 @@ TEST_F(SplittableEditorWidgetTest, InitialState)
   EXPECT_EQ(splitter->count(), 0);
 }
 
-TEST_F(SplittableEditorWidgetTest, CreatePanel)
+TEST_F(ConfigurationSplittableWidgetTest, CreatePanel)
 {
-  SplittableEditorWidget editor;
+  ConfigurationSplittableWidget editor;
   editor.show();
 
   auto splitter = editor.findChild<QSplitter*>();
@@ -75,11 +75,11 @@ TEST_F(SplittableEditorWidgetTest, CreatePanel)
   ASSERT_EQ(splitter->count(), 1);
 }
 
-TEST_F(SplittableEditorWidgetTest, SetModelAfterPanelCreation)
+TEST_F(ConfigurationSplittableWidgetTest, SetModelAfterPanelCreation)
 {
   ConfigurationModel model;
 
-  SplittableEditorWidget editor;
+  ConfigurationSplittableWidget editor;
   editor.show();
 
   editor.CreatePanel();
@@ -92,17 +92,18 @@ TEST_F(SplittableEditorWidgetTest, SetModelAfterPanelCreation)
   EXPECT_EQ(panels.at(1)->GetModel(), &model);
 }
 
-TEST_F(SplittableEditorWidgetTest, focusPanelSelectionChanged)
+TEST_F(ConfigurationSplittableWidgetTest, focusPanelSelectionChanged)
 {
   const ConfigurationItem item;
   const mvvm::ItemSelection selection(&item);
 
-  SplittableEditorWidget editor;
+  ConfigurationSplittableWidget editor;
   editor.show();
 
   editor.CreatePanel();
 
-  QSignalSpy spy_selection_changed(&editor, &SplittableEditorWidget::focusPanelSelectionChanged);
+  QSignalSpy spy_selection_changed(&editor,
+                                   &ConfigurationSplittableWidget::focusPanelSelectionChanged);
 
   // emit selection changed from controller
   editor.GetController()->focusPanelSelectionChanged(selection);

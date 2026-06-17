@@ -23,10 +23,10 @@
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
+#include <sup/gui/views/dtoeditor/configuration_splittable_widget.h>
 #include <sup/gui/views/dtoeditor/dto_compare_tools_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
-#include <sup/gui/views/dtoeditor/splittable_editor_widget.h>
 
 #include <gtest/gtest.h>
 
@@ -57,7 +57,7 @@ TEST_F(DtoCompareViewTest, SelectionLogic)
 
   auto explorer_panel = view.findChild<DtoCompareToolsPanel*>();
   ASSERT_NE(explorer_panel, nullptr);
-  auto splittable_config_editor = view.findChild<SplittableEditorWidget*>();
+  auto splittable_config_editor = view.findChild<ConfigurationSplittableWidget*>();
   auto controller = splittable_config_editor->GetController();
 
   view.SetConfigurationModel(&model);

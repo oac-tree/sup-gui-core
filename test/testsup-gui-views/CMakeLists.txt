@@ -19,12 +19,12 @@ target_sources(${test} PRIVATE
   settings_helper_tests.cpp
   splittable_combo_panel_tests.cpp
   splittable_editor_controller_tests.cpp
-  splittable_editor_widget_tests.cpp
   stacked_widget_provider_tests.cpp
   tree_view_component_provider_tests.cpp
   waveform_editor_tests.cpp
   waveform_table_component_provider_tests.cpp
   waveform_table_widget_tests.cpp
+  configuration_splittable_widget_tests.cpp
 )
 
 target_link_libraries(${test} PRIVATE sup-gui-views sup-gui-core-test-utils)
