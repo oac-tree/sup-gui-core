@@ -63,6 +63,11 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
   SetupConnections();
 
   m_splittable_config_editor->CreatePanel();
+  m_splittable_config_editor->SetPanelSyncAppearanceFlag(
+      m_explorer_panel->GetPanelSyncAppearanceFlag());
+
+  connect(m_explorer_panel, &DtoCompareToolsPanel::panelSyncAppearanceFlagChanged,
+          m_splittable_config_editor, &ConfigurationSplittableWidget::SetPanelSyncAppearanceFlag);
 }
 
 DtoCompareView::~DtoCompareView()

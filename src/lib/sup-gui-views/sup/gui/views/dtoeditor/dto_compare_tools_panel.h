@@ -53,6 +53,11 @@ public:
 
   void SetSelection(const mvvm::ItemSelection& selection);
 
+  /**
+   * @brief Returns current value of sync flag for panel appearance.
+   */
+  bool GetPanelSyncAppearanceFlag() const;
+
 signals:
   void SelectionChanged(const mvvm::ItemSelection&);
   void panelSyncAppearanceFlagChanged(bool value);

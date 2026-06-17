@@ -67,7 +67,7 @@ public:
   /**
    * @brief Sets panel appearance sync flag to a given value.
    */
-  void SetPanelSyncAppearance(bool value);
+  void SetPanelSyncAppearanceFlag(bool value);
 
   /**
    * @brief Adds panel to the splitter.

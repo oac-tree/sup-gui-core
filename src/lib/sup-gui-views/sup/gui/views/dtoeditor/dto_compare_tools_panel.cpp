@@ -63,4 +63,9 @@ void DtoCompareToolsPanel::SetSelection(const mvvm::ItemSelection& selection)
   m_configuration_list_widget->SetSelection(selection);
 }
 
+bool DtoCompareToolsPanel::GetPanelSyncAppearanceFlag() const
+{
+  return m_tool_bar->GetPanelSyncAppearanceFlag();
+}
+
 }  // namespace sup::gui

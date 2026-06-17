@@ -37,6 +37,8 @@ constexpr auto kSyncToolTip =
     "Will synchronize panel behaviour, if checked.\nFor multiple panels their behavior will be "
     "synchronised,\nwhere possible (e.g. synchronious scroll bar move,\nreaction on filter, etc).";
 
+constexpr bool kDefaultSyncFlagValue = true;
+
 }  // namespace
 
 DtoCompareToolBar::DtoCompareToolBar(QWidget* parent_widget)
@@ -47,6 +49,7 @@ DtoCompareToolBar::DtoCompareToolBar(QWidget* parent_widget)
 
   // sync checkbox
   m_sync_check_box->setToolTip(kSyncToolTip);
+  m_sync_check_box->setChecked(kDefaultSyncFlagValue);
   connect(m_sync_check_box, &QCheckBox::toggled, this,
           &DtoCompareToolBar::panelSyncAppearanceFlagChanged);
   addWidget(m_sync_check_box);
@@ -61,6 +64,11 @@ DtoCompareToolBar::DtoCompareToolBar(QWidget* parent_widget)
   m_dots_button->setIcon(utils::FindIcon("dots-vertical"));
   m_dots_button->setIconSize(utils::ToolBarIconSize());
   addWidget(m_dots_button);
+}
+
+bool DtoCompareToolBar::GetPanelSyncAppearanceFlag() const
+{
+  return m_sync_check_box->isChecked();
 }
 
 void DtoCompareToolBar::InsertStrech()

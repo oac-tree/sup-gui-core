@@ -37,6 +37,11 @@ class DtoCompareToolBar : public QToolBar
 public:
   explicit DtoCompareToolBar(QWidget* parent_widget = nullptr);
 
+  /**
+   * @brief Returns current value of sync flag for panel appearance.
+   */
+  bool GetPanelSyncAppearanceFlag() const;
+
 signals:
   void panelSyncAppearanceFlagChanged(bool value);
 

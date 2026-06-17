@@ -78,7 +78,7 @@ void ConfigurationSplittableWidget::SetConfiguration(ConfigurationItem* config)
   }
 }
 
-void ConfigurationSplittableWidget::SetPanelSyncAppearance(bool value)
+void ConfigurationSplittableWidget::SetPanelSyncAppearanceFlag(bool value)
 {
   m_panel_sync_controller->SetActive(value);
 }
