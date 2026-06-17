@@ -1,9 +1,11 @@
 set(test testsup-gui-benchmark)
 
-file(GLOB source_files "*.cpp")
-file(GLOB include_files "*.h")
+add_executable(${test})
 
-add_executable(${test} ${source_files} ${include_files})
+target_sources(${test} PRIVATE
+  main.cpp
+  transform_large_anyvalue_benchmark.cpp
+)
 
 target_link_libraries(${test} PRIVATE benchmark::benchmark sup-mvvm::test sup-gui-views sup-gui-core-test-utils)
 

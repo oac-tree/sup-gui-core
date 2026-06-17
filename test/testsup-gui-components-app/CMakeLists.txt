@@ -2,10 +2,25 @@
 
 set(test testsup-gui-components-app)
 
-file(GLOB source_files "*.cpp")
-file(GLOB include_files "*.h")
+add_executable(${test})
 
-add_executable(${test} ${source_files} ${include_files})
+target_sources(${test} PRIVATE
+  action_map_tests.cpp
+  app_command_context_widget_map_tests.cpp
+  app_command_registry_tests.cpp
+  app_command_service_tests.cpp
+  app_command_tests.cpp
+  app_context_focus_controller_tests.cpp
+  custom_row_waveform_strategies_tests.cpp
+  dto_composer_tab_controller_tests.cpp
+  main.cpp
+  menu_action_container_tests.cpp
+  menu_bar_action_registry_tests.cpp
+  proxy_action_tests.cpp
+  scroll_area_mirror_controller_tests.cpp
+  tab_widget_controller_tests.cpp
+  tree_helper_tests.cpp
+)
 
 target_link_libraries(${test} PRIVATE sup-gui-components sup-gui-core-test-utils)
 
