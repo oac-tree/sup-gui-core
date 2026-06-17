@@ -20,7 +20,27 @@
 
 #include "configuration_panel_mirror_controller.h"
 
+#include "configuration_tab_widget.h"
+#include "splittable_combo_panel.h"
+
 #include <sup/gui/component_objects/tab_widget_controller.h>
+
+namespace
+{
+
+//! Returns the QTabWidget of the panel's main editor, or nullptr if not available.
+QTabWidget* GetPanelTabWidget(sup::gui::SplittableComboPanel* panel)
+{
+  if (panel == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto* editor = panel->GetMainEditor<sup::gui::ConfigurationTabWidget>();
+  return editor == nullptr ? nullptr : editor->GetTabWidget();
+}
+
+}  // namespace
 
 namespace sup::gui
 {
@@ -35,16 +55,18 @@ ConfigurationPanelMirrorController::~ConfigurationPanelMirrorController() = defa
 
 void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableComboPanel* panel)
 {
-  // The registration of the panel's synchronisable widgets in the underlying controllers will be
-  // implemented in the next step.
-  (void)panel;
+  if (auto* tab_widget = GetPanelTabWidget(panel); tab_widget != nullptr)
+  {
+    m_tab_widget_controller->AddTabWidget(tab_widget);
+  }
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::SplittableComboPanel* panel)
 {
-  // The unregistration of the panel's synchronisable widgets from the underlying controllers will
-  // be implemented in the next step.
-  (void)panel;
+  if (auto* tab_widget = GetPanelTabWidget(panel); tab_widget != nullptr)
+  {
+    m_tab_widget_controller->RemoveTabWidget(tab_widget);
+  }
 }
 
 TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController() const

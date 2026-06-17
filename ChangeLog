@@ -1,5 +1,6 @@
 Changes for 2.3.0:
 
+- Implement controllers to synchronize the appearance of panels for configuration comparison
 - Implement prototype of DtoCompareView for configuration comparison
 - Implement model and items to store configurations
 - Implement new machinery for editors with splittable panels

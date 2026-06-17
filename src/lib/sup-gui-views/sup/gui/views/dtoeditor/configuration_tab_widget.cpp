@@ -70,6 +70,11 @@ void ConfigurationTabWidget::SetItem(mvvm::SessionItem* configuration_item)
   m_text_panel->SetAnyValueItemContainer(configuration_item);
 }
 
+QTabWidget* ConfigurationTabWidget::GetTabWidget() const
+{
+  return m_tab_widget;
+}
+
 void ConfigurationTabWidget::UpdateToolbarButtons()
 {
   m_tool_bar->clear();

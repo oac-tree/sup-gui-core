@@ -57,6 +57,11 @@ public:
    */
   void SetItem(mvvm::SessionItem* configuration_item) override;
 
+  /**
+   * @brief Returns the tab widget holding the different views of the configuration.
+   */
+  QTabWidget* GetTabWidget() const;
+
 private:
   void UpdateToolbarButtons();
   void AddTab(QWidget* widget, const QString& label, const QString& tooltip);
