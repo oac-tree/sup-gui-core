@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   dto_waveform_action_handler.h
   proxy_action.cpp
   proxy_action.h
+  scroll_area_mirror_controller.cpp
+  scroll_area_mirror_controller.h
   waveform_editor_action_handler.cpp
   waveform_editor_action_handler.h
   waveform_twocolumn_viewmodel.cpp
