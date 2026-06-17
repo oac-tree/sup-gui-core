@@ -20,7 +20,7 @@
 
 #include "sup/gui/widgets/custom_splitter_controller.h"
 
-#include <sup/gui/components/custom_metatypes.h>
+#include <sup/gui/component_metatypes.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/core/environment.h>
 

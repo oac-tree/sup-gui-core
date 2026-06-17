@@ -18,10 +18,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "custom_metatypes.h"
+#include "component_metatypes.h"
 
-#include <mvvm/model/session_item.h>
 #include <mvvm/model/item_selection.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
 #include <mvvm/widgets/main_window_types.h>
@@ -57,4 +57,4 @@ void RegisterCustomMetaTypes()
   std::call_once(register_once_flag, register_func);
 }
 
-}  // namespace sup::gui
+}  // namespace sup::gui::components

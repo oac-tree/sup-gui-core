@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
-#define SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
+#ifndef SUP_GUI_COMPONENT_METATYPES_H_
+#define SUP_GUI_COMPONENT_METATYPES_H_
 
 //! @file
 //! Registration of custom types in Qt meta type system to provide support in signal/slot and
@@ -33,10 +33,10 @@ namespace sup::gui::components
 
 void RegisterCustomMetaTypes();
 
-}  // namespace sup::gui
+}  // namespace sup::gui::components
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(QList<int>)
-#endif  // SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
+#endif
 
-#endif  // SUP_GUI_COMPONENTS_CUSTOM_METATYPES_H_
+#endif  // SUP_GUI_COMPONENT_METATYPES_H_

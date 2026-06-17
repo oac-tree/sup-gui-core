@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/gui/components/custom_metatypes.h>
+#include <sup/gui/component_metatypes.h>
 #include <sup/gui/views_metatypes.h>
 #include <sup/gui/model/register_items.h>
 #include <mvvm/core/platform.h>

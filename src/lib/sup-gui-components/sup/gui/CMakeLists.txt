@@ -1,3 +1,8 @@
+target_sources(${library_name} PRIVATE
+    component_metatypes.cpp
+    component_metatypes.h
+)
+
 add_subdirectory(app)
 add_subdirectory(components)
 add_subdirectory(component_objects)
