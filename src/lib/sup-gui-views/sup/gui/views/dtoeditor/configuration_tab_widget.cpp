@@ -88,6 +88,11 @@ QAbstractScrollArea* ConfigurationTabWidget::GetScrollArea(ConfigurationViewMode
   return nullptr;
 }
 
+QTreeView *ConfigurationTabWidget::GetMainTreeView() const
+{
+  return m_tree_panel->GetTreeView();
+}
+
 void ConfigurationTabWidget::AddTab(QWidget* widget, const QString& label, const QString& tooltip)
 {
   m_tab_widget->addTab(widget, label);

@@ -26,6 +26,7 @@
 
 class QTabWidget;
 class QAbstractScrollArea;
+class QTreeView;
 
 namespace mvvm
 {
@@ -61,16 +62,21 @@ public:
   /**
    * @brief Returns the tab widget holding the different views of the configuration.
    *
-   * Used to provide appearance synchronisation between different editors of the same configuration.
+   * Used to provide appearance synchronisation between QTabWidget belonging to different panels.
    */
   QTabWidget* GetTabWidget() const;
 
   /**
    * @brief Returns main scroll area of the view corresponding to the given mode.
    *
-   * Used to couple scroll positions of different views of two configuration panels.
+   * Used to couple scroll positions of different views of different configuration panels.
    */
   QAbstractScrollArea* GetScrollArea(ConfigurationViewMode mode) const;
+
+  /**
+   * @brief Returns the tree view of the configuration tree panel.
+   */
+  QTreeView* GetMainTreeView() const;
 
 private:
   void AddTab(QWidget* widget, const QString& label, const QString& tooltip);

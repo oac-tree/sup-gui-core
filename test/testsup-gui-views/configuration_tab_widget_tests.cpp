@@ -40,6 +40,7 @@ TEST_F(ConfigurationTabWidgetTest, InitialState)
   EXPECT_NE(widget.GetTabWidget(), nullptr);
   EXPECT_NE(widget.GetScrollArea(ConfigurationViewMode::kTree), nullptr);
   EXPECT_NE(widget.GetScrollArea(ConfigurationViewMode::kJSON), nullptr);
+  EXPECT_NE(widget.GetMainTreeView(), nullptr);
 }
 
 }  // namespace sup::gui::test
