@@ -29,6 +29,7 @@ namespace sup::gui
 
 class SplittableComboPanel;
 class TabWidgetController;
+class ScrollAreaMirrorController;
 
 /**
  * @brief The ConfigurationPanelMirrorController class envelops all controllers that synchronise
@@ -80,8 +81,16 @@ public:
    */
   TabWidgetController* GetTabWidgetController() const;
 
+  /**
+   * @brief Returns the controller coupling the scroll positions of the JSON views.
+   *
+   * Used for testing.
+   */
+  ScrollAreaMirrorController* GetJsonAreaController() const;
+
 private:
   std::unique_ptr<TabWidgetController> m_tab_widget_controller;
+  std::unique_ptr<ScrollAreaMirrorController> m_json_area_controller;
 };
 
 }  // namespace sup::gui

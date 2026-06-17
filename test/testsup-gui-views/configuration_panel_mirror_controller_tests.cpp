@@ -20,12 +20,16 @@
 
 #include "sup/gui/views/dtoeditor/configuration_panel_mirror_controller.h"
 
+#include <sup/gui/component_objects/scroll_area_mirror_controller.h>
 #include <sup/gui/component_objects/tab_widget_controller.h>
 #include <sup/gui/views/dtoeditor/configuration_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
 #include <gtest/gtest.h>
 
+#include <QAbstractScrollArea>
+#include <QPlainTextEdit>
+#include <QScrollBar>
 #include <QTabWidget>
 #include <memory>
 
@@ -55,12 +59,44 @@ public:
   {
     return panel->GetMainEditor<ConfigurationTabWidget>()->GetTabWidget();
   }
+
+  /**
+   * @brief Returns the JSON view scroll area of the panel's main editor.
+   */
+  static QAbstractScrollArea* GetJsonArea(SplittableComboPanel* panel)
+  {
+    return panel->GetMainEditor<ConfigurationTabWidget>()->GetScrollArea(
+        ConfigurationViewMode::kJSON);
+  }
+
+  /**
+   * @brief Makes the JSON view current, fills it with enough text and shows it, so that its scroll
+   * area gets a real (non-zero) scrollbar range.
+   */
+  static void PrepareJsonView(SplittableComboPanel* panel)
+  {
+    panel->GetMainEditor<ConfigurationTabWidget>()->GetTabWidget()->setCurrentIndex(1);
+
+    if (auto* edit = qobject_cast<QPlainTextEdit*>(GetJsonArea(panel)); edit != nullptr)
+    {
+      QString text;
+      for (int i = 0; i < 200; ++i)
+      {
+        text += QString("line %1\n").arg(i);
+      }
+      edit->setPlainText(text);
+    }
+
+    panel->resize(200, 200);
+    panel->show();
+  }
 };
 
 TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
 {
   ConfigurationPanelMirrorController controller;
   EXPECT_NE(controller.GetTabWidgetController(), nullptr);
+  EXPECT_NE(controller.GetJsonAreaController(), nullptr);
 }
 
 TEST_F(ConfigurationPanelMirrorControllerTest, ProcessNullPanel)
@@ -120,6 +156,59 @@ TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsMirroring)
   // switching tab in the first panel should no longer affect the removed one
   tab1->setCurrentIndex(1);
   EXPECT_EQ(tab2->currentIndex(), 0);
+}
+
+//! Adding two panels should couple the scroll positions of their JSON views.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelAddMirrorsJsonScroll)
+{
+  ConfigurationPanelMirrorController controller;
+
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  PrepareJsonView(panel1.get());
+  PrepareJsonView(panel2.get());
+
+  auto* area1 = GetJsonArea(panel1.get());
+  auto* area2 = GetJsonArea(panel2.get());
+
+  // make sure the JSON view has a real scroll range
+  ASSERT_GT(area1->verticalScrollBar()->maximum(), 5);
+
+  // scrolling the first JSON view should mirror to the second
+  area1->verticalScrollBar()->setValue(5);
+  EXPECT_EQ(area2->verticalScrollBar()->value(), 5);
+}
+
+//! After removing a panel, its JSON view scroll position should no longer be mirrored.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsJsonScroll)
+{
+  ConfigurationPanelMirrorController controller;
+
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  controller.ProcessPanelRemove(panel2.get());
+
+  PrepareJsonView(panel1.get());
+  PrepareJsonView(panel2.get());
+
+  auto* area1 = GetJsonArea(panel1.get());
+  auto* area2 = GetJsonArea(panel2.get());
+
+  ASSERT_GT(area1->verticalScrollBar()->maximum(), 5);
+
+  // scrolling the first JSON view should no longer affect the removed one
+  area1->verticalScrollBar()->setValue(5);
+  EXPECT_EQ(area2->verticalScrollBar()->value(), 0);
 }
 
 }  // namespace sup::gui::test

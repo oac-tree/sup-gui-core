@@ -23,21 +23,17 @@
 #include "configuration_tab_widget.h"
 #include "splittable_combo_panel.h"
 
+#include <sup/gui/component_objects/scroll_area_mirror_controller.h>
 #include <sup/gui/component_objects/tab_widget_controller.h>
 
 namespace
 {
 
-//! Returns the QTabWidget of the panel's main editor, or nullptr if not available.
-QTabWidget* GetPanelTabWidget(sup::gui::SplittableComboPanel* panel)
+//! Returns the configuration editor of the panel's main editor, or nullptr if not available.
+sup::gui::ConfigurationTabWidget* GetPanelEditor(sup::gui::SplittableComboPanel* panel)
 {
-  if (panel == nullptr)
-  {
-    return nullptr;
-  }
-
-  auto* editor = panel->GetMainEditor<sup::gui::ConfigurationTabWidget>();
-  return editor == nullptr ? nullptr : editor->GetTabWidget();
+  return panel == nullptr ? nullptr
+                          : panel->GetMainEditor<sup::gui::ConfigurationTabWidget>();
 }
 
 }  // namespace
@@ -46,7 +42,9 @@ namespace sup::gui
 {
 
 ConfigurationPanelMirrorController::ConfigurationPanelMirrorController(QObject* parent_object)
-    : QObject(parent_object), m_tab_widget_controller(std::make_unique<TabWidgetController>())
+    : QObject(parent_object)
+    , m_tab_widget_controller(std::make_unique<TabWidgetController>())
+    , m_json_area_controller(std::make_unique<ScrollAreaMirrorController>())
 {
 }
 
@@ -55,27 +53,49 @@ ConfigurationPanelMirrorController::~ConfigurationPanelMirrorController() = defa
 void ConfigurationPanelMirrorController::SetActive(bool value)
 {
   m_tab_widget_controller->SetActive(value);
+  m_json_area_controller->SetActive(value);
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableComboPanel* panel)
 {
-  if (auto* tab_widget = GetPanelTabWidget(panel); tab_widget != nullptr)
+  auto* editor = GetPanelEditor(panel);
+  if (editor == nullptr)
   {
-    m_tab_widget_controller->AddTabWidget(tab_widget);
+    return;
+  }
+
+  m_tab_widget_controller->AddTabWidget(editor->GetTabWidget());
+
+  if (auto* json_area = editor->GetScrollArea(ConfigurationViewMode::kJSON); json_area != nullptr)
+  {
+    m_json_area_controller->AddScrollArea(json_area);
   }
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::SplittableComboPanel* panel)
 {
-  if (auto* tab_widget = GetPanelTabWidget(panel); tab_widget != nullptr)
+  auto* editor = GetPanelEditor(panel);
+  if (editor == nullptr)
   {
-    m_tab_widget_controller->RemoveTabWidget(tab_widget);
+    return;
+  }
+
+  m_tab_widget_controller->RemoveTabWidget(editor->GetTabWidget());
+
+  if (auto* json_area = editor->GetScrollArea(ConfigurationViewMode::kJSON); json_area != nullptr)
+  {
+    m_json_area_controller->RemoveScrollArea(json_area);
   }
 }
 
 TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController() const
 {
   return m_tab_widget_controller.get();
+}
+
+ScrollAreaMirrorController* ConfigurationPanelMirrorController::GetJsonAreaController() const
+{
+  return m_json_area_controller.get();
 }
 
 }  // namespace sup::gui
