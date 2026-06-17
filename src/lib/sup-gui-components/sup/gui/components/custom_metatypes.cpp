@@ -33,7 +33,7 @@
 #include <cstdint>
 #endif
 
-namespace sup::gui
+namespace sup::gui::components
 {
 
 void RegisterCustomMetaTypes()

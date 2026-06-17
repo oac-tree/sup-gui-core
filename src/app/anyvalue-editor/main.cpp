@@ -24,7 +24,7 @@
 
 int main(int argc, char** argv)
 {
-  sup::gui::RegisterCustomMetaTypes();  // before InitCoreApplication for QSettings
+  sup::gui::components::RegisterCustomMetaTypes();  // before InitCoreApplication for QSettings
 
   const auto version = QString::fromStdString(sup::gui::ProjectVersion());
   sup::gui::InitCoreApplication("anyvalue-editor", version);

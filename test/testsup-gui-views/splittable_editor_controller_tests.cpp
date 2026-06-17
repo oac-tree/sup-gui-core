@@ -37,6 +37,7 @@
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::ItemSelection)
+Q_DECLARE_METATYPE(sup::gui::SplittableComboPanel*)
 #endif
 
 namespace sup::gui::test

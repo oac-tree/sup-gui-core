@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
 
-  sup::gui::RegisterCustomMetaTypes();
+  sup::gui::components::RegisterCustomMetaTypes();
   sup::gui::RegisterSessionItems();
 
   mvvm::SetHeadless();

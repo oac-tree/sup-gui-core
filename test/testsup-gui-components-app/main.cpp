@@ -34,7 +34,7 @@ int main(int argc, char** argv)
   const QApplication app(argc, argv);
   Q_UNUSED(app)
 
-  sup::gui::RegisterCustomMetaTypes();
+  sup::gui::components::RegisterCustomMetaTypes();
   sup::gui::RegisterSessionItems();
 
   // run all google tests

@@ -28,7 +28,7 @@
 #include <QList>
 #include <QMetaType>
 
-namespace sup::gui
+namespace sup::gui::components
 {
 
 void RegisterCustomMetaTypes();
