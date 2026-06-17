@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   scroll_area_mirror_controller.h
   tab_widget_controller.cpp
   tab_widget_controller.h
+  tree_expand_controller.cpp
+  tree_expand_controller.h
   waveform_editor_action_handler.cpp
   waveform_editor_action_handler.h
   waveform_twocolumn_viewmodel.cpp

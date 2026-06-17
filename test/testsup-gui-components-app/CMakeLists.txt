@@ -19,6 +19,7 @@ target_sources(${test} PRIVATE
   proxy_action_tests.cpp
   scroll_area_mirror_controller_tests.cpp
   tab_widget_controller_tests.cpp
+  tree_expand_controller_tests.cpp
   tree_helper_tests.cpp
 )
 
