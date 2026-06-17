@@ -21,12 +21,10 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_TAB_WIDGET_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_CONFIGURATION_TAB_WIDGET_H_
 
+#include <sup/gui/components/component_types.h>
 #include <sup/gui/mainwindow/session_item_widget.h>
 
-#include <sup/gui/components/component_types.h>
-
 class QTabWidget;
-class QToolBar;
 class QAbstractScrollArea;
 
 namespace mvvm
@@ -75,10 +73,8 @@ public:
   QAbstractScrollArea* GetScrollArea(ConfigurationViewMode mode) const;
 
 private:
-  void UpdateToolbarButtons();
   void AddTab(QWidget* widget, const QString& label, const QString& tooltip);
 
-  QToolBar* m_tool_bar{nullptr};
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};
   QTabWidget* m_tab_widget{nullptr};

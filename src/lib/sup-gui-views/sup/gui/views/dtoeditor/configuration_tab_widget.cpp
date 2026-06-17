@@ -29,7 +29,6 @@
 #include <mvvm/style/mvvm_style_helper.h>
 
 #include <QTabWidget>
-#include <QToolBar>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -38,7 +37,6 @@ namespace sup::gui
 
 ConfigurationTabWidget::ConfigurationTabWidget(QWidget* parent_widget)
     : SessionItemWidget(parent_widget)
-    , m_tool_bar(new QToolBar)
     , m_tree_panel(new AnyValueEditorTreePanel)
     , m_text_panel(new AnyValueEditorTextPanel)
     , m_tab_widget(new QTabWidget)
@@ -47,12 +45,6 @@ ConfigurationTabWidget::ConfigurationTabWidget(QWidget* parent_widget)
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  m_tool_bar->setIconSize(utils::NarrowToolBarIconSize());
-  m_tool_bar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-  // to have fixed height when no actions are added
-  m_tool_bar->setFixedHeight(utils::NarrowToolBarIconSize().height() + mvvm::style::UnitSize(1.9));
-
-  layout->addWidget(m_tool_bar);
   layout->addWidget(m_tab_widget);
 
   AddTab(m_tree_panel, "Configuration Tree",
@@ -61,9 +53,6 @@ ConfigurationTabWidget::ConfigurationTabWidget(QWidget* parent_widget)
          "Configuration view with JSON representation of the configuration");
 
   m_tab_widget->setTabPosition(QTabWidget::South);
-
-  connect(m_tab_widget, &QTabWidget::currentChanged, this, [this](int) { UpdateToolbarButtons(); });
-  UpdateToolbarButtons();
 }
 
 void ConfigurationTabWidget::SetItem(mvvm::SessionItem* configuration_item)
@@ -84,18 +73,13 @@ QAbstractScrollArea* ConfigurationTabWidget::GetScrollArea(ConfigurationViewMode
   {
     return m_tree_panel->GetTreeView();
   }
-  else if (mode == ConfigurationViewMode::kJSON)
+
+  if (mode == ConfigurationViewMode::kJSON)
   {
     return m_text_panel->GetCodeView()->GetCodeEditor();
   }
 
   return nullptr;
-}
-
-void ConfigurationTabWidget::UpdateToolbarButtons()
-{
-  m_tool_bar->clear();
-  m_tool_bar->addActions(m_tab_widget->currentWidget()->actions());
 }
 
 void ConfigurationTabWidget::AddTab(QWidget* widget, const QString& label, const QString& tooltip)
