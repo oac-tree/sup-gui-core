@@ -59,6 +59,7 @@ void ConfigurationTabWidget::SetItem(mvvm::SessionItem* configuration_item)
 {
   // configuration_item is a container with a single AnyValueItem
   m_tree_panel->SetAnyValueItemContainer(configuration_item);
+  m_tree_panel->GetTreeView()->expandAll();
   m_text_panel->SetAnyValueItemContainer(configuration_item);
 }
 
