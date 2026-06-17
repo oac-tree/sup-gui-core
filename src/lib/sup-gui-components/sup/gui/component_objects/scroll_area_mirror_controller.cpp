@@ -36,7 +36,7 @@ ScrollAreaMirrorController::~ScrollAreaMirrorController() = default;
 
 void ScrollAreaMirrorController::AddScrollArea(QAbstractScrollArea* area)
 {
-  if (!area || std::find(m_areas.begin(), m_areas.end(), area) != m_areas.end())
+  if ((area == nullptr) || (std::find(m_areas.begin(), m_areas.end(), area) != m_areas.end()))
   {
     return;
   }

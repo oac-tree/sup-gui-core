@@ -66,8 +66,8 @@ TreeExpandController::~TreeExpandController() = default;
 
 void TreeExpandController::AddTreeView(QTreeView* tree_view)
 {
-  if (!tree_view
-      || std::find(m_tree_views.begin(), m_tree_views.end(), tree_view) != m_tree_views.end())
+  if ((tree_view == nullptr)
+      || (std::find(m_tree_views.begin(), m_tree_views.end(), tree_view) != m_tree_views.end()))
   {
     return;
   }
@@ -75,10 +75,8 @@ void TreeExpandController::AddTreeView(QTreeView* tree_view)
   m_tree_views.push_back(tree_view);
 
   connect(tree_view, &QTreeView::expanded, this,
-          [this, tree_view](const QModelIndex& index)
-          { OnBranchChanged(tree_view, index, true); });
-  connect(tree_view, &QTreeView::collapsed, this,
-          [this, tree_view](const QModelIndex& index)
+          [this, tree_view](const QModelIndex& index) { OnBranchChanged(tree_view, index, true); });
+  connect(tree_view, &QTreeView::collapsed, this, [this, tree_view](const QModelIndex& index)
           { OnBranchChanged(tree_view, index, false); });
 
   // Remove from list automatically when the view is destroyed.

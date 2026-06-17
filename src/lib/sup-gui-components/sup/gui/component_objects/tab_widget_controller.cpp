@@ -32,8 +32,8 @@ TabWidgetController::~TabWidgetController() = default;
 
 void TabWidgetController::AddTabWidget(QTabWidget* tab_widget)
 {
-  if (!tab_widget
-      || std::find(m_tab_widgets.begin(), m_tab_widgets.end(), tab_widget) != m_tab_widgets.end())
+  if ((tab_widget == nullptr)
+      || (std::find(m_tab_widgets.begin(), m_tab_widgets.end(), tab_widget) != m_tab_widgets.end()))
   {
     return;
   }
@@ -91,7 +91,7 @@ void TabWidgetController::OnCurrentChanged(QTabWidget* source, int index)
   m_is_propagating = true;
   for (auto* tab_widget : m_tab_widgets)
   {
-    if (tab_widget != source && index < tab_widget->count())
+    if ((tab_widget != source) && (index < tab_widget->count()))
     {
       tab_widget->setCurrentIndex(index);
     }
