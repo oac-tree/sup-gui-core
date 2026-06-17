@@ -9,6 +9,8 @@ target_sources(${test} PRIVATE
   combo_tool_bar_tests.cpp
   configuration_list_widget_tests.cpp
   configuration_panel_mirror_controller_tests.cpp
+  configuration_splittable_widget_tests.cpp
+  configuration_tab_widget_tests.cpp
   container_helper_tests.cpp
   custom_splitter_controller_tests.cpp
   dto_compare_view_tests.cpp
@@ -25,7 +27,6 @@ target_sources(${test} PRIVATE
   waveform_editor_tests.cpp
   waveform_table_component_provider_tests.cpp
   waveform_table_widget_tests.cpp
-  configuration_splittable_widget_tests.cpp
 )
 
 target_link_libraries(${test} PRIVATE sup-gui-views sup-gui-core-test-utils)

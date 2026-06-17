@@ -23,11 +23,14 @@
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_textpanel.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_treepanel.h>
+#include <sup/gui/views/codeeditor/code_editor.h>
+#include <sup/gui/views/codeeditor/code_view.h>
 
 #include <mvvm/style/mvvm_style_helper.h>
 
 #include <QTabWidget>
 #include <QToolBar>
+#include <QTreeView>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -73,6 +76,20 @@ void ConfigurationTabWidget::SetItem(mvvm::SessionItem* configuration_item)
 QTabWidget* ConfigurationTabWidget::GetTabWidget() const
 {
   return m_tab_widget;
+}
+
+QAbstractScrollArea* ConfigurationTabWidget::GetScrollArea(ConfigurationViewMode mode) const
+{
+  if (mode == ConfigurationViewMode::kTree)
+  {
+    return m_tree_panel->GetTreeView();
+  }
+  else if (mode == ConfigurationViewMode::kJSON)
+  {
+    return m_text_panel->GetCodeView()->GetCodeEditor();
+  }
+
+  return nullptr;
 }
 
 void ConfigurationTabWidget::UpdateToolbarButtons()

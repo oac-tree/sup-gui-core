@@ -68,6 +68,8 @@ public:
 
   void OnExportToFileRequest();
 
+  CodeEditor* GetCodeEditor();
+
 private:
   struct ScrollBarPosition
   {

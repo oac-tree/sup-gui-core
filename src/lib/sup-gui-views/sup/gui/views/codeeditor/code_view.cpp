@@ -132,6 +132,11 @@ void CodeView::OnExportToFileRequest()
   }
 }
 
+CodeEditor *CodeView::GetCodeEditor()
+{
+  return m_text_edit;
+}
+
 void CodeView::ReadSettings()
 {
   const QSettings settings;

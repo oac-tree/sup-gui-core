@@ -64,6 +64,8 @@ public:
 
   void SetJsonPretty(bool value);
 
+  CodeView* GetCodeView() const;
+
 signals:
   void ExportToFileRequest();
 

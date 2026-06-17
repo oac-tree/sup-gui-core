@@ -23,8 +23,11 @@
 
 #include <sup/gui/mainwindow/session_item_widget.h>
 
+#include <sup/gui/components/component_types.h>
+
 class QTabWidget;
 class QToolBar;
+class QAbstractScrollArea;
 
 namespace mvvm
 {
@@ -59,8 +62,17 @@ public:
 
   /**
    * @brief Returns the tab widget holding the different views of the configuration.
+   *
+   * Used to provide appearance synchronisation between different editors of the same configuration.
    */
   QTabWidget* GetTabWidget() const;
+
+  /**
+   * @brief Returns main scroll area of the view corresponding to the given mode.
+   *
+   * Used to couple scroll positions of different views of two configuration panels.
+   */
+  QAbstractScrollArea* GetScrollArea(ConfigurationViewMode mode) const;
 
 private:
   void UpdateToolbarButtons();

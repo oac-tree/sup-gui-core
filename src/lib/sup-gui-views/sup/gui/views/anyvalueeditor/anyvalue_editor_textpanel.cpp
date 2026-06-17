@@ -82,6 +82,11 @@ void AnyValueEditorTextPanel::SetJsonPretty(bool value)
                                  : utils::FindIcon("checkbox-blank-circle-outline"));
 }
 
+CodeView *AnyValueEditorTextPanel::GetCodeView() const
+{
+  return m_json_view;
+}
+
 void AnyValueEditorTextPanel::SetContainerIntern(mvvm::SessionItem* container)
 {
   if (container != nullptr)
