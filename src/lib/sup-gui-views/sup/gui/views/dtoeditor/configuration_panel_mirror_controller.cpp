@@ -25,6 +25,7 @@
 
 #include <sup/gui/component_objects/scroll_area_mirror_controller.h>
 #include <sup/gui/component_objects/tab_widget_controller.h>
+#include <sup/gui/component_objects/tree_expand_controller.h>
 
 namespace
 {
@@ -46,6 +47,7 @@ ConfigurationPanelMirrorController::ConfigurationPanelMirrorController(QObject* 
     , m_tab_widget_controller(std::make_unique<TabWidgetController>())
     , m_json_area_controller(std::make_unique<ScrollAreaMirrorController>())
     , m_tree_area_controller(std::make_unique<ScrollAreaMirrorController>())
+    , m_tree_expand_controller(std::make_unique<TreeExpandController>())
 {
 }
 
@@ -56,6 +58,7 @@ void ConfigurationPanelMirrorController::SetActive(bool value)
   m_tab_widget_controller->SetActive(value);
   m_json_area_controller->SetActive(value);
   m_tree_area_controller->SetActive(value);
+  m_tree_expand_controller->SetActive(value);
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableComboPanel* panel)
@@ -77,6 +80,8 @@ void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableCom
   {
     m_tree_area_controller->AddScrollArea(tree_area);
   }
+
+  m_tree_expand_controller->AddTreeView(editor->GetMainTreeView());
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::SplittableComboPanel* panel)
@@ -98,6 +103,8 @@ void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::Splittable
   {
     m_tree_area_controller->RemoveScrollArea(tree_area);
   }
+
+  m_tree_expand_controller->RemoveTreeView(editor->GetMainTreeView());
 }
 
 TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController() const
@@ -113,6 +120,11 @@ ScrollAreaMirrorController* ConfigurationPanelMirrorController::GetJsonAreaContr
 ScrollAreaMirrorController* ConfigurationPanelMirrorController::GetTreeAreaController() const
 {
   return m_tree_area_controller.get();
+}
+
+TreeExpandController* ConfigurationPanelMirrorController::GetTreeExpandController() const
+{
+  return m_tree_expand_controller.get();
 }
 
 }  // namespace sup::gui

@@ -22,6 +22,7 @@
 
 #include <sup/gui/component_objects/scroll_area_mirror_controller.h>
 #include <sup/gui/component_objects/tab_widget_controller.h>
+#include <sup/gui/component_objects/tree_expand_controller.h>
 #include <sup/gui/views/dtoeditor/configuration_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
@@ -32,8 +33,11 @@
 #include <QApplication>
 #include <QPlainTextEdit>
 #include <QScrollBar>
+#include <QStandardItem>
+#include <QStandardItemModel>
 #include <QStringListModel>
 #include <QTabWidget>
+#include <QTreeView>
 #include <memory>
 
 namespace sup::gui::test
@@ -124,6 +128,27 @@ public:
     // flush layout so the tree view establishes its viewport geometry and scrollbar range
     QApplication::processEvents();
   }
+
+  /**
+   * @brief Returns the main tree view of the panel's editor.
+   */
+  static QTreeView* GetMainTreeView(SplittableComboPanel* panel)
+  {
+    return panel->GetMainEditor<ConfigurationTabWidget>()->GetMainTreeView();
+  }
+
+  /**
+   * @brief Builds a model with a single top-level branch holding two children.
+   */
+  static std::unique_ptr<QStandardItemModel> CreateBranchModel()
+  {
+    auto model = std::make_unique<QStandardItemModel>();
+    auto* parent = new QStandardItem("parent");
+    parent->appendRow(new QStandardItem("child0"));
+    parent->appendRow(new QStandardItem("child1"));
+    model->appendRow(parent);
+    return model;
+  }
 };
 
 TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
@@ -132,6 +157,7 @@ TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
   EXPECT_NE(controller.GetTabWidgetController(), nullptr);
   EXPECT_NE(controller.GetJsonAreaController(), nullptr);
   EXPECT_NE(controller.GetTreeAreaController(), nullptr);
+  EXPECT_NE(controller.GetTreeExpandController(), nullptr);
 }
 
 TEST_F(ConfigurationPanelMirrorControllerTest, ProcessNullPanel)
@@ -311,6 +337,64 @@ TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsTreeScroll
   // scrolling the first tree view should no longer affect the removed one
   area1->verticalScrollBar()->setValue(5);
   EXPECT_EQ(area2->verticalScrollBar()->value(), 0);
+}
+
+//! Adding two panels should couple the expand/collapse state of their tree views.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelAddMirrorsTreeExpand)
+{
+  ConfigurationPanelMirrorController controller;
+
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  auto model1 = CreateBranchModel();
+  auto model2 = CreateBranchModel();
+  auto* tree1 = GetMainTreeView(panel1.get());
+  auto* tree2 = GetMainTreeView(panel2.get());
+  tree1->setModel(model1.get());
+  tree2->setModel(model2.get());
+
+  const auto branch1 = model1->index(0, 0);
+  const auto branch2 = model2->index(0, 0);
+  ASSERT_FALSE(tree2->isExpanded(branch2));
+
+  // expanding the branch in the first tree should mirror to the second
+  tree1->expand(branch1);
+  EXPECT_TRUE(tree2->isExpanded(branch2));
+
+  // and collapsing too
+  tree1->collapse(branch1);
+  EXPECT_FALSE(tree2->isExpanded(branch2));
+}
+
+//! After removing a panel, its tree view expand/collapse state should no longer be mirrored.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsTreeExpand)
+{
+  ConfigurationPanelMirrorController controller;
+
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  controller.ProcessPanelRemove(panel2.get());
+
+  auto model1 = CreateBranchModel();
+  auto model2 = CreateBranchModel();
+  auto* tree1 = GetMainTreeView(panel1.get());
+  auto* tree2 = GetMainTreeView(panel2.get());
+  tree1->setModel(model1.get());
+  tree2->setModel(model2.get());
+
+  // expanding the branch in the first tree should no longer affect the removed one
+  tree1->expand(model1->index(0, 0));
+  EXPECT_FALSE(tree2->isExpanded(model2->index(0, 0)));
 }
 
 }  // namespace sup::gui::test

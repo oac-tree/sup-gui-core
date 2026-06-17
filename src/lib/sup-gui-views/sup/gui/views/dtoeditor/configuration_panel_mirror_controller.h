@@ -30,6 +30,7 @@ namespace sup::gui
 class SplittableComboPanel;
 class TabWidgetController;
 class ScrollAreaMirrorController;
+class TreeExpandController;
 
 /**
  * @brief The ConfigurationPanelMirrorController class envelops all controllers that synchronise
@@ -95,10 +96,18 @@ public:
    */
   ScrollAreaMirrorController* GetTreeAreaController() const;
 
+  /**
+   * @brief Returns the controller coupling the expand/collapse state of the tree views.
+   *
+   * Used for testing.
+   */
+  TreeExpandController* GetTreeExpandController() const;
+
 private:
   std::unique_ptr<TabWidgetController> m_tab_widget_controller;
   std::unique_ptr<ScrollAreaMirrorController> m_json_area_controller;
   std::unique_ptr<ScrollAreaMirrorController> m_tree_area_controller;
+  std::unique_ptr<TreeExpandController> m_tree_expand_controller;
 };
 
 }  // namespace sup::gui

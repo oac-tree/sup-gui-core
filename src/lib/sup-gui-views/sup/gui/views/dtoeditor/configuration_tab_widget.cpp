@@ -88,7 +88,7 @@ QAbstractScrollArea* ConfigurationTabWidget::GetScrollArea(ConfigurationViewMode
   return nullptr;
 }
 
-QTreeView *ConfigurationTabWidget::GetMainTreeView() const
+QTreeView* ConfigurationTabWidget::GetMainTreeView() const
 {
   return m_tree_panel->GetTreeView();
 }
