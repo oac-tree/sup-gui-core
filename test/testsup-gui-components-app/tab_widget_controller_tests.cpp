@@ -104,6 +104,54 @@ TEST_F(TabWidgetControllerTest, SetActiveDisablesMirroring)
   EXPECT_EQ(m_tab2.currentIndex(), 1);  // mirroring resumed
 }
 
+//! Re-enabling synchronisation realigns all widgets to the first widget's current tab.
+
+TEST_F(TabWidgetControllerTest, SetActiveRealignsToFirstWidget)
+{
+  SetupTwoTabWidgets();
+
+  m_controller.SetActive(false);
+
+  // while disabled, widgets diverge
+  m_tab1.setCurrentIndex(2);
+  m_tab2.setCurrentIndex(1);
+  EXPECT_EQ(m_tab1.currentIndex(), 2);
+  EXPECT_EQ(m_tab2.currentIndex(), 1);
+
+  // re-enabling should align all widgets to the first widget's tab
+  m_controller.SetActive(true);
+  EXPECT_EQ(m_tab1.currentIndex(), 2);
+  EXPECT_EQ(m_tab2.currentIndex(), 2);
+}
+
+//! Re-enabling synchronisation with no registered widgets does not crash.
+
+TEST_F(TabWidgetControllerTest, SetActiveWithoutWidgets)
+{
+  m_controller.SetActive(false);
+  EXPECT_NO_THROW(m_controller.SetActive(true));
+}
+
+//! Calling SetActive(true) while already active should not realign widgets.
+
+TEST_F(TabWidgetControllerTest, SetActiveWhenAlreadyActive)
+{
+  SetupTwoTabWidgets();
+
+  // diverge directly via the controller being active is not possible, so set up manually:
+  // here both widgets are active and aligned at 0.
+  EXPECT_TRUE(m_controller.IsActive());
+
+  // a redundant activation must be a no-op (no realignment to first widget)
+  m_tab2.blockSignals(true);
+  m_tab2.setCurrentIndex(1);
+  m_tab2.blockSignals(false);
+
+  m_controller.SetActive(true);  // already active, should not touch widgets
+  EXPECT_EQ(m_tab1.currentIndex(), 0);
+  EXPECT_EQ(m_tab2.currentIndex(), 1);
+}
+
 //! RemoveTabWidget stops mirroring to the removed widget.
 
 TEST_F(TabWidgetControllerTest, RemoveTabWidget)

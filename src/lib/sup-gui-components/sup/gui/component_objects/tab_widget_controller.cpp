@@ -47,9 +47,8 @@ void TabWidgetController::AddTabWidget(QTabWidget* tab_widget)
   connect(tab_widget, &QObject::destroyed, this,
           [this, tab_widget]()
           {
-            m_tab_widgets.erase(
-                std::remove(m_tab_widgets.begin(), m_tab_widgets.end(), tab_widget),
-                m_tab_widgets.end());
+            m_tab_widgets.erase(std::remove(m_tab_widgets.begin(), m_tab_widgets.end(), tab_widget),
+                                m_tab_widgets.end());
           });
 }
 
@@ -68,7 +67,13 @@ void TabWidgetController::RemoveTabWidget(QTabWidget* tab_widget)
 
 void TabWidgetController::SetActive(bool value)
 {
+  const bool reactivated = value && !m_is_active;
   m_is_active = value;
+
+  if (reactivated)
+  {
+    SyncToFirstWidget();
+  }
 }
 
 bool TabWidgetController::IsActive() const
@@ -92,6 +97,17 @@ void TabWidgetController::OnCurrentChanged(QTabWidget* source, int index)
     }
   }
   m_is_propagating = false;
+}
+
+void TabWidgetController::SyncToFirstWidget()
+{
+  if (m_tab_widgets.empty())
+  {
+    return;
+  }
+
+  const int index = m_tab_widgets.front()->currentIndex();
+  OnCurrentChanged(m_tab_widgets.front(), index);
 }
 
 }  // namespace sup::gui

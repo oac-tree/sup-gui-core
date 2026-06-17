@@ -66,6 +66,9 @@ public:
 
   /**
    * @brief Enables or disables tab synchronisation without unregistering widgets.
+   *
+   * When synchronisation is switched from disabled to enabled, all registered tab widgets are
+   * realigned to the current tab of the first widget in the list.
    */
   void SetActive(bool value);
 
@@ -76,6 +79,11 @@ public:
 
 private:
   void OnCurrentChanged(QTabWidget* source, int index);
+
+  /**
+   * @brief Aligns all registered tab widgets to the current tab of the first widget in the list.
+   */
+  void SyncToFirstWidget();
 
   std::vector<QTabWidget*> m_tab_widgets;
   bool m_is_active{true};
