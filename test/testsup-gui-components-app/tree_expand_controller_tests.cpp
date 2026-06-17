@@ -30,6 +30,9 @@
 namespace sup::gui::test
 {
 
+/**
+ * @brief Tests for TreeExpandController class.
+ */
 class TreeExpandControllerTest : public ::testing::Test
 {
 public:

@@ -36,7 +36,8 @@ class TreeExpandController;
  * @brief The ConfigurationPanelMirrorController class envelops all controllers that synchronise
  * the appearance of SplittableComboPanel instances.
  *
- * Its purpose is to keep the look of all panels in sync (e.g. the currently selected tab).
+ * Its purpose is to keep the look of all panels in sync (e.g. the currently selected tab,
+ * collapse/expand status of branches, scroll bar position mirroring).
  */
 class ConfigurationPanelMirrorController : public QObject
 {
@@ -62,16 +63,12 @@ public:
 
   /**
    * @brief Registers a newly added panel with the underlying synchronisation controllers.
-   *
-   * @note The actual registration logic will be implemented in the next step.
    */
   void ProcessPanelAdd(sup::gui::SplittableComboPanel* panel);
 
   /**
    * @brief Unregisters a panel that is about to be closed from the underlying synchronisation
    * controllers.
-   *
-   * @note The actual unregistration logic will be implemented in the next step.
    */
   void ProcessPanelRemove(sup::gui::SplittableComboPanel* panel);
 
@@ -104,9 +101,16 @@ public:
   TreeExpandController* GetTreeExpandController() const;
 
 private:
+  //! to synchronize the tab widget selection across all panels
   std::unique_ptr<TabWidgetController> m_tab_widget_controller;
+
+  //! to synchronize scroll bars of JSON view
   std::unique_ptr<ScrollAreaMirrorController> m_json_area_controller;
+
+  //! to synchronize scroll bars of main configuration tree view
   std::unique_ptr<ScrollAreaMirrorController> m_tree_area_controller;
+
+  //! to synchronize expand/collapse state of main configuration tree view
   std::unique_ptr<TreeExpandController> m_tree_expand_controller;
 };
 
