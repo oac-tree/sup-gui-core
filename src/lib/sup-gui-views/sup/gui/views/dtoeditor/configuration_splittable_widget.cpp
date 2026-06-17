@@ -20,6 +20,7 @@
 
 #include "configuration_splittable_widget.h"
 
+#include "configuration_panel_mirror_controller.h"
 #include "configuration_tab_widget.h"
 #include "splittable_combo_panel.h"
 #include "splittable_editor_controller.h"
@@ -41,6 +42,7 @@ ConfigurationSplittableWidget::ConfigurationSplittableWidget(QWidget* parent_wid
     : QWidget(parent_widget)
     , m_splitter(new QSplitter)
     , m_splitter_controller(CreateSplitterController())
+    , m_panel_mirror_controller(std::make_unique<ConfigurationPanelMirrorController>())
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -50,6 +52,14 @@ ConfigurationSplittableWidget::ConfigurationSplittableWidget(QWidget* parent_wid
 
   connect(m_splitter_controller.get(), &SplittableEditorController::focusPanelSelectionChanged,
           this, &ConfigurationSplittableWidget::focusPanelSelectionChanged);
+
+  connect(m_splitter_controller.get(), &SplittableEditorController::newPanelAdded,
+          m_panel_mirror_controller.get(),
+          &ConfigurationPanelMirrorController::ProcessPanelAdd);
+
+  connect(m_splitter_controller.get(), &SplittableEditorController::aboutToClosePanel,
+          m_panel_mirror_controller.get(),
+          &ConfigurationPanelMirrorController::ProcessPanelRemove);
 }
 
 ConfigurationSplittableWidget::~ConfigurationSplittableWidget() = default;
@@ -76,6 +86,12 @@ void ConfigurationSplittableWidget::CreatePanel()
 SplittableEditorController* ConfigurationSplittableWidget::GetController() const
 {
   return m_splitter_controller.get();
+}
+
+ConfigurationPanelMirrorController*
+ConfigurationSplittableWidget::GetPanelMirrorController() const
+{
+  return m_panel_mirror_controller.get();
 }
 
 std::unique_ptr<SplittableEditorController>

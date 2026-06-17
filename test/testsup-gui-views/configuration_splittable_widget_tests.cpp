@@ -22,6 +22,7 @@
 
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
+#include <sup/gui/views/dtoeditor/configuration_panel_mirror_controller.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
 
@@ -54,6 +55,7 @@ TEST_F(ConfigurationSplittableWidgetTest, InitialState)
   editor.show();
 
   ASSERT_NE(editor.GetController(), nullptr);
+  ASSERT_NE(editor.GetPanelMirrorController(), nullptr);
 
   auto splitter = editor.findChild<QSplitter*>();
 

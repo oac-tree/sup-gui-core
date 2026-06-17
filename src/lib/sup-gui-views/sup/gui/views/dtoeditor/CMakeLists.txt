@@ -3,6 +3,8 @@
 target_sources(${library_name} PRIVATE
   configuration_list_widget.cpp
   configuration_list_widget.h
+  configuration_panel_mirror_controller.cpp
+  configuration_panel_mirror_controller.h
   configuration_splittable_widget.cpp
   configuration_splittable_widget.h
   configuration_tab_widget.cpp

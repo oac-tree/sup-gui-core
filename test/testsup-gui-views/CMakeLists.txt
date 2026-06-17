@@ -8,6 +8,7 @@ target_sources(${test} PRIVATE
   anyvalue_waveform_editor_tests.cpp
   combo_tool_bar_tests.cpp
   configuration_list_widget_tests.cpp
+  configuration_panel_mirror_controller_tests.cpp
   container_helper_tests.cpp
   custom_splitter_controller_tests.cpp
   dto_compare_view_tests.cpp

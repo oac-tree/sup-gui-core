@@ -38,6 +38,7 @@ class SplittableComboPanel;
 class ConfigurationModel;
 class ConfigurationItem;
 class SplittableEditorController;
+class ConfigurationPanelMirrorController;
 
 /**
  * @brief The SplittableEditorWidget class is a complex editor with the possibility to split
@@ -75,6 +76,13 @@ public:
    */
   SplittableEditorController* GetController() const;
 
+  /**
+   * @brief Returns controller responsible for mirroring the appearance of panels.
+   *
+   * Used for testing.
+   */
+  ConfigurationPanelMirrorController* GetPanelMirrorController() const;
+
 signals:
   void focusPanelSelectionChanged(const mvvm::ItemSelection& selection);
 
@@ -83,6 +91,7 @@ private:
 
   QSplitter* m_splitter{nullptr};
   std::unique_ptr<SplittableEditorController> m_splitter_controller;
+  std::unique_ptr<ConfigurationPanelMirrorController> m_panel_mirror_controller;
   ConfigurationModel* m_model{nullptr};
 };
 
