@@ -88,9 +88,17 @@ public:
    */
   ScrollAreaMirrorController* GetJsonAreaController() const;
 
+  /**
+   * @brief Returns the controller coupling the scroll positions of the tree views.
+   *
+   * Used for testing.
+   */
+  ScrollAreaMirrorController* GetTreeAreaController() const;
+
 private:
   std::unique_ptr<TabWidgetController> m_tab_widget_controller;
   std::unique_ptr<ScrollAreaMirrorController> m_json_area_controller;
+  std::unique_ptr<ScrollAreaMirrorController> m_tree_area_controller;
 };
 
 }  // namespace sup::gui

@@ -27,9 +27,12 @@
 
 #include <gtest/gtest.h>
 
+#include <QAbstractItemView>
 #include <QAbstractScrollArea>
+#include <QApplication>
 #include <QPlainTextEdit>
 #include <QScrollBar>
+#include <QStringListModel>
 #include <QTabWidget>
 #include <memory>
 
@@ -90,6 +93,37 @@ public:
     panel->resize(200, 200);
     panel->show();
   }
+
+  /**
+   * @brief Returns the tree view scroll area of the panel's main editor.
+   */
+  static QAbstractScrollArea* GetTreeArea(SplittableComboPanel* panel)
+  {
+    return panel->GetMainEditor<ConfigurationTabWidget>()->GetScrollArea(
+        ConfigurationViewMode::kTree);
+  }
+
+  /**
+   * @brief Assigns a model with enough rows to the tree view and shows it, so that its scroll area
+   * gets a real (non-zero) scrollbar range.
+   */
+  static void PrepareTreeView(SplittableComboPanel* panel, QAbstractItemModel* model)
+  {
+    if (auto* view = qobject_cast<QAbstractItemView*>(GetTreeArea(panel)); view != nullptr)
+    {
+      view->setModel(model);
+      // ScrollPerPixel derives the scrollbar range from the total content height, which is
+      // available without the view being painted (unlike the default ScrollPerItem mode).
+      view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+      view->doItemsLayout();
+    }
+
+    panel->resize(200, 200);
+    panel->show();
+
+    // flush layout so the tree view establishes its viewport geometry and scrollbar range
+    QApplication::processEvents();
+  }
 };
 
 TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
@@ -97,6 +131,7 @@ TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
   ConfigurationPanelMirrorController controller;
   EXPECT_NE(controller.GetTabWidgetController(), nullptr);
   EXPECT_NE(controller.GetJsonAreaController(), nullptr);
+  EXPECT_NE(controller.GetTreeAreaController(), nullptr);
 }
 
 TEST_F(ConfigurationPanelMirrorControllerTest, ProcessNullPanel)
@@ -207,6 +242,73 @@ TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsJsonScroll
   ASSERT_GT(area1->verticalScrollBar()->maximum(), 5);
 
   // scrolling the first JSON view should no longer affect the removed one
+  area1->verticalScrollBar()->setValue(5);
+  EXPECT_EQ(area2->verticalScrollBar()->value(), 0);
+}
+
+//! Adding two panels should couple the scroll positions of their tree views.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelAddMirrorsTreeScroll)
+{
+  QStringList rows;
+  for (int i = 0; i < 200; ++i)
+  {
+    rows << QString("row %1").arg(i);
+  }
+  QStringListModel model(rows);
+
+  ConfigurationPanelMirrorController controller;
+
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  PrepareTreeView(panel1.get(), &model);
+  PrepareTreeView(panel2.get(), &model);
+
+  auto* area1 = GetTreeArea(panel1.get());
+  auto* area2 = GetTreeArea(panel2.get());
+
+  // make sure the tree view has a real scroll range
+  ASSERT_GT(area1->verticalScrollBar()->maximum(), 5);
+
+  // scrolling the first tree view should mirror to the second
+  area1->verticalScrollBar()->setValue(5);
+  EXPECT_EQ(area2->verticalScrollBar()->value(), 5);
+}
+
+//! After removing a panel, its tree view scroll position should no longer be mirrored.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsTreeScroll)
+{
+  QStringList rows;
+  for (int i = 0; i < 200; ++i)
+  {
+    rows << QString("row %1").arg(i);
+  }
+  QStringListModel model(rows);
+
+  ConfigurationPanelMirrorController controller;
+
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  controller.ProcessPanelRemove(panel2.get());
+
+  PrepareTreeView(panel1.get(), &model);
+  PrepareTreeView(panel2.get(), &model);
+
+  auto* area1 = GetTreeArea(panel1.get());
+  auto* area2 = GetTreeArea(panel2.get());
+
+  ASSERT_GT(area1->verticalScrollBar()->maximum(), 5);
+
+  // scrolling the first tree view should no longer affect the removed one
   area1->verticalScrollBar()->setValue(5);
   EXPECT_EQ(area2->verticalScrollBar()->value(), 0);
 }

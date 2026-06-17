@@ -45,6 +45,7 @@ ConfigurationPanelMirrorController::ConfigurationPanelMirrorController(QObject* 
     : QObject(parent_object)
     , m_tab_widget_controller(std::make_unique<TabWidgetController>())
     , m_json_area_controller(std::make_unique<ScrollAreaMirrorController>())
+    , m_tree_area_controller(std::make_unique<ScrollAreaMirrorController>())
 {
 }
 
@@ -54,6 +55,7 @@ void ConfigurationPanelMirrorController::SetActive(bool value)
 {
   m_tab_widget_controller->SetActive(value);
   m_json_area_controller->SetActive(value);
+  m_tree_area_controller->SetActive(value);
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableComboPanel* panel)
@@ -69,6 +71,11 @@ void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableCom
   if (auto* json_area = editor->GetScrollArea(ConfigurationViewMode::kJSON); json_area != nullptr)
   {
     m_json_area_controller->AddScrollArea(json_area);
+  }
+
+  if (auto* tree_area = editor->GetScrollArea(ConfigurationViewMode::kTree); tree_area != nullptr)
+  {
+    m_tree_area_controller->AddScrollArea(tree_area);
   }
 }
 
@@ -86,6 +93,11 @@ void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::Splittable
   {
     m_json_area_controller->RemoveScrollArea(json_area);
   }
+
+  if (auto* tree_area = editor->GetScrollArea(ConfigurationViewMode::kTree); tree_area != nullptr)
+  {
+    m_tree_area_controller->RemoveScrollArea(tree_area);
+  }
 }
 
 TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController() const
@@ -96,6 +108,11 @@ TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController(
 ScrollAreaMirrorController* ConfigurationPanelMirrorController::GetJsonAreaController() const
 {
   return m_json_area_controller.get();
+}
+
+ScrollAreaMirrorController* ConfigurationPanelMirrorController::GetTreeAreaController() const
+{
+  return m_tree_area_controller.get();
 }
 
 }  // namespace sup::gui
