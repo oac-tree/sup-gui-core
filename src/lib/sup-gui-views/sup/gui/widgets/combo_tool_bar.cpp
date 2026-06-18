@@ -112,6 +112,11 @@ void ComboToolBar::SetPanelFlag(ComparePanelState flag, bool value)
   UpdateAppearance();
 }
 
+mvvm::Flags<ComparePanelState> ComboToolBar::GetPanelState() const
+{
+  return m_panel_state;
+}
+
 void ComboToolBar::SetCurrentIndex(std::int32_t index)
 {
   auto items = m_available_items();

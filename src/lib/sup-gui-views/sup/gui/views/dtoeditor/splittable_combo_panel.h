@@ -21,6 +21,7 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_COMBO_PANEL_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_COMBO_PANEL_H_
 
+#include <mvvm/core/flags.h>
 #include <mvvm/model/item_selection.h>
 #include <sup/gui/components/component_types.h>
 
@@ -141,6 +142,11 @@ public:
    * Reference panel has a radiox box button checked in.
    */
   void ShowAsReferencePanel(bool value);
+
+  /**
+   * @brief Returns the whole set of panel state flags (reference, active, last panel).
+   */
+  mvvm::Flags<ComparePanelState> GetPanelState() const;
 
   /**
    * @brief Will track the activity in children widgets and request focus change.

@@ -139,6 +139,11 @@ void SplittableComboPanel::ShowAsReferencePanel(bool value)
   m_tool_bar->SetPanelFlag(ComparePanelState::kReference, value);
 }
 
+mvvm::Flags<ComparePanelState> SplittableComboPanel::GetPanelState() const
+{
+  return m_tool_bar->GetPanelState();
+}
+
 bool SplittableComboPanel::eventFilter(QObject* watched, QEvent* event)
 {
   // will invoke panelFocusRequest on any mouse click activity in descendant widgets, so the

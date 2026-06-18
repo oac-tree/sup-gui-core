@@ -173,15 +173,23 @@ void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelectio
 void SplittableEditorController::onReferenceRequest(bool value)
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+  if (sending_panel == nullptr)
+  {
+    return;
+  }
+
   if (value)
   {
+    // enforce the invariant: exactly one reference panel - the sending one, all others cleared
     for (auto& panel : m_focus_handler->GetWidgets())
     {
-      if (panel != sending_panel)
-      {
-        panel->ShowAsReferencePanel(false);
-      }
+      panel->ShowAsReferencePanel(panel == sending_panel);
     }
+  }
+  else
+  {
+    // the sending panel is no longer the reference; no panel is the reference anymore
+    sending_panel->ShowAsReferencePanel(false);
   }
 
   emit referencePanelChanged(value ? sending_panel : nullptr);

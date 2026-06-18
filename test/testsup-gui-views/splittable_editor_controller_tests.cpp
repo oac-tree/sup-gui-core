@@ -384,4 +384,130 @@ TEST_F(SplittableEditorControllerTest, SetModel)
             mvvm::ItemSelection(configuration0));
 }
 
+//! Requesting a panel to become the reference emits referencePanelChanged with that panel.
+
+TEST_F(SplittableEditorControllerTest, ReferencePanelChangedSignal)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+
+  QSignalSpy spy_reference(controller.get(),
+                           &SplittableEditorController::referencePanelChanged);
+
+  // simulate the user marking panel2 as the reference
+  panel2->referenceRequest(true);
+
+  ASSERT_EQ(spy_reference.count(), 1);
+  EXPECT_EQ(spy_reference.takeFirst().at(0).value<SplittableComboPanel*>(), panel2);
+}
+
+//! Requesting to un-mark a panel emits referencePanelChanged with nullptr.
+
+TEST_F(SplittableEditorControllerTest, ReferencePanelChangedToNullptr)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+
+  QSignalSpy spy_reference(controller.get(),
+                           &SplittableEditorController::referencePanelChanged);
+
+  panel1->referenceRequest(false);
+
+  ASSERT_EQ(spy_reference.count(), 1);
+  EXPECT_EQ(spy_reference.takeFirst().at(0).value<SplittableComboPanel*>(), nullptr);
+}
+
+//! When a panel becomes the reference, all other panels are shown as non-reference.
+
+TEST_F(SplittableEditorControllerTest, ReferenceRequestUnmarksOtherPanels)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  // panel1 was previously shown as the reference
+  panel1->ShowAsReferencePanel(true);
+  ASSERT_TRUE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
+
+  QSignalSpy spy_reference(controller.get(),
+                           &SplittableEditorController::referencePanelChanged);
+
+  // now panel2 requests to become the reference
+  panel2->referenceRequest(true);
+
+  // panel2 is now the single reference, all other panels are un-marked
+  EXPECT_TRUE(panel2->GetPanelState().IsSet(ComparePanelState::kReference));
+  EXPECT_FALSE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
+  EXPECT_FALSE(panel3->GetPanelState().IsSet(ComparePanelState::kReference));
+
+  ASSERT_EQ(spy_reference.count(), 1);
+  EXPECT_EQ(spy_reference.takeFirst().at(0).value<SplittableComboPanel*>(), panel2);
+}
+
+//! At most one panel can be the reference at any time.
+
+TEST_F(SplittableEditorControllerTest, OnlyOnePanelCanBeReference)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  auto* panel3 = controller->CreatePanel();
+
+  auto reference_count = [&controller]()
+  {
+    int count = 0;
+    for (auto* panel : controller->GetPanels())
+    {
+      if (panel->GetPanelState().IsSet(ComparePanelState::kReference))
+      {
+        ++count;
+      }
+    }
+    return count;
+  };
+
+  // initially no reference
+  EXPECT_EQ(reference_count(), 0);
+
+  // marking panel1 leaves exactly one reference
+  panel1->referenceRequest(true);
+  EXPECT_EQ(reference_count(), 1);
+  EXPECT_TRUE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
+
+  // marking panel3 moves the single reference over to panel3
+  panel3->referenceRequest(true);
+  EXPECT_EQ(reference_count(), 1);
+  EXPECT_TRUE(panel3->GetPanelState().IsSet(ComparePanelState::kReference));
+  EXPECT_FALSE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
+
+  // un-marking the reference leaves no reference
+  panel3->referenceRequest(false);
+  EXPECT_EQ(reference_count(), 0);
+}
+
+//! Un-marking a panel (value=false) does not touch the reference state of other panels.
+
+TEST_F(SplittableEditorControllerTest, ReferenceRequestFalseKeepsOtherPanels)
+{
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+
+  panel1->ShowAsReferencePanel(true);
+  ASSERT_TRUE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
+
+  // panel2 sends a "not a reference anymore" request
+  panel2->referenceRequest(false);
+
+  // other panels keep their reference appearance untouched
+  EXPECT_TRUE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
+}
+
 }  // namespace sup::gui::test

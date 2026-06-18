@@ -85,6 +85,11 @@ public:
   void SetPanelFlag(ComparePanelState flag, bool value);
 
   /**
+   * @brief Returns the whole set of panel state flags.
+   */
+  mvvm::Flags<ComparePanelState> GetPanelState() const;
+
+  /**
    * @brief Updates the item selection menu to highlight entry with the given index.
    */
   void SetCurrentIndex(std::int32_t index);
