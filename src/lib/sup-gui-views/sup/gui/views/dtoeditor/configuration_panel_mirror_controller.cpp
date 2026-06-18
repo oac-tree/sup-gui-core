@@ -36,8 +36,7 @@ namespace
 //! Returns the configuration editor of the panel's main editor, or nullptr if not available.
 sup::gui::ConfigurationTabWidget* GetPanelEditor(sup::gui::SplittableComboPanel* panel)
 {
-  return panel == nullptr ? nullptr
-                          : panel->GetMainEditor<sup::gui::ConfigurationTabWidget>();
+  return panel == nullptr ? nullptr : panel->GetMainEditor<sup::gui::ConfigurationTabWidget>();
 }
 
 }  // namespace

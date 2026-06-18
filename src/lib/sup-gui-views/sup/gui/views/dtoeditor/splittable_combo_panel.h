@@ -136,6 +136,13 @@ public:
   void ShowAsLastEditor(bool value);
 
   /**
+   * @brief Shows (paints) this panel as a reference panel.
+   *
+   * Reference panel has a radiox box button checked in.
+   */
+  void ShowAsReferencePanel(bool value);
+
+  /**
    * @brief Will track the activity in children widgets and request focus change.
    */
   bool eventFilter(QObject* watched, QEvent* event) override;
@@ -150,6 +157,7 @@ signals:
   void splitPanelRequest();
   void closePanelRequest();
   void focusPanelRequest();
+  void referenceRequest(bool make_me_reference);
   void itemSelectionChanged(const mvvm::ItemSelection& selection);
 
 private:

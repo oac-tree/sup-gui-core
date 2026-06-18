@@ -68,7 +68,7 @@ enum class ComparePanelType : std::uint8_t
  */
 enum class ComparePanelState : std::uint8_t
 {
-  kIsReference,  //! panel is marked as reference
+  kReference,  //! panel is marked as reference
   kActivePanel,  //! panel is currently under user focus
   kLastPanel,    //! panel is the last editor in a splitter
   size           //! obligatory total count

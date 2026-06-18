@@ -277,6 +277,7 @@ TEST_F(SplittableComboPanelTest, SplitViewCloseViewRequestsArePropagated)
 
   const QSignalSpy spy_split(widget.get(), &SplittableComboPanel::splitPanelRequest);
   const QSignalSpy spy_close(widget.get(), &SplittableComboPanel::closePanelRequest);
+  const QSignalSpy spy_reference(widget.get(), &SplittableComboPanel::referenceRequest);
 
   // trigger split view request
   toolbar->splitViewRequest();
@@ -285,6 +286,10 @@ TEST_F(SplittableComboPanelTest, SplitViewCloseViewRequestsArePropagated)
   // trigger close view request
   toolbar->closeViewRequest();
   ASSERT_EQ(spy_close.count(), 1);
+
+  // trigger reference request
+  toolbar->referenceRequest(true);
+  ASSERT_EQ(spy_reference.count(), 1);
 }
 
 TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)

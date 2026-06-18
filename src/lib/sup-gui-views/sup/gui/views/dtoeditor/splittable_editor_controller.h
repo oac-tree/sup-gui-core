@@ -119,6 +119,10 @@ signals:
   //! The signal is emitted just before a panel is closed and scheduled for deletion.
   void aboutToClosePanel(sup::gui::SplittableComboPanel* panel);
 
+  //! The signal is emitted when panel is marked as reference.
+  //! If reference was removed from the panel, the signal is emitted with nullptr.
+  void referencePanelChanged(sup::gui::SplittableComboPanel* panel);
+
 private:
   std::unique_ptr<SplittableComboPanel> CreateAndConnectSplittableComboPanel();
   std::unique_ptr<SplittableComboPanel> CreateSplittableComboPanel();
@@ -127,6 +131,7 @@ private:
   void onClosePanelRequest();
   void onFocusPanelRequest();
   void onItemSelectionChanged(const mvvm::ItemSelection& selection);
+  void onReferenceRequest(bool value);
 
   QSplitter* m_splitter{nullptr};
   create_panel_func_t m_factory_func;

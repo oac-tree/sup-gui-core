@@ -74,12 +74,12 @@ ComboToolBar::ComboToolBar(ComparePanelType panel_type, const NamesCallback& ent
 
   auto on_action = [this]()
   {
-    m_panel_state.Toggle(ComparePanelState::kIsReference);
+    m_panel_state.Toggle(ComparePanelState::kReference);
     UpdateAppearance();
-    m_reference_button->setIcon(m_panel_state.IsSet(ComparePanelState::kIsReference)
+    m_reference_button->setIcon(m_panel_state.IsSet(ComparePanelState::kReference)
                                     ? utils::FindIcon("radiobox-marked")
                                     : utils::FindIcon("radiobox-blank"));
-    emit referenceRequest(m_panel_state.IsSet(ComparePanelState::kIsReference));
+    emit referenceRequest(m_panel_state.IsSet(ComparePanelState::kReference));
   };
   connect(m_reference_button, &QToolButton::clicked, this, on_action);
 
@@ -161,7 +161,7 @@ void ComboToolBar::UpdateAppearance()
   m_close_current_view_button->setDisabled(m_panel_state.IsSet(ComparePanelState::kLastPanel));
 
   // update reference icon
-  m_reference_button->setIcon(m_panel_state.IsSet(ComparePanelState::kIsReference)
+  m_reference_button->setIcon(m_panel_state.IsSet(ComparePanelState::kReference)
                                   ? utils::FindIcon("radiobox-marked")
                                   : utils::FindIcon("radiobox-blank"));
 

@@ -134,6 +134,11 @@ void SplittableComboPanel::ShowAsLastEditor(bool value)
   m_tool_bar->SetPanelFlag(ComparePanelState::kLastPanel, value);
 }
 
+void SplittableComboPanel::ShowAsReferencePanel(bool value)
+{
+  m_tool_bar->SetPanelFlag(ComparePanelState::kReference, value);
+}
+
 bool SplittableComboPanel::eventFilter(QObject* watched, QEvent* event)
 {
   // will invoke panelFocusRequest on any mouse click activity in descendant widgets, so the
@@ -160,6 +165,8 @@ void SplittableComboPanel::SetupConnections()
           &SplittableComboPanel::splitPanelRequest);
   connect(m_tool_bar, &ComboToolBar::closeViewRequest, this,
           &SplittableComboPanel::closePanelRequest);
+  connect(m_tool_bar, &ComboToolBar::referenceRequest, this,
+          &SplittableComboPanel::referenceRequest);
 
   auto on_combo_index_changed = [this](auto index)
   {

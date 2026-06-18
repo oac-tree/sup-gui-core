@@ -126,6 +126,8 @@ SplittableEditorController::CreateAndConnectSplittableComboPanel()
           &SplittableEditorController::onFocusPanelRequest);
   connect(result.get(), &SplittableComboPanel::itemSelectionChanged, this,
           &SplittableEditorController::onItemSelectionChanged);
+  connect(result.get(), &SplittableComboPanel::referenceRequest, this,
+          &SplittableEditorController::onReferenceRequest);
 
   return result;
 }
@@ -153,7 +155,7 @@ void SplittableEditorController::onFocusPanelRequest()
   m_focus_handler->SetFocusWidget(sending_panel);
 }
 
-void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelection &selection)
+void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelection& selection)
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
   if (sending_panel != GetFocusWidget())
@@ -166,6 +168,23 @@ void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelectio
     m_previous_selection_in_focus_widget = selection;
     emit focusPanelSelectionChanged(m_previous_selection_in_focus_widget);
   }
+}
+
+void SplittableEditorController::onReferenceRequest(bool value)
+{
+  auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
+  if (value)
+  {
+    for (auto& panel : m_focus_handler->GetWidgets())
+    {
+      if (panel != sending_panel)
+      {
+        panel->ShowAsReferencePanel(false);
+      }
+    }
+  }
+
+  emit referencePanelChanged(value ? sending_panel : nullptr);
 }
 
 }  // namespace sup::gui
