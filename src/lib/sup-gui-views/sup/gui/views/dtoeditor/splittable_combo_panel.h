@@ -22,6 +22,7 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_SPLITTABLE_COMBO_PANEL_H_
 
 #include <mvvm/model/item_selection.h>
+#include <sup/gui/components/component_types.h>
 
 #include <QWidget>
 #include <functional>
@@ -81,9 +82,11 @@ public:
    * @param item_list_callback A callback to retrieve list of items to select from.
    * @param parent_widget The parent widget.
    */
-  explicit SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
-                                ItemListCallback item_list_callback,
-                                QWidget* parent_widget = nullptr);
+  SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
+                       ItemListCallback item_list_callback, QWidget* parent_widget = nullptr);
+
+  SplittableComboPanel(ComparePanelType panel_type, std::unique_ptr<SessionItemWidget> item_editor,
+                       ItemListCallback item_list_callback, QWidget* parent_widget = nullptr);
 
   ~SplittableComboPanel() override;
 

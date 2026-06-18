@@ -45,8 +45,17 @@ constexpr auto kPlaceholderText = "Select one of available configurations";
 SplittableComboPanel::SplittableComboPanel(std::unique_ptr<SessionItemWidget> item_editor,
                                            ItemListCallback item_list_callback,
                                            QWidget* parent_widget)
+    : SplittableComboPanel(ComparePanelType::kDefault, std::move(item_editor),
+                           std::move(item_list_callback), parent_widget)
+{
+}
+
+SplittableComboPanel::SplittableComboPanel(ComparePanelType panel_type,
+                                           std::unique_ptr<SessionItemWidget> item_editor,
+                                           ItemListCallback item_list_callback,
+                                           QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_tool_bar(new ComboToolBar(CreateItemNamesCallback()))
+    , m_tool_bar(new ComboToolBar(panel_type, CreateItemNamesCallback()))
     , m_stacked_widget(new QStackedWidget)
     , m_placeholder_widget(new PlaceholderWidget(kPlaceholderText))
     , m_item_editor_widget(item_editor.release())

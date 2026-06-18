@@ -55,11 +55,18 @@ public:
   /**
    * @brief Main c-tor.
    *
+   * @param panel_type The type of the panel, which defines its appearance and available controls.
    * @param names_callback A callback allowing to retrieve list of strings which will sevre as menu
    * entries.
    * @param parent_widget The parent widget.
    */
-  explicit ComboToolBar(const NamesCallback& names_callback, QWidget* parent_widget = nullptr);
+  ComboToolBar(ComparePanelType panel_type, const NamesCallback& names_callback,
+               QWidget* parent_widget = nullptr);
+
+  explicit ComboToolBar(const NamesCallback& names_callback,
+               QWidget* parent_widget = nullptr);
+
+
   ~ComboToolBar() override;
 
   ComboToolBar(const ComboToolBar&) = delete;
@@ -108,6 +115,7 @@ public:
 signals:
   void splitViewRequest();
   void closeViewRequest();
+  void referenceRequest(bool make_me_reference);
   void selectItemRequest(std::int32_t index);
 
 protected:
@@ -118,9 +126,11 @@ private:
   std::unique_ptr<QMenu> CreateSelectItemMenu();
   void OnAboutToShowMenu();
 
+  ComparePanelType m_panel_type{ComparePanelType::kDefault};
   NamesCallback m_available_items;
   std::unique_ptr<QMenu> m_select_item_menu;
   QToolButton* m_selector_button{nullptr};
+  QToolButton* m_reference_button{nullptr};
   QToolButton* m_split_horizontally_button{nullptr};
   QToolButton* m_close_current_view_button{nullptr};
   std::int32_t m_current_index{-1};

@@ -53,9 +53,9 @@ enum class ConfigurationViewMode : std::uint8_t
 };
 
 /**
- * @brief The ComparePanelTypes enum defines various types of panels in a comparison view.
+ * @brief The ComparePanelType enum defines various types of panels in a comparison view.
  */
-enum class ComparePanelTypes : std::uint8_t
+enum class ComparePanelType : std::uint8_t
 {
   //!< default panel appearance (split/close buttons and combo selector)
   kDefault,

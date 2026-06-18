@@ -34,10 +34,18 @@ namespace sup::gui
 {
 
 ComboToolBar::ComboToolBar(const NamesCallback& entry_callback, QWidget* parent_widget)
+    : ComboToolBar(ComparePanelType::kDefault, entry_callback, parent_widget)
+{
+}
+
+ComboToolBar::ComboToolBar(ComparePanelType panel_type, const NamesCallback& entry_callback,
+                           QWidget* parent_widget)
     : QToolBar(parent_widget)
+    , m_panel_type(panel_type)
     , m_available_items(entry_callback)
     , m_select_item_menu(CreateSelectItemMenu())
     , m_selector_button(new QToolButton(this))
+    , m_reference_button(new QToolButton(this))
     , m_split_horizontally_button(new QToolButton(this))
     , m_close_current_view_button(new QToolButton(this))
 {
@@ -59,11 +67,21 @@ ComboToolBar::ComboToolBar(const NamesCallback& entry_callback, QWidget* parent_
 
   InsertStretch();
 
-  auto m_pretty_action = new QAction(this);
-  m_pretty_action->setText("Pretty");
-  m_pretty_action->setIcon(utils::FindIcon("radiobox-marked"));
-  m_pretty_action->setToolTip("Make JSON pretty");
-  addAction(m_pretty_action);
+  m_reference_button->setIcon(utils::FindIcon("radiobox-blank"));
+  m_reference_button->setToolTip("Make this a reference panel");
+  auto action = addWidget(m_reference_button);
+  action->setVisible(m_panel_type == ComparePanelType::kReference);
+
+  auto on_action = [this]()
+  {
+    m_panel_state.Toggle(ComparePanelState::kIsReference);
+    UpdateAppearance();
+    m_reference_button->setIcon(m_panel_state.IsSet(ComparePanelState::kIsReference)
+                                    ? utils::FindIcon("radiobox-marked")
+                                    : utils::FindIcon("radiobox-blank"));
+    emit referenceRequest(m_panel_state.IsSet(ComparePanelState::kIsReference));
+  };
+  connect(m_reference_button, &QToolButton::clicked, this, on_action);
 
   m_split_horizontally_button->setToolTip("Split current view to the right");
   m_split_horizontally_button->setIcon(utils::FindIcon("view-split-left-right-16"));
@@ -141,6 +159,11 @@ void ComboToolBar::UpdateAppearance()
 
   // we don't want to allow closing the last editor in the splitter
   m_close_current_view_button->setDisabled(m_panel_state.IsSet(ComparePanelState::kLastPanel));
+
+  // update reference icon
+  m_reference_button->setIcon(m_panel_state.IsSet(ComparePanelState::kIsReference)
+                                  ? utils::FindIcon("radiobox-marked")
+                                  : utils::FindIcon("radiobox-blank"));
 
   update();  // to repaint green line
 }

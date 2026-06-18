@@ -25,6 +25,7 @@
 #include "splittable_combo_panel.h"
 #include "splittable_editor_controller.h"
 
+#include <sup/gui/components/component_types.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
@@ -54,12 +55,10 @@ ConfigurationSplittableWidget::ConfigurationSplittableWidget(QWidget* parent_wid
           this, &ConfigurationSplittableWidget::focusPanelSelectionChanged);
 
   connect(m_splitter_controller.get(), &SplittableEditorController::newPanelAdded,
-          m_panel_sync_controller.get(),
-          &ConfigurationPanelMirrorController::ProcessPanelAdd);
+          m_panel_sync_controller.get(), &ConfigurationPanelMirrorController::ProcessPanelAdd);
 
   connect(m_splitter_controller.get(), &SplittableEditorController::aboutToClosePanel,
-          m_panel_sync_controller.get(),
-          &ConfigurationPanelMirrorController::ProcessPanelRemove);
+          m_panel_sync_controller.get(), &ConfigurationPanelMirrorController::ProcessPanelRemove);
 }
 
 ConfigurationSplittableWidget::~ConfigurationSplittableWidget() = default;
@@ -93,8 +92,7 @@ SplittableEditorController* ConfigurationSplittableWidget::GetController() const
   return m_splitter_controller.get();
 }
 
-ConfigurationPanelMirrorController*
-ConfigurationSplittableWidget::GetPanelMirrorController() const
+ConfigurationPanelMirrorController* ConfigurationSplittableWidget::GetPanelMirrorController() const
 {
   return m_panel_sync_controller.get();
 }
@@ -113,8 +111,8 @@ ConfigurationSplittableWidget::CreateSplitterController() const
                                       m_model->GetConfigurationContainer()->GetConfigurations());
     };
 
-    auto result =
-        std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
+    auto result = std::make_unique<SplittableComboPanel>(
+        ComparePanelType::kReference, std::move(main_editor), item_list_callback);
     result->SetModel(m_model);
     return result;
   };
