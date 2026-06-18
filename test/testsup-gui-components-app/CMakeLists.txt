@@ -22,6 +22,7 @@ target_sources(${test} PRIVATE
   tab_widget_controller_tests.cpp
   tree_expand_controller_tests.cpp
   tree_helper_tests.cpp
+  tree_highlight_controller_tests.cpp
 )
 
 target_link_libraries(${test} PRIVATE sup-gui-components sup-gui-core-test-utils)

@@ -17,6 +17,8 @@ target_sources(${library_name} PRIVATE
   tab_widget_controller.h
   tree_expand_controller.cpp
   tree_expand_controller.h
+  tree_highlight_controller.cpp
+  tree_highlight_controller.h
   waveform_editor_action_handler.cpp
   waveform_editor_action_handler.h
   waveform_twocolumn_viewmodel.cpp
