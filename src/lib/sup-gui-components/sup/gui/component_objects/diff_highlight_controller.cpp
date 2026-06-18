@@ -123,6 +123,39 @@ bool DiffHighlightController::IsActive() const
   return m_is_active;
 }
 
+void DiffHighlightController::ProcessAll()
+{
+  if ((!m_is_active) || (m_reference_model == nullptr) || (m_highlight_model == nullptr))
+  {
+    return;
+  }
+
+  ProcessBranch(QModelIndex(), QModelIndex());
+}
+
+void DiffHighlightController::ProcessBranch(const QModelIndex& reference_parent,
+                                            const QModelIndex& highlight_parent)
+{
+  const int row_count = m_highlight_model->rowCount(highlight_parent);
+  const int column_count = m_highlight_model->columnCount(highlight_parent);
+
+  for (int row = 0; row < row_count; ++row)
+  {
+    for (int column = 0; column < column_count; ++column)
+    {
+      UpdateHighlightCell(m_reference_model->index(row, column, reference_parent),
+                          m_highlight_model->index(row, column, highlight_parent));
+    }
+
+    // children hang under the column-0 index of their parent row
+    const QModelIndex highlight_child_parent = m_highlight_model->index(row, 0, highlight_parent);
+    if (m_highlight_model->hasChildren(highlight_child_parent))
+    {
+      ProcessBranch(m_reference_model->index(row, 0, reference_parent), highlight_child_parent);
+    }
+  }
+}
+
 void DiffHighlightController::ProcessReferenceChange(const QModelIndex& top_left,
                                                      const QModelIndex& bottom_right)
 {

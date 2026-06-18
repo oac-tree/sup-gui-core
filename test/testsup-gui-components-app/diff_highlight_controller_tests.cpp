@@ -86,7 +86,7 @@ TEST_F(DiffHighlightControllerTest, ReferenceChangeHighlightsDifference)
   auto model_a = CreateModel();
   auto model_b = CreateModel();
 
-  DiffHighlightController controller(model_a.get(), model_b.get());
+  const DiffHighlightController controller(model_a.get(), model_b.get());
 
   model_a->setData(model_a->index(0, 1), "999", Qt::DisplayRole);
 
@@ -105,7 +105,7 @@ TEST_F(DiffHighlightControllerTest, ReferenceChangeClearsHighlightWhenEqual)
   auto model_a = CreateModel();
   auto model_b = CreateModel();
 
-  DiffHighlightController controller(model_a.get(), model_b.get());
+  const DiffHighlightController controller(model_a.get(), model_b.get());
 
   model_a->setData(model_a->index(0, 1), "999", Qt::DisplayRole);
   ASSERT_TRUE(IsRed(model_b->index(0, 1)));
@@ -122,7 +122,7 @@ TEST_F(DiffHighlightControllerTest, HighlightChangeHighlightsDifference)
   auto model_a = CreateModel();
   auto model_b = CreateModel();
 
-  DiffHighlightController controller(model_a.get(), model_b.get());
+  const DiffHighlightController controller(model_a.get(), model_b.get());
 
   model_b->setData(model_b->index(1, 1), "555", Qt::DisplayRole);
 
@@ -136,7 +136,7 @@ TEST_F(DiffHighlightControllerTest, NestedCellHighlight)
   auto model_a = CreateModel();
   auto model_b = CreateModel();
 
-  DiffHighlightController controller(model_a.get(), model_b.get());
+  const DiffHighlightController controller(model_a.get(), model_b.get());
 
   // child value cell, located at (0, 1) under the first parent (0, 0)
   const auto parent_a = model_a->index(0, 0);
@@ -164,6 +164,71 @@ TEST_F(DiffHighlightControllerTest, SetActiveDisablesHighlighting)
   controller.SetActive(true);
   model_a->setData(model_a->index(1, 1), "888", Qt::DisplayRole);
   EXPECT_TRUE(IsRed(model_b->index(1, 1)));  // highlighting resumed
+}
+
+//! ProcessAll highlights all cells that already differ, including nested ones, and leaves equal
+//! cells untouched.
+
+TEST_F(DiffHighlightControllerTest, ProcessAll)
+{
+  auto model_a = CreateModel();
+  auto model_b = CreateModel();
+
+  // make a top-level cell and a nested cell differ before the controller is asked to scan
+  model_b->setData(model_b->index(1, 1), "differs", Qt::DisplayRole);
+  model_b->setData(model_b->index(0, 1, model_b->index(0, 0)), "differs", Qt::DisplayRole);
+
+  DiffHighlightController controller(model_a.get(), model_b.get());
+
+  // clear the highlight that the live monitoring of the two changes above produced, to make sure
+  // ProcessAll alone is responsible for the result below
+  model_b->setData(model_b->index(1, 1), QVariant(), Qt::BackgroundRole);
+  model_b->setData(model_b->index(0, 1, model_b->index(0, 0)), QVariant(), Qt::BackgroundRole);
+
+  controller.ProcessAll();
+
+  // differing cells are highlighted (top-level and nested)
+  EXPECT_TRUE(IsRed(model_b->index(1, 1)));
+  EXPECT_TRUE(IsRed(model_b->index(0, 1, model_b->index(0, 0))));
+
+  // equal cells stay untouched
+  EXPECT_TRUE(HasNoBackground(model_b->index(0, 0)));
+  EXPECT_TRUE(HasNoBackground(model_b->index(0, 1)));
+  EXPECT_TRUE(HasNoBackground(model_b->index(1, 0)));
+}
+
+//! ProcessAll clears stale highlights of cells that are equal.
+
+TEST_F(DiffHighlightControllerTest, ProcessAllClearsEqualCells)
+{
+  auto model_a = CreateModel();
+  auto model_b = CreateModel();
+
+  // pre-existing (stale) highlight on a cell whose values are actually equal
+  model_b->setData(model_b->index(0, 1), QVariant(QColor(Qt::red)), Qt::BackgroundRole);
+
+  DiffHighlightController controller(model_a.get(), model_b.get());
+  controller.ProcessAll();
+
+  EXPECT_TRUE(HasNoBackground(model_b->index(0, 1)));
+}
+
+//! ProcessAll does nothing when highlighting is disabled.
+
+TEST_F(DiffHighlightControllerTest, ProcessAllInactive)
+{
+  auto model_a = CreateModel();
+  auto model_b = CreateModel();
+
+  model_a->setData(model_a->index(1, 1), "differs", Qt::DisplayRole);
+  // clear the highlight produced by the live change above
+  model_b->setData(model_b->index(1, 1), QVariant(), Qt::BackgroundRole);
+
+  DiffHighlightController controller(model_a.get(), model_b.get());
+  controller.SetActive(false);
+  controller.ProcessAll();
+
+  EXPECT_TRUE(HasNoBackground(model_b->index(1, 1)));
 }
 
 }  // namespace sup::gui::test

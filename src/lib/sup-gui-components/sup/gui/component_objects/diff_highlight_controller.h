@@ -71,6 +71,15 @@ public:
    */
   bool IsActive() const;
 
+  /**
+   * @brief Visits all cells of the highlight model and sets their initial highlight, depending on
+   * the reference model.
+   *
+   * Both models are walked simultaneously (positionally), which avoids reconstructing an index
+   * path for every cell.
+   */
+  void ProcessAll();
+
 private:
   /**
    * @brief Reacts to a DisplayRole change of a range of cells in the reference model.
@@ -81,6 +90,12 @@ private:
    * @brief Reacts to a DisplayRole change of a range of cells in the highlight model.
    */
   void ProcessHighlightChange(const QModelIndex& top_left, const QModelIndex& bottom_right);
+
+  /**
+   * @brief Recursively walks the two models in parallel under the given parents and updates the
+   * highlight of every cell.
+   */
+  void ProcessBranch(const QModelIndex& reference_parent, const QModelIndex& highlight_parent);
 
   /**
    * @brief Compares the display values of the two corresponding cells and updates the background
