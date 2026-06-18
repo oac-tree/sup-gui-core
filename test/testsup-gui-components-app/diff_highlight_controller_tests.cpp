@@ -213,6 +213,27 @@ TEST_F(DiffHighlightControllerTest, ProcessAllClearsEqualCells)
   EXPECT_TRUE(HasNoBackground(model_b->index(0, 1)));
 }
 
+//! ClearHighlight removes the background of every cell of the highlight model.
+
+TEST_F(DiffHighlightControllerTest, ClearHighlight)
+{
+  auto model_a = CreateModel();
+  auto model_b = CreateModel();
+
+  DiffHighlightController controller(model_a.get(), model_b.get());
+
+  // produce highlights on a top-level and a nested cell
+  model_a->setData(model_a->index(1, 1), "999", Qt::DisplayRole);
+  model_a->setData(model_a->index(0, 1, model_a->index(0, 0)), "777", Qt::DisplayRole);
+  ASSERT_TRUE(IsRed(model_b->index(1, 1)));
+  ASSERT_TRUE(IsRed(model_b->index(0, 1, model_b->index(0, 0))));
+
+  controller.ClearHighlight();
+
+  EXPECT_TRUE(HasNoBackground(model_b->index(1, 1)));
+  EXPECT_TRUE(HasNoBackground(model_b->index(0, 1, model_b->index(0, 0))));
+}
+
 //! ProcessAll does nothing when highlighting is disabled.
 
 TEST_F(DiffHighlightControllerTest, ProcessAllInactive)

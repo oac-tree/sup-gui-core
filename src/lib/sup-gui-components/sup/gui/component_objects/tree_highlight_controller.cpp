@@ -99,6 +99,13 @@ bool TreeHighlightController::IsActive() const
 
 void TreeHighlightController::RecreateDiffControllers()
 {
+  // Clear the highlight of all currently-highlighted models before dropping their controllers, so
+  // that a model which is no longer highlighted (e.g. promoted to reference) does not keep a stale
+  // background.
+  for (auto& controller : m_diff_controllers)
+  {
+    controller->ClearHighlight();
+  }
   m_diff_controllers.clear();
 
   if (m_reference_model == nullptr)

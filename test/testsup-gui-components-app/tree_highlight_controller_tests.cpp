@@ -210,6 +210,27 @@ TEST_F(TreeHighlightControllerTest, ChangeReference)
   EXPECT_TRUE(IsRed(model0->index(0, 1)));
 }
 
+//! A model promoted to reference loses its stale highlight after the reference change.
+
+TEST_F(TreeHighlightControllerTest, PromotingHighlightedModelToReferenceClearsStaleHighlight)
+{
+  auto model0 = CreateModel();
+  auto model1 = CreateModel();
+
+  // model1 differs from model0, so once model0 is the reference, model1 gets highlighted
+  model1->setData(model1->index(1, 1), "differs", Qt::DisplayRole);
+
+  TreeHighlightController controller;
+  controller.AddViewModel(model0.get());
+  controller.AddViewModel(model1.get());
+  controller.SetReferenceViewModel(model0.get());
+  ASSERT_TRUE(IsRed(model1->index(1, 1)));
+
+  // promote model1 to reference; its previous highlight must be cleared
+  controller.SetReferenceViewModel(model1.get());
+  EXPECT_TRUE(HasNoBackground(model1->index(1, 1)));
+}
+
 //! SetActive(false) suspends highlighting.
 
 TEST_F(TreeHighlightControllerTest, SetActiveDisablesHighlighting)

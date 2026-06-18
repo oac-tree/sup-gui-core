@@ -133,6 +133,39 @@ void DiffHighlightController::ProcessAll()
   ProcessBranch(QModelIndex(), QModelIndex());
 }
 
+void DiffHighlightController::ClearHighlight()
+{
+  if (m_highlight_model == nullptr)
+  {
+    return;
+  }
+
+  ClearBranch(QModelIndex());
+}
+
+void DiffHighlightController::ClearBranch(const QModelIndex& highlight_parent)
+{
+  const int row_count = m_highlight_model->rowCount(highlight_parent);
+  const int column_count = m_highlight_model->columnCount(highlight_parent);
+
+  for (int row = 0; row < row_count; ++row)
+  {
+    for (int column = 0; column < column_count; ++column)
+    {
+      m_is_updating = true;
+      m_highlight_model->setData(m_highlight_model->index(row, column, highlight_parent),
+                                 QVariant(), Qt::BackgroundRole);
+      m_is_updating = false;
+    }
+
+    const QModelIndex highlight_child_parent = m_highlight_model->index(row, 0, highlight_parent);
+    if (m_highlight_model->hasChildren(highlight_child_parent))
+    {
+      ClearBranch(highlight_child_parent);
+    }
+  }
+}
+
 void DiffHighlightController::ProcessBranch(const QModelIndex& reference_parent,
                                             const QModelIndex& highlight_parent)
 {

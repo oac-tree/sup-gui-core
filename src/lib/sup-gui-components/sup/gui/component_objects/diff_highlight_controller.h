@@ -80,6 +80,11 @@ public:
    */
   void ProcessAll();
 
+  /**
+   * @brief Removes the background of all cells of the highlight model.
+   */
+  void ClearHighlight();
+
 private:
   /**
    * @brief Reacts to a DisplayRole change of a range of cells in the reference model.
@@ -96,6 +101,12 @@ private:
    * highlight of every cell.
    */
   void ProcessBranch(const QModelIndex& reference_parent, const QModelIndex& highlight_parent);
+
+  /**
+   * @brief Recursively walks the highlight model under the given parent and clears the background
+   * of every cell.
+   */
+  void ClearBranch(const QModelIndex& highlight_parent);
 
   /**
    * @brief Compares the display values of the two corresponding cells and updates the background
