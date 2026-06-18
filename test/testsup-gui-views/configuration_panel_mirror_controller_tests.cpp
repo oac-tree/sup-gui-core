@@ -23,6 +23,7 @@
 #include <sup/gui/component_objects/scroll_area_mirror_controller.h>
 #include <sup/gui/component_objects/tab_widget_controller.h>
 #include <sup/gui/component_objects/tree_expand_controller.h>
+#include <sup/gui/component_objects/tree_highlight_controller.h>
 #include <sup/gui/views/dtoeditor/configuration_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
@@ -31,6 +32,7 @@
 #include <QAbstractItemView>
 #include <QAbstractScrollArea>
 #include <QApplication>
+#include <QColor>
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QStandardItem>
@@ -149,6 +151,13 @@ public:
     model->appendRow(parent);
     return model;
   }
+
+  //! Returns true when the cell has a red background.
+  static bool IsRed(const QModelIndex& index)
+  {
+    const auto background = index.data(Qt::BackgroundRole);
+    return background.isValid() && (background.value<QColor>() == QColor(Qt::red));
+  }
 };
 
 TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
@@ -158,6 +167,7 @@ TEST_F(ConfigurationPanelMirrorControllerTest, InitialState)
   EXPECT_NE(controller.GetJsonAreaController(), nullptr);
   EXPECT_NE(controller.GetTreeAreaController(), nullptr);
   EXPECT_NE(controller.GetTreeExpandController(), nullptr);
+  EXPECT_NE(controller.GetTreeHighlightController(), nullptr);
 }
 
 TEST_F(ConfigurationPanelMirrorControllerTest, ProcessNullPanel)
@@ -395,6 +405,56 @@ TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsTreeExpand
   // expanding the branch in the first tree should no longer affect the removed one
   tree1->expand(model1->index(0, 0));
   EXPECT_FALSE(tree2->isExpanded(model2->index(0, 0)));
+}
+
+//! Adding panels registers their tree view models with the highlight controller; once a reference
+//! is set, differences against it are highlighted.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelAddRegistersTreeHighlight)
+{
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  // the models must be in place before the panels are registered, since the highlight controller
+  // captures GetMainTreeView()->model() at registration time
+  auto model1 = CreateBranchModel();
+  auto model2 = CreateBranchModel();
+  GetMainTreeView(panel1.get())->setModel(model1.get());
+  GetMainTreeView(panel2.get())->setModel(model2.get());
+
+  ConfigurationPanelMirrorController controller;
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  // use the first panel's model as the reference
+  controller.GetTreeHighlightController()->SetReferenceViewModel(model1.get());
+
+  // a change in the reference highlights the corresponding cell in the second model
+  model1->setData(model1->index(0, 0), "changed", Qt::DisplayRole);
+  EXPECT_TRUE(IsRed(model2->index(0, 0)));
+}
+
+//! After removing a panel, its tree view model is no longer highlighted.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsTreeHighlight)
+{
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  auto model1 = CreateBranchModel();
+  auto model2 = CreateBranchModel();
+  GetMainTreeView(panel1.get())->setModel(model1.get());
+  GetMainTreeView(panel2.get())->setModel(model2.get());
+
+  ConfigurationPanelMirrorController controller;
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  controller.ProcessPanelRemove(panel2.get());
+  controller.GetTreeHighlightController()->SetReferenceViewModel(model1.get());
+
+  model1->setData(model1->index(0, 0), "changed", Qt::DisplayRole);
+  EXPECT_FALSE(IsRed(model2->index(0, 0)));  // removed, no longer highlighted
 }
 
 }  // namespace sup::gui::test

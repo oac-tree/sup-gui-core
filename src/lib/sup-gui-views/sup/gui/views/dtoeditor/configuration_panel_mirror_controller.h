@@ -31,6 +31,7 @@ class SplittableComboPanel;
 class TabWidgetController;
 class ScrollAreaMirrorController;
 class TreeExpandController;
+class TreeHighlightController;
 
 /**
  * @brief The ConfigurationPanelMirrorController class envelops all controllers that synchronise
@@ -100,6 +101,13 @@ public:
    */
   TreeExpandController* GetTreeExpandController() const;
 
+  /**
+   * @brief Returns the controller highlighting the differences of the tree views.
+   *
+   * Used for testing.
+   */
+  TreeHighlightController* GetTreeHighlightController() const;
+
 private:
   //! to synchronize the tab widget selection across all panels
   std::unique_ptr<TabWidgetController> m_tab_widget_controller;
@@ -112,6 +120,9 @@ private:
 
   //! to synchronize expand/collapse state of main configuration tree view
   std::unique_ptr<TreeExpandController> m_tree_expand_controller;
+
+  //! to highlight differences of main configuration tree view against a reference
+  std::unique_ptr<TreeHighlightController> m_tree_highlight_controller;
 };
 
 }  // namespace sup::gui

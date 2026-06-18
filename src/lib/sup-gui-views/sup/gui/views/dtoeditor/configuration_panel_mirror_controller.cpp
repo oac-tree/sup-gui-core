@@ -26,6 +26,9 @@
 #include <sup/gui/component_objects/scroll_area_mirror_controller.h>
 #include <sup/gui/component_objects/tab_widget_controller.h>
 #include <sup/gui/component_objects/tree_expand_controller.h>
+#include <sup/gui/component_objects/tree_highlight_controller.h>
+
+#include <QTreeView>
 
 namespace
 {
@@ -48,6 +51,7 @@ ConfigurationPanelMirrorController::ConfigurationPanelMirrorController(QObject* 
     , m_json_area_controller(std::make_unique<ScrollAreaMirrorController>())
     , m_tree_area_controller(std::make_unique<ScrollAreaMirrorController>())
     , m_tree_expand_controller(std::make_unique<TreeExpandController>())
+    , m_tree_highlight_controller(std::make_unique<TreeHighlightController>())
 {
 }
 
@@ -59,6 +63,7 @@ void ConfigurationPanelMirrorController::SetActive(bool value)
   m_json_area_controller->SetActive(value);
   m_tree_area_controller->SetActive(value);
   m_tree_expand_controller->SetActive(value);
+  m_tree_highlight_controller->SetActive(value);
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableComboPanel* panel)
@@ -82,6 +87,8 @@ void ConfigurationPanelMirrorController::ProcessPanelAdd(sup::gui::SplittableCom
   }
 
   m_tree_expand_controller->AddTreeView(editor->GetMainTreeView());
+
+  m_tree_highlight_controller->AddViewModel(editor->GetMainTreeView()->model());
 }
 
 void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::SplittableComboPanel* panel)
@@ -105,6 +112,8 @@ void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::Splittable
   }
 
   m_tree_expand_controller->RemoveTreeView(editor->GetMainTreeView());
+
+  m_tree_highlight_controller->RemoveViewModel(editor->GetMainTreeView()->model());
 }
 
 TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController() const
@@ -125,6 +134,11 @@ ScrollAreaMirrorController* ConfigurationPanelMirrorController::GetTreeAreaContr
 TreeExpandController* ConfigurationPanelMirrorController::GetTreeExpandController() const
 {
   return m_tree_expand_controller.get();
+}
+
+TreeHighlightController* ConfigurationPanelMirrorController::GetTreeHighlightController() const
+{
+  return m_tree_highlight_controller.get();
 }
 
 }  // namespace sup::gui
