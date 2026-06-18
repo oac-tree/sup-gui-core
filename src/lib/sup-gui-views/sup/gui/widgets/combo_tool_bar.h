@@ -21,6 +21,10 @@
 #ifndef SUP_GUI_WIDGETS_COMBO_TOOL_BAR_H_
 #define SUP_GUI_WIDGETS_COMBO_TOOL_BAR_H_
 
+#include <sup/gui/components/component_types.h>
+
+#include <mvvm/core/flags.h>
+
 #include <QList>
 #include <QString>
 #include <QToolBar>
@@ -64,19 +68,14 @@ public:
   ComboToolBar& operator=(ComboToolBar&&) noexcept = delete;
 
   /**
-   * @brief Shows the toolbar as active/inactive.
-   *
-   * Active toolbar corresponds to the widget where the user clicked last, and it has a thin green
-   * line at the bottom.
+   * @brief Sets whole state of the panel.
    */
-  void ShowAsActive(bool value);
+  void SetPanelState(mvvm::Flags<ComparePanelState> state);
 
   /**
-   * @brief Marks this toolbar as the last editor in the splitter.
-   *
-   * Disables "close" button, since the last widget can't be closed.
+   * @brief Sets individual state of the panel.
    */
-  void ShowAsLastEditor(bool value);
+  void SetPanelFlag(ComparePanelState flag, bool value);
 
   /**
    * @brief Updates the item selection menu to highlight entry with the given index.
@@ -102,6 +101,7 @@ public:
    * @brief Updates the toolbar appearance.
    *
    * Should be called when the list of items is changed, to update the item selection menu.
+   * Also when appearance flags are changed.
    */
   void UpdateAppearance();
 
@@ -123,8 +123,8 @@ private:
   QToolButton* m_selector_button{nullptr};
   QToolButton* m_split_horizontally_button{nullptr};
   QToolButton* m_close_current_view_button{nullptr};
-  bool m_show_as_active{false};
   std::int32_t m_current_index{-1};
+  mvvm::Flags<ComparePanelState> m_panel_state;
 };
 
 }  // namespace sup::gui

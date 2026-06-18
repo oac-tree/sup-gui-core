@@ -59,6 +59,12 @@ ComboToolBar::ComboToolBar(const NamesCallback& entry_callback, QWidget* parent_
 
   InsertStretch();
 
+  auto m_pretty_action = new QAction(this);
+  m_pretty_action->setText("Pretty");
+  m_pretty_action->setIcon(utils::FindIcon("radiobox-marked"));
+  m_pretty_action->setToolTip("Make JSON pretty");
+  addAction(m_pretty_action);
+
   m_split_horizontally_button->setToolTip("Split current view to the right");
   m_split_horizontally_button->setIcon(utils::FindIcon("view-split-left-right-16"));
   m_split_horizontally_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -76,19 +82,16 @@ ComboToolBar::ComboToolBar(const NamesCallback& entry_callback, QWidget* parent_
 
 ComboToolBar::~ComboToolBar() = default;
 
-void ComboToolBar::ShowAsActive(bool value)
+void ComboToolBar::SetPanelState(mvvm::Flags<ComparePanelState> state)
 {
-  m_show_as_active = value;
-  update();
+  m_panel_state = state;
+  UpdateAppearance();
 }
 
-void ComboToolBar::ShowAsLastEditor(bool value)
+void ComboToolBar::SetPanelFlag(ComparePanelState flag, bool value)
 {
-  // we don't want to allow closing the last editor in the splitter
-  m_close_current_view_button->setDisabled(value);
-
-  // no need to visually mark the last editor as active
-  ShowAsActive(false);
+  m_panel_state.Set(flag, value);
+  UpdateAppearance();
 }
 
 void ComboToolBar::SetCurrentIndex(std::int32_t index)
@@ -128,20 +131,27 @@ QMenu* ComboToolBar::GetMenu()
 
 void ComboToolBar::UpdateAppearance()
 {
-  // in theory this can be called programmatically at any moment, but we assume that menu is not
-  // open at the moment of calling this method, so we don't care about its state
-
-  // need to update only button text
+  // need to update button text in case the item was renamed
   if (m_current_index >= 0)
   {
+    // in theory UpdateAppearance() can be called programmatically at any moment, but we assume that
+    // menu is not open at the moment of calling this method, so we don't care about its state
     m_selector_button->setText(m_available_items().at(m_current_index));
   }
+
+  // we don't want to allow closing the last editor in the splitter
+  m_close_current_view_button->setDisabled(m_panel_state.IsSet(ComparePanelState::kLastPanel));
+
+  update();  // to repaint green line
 }
 
 void ComboToolBar::paintEvent(QPaintEvent* event)
 {
   static const QColor kMediumGreen(39, 189, 114);  // #27bd72
-  if (m_show_as_active)
+
+  // green line is painted if panel is active and it is not the last panel in the splitter
+  if (m_panel_state.IsSet(ComparePanelState::kActivePanel)
+      && !m_panel_state.IsSet(ComparePanelState::kLastPanel))
   {
     // thin horizontal green line at the bottom
     QPainter painter(this);

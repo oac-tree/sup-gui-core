@@ -52,6 +52,28 @@ enum class ConfigurationViewMode : std::uint8_t
   kTotalCount
 };
 
+/**
+ * @brief The ComparePanelTypes enum defines various types of panels in a comparison view.
+ */
+enum class ComparePanelTypes : std::uint8_t
+{
+  //!< default panel appearance (split/close buttons and combo selector)
+  kDefault,
+  //!< panel is intended to be used as a reference panel (same as above, and reference mark)
+  kReference
+};
+
+/**
+ * @brief The ComparePanelStatus enum defines various states of a panel in a comparison view.
+ */
+enum class ComparePanelState : std::uint8_t
+{
+  kIsReference,  //! panel is marked as reference
+  kActivePanel,  //! panel is currently under user focus
+  kLastPanel,    //! panel is the last editor in a splitter
+  size           //! obligatory total count
+};
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_COMPONENTS_COMPONENT_TYPES_H_

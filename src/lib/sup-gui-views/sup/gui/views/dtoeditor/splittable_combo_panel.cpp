@@ -117,12 +117,12 @@ std::vector<mvvm::SessionItem*> SplittableComboPanel::GetAvailableItems() const
 
 void SplittableComboPanel::ShowAsActive(bool value)
 {
-  m_tool_bar->ShowAsActive(value);
+  m_tool_bar->SetPanelFlag(ComparePanelState::kActivePanel, value);
 }
 
 void SplittableComboPanel::ShowAsLastEditor(bool value)
 {
-  m_tool_bar->ShowAsLastEditor(value);
+  m_tool_bar->SetPanelFlag(ComparePanelState::kLastPanel, value);
 }
 
 bool SplittableComboPanel::eventFilter(QObject* watched, QEvent* event)
@@ -210,7 +210,5 @@ std::function<QList<QString>()> SplittableComboPanel::CreateItemNamesCallback()
     return adapter.GetAvailableItemNames();
   };
 }
-
-
 
 }  // namespace sup::gui
