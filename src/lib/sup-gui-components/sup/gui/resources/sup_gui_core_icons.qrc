@@ -34,6 +34,8 @@
         <file>icons/menu.svg</file>
         <file>icons/plus-circle-multiple-outline.svg</file>
         <file>icons/plus-circle-outline.svg</file>
+        <file>icons/radiobox-blank.svg</file>
+        <file>icons/radiobox-marked.svg</file>
         <file>icons/table-column-plus-after.svg</file>
         <file>icons/table-column-plus-before.svg</file>
         <file>icons/table-column-remove.svg</file>

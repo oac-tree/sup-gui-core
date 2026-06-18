@@ -1,5 +1,6 @@
 Changes for 2.3.0:
 
+- Implement controller to highlight the difference between different configuration trees
 - Implement sync flag and allow to synchronize configuration trees between different editors
 - Implement controller to synchronize difference in values of configuration trees
 - Implement controller to synchronize collapse/expand status of trees in configuration panels
