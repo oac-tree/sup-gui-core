@@ -74,6 +74,14 @@ public:
   void ProcessPanelRemove(sup::gui::SplittableComboPanel* panel);
 
   /**
+   * @brief Sets the panel used as the reference for difference highlighting.
+   *
+   * The panel's main tree view model becomes the reference of the underlying
+   * TreeHighlightController. A nullptr panel clears the reference (no highlighting).
+   */
+  void SetReferencePanel(sup::gui::SplittableComboPanel* panel);
+
+  /**
    * @brief Returns the underlying tab widget controller.
    *
    * Used for testing.

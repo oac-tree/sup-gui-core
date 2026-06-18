@@ -59,6 +59,9 @@ ConfigurationSplittableWidget::ConfigurationSplittableWidget(QWidget* parent_wid
 
   connect(m_splitter_controller.get(), &SplittableEditorController::aboutToClosePanel,
           m_panel_sync_controller.get(), &ConfigurationPanelMirrorController::ProcessPanelRemove);
+
+  connect(m_splitter_controller.get(), &SplittableEditorController::referencePanelChanged,
+          m_panel_sync_controller.get(), &ConfigurationPanelMirrorController::SetReferencePanel);
 }
 
 ConfigurationSplittableWidget::~ConfigurationSplittableWidget() = default;

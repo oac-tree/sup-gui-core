@@ -83,6 +83,11 @@ void TreeHighlightController::SetReferenceViewModel(QAbstractItemModel* model)
   RecreateDiffControllers();
 }
 
+QAbstractItemModel* TreeHighlightController::GetReferenceViewModel() const
+{
+  return m_reference_model;
+}
+
 void TreeHighlightController::SetActive(bool value)
 {
   m_is_active = value;

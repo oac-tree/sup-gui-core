@@ -81,6 +81,11 @@ public:
   void SetReferenceViewModel(QAbstractItemModel* model);
 
   /**
+   * @brief Returns the model currently used as the reference (nullptr if none).
+   */
+  QAbstractItemModel* GetReferenceViewModel() const;
+
+  /**
    * @brief Enables or disables highlighting.
    */
   void SetActive(bool value);

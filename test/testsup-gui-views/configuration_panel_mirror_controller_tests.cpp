@@ -457,4 +457,54 @@ TEST_F(ConfigurationPanelMirrorControllerTest, ProcessPanelRemoveStopsTreeHighli
   EXPECT_FALSE(IsRed(model2->index(0, 0)));  // removed, no longer highlighted
 }
 
+//! SetReferencePanel forwards the panel's tree model to the highlight controller as the reference.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, SetReferencePanel)
+{
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  auto model1 = CreateBranchModel();
+  auto model2 = CreateBranchModel();
+  GetMainTreeView(panel1.get())->setModel(model1.get());
+  GetMainTreeView(panel2.get())->setModel(model2.get());
+
+  ConfigurationPanelMirrorController controller;
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  controller.SetReferencePanel(panel1.get());
+  EXPECT_EQ(controller.GetTreeHighlightController()->GetReferenceViewModel(), model1.get());
+
+  // a change in the reference panel highlights the corresponding cell in the other panel
+  model1->setData(model1->index(0, 0), "changed", Qt::DisplayRole);
+  EXPECT_TRUE(IsRed(model2->index(0, 0)));
+}
+
+//! SetReferencePanel(nullptr) clears the reference.
+
+TEST_F(ConfigurationPanelMirrorControllerTest, SetReferencePanelNullptrClearsReference)
+{
+  auto panel1 = CreatePanel();
+  auto panel2 = CreatePanel();
+
+  auto model1 = CreateBranchModel();
+  auto model2 = CreateBranchModel();
+  GetMainTreeView(panel1.get())->setModel(model1.get());
+  GetMainTreeView(panel2.get())->setModel(model2.get());
+
+  ConfigurationPanelMirrorController controller;
+  controller.ProcessPanelAdd(panel1.get());
+  controller.ProcessPanelAdd(panel2.get());
+
+  controller.SetReferencePanel(panel1.get());
+  model1->setData(model1->index(0, 0), "changed", Qt::DisplayRole);
+  ASSERT_TRUE(IsRed(model2->index(0, 0)));
+
+  // clearing the reference drops the highlighting
+  controller.SetReferencePanel(nullptr);
+  EXPECT_EQ(controller.GetTreeHighlightController()->GetReferenceViewModel(), nullptr);
+  EXPECT_FALSE(IsRed(model2->index(0, 0)));
+}
+
 }  // namespace sup::gui::test

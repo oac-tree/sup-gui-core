@@ -20,9 +20,11 @@
 
 #include "sup/gui/views/dtoeditor/configuration_splittable_widget.h"
 
+#include <sup/gui/component_objects/tree_highlight_controller.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
 #include <sup/gui/views/dtoeditor/configuration_panel_mirror_controller.h>
+#include <sup/gui/views/dtoeditor/configuration_tab_widget.h>
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 #include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
 
@@ -33,6 +35,9 @@
 
 #include <QSignalSpy>
 #include <QSplitter>
+#include <QStandardItemModel>
+#include <QTreeView>
+#include <memory>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::ItemSelection)
@@ -111,6 +116,35 @@ TEST_F(ConfigurationSplittableWidgetTest, FocusPanelSelectionChanged)
   editor.GetController()->focusPanelSelectionChanged(selection);
   ASSERT_EQ(spy_selection_changed.count(), 1);
   EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed), selection);
+}
+
+//! A reference panel change in the splitter controller propagates to the highlight controller.
+
+TEST_F(ConfigurationSplittableWidgetTest, ReferencePanelPropagatesToHighlightController)
+{
+  ConfigurationSplittableWidget editor;
+  editor.show();
+
+  editor.CreatePanel();
+  editor.CreatePanel();
+
+  auto panels = editor.GetController()->GetPanels();
+  ASSERT_EQ(panels.size(), 2);
+
+  // give the first panel's tree view a known model
+  QStandardItemModel model;
+  panels.at(0)->GetMainEditor<ConfigurationTabWidget>()->GetMainTreeView()->setModel(&model);
+
+  auto* highlight_controller =
+      editor.GetPanelMirrorController()->GetTreeHighlightController();
+
+  // the splitter controller marking the first panel as reference must reach the highlight controller
+  editor.GetController()->referencePanelChanged(panels.at(0));
+  EXPECT_EQ(highlight_controller->GetReferenceViewModel(), &model);
+
+  // clearing the reference propagates as well
+  editor.GetController()->referencePanelChanged(nullptr);
+  EXPECT_EQ(highlight_controller->GetReferenceViewModel(), nullptr);
 }
 
 }  // namespace sup::gui::test

@@ -115,6 +115,13 @@ void ConfigurationPanelMirrorController::ProcessPanelRemove(sup::gui::Splittable
   m_tree_highlight_controller->RemoveViewModel(editor->GetMainTreeView()->model());
 }
 
+void ConfigurationPanelMirrorController::SetReferencePanel(sup::gui::SplittableComboPanel* panel)
+{
+  auto* editor = GetPanelEditor(panel);
+  auto* reference_model = editor == nullptr ? nullptr : editor->GetMainTreeView()->model();
+  m_tree_highlight_controller->SetReferenceViewModel(reference_model);
+}
+
 TabWidgetController* ConfigurationPanelMirrorController::GetTabWidgetController() const
 {
   return m_tab_widget_controller.get();
