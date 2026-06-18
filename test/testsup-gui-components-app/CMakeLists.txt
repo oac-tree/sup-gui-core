@@ -12,6 +12,7 @@ target_sources(${test} PRIVATE
   app_command_tests.cpp
   app_context_focus_controller_tests.cpp
   custom_row_waveform_strategies_tests.cpp
+  diff_highlight_controller_tests.cpp
   dto_composer_tab_controller_tests.cpp
   main.cpp
   menu_action_container_tests.cpp

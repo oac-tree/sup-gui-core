@@ -24,7 +24,6 @@
 #include <mvvm/signals/event_types.h>
 
 #include <QObject>
-#include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>

@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   dto_composer_action_handler.h
   dto_composer_tab_controller.cpp
   dto_composer_tab_controller.h
+  diff_highlight_controller.cpp
+  diff_highlight_controller.h
   dto_waveform_action_handler.cpp
   dto_waveform_action_handler.h
   proxy_action.cpp
