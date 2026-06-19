@@ -25,9 +25,11 @@
 #include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/point_item.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
+#include <QSignalSpy>
 #include <QTableView>
 #include <QTransposeProxyModel>
 
@@ -116,6 +118,8 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   WaveformTableComponentProvider provider(&model, &table_view);
   provider.SetItem(data_item);
 
+  QSignalSpy spy_selected(&provider, &WaveformTableComponentProvider::SelectionChanged);
+
   // validating how view sees our data via proxymodel
   auto proxy_model = provider.GetLastProxyModel();
 
@@ -139,18 +143,33 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   EXPECT_EQ(proxy_model->data(y_col2, Qt::DisplayRole).toDouble(), 30.0);
 
   auto points = data_item->GetPoints();
-  auto x_item = points.at(1)->GetItem(mvvm::constants::kX);
-  auto y_item = points.at(1)->GetItem(mvvm::constants::kY);
+  auto x_item1 = points.at(1)->GetItem(mvvm::constants::kX);
+  auto y_item1 = points.at(1)->GetItem(mvvm::constants::kY);
+
+  auto x_item2 = points.at(2)->GetItem(mvvm::constants::kX);
+  auto y_item2 = points.at(2)->GetItem(mvvm::constants::kY);
 
   // selecting middle x-cell
-  provider.SetSelection(mvvm::ItemSelection(x_item));
+  provider.SetSelection(mvvm::ItemSelection(x_item1));
 
-  // should lead to the selection of the whole volumn
+  // should lead to the selection of the whole column
   EXPECT_EQ(provider.GetSelection().GetItems(),
-            std::vector<const mvvm::SessionItem*>({x_item, y_item}));
+            std::vector<const mvvm::SessionItem*>({x_item1, y_item1}));
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected),
+            mvvm::ItemSelection({x_item1, y_item1}));
 
   // should report correct index of selected point
   EXPECT_EQ(provider.GetSelectedPointIndex(), 1);
+
+  // selecting last x-cell
+  provider.SetSelection(mvvm::ItemSelection(x_item2));
+
+  // should lead to the selection of the whole last column
+  EXPECT_EQ(provider.GetSelection().GetItems(),
+            std::vector<const mvvm::SessionItem*>({x_item2, y_item2}));
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected),
+            mvvm::ItemSelection({x_item2, y_item2}));
+  EXPECT_EQ(provider.GetSelectedPointIndex(), 2);
 }
 
 }  // namespace sup::gui::test
