@@ -38,7 +38,6 @@ namespace sup::gui
 {
 
 class WaveformEditorWidget;
-class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 
 /**

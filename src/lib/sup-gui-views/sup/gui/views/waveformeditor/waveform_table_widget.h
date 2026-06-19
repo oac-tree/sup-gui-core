@@ -92,6 +92,8 @@ public:
 
   QSize sizeHint() const override;
 
+
+  WaveformTableComponentProvider* GetComponentProvider() const;
 private:
   QTableView* m_table_view{nullptr};
 

@@ -117,4 +117,9 @@ QSize WaveformTableWidget::sizeHint() const
   return {800, height};
 }
 
+WaveformTableComponentProvider* WaveformTableWidget::GetComponentProvider() const
+{
+  return m_component_provider.get();
+}
+
 }  // namespace sup::gui
