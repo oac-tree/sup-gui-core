@@ -32,7 +32,10 @@
 
 #include <gtest/gtest.h>
 
+#include <QItemSelectionModel>
 #include <QSignalSpy>
+#include <QTableView>
+#include <QTransposeProxyModel>
 
 namespace sup::gui::test
 {
@@ -107,6 +110,18 @@ TEST_F(WaveformTableWidgetTest, SetLineSeriesWithSinglePoint)
             std::vector<const mvvm::SessionItem*>({x_item2, y_item2}));
   EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected),
             mvvm::ItemSelection({x_item2, y_item2}));
+
+  // validating selection via proxy model
+  auto proxy_model = provider->GetLastProxyModel();
+  auto x_col2 = proxy_model->index(0, 2);
+  auto y_col2 = proxy_model->index(1, 2);
+
+  auto table_view = provider->GetView();
+  auto table_selection_model = table_view->selectionModel();
+  auto selected_indexes = table_selection_model->selectedIndexes();
+  EXPECT_EQ(selected_indexes.size(), 2);
+  EXPECT_EQ(selected_indexes.at(0), x_col2);
+  EXPECT_EQ(selected_indexes.at(1), y_col2);
 }
 
 }  // namespace sup::gui::test

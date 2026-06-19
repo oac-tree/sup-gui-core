@@ -29,6 +29,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QItemSelectionModel>
 #include <QSignalSpy>
 #include <QTableView>
 #include <QTransposeProxyModel>
@@ -170,6 +171,13 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected),
             mvvm::ItemSelection({x_item2, y_item2}));
   EXPECT_EQ(provider.GetSelectedPointIndex(), 2);
+
+  // verifying selection again by asking table selection model
+  auto table_selection_model = table_view.selectionModel();
+  auto selected_indexes = table_selection_model->selectedIndexes();
+  EXPECT_EQ(selected_indexes.size(), 2);
+  EXPECT_EQ(selected_indexes.at(0), x_col2);
+  EXPECT_EQ(selected_indexes.at(1), y_col2);
 }
 
 }  // namespace sup::gui::test

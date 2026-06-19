@@ -37,8 +37,7 @@ WaveformTableComponentProvider::WaveformTableComponentProvider(mvvm::Application
     : mvvm::ItemViewComponentProvider(std::make_unique<WaveformTwoColumnViewModel>(model), view)
 {
   AddProxyModel(std::make_unique<QTransposeProxyModel>());
-  SetSelectionFlags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Columns
-                    | QItemSelectionModel::Toggle);
+  SetSelectionFlags(QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Columns);
 }
 
 std::int32_t WaveformTableComponentProvider::GetSelectedPointIndex() const

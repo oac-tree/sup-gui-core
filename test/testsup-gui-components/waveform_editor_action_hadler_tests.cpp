@@ -182,7 +182,7 @@ TEST_F(WaveformEditorActionHandlerTest, RemoveMiddlePoint)
   action_handler->OnRemoveColumnRequest();
 
   // new points should have only first and last point
-  std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {3.0, 30.0}});
+  const std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {3.0, 30.0}});
   EXPECT_EQ(m_data_item->GetWaveform(), expected);
 
   // algorithm should suggest the last point for selection
@@ -226,7 +226,7 @@ TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeries)
 
 //! Prepending points to non-empty line series. Nothing is selected.
 //! New point should appear at the beginning, slighly shifted back.
-TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeriesWHenNothinIsSelected)
+TEST_F(WaveformEditorActionHandlerTest, AddBeforeNonEmptyLineSeriesWhenNothinIsSelected)
 {
   m_data_item->InsertPoint(0, {1.0, 10.0});
 
