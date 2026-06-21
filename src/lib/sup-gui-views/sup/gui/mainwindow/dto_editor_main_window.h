@@ -21,8 +21,9 @@
 #ifndef SUP_GUI_MAINWINDOW_DTO_EDITOR_MAIN_WINDOW_H_
 #define SUP_GUI_MAINWINDOW_DTO_EDITOR_MAIN_WINDOW_H_
 
-#include <mvvm/widgets/main_window_types.h>
 #include <sup/gui/components/dto_editor_project.h>
+
+#include <mvvm/widgets/main_window_types.h>
 
 #include <QMainWindow>
 #include <memory>
@@ -107,9 +108,9 @@ private:
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoExplorerView* m_explorer_view{nullptr};
+  DtoCompareView* m_compare_view{nullptr};
   DtoComposerView* m_composer_view{nullptr};
   DtoWaveformView* m_waveform_view{nullptr};
-  DtoCompareView* m_compare_view{nullptr};
 };
 
 }  // namespace sup::gui
