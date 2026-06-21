@@ -28,6 +28,7 @@
 
 #include <mvvm/model/item_selection.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/viewmodel/top_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
 
@@ -61,6 +62,7 @@ ConfigurationListWidget::~ConfigurationListWidget() = default;
 
 void ConfigurationListWidget::SetConfigurationContainer(ConfigurationContainerItem* container)
 {
+  m_configuration_container = container;
   m_component_provider->SetItem(container);
 }
 
@@ -122,8 +124,17 @@ void ConfigurationListWidget::SetupActions()
   addAction(m_remove_configuration_action);
 }
 
-void ConfigurationListWidget::OnAddConfiguration() {}
+void ConfigurationListWidget::OnAddConfiguration()
+{
+  auto configuration =
+      m_configuration_container->InsertItem<ConfigurationItem>(mvvm::TagIndex::Append());
+  configuration->SetDisplayName(
+      "configuration" + std::to_string(m_configuration_container->GetConfigurationCount()));
+}
 
-void ConfigurationListWidget::OnRemoveConfiguration() {}
+void ConfigurationListWidget::OnRemoveConfiguration()
+{
+  mvvm::utils::RemoveItem(*m_component_provider->GetSelection().GetItem());
+}
 
 }  // namespace sup::gui

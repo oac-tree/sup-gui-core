@@ -74,6 +74,7 @@ private:
   FlatListView* m_list_view{nullptr};
   QAction* m_add_configuration_action{nullptr};
   QAction* m_remove_configuration_action{nullptr};
+  ConfigurationContainerItem* m_configuration_container{nullptr};
 
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };
