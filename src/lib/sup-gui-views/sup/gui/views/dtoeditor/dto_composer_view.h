@@ -22,23 +22,15 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_
 
 #include <QWidget>
-#include <memory>
-
-class QTabWidget;
-
-namespace mvvm
-{
-class ISessionModel;
-class SessionItem;
-}  // namespace mvvm
 
 namespace sup::gui
 {
 
-class DtoComposerTabController;
-class DtoComposerActions;
-class DtoComposerActionHandler;
 class IAppCommandService;
+class CustomSplitter;
+class DtoComposerToolsPanel;
+class AnyValueEditorWidget;
+class ConfigurationModel;
 
 /**
  * @brief The DtoComposerView class represents a main tab-based view to assemble AnyValue.
@@ -60,19 +52,23 @@ public:
   DtoComposerView(DtoComposerView&&) = delete;
   DtoComposerView& operator=(DtoComposerView&&) = delete;
 
-  void SetModel(mvvm::ISessionModel* model);
+  /**
+   * @brief Perform widgets setup on new project creation or project load from disk.
+   */
+  void SetConfigurationModel(ConfigurationModel* model);
 
 private:
+  void ReadSettings();
+  void WriteSettings();
   void SetupConnections();
   void SummonContextMenu(const QPoint& point);
 
   IAppCommandService& m_command_service;
-  mvvm::ISessionModel* m_model{nullptr};
 
-  QTabWidget* m_tab_widget{nullptr};
-  std::unique_ptr<DtoComposerTabController> m_tab_controller;
-  DtoComposerActions* m_actions{nullptr};
-  DtoComposerActionHandler* m_action_handler;
+  CustomSplitter* m_splitter{nullptr};
+  DtoComposerToolsPanel* m_tools_panel{nullptr};
+  AnyValueEditorWidget* m_anyvalue_editor{nullptr};
+  ConfigurationModel* m_configuration_model{nullptr};
 };
 
 }  // namespace sup::gui

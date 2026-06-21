@@ -179,7 +179,7 @@ void DtoEditorMainWindow::OnProjectLoad()
 
   m_explorer_view->SetConfigurationModel(m_project->GetConfigurationModel());
   m_compare_view->SetConfigurationModel(m_project->GetConfigurationModel());
-  m_composer_view->SetModel(m_project->GetSupDtoModel());
+  m_composer_view->SetConfigurationModel(m_project->GetConfigurationModel());
   m_waveform_view->SetWaveformModel(m_project->GetWaveformModel());
 
   UpdateProjectNames();

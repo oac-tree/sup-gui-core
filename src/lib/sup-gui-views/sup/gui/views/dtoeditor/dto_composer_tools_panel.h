@@ -34,6 +34,7 @@ namespace sup::gui
 class ConfigurationListWidget;
 class ConfigurationContainerItem;
 class DtoCompareToolBar;
+class ItemStackWidget;
 
 class DtoComposerToolsPanel : public QWidget
 {
@@ -48,17 +49,12 @@ public:
 
   void SetSelection(const mvvm::ItemSelection& selection);
 
-  /**
-   * @brief Returns current value of sync flag for panel appearance.
-   */
-  bool GetPanelSyncAppearanceFlag() const;
-
 signals:
   void SelectionChanged(const mvvm::ItemSelection&);
   void panelSyncAppearanceFlagChanged(bool value);
 
 private:
-  DtoCompareToolBar* m_tool_bar{nullptr};
+  sup::gui::ItemStackWidget* m_stack_widget{nullptr};
   ConfigurationListWidget* m_configuration_list_widget{nullptr};
 };
 

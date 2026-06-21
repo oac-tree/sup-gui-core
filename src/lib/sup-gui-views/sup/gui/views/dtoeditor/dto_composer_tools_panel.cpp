@@ -21,7 +21,8 @@
 #include "dto_composer_tools_panel.h"
 
 #include "configuration_list_widget.h"
-#include "dto_compare_tool_bar.h"
+
+#include <sup/gui/widgets/item_stack_widget.h>
 
 #include <mvvm/model/item_selection.h>
 
@@ -32,18 +33,16 @@ namespace sup::gui
 
 DtoComposerToolsPanel::DtoComposerToolsPanel(QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_tool_bar(new DtoCompareToolBar)
+    , m_stack_widget(new sup::gui::ItemStackWidget)
     , m_configuration_list_widget(new ConfigurationListWidget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_tool_bar);
-  layout->addWidget(m_configuration_list_widget);
+  layout->addWidget(m_stack_widget);
 
-  connect(m_tool_bar, &DtoCompareToolBar::panelSyncAppearanceFlagChanged, this,
-          &DtoComposerToolsPanel::panelSyncAppearanceFlagChanged);
+  m_stack_widget->AddWidget(m_configuration_list_widget);
   connect(m_configuration_list_widget, &ConfigurationListWidget::SelectionChanged, this,
           &DtoComposerToolsPanel::SelectionChanged);
 }
@@ -61,11 +60,6 @@ mvvm::ItemSelection DtoComposerToolsPanel::GetSelection() const
 void DtoComposerToolsPanel::SetSelection(const mvvm::ItemSelection& selection)
 {
   m_configuration_list_widget->SetSelection(selection);
-}
-
-bool DtoComposerToolsPanel::GetPanelSyncAppearanceFlag() const
-{
-  return m_tool_bar->GetPanelSyncAppearanceFlag();
 }
 
 }  // namespace sup::gui
