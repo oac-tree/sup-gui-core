@@ -29,12 +29,12 @@
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
+#include <sup/gui/widgets/custom_splitter.h>
 
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
 
 #include <QAction>
-#include <QSplitter>
 #include <QVBoxLayout>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -47,7 +47,7 @@ namespace sup::gui
 DtoWaveformView::DtoWaveformView(IAppCommandService& command_service, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_command_service(command_service)
-    , m_splitter(new QSplitter)
+    , m_splitter(new CustomSplitter("DtoWaveformView/splitter"))
     , m_list_panel(new DtoWaveformListPanel)
     , m_editor_panel(new DtoWaveformEditorPanel)
     , m_property_panel(new DtoWaveformPropertyPanel)
@@ -68,15 +68,24 @@ DtoWaveformView::DtoWaveformView(IAppCommandService& command_service, QWidget* p
           &DtoWaveformView::SetLineSeriesItem);
   connect(m_property_panel, &DtoWaveformPropertyPanel::pointSelected, m_editor_panel,
           &DtoWaveformEditorPanel::SetSelectedPoint);
+
+  ReadSettings();
 }
 
-DtoWaveformView::~DtoWaveformView() = default;
+DtoWaveformView::~DtoWaveformView()
+{
+  WriteSettings();
+}
 
 void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_editor_panel->SetLineSeriesItem(line_series_item);
   m_property_panel->SetLineSeriesItem(line_series_item);
 }
+
+void DtoWaveformView::ReadSettings() {}
+
+void DtoWaveformView::WriteSettings() {}
 
 void DtoWaveformView::SetupWidgetActions()
 {

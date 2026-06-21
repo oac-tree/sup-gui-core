@@ -23,8 +23,6 @@
 
 #include <QWidget>
 
-class QSplitter;
-
 namespace mvvm
 {
 class LineSeriesItem;
@@ -39,6 +37,7 @@ class DtoWaveformPropertyPanel;
 class WaveformModel;
 class AppCommandContext;
 class IAppCommandService;
+class CustomSplitter;
 
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
@@ -70,10 +69,12 @@ public:
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
+  void ReadSettings();
+  void WriteSettings();
   void SetupWidgetActions();
 
   IAppCommandService& m_command_service;
-  QSplitter* m_splitter{nullptr};
+  CustomSplitter* m_splitter{nullptr};
 
   QAction* m_toggle_left_sidebar{nullptr};
   QAction* m_toggle_right_sidebar{nullptr};

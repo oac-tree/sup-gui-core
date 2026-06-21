@@ -42,7 +42,8 @@ DtoComposerToolsPanel::DtoComposerToolsPanel(QWidget* parent_widget)
 
   layout->addWidget(m_stack_widget);
 
-  m_stack_widget->AddWidget(m_configuration_list_widget);
+  m_stack_widget->AddWidget(m_configuration_list_widget, m_configuration_list_widget->actions());
+
   connect(m_configuration_list_widget, &ConfigurationListWidget::SelectionChanged, this,
           &DtoComposerToolsPanel::SelectionChanged);
 }

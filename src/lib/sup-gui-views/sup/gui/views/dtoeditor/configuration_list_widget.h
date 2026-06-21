@@ -67,8 +67,13 @@ signals:
 private:
   std::unique_ptr<mvvm::ItemViewComponentProvider> CreateProvider() const;
   void SetupConnections();
+  void SetupActions();
+  void OnAddConfiguration();
+  void OnRemoveConfiguration();
 
   FlatListView* m_list_view{nullptr};
+  QAction* m_add_configuration_action{nullptr};
+  QAction* m_remove_configuration_action{nullptr};
 
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_component_provider;
 };

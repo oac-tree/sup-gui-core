@@ -22,6 +22,7 @@
 
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
+#include <sup/gui/style/style_helper.h>
 #include <sup/gui/widgets/flatlist_delegate.h>
 #include <sup/gui/widgets/flatlist_view.h>
 
@@ -52,6 +53,8 @@ ConfigurationListWidget::ConfigurationListWidget(QWidget* parent_widget)
   SetupConnections();
 
   m_list_view->setAlternatingRowColors(true);
+
+  SetupActions();
 }
 
 ConfigurationListWidget::~ConfigurationListWidget() = default;
@@ -97,5 +100,30 @@ void ConfigurationListWidget::SetupConnections()
   connect(m_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectionChanged, this,
           &ConfigurationListWidget::SelectionChanged);
 }
+
+void ConfigurationListWidget::SetupActions()
+{
+  // add waveform
+  m_add_configuration_action = new QAction("Add", this);
+  m_add_configuration_action->setIcon(utils::FindIcon("plus-circle-outline"));
+  m_add_configuration_action->setToolTip(
+      "Creates new empty configuration.\n"
+      "Configuration will be added to the list after current selection");
+  connect(m_add_configuration_action, &QAction::triggered, this,
+          &ConfigurationListWidget::OnAddConfiguration);
+  addAction(m_add_configuration_action);
+
+  // remove waveform
+  m_remove_configuration_action = new QAction("Remove", this);
+  m_remove_configuration_action->setIcon(utils::FindIcon("beaker-remove-outline"));
+  m_remove_configuration_action->setToolTip("Remove currently selected configuration");
+  connect(m_remove_configuration_action, &QAction::triggered, this,
+          &ConfigurationListWidget::OnRemoveConfiguration);
+  addAction(m_remove_configuration_action);
+}
+
+void ConfigurationListWidget::OnAddConfiguration() {}
+
+void ConfigurationListWidget::OnRemoveConfiguration() {}
 
 }  // namespace sup::gui
