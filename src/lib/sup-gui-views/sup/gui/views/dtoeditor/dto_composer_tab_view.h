@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_
-#define SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_
+#ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_TAB_VIEW_H_
+#define SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_TAB_VIEW_H_
 
 #include <QWidget>
 #include <memory>
@@ -41,22 +41,22 @@ class DtoComposerActionHandler;
 class IAppCommandService;
 
 /**
- * @brief The DtoComposerView class represents a main view to assemble AnyValue.
+ * @brief The DtoComposerTabView class represents a main tab-based view to assemble AnyValue.
  *
  * It contains tabs with multiple instances of AnyValueEditor, belongs to MainWindow.
  */
-class DtoComposerView : public QWidget
+class DtoComposerTabView : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
-  ~DtoComposerView() override;
+  explicit DtoComposerTabView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
+  ~DtoComposerTabView() override;
 
-  DtoComposerView(const DtoComposerView&) = delete;
-  DtoComposerView& operator=(const DtoComposerView&) = delete;
-  DtoComposerView(DtoComposerView&&) = delete;
-  DtoComposerView& operator=(DtoComposerView&&) = delete;
+  DtoComposerTabView(const DtoComposerTabView&) = delete;
+  DtoComposerTabView& operator=(const DtoComposerTabView&) = delete;
+  DtoComposerTabView(DtoComposerTabView&&) = delete;
+  DtoComposerTabView& operator=(DtoComposerTabView&&) = delete;
 
   void SetModel(mvvm::ISessionModel* model);
 
@@ -75,4 +75,4 @@ private:
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_VIEW_H_
+#endif  // SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_TAB_VIEW_H_

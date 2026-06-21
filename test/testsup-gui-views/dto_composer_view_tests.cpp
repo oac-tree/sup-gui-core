@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/gui/views/dtoeditor/dto_composer_view.h"
+#include "sup/gui/views/dtoeditor/dto_composer_tab_view.h"
 
 #include <sup/gui/app/null_command_service.h>
 #include <sup/gui/model/sup_dto_model.h>
@@ -50,7 +50,7 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
 {
   SupDtoModel model;  // has one container by default
 
-  DtoComposerView view(m_command_service);
+  DtoComposerTabView view(m_command_service);
   view.SetModel(&model);
 
   auto tab_widget = view.findChild<QTabWidget*>();

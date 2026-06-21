@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "dto_composer_view.h"
+#include "dto_composer_tab_view.h"
 
 #include "dto_composer_actions.h"
 
@@ -55,7 +55,7 @@ DtoComposerTabController::create_widget_callback_t CreateCallback(
 
 }  // namespace
 
-DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget)
+DtoComposerTabView::DtoComposerTabView(IAppCommandService& command_service, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_command_service(command_service)
     , m_tab_widget(new QTabWidget)
@@ -73,7 +73,7 @@ DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* p
   m_tab_widget->setTabPosition(QTabWidget::South);
   m_tab_widget->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(m_tab_widget->tabBar(), &QTabBar::customContextMenuRequested, this,
-          &DtoComposerView::SummonContextMenu);
+          &DtoComposerTabView::SummonContextMenu);
 
   for (auto action : m_actions->GetActions())
   {
@@ -83,16 +83,16 @@ DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* p
   SetupConnections();
 }
 
-DtoComposerView::~DtoComposerView() = default;
+DtoComposerTabView::~DtoComposerTabView() = default;
 
-void DtoComposerView::SetModel(mvvm::ISessionModel* model)
+void DtoComposerTabView::SetModel(mvvm::ISessionModel* model)
 {
   m_action_handler->SetModel(model);
   m_tab_controller = std::make_unique<DtoComposerTabController>(
       model, CreateCallback(m_command_service), m_tab_widget);
 }
 
-void DtoComposerView::SetupConnections()
+void DtoComposerTabView::SetupConnections()
 {
   // Connecting DtoComposerActions requests (add/duplicate/remove tabs) with
   // DtoComposerActionHandler. Please note, that we do not add/remove tabs manually. The
@@ -117,7 +117,7 @@ void DtoComposerView::SetupConnections()
           &DtoComposerActionHandler::OnRemoveContainer);
 }
 
-void DtoComposerView::SummonContextMenu(const QPoint& point)
+void DtoComposerTabView::SummonContextMenu(const QPoint& point)
 {
   QMenu menu;
   menu.setToolTipsVisible(true);

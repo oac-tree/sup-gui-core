@@ -19,8 +19,8 @@ target_sources(${library_name} PRIVATE
   dto_composer_actions.h
   dto_composer_tools_panel.cpp
   dto_composer_tools_panel.h
-  dto_composer_view.cpp
-  dto_composer_view.h
+  dto_composer_tab_view.cpp
+  dto_composer_tab_view.h
   dto_explorer_panel.cpp
   dto_explorer_panel.h
   dto_explorer_view.cpp
