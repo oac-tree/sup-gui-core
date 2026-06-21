@@ -40,7 +40,7 @@ namespace sup::gui
 
 class AnyValueEditorAppContext;
 class DtoCompareView;
-class DtoComposerTabView;
+class DtoComposerView;
 class DtoEditorMainWindowActions;
 class DtoEditorProject;
 class DtoExplorerView;
@@ -109,7 +109,7 @@ private:
   DtoEditorMainWindowActions* m_action_manager{nullptr};
   DtoExplorerView* m_explorer_view{nullptr};
   DtoCompareView* m_compare_view{nullptr};
-  DtoComposerTabView* m_composer_view{nullptr};
+  DtoComposerView* m_composer_view{nullptr};
   DtoWaveformView* m_waveform_view{nullptr};
 };
 

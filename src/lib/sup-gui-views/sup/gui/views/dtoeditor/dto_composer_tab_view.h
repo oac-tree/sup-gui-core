@@ -43,6 +43,8 @@ class IAppCommandService;
 /**
  * @brief The DtoComposerTabView class represents a main tab-based view to assemble AnyValue.
  *
+ * Alternative to DtoComposerView (to decide, which one will remain)
+ *
  * It contains tabs with multiple instances of AnyValueEditor, belongs to MainWindow.
  */
 class DtoComposerTabView : public QWidget

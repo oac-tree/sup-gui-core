@@ -33,7 +33,7 @@
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/dtoeditor/dto_compare_view.h>
-#include <sup/gui/views/dtoeditor/dto_composer_tab_view.h>
+#include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/views/dtoeditor/dto_explorer_view.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
 
@@ -104,7 +104,7 @@ void DtoEditorMainWindow::InitComponents()
       utils::FindIcon("application-brackets-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   // composer view
-  m_composer_view = new DtoComposerTabView(m_context.GetCommandService());
+  m_composer_view = new DtoComposerView(m_context.GetCommandService());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::FindIcon("file-tree-outline", mvvm::ColorFlavor::kForDarkThemes));
 
