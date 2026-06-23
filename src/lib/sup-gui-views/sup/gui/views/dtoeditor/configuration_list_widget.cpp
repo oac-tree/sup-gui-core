@@ -34,6 +34,7 @@
 
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <QAction>
 
 namespace sup::gui
 {
