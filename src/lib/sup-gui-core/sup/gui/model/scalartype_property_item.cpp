@@ -25,6 +25,7 @@
 
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 
 namespace sup::gui
 {
@@ -64,7 +65,7 @@ ScalarTypePropertyItem::ScalarTypePropertyItem()
 
 std::unique_ptr<mvvm::SessionItem> ScalarTypePropertyItem::Clone() const
 {
-  auto result = std::make_unique<ScalarTypePropertyItem>(*this);
+  auto result = mvvm::MakeClone(*this);
   result->ActivateStrategies();
   return result;
 }

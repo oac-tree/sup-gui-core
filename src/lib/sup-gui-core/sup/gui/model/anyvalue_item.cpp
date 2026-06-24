@@ -27,6 +27,7 @@
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 
 namespace sup::gui
 {
@@ -96,7 +97,7 @@ AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(mvvm::GetTypeName<AnyValue
 
 std::unique_ptr<mvvm::SessionItem> AnyValueEmptyItem::Clone() const
 {
-  return std::make_unique<AnyValueEmptyItem>(*this);
+  return mvvm::MakeClone(*this);
 }
 
 // ----------------------------------------------------------------------------
@@ -112,7 +113,7 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(mvvm::GetTypeName<AnyVal
 
 std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 {
-  return std::make_unique<AnyValueScalarItem>(*this);
+  return mvvm::MakeClone(*this);
 }
 
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
@@ -144,7 +145,7 @@ AnyValueStructItem::AnyValueStructItem() : AnyValueItem(mvvm::GetTypeName<AnyVal
 
 std::unique_ptr<mvvm::SessionItem> AnyValueStructItem::Clone() const
 {
-  return std::make_unique<AnyValueStructItem>(*this);
+  return mvvm::MakeClone(*this);
 }
 
 bool AnyValueStructItem::IsStruct() const
@@ -183,7 +184,7 @@ AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(mvvm::GetTypeName<AnyValue
 
 std::unique_ptr<mvvm::SessionItem> AnyValueArrayItem::Clone() const
 {
-  return std::make_unique<AnyValueArrayItem>(*this);
+  return mvvm::MakeClone(*this);
 }
 
 bool AnyValueArrayItem::IsArray() const

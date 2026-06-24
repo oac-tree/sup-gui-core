@@ -24,6 +24,8 @@
 #include "anyvalue_item_constants.h"
 #include "anyvalue_item_utils.h"
 
+#include <mvvm/model/make_clone.h>
+
 namespace sup::gui
 {
 
@@ -48,7 +50,7 @@ ConfigurationItem::ConfigurationItem()
 
 std::unique_ptr<mvvm::SessionItem> ConfigurationItem::Clone() const
 {
-  return std::make_unique<ConfigurationItem>(*this);
+  return mvvm::MakeClone(*this);
 }
 
 AnyValueItem* ConfigurationItem::GetValue()

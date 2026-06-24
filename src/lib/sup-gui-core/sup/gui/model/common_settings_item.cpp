@@ -23,6 +23,7 @@
 #include "settings_constants.h"
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 
 namespace sup::gui
 {
@@ -51,7 +52,7 @@ void CommonSettingsItem::ActivateStrategiesImpl()
 
 std::unique_ptr<mvvm::SessionItem> CommonSettingsItem::Clone() const
 {
-  auto result = std::make_unique<CommonSettingsItem>(*this);
+  auto result = mvvm::MakeClone(*this);
   result->ActivateStrategies();
   return result;
 }

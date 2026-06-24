@@ -22,6 +22,8 @@
 
 #include "configuration_item.h"
 
+#include <mvvm/model/make_clone.h>
+
 namespace sup::gui
 {
 
@@ -34,7 +36,7 @@ ConfigurationContainerItem::ConfigurationContainerItem()
 
 std::unique_ptr<mvvm::SessionItem> ConfigurationContainerItem::Clone() const
 {
-  return std::make_unique<ConfigurationContainerItem>(*this);
+  return mvvm::MakeClone(*this);
 }
 
 std::vector<ConfigurationItem*> ConfigurationContainerItem::GetConfigurations()
