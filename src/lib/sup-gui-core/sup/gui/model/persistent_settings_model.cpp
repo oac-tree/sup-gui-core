@@ -27,14 +27,23 @@
 namespace sup::gui
 {
 
-PersistentSettingsModel::PersistentSettingsModel() : ApplicationModel("PersistentSettingsModel")
+PersistentSettingsModel::PersistentSettingsModel()
+    : PersistentSettingsModel("PersistentSettingsModel", {})
+{
+}
+
+PersistentSettingsModel::PersistentSettingsModel(std::string model_type,
+                                                 std::shared_ptr<mvvm::ItemPool> pool)
+    : mvvm::ApplicationModel(std::move(model_type), std::move(pool))
 {
   PopulateModel();
 }
 
 std::unique_ptr<mvvm::ISessionModel> PersistentSettingsModel::Clone() const
 {
-  return std::make_unique<PersistentSettingsModel>(*this);
+  auto result = std::make_unique<PersistentSettingsModel>(GetType(), GetItemPool());
+  InitClonedModel(*result);
+  return result;
 }
 
 void PersistentSettingsModel::Clear()

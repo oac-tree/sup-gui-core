@@ -42,6 +42,7 @@ class PersistentSettingsModel : public mvvm::ApplicationModel
 {
 public:
   PersistentSettingsModel();
+  PersistentSettingsModel(std::string model_type, std::shared_ptr<mvvm::ItemPool> pool);
 
   std::unique_ptr<ISessionModel> Clone() const override;
 
