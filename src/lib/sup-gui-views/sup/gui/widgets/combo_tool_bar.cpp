@@ -55,6 +55,8 @@ ComboToolBar::ComboToolBar(ComparePanelType panel_type, const NamesCallback& ent
   }
 
   setIconSize(utils::NarrowToolBarIconSize());
+  // make it more compact
+  setStyleSheet("QToolBar { padding-bottom: 0px; margin-bottom: 0px; }");
 
   m_selector_button->setMenu(m_select_item_menu.get());
   m_selector_button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
