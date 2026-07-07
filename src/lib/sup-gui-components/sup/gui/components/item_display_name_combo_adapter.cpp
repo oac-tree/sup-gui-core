@@ -53,7 +53,7 @@ mvvm::SessionItem* ItemDisplayNameComboAdapter::GetItemFromComboIndex(std::int32
     return nullptr;
   }
 
-  return m_items.at(item_index);
+  return m_items.at(static_cast<std::size_t>(item_index));
 }
 
 std::int32_t ItemDisplayNameComboAdapter::GetComboIndexFromItem(const mvvm::SessionItem* item)

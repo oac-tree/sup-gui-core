@@ -36,9 +36,13 @@
 namespace sup::gui::components
 {
 
+namespace
+{
+std::once_flag register_once_flag;
+}  // namespace
+
 void RegisterCustomMetaTypes()
 {
-  static std::once_flag register_once_flag;
   auto register_func = []()
   {
     (void)qRegisterMetaType<const mvvm::SessionItem*>("const mvvm::SessionItem*");

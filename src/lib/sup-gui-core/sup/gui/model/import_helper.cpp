@@ -67,15 +67,15 @@ void AppendConfigurationFromFile(const std::string& file_name,
   }
 
   auto configuration_item = std::make_unique<ConfigurationItem>();
-  configuration_item->InsertItem(std::move(anyvalue_item), mvvm::TagIndex::Append());
+  (void)configuration_item->InsertItem(std::move(anyvalue_item), mvvm::TagIndex::Append());
 
   // name of the configuration is the same as file name without extension
   auto configuration_name = mvvm::utils::GetPathStem(file_name);
-  configuration_item->SetDisplayName(configuration_name);
+  (void)configuration_item->SetDisplayName(configuration_name);
   configuration_item->SetFileName(file_name);
 
   // appending configuration to the container
-  container.InsertItem(std::move(configuration_item), mvvm::TagIndex::Append());
+  (void)container.InsertItem(std::move(configuration_item), mvvm::TagIndex::Append());
 }
 
 }  // namespace sup::gui

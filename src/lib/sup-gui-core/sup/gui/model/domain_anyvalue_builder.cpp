@@ -63,7 +63,7 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
 
   explicit DomainAnyValueBuilderImpl(const AnyValueItem& item)
   {
-    m_stack.emplace(&item, kRoot);
+    (void)m_stack.emplace(&item, kRoot);
     ProcessItemStack();
   }
 

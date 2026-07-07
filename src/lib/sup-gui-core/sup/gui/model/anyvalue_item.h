@@ -37,6 +37,12 @@ class AnyValueItem : public mvvm::CompoundItem
 public:
   explicit AnyValueItem(const std::string& item_type);
 
+  AnyValueItem(const AnyValueItem&) = delete;
+  AnyValueItem(AnyValueItem&&) = delete;
+  AnyValueItem& operator=(const AnyValueItem&) = delete;
+  AnyValueItem& operator=(AnyValueItem&&) = delete;
+  ~AnyValueItem() override = default;
+
   std::unique_ptr<SessionItem> Clone() const override;
 
   virtual void SetAnyTypeName(const std::string& type_name);

@@ -30,7 +30,7 @@ ConfigurationContainerItem* ConfigurationModel::GetConfigurationContainer()
 void ConfigurationModel::PopulateModel()
 {
   m_configuration_container = InsertItem<ConfigurationContainerItem>();
-  if (auto command_stack = GetCommandStack(); command_stack)
+  if (auto command_stack = mvvm::ApplicationModel::GetCommandStack(); command_stack)
   {
     command_stack->Clear();  // to disallow "undo" of our main container
   }
