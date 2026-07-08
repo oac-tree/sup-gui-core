@@ -60,7 +60,7 @@ void SetItemTypesToMime(const std::vector<const mvvm::SessionItem*>& items,
                         const QString& mime_type, QMimeData& mime_data)
 {
   QStringList item_types;
-  item_types.reserve(static_cast<qsizetype>(items.size()));
+  item_types.reserve(static_cast<QStringList::size_type>(items.size()));
   for (const auto& item : items)
   {
     item_types.push_back(QString::fromStdString(item->GetType()));
@@ -84,7 +84,7 @@ void SetItemIdentifiersToMime(const std::vector<const mvvm::SessionItem*>& items
                               const QString& mime_type, QMimeData& mime_data)
 {
   QStringList identifiers;
-  identifiers.reserve(static_cast<qsizetype>(items.size()));
+  identifiers.reserve(static_cast<QStringList::size_type>(items.size()));
   for (const auto& item : items)
   {
     identifiers.push_back(QString::fromStdString(item->GetIdentifier()));
