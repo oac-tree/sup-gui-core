@@ -28,6 +28,8 @@
 #include <QList>
 #include <QMetaType>
 
+#include <cstdint>
+
 namespace sup::gui::components
 {
 
@@ -36,7 +38,7 @@ void RegisterCustomMetaTypes();
 }  // namespace sup::gui::components
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(QList<int>)
+Q_DECLARE_METATYPE(QList<std::int32_t>)
 #endif
 
 #endif  // SUP_GUI_COMPONENT_METATYPES_H_

@@ -95,7 +95,7 @@ public:
   /**
    * @brief Returns the number of registered actions.
    */
-  int GetSize() const { return static_cast<int>(m_action_map.size()); }
+  std::size_t GetSize() const { return m_action_map.size(); }
 
 private:
   std::map<ActionKeyT, QAction*> m_action_map;

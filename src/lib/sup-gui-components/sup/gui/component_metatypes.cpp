@@ -27,11 +27,8 @@
 #include <mvvm/widgets/main_window_types.h>
 
 #include <QDataStream>
-#include <mutex>
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <cstdint>
-#endif
+#include <mutex>
 
 namespace sup::gui::components
 {
@@ -44,12 +41,12 @@ void RegisterCustomMetaTypes()
     (void)qRegisterMetaType<const mvvm::SessionItem*>("const mvvm::SessionItem*");
     (void)qRegisterMetaType<const mvvm::LineSeriesItem*>("const mvvm::LineSeriesItem*");
     (void)qRegisterMetaType<const mvvm::PointItem*>("const mvvm::PointItem*");
-    (void)qRegisterMetaType<QList<int>>("QList<int>");
+    (void)qRegisterMetaType<QList<std::int32_t>>("QList<std::int32_t>");
     (void)qRegisterMetaType<mvvm::AppExitRequest>("mvvm::AppExitRequest");
     (void)qRegisterMetaType<mvvm::ItemSelection>("mvvm::ItemSelection");
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
+    qRegisterMetaTypeStreamOperators<QList<std::int32_t>>("QList<std::int32_t>");
     (void)qRegisterMetaType<std::int32_t>("std::int32_t");
 #endif
   };
