@@ -130,6 +130,11 @@ void ItemStackWidget::WriteSettings(const write_variant_func_t& write_func)
   write_func(GetSettingsKeyForIndex(m_settings_group_name), GetCurrentIndex());
 }
 
+PanelToolBar* ItemStackWidget::GetToolBar()
+{
+  return m_main_toolbar;
+}
+
 void ItemStackWidget::AddMenuEntry(QWidget* widget)
 {
   const std::int32_t index = m_stacked_widget->count() - 1;

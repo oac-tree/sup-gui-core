@@ -98,6 +98,11 @@ public:
    */
   void WriteSettings(const write_variant_func_t& write_func);
 
+  /**
+   * @brief Returns a toolbar to the user.
+   */
+  PanelToolBar* GetToolBar();
+
 private:
   /**
    * @brief Adds entry to 3-dot corner menu to switch to this widget.
