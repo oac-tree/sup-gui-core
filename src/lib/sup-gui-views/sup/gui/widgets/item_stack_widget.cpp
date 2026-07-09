@@ -22,6 +22,8 @@
 
 #include "panel_toolbar.h"
 
+#include <sup/gui/style/style_helper.h>
+
 #include <QAction>
 #include <QActionGroup>
 #include <QMenu>
@@ -45,11 +47,13 @@ QString GetSettingsKeyForIndex(const QString& settings_group_name)
 
 }  // namespace
 
-ItemStackWidget::ItemStackWidget(QWidget* parent_widget) : ItemStackWidget(QString(), parent_widget)
+ItemStackWidget::ItemStackWidget(QWidget* parent_widget)
+    : ItemStackWidget(QString(), PanelStyle::kButtonTextBesideIcon, parent_widget)
 {
 }
 
-ItemStackWidget::ItemStackWidget(const QString& settings_group_name, QWidget* parent_widget)
+ItemStackWidget::ItemStackWidget(const QString& settings_group_name, PanelStyle panel_style,
+                                 QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_stacked_widget(new QStackedWidget)
     , m_widget_selection_menu(std::make_unique<QMenu>())
@@ -65,6 +69,30 @@ ItemStackWidget::ItemStackWidget(const QString& settings_group_name, QWidget* pa
   layout->addWidget(m_stacked_widget);
 
   m_main_toolbar->SetDotsMenu(m_widget_selection_menu.get());
+
+  SetPanelStyle(panel_style);
+}
+
+void ItemStackWidget::SetPanelStyle(PanelStyle panel_style)
+{
+  if (panel_style == PanelStyle::kIconOnly)
+  {
+    m_main_toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    m_main_toolbar->setIconSize(utils::ToolBarIconSize());
+  }
+  else if (panel_style == PanelStyle::kIconOnly)
+  {
+    m_main_toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+  }
+  else if (panel_style == PanelStyle::kButtonTextUnderIcon)
+  {
+    m_main_toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    m_main_toolbar->setIconSize(utils::NarrowToolBarIconSize());
+  }
+  else
+  {
+    // nothing to do
+  }
 }
 
 void ItemStackWidget::AddWidget(QWidget* widget)

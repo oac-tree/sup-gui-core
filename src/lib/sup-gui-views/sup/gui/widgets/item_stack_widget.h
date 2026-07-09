@@ -49,9 +49,23 @@ class ItemStackWidget : public QWidget
   Q_OBJECT
 
 public:
+  enum class PanelStyle : std::uint16_t
+  {
+    kIconOnly,
+    kButtonTextBesideIcon,
+    kButtonTextUnderIcon
+  };
+
   explicit ItemStackWidget(QWidget* parent_widget = nullptr);
 
-  explicit ItemStackWidget(const QString& settings_group_name, QWidget* parent_widget = nullptr);
+  explicit ItemStackWidget(const QString& settings_group_name,
+                           PanelStyle panel_style = PanelStyle::kButtonTextBesideIcon,
+                           QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Sets panel style.
+   */
+  void SetPanelStyle(PanelStyle panel_style);
 
   /**
    * @brief Adds a widget to the stack.
