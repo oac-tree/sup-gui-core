@@ -60,6 +60,11 @@ public:
   void SetItem(mvvm::SessionItem* configuration_item) override;
 
   /**
+   * @brief Returns configuration server by this widget.
+   */
+  const mvvm::SessionItem* GetItem() const override;
+
+  /**
    * @brief Returns the tab widget holding the different views of the configuration.
    *
    * Used to provide appearance synchronisation between QTabWidget belonging to different panels.
@@ -85,6 +90,7 @@ private:
   AnyValueEditorTreePanel* m_tree_panel{nullptr};
   AnyValueEditorTextPanel* m_text_panel{nullptr};
   QTabWidget* m_tab_widget{nullptr};
+  const mvvm::SessionItem* m_configuration_item{nullptr};
 };
 
 }  // namespace sup::gui

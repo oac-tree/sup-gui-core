@@ -53,6 +53,8 @@ public:
 
   void SetItem(mvvm::SessionItem* item) override;
 
+  const mvvm::SessionItem* GetItem() const override;
+
 private:
   mvvm::PropertyFlatView* m_settings_view{nullptr};
   std::unique_ptr<mvvm::PropertyViewModel> m_property_view_model;

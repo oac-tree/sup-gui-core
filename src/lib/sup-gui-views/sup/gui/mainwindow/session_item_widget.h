@@ -54,6 +54,11 @@ public:
    * @brief Sets the item to be served by this widget.
    */
   virtual void SetItem(mvvm::SessionItem* item) = 0;
+
+  /**
+   * @brief Returns an item served by this widget.
+   */
+  virtual const mvvm::SessionItem* GetItem() const = 0;
 };
 
 }  // namespace sup::gui

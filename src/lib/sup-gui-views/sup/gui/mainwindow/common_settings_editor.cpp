@@ -49,4 +49,9 @@ void CommonSettingsEditor::SetItem(mvvm::SessionItem* item)
   m_property_view_model->SetRootSessionItem(item);
 }
 
+const mvvm::SessionItem *CommonSettingsEditor::GetItem() const
+{
+  return m_property_view_model->GetRootSessionItem();
+}
+
 }  // namespace sup::gui

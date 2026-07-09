@@ -35,8 +35,9 @@ public:
 
 TEST_F(ConfigurationTabWidgetTest, InitialState)
 {
-  ConfigurationTabWidget widget;
+  const ConfigurationTabWidget widget;
 
+  EXPECT_EQ(widget.GetItem(), nullptr);
   EXPECT_NE(widget.GetTabWidget(), nullptr);
   EXPECT_NE(widget.GetScrollArea(ConfigurationViewMode::kTree), nullptr);
   EXPECT_NE(widget.GetScrollArea(ConfigurationViewMode::kJSON), nullptr);

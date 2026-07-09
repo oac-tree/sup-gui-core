@@ -164,6 +164,7 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
 
   EXPECT_EQ(widget->GetModel(), &m_model);
   EXPECT_EQ(widget->GetCurrentItem(), nullptr);
+  EXPECT_EQ(widget->GetMainEditor<ConfigurationTabWidget>()->GetItem(), nullptr);
 
   auto stacked_widget = widget->findChild<QStackedWidget*>();
   ASSERT_NE(stacked_widget, nullptr);
@@ -183,6 +184,8 @@ TEST_F(SplittableComboPanelTest, SetConfigurationProgrammatically)
             mvvm::ItemSelection(configuration0));
 
   EXPECT_EQ(widget->GetCurrentItem(), configuration0);
+  EXPECT_EQ(widget->GetMainEditor<ConfigurationTabWidget>()->GetItem(), configuration0);
+
   EXPECT_EQ(toolbar->GetCurrentText(), QString::fromStdString(configuration0->GetDisplayName()));
   EXPECT_EQ(toolbar->GetCurrentIndex(), 1);
 
@@ -320,6 +323,9 @@ TEST_F(SplittableComboPanelTest, ChangeToPlaceholderWidgetOnConfigDeletion)
 
   // delete item
   m_model.RemoveItem(configuration0);
+
+  EXPECT_EQ(widget->GetCurrentItem(), nullptr);
+  EXPECT_EQ(widget->GetMainEditor<ConfigurationTabWidget>()->GetItem(), nullptr);
 
   // expecting placeholder widget
   EXPECT_EQ(stacked_widget->currentIndex(),
