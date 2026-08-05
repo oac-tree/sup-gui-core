@@ -41,7 +41,3 @@ configure_file(${SUP_GUI_CORE_PROJECT_DIR}/cmake/configs/version_constants.h.in 
 # -----------------------------------------------------------------------------
 # Compiler options
 # -----------------------------------------------------------------------------
-if (COA_COVERAGE)
-  message(STATUS "Enabling test coverage information")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fno-inline --coverage")
-endif()
