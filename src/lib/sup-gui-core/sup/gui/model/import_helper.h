@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
-#define SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
+#ifndef SUP_GUI_MODEL_IMPORT_HELPER_H_
+#define SUP_GUI_MODEL_IMPORT_HELPER_H_
 
 #include <functional>
 #include <memory>
@@ -56,4 +56,4 @@ void AppendConfigurationFromFile(const std::string& file_name,
 
 }  // namespace sup::gui
 
-#endif  // SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
+#endif  // SUP_GUI_MODEL_IMPORT_HELPER_H_

@@ -68,8 +68,12 @@ TEST_F(ImportHelperTest, ImportFromFile)
 
 TEST_F(ImportHelperTest, ImportFromNonExistingFile)
 {
+  EXPECT_CALL(m_error_callback, Call(::testing::_)).Times(1);
+  auto item = CreateAnyValueItemFromFile("non-existing-file", m_error_callback.AsStdFunction());
+
+  // when no callback set, expect no notifications
   EXPECT_CALL(m_error_callback, Call(::testing::_)).Times(0);
-  auto item = CreateAnyValueItemFromFile("non-existinf-file", m_error_callback.AsStdFunction());
+  auto item2 = CreateAnyValueItemFromFile("non-existing-file", {});
 }
 
 TEST_F(ImportHelperTest, AppendConfigurationFromFile)

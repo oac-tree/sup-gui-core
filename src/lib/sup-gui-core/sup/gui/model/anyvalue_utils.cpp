@@ -50,7 +50,10 @@ sup::dto::AnyValue AnyValueFromJSONFile(const std::string& filename,
                                         const dto::AnyTypeRegistry* registry)
 {
   sup::dto::JSONAnyValueParser parser;
-  (void)parser.ParseFile(filename, registry);
+  if (!parser.ParseFile(filename, registry))
+  {
+    throw RuntimeException("Can't parse file ["+filename+"]");
+  }
   return parser.MoveAnyValue();
 }
 

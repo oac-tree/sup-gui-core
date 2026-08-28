@@ -50,7 +50,10 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItemFromFile(
     event.text = "Can't create AnyValue from file [" + file_name + "]";
     event.informative = "Exception was thrown";
     event.detailed = ex.what();
-    report_error(event);
+    if (report_error)
+    {
+      report_error(event);
+    }
   }
 
   return {};
