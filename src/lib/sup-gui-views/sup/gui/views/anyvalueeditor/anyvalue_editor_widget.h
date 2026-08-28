@@ -108,8 +108,6 @@ public:
   std::unique_ptr<AnyValueItem> GetResult() const;
 
 private:
-  void ReadSettings();
-  void WriteSettings();
   void SetupConnections();
   void SetupWidgetActions();
 
@@ -122,11 +120,6 @@ private:
    * @brief Creates a context with all callbacks necessary for AnyValueEditorActions to function.
    */
   AnyValueEditorContext CreateActionContext() const;
-
-  /**
-   * @brief Updates current working dir to use next time for input.
-   */
-  void UpdateCurrentWorkdir(const QString& file_name);
 
   /**
    * @brief Creates context menu for AnyValueItem tree.
@@ -147,8 +140,6 @@ private:
   QWidget* m_left_panel{nullptr};
   QWidget* m_right_panel{nullptr};
   CustomSplitter* m_splitter{nullptr};
-
-  QString m_current_workdir;  //! directory used during import/export operations
 };
 
 }  // namespace sup::gui

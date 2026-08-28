@@ -31,6 +31,7 @@
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/tree_helper.h>
 #include <sup/gui/mainwindow/clipboard_helper.h>
+#include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
@@ -40,12 +41,9 @@
 #include <sup/gui/widgets/message_helper.h>
 #include <sup/gui/widgets/scoped_busy_cursor.h>
 
-#include <mvvm/model/item_selection.h>
 #include <mvvm/model/item_utils.h>
-#include <mvvm/utils/file_utils.h>
 
 #include <QAction>
-#include <QFileDialog>
 #include <QMenu>
 #include <QSettings>
 #include <QTreeView>
@@ -108,13 +106,10 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
 
   SetupConnections();
   SetupWidgetActions();
-  ReadSettings();
-
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
 {
-  WriteSettings();
   m_command_service.UnregisterWidgetUniqueId(this);
 }
 
@@ -128,16 +123,8 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container
 
 void AnyValueEditorWidget::OnImportFromFileRequest()
 {
-  QString file_name;
-
-  {
-    QFileDialog dialog(this, "Select JSON file to load", m_current_workdir);
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter("All JSON files (*.json *.JSON)");
-    const QStringList selected_files =
-        (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
-    file_name = selected_files.empty() ? QString() : selected_files.at(0);
-  }
+  const QString file_name =
+      GetDialogFileNameToOpen("All JSON files (*.json *.JSON)", this, GetWorkdirSettingName());
 
   if (file_name.isEmpty())
   {
@@ -146,18 +133,15 @@ void AnyValueEditorWidget::OnImportFromFileRequest()
 
   const ScopedBusyCursor busy_cursor(this);
   ImportAnyValueFromFile(file_name);
-  UpdateCurrentWorkdir(file_name);
 }
 
 void AnyValueEditorWidget::OnExportToFileRequest()
 {
-  auto file_name = QFileDialog::getSaveFileName(
-      this, "Save File", m_current_workdir + "/untitled.json", tr("Images (*.json *.JSON)"));
-
+  const auto file_name = GetDialogFileNameToSave("untitled.json", "All JSON files (*.json *.JSON)",
+                                                 this, GetWorkdirSettingName());
   if (!file_name.isEmpty())
   {
     m_action_handler->OnExportToFileRequest(file_name.toStdString());
-    UpdateCurrentWorkdir(file_name);
   }
 }
 
@@ -194,20 +178,6 @@ std::unique_ptr<AnyValueItem> AnyValueEditorWidget::GetResult() const
   }
 
   return {};
-}
-
-void AnyValueEditorWidget::ReadSettings()
-{
-  const QSettings settings;
-  m_current_workdir = settings.value(GetWorkdirSettingName(), QDir::homePath()).toString();
-  m_splitter->ReadSettings();
-}
-
-void AnyValueEditorWidget::WriteSettings()
-{
-  QSettings settings;
-  settings.setValue(GetWorkdirSettingName(), m_current_workdir);
-  m_splitter->WriteSettings();
 }
 
 //! Set up all connections.
@@ -256,13 +226,6 @@ AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
   result.set_mime_data = DefaultClipboardSetFunc();
 
   return result;
-}
-
-//! Updates cached value for last working directory for later saving in widget's persistent settings
-void AnyValueEditorWidget::UpdateCurrentWorkdir(const QString& file_name)
-{
-  auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-  m_current_workdir = QString::fromStdString(parent_path);
 }
 
 void AnyValueEditorWidget::OnContextMenuRequest(const QPoint& point)
