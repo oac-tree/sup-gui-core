@@ -23,11 +23,14 @@
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/core/version_helper.h>
+#include <sup/gui/widgets/settings_callbacks.h>
 
+#include <mvvm/utils/file_utils.h>
 #include <mvvm/widgets/app_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
+#include <QFileDialog>
 #include <QFontDialog>
 #include <QLocale>
 #include <QMessageBox>
@@ -219,6 +222,55 @@ bool SummonChangeSystemFontDialog()
   }
 
   return font_was_changed;
+}
+
+QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent, const QString& key)
+{
+  QString working_dir{};
+  if (!key.isEmpty())
+  {
+    const auto read_func = sup::gui::GetSettingsReadFunc();
+    working_dir = read_func(key).toString();
+  }
+
+  QFileDialog dialog(parent, "Select file to load", working_dir);
+  dialog.setFileMode(QFileDialog::ExistingFile);
+  dialog.setNameFilter(filter);
+  const QStringList selected_files =
+      (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
+  const QString file_name = selected_files.empty() ? QString() : selected_files.at(0);
+
+  if (!file_name.isEmpty() && !key.isEmpty())
+  {
+    const auto write_func = sup::gui::GetSettingsWriteFunc();
+    const auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
+    write_func(key, QString::fromStdString(parent_path));
+  }
+
+  return file_name;
+}
+
+QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter,
+                                QWidget* parent, const QString& key)
+{
+  QString working_dir{};
+  if (!key.isEmpty())
+  {
+    const auto read_func = sup::gui::GetSettingsReadFunc();
+    working_dir = read_func(key).toString();
+  }
+
+  const QString file_name =
+      QFileDialog::getSaveFileName(parent, "Save File", working_dir + "/" + name_prototype, filter);
+
+  if (!file_name.isEmpty() && !key.isEmpty())
+  {
+    const auto write_func = sup::gui::GetSettingsWriteFunc();
+    const auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
+    write_func(key, QString::fromStdString(parent_path));
+  }
+
+  return file_name;
 }
 
 }  // namespace sup::gui
