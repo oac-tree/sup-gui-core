@@ -180,7 +180,7 @@ void FileTreeView::OnAboutToShowBookmarkMenu()
   m_bookmark_menu->addSeparator();
   for (const auto& project_dir : recent_projects)
   {
-    auto trimmed_project_dir = mvvm::utils::WithTildeHomePath(project_dir);
+    auto trimmed_project_dir = mvvm::utils::CollapseHomePath(project_dir);
     auto action = m_bookmark_menu->addAction(trimmed_project_dir);
     auto on_project_selected = [this, project_dir]() { SetCurrentDir(project_dir); };
     connect(action, &QAction::triggered, this, on_project_selected);
