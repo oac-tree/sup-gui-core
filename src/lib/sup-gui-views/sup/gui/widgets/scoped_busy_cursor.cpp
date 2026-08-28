@@ -21,18 +21,55 @@
 #include "scoped_busy_cursor.h"
 
 #include <QApplication>
+#include <QElapsedTimer>
+#include <QWidget>
+
+namespace
+{
+
+/**
+ * @brief The maximum time we are ready to spend waiting for the pointer focus.
+ */
+const int kPointerFocusTimeoutMsec = 150;
+
+/**
+ * @brief Waits until the mouse pointer has entered the window of the given widget.
+ */
+void WaitForPointerFocus(QWidget* widget)
+{
+  auto window = (widget == nullptr) ? QApplication::activeWindow() : widget->window();
+  if (window == nullptr)
+  {
+    return;
+  }
+
+  QElapsedTimer timer;
+  timer.start();
+  while (!window->underMouse() && (timer.elapsed() < kPointerFocusTimeoutMsec))
+  {
+    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents, 10);
+  }
+}
+
+}  // namespace
 
 namespace sup::gui
 {
 
-ScopedBusyCursor::ScopedBusyCursor()
+ScopedBusyCursor::ScopedBusyCursor(QWidget* widget)
 {
+  // We might be in unlucky moment of time, when enter event to the widget is still in flight.
+  // This can happen if we had a modal dialog just closed. Waiting for widget become in focus.
+  WaitForPointerFocus(widget);
+
   QApplication::setOverrideCursor(Qt::WaitCursor);
+  QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 ScopedBusyCursor::~ScopedBusyCursor()
 {
   QApplication::restoreOverrideCursor();
+  QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 }  // namespace sup::gui
