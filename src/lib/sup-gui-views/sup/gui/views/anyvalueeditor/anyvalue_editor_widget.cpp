@@ -38,6 +38,7 @@
 #include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
+#include <sup/gui/widgets/scoped_busy_cursor.h>
 
 #include <mvvm/model/item_selection.h>
 #include <mvvm/model/item_utils.h>
@@ -108,6 +109,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
   SetupConnections();
   SetupWidgetActions();
   ReadSettings();
+
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
@@ -126,19 +128,25 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container
 
 void AnyValueEditorWidget::OnImportFromFileRequest()
 {
-  QFileDialog dialog(this, "Select JSON file to load", m_current_workdir);
-  dialog.setFileMode(QFileDialog::ExistingFile);
-  dialog.setNameFilter("All JSON files (*.json *.JSON)");
-  //  dialog.setOption(QFileDialog::DontUseNativeDialog);
-  const QStringList selected_files =
-      (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
-  auto file_name = selected_files.empty() ? QString() : selected_files.at(0);
+  QString file_name;
 
-  if (!file_name.isEmpty())
   {
-    ImportAnyValueFromFile(file_name);
-    UpdateCurrentWorkdir(file_name);
+    QFileDialog dialog(this, "Select JSON file to load", m_current_workdir);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setNameFilter("All JSON files (*.json *.JSON)");
+    const QStringList selected_files =
+        (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
+    file_name = selected_files.empty() ? QString() : selected_files.at(0);
   }
+
+  if (file_name.isEmpty())
+  {
+    return;
+  }
+
+  const ScopedBusyCursor busy_cursor(this);
+  ImportAnyValueFromFile(file_name);
+  UpdateCurrentWorkdir(file_name);
 }
 
 void AnyValueEditorWidget::OnExportToFileRequest()

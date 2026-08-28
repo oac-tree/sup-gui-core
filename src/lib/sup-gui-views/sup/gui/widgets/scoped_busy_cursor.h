@@ -46,9 +46,7 @@ public:
   /**
    * @brief Main c-tor.
    *
-   * @param widget The widget on behalf of which the long operation is performed. It is used to
-   * find the window that should own the pointer focus. When nullptr, the currently active window
-   * is used instead.
+   * @param widget The widget on behalf of which the long operation is performed.
    */
   explicit ScopedBusyCursor(QWidget* widget = nullptr);
   ~ScopedBusyCursor();
