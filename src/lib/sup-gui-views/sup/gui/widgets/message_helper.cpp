@@ -20,12 +20,21 @@
 
 #include "message_helper.h"
 
+#include <sup/gui/widgets/scoped_cursor.h>
+
+#include <QApplication>
+
 namespace sup::gui
 {
 
 void SendMessage(const MessageEvent& event, QMessageBox::Icon icon_type)
 {
   QMessageBox msg_box;
+
+  // In case the cursor was changed to "waiting" by someone. Will return it back to "arrow" while
+  // ScopedCursor is alive.
+  ScopedCursor scoped(&msg_box, Qt::ArrowCursor);
+
   msg_box.setWindowTitle(QString::fromStdString(event.title));
   msg_box.setText(QString::fromStdString(event.text));
   msg_box.setInformativeText(QString::fromStdString(event.informative));
