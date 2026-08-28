@@ -42,6 +42,7 @@
 #include <sup/gui/widgets/scoped_cursor.h>
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
 #include <QMenu>
@@ -262,7 +263,7 @@ QWidget* AnyValueEditorWidget::CreateRightPanel()
 void AnyValueEditorWidget::ImportAnyValueFromFile(const QString& file_name)
 {
   const ScopedCursor busy_cursor(this);
-  m_action_handler->OnImportFromFileRequest(file_name.toStdString());
+  m_action_handler->OnImportFromFileRequest(mvvm::utils::ExpandHomePath(file_name).toStdString());
   m_tree_panel->GetTreeView()->expandAll();
 }
 
