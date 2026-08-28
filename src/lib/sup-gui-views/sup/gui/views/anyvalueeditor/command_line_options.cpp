@@ -33,11 +33,12 @@ namespace sup::gui
 namespace
 {
 
-const QString kInfoOption = "info";
-const QString kScaleOption = "scale";
-const QString kFontOption = "font";
-const QString kStyleOption = "style";
-const QString kWindowSizeOption = "size";
+constexpr auto kInfoOption = "info";
+constexpr auto kScaleOption = "scale";
+constexpr auto kFontOption = "font";
+constexpr auto kStyleOption = "style";
+constexpr auto kFileOption = "file";
+constexpr auto kWindowSizeOption = "size";
 
 /**
  * @brief Populates parser with application command line options.
@@ -65,6 +66,12 @@ void PopulateOptions(QCommandLineParser& parser)
   style_option.setValueName("name");
   parser.addOption(style_option);
 
+  const QCommandLineOption file_option(
+      {kFileOption, "f"},
+      "Load AnyValue json from a given file name",
+      "filename");
+  parser.addOption(file_option);
+
   QCommandLineOption window_size_option(kWindowSizeOption, "Initial window size");
   window_size_option.setValueName("1024x768");
   parser.addOption(window_size_option);
@@ -87,6 +94,11 @@ Options ParseOptions(QCommandLineParser& parser)
   if (parser.isSet(kStyleOption))
   {
     result.style = parser.value(kStyleOption);
+  }
+
+  if (parser.isSet(kFileOption))
+  {
+    result.file_name = parser.value(kFileOption);
   }
 
   if (parser.isSet(kWindowSizeOption))

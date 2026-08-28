@@ -45,6 +45,9 @@ struct Options
   //! main appplication GUI style
   QString style;
 
+  //! the name of file to open
+  QString file_name;
+
   //! initial window size
   std::optional<QSize> window_size;
 };
