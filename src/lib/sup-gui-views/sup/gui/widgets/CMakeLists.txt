@@ -47,8 +47,8 @@ target_sources(${library_name} PRIVATE
   panel_toolbar.h
   placeholder_widget.cpp
   placeholder_widget.h
-  scoped_busy_cursor.cpp
-  scoped_busy_cursor.h
+  scoped_cursor.cpp
+  scoped_cursor.h
   settings_callbacks.cpp
   settings_callbacks.h
   steady_menu.cpp

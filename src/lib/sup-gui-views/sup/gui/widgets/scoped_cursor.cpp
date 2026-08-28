@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "scoped_busy_cursor.h"
+#include "scoped_cursor.h"
 
 #include <QApplication>
 #include <QElapsedTimer>
@@ -56,18 +56,20 @@ void WaitForPointerFocus(QWidget* widget)
 namespace sup::gui
 {
 
-ScopedBusyCursor::ScopedBusyCursor(QWidget* widget)
+ScopedCursor::ScopedCursor(QWidget* widget, Qt::CursorShape cursor_shape)
+    : m_cursor_shape(cursor_shape)
 {
   // We might be in unlucky moment of time, when enter event to the widget is still in flight.
   // This can happen if we had a modal dialog just closed. Waiting for widget become in focus.
   WaitForPointerFocus(widget);
 
-  QApplication::setOverrideCursor(Qt::WaitCursor);
+  QApplication::setOverrideCursor(m_cursor_shape);
   QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
-ScopedBusyCursor::~ScopedBusyCursor()
+ScopedCursor::~ScopedCursor()
 {
+  // going to previous cursor
   QApplication::restoreOverrideCursor();
   QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }

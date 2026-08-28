@@ -39,7 +39,7 @@
 #include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
-#include <sup/gui/widgets/scoped_busy_cursor.h>
+#include <sup/gui/widgets/scoped_cursor.h>
 
 #include <mvvm/model/item_utils.h>
 
@@ -261,7 +261,7 @@ QWidget* AnyValueEditorWidget::CreateRightPanel()
 
 void AnyValueEditorWidget::ImportAnyValueFromFile(const QString& file_name)
 {
-  const ScopedBusyCursor busy_cursor(this);
+  const ScopedCursor busy_cursor(this);
   m_action_handler->OnImportFromFileRequest(file_name.toStdString());
   m_tree_panel->GetTreeView()->expandAll();
 }
