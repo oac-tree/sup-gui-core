@@ -14,8 +14,6 @@ target_sources(${library_name} PRIVATE
   anyvalue_editor_treepanel.h
   anyvalue_editor_widget.cpp
   anyvalue_editor_widget.h
-  command_line_options.cpp
-  command_line_options.h
   scalar_quick_toolbar.cpp
   scalar_quick_toolbar.h
   tree_view_component_provider.cpp

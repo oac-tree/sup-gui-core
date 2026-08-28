@@ -40,10 +40,9 @@ constexpr auto kStyleOption = "style";
 constexpr auto kFileOption = "file";
 constexpr auto kWindowSizeOption = "size";
 
-/**
- * @brief Populates parser with application command line options.
- */
-void PopulateOptions(QCommandLineParser& parser)
+}  // namespace
+
+void AddCommonOptions(QCommandLineParser& parser, const QString& file_option_description)
 {
   parser.addHelpOption();
   parser.addVersionOption();
@@ -52,7 +51,7 @@ void PopulateOptions(QCommandLineParser& parser)
   parser.addOption(info_option);
 
   const QCommandLineOption scale_option(
-      "scale",
+      kScaleOption,
       "Rely on system high-DPI scale via QT_ variables for 4K. If option is "
       "absent, will rely on internal scale mechanism (preferred).");
   parser.addOption(scale_option);
@@ -66,10 +65,7 @@ void PopulateOptions(QCommandLineParser& parser)
   style_option.setValueName("name");
   parser.addOption(style_option);
 
-  const QCommandLineOption file_option(
-      {kFileOption, "f"},
-      "Load AnyValue json from a given file name",
-      "filename");
+  const QCommandLineOption file_option({kFileOption, "f"}, file_option_description, "filename");
   parser.addOption(file_option);
 
   QCommandLineOption window_size_option(kWindowSizeOption, "Initial window size");
@@ -77,10 +73,7 @@ void PopulateOptions(QCommandLineParser& parser)
   parser.addOption(window_size_option);
 }
 
-/**
- * @brief Parses command line options and returns structure with options.
- */
-Options ParseOptions(QCommandLineParser& parser)
+Options GetCommonOptions(QCommandLineParser& parser)
 {
   Options result;
   result.info = parser.isSet(kInfoOption);
@@ -118,18 +111,16 @@ Options ParseOptions(QCommandLineParser& parser)
   return result;
 }
 
-}  // namespace
-
-Options ParseOptions(int argc, char** argv)
+Options ParseOptions(int argc, char** argv, const QString& file_option_description)
 {
   // Parser requires an application to be created upfront.
   // Create an application solely for parser needs (fortunately it is cheap).
   const QCoreApplication app(argc, argv);
 
   QCommandLineParser parser;
-  PopulateOptions(parser);
+  AddCommonOptions(parser, file_option_description);
   parser.process(app);
-  return ParseOptions(parser);
+  return GetCommonOptions(parser);
 }
 
 }  // namespace sup::gui

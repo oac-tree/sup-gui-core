@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   clipboard_helper.h
   color_palette.cpp
   color_palette.h
+  command_line_options.cpp
+  command_line_options.h
   common_settings_editor.cpp
   common_settings_editor.h
   dto_editor_main_window.cpp
@@ -36,6 +38,7 @@ target_sources(${library_name} PRIVATE
 
 install(FILES
   clipboard_helper.h
+  command_line_options.h
   main_window_helper.h
   session_item_widget.h
   settings_editor_dialog.h

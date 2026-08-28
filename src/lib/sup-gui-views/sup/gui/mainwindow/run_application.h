@@ -22,9 +22,9 @@
 #define SUP_GUI_MAINWINDOW_RUN_APPLICATION_H_
 
 #include <sup/gui/mainwindow/anyvalue_editor_app_context.h>
+#include <sup/gui/mainwindow/command_line_options.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/register_items.h>
-#include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
 #include <mvvm/widgets/app_restarter.h>
 #include <mvvm/widgets/app_utils.h>
