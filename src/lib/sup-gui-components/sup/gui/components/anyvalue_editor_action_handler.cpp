@@ -31,6 +31,7 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
+#include <sup/gui/model/import_helper.h>
 
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_session_model.h>
@@ -162,8 +163,12 @@ void AnyValueEditorActionHandler::OnImportFromFileRequest(const std::string& fil
     return;
   }
 
-  auto anyvalue = AnyValueFromJSONFile(file_name);
-  auto item = CreateAnyValueItem(anyvalue);
+  auto item = CreateAnyValueItemFromFile(file_name, m_context.send_message);
+  if (!item)
+  {
+    return;
+  }
+
   const auto error_code =
       mvvm::utils::GetInsertItemErrorCode(*item, *GetParentToInsert(), mvvm::TagIndex::Append());
   if (error_code)

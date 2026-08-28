@@ -108,7 +108,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFile)
 TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
 {
   // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalar.xml");
+  const auto file_path = GetFilePath("AnyValueScalar.json");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   test::CreateSerializedFile(anyvalue, file_path);
 
@@ -137,7 +137,7 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToStructField)
 TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
 {
   // preparing file with content for further import
-  const auto file_path = GetFilePath("AnyValueScalar.xml");
+  const auto file_path = GetFilePath("AnyValueScalar.json");
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   test::CreateSerializedFile(anyvalue, file_path);
 
@@ -150,6 +150,22 @@ TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromFileToScalar)
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
 
   handler->OnImportFromFileRequest(file_path);
+};
+
+TEST_F(AnyValueEditorActionHandlerFolderTest, ImportFromNonExistingFile)
+{
+  // preparing file with content for further import
+  const auto file_path = GetFilePath("non-existing-file.json");
+
+  // creating action handler for the context, when nothing is selected by the user
+  auto handler = CreateActionHandler({});
+
+  // expecting callback
+  EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);
+
+  handler->OnImportFromFileRequest(file_path);
+
+  EXPECT_EQ(GetContainer()->GetTotalItemCount(), 0);
 };
 
 //! Validates export of top level item to JSON file.
