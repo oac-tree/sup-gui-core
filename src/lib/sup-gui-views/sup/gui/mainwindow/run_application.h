@@ -23,8 +23,8 @@
 
 #include <sup/gui/mainwindow/anyvalue_editor_app_context.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/views/anyvalueeditor/command_line_options.h>
 #include <sup/gui/model/register_items.h>
+#include <sup/gui/views/anyvalueeditor/command_line_options.h>
 
 #include <mvvm/widgets/app_restarter.h>
 #include <mvvm/widgets/app_utils.h>
@@ -60,6 +60,11 @@ int RunApplication(int argc, char** argv)
     win.resize(options.window_size.value());
   }
   win.show();
+
+  if (!options.file_name.isEmpty())
+  {
+    win.ImportAnyValueFromFile(options.file_name);
+  }
 
   return restarter.HandleExit(app.exec());
 }

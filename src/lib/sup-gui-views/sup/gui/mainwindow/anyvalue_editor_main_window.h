@@ -57,6 +57,11 @@ public:
   AnyValueEditorMainWindow(AnyValueEditorMainWindow&&) = delete;
   AnyValueEditorMainWindow& operator=(AnyValueEditorMainWindow&&) = delete;
 
+  /**
+   * @brief Imports AnyValue from JSON file.
+   */
+  void ImportAnyValueFromFile(const QString& file_name);
+
 protected:
   void closeEvent(QCloseEvent* event) override;
 

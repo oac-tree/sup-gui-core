@@ -71,6 +71,11 @@ AnyValueEditorMainWindow::AnyValueEditorMainWindow(AnyValueEditorAppContext& con
 
 AnyValueEditorMainWindow::~AnyValueEditorMainWindow() = default;
 
+void AnyValueEditorMainWindow::ImportAnyValueFromFile(const QString& file_name)
+{
+  m_anyvalue_editor->ImportAnyValueFromFile(file_name);
+}
+
 void AnyValueEditorMainWindow::closeEvent(QCloseEvent* event)
 {
   if (CanCloseApplication())

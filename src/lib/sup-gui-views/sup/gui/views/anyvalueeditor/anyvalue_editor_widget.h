@@ -107,14 +107,14 @@ public:
    */
   std::unique_ptr<AnyValueItem> GetResult() const;
 
-private:
-  void SetupConnections();
-  void SetupWidgetActions();
-
   /**
    * @brief Imports AnyValue from JSON file.
    */
   void ImportAnyValueFromFile(const QString& file_name);
+
+private:
+  void SetupConnections();
+  void SetupWidgetActions();
 
   /**
    * @brief Creates a context with all callbacks necessary for AnyValueEditorActions to function.

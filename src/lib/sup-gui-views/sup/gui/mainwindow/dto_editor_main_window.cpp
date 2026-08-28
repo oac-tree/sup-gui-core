@@ -43,6 +43,7 @@
 #include <QCloseEvent>
 #include <QMenuBar>
 #include <QSettings>
+#include <QDebug>
 
 namespace
 {
@@ -65,6 +66,12 @@ DtoEditorMainWindow::DtoEditorMainWindow(AnyValueEditorAppContext& context)
 }
 
 DtoEditorMainWindow::~DtoEditorMainWindow() = default;
+
+void DtoEditorMainWindow::ImportAnyValueFromFile(const QString& file_name)
+{
+  (void)file_name;
+  qDebug() << "Import is not implemented yet";
+}
 
 void DtoEditorMainWindow::closeEvent(QCloseEvent* event)
 {

@@ -131,7 +131,6 @@ void AnyValueEditorWidget::OnImportFromFileRequest()
     return;
   }
 
-  const ScopedBusyCursor busy_cursor(this);
   ImportAnyValueFromFile(file_name);
 }
 
@@ -262,6 +261,7 @@ QWidget* AnyValueEditorWidget::CreateRightPanel()
 
 void AnyValueEditorWidget::ImportAnyValueFromFile(const QString& file_name)
 {
+  const ScopedBusyCursor busy_cursor(this);
   m_action_handler->OnImportFromFileRequest(file_name.toStdString());
   m_tree_panel->GetTreeView()->expandAll();
 }
