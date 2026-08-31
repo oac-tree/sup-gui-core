@@ -115,6 +115,8 @@ public:
 private:
   void SetupConnections();
   void SetupWidgetActions();
+  void ReadSettings();
+  void WriteSettings();
 
   /**
    * @brief Creates a context with all callbacks necessary for AnyValueEditorActions to function.

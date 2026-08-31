@@ -107,11 +107,13 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
 
   SetupConnections();
   SetupWidgetActions();
+  ReadSettings();
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
 {
   m_command_service.UnregisterWidgetUniqueId(this);
+  WriteSettings();
 }
 
 void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container)
@@ -213,6 +215,16 @@ void AnyValueEditorWidget::SetupWidgetActions()
   m_actions->RegisterActionsForContext(context, m_command_service);
   m_command_service.AddActionToCommand(m_show_right_sidebar, constants::kToggleRightPanelCommandId,
                                        context);
+}
+
+void AnyValueEditorWidget::ReadSettings()
+{
+  m_splitter->ReadSettings();
+}
+
+void AnyValueEditorWidget::WriteSettings()
+{
+  m_splitter->WriteSettings();
 }
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
