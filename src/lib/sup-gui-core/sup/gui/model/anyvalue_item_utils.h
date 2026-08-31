@@ -100,6 +100,16 @@ std::vector<std::string> GetAnyValueItemTypes();
 mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_t>& min = {},
                                 const std::optional<std::size_t>& max = {});
 
+/**
+ * @brief Returns true when the given item tree contains more than max_item_count AnyValueItems.
+ *
+ * The given item itself is taken into account, hidden property items are not.
+ *
+ * @param item The root of the tree to examine.
+ * @param max_item_count The maximum number of items allowed in the tree.
+ */
+bool HasMoreItemsThan(const AnyValueItem& item, std::size_t max_item_count);
+
 }  // namespace sup::gui
 
 #endif  // SUP_GUI_MODEL_ANYVALUE_ITEM_UTILS_H_
