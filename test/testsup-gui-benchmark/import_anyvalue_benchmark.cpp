@@ -26,17 +26,22 @@
 #include <sup/gui/components/json_panel_controller.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/views/codeeditor/code_view.h>
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 
 #include <sup/dto/anyvalue.h>
 
 #include <QPlainTextEdit>
 #include <QTreeView>
+#include <definition.h>
+#include <repository.h>
+#include <syntaxhighlighter.h>
 #include <benchmark/benchmark.h>
 #include <testutils/cmake_info.h>
 
@@ -70,6 +75,20 @@ std::string GetTestJsonFileName()
 const sup::dto::AnyValue& GetCachedAnyValue()
 {
   static const sup::dto::AnyValue result = AnyValueFromJSONFile(GetTestJsonFileName());
+  return result;
+}
+
+/**
+ * @brief Returns the pretty JSON text the right panel displays, generated only once per run.
+ */
+const QString& GetCachedJsonText()
+{
+  static const QString result = []()
+  {
+    const auto item = CreateAnyValueItem(GetCachedAnyValue());
+    auto exported = CreateAnyValue(*item);
+    return QString::fromStdString(AnyValueToJSONString(exported, /*pretty*/ true));
+  }();
   return result;
 }
 
@@ -111,7 +130,45 @@ BENCHMARK_F(ImportBenchmark, Import02_CreateAnyValueItem)(benchmark::State& stat
   for (auto dummy : state)
   {
     auto item = CreateAnyValueItem(anyvalue);
+
+    state.PauseTiming();
     state.counters["items"] = CountItems(*item);
+    state.ResumeTiming();
+  }
+}
+
+//! Cost of the recursive item count itself, i.e. of the guard we are considering adding.
+BENCHMARK_F(ImportBenchmark, Import02b_CountItemsRecursively)(benchmark::State& state)
+{
+  const auto item = CreateAnyValueItem(GetCachedAnyValue());
+
+  for (auto dummy : state)
+  {
+    state.counters["session_items"] = CountItems(*item);
+
+    state.PauseTiming();
+    std::size_t anyvalue_items{0};
+    mvvm::utils::iterate(item.get(),
+                         [&anyvalue_items](const mvvm::SessionItem* visited)
+                         {
+                           if (dynamic_cast<const AnyValueItem*>(visited) != nullptr)
+                           {
+                             ++anyvalue_items;
+                           }
+                         });
+    state.counters["anyvalue_items"] = static_cast<double>(anyvalue_items);
+    state.ResumeTiming();
+  }
+}
+
+//! Cost of the HasMoreItemsThan guard, which stops as soon as the limit is exceeded.
+BENCHMARK_F(ImportBenchmark, Import02c_HasMoreItemsThanGuard)(benchmark::State& state)
+{
+  const auto item = CreateAnyValueItem(GetCachedAnyValue());
+
+  for (auto dummy : state)
+  {
+    benchmark::DoNotOptimize(HasMoreItemsThan(*item, kMaxItemCountToDisplay));
   }
 }
 
@@ -323,8 +380,7 @@ BENCHMARK_F(ImportBenchmark, Import05e_JsonViewSetContent)(benchmark::State& sta
   }
 }
 
-//! Stage 5f: the same text into a plain text edit, i.e. without the syntax highlighter, to
-//! separate the cost of the highlighting from the cost of laying out 28 MB of text.
+//! Stage 5f: the same text into a plain text edit, i.e. without the syntax highlighter.
 BENCHMARK_F(ImportBenchmark, Import05f_PlainTextEditSetContent)(benchmark::State& state)
 {
   const auto& anyvalue = GetCachedAnyValue();
@@ -339,6 +395,76 @@ BENCHMARK_F(ImportBenchmark, Import05f_PlainTextEditSetContent)(benchmark::State
       QPlainTextEdit view;
       view.setReadOnly(true);
       view.show();
+      state.ResumeTiming();
+
+      view.setPlainText(text);
+
+      state.PauseTiming();
+    }
+    state.ResumeTiming();
+  }
+}
+
+//! Stage 5g: highlighter attached to the document, JSON definition set. Reproduces CodeEditor.
+BENCHMARK_F(ImportBenchmark, Import05g_HighlighterWithDefinition)(benchmark::State& state)
+{
+  const auto& text = GetCachedJsonText();
+
+  for (auto dummy : state)
+  {
+    state.PauseTiming();
+    {
+      QPlainTextEdit view;
+      view.show();
+      KSyntaxHighlighting::Repository repository;
+      KSyntaxHighlighting::SyntaxHighlighter highlighter(view.document());
+      highlighter.setDefinition(repository.definitionForName("JSON"));
+      state.ResumeTiming();
+
+      view.setPlainText(text);
+
+      state.PauseTiming();
+    }
+    state.ResumeTiming();
+  }
+}
+
+//! Stage 5h: highlighter still attached, but no language definition. This is what commenting out
+//! the SetDefinition() call in CodeView gives you.
+BENCHMARK_F(ImportBenchmark, Import05h_HighlighterWithoutDefinition)(benchmark::State& state)
+{
+  const auto& text = GetCachedJsonText();
+
+  for (auto dummy : state)
+  {
+    state.PauseTiming();
+    {
+      QPlainTextEdit view;
+      view.show();
+      KSyntaxHighlighting::SyntaxHighlighter highlighter(view.document());
+      state.ResumeTiming();
+
+      view.setPlainText(text);
+
+      state.PauseTiming();
+    }
+    state.ResumeTiming();
+  }
+}
+
+//! Stage 5i: highlighter detached from the document before the text is set.
+BENCHMARK_F(ImportBenchmark, Import05i_HighlighterDetached)(benchmark::State& state)
+{
+  const auto& text = GetCachedJsonText();
+
+  for (auto dummy : state)
+  {
+    state.PauseTiming();
+    {
+      QPlainTextEdit view;
+      view.show();
+      KSyntaxHighlighting::SyntaxHighlighter highlighter(view.document());
+      highlighter.setDocument(nullptr);
       state.ResumeTiming();
 
       view.setPlainText(text);
