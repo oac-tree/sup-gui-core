@@ -47,6 +47,13 @@ public:
                                                  m_mock_send_message.AsStdFunction());
   }
 
+  std::unique_ptr<JsonPanelController> CreateController(std::size_t max_item_count)
+  {
+    return std::make_unique<JsonPanelController>(m_container, m_mock_send_json.AsStdFunction(),
+                                                 m_mock_send_message.AsStdFunction(),
+                                                 max_item_count);
+  }
+
   ::testing::MockFunction<JsonPanelController::send_text_func_t> m_mock_send_json;
   ::testing::MockFunction<JsonPanelController::send_message_func_t> m_mock_send_message;
 
@@ -187,6 +194,48 @@ TEST_F(JsonPanelControllerTest, JsonUpdateOnPrettyChange)
 
   EXPECT_CALL(m_mock_send_json, Call(expected_json2)).Times(1);
   controller->SetPrettyJson(true);
+}
+
+TEST_F(JsonPanelControllerTest, NoJsonGenerationWhenItemCountExceedsLimit)
+{
+  auto struct_item = m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+  struct_item->AddScalarField("first", mvvm::int32{42});
+  struct_item->AddScalarField("second", mvvm::int32{43});
+
+  // the struct with its two fields is above the limit: a message is reported, and no JSON is sent
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  EXPECT_CALL(m_mock_send_message, Call(::testing::_)).Times(1);
+
+  auto controller = CreateController(/*max_item_count*/ 2);
+}
+
+TEST_F(JsonPanelControllerTest, JsonGenerationWhenItemCountIsWithinLimit)
+{
+  m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+
+  const std::string expected_json(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[]}},{"instance":{}}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json)).Times(1);
+  EXPECT_CALL(m_mock_send_message, Call(::testing::_)).Times(0);
+
+  auto controller = CreateController(/*max_item_count*/ 2);
+}
+
+TEST_F(JsonPanelControllerTest, MessageIsReportedWhenLimitIsExceededOnItemInsert)
+{
+  auto struct_item = m_model.InsertItem<AnyValueStructItem>(m_container, mvvm::TagIndex::Append());
+
+  const std::string expected_json(
+      R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[]}},{"instance":{}}])RAW");
+
+  EXPECT_CALL(m_mock_send_json, Call(expected_json)).Times(1);
+  auto controller = CreateController(/*max_item_count*/ 1);
+
+  // adding a field brings the tree above the limit
+  EXPECT_CALL(m_mock_send_json, Call(std::string())).Times(1);
+  EXPECT_CALL(m_mock_send_message, Call(::testing::_)).Times(1);
+  struct_item->AddScalarField("first", mvvm::int32{42});
 }
 
 }  // namespace sup::gui::test

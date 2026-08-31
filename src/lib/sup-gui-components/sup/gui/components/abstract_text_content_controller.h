@@ -75,6 +75,11 @@ protected:
   virtual void OnDataChangedEvent(const mvvm::DataChangedEvent& event);
   virtual void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event);
 
+  /**
+   * @brief Sends given message using a callback.
+   */
+  void SendMessage(const MessageEvent& message) const;
+
 private:
   void SetupListener();
   virtual std::string GenerateText() = 0;
@@ -83,11 +88,6 @@ private:
    * @brief Sends exception message.
    */
   virtual void SendExceptionMessage(const std::string& what) const;
-
-  /**
-   * @brief Sends given message using a callback.
-   */
-  void SendMessage(const MessageEvent& message) const;
 
   /**
    * @brief Sends text to the client.

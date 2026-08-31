@@ -23,6 +23,7 @@
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
 #include <mvvm/model/session_item.h>
@@ -33,11 +34,30 @@
 namespace sup::gui
 {
 
+namespace
+{
+
+/**
+ * @brief Creates a message reporting that AnyValue is too large to be shown as JSON.
+ */
+MessageEvent CreateTooLargeMessage(std::size_t max_item_count)
+{
+  const std::string title("Content is too large to display");
+  const std::string text("AnyValue contains more than " + std::to_string(max_item_count)
+                         + " items");
+  const std::string informative("Use Export action to save JSON representation into a file.");
+  return MessageEvent{title, text, informative, ""};
+}
+
+}  // namespace
+
 JsonPanelController::JsonPanelController(mvvm::SessionItem* container,
                                          send_text_func_t send_text_func,
-                                         send_message_func_t send_message_func)
+                                         send_message_func_t send_message_func,
+                                         std::size_t max_item_count)
     : AbstractTextContentController(container, std::move(send_text_func),
                                     std::move(send_message_func))
+    , m_max_item_count(max_item_count)
 {
   UpdateText();
 }
@@ -59,6 +79,13 @@ std::string JsonPanelController::GenerateText()
 {
   if (auto item = GetAnyValueItem(); item)
   {
+    if (HasMoreItemsThan(*item, m_max_item_count))
+    {
+      // do not generate JSON for large AnyValue, report via error message
+      SendMessage(CreateTooLargeMessage(m_max_item_count));
+      return {};
+    }
+
     // If model is inconsistent, CreateAnyValue method will fail.
     // This will be caught and reported by the base class.
 
