@@ -20,8 +20,13 @@
 
 #include <benchmark/benchmark.h>
 
+#include <QApplication>
+
 int main(int argc, char** argv)
 {
+  // QApplication is needed by benchmarks involving Qt widgets
+  const QApplication app(argc, argv);
+
   benchmark::Initialize(&argc, argv);
   benchmark::RunSpecifiedBenchmarks();
   benchmark::Shutdown();

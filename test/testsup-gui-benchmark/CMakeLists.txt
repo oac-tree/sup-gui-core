@@ -4,6 +4,7 @@ add_executable(${test})
 
 target_sources(${test} PRIVATE
   main.cpp
+  import_anyvalue_benchmark.cpp
   transform_large_anyvalue_benchmark.cpp
 )
 
