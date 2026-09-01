@@ -26,6 +26,7 @@
 
 class QTreeView;
 class QLineEdit;
+class QTimer;
 
 namespace mvvm
 {
@@ -78,6 +79,10 @@ private:
   QTreeView* m_tree_view{nullptr};
   QLineEdit* m_line_edit{nullptr};
   CustomHeaderView* m_custom_header{nullptr};
+
+  //! Coalesces bursts of keystrokes in the filter field into a single filter change.
+  QTimer* m_filter_timer{nullptr};
+
   std::unique_ptr<TreeViewComponentProvider> m_component_provider;
   QModelIndex m_last_edited_index;
 };

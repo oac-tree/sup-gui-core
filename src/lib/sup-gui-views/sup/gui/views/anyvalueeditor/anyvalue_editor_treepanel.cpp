@@ -29,6 +29,7 @@
 
 #include <QLineEdit>
 #include <QSettings>
+#include <QTimer>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -41,6 +42,13 @@ namespace
 const QString kHeaderStateSettingName("AnyValueEditor/header_state");
 const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 
+/**
+ * @brief Time to wait after the last keystroke before the filter pattern is applied.
+ *
+ * Used to spead-up large tree re-filtering, to ignore filter updates while user is still typing.
+ */
+constexpr int kFilterDelayMsec{300};
+
 }  // namespace
 
 AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
@@ -48,6 +56,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
     , m_custom_header(new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
+    , m_filter_timer(new QTimer(this))
     , m_component_provider(std::make_unique<TreeViewComponentProvider>(nullptr, m_tree_view))
 {
   setWindowTitle("AnyValue tree");
@@ -69,7 +78,14 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
   m_tree_view->setContextMenuPolicy(Qt::CustomContextMenu);
   m_tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-  auto on_text = [this]() { m_component_provider->SetFilterPattern(m_line_edit->text()); };
+  m_filter_timer->setSingleShot(true);
+  m_filter_timer->setInterval(kFilterDelayMsec);
+
+  auto on_timeout = [this]() { m_component_provider->SetFilterPattern(m_line_edit->text()); };
+  connect(m_filter_timer, &QTimer::timeout, this, on_timeout);
+
+  // restarting the timer on every keystroke, so that only the final pattern reaches the proxy model
+  auto on_text = [this]() { m_filter_timer->start(); };
   connect(m_line_edit, &QLineEdit::textChanged, this, on_text);
 
   connect(m_component_provider.get(), &TreeViewComponentProvider::SelectionChanged, this,
