@@ -33,6 +33,7 @@
 #include <sup/gui/mainwindow/clipboard_helper.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
+#include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog_factory.h>
@@ -73,6 +74,25 @@ QString GetWorkdirSettingName()
 QString GetSplitterSettingName()
 {
   return QString(kGroupName) + "/" + "splitter";
+}
+
+/**
+ * @brief Maximum number of AnyValueItems for which the tree is expanded automatically.
+ *
+ * We will avoid automatic tree expand for large trees, to keep filtering in QSortFilterProxyModel
+ * responsive.
+ */
+constexpr std::size_t kMaxItemCountToExpand{2000};
+
+/**
+ * @brief Expands the whole tree, unless the tree is too large for that to be affordable.
+ */
+void ExpandTreeIfSmallEnough(QTreeView& tree_view, const sup::gui::AnyValueItem* top_item)
+{
+  if (top_item != nullptr && !sup::gui::HasMoreItemsThan(*top_item, kMaxItemCountToExpand))
+  {
+    tree_view.expandAll();
+  }
 }
 
 }  // namespace
@@ -276,7 +296,7 @@ void AnyValueEditorWidget::ImportAnyValueFromFile(const QString& file_name)
 {
   const ScopedCursor busy_cursor(this);
   m_action_handler->OnImportFromFileRequest(mvvm::utils::ExpandHomePath(file_name).toStdString());
-  m_tree_panel->GetTreeView()->expandAll();
+  ExpandTreeIfSmallEnough(*m_tree_panel->GetTreeView(), GetTopItem());
 }
 
 }  // namespace sup::gui
