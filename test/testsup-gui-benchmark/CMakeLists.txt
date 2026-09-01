@@ -6,6 +6,7 @@ target_sources(${test} PRIVATE
   main.cpp
   import_anyvalue_benchmark.cpp
   transform_large_anyvalue_benchmark.cpp
+  filter_tree_benchmark.cpp
 )
 
 target_link_libraries(${test} PRIVATE benchmark::benchmark sup-mvvm::test sup-gui-views sup-gui-core-test-utils)
