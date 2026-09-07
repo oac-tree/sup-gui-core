@@ -27,6 +27,7 @@ file(MAKE_DIRECTORY ${SUP_GUI_CORE_APP_RUNTIME_DIR})
 # -----------------------------------------------------------------------------
 include(FetchGithubDeps)
 find_package(Threads)
+find_package(sup-utils REQUIRED)
 find_package(sup-mvvm REQUIRED)
 find_package(sup-gui-extra REQUIRED)
 find_package(sup-dto REQUIRED)

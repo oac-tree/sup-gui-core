@@ -22,7 +22,7 @@
 
 #include <sup/gui/component_metatypes.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
-#include <sup/gui/core/environment.h>
+#include <sup/platform/environment.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -102,7 +102,7 @@ TEST_F(CustomSplitterControllerTest, AttemptToWriteSettingsWhenNoGroupIsDefined)
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 {
-  if (IsOnCodac())
+  if (sup::platform::IsOnCodac())
   {
     // doesn't work on Codac because of Qt5 and widget->isVisible() behavior
     GTEST_SKIP();
@@ -140,7 +140,7 @@ TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgets)
 
 TEST_F(CustomSplitterControllerTest, WriteSettingsSplitterWithTwoWidgetsWhenOneIsHidden)
 {
-  if (IsOnCodac())
+  if (sup::platform::IsOnCodac())
   {
     // doesn't work on Codac because of Qt5 and widget->isVisible() behavior
     GTEST_SKIP();
@@ -225,7 +225,7 @@ TEST_F(CustomSplitterControllerTest, AttemptToReadSettingsWhenNoGroupIsDefined)
 //! large and vice versa.
 TEST_F(CustomSplitterControllerTest, ReadSettingsSplitterWithTwoWidgets)
 {
-  if (IsOnCodac())
+  if (sup::platform::IsOnCodac())
   {
     // doesn't work on Codac because of Qt5 and widget->isVisible() behavior
     GTEST_SKIP();

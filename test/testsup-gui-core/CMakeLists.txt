@@ -13,7 +13,6 @@ target_sources(${test} PRIVATE
   configuration_item_tests.cpp
   configuration_model_tests.cpp
   domain_anyvalue_builder_tests.cpp
-  environment_tests.cpp
   import_helper_tests.cpp
   main.cpp
   message_event_tests.cpp
