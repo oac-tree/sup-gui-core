@@ -44,40 +44,6 @@ public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 };
 
-TEST_F(AnyValueItemUtilsTest, HasMoreItemsThanForSingleScalar)
-{
-  const AnyValueScalarItem scalar;
-
-  // the item itself is taken into account
-  EXPECT_TRUE(HasMoreItemsThan(scalar, 0));
-  EXPECT_FALSE(HasMoreItemsThan(scalar, 1));
-  EXPECT_FALSE(HasMoreItemsThan(scalar, 42));
-}
-
-TEST_F(AnyValueItemUtilsTest, HasMoreItemsThanForStructWithFields)
-{
-  AnyValueStructItem struct_item;
-  struct_item.AddScalarField("first", mvvm::int32{42});
-  struct_item.AddScalarField("second", mvvm::int32{43});
-
-  // the struct itself, plus two fields; hidden property items are not counted
-  EXPECT_TRUE(HasMoreItemsThan(struct_item, 0));
-  EXPECT_TRUE(HasMoreItemsThan(struct_item, 2));
-  EXPECT_FALSE(HasMoreItemsThan(struct_item, 3));
-  EXPECT_FALSE(HasMoreItemsThan(struct_item, 42));
-}
-
-TEST_F(AnyValueItemUtilsTest, HasMoreItemsThanCountsNestedItems)
-{
-  AnyValueStructItem struct_item;
-  auto nested = struct_item.InsertItem<AnyValueStructItem>(mvvm::TagIndex::Append());
-  nested->AddScalarField("first", mvvm::int32{42});
-
-  // outer struct, nested struct, and one field of the nested struct
-  EXPECT_TRUE(HasMoreItemsThan(struct_item, 2));
-  EXPECT_FALSE(HasMoreItemsThan(struct_item, 3));
-}
-
 TEST_F(AnyValueItemUtilsTest, GetAnyValueItemTypeFromTypeName)
 {
   EXPECT_TRUE(GetAnyValueItemTypeFromTypeName(std::string()).empty());

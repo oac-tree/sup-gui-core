@@ -68,25 +68,6 @@ const sup::dto::AnyValue& GetCachedAnyValue()
 }
 
 /**
- * @brief Returns the number of AnyValueItem in a tree, i.e. the number of viewmodel rows.
- *
- * Hidden property items are skipped, the same convention as in HasMoreItemsThan.
- */
-std::size_t CountAnyValueItems(const mvvm::SessionItem& item)
-{
-  std::size_t result{0};
-  mvvm::utils::iterate(&item,
-                       [&result](const mvvm::SessionItem* visited)
-                       {
-                         if (dynamic_cast<const AnyValueItem*>(visited) != nullptr)
-                         {
-                           ++result;
-                         }
-                       });
-  return result;
-}
-
-/**
  * @brief Counting version of the production filter proxy, to see how many rows are visited.
  */
 class CountingFilterViewModel : public mvvm::FilterNameViewModel
@@ -164,7 +145,8 @@ BENCHMARK_F(FilterBenchmark, Filter00_TreeSize)(benchmark::State& state)
   for (auto dummy : state)
   {
     const auto item = CreateAnyValueItem(GetCachedAnyValue());
-    state.counters["anyvalue_items"] = static_cast<double>(CountAnyValueItems(*item));
+    state.counters["anyvalue_items"] =
+        static_cast<double>(mvvm::utils::GetItemCount<AnyValueItem>(*item));
   }
 }
 

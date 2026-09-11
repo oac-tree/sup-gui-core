@@ -23,9 +23,9 @@
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/model/anyvalue_utils.h>
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/signals/model_listener.h>
 
@@ -79,7 +79,7 @@ std::string JsonPanelController::GenerateText()
 {
   if (auto item = GetAnyValueItem(); item)
   {
-    if (HasMoreItemsThan(*item, m_max_item_count))
+    if (mvvm::utils::HasMoreItemsThan<AnyValueItem>(*item, m_max_item_count))
     {
       // do not generate JSON for large AnyValue, report via error message
       SendMessage(CreateTooLargeMessage(m_max_item_count));

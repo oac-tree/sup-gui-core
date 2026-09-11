@@ -33,7 +33,6 @@
 #include <sup/gui/mainwindow/clipboard_helper.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_item_utils.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog_factory.h>
@@ -89,7 +88,9 @@ constexpr std::size_t kMaxItemCountToExpand{2000};
  */
 void ExpandTreeIfSmallEnough(QTreeView& tree_view, const sup::gui::AnyValueItem* top_item)
 {
-  if (top_item != nullptr && !sup::gui::HasMoreItemsThan(*top_item, kMaxItemCountToExpand))
+  if (top_item != nullptr
+      && !mvvm::utils::HasMoreItemsThan<sup::gui::AnyValueItem>(*top_item,
+                                                                 kMaxItemCountToExpand))
   {
     tree_view.expandAll();
   }

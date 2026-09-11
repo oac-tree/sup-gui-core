@@ -28,7 +28,6 @@
 
 #include <mvvm/model/function_types.h>
 #include <mvvm/model/item_catalogue.h>
-#include <mvvm/model/item_utils.h>
 
 #include <algorithm>
 #include <map>
@@ -175,25 +174,6 @@ mvvm::TagInfo CreateAnyValueTag(std::string name, const std::optional<std::size_
                                 const std::optional<std::size_t>& max)
 {
   return {std::move(name), min, max, GetAnyValueItemTypes()};
-}
-
-bool HasMoreItemsThan(const AnyValueItem& item, std::size_t max_item_count)
-{
-  std::size_t count{0};
-
-  auto on_item = [&count, max_item_count](const mvvm::SessionItem* visited)
-  {
-    // AnyValueItem carries hidden property items, they are not counted
-    if (dynamic_cast<const AnyValueItem*>(visited) != nullptr)
-    {
-      ++count;
-    }
-    return count <= max_item_count;  // count only until max_item_count exceeded
-  };
-
-  mvvm::utils::iterate_if(&item, on_item);
-
-  return count > max_item_count;
 }
 
 }  // namespace sup::gui

@@ -92,19 +92,6 @@ const QString& GetCachedJsonText()
   return result;
 }
 
-/**
- * @brief Returns the total number of items in a tree, including the given one.
- */
-int CountItems(const mvvm::SessionItem& item)
-{
-  int result = 1;
-  for (auto child : item.GetAllItems())
-  {
-    result += CountItems(*child);
-  }
-  return result;
-}
-
 }  // namespace
 
 class ImportBenchmark : public benchmark::Fixture
@@ -132,7 +119,7 @@ BENCHMARK_F(ImportBenchmark, Import02_CreateAnyValueItem)(benchmark::State& stat
     auto item = CreateAnyValueItem(anyvalue);
 
     state.PauseTiming();
-    state.counters["items"] = CountItems(*item);
+    state.counters["items"] = static_cast<double>(mvvm::utils::GetItemCount(*item));
     state.ResumeTiming();
   }
 }
@@ -144,19 +131,11 @@ BENCHMARK_F(ImportBenchmark, Import02b_CountItemsRecursively)(benchmark::State& 
 
   for (auto dummy : state)
   {
-    state.counters["session_items"] = CountItems(*item);
+    state.counters["session_items"] = static_cast<double>(mvvm::utils::GetItemCount(*item));
 
     state.PauseTiming();
-    std::size_t anyvalue_items{0};
-    mvvm::utils::iterate(item.get(),
-                         [&anyvalue_items](const mvvm::SessionItem* visited)
-                         {
-                           if (dynamic_cast<const AnyValueItem*>(visited) != nullptr)
-                           {
-                             ++anyvalue_items;
-                           }
-                         });
-    state.counters["anyvalue_items"] = static_cast<double>(anyvalue_items);
+    state.counters["anyvalue_items"] =
+        static_cast<double>(mvvm::utils::GetItemCount<AnyValueItem>(*item));
     state.ResumeTiming();
   }
 }
@@ -168,7 +147,8 @@ BENCHMARK_F(ImportBenchmark, Import02c_HasMoreItemsThanGuard)(benchmark::State& 
 
   for (auto dummy : state)
   {
-    benchmark::DoNotOptimize(HasMoreItemsThan(*item, kMaxItemCountToDisplay));
+    benchmark::DoNotOptimize(
+        mvvm::utils::HasMoreItemsThan<AnyValueItem>(*item, kMaxItemCountToDisplay));
   }
 }
 
