@@ -84,9 +84,9 @@ TEST_F(DtoComposerActionHandlerTest, OnDuplicateContainer)
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 3);
 
-  auto container2 = m_model.GetRootItem()->GetItem(mvvm::TagIndex::Default(1));
-  auto copied_scalar = container2->GetItem<AnyValueScalarItem>(mvvm::TagIndex::Default(0));
-  EXPECT_EQ(copied_scalar->Data<mvvm::int8>(), 42);
+  auto& container2 = m_model.GetRootItem()->GetItem(mvvm::TagIndex::Default(1));
+  auto& copied_scalar = container2.GetItem<AnyValueScalarItem>(mvvm::TagIndex::Default(0));
+  EXPECT_EQ(copied_scalar.Data<mvvm::int8>(), 42);
 }
 
 }  // namespace sup::gui::test

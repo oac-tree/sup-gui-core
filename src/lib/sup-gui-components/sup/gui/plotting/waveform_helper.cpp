@@ -48,13 +48,13 @@ std::unique_ptr<mvvm::PointItem> CreateShiftedPoint(const mvvm::PointItem* point
   return result;
 }
 
-mvvm::PointItem* GetLastPoint(const mvvm::LineSeriesDataItem& data_item)
+const mvvm::PointItem* GetLastPoint(const mvvm::LineSeriesDataItem& data_item)
 {
   return (data_item.GetPointCount() == 0) ? nullptr
                                           : data_item.GetPoint(data_item.GetPointCount() - 1);
 }
 
-mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
+const mvvm::PointItem* GetFirstPoint(const mvvm::LineSeriesDataItem& data_item)
 {
   return (data_item.GetPointCount() == 0) ? nullptr : data_item.GetPoint(0);
 }

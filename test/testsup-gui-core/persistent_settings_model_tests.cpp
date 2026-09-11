@@ -35,7 +35,7 @@ class PersistentSettingsModelTest : public ::testing::Test
 
 TEST_F(PersistentSettingsModelTest, InitialState)
 {
-  const PersistentSettingsModel model;
+  PersistentSettingsModel model;
 
   EXPECT_EQ(model.GetSettingsItems().size(), 1);
 
@@ -59,24 +59,24 @@ TEST_F(PersistentSettingsModelTest, Clear)
 
 TEST_F(PersistentSettingsModelTest, AutoDisableSettings)
 {
-  const PersistentSettingsModel model;
+  PersistentSettingsModel model;
 
   auto common_settings = model.GetSettingsItems().at(0);
   ASSERT_EQ(model.GetSettingsItems().size(), 1);
 
-  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting)->IsEnabled());
-  EXPECT_TRUE(common_settings->GetItem(constants::kUndoLimitSetting)->IsEnabled());
+  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting).IsEnabled());
+  EXPECT_TRUE(common_settings->GetItem(constants::kUndoLimitSetting).IsEnabled());
 
   // changing the value of the setting
-  common_settings->GetItem(constants::kUseUndoSetting)->SetData(false);
+  common_settings->GetItem(constants::kUseUndoSetting).SetData(false);
 
-  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting)->IsEnabled());
-  EXPECT_FALSE(common_settings->GetItem(constants::kUndoLimitSetting)->IsEnabled());
+  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting).IsEnabled());
+  EXPECT_FALSE(common_settings->GetItem(constants::kUndoLimitSetting).IsEnabled());
 }
 
 TEST_F(PersistentSettingsModelTest, Clone)
 {
-  const PersistentSettingsModel model;
+  PersistentSettingsModel model;
 
   auto clone = model.Clone();
   auto cloned_model = dynamic_cast<PersistentSettingsModel*>(clone.get());

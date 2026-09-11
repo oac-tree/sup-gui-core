@@ -40,12 +40,22 @@ void WaveformModel::Clear()
   PopulateModel();
 }
 
-mvvm::ChartViewportItem* WaveformModel::GetViewPort() const
+const mvvm::ChartViewportItem* WaveformModel::GetViewPort() const
 {
   return mvvm::utils::GetTopItem<mvvm::ChartViewportItem>(*this);
 }
 
-mvvm::ContainerItem* WaveformModel::GetDataContainer() const
+mvvm::ChartViewportItem* WaveformModel::GetViewPort()
+{
+  return mvvm::utils::GetTopItem<mvvm::ChartViewportItem>(*this);
+}
+
+const mvvm::ContainerItem* WaveformModel::GetDataContainer() const
+{
+  return mvvm::utils::GetTopItem<mvvm::ContainerItem>(*this);
+}
+
+mvvm::ContainerItem* WaveformModel::GetDataContainer()
 {
   return mvvm::utils::GetTopItem<mvvm::ContainerItem>(*this);
 }

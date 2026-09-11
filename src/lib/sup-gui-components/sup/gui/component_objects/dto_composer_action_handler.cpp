@@ -60,8 +60,8 @@ void DtoComposerActionHandler::OnAddNewContainer()
 void DtoComposerActionHandler::OnDuplicateContainer(std::size_t container_index)
 {
   ValidateModel();
-  auto container_to_copy =
-      m_model->GetRootItem()->GetItem(mvvm::TagIndex::Default(container_index));
+  auto* container_to_copy =
+      m_model->GetRootItem()->FindItem(mvvm::TagIndex::Default(container_index));
 
   // copy container right after the given index
   (void)mvvm::utils::CopyItem(container_to_copy, m_model, m_model->GetRootItem(),

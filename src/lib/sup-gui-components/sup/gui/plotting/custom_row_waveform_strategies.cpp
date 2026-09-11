@@ -23,6 +23,7 @@
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewitem_factory.h>
 #include <mvvm/standarditems/point_item.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <stdexcept>
 
@@ -36,7 +37,8 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem& 
 {
   std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
-  auto scalar_items = item.GetAllItems();
+  // the row strategy receives a const item but has to build view items pointing to it
+  auto scalar_items = mvvm::utils::RemoveConst(item.GetAllItems());
   if (scalar_items.size() != 2)
   {
     throw std::runtime_error("Error in TwoColumRowStrategy: not intended for this type of item");

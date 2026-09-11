@@ -36,9 +36,10 @@ namespace sup::gui
 namespace
 {
 
+template <typename ItemT>
 struct Node
 {
-  mvvm::SessionItem* item{nullptr};
+  ItemT* item{nullptr};
   QString key;
 };
 
@@ -77,7 +78,7 @@ void WriteApplicationSettings(const mvvm::ISessionModel& model, const write_vari
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
-  std::stack<Node> stack;
+  std::stack<Node<const mvvm::SessionItem>> stack;
   stack.push({model.GetRootItem(), model_key});
 
   while (!stack.empty())
@@ -110,7 +111,7 @@ void ReadSettingsFromPersistentStorage(mvvm::ISessionModel& model, read_variant_
 {
   const QString model_key(QString::fromStdString(model.GetType()));
 
-  std::stack<Node> stack;
+  std::stack<Node<mvvm::SessionItem>> stack;
   stack.push({model.GetRootItem(), model_key});
 
   while (!stack.empty())

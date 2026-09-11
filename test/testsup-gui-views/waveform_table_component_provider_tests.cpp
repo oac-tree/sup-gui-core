@@ -100,8 +100,8 @@ TEST_F(WaveformTableComponentProviderTest, SimpleStruct)
 
   // checking if we can get to original item via visible indexes
   auto points = data_item->GetPoints();
-  auto x_item = points.at(1)->GetItem(mvvm::constants::kX);
-  auto y_item = points.at(1)->GetItem(mvvm::constants::kY);
+  auto x_item = points.at(1)->FindItem(mvvm::constants::kX);
+  auto y_item = points.at(1)->FindItem(mvvm::constants::kY);
 
   EXPECT_EQ(provider.GetItemFromViewIndex(x_col1), x_item);
   EXPECT_EQ(provider.GetItemFromViewIndex(y_col1), y_item);
@@ -148,11 +148,11 @@ TEST_F(WaveformTableComponentProviderTest, Selection)
   EXPECT_EQ(proxy_model->data(y_col2, Qt::DisplayRole).toDouble(), 30.0);
 
   auto points = data_item->GetPoints();
-  auto x_item1 = points.at(1)->GetItem(mvvm::constants::kX);
-  auto y_item1 = points.at(1)->GetItem(mvvm::constants::kY);
+  auto x_item1 = points.at(1)->FindItem(mvvm::constants::kX);
+  auto y_item1 = points.at(1)->FindItem(mvvm::constants::kY);
 
-  auto x_item2 = points.at(2)->GetItem(mvvm::constants::kX);
-  auto y_item2 = points.at(2)->GetItem(mvvm::constants::kY);
+  auto x_item2 = points.at(2)->FindItem(mvvm::constants::kX);
+  auto y_item2 = points.at(2)->FindItem(mvvm::constants::kY);
 
   // selecting middle x-cell
   provider.SetSelection(mvvm::ItemSelection(x_item1));

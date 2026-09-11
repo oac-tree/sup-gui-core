@@ -76,7 +76,7 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
 
-  views = viewmodel.FindViews(item->GetItem(constants::kAnyValueTypeTag));
+  views = viewmodel.FindViews(item->FindItem(constants::kAnyValueTypeTag));
   ASSERT_EQ(views.size(), 1);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_type_index);
 
@@ -97,7 +97,7 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
 
   // it should be possible to change scalar type
-  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
+  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
   scalar_type_combo.SetValue(mvvm::constants::kBooleanTypeName);
 
   EXPECT_TRUE(
@@ -126,7 +126,7 @@ TEST_F(AnyValueViewModelTest, EmptyStructItem)
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
 
-  views = viewmodel.FindViews(item->GetItem(constants::kAnyValueTypeTag));
+  views = viewmodel.FindViews(item->FindItem(constants::kAnyValueTypeTag));
   EXPECT_EQ(views.size(), 1);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_type_index);
 
@@ -178,7 +178,7 @@ TEST_F(AnyValueViewModelTest, StructWithScalarItem)
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), scalar_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), scalar_value_index);
 
-  views = viewmodel.FindViews(scalar_item->GetItem(constants::kAnyValueTypeTag));
+  views = viewmodel.FindViews(scalar_item->FindItem(constants::kAnyValueTypeTag));
   ASSERT_EQ(views.size(), 1);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), scalar_type_index);
 
@@ -210,7 +210,7 @@ TEST_F(AnyValueViewModelTest, EmptyArrayItem)
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
 
-  views = viewmodel.FindViews(item->GetItem(constants::kAnyValueTypeTag));
+  views = viewmodel.FindViews(item->FindItem(constants::kAnyValueTypeTag));
   ASSERT_EQ(views.size(), 1);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_type_index);
 
@@ -350,7 +350,7 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
-  const auto combo = item->GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
+  auto combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
   const auto expected_variant = QVariant::fromValue(combo);
 
   EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);

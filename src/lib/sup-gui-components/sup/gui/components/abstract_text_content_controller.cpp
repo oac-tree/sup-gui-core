@@ -85,7 +85,7 @@ void AbstractTextContentController::OnDataChangedEvent(const mvvm::DataChangedEv
 void AbstractTextContentController::OnAboutToRemoveItemEvent(
     const mvvm::AboutToRemoveItemEvent& event)
 {
-  if (event.item->GetItem(event.tag_index) == m_container)
+  if (event.item->FindItem(event.tag_index) == m_container)
   {
     // container was deleted, stopping listening
     SendText(std::string());

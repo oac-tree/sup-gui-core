@@ -197,7 +197,7 @@ void SplittableComboPanel::SetupModelListener()
 
   auto on_about_to_remove_item = [this](const mvvm::AboutToRemoveItemEvent& event)
   {
-    auto item_to_remove = event.item->GetItem(event.tag_index);
+    auto item_to_remove = event.item->FindItem(event.tag_index);
 
     if ((item_to_remove == m_current_item)
         || mvvm::utils::IsItemAncestor(m_current_item, item_to_remove))

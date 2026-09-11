@@ -52,9 +52,13 @@ public:
 
   void Clear() override;
 
-  mvvm::ChartViewportItem* GetViewPort() const;
+  const mvvm::ChartViewportItem* GetViewPort() const;
 
-  mvvm::ContainerItem* GetDataContainer() const;
+  mvvm::ChartViewportItem* GetViewPort();
+
+  const mvvm::ContainerItem* GetDataContainer() const;
+
+  mvvm::ContainerItem* GetDataContainer();
 
 private:
   /**

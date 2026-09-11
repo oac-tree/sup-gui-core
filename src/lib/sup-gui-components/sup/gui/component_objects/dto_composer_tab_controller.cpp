@@ -78,7 +78,7 @@ void DtoComposerTabController::OnItemInsertedEvent(const mvvm::ItemInsertedEvent
   // we are interested only in root item with containers
   if (parent == m_model->GetRootItem())
   {
-    auto container = parent->GetItem(tag_index);
+    auto container = parent->FindItem(tag_index);
     InsertAnyValueItemContainerTab(container, tag_index.GetIndex());
   }
 }
@@ -89,7 +89,7 @@ void DtoComposerTabController::OnAboutToRemoveItemEvent(const mvvm::AboutToRemov
   // we are interested only in root item with containers
   if (parent == m_model->GetRootItem())
   {
-    auto container = parent->GetItem(tag_index);
+    auto container = parent->FindItem(tag_index);
     if (auto widget = GetWidgetForItem(container); widget)
     {
       m_tab_widget->removeTab(static_cast<std::int32_t>(tag_index.GetIndex()));

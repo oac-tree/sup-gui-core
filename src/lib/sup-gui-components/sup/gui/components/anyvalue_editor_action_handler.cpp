@@ -330,7 +330,7 @@ const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
   if ((GetAnyValueItemContainer() != nullptr)
       && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
   {
-    return GetAnyValueItemContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::First());
+    return GetAnyValueItemContainer()->FindItem<AnyValueItem>(mvvm::TagIndex::First());
   }
   return nullptr;
 }

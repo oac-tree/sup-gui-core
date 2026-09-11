@@ -41,7 +41,7 @@ TEST_F(CommonSettingsItemTest, CommonSettingsItem)
 {
   EXPECT_TRUE(mvvm::test::IsCloneImplemented<CommonSettingsItem>());
 
-  const CommonSettingsItem item;
+  CommonSettingsItem item;
   EXPECT_EQ(mvvm::GetTypeName<CommonSettingsItem>(), "CommonSettings");
   EXPECT_EQ(mvvm::GetTypeName<CommonSettingsItem>(), item.GetType());
   EXPECT_EQ(item.GetDisplayName(), "Common Settings");
@@ -51,32 +51,32 @@ TEST_F(CommonSettingsItemTest, CommonSettingsItem)
 //! automatically mark "Undo limit" setting as disabled.
 TEST_F(CommonSettingsItemTest, DataStrategy)
 {
-  const CommonSettingsItem item;
+  CommonSettingsItem item;
 
-  EXPECT_TRUE(item.GetItem(constants::kUseUndoSetting)->IsEnabled());
-  EXPECT_TRUE(item.GetItem(constants::kUndoLimitSetting)->IsEnabled());
+  EXPECT_TRUE(item.GetItem(constants::kUseUndoSetting).IsEnabled());
+  EXPECT_TRUE(item.GetItem(constants::kUndoLimitSetting).IsEnabled());
 
   // changing the value of the setting
-  item.GetItem(constants::kUseUndoSetting)->SetData(false);
+  item.GetItem(constants::kUseUndoSetting).SetData(false);
 
-  EXPECT_TRUE(item.GetItem(constants::kUseUndoSetting)->IsEnabled());
-  EXPECT_FALSE(item.GetItem(constants::kUndoLimitSetting)->IsEnabled());
+  EXPECT_TRUE(item.GetItem(constants::kUseUndoSetting).IsEnabled());
+  EXPECT_FALSE(item.GetItem(constants::kUndoLimitSetting).IsEnabled());
 }
 
 TEST_F(CommonSettingsItemTest, CloneItem)
 {
-  const CommonSettingsItem item;
+  CommonSettingsItem item;
 
   auto clone = item.Clone();
 
-  EXPECT_TRUE(clone->GetItem(constants::kUseUndoSetting)->IsEnabled());
-  EXPECT_TRUE(clone->GetItem(constants::kUndoLimitSetting)->IsEnabled());
+  EXPECT_TRUE(clone->GetItem(constants::kUseUndoSetting).IsEnabled());
+  EXPECT_TRUE(clone->GetItem(constants::kUndoLimitSetting).IsEnabled());
 
   // validating that data strategy is working after the clone
 
-  clone->GetItem(constants::kUseUndoSetting)->SetData(false);
-  EXPECT_TRUE(clone->GetItem(constants::kUseUndoSetting)->IsEnabled());
-  EXPECT_FALSE(clone->GetItem(constants::kUndoLimitSetting)->IsEnabled());
+  clone->GetItem(constants::kUseUndoSetting).SetData(false);
+  EXPECT_TRUE(clone->GetItem(constants::kUseUndoSetting).IsEnabled());
+  EXPECT_FALSE(clone->GetItem(constants::kUndoLimitSetting).IsEnabled());
 }
 
 }  // namespace sup::gui::test

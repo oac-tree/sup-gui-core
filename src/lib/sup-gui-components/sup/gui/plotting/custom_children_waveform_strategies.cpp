@@ -21,6 +21,7 @@
 #include "custom_children_waveform_strategies.h"
 
 #include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/utils/container_utils.h>
 
 namespace sup::gui
 {
@@ -32,7 +33,9 @@ std::vector<mvvm::SessionItem*> WaveformChildrenStrategy::GetChildren(
   // it is.
   if (auto data_item = dynamic_cast<const mvvm::LineSeriesDataItem*>(item); data_item)
   {
-    return data_item->GetAllItems();
+    // IChildrenStrategy hands out mutable children from a const item (see
+    // mvvm/providers/i_children_strategy.h); that contract is deliberately left as it is.
+    return mvvm::utils::RemoveConst(data_item->GetAllItems());
   }
 
   // For all others pretend no children.

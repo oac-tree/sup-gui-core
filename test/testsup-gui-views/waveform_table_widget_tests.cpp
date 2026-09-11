@@ -82,10 +82,10 @@ TEST_F(WaveformTableWidgetTest, SetLineSeriesWithSinglePoint)
   auto points = m_data_item->GetPoints();
   EXPECT_EQ(m_data_item->GetPoints().size(), 3);
 
-  auto x_item1 = points.at(1)->GetItem(mvvm::constants::kX);
-  auto y_item1 = points.at(1)->GetItem(mvvm::constants::kY);
-  auto x_item2 = points.at(2)->GetItem(mvvm::constants::kX);
-  auto y_item2 = points.at(2)->GetItem(mvvm::constants::kY);
+  auto x_item1 = points.at(1)->FindItem(mvvm::constants::kX);
+  auto y_item1 = points.at(1)->FindItem(mvvm::constants::kY);
+  auto x_item2 = points.at(2)->FindItem(mvvm::constants::kX);
+  auto y_item2 = points.at(2)->FindItem(mvvm::constants::kY);
 
   // setting LineSeries, no point selection yet
   widget.SetLineSeriesItem(m_line_series_item);

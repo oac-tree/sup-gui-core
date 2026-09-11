@@ -103,7 +103,7 @@ AnyValueItem* JsonPanelController::GetAnyValueItem()
     return nullptr;
   }
 
-  return GetContainer()->GetItem<AnyValueItem>(mvvm::TagIndex::Default(0));
+  return GetContainer()->FindItem<AnyValueItem>(mvvm::TagIndex::Default(0));
 }
 
 }  // namespace sup::gui

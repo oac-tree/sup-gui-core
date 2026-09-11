@@ -231,7 +231,7 @@ TEST_F(MimeConversionHelperTests, CopyFilteredItemsToMimeDataAndCreateBack)
 
   auto reconstructed_compound = reconstructed_items.at(0).get();
   EXPECT_EQ(reconstructed_compound->GetItemCount("defaultTag"), 1);
-  EXPECT_EQ(reconstructed_compound->GetItem("defaultTag")->GetDisplayName(),
+  EXPECT_EQ(reconstructed_compound->GetItem("defaultTag").GetDisplayName(),
             std::string("child_name1"));
 }
 

@@ -215,7 +215,7 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItem)
   EXPECT_TRUE(mvvm::utils::HasTag(item, constants::kAnyValueTypeTag));
 
   // change scalar type via property item
-  auto property_item = item.GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
+  auto property_item = item.FindItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
   property_item->SetScalarTypeName(mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(item.IsScalar());
   EXPECT_EQ(item.GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
@@ -243,7 +243,7 @@ TEST_F(AnyValueItemTest, SetNewScalarTypeNameViaPropertyItemAfterClone)
   auto clone = mvvm::utils::CloneItem(orig);
 
   // change scalar type via property item
-  auto property_item = clone->GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
+  auto property_item = clone->FindItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag);
   property_item->SetScalarTypeName(mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(clone->IsScalar());
   EXPECT_EQ(clone->GetAnyTypeName(), mvvm::constants::kBooleanTypeName);

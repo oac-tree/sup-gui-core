@@ -84,7 +84,7 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
 
   // third column
   (void)result.emplace_back(
-      mvvm::CreateDataViewItem(anyvalue_item->GetItem(constants::kAnyValueTypeTag)));
+      mvvm::CreateDataViewItem(anyvalue_item->FindItem(constants::kAnyValueTypeTag)));
 
   return result;
 }

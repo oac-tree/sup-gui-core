@@ -41,7 +41,7 @@ std::unique_ptr<mvvm::SessionItem> ConfigurationContainerItem::Clone() const
 
 std::vector<ConfigurationItem*> ConfigurationContainerItem::GetConfigurations()
 {
-  return GetItems<ConfigurationItem>(kChildrenTag);
+  return FindItems<ConfigurationItem>(kChildrenTag);
 }
 
 std::size_t ConfigurationContainerItem::GetConfigurationCount() const

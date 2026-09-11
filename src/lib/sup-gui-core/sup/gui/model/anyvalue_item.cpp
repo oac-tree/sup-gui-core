@@ -28,6 +28,7 @@
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/make_clone.h>
+#include <mvvm/utils/container_utils.h>
 
 namespace sup::gui
 {
@@ -118,12 +119,12 @@ std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
-  GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag)->SetScalarTypeName(type_name);
+  GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetScalarTypeName(type_name);
 }
 
 std::string AnyValueScalarItem::GetAnyTypeName() const
 {
-  return GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag)->GetScalarTypeName();
+  return GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).GetScalarTypeName();
 }
 
 bool AnyValueScalarItem::IsScalar() const
@@ -167,7 +168,9 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
 
 std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
 {
-  return GetItems<AnyValueItem>(constants::kAnyValueChildrenTag);
+  // FIXME GetChildren() hands out mutable children from a const item. The contract is kept for
+  // now to avoid rippling through its ~120 callers; revisit it as a separate change.
+  return mvvm::utils::RemoveConst(FindItems<AnyValueItem>(constants::kAnyValueChildrenTag));
 }
 
 // ----------------------------------------------------------------------------
@@ -194,7 +197,8 @@ bool AnyValueArrayItem::IsArray() const
 
 std::vector<AnyValueItem*> AnyValueArrayItem::GetChildren() const
 {
-  return GetItems<AnyValueItem>(constants::kAnyValueChildrenTag);
+  // FIXME see AnyValueStructItem::GetChildren()
+  return mvvm::utils::RemoveConst(FindItems<AnyValueItem>(constants::kAnyValueChildrenTag));
 }
 
 }  // namespace sup::gui

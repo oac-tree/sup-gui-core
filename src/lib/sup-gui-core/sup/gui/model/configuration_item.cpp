@@ -55,7 +55,7 @@ std::unique_ptr<mvvm::SessionItem> ConfigurationItem::Clone() const
 
 AnyValueItem* ConfigurationItem::GetValue()
 {
-  return GetItem<AnyValueItem>(constants::kAnyValueChildrenTag);
+  return FindItem<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
 std::string ConfigurationItem::GetFileName() const

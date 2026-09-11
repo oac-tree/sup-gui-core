@@ -51,7 +51,7 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
   item.SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item.Data<mvvm::int8>(), 0);
 
-  const auto combo = item.GetItem(constants::kAnyValueTypeTag)->Data<mvvm::ComboProperty>();
+  auto combo = item.GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
   const auto expected_variant = QVariant::fromValue(combo);
 
   AnyValueRowStrategy strategy;

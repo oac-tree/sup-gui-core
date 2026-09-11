@@ -180,12 +180,11 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddEmptyAnyValueToEmptyModel)
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = GetContainer()->GetItem<AnyValueEmptyItem>(mvvm::TagIndex::First());
-  ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
+  auto& inserted_item = GetContainer()->GetItem<AnyValueEmptyItem>(mvvm::TagIndex::First());
+  EXPECT_EQ(inserted_item.GetDisplayName(), constants::kAnyValueDefaultDisplayName);
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(),
-            std::vector<const mvvm::SessionItem*>({inserted_item}));
+            std::vector<const mvvm::SessionItem*>({&inserted_item}));
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -213,13 +212,12 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueStructToEmptyModel)
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = GetContainer()->GetItem<AnyValueStructItem>(mvvm::TagIndex::First());
-  ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kStructTypeName);
+  auto& inserted_item = GetContainer()->GetItem<AnyValueStructItem>(mvvm::TagIndex::First());
+  EXPECT_EQ(inserted_item.GetDisplayName(), constants::kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item.GetAnyTypeName(), constants::kStructTypeName);
 
   EXPECT_EQ(m_mock_context.GetNotifyRequests(),
-            std::vector<const mvvm::SessionItem*>({inserted_item}));
+            std::vector<const mvvm::SessionItem*>({&inserted_item}));
 };
 
 //! Attempt to add a structure to a non-empty model when nothing is selected.
@@ -336,10 +334,9 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueScalarToEmptyModel)
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = GetContainer()->GetItem<AnyValueScalarItem>(mvvm::TagIndex::First());
-  ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), mvvm::constants::kInt32TypeName);
+  auto& inserted_item = GetContainer()->GetItem<AnyValueScalarItem>(mvvm::TagIndex::First());
+  EXPECT_EQ(inserted_item.GetDisplayName(), constants::kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item.GetAnyTypeName(), mvvm::constants::kInt32TypeName);
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kStructTypeName));
 
@@ -528,10 +525,9 @@ TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 
   // validating that model got top level item of the correct type
   EXPECT_EQ(GetContainer()->GetTotalItemCount(), 1);
-  auto inserted_item = GetContainer()->GetItem<AnyValueArrayItem>(mvvm::TagIndex::First());
-  ASSERT_NE(inserted_item, nullptr);
-  EXPECT_EQ(inserted_item->GetDisplayName(), constants::kAnyValueDefaultDisplayName);
-  EXPECT_EQ(inserted_item->GetAnyTypeName(), constants::kArrayTypeName);
+  auto& inserted_item = GetContainer()->GetItem<AnyValueArrayItem>(mvvm::TagIndex::First());
+  EXPECT_EQ(inserted_item.GetDisplayName(), constants::kAnyValueDefaultDisplayName);
+  EXPECT_EQ(inserted_item.GetAnyTypeName(), constants::kArrayTypeName);
 
   // expecting a callback
   EXPECT_CALL(m_mock_context, OnMessage(::testing::_)).Times(1);

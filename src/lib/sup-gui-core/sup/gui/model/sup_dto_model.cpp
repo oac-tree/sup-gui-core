@@ -40,7 +40,12 @@ void SupDtoModel::Clear()
   PopulateModel();
 }
 
-std::vector<mvvm::ContainerItem*> SupDtoModel::GetContainers() const
+std::vector<const mvvm::ContainerItem*> SupDtoModel::GetContainers() const
+{
+  return mvvm::utils::GetTopItems<mvvm::ContainerItem>(*this);
+}
+
+std::vector<mvvm::ContainerItem*> SupDtoModel::GetContainers()
 {
   return mvvm::utils::GetTopItems<mvvm::ContainerItem>(*this);
 }

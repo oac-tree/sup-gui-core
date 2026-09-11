@@ -52,7 +52,12 @@ void PersistentSettingsModel::Clear()
   PopulateModel();
 }
 
-std::vector<mvvm::CompoundItem*> PersistentSettingsModel::GetSettingsItems() const
+std::vector<const mvvm::CompoundItem*> PersistentSettingsModel::GetSettingsItems() const
+{
+  return mvvm::utils::GetTopItems<mvvm::CompoundItem>(*this);
+}
+
+std::vector<mvvm::CompoundItem*> PersistentSettingsModel::GetSettingsItems()
 {
   return mvvm::utils::GetTopItems<mvvm::CompoundItem>(*this);
 }

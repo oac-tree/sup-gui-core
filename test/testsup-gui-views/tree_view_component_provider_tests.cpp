@@ -99,7 +99,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelection().GetItem(), item);
 
-  const mvvm::ItemSelection expected_selection({item, item->GetItem(constants::kAnyValueTypeTag)});
+  const mvvm::ItemSelection expected_selection({item, item->FindItem(constants::kAnyValueTypeTag)});
   EXPECT_EQ(provider.GetSelection(), expected_selection);
 
   EXPECT_EQ(spy_selected.count(), 1);
@@ -146,7 +146,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   EXPECT_EQ(provider.GetSelection().GetItem(), item);
   EXPECT_EQ(
       provider.GetSelection().GetItems(),
-      std::vector<const mvvm::SessionItem*>({item, item->GetItem(constants::kAnyValueTypeTag)}));
+      std::vector<const mvvm::SessionItem*>({item, item->FindItem(constants::kAnyValueTypeTag)}));
 }
 
 //! Testing how struct looks like with two children, one filtered out
