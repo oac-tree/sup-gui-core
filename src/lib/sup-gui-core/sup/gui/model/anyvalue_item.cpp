@@ -73,9 +73,14 @@ bool AnyValueItem::IsArray() const
   return false;
 }
 
-std::vector<AnyValueItem*> AnyValueItem::GetChildren() const
+std::vector<const AnyValueItem*> AnyValueItem::GetChildren() const
 {
   return {};
+}
+
+std::vector<AnyValueItem*> AnyValueItem::GetChildren()
+{
+  return mvvm::utils::RemoveConst(std::as_const(*this).GetChildren());
 }
 
 std::size_t AnyValueItem::GetChildrenCount() const
@@ -166,11 +171,9 @@ AnyValueScalarItem* AnyValueStructItem::AddScalarField(const std::string& field_
   return child_ptr;
 }
 
-std::vector<AnyValueItem*> AnyValueStructItem::GetChildren() const
+std::vector<const AnyValueItem*> AnyValueStructItem::GetChildren() const
 {
-  // FIXME GetChildren() hands out mutable children from a const item. The contract is kept for
-  // now to avoid rippling through its ~120 callers; revisit it as a separate change.
-  return mvvm::utils::RemoveConst(FindItems<AnyValueItem>(constants::kAnyValueChildrenTag));
+  return FindItems<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
 // ----------------------------------------------------------------------------
@@ -195,10 +198,9 @@ bool AnyValueArrayItem::IsArray() const
   return true;
 }
 
-std::vector<AnyValueItem*> AnyValueArrayItem::GetChildren() const
+std::vector<const AnyValueItem*> AnyValueArrayItem::GetChildren() const
 {
-  // FIXME see AnyValueStructItem::GetChildren()
-  return mvvm::utils::RemoveConst(FindItems<AnyValueItem>(constants::kAnyValueChildrenTag));
+  return FindItems<AnyValueItem>(constants::kAnyValueChildrenTag);
 }
 
 }  // namespace sup::gui

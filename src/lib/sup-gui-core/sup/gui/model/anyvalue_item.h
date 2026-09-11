@@ -53,7 +53,9 @@ public:
   virtual bool IsStruct() const;
   virtual bool IsArray() const;
 
-  virtual std::vector<AnyValueItem*> GetChildren() const;
+  virtual std::vector<const AnyValueItem*> GetChildren() const;
+
+  std::vector<AnyValueItem*> GetChildren();
 
   std::size_t GetChildrenCount() const;
 };
@@ -101,7 +103,9 @@ public:
   AnyValueScalarItem* AddScalarField(const std::string& field_name,
                                      const mvvm::variant_t& value);
 
-  std::vector<AnyValueItem*> GetChildren() const override;
+  using AnyValueItem::GetChildren;
+
+  std::vector<const AnyValueItem*> GetChildren() const override;
 };
 
 /**
@@ -116,7 +120,9 @@ public:
 
   bool IsArray() const override;
 
-  std::vector<AnyValueItem*> GetChildren() const override;
+  using AnyValueItem::GetChildren;
+
+  std::vector<const AnyValueItem*> GetChildren() const override;
 };
 
 }  // namespace sup::gui

@@ -111,12 +111,12 @@ bool EnableInstantFieldNameEdit(const mvvm::SessionItem& child)
   return false;
 }
 
-void UpdateArrayElementNames(const mvvm::SessionItem& parent)
+void UpdateArrayElementNames(mvvm::SessionItem& parent)
 {
-  if (auto array_item = dynamic_cast<const AnyValueArrayItem*>(&parent); array_item)
+  if (auto array_item = dynamic_cast<AnyValueArrayItem*>(&parent); array_item)
   {
     std::uint32_t index{0};
-    for (auto child : array_item->GetChildren())
+    for (auto* child : array_item->GetChildren())
     {
       const auto name = constants::kElementNamePrefix + std::to_string(index++);
       (void)child->SetDisplayName(name);
