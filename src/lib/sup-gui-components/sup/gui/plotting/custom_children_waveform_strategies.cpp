@@ -27,15 +27,13 @@ namespace sup::gui
 {
 
 std::vector<mvvm::SessionItem*> WaveformChildrenStrategy::GetChildren(
-    const mvvm::SessionItem* item) const
+    mvvm::SessionItem* item) const
 {
   // The strategy reports LineSeriesDataItem's children (which are structs carraying "x" and "y") as
   // it is.
-  if (auto data_item = dynamic_cast<const mvvm::LineSeriesDataItem*>(item); data_item)
+  if (auto* data_item = dynamic_cast<mvvm::LineSeriesDataItem*>(item); data_item != nullptr)
   {
-    // IChildrenStrategy hands out mutable children from a const item (see
-    // mvvm/providers/i_children_strategy.h); that contract is deliberately left as it is.
-    return mvvm::utils::RemoveConst(data_item->GetAllItems());
+    return data_item->GetAllItems();
   }
 
   // For all others pretend no children.
