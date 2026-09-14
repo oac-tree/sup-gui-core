@@ -108,9 +108,9 @@ std::vector<const mvvm::SessionItem*> GetBottomLevelSelection(
   return GetItemsWithDepth(item_to_depth, max_depth);
 }
 
-std::vector<const mvvm::SessionItem*> FilterOutChildren(const std::vector<const mvvm::SessionItem*>& items)
+std::vector<mvvm::SessionItem*> FilterOutChildren(const std::vector<mvvm::SessionItem*>& items)
 {
-  std::vector<const mvvm::SessionItem*> result;
+  std::vector<mvvm::SessionItem*> result;
 
   auto on_element = [&items](auto current_item) -> bool
   {

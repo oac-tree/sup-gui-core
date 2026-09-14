@@ -152,8 +152,8 @@ void AnyValueEditorActionHandler::RemoveSelected()
 
   // remove children from the selection list to avoid double delete
   const mvvm::SessionItem* next_to_select{nullptr};
-  auto selected = mvvm::utils::ConvertItems<const mvvm::SessionItem>(GetSelectedItems());
-  for (const auto* item : FilterOutChildren(selected))
+  auto selected = mvvm::utils::ConvertItems<mvvm::SessionItem>(GetSelectedItems());
+  for (auto* item : FilterOutChildren(selected))
   {
     next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
     auto parent = item->GetParent();
@@ -216,7 +216,7 @@ void AnyValueEditorActionHandler::OnExportToFileRequest(const std::string& file_
 
 void AnyValueEditorActionHandler::MoveUp()
 {
-  if (const auto* item = GetSelectedItem(); item)
+  if (auto* item = GetSelectedItem(); item != nullptr)
   {
     if (mvvm::utils::MoveUp(*item))
     {
@@ -227,7 +227,7 @@ void AnyValueEditorActionHandler::MoveUp()
 
 void AnyValueEditorActionHandler::MoveDown()
 {
-  if (const auto* item = GetSelectedItem(); item)
+  if (auto* item = GetSelectedItem(); item != nullptr)
   {
     if (mvvm::utils::MoveDown(*item))
     {

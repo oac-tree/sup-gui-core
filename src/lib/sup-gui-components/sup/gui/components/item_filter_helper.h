@@ -100,8 +100,8 @@ std::vector<const mvvm::SessionItem*> GetBottomLevelSelection(
  * @param items Mixture of parents and their children.
  * @return List of parent items.
  */
-std::vector<const mvvm::SessionItem*> FilterOutChildren(
-    const std::vector<const mvvm::SessionItem*>& items);
+std::vector<mvvm::SessionItem*> FilterOutChildren(
+    const std::vector<mvvm::SessionItem*>& items);
 
 }  // namespace sup::gui
 

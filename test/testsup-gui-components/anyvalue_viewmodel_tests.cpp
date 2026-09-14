@@ -45,7 +45,7 @@ public:
   /**
    * @brief Test function to report if display name of the given item is editable
    */
-  static bool HasEditableDisplayName(const mvvm::SessionItem& item)
+  static bool HasEditableDisplayName(mvvm::SessionItem& item)
   {
     AnyValueViewModel viewmodel(item.GetModel());
     auto indexes = viewmodel.GetIndexOfSessionItem(&item);

@@ -142,32 +142,32 @@ TEST_F(ItemFilterHelperTest, FilterOutChildren)
   auto parent3 = model.InsertItem<AnyValueStructItem>();
 
   {
-    const std::vector<const mvvm::SessionItem*> selection;
+    const std::vector<mvvm::SessionItem*> selection;
     EXPECT_TRUE(FilterOutChildren(selection).empty());
   }
 
   {
-    const std::vector<const mvvm::SessionItem*> selection({child0});
-    const std::vector<const mvvm::SessionItem*> expected({child0});
+    const std::vector<mvvm::SessionItem*> selection({child0});
+    const std::vector<mvvm::SessionItem*> expected({child0});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 
   {
-    const std::vector<const mvvm::SessionItem*> selection({child0, parent0});
-    const std::vector<const mvvm::SessionItem*> expected({parent0});
+    const std::vector<mvvm::SessionItem*> selection({child0, parent0});
+    const std::vector<mvvm::SessionItem*> expected({parent0});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 
   {
-    const std::vector<const mvvm::SessionItem*> selection({parent0, child0});
-    const std::vector<const mvvm::SessionItem*> expected({parent0});
+    const std::vector<mvvm::SessionItem*> selection({parent0, child0});
+    const std::vector<mvvm::SessionItem*> expected({parent0});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 
   {
-    const std::vector<const mvvm::SessionItem*> selection(
+    const std::vector<mvvm::SessionItem*> selection(
         {child0, parent1, child1, parent2, child3, parent3});
-    const std::vector<const mvvm::SessionItem*> expected({child0, parent1, parent2, parent3});
+    const std::vector<mvvm::SessionItem*> expected({child0, parent1, parent2, parent3});
     EXPECT_EQ(FilterOutChildren(selection), expected);
   }
 }

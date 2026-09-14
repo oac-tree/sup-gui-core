@@ -175,7 +175,7 @@ void AnyValueEditorWidget::OnImportWaveformRequest()
   {
     // For the moment we replace entire top item with the new waveform. This might be changed later
     // when we understand better user needs
-    if (auto top_item = GetTopItem(); top_item)
+    if (auto* top_item = m_action_handler->GetTopItem(); top_item != nullptr)
     {
       mvvm::utils::RemoveItem(*top_item);
     }
