@@ -177,7 +177,7 @@ void AnyValueEditorWidget::OnImportWaveformRequest()
     // when we understand better user needs
     if (auto top_item = GetTopItem(); top_item)
     {
-      mvvm::utils::RemoveItem(*const_cast<AnyValueItem*>(top_item));
+      mvvm::utils::RemoveItem(*top_item);
     }
     SetInitialValue(*dialog->GetResult());
   }
