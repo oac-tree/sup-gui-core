@@ -52,11 +52,11 @@ public:
    *
    * @param current_selection Items which will be reported as selected by the user.
    */
-  AnyValueEditorContext CreateContext(const std::vector<const AnyValueItem *> &current_selection);
+  AnyValueEditorContext CreateContext(const std::vector<AnyValueItem*>& current_selection);
 
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
       mvvm::SessionItem* container,
-      const std::vector<const sup::gui::AnyValueItem *> &current_selection);
+      const std::vector<sup::gui::AnyValueItem*>& current_selection);
 
   QMimeData *GetClipboardContent() const;
 
@@ -64,10 +64,10 @@ public:
 
   std::vector<const mvvm::SessionItem *> GetNotifyRequests();
 
-  void SetAsCurrentSelection(const std::vector<const AnyValueItem *> &selection);
+  void SetAsCurrentSelection(const std::vector<AnyValueItem*>& selection);
 
   std::unique_ptr<QMimeData> m_clipboard_content;
-  std::vector<const sup::gui::AnyValueItem *> m_current_selection;
+  std::vector<sup::gui::AnyValueItem*> m_current_selection;
   std::vector<const mvvm::SessionItem *> m_notify_request;
 };
 

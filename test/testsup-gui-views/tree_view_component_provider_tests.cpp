@@ -146,7 +146,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   EXPECT_EQ(provider.GetSelection().GetItem(), item);
   EXPECT_EQ(
       provider.GetSelection().GetItems(),
-      std::vector<const mvvm::SessionItem*>({item, item->FindItem(constants::kAnyValueTypeTag)}));
+      std::vector<mvvm::SessionItem*>({item, item->FindItem(constants::kAnyValueTypeTag)}));
 }
 
 //! Testing how struct looks like with two children, one filtered out

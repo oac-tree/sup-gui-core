@@ -53,7 +53,7 @@ DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* p
   auto on_selection_changed = [this](const mvvm::ItemSelection& selection)
   {
     auto selected_config = selection.GetItem<ConfigurationItem>();
-    m_anyvalue_editor->SetAnyValueItemContainer(const_cast<ConfigurationItem*>(selected_config));
+    m_anyvalue_editor->SetAnyValueItemContainer(selected_config);
   };
   connect(m_tools_panel, &DtoComposerToolsPanel::SelectionChanged, this, on_selection_changed);
 

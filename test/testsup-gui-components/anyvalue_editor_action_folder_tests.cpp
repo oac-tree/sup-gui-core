@@ -58,7 +58,7 @@ public:
    * @param selection Currently selected items.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      const std::vector<const AnyValueItem*>& selection)
+      const std::vector<AnyValueItem*>& selection)
   {
     return m_mock_context.CreateActionHandler(GetContainer(), selection);
   }

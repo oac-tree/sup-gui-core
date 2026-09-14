@@ -54,6 +54,21 @@ constexpr auto kFailedActionTitle = "Invalid Operation";
 namespace sup::gui
 {
 
+namespace
+{
+
+/**
+ * @brief Returns the top level AnyValueItem of the given container, if any.
+ */
+AnyValueItem* FindTopItem(mvvm::SessionItem* container)
+{
+  return ((container != nullptr) && (container->GetTotalItemCount() > 0))
+             ? container->FindItem<AnyValueItem>(mvvm::TagIndex::First())
+             : nullptr;
+}
+
+}  // namespace
+
 AnyValueEditorActionHandler::AnyValueEditorActionHandler(AnyValueEditorContext context)
     : AnyValueEditorActionHandler(std::move(context), nullptr)
 {
@@ -252,7 +267,8 @@ void AnyValueEditorActionHandler::Copy()
     return;
   }
 
-  m_context.set_mime_data(CreateAnyValueItemSelectionCopyMimeData(GetSelectedItems()));
+  m_context.set_mime_data(CreateAnyValueItemSelectionCopyMimeData(
+      mvvm::utils::ConvertItems<const AnyValueItem>(GetSelectedItems())));
 }
 
 bool AnyValueEditorActionHandler::CanPasteAfter() const
@@ -322,17 +338,12 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
 {
-  return const_cast<AnyValueItem*>(std::as_const(*this).GetTopItem());
+  return FindTopItem(GetAnyValueItemContainer());
 }
 
 const AnyValueItem* AnyValueEditorActionHandler::GetTopItem() const
 {
-  if ((GetAnyValueItemContainer() != nullptr)
-      && (GetAnyValueItemContainer()->GetTotalItemCount() > 0))
-  {
-    return GetAnyValueItemContainer()->FindItem<AnyValueItem>(mvvm::TagIndex::First());
-  }
-  return nullptr;
+  return FindTopItem(GetAnyValueItemContainer());
 }
 
 bool AnyValueEditorActionHandler::CanUndo() const
@@ -367,13 +378,13 @@ void AnyValueEditorActionHandler::Redo()
   GetModel()->GetCommandStack()->Redo();
 }
 
-const AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
+AnyValueItem* AnyValueEditorActionHandler::GetSelectedItem() const
 {
   auto items = GetSelectedItems();
   return items.empty() ? nullptr : items.front();
 }
 
-std::vector<const AnyValueItem*> AnyValueEditorActionHandler::GetSelectedItems() const
+std::vector<AnyValueItem*> AnyValueEditorActionHandler::GetSelectedItems() const
 {
   return m_context.selected_items();
 }
@@ -390,8 +401,7 @@ void AnyValueEditorActionHandler::RequestNotify(const mvvm::SessionItem* item) c
 
 mvvm::SessionItem* AnyValueEditorActionHandler::GetParentToInsert() const
 {
-  auto selection = (GetSelectedItem() != nullptr) ? GetSelectedItem() : GetAnyValueItemContainer();
-  return const_cast<mvvm::SessionItem*>(selection);
+  return (GetSelectedItem() != nullptr) ? GetSelectedItem() : GetAnyValueItemContainer();
 }
 
 mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const

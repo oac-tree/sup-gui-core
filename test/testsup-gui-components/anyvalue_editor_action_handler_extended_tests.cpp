@@ -58,7 +58,7 @@ public:
    * @param clipboard The content of the clipboard.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      const std::vector<const AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
+      const std::vector<AnyValueItem*>& selection, std::unique_ptr<QMimeData> clipboard = {})
   {
     m_mock_context.SetClipboardContent(std::move(clipboard));
     return m_mock_context.CreateActionHandler(m_model.GetRootItem(), selection);

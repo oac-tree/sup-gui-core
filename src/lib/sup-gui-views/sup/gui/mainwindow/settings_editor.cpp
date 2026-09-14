@@ -64,7 +64,7 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel& model, QWidget* parent
 
   connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectionChanged, this,
           [this](const mvvm::ItemSelection& selection)
-          { SetSettingsGroup(const_cast<mvvm::SessionItem*>(selection.GetItem())); });
+          { SetSettingsGroup(selection.GetItem()); });
 
   SetInitialValues(model);
 }

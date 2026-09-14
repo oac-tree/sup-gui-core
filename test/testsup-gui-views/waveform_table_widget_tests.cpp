@@ -101,7 +101,7 @@ TEST_F(WaveformTableWidgetTest, SetLineSeriesWithSinglePoint)
   EXPECT_EQ(widget.GetSelectedPoint(), selected_point);
 
   EXPECT_EQ(provider->GetSelection().GetItems(),
-            std::vector<const mvvm::SessionItem*>({x_item1, y_item1}));
+            std::vector<mvvm::SessionItem*>({x_item1, y_item1}));
   EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected),
             mvvm::ItemSelection({x_item1, y_item1}));
 
@@ -111,7 +111,7 @@ TEST_F(WaveformTableWidgetTest, SetLineSeriesWithSinglePoint)
   EXPECT_EQ(widget.GetSelectedPoint(), selected_point);
 
   EXPECT_EQ(provider->GetSelection().GetItems(),
-            std::vector<const mvvm::SessionItem*>({x_item2, y_item2}));
+            std::vector<mvvm::SessionItem*>({x_item2, y_item2}));
   EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected),
             mvvm::ItemSelection({x_item2, y_item2}));
 

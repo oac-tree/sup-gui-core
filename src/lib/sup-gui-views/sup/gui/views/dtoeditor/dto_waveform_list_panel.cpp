@@ -78,7 +78,7 @@ DtoWaveformListPanel::~DtoWaveformListPanel() = default;
 mvvm::LineSeriesItem* DtoWaveformListPanel::GetSelectedWaveform()
 {
   auto selection = m_component_provider->GetSelection();
-  return const_cast<mvvm::LineSeriesItem*>(selection.GetItem<mvvm::LineSeriesItem>());
+  return selection.GetItem<mvvm::LineSeriesItem>();
 }
 
 void DtoWaveformListPanel::SetSelectedWaveform(const mvvm::LineSeriesItem* waveform)

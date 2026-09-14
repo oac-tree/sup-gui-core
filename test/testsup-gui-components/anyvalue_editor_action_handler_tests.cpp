@@ -52,7 +52,7 @@ public:
    * @param selection Currently selected items.
    */
   std::unique_ptr<AnyValueEditorActionHandler> CreateActionHandler(
-      const std::vector<const AnyValueItem*>& selection)
+      const std::vector<AnyValueItem*>& selection)
   {
     return m_mock_context.CreateActionHandler(GetContainer(), selection);
   }
@@ -76,13 +76,13 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToCreateWhenNoContextIsInitialise
 
   {
     AnyValueEditorContext context;
-    context.selected_items = []() { return std::vector<const AnyValueItem*>(); };
+    context.selected_items = []() { return std::vector<AnyValueItem*>(); };
     EXPECT_THROW((AnyValueEditorActionHandler{context, nullptr}), RuntimeException);
   }
 
   {
     AnyValueEditorContext context;
-    context.selected_items = []() { return std::vector<const AnyValueItem*>(); };
+    context.selected_items = []() { return std::vector<AnyValueItem*>(); };
     context.notify_request = [](auto item) { (void)item; };
     EXPECT_NO_THROW((AnyValueEditorActionHandler{context, nullptr}));
   }

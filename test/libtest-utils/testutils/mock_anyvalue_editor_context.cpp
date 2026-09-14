@@ -29,7 +29,7 @@ namespace sup::gui::test
 {
 
 AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
-    const std::vector<const sup::gui::AnyValueItem*>& current_selection)
+    const std::vector<sup::gui::AnyValueItem*>& current_selection)
 {
   AnyValueEditorContext result;
 
@@ -61,7 +61,7 @@ AnyValueEditorContext MockAnyValueEditorContext::CreateContext(
 }
 
 std::unique_ptr<AnyValueEditorActionHandler> MockAnyValueEditorContext::CreateActionHandler(
-    mvvm::SessionItem* container, const std::vector<const AnyValueItem*>& current_selection)
+    mvvm::SessionItem* container, const std::vector<AnyValueItem*>& current_selection)
 {
   return std::make_unique<AnyValueEditorActionHandler>(CreateContext(current_selection), container);
 }
@@ -82,7 +82,7 @@ std::vector<const mvvm::SessionItem *> MockAnyValueEditorContext::GetNotifyReque
 }
 
 void MockAnyValueEditorContext::SetAsCurrentSelection(
-    const std::vector<const sup::gui::AnyValueItem*>& selection)
+    const std::vector<sup::gui::AnyValueItem*>& selection)
 {
   m_current_selection = selection;
 }

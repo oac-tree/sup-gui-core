@@ -64,7 +64,7 @@ public:
    */
   void SetAnyValueItemContainer(mvvm::SessionItem* container);
 
-  std::vector<const AnyValueItem*> GetSelectedItems() const;
+  std::vector<AnyValueItem*> GetSelectedItems() const;
 
   void SetSelected(const mvvm::SessionItem *item);
 
