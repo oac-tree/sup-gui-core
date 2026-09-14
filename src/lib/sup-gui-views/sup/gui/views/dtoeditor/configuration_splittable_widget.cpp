@@ -110,7 +110,7 @@ ConfigurationSplittableWidget::CreateSplitterController() const
     auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
     {
       return m_model == nullptr ? std::vector<mvvm::SessionItem*>()
-                                : mvvm::utils::CastItems<mvvm::SessionItem>(
+                                : mvvm::utils::ConvertItems<mvvm::SessionItem>(
                                       m_model->GetConfigurationContainer()->GetConfigurations());
     };
 

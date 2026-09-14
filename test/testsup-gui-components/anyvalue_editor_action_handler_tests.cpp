@@ -466,7 +466,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelScalar)
   m_model.InsertItem<sup::gui::AnyValueScalarItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler({nullptr});
+  auto handler = CreateActionHandler({});
 
   EXPECT_FALSE(handler->CanInsertAfter(mvvm::constants::kInt32TypeName));
 
@@ -514,7 +514,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AddScalarToArrayWhenTypeMismath)
 TEST_F(AnyValueEditorActionHandlerTest, OnAddAnyValueArrayToEmptyModel)
 {
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler({nullptr});
+  auto handler = CreateActionHandler({});
 
   EXPECT_TRUE(handler->CanInsertAfter(constants::kArrayTypeName));
 
@@ -593,7 +593,7 @@ TEST_F(AnyValueEditorActionHandlerTest, AttemptToAddSecondTopLevelArray)
   m_model.InsertItem<AnyValueArrayItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler({nullptr});
+  auto handler = CreateActionHandler({});
 
   EXPECT_FALSE(handler->CanInsertAfter(constants::kArrayTypeName));
 
@@ -617,7 +617,7 @@ TEST_F(AnyValueEditorActionHandlerTest, RemoveItemWhenNothingIsSelected)
       m_model.InsertItem<AnyValueStructItem>(GetContainer(), mvvm::TagIndex::Append());
 
   // creating action handler for the context, when nothing is selected by the user
-  auto handler = CreateActionHandler({nullptr});
+  auto handler = CreateActionHandler({});
 
   EXPECT_FALSE(handler->CanRemove());
   EXPECT_NO_FATAL_FAILURE(handler->RemoveSelected());

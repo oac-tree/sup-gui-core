@@ -137,7 +137,7 @@ void AnyValueEditorActionHandler::RemoveSelected()
 
   // remove children from the selection list to avoid double delete
   const mvvm::SessionItem* next_to_select{nullptr};
-  auto selected = mvvm::utils::CastItems<const mvvm::SessionItem>(GetSelectedItems());
+  auto selected = mvvm::utils::ConvertItems<const mvvm::SessionItem>(GetSelectedItems());
   for (const auto* item : FilterOutChildren(selected))
   {
     next_to_select = mvvm::utils::FindNextSiblingToSelect(item);

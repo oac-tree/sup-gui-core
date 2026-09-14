@@ -23,7 +23,6 @@
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewitem_factory.h>
 #include <mvvm/standarditems/point_item.h>
-#include <mvvm/utils/container_utils.h>
 
 #include <stdexcept>
 
@@ -33,12 +32,11 @@ namespace
 /**
  * @brief Constructs row of two data items pointing to values of "x" and "y" fields of PointItem.
  */
-std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(const mvvm::PointItem& item)
+std::vector<std::unique_ptr<mvvm::ViewItem>> CreateXYRow(mvvm::PointItem& item)
 {
   std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
-  // the row strategy receives a const item but has to build view items pointing to it
-  auto scalar_items = mvvm::utils::RemoveConst(item.GetAllItems());
+  auto scalar_items = item.GetAllItems();
   if (scalar_items.size() != 2)
   {
     throw std::runtime_error("Error in TwoColumRowStrategy: not intended for this type of item");
@@ -74,7 +72,7 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> TwoColumRowStrategy::ConstructRowIm
     mvvm::SessionItem* item)
 {
   // For structures construct a row made of data's of two fields
-  if (auto point_item = dynamic_cast<const mvvm::PointItem*>(item); point_item)
+  if (auto point_item = dynamic_cast<mvvm::PointItem*>(item); point_item != nullptr)
   {
     return CreateXYRow(*point_item);
   }

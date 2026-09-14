@@ -59,7 +59,7 @@ public:
   {
     auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
     {
-      return mvvm::utils::CastItems<mvvm::SessionItem>(
+      return mvvm::utils::ConvertItems<mvvm::SessionItem>(
           m_model.GetConfigurationContainer()->GetConfigurations());
     };
 
@@ -109,7 +109,7 @@ TEST_F(SplittableComboPanelTest, GetMainEditor)
 
   auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
   {
-    return mvvm::utils::CastItems<mvvm::SessionItem>(
+    return mvvm::utils::ConvertItems<mvvm::SessionItem>(
         m_model.GetConfigurationContainer()->GetConfigurations());
   };
 

@@ -143,7 +143,7 @@ void WaveformEditorWidget::SetViewportToContent()
 void WaveformEditorWidget::SetSelectedPoint(const mvvm::PointItem* item)
 {
   m_table_widget->SetSelectedPoint(item);
-  m_chart_canvas->SetSelectedPoints({const_cast<mvvm::PointItem*>(item)});
+  m_chart_canvas->SetSelectedPoints({item});
 }
 
 WaveformEditorContext WaveformEditorWidget::CreateActionContext() const

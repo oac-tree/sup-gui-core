@@ -140,10 +140,8 @@ TEST_F(DtoWaveformActionHandlerTest, AddWaveformToEmptyModel)
   EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 1);
   ASSERT_FALSE(GetDataContainer()->IsEmpty());
 
-  auto inserted_waveform =
-      dynamic_cast<mvvm::LineSeriesItem*>(GetWaveformContainer()->GetLineSeries().at(0));
+  auto inserted_waveform = GetWaveformContainer()->GetLineSeries().at(0);
   auto inserted_data = GetDataContainer()->GetAllItems().at(0);
-  ASSERT_NE(inserted_waveform, nullptr);
 
   ASSERT_EQ(inserted_waveform->GetDataItem(), inserted_data);
 
@@ -182,10 +180,8 @@ TEST_F(DtoWaveformActionHandlerTest, InsertWaveformBetweenTwoWaveforms)
   EXPECT_EQ(GetWaveformContainer()->GetLineSeriesCount(), 3);
   EXPECT_EQ(GetDataContainer()->GetSize(), 3);
 
-  auto inserted_waveform =
-      dynamic_cast<mvvm::LineSeriesItem*>(GetWaveformContainer()->GetLineSeries().at(1));
+  auto inserted_waveform = GetWaveformContainer()->GetLineSeries().at(1);
   auto inserted_data = GetDataContainer()->GetAllItems().at(1);
-  ASSERT_NE(inserted_waveform, nullptr);
 
   ASSERT_EQ(inserted_waveform->GetDataItem(), inserted_data);
 
