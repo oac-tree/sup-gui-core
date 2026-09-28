@@ -406,7 +406,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetParentToInsert() const
 
 mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const
 {
-  return m_container->GetModel();
+  return (m_container == nullptr)? nullptr : m_container->GetModel();
 }
 
 void AnyValueEditorActionHandler::SendMessage(const MessageEvent& message) const
