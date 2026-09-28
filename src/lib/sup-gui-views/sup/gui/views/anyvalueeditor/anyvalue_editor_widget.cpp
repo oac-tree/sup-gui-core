@@ -30,6 +30,7 @@
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/tree_helper.h>
+#include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/clipboard_helper.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
@@ -49,6 +50,7 @@
 #include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <iostream>
 
 namespace
 {
@@ -89,8 +91,7 @@ constexpr std::size_t kMaxItemCountToExpand{2000};
 void ExpandTreeIfSmallEnough(QTreeView& tree_view, const sup::gui::AnyValueItem* top_item)
 {
   if (top_item != nullptr
-      && !mvvm::utils::HasMoreItemsThan<sup::gui::AnyValueItem>(*top_item,
-                                                                 kMaxItemCountToExpand))
+      && !mvvm::utils::HasMoreItemsThan<sup::gui::AnyValueItem>(*top_item, kMaxItemCountToExpand))
   {
     tree_view.expandAll();
   }
@@ -133,7 +134,15 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
 {
-  m_command_service.UnregisterWidgetUniqueId(this);
+  try
+  {
+    m_command_service.UnregisterWidgetUniqueId(this);
+  }
+  catch (const RuntimeException& ex)
+  {
+    std::cerr << "Problem in AnyValueEditorWidget:" << ex.what() << std::endl;
+  }
+
   WriteSettings();
 }
 
