@@ -18,11 +18,15 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include <sup/gui/model/register_items.h>
+
 #include <gtest/gtest.h>
 
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
+
+  sup::gui::RegisterSessionItems();
 
   // run all google tests
   return RUN_ALL_TESTS();

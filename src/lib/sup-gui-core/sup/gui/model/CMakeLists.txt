@@ -31,6 +31,8 @@ target_sources(${library_name} PRIVATE
   scalartype_property_item.cpp
   scalartype_property_item.h
   settings_constants.h
+  settings_container_item.cpp
+  settings_container_item.h
   sup_dto_model.cpp
   sup_dto_model.h
   waveform_model.cpp

@@ -30,6 +30,7 @@ target_sources(${test} PRIVATE
   main.cpp
   mime_conversion_helper_tests.cpp
   null_command_service_tests.cpp
+  project_settings_storage_tests.cpp
   scoped_callback_tests.cpp
   settings_archive_tests.cpp
   settings_manager_tests.cpp
