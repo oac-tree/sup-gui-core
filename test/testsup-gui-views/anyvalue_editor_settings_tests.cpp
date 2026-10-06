@@ -82,4 +82,14 @@ TEST_F(AnyValueEditorSettingsTest, DialogGeometryRoundTrip)
   EXPECT_EQ(dialog.size(), QSize(321, 234));
 }
 
+TEST_F(AnyValueEditorSettingsTest, AnyValueEditorWithSettingsManager)
+{
+  const AnyValueEditor editor(m_manager);
+  EXPECT_NE(editor.findChild<SettingsSplitter*>(), nullptr);
+
+  m_manager.Collect(SettingsScope::kApplication);
+
+  EXPECT_TRUE(m_storage.Read("AnyValueEditorWidget/splitter/state").has_value());
+}
+
 }  // namespace sup::gui::test

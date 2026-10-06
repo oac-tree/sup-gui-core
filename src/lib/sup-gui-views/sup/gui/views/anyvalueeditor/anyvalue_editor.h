@@ -36,6 +36,7 @@ namespace sup::gui
 
 class AnyValueEditorWidget;
 class AnyValueItem;
+class ISettingsManager;
 class NullCommandService;
 
 /**
@@ -47,6 +48,13 @@ class AnyValueEditor : public AbstractAnyValueEditor
 
 public:
   explicit AnyValueEditor(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing editor settings in application settings.
+   *
+   * The settings manager must outlive the editor.
+   */
+  explicit AnyValueEditor(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
   ~AnyValueEditor() override;
 
   AnyValueEditor(const AnyValueEditor&) = delete;
@@ -61,6 +69,8 @@ public:
   const AnyValueItem* GetTopItem() const;
 
 private:
+  AnyValueEditor(ISettingsManager* settings_manager, QWidget* parent_widget);
+
   std::unique_ptr<NullCommandService> m_command_service;
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   //!< Deliberately put in unique_ptr to delete widget before NullCommandService.
