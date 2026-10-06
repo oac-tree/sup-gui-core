@@ -26,9 +26,9 @@
 #include <sup/gui/model/configuration_model.h>
 #include <sup/gui/model/import_helper.h>
 #include <sup/gui/views/codeeditor/code_view.h>
-#include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
+#include <sup/gui/widgets/settings_splitter.h>
 
 #include <mvvm/utils/bin_utils.h>
 
@@ -42,12 +42,12 @@ namespace
 constexpr auto kSplitterSettingName = "DtoExplorerView/splitter";
 }
 
-DtoExplorerView::DtoExplorerView(QWidget* parent_widget)
+DtoExplorerView::DtoExplorerView(ISettingsManager& settings_manager, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_explorer_panel(new DtoExplorerPanel())
+    , m_explorer_panel(new DtoExplorerPanel(settings_manager))
     , m_json_view(new sup::gui::CodeView(CodeView::kJSON))
     , m_right_panel(new sup::gui::ItemStackWidget)
-    , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
+    , m_splitter(new sup::gui::SettingsSplitter(kSplitterSettingName, settings_manager))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(4, 1, 4, 4);
@@ -58,6 +58,7 @@ DtoExplorerView::DtoExplorerView(QWidget* parent_widget)
   m_splitter->addWidget(m_right_panel);
 
   layout->addWidget(m_splitter);
+  m_splitter->RestoreState();
 
   connect(m_explorer_panel, &DtoExplorerPanel::FileClicked, this,
           &DtoExplorerView::ShowFileContent);
@@ -101,16 +102,6 @@ void DtoExplorerView::OnImportFromFileRequest(const QString& file_name)
 
   AppendConfigurationFromFile(file_name.toStdString(), on_error,
                               *m_configuration_model->GetConfigurationContainer());
-}
-
-void DtoExplorerView::ReadSettings(const read_variant_func_t& read_func)
-{
-  m_splitter->ReadSettings(read_func);
-}
-
-void DtoExplorerView::WriteSettings(const write_variant_func_t& write_func)
-{
-  m_splitter->WriteSettings(write_func);
 }
 
 }  // namespace sup::gui

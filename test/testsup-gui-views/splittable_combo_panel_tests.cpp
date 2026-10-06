@@ -34,6 +34,7 @@
 #include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 #include <QMenu>
 #include <QSignalSpy>
@@ -52,6 +53,7 @@ namespace sup::gui::test
 class SplittableComboPanelTest : public ::testing::Test
 {
 public:
+  TestSettingsManager m_settings_manager;
   /**
    * @brief Creates test panel;
    */
@@ -63,7 +65,7 @@ public:
           m_model.GetConfigurationContainer()->GetConfigurations());
     };
 
-    auto main_editor = std::make_unique<ConfigurationTabWidget>();
+    auto main_editor = std::make_unique<ConfigurationTabWidget>(m_settings_manager);
     return std::make_unique<SplittableComboPanel>(std::move(main_editor), item_list_callback);
   }
 
@@ -72,7 +74,7 @@ public:
 
 TEST_F(SplittableComboPanelTest, MissedCallback)
 {
-  auto main_editor = std::make_unique<ConfigurationTabWidget>();
+  auto main_editor = std::make_unique<ConfigurationTabWidget>(m_settings_manager);
   EXPECT_THROW(SplittableComboPanel(std::move(main_editor), nullptr), RuntimeException);
 }
 
@@ -104,7 +106,7 @@ TEST_F(SplittableComboPanelTest, InitialState)
 
 TEST_F(SplittableComboPanelTest, GetMainEditor)
 {
-  auto main_editor = std::make_unique<ConfigurationTabWidget>();
+  auto main_editor = std::make_unique<ConfigurationTabWidget>(m_settings_manager);
   auto main_editor_ptr = main_editor.get();
 
   auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>

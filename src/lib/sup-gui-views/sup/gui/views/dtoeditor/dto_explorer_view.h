@@ -22,14 +22,14 @@
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_EXPLORER_VIEW_H_
 
 #include <QWidget>
-#include <sup/gui/widgets/settings_callbacks.h>
 
 namespace sup::gui
 {
 
 class CodeView;
-class CustomSplitter;
 class DtoExplorerPanel;
+class ISettingsManager;
+class SettingsSplitter;
 class ItemStackWidget;
 class ConfigurationModel;
 
@@ -46,7 +46,12 @@ class DtoExplorerView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoExplorerView(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The settings manager must outlive the view.
+   */
+  explicit DtoExplorerView(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
   ~DtoExplorerView() override;
 
   DtoExplorerView(const DtoExplorerView&) = delete;
@@ -63,15 +68,11 @@ public:
 
   void OnImportFromFileRequest(const QString& file_name);
 
-  void ReadSettings(const read_variant_func_t& read_func);
-  void WriteSettings(const write_variant_func_t& write_func);
-
 private:
-
   DtoExplorerPanel* m_explorer_panel{nullptr};
   CodeView* m_json_view{nullptr};
   ItemStackWidget* m_right_panel{nullptr};
-  CustomSplitter* m_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
   ConfigurationModel* m_configuration_model{nullptr};
 };
 

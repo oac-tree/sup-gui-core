@@ -32,6 +32,7 @@
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 #include <QSignalSpy>
 #include <QSplitter>
@@ -52,11 +53,12 @@ namespace sup::gui::test
 class ConfigurationSplittableWidgetTest : public ::testing::Test
 {
 public:
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(ConfigurationSplittableWidgetTest, InitialState)
 {
-  ConfigurationSplittableWidget editor;
+  ConfigurationSplittableWidget editor(m_settings_manager);
   editor.show();
 
   ASSERT_NE(editor.GetController(), nullptr);
@@ -71,7 +73,7 @@ TEST_F(ConfigurationSplittableWidgetTest, InitialState)
 
 TEST_F(ConfigurationSplittableWidgetTest, CreatePanel)
 {
-  ConfigurationSplittableWidget editor;
+  ConfigurationSplittableWidget editor(m_settings_manager);
   editor.show();
 
   auto splitter = editor.findChild<QSplitter*>();
@@ -86,7 +88,7 @@ TEST_F(ConfigurationSplittableWidgetTest, SetModelAfterPanelCreation)
 {
   ConfigurationModel model;
 
-  ConfigurationSplittableWidget editor;
+  ConfigurationSplittableWidget editor(m_settings_manager);
   editor.show();
 
   editor.CreatePanel();
@@ -104,7 +106,7 @@ TEST_F(ConfigurationSplittableWidgetTest, FocusPanelSelectionChanged)
   const ConfigurationItem item;
   const mvvm::ItemSelection selection(&item);
 
-  ConfigurationSplittableWidget editor;
+  ConfigurationSplittableWidget editor(m_settings_manager);
   editor.show();
 
   editor.CreatePanel();
@@ -122,7 +124,7 @@ TEST_F(ConfigurationSplittableWidgetTest, FocusPanelSelectionChanged)
 
 TEST_F(ConfigurationSplittableWidgetTest, ReferencePanelPropagatesToHighlightController)
 {
-  ConfigurationSplittableWidget editor;
+  ConfigurationSplittableWidget editor(m_settings_manager);
   editor.show();
 
   editor.CreatePanel();
@@ -135,10 +137,10 @@ TEST_F(ConfigurationSplittableWidgetTest, ReferencePanelPropagatesToHighlightCon
   QStandardItemModel model;
   panels.at(0)->GetMainEditor<ConfigurationTabWidget>()->GetMainTreeView()->setModel(&model);
 
-  auto* highlight_controller =
-      editor.GetPanelMirrorController()->GetTreeHighlightController();
+  auto* highlight_controller = editor.GetPanelMirrorController()->GetTreeHighlightController();
 
-  // the splitter controller marking the first panel as reference must reach the highlight controller
+  // the splitter controller marking the first panel as reference must reach the highlight
+  // controller
   editor.GetController()->referencePanelChanged(panels.at(0));
   EXPECT_EQ(highlight_controller->GetReferenceViewModel(), &model);
 

@@ -35,10 +35,11 @@ Q_DECLARE_METATYPE(const mvvm::PointItem*)
 namespace sup::gui
 {
 
-DtoWaveformEditorPanel::DtoWaveformEditorPanel(QWidget* parent_widget)
+DtoWaveformEditorPanel::DtoWaveformEditorPanel(ISettingsManager& settings_manager,
+                                               QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_stack_widget(new sup::gui::ItemStackWidget)
-    , m_waveform_editor(new WaveformEditorWidget)
+    , m_waveform_editor(new WaveformEditorWidget(settings_manager))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

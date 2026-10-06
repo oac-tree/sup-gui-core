@@ -36,13 +36,19 @@ class ItemStackWidget;
 class CollapsibleListView;
 class ConfigurationListWidget;
 class ConfigurationContainerItem;
+class ISettingsManager;
 
 class DtoExplorerPanel : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit DtoExplorerPanel(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The settings manager must outlive the panel.
+   */
+  explicit DtoExplorerPanel(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
 
   ~DtoExplorerPanel() override;
 
@@ -63,9 +69,6 @@ signals:
   void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
-  void ReadSettings();
-  void WriteSettings();
-
   sup::gui::CollapsibleListView* m_collapsible_list{nullptr};
   FileTreeView* m_file_tree_view;
   ConfigurationListWidget* m_configuration_list_widget{nullptr};

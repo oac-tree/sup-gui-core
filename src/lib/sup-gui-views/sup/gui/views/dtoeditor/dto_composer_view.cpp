@@ -22,11 +22,12 @@
 
 #include "dto_composer_tools_panel.h"
 
+#include <sup/gui/app/app_view_context.h>
 #include <sup/gui/model/configuration_container_item.h>
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
-#include <sup/gui/widgets/custom_splitter.h>
+#include <sup/gui/widgets/settings_splitter.h>
 
 #include <mvvm/model/item_selection.h>
 
@@ -35,12 +36,12 @@
 namespace sup::gui
 {
 
-DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget)
+DtoComposerView::DtoComposerView(const AppViewContext& context, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_command_service(command_service)
-    , m_splitter(new CustomSplitter("DtoComposerView/splitter"))
+    , m_command_service(context.command_service)
+    , m_splitter(new SettingsSplitter("DtoComposerView/splitter", context.settings_manager))
     , m_tools_panel(new DtoComposerToolsPanel)
-    , m_anyvalue_editor(new AnyValueEditorWidget(command_service))
+    , m_anyvalue_editor(new AnyValueEditorWidget(context))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -57,13 +58,10 @@ DtoComposerView::DtoComposerView(IAppCommandService& command_service, QWidget* p
   };
   connect(m_tools_panel, &DtoComposerToolsPanel::SelectionChanged, this, on_selection_changed);
 
-  ReadSettings();
+  m_splitter->RestoreState();
 }
 
-DtoComposerView::~DtoComposerView()
-{
-  WriteSettings();
-}
+DtoComposerView::~DtoComposerView() = default;
 
 void DtoComposerView::SetConfigurationModel(ConfigurationModel* model)
 {
@@ -75,16 +73,6 @@ void DtoComposerView::SetConfigurationModel(ConfigurationModel* model)
   }
 
   m_tools_panel->SetConfigurationContainer(m_configuration_model->GetConfigurationContainer());
-}
-
-void DtoComposerView::ReadSettings()
-{
-  m_splitter->ReadSettings();
-}
-
-void DtoComposerView::WriteSettings()
-{
-  m_splitter->WriteSettings();
 }
 
 }  // namespace sup::gui

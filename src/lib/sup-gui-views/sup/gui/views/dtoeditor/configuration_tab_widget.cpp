@@ -37,9 +37,10 @@
 namespace sup::gui
 {
 
-ConfigurationTabWidget::ConfigurationTabWidget(QWidget* parent_widget)
+ConfigurationTabWidget::ConfigurationTabWidget(ISettingsManager& settings_manager,
+                                               QWidget* parent_widget)
     : SessionItemWidget(parent_widget)
-    , m_tree_panel(new AnyValueEditorTreePanel)
+    , m_tree_panel(new AnyValueEditorTreePanel(settings_manager))
     , m_text_panel(new AnyValueEditorTextPanel)
     , m_tab_widget(new QTabWidget)
 {

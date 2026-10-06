@@ -28,6 +28,7 @@
 #include <sup/gui/views/dtoeditor/splittable_combo_panel.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 #include <QAbstractItemView>
 #include <QAbstractScrollArea>
@@ -51,12 +52,13 @@ namespace sup::gui::test
 class ConfigurationPanelMirrorControllerTest : public ::testing::Test
 {
 public:
+  TestSettingsManager m_settings_manager;
   /**
    * @brief Creates a panel containing a ConfigurationTabWidget as its main editor.
    */
-  static std::unique_ptr<SplittableComboPanel> CreatePanel()
+  std::unique_ptr<SplittableComboPanel> CreatePanel()
   {
-    auto editor = std::make_unique<ConfigurationTabWidget>();
+    auto editor = std::make_unique<ConfigurationTabWidget>(m_settings_manager);
     auto item_list_callback = []() { return std::vector<mvvm::SessionItem*>(); };
     return std::make_unique<SplittableComboPanel>(std::move(editor), item_list_callback);
   }

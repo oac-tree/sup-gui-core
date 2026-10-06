@@ -20,6 +20,7 @@
 
 #include "sup/gui/views/dtoeditor/dto_composer_tab_view.h"
 
+#include <sup/gui/app/app_view_context.h>
 #include <sup/gui/app/null_command_service.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
@@ -28,6 +29,7 @@
 #include <mvvm/standarditems/container_item.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 #include <QTabWidget>
 
@@ -40,6 +42,7 @@ namespace sup::gui::test
 class DtoComposerViewTest : public ::testing::Test
 {
 public:
+  TestSettingsManager m_settings_manager;
   mvvm::ApplicationModel m_model;
 
   NullCommandService m_command_service;
@@ -50,7 +53,7 @@ TEST_F(DtoComposerViewTest, ReplaceRootItem)
 {
   SupDtoModel model;  // has one container by default
 
-  DtoComposerTabView view(m_command_service);
+  DtoComposerTabView view(AppViewContext{m_command_service, m_settings_manager});
   view.SetModel(&model);
 
   auto tab_widget = view.findChild<QTabWidget*>();

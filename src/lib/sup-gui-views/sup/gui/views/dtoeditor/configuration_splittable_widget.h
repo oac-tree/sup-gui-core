@@ -39,6 +39,7 @@ class ConfigurationModel;
 class ConfigurationItem;
 class SplittableEditorController;
 class ConfigurationPanelMirrorController;
+class ISettingsManager;
 
 /**
  * @brief The SplittableEditorWidget class is a complex editor with the possibility to split
@@ -51,7 +52,13 @@ class ConfigurationSplittableWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit ConfigurationSplittableWidget(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The settings manager must outlive the widget.
+   */
+  explicit ConfigurationSplittableWidget(ISettingsManager& settings_manager,
+                                         QWidget* parent_widget = nullptr);
 
   ~ConfigurationSplittableWidget() override;
 
@@ -94,6 +101,7 @@ signals:
 private:
   std::unique_ptr<SplittableEditorController> CreateSplitterController() const;
 
+  ISettingsManager& m_settings_manager;
   QSplitter* m_splitter{nullptr};
   std::unique_ptr<SplittableEditorController> m_splitter_controller;
   std::unique_ptr<ConfigurationPanelMirrorController> m_panel_sync_controller;

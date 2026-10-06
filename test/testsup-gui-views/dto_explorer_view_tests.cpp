@@ -35,6 +35,7 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 #include <testutils/test_helper.h>
+#include <testutils/test_settings_manager.h>
 
 namespace sup::gui::test
 {
@@ -46,6 +47,8 @@ class DtoExplorerViewTest : public test::FolderTest
 {
 public:
   DtoExplorerViewTest() : test::FolderTest("DtoExplorerViewTest") {}
+
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(DtoExplorerViewTest, ImportFileOnDoubleClick)
@@ -55,7 +58,7 @@ TEST_F(DtoExplorerViewTest, ImportFileOnDoubleClick)
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   test::CreateSerializedFile(anyvalue, file_path);
 
-  DtoExplorerView explorer_view;
+  DtoExplorerView explorer_view(m_settings_manager);
   explorer_view.show();
   ConfigurationModel model;
   explorer_view.SetConfigurationModel(&model);
@@ -80,7 +83,7 @@ TEST_F(DtoExplorerViewTest, ShowTextOnSingleClick)
   const sup::dto::AnyValue anyvalue{sup::dto::SignedInteger32Type, 42};
   test::CreateSerializedFile(anyvalue, file_path);
 
-  DtoExplorerView explorer_view;
+  DtoExplorerView explorer_view(m_settings_manager);
   explorer_view.show();
 
   auto code_view = explorer_view.findChild<CodeView*>();

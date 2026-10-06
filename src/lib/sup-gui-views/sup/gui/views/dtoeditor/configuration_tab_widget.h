@@ -38,6 +38,7 @@ namespace sup::gui
 
 class AnyValueEditorTreePanel;
 class AnyValueEditorTextPanel;
+class ISettingsManager;
 
 /**
  * @brief The ConfigurationTabWidget class is a configuration editor with multiple different views
@@ -52,7 +53,13 @@ class ConfigurationTabWidget : public SessionItemWidget
   Q_OBJECT
 
 public:
-  explicit ConfigurationTabWidget(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The settings manager must outlive the widget.
+   */
+  explicit ConfigurationTabWidget(ISettingsManager& settings_manager,
+                                  QWidget* parent_widget = nullptr);
 
   /**
    * @brief Sets the configuration to be edited.

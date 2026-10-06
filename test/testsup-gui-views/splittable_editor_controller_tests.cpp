@@ -31,6 +31,7 @@
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 #include <QSignalSpy>
 #include <QSplitter>
@@ -46,6 +47,7 @@ namespace sup::gui::test
 class SplittableEditorControllerTest : public ::testing::Test
 {
 public:
+  TestSettingsManager m_settings_manager;
   /**
    * @brief Create test controller.
    */
@@ -53,7 +55,7 @@ public:
   {
     auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
     {
-      auto main_editor = std::make_unique<ConfigurationTabWidget>();
+      auto main_editor = std::make_unique<ConfigurationTabWidget>(m_settings_manager);
 
       auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
       {
@@ -393,8 +395,7 @@ TEST_F(SplittableEditorControllerTest, ReferencePanelChangedSignal)
   auto* panel1 = controller->CreatePanel();
   auto* panel2 = controller->CreatePanel();
 
-  QSignalSpy spy_reference(controller.get(),
-                           &SplittableEditorController::referencePanelChanged);
+  QSignalSpy spy_reference(controller.get(), &SplittableEditorController::referencePanelChanged);
 
   // simulate the user marking panel2 as the reference
   panel2->referenceRequest(true);
@@ -411,8 +412,7 @@ TEST_F(SplittableEditorControllerTest, ReferencePanelChangedToNullptr)
 
   auto* panel1 = controller->CreatePanel();
 
-  QSignalSpy spy_reference(controller.get(),
-                           &SplittableEditorController::referencePanelChanged);
+  QSignalSpy spy_reference(controller.get(), &SplittableEditorController::referencePanelChanged);
 
   panel1->referenceRequest(false);
 
@@ -434,8 +434,7 @@ TEST_F(SplittableEditorControllerTest, ReferenceRequestUnmarksOtherPanels)
   panel1->ShowAsReferencePanel(true);
   ASSERT_TRUE(panel1->GetPanelState().IsSet(ComparePanelState::kReference));
 
-  QSignalSpy spy_reference(controller.get(),
-                           &SplittableEditorController::referencePanelChanged);
+  QSignalSpy spy_reference(controller.get(), &SplittableEditorController::referencePanelChanged);
 
   // now panel2 requests to become the reference
   panel2->referenceRequest(true);

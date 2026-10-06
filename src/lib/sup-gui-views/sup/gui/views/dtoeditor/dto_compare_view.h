@@ -26,7 +26,8 @@
 namespace sup::gui
 {
 
-class CustomSplitter;
+class ISettingsManager;
+class SettingsSplitter;
 class DtoCompareToolsPanel;
 class ConfigurationSplittableWidget;
 class ConfigurationModel;
@@ -36,13 +37,18 @@ class DtoCompareView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoCompareView(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The settings manager must outlive the view.
+   */
+  explicit DtoCompareView(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
   ~DtoCompareView() override;
 
   DtoCompareView(const DtoCompareView&) = delete;
   DtoCompareView& operator=(const DtoCompareView&) = delete;
   DtoCompareView(DtoCompareView&&) noexcept = delete;
-  DtoCompareView& operator=(DtoCompareView&&) noexcept  = delete;
+  DtoCompareView& operator=(DtoCompareView&&) noexcept = delete;
 
   /**
    * @brief Perform widgets setup on new project creation or project load from disk.
@@ -52,11 +58,9 @@ public:
 private:
   void OnImportFromFileRequest(const QString& file_name);
 
-  void ReadSettings();
-  void WriteSettings();
   void SetupConnections();
 
-  CustomSplitter* m_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
   DtoCompareToolsPanel* m_explorer_panel{nullptr};
   ConfigurationSplittableWidget* m_splittable_config_editor{nullptr};
 

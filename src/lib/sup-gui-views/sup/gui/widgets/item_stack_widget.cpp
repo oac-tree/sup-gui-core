@@ -34,32 +34,12 @@
 namespace sup::gui
 {
 
-namespace
-{
-
-/**
- * @brief Returns settings key to store widget index.
- */
-QString GetSettingsKeyForIndex(const QString& settings_group_name)
-{
-  return settings_group_name + "_index";
-}
-
-}  // namespace
-
 ItemStackWidget::ItemStackWidget(QWidget* parent_widget)
-    : ItemStackWidget(QString(), PanelStyle::kButtonTextBesideIcon, parent_widget)
-{
-}
-
-ItemStackWidget::ItemStackWidget(const QString& settings_group_name, PanelStyle panel_style,
-                                 QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_stacked_widget(new QStackedWidget)
     , m_widget_selection_menu(std::make_unique<QMenu>())
     , m_main_toolbar(new PanelToolBar)
     , m_action_group(new QActionGroup(this))
-    , m_settings_group_name(settings_group_name)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -70,7 +50,7 @@ ItemStackWidget::ItemStackWidget(const QString& settings_group_name, PanelStyle 
 
   m_main_toolbar->SetDotsMenu(m_widget_selection_menu.get());
 
-  SetPanelStyle(panel_style);
+  SetPanelStyle(PanelStyle::kButtonTextBesideIcon);
 }
 
 void ItemStackWidget::SetPanelStyle(PanelStyle panel_style)
@@ -132,30 +112,6 @@ QWidget* ItemStackWidget::GetCurrentWidget() const
 void ItemStackWidget::SetCurrentWidget(QWidget* widget)
 {
   SetCurrentIndex(m_stacked_widget->indexOf(widget));
-}
-
-void ItemStackWidget::ReadSettings(const read_variant_func_t& read_func)
-{
-  if (m_settings_group_name.isEmpty())
-  {
-    return;
-  }
-
-  auto index_variant = read_func(GetSettingsKeyForIndex(m_settings_group_name));
-  if (index_variant.isValid())
-  {
-    SetCurrentIndex(index_variant.toInt());
-  }
-}
-
-void ItemStackWidget::WriteSettings(const write_variant_func_t& write_func)
-{
-  if (m_settings_group_name.isEmpty())
-  {
-    return;
-  }
-
-  write_func(GetSettingsKeyForIndex(m_settings_group_name), GetCurrentIndex());
 }
 
 PanelToolBar* ItemStackWidget::GetToolBar()

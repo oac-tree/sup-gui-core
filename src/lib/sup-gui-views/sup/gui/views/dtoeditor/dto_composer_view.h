@@ -27,7 +27,8 @@ namespace sup::gui
 {
 
 class IAppCommandService;
-class CustomSplitter;
+class SettingsSplitter;
+struct AppViewContext;
 class DtoComposerToolsPanel;
 class AnyValueEditorWidget;
 class ConfigurationModel;
@@ -44,7 +45,12 @@ class DtoComposerView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoComposerView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The services of the context must outlive the view.
+   */
+  explicit DtoComposerView(const AppViewContext& context, QWidget* parent_widget = nullptr);
   ~DtoComposerView() override;
 
   DtoComposerView(const DtoComposerView&) = delete;
@@ -58,14 +64,12 @@ public:
   void SetConfigurationModel(ConfigurationModel* model);
 
 private:
-  void ReadSettings();
-  void WriteSettings();
   void SetupConnections();
   void SummonContextMenu(const QPoint& point);
 
   IAppCommandService& m_command_service;
 
-  CustomSplitter* m_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
   DtoComposerToolsPanel* m_tools_panel{nullptr};
   AnyValueEditorWidget* m_anyvalue_editor{nullptr};
   ConfigurationModel* m_configuration_model{nullptr};

@@ -33,6 +33,7 @@ class PointItem;
 namespace sup::gui
 {
 
+class ISettingsManager;
 class WaveformEditorWidget;
 class ItemStackWidget;
 class WaveformModel;
@@ -46,7 +47,13 @@ class DtoWaveformEditorPanel : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DtoWaveformEditorPanel(QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The settings manager must outlive the panel.
+   */
+  explicit DtoWaveformEditorPanel(ISettingsManager& settings_manager,
+                                  QWidget* parent_widget = nullptr);
   ~DtoWaveformEditorPanel() override;
 
   DtoWaveformEditorPanel(const DtoWaveformEditorPanel&) = delete;

@@ -21,6 +21,7 @@
 #include "sup/gui/views/dtoeditor/configuration_tab_widget.h"
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 namespace sup::gui::test
 {
@@ -31,11 +32,12 @@ namespace sup::gui::test
 class ConfigurationTabWidgetTest : public ::testing::Test
 {
 public:
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(ConfigurationTabWidgetTest, InitialState)
 {
-  const ConfigurationTabWidget widget;
+  const ConfigurationTabWidget widget(m_settings_manager);
 
   EXPECT_EQ(widget.GetItem(), nullptr);
   EXPECT_NE(widget.GetTabWidget(), nullptr);

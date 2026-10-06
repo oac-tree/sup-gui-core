@@ -26,10 +26,11 @@
 
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/app_view_context.h>
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/style/style_helper.h>
-#include <sup/gui/widgets/custom_splitter.h>
+#include <sup/gui/widgets/settings_splitter.h>
 
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/point_item.h>
@@ -44,12 +45,12 @@ Q_DECLARE_METATYPE(const mvvm::PointItem*)
 namespace sup::gui
 {
 
-DtoWaveformView::DtoWaveformView(IAppCommandService& command_service, QWidget* parent_widget)
+DtoWaveformView::DtoWaveformView(const AppViewContext& context, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_command_service(command_service)
-    , m_splitter(new CustomSplitter("DtoWaveformView/splitter"))
+    , m_command_service(context.command_service)
+    , m_splitter(new SettingsSplitter("DtoWaveformView/splitter", context.settings_manager))
     , m_list_panel(new DtoWaveformListPanel)
-    , m_editor_panel(new DtoWaveformEditorPanel)
+    , m_editor_panel(new DtoWaveformEditorPanel(context.settings_manager))
     , m_property_panel(new DtoWaveformPropertyPanel)
 {
   auto layout = new QVBoxLayout(this);
@@ -69,23 +70,16 @@ DtoWaveformView::DtoWaveformView(IAppCommandService& command_service, QWidget* p
   connect(m_property_panel, &DtoWaveformPropertyPanel::pointSelected, m_editor_panel,
           &DtoWaveformEditorPanel::SetSelectedPoint);
 
-  ReadSettings();
+  m_splitter->RestoreState();
 }
 
-DtoWaveformView::~DtoWaveformView()
-{
-  WriteSettings();
-}
+DtoWaveformView::~DtoWaveformView() = default;
 
 void DtoWaveformView::SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item)
 {
   m_editor_panel->SetLineSeriesItem(line_series_item);
   m_property_panel->SetLineSeriesItem(line_series_item);
 }
-
-void DtoWaveformView::ReadSettings() {}
-
-void DtoWaveformView::WriteSettings() {}
 
 void DtoWaveformView::SetupWidgetActions()
 {

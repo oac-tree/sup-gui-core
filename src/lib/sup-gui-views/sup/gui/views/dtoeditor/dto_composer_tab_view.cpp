@@ -42,12 +42,11 @@ namespace sup::gui
 namespace
 {
 
-DtoComposerTabController::create_widget_callback_t CreateCallback(
-    IAppCommandService& command_service)
+DtoComposerTabController::create_widget_callback_t CreateCallback(const AppViewContext& context)
 {
-  return [&command_service](mvvm::SessionItem* item) -> std::unique_ptr<AnyValueEditorWidget>
+  return [context](mvvm::SessionItem* item) -> std::unique_ptr<AnyValueEditorWidget>
   {
-    auto result = std::make_unique<AnyValueEditorWidget>(command_service);
+    auto result = std::make_unique<AnyValueEditorWidget>(context);
     result->SetAnyValueItemContainer(item);
     return result;
   };
@@ -55,9 +54,9 @@ DtoComposerTabController::create_widget_callback_t CreateCallback(
 
 }  // namespace
 
-DtoComposerTabView::DtoComposerTabView(IAppCommandService& command_service, QWidget* parent_widget)
+DtoComposerTabView::DtoComposerTabView(const AppViewContext& context, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_command_service(command_service)
+    , m_context(context)
     , m_tab_widget(new QTabWidget)
     , m_actions(new DtoComposerActions(this))
     , m_action_handler(new DtoComposerActionHandler(this))
@@ -77,7 +76,7 @@ DtoComposerTabView::DtoComposerTabView(IAppCommandService& command_service, QWid
 
   for (auto action : m_actions->GetActions())
   {
-    m_command_service.AddActionToMenuBar(constants::kToolsMenu, action);
+    m_context.command_service.AddActionToMenuBar(constants::kToolsMenu, action);
   }
 
   SetupConnections();
@@ -88,8 +87,8 @@ DtoComposerTabView::~DtoComposerTabView() = default;
 void DtoComposerTabView::SetModel(mvvm::ISessionModel* model)
 {
   m_action_handler->SetModel(model);
-  m_tab_controller = std::make_unique<DtoComposerTabController>(
-      model, CreateCallback(m_command_service), m_tab_widget);
+  m_tab_controller =
+      std::make_unique<DtoComposerTabController>(model, CreateCallback(m_context), m_tab_widget);
 }
 
 void DtoComposerTabView::SetupConnections()

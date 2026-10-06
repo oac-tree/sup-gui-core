@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+class QSplitter;
+
 class QToolBar;
 
 namespace mvvm
@@ -42,7 +44,7 @@ class WaveformEditorActions;
 class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 class WaveformDisplayController;
-class CustomSplitter;
+class ISettingsManager;
 
 /**
  * @brief The WaveformEditorWidget class is a waveform editor intended for editing of one waveform
@@ -57,6 +59,14 @@ class WaveformEditorWidget : public QWidget
 
 public:
   explicit WaveformEditorWidget(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing the splitter state in application settings.
+   *
+   * The settings manager must outlive the widget.
+   */
+  explicit WaveformEditorWidget(ISettingsManager& settings_manager,
+                                QWidget* parent_widget = nullptr);
   ~WaveformEditorWidget() override;
 
   WaveformEditorWidget(const WaveformEditorWidget&) = delete;
@@ -98,7 +108,7 @@ public:
   /**
    * @brief Set point selected.
    */
-  void SetSelectedPoint(const mvvm::PointItem *item);
+  void SetSelectedPoint(const mvvm::PointItem* item);
 
   /**
    * @brief Returns context representing current widget state which is relevant for action handler.
@@ -106,6 +116,8 @@ public:
   WaveformEditorContext CreateActionContext() const;
 
 private:
+  WaveformEditorWidget(ISettingsManager* settings_manager, QWidget* parent_widget);
+
   void SetupConnections();
   void ReadSettings();
   void WriteSettings();
@@ -119,7 +131,7 @@ private:
   WaveformEditorActions* m_actions{nullptr};
   std::unique_ptr<WaveformDisplayController> m_display_controller;
 
-  CustomSplitter* m_splitter{nullptr};
+  QSplitter* m_splitter{nullptr};
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
   QToolBar* m_table_tool_bar{nullptr};
   WaveformTableWidget* m_table_widget{nullptr};

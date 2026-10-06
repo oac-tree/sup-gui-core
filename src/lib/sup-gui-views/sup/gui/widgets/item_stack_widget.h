@@ -21,8 +21,6 @@
 #ifndef SUP_GUI_WIDGETS_ITEM_STACK_WIDGET_H_
 #define SUP_GUI_WIDGETS_ITEM_STACK_WIDGET_H_
 
-#include <sup/gui/widgets/settings_callbacks.h>
-
 #include <QList>
 #include <QWidget>
 #include <cstdint>
@@ -57,10 +55,6 @@ public:
   };
 
   explicit ItemStackWidget(QWidget* parent_widget = nullptr);
-
-  explicit ItemStackWidget(const QString& settings_group_name,
-                           PanelStyle panel_style = PanelStyle::kButtonTextBesideIcon,
-                           QWidget* parent_widget = nullptr);
 
   /**
    * @brief Sets panel style.
@@ -101,16 +95,6 @@ public:
    * @brief Sets given widget visible.
    */
   void SetCurrentWidget(QWidget* widget);
-
-  /**
-   * @brief Read settings from persistent storage using function provided.
-   */
-  void ReadSettings(const read_variant_func_t& read_func);
-
-  /**
-   * @brief Write settings to persistent storage using function provided.
-   */
-  void WriteSettings(const write_variant_func_t& write_func);
 
   /**
    * @brief Returns a toolbar to the user.
@@ -158,8 +142,6 @@ private:
 
   //!< action group for corner menu to show bullet list with currently selected widget marked
   QActionGroup* m_action_group{nullptr};
-
-  QString m_settings_group_name;
 };
 
 }  // namespace sup::gui

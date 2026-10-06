@@ -39,8 +39,10 @@
 namespace sup::gui
 {
 
-ConfigurationSplittableWidget::ConfigurationSplittableWidget(QWidget* parent_widget)
+ConfigurationSplittableWidget::ConfigurationSplittableWidget(ISettingsManager& settings_manager,
+                                                             QWidget* parent_widget)
     : QWidget(parent_widget)
+    , m_settings_manager(settings_manager)
     , m_splitter(new QSplitter)
     , m_splitter_controller(CreateSplitterController())
     , m_panel_sync_controller(std::make_unique<ConfigurationPanelMirrorController>())
@@ -105,7 +107,7 @@ ConfigurationSplittableWidget::CreateSplitterController() const
 {
   auto factory_func = [this]() -> std::unique_ptr<SplittableComboPanel>
   {
-    auto main_editor = std::make_unique<ConfigurationTabWidget>();
+    auto main_editor = std::make_unique<ConfigurationTabWidget>(m_settings_manager);
 
     auto item_list_callback = [this]() -> std::vector<mvvm::SessionItem*>
     {

@@ -29,6 +29,7 @@
 #include <sup/gui/views/dtoeditor/splittable_editor_controller.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 #include <QSignalSpy>
 
@@ -40,6 +41,8 @@ namespace sup::gui::test
  */
 class DtoCompareViewTest : public ::testing::Test
 {
+public:
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(DtoCompareViewTest, SelectionLogic)
@@ -52,7 +55,7 @@ TEST_F(DtoCompareViewTest, SelectionLogic)
                                                             mvvm::TagIndex::Append());
   configuration1->SetDisplayName("Config1");
 
-  DtoCompareView view;
+  DtoCompareView view(m_settings_manager);
   view.show();
 
   auto explorer_panel = view.findChild<DtoCompareToolsPanel*>();

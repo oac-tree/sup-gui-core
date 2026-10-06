@@ -37,7 +37,8 @@ class DtoWaveformPropertyPanel;
 class WaveformModel;
 class AppCommandContext;
 class IAppCommandService;
-class CustomSplitter;
+class SettingsSplitter;
+struct AppViewContext;
 
 /**
  * @brief The DtoWaveformView class represents a main view for editing multiple waveforms.
@@ -50,7 +51,12 @@ class DtoWaveformView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoWaveformView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The services of the context must outlive the view.
+   */
+  explicit DtoWaveformView(const AppViewContext& context, QWidget* parent_widget = nullptr);
   ~DtoWaveformView() override;
 
   DtoWaveformView(const DtoWaveformView&) = delete;
@@ -69,12 +75,10 @@ public:
   void SetLineSeriesItem(mvvm::LineSeriesItem* line_series_item);
 
 private:
-  void ReadSettings();
-  void WriteSettings();
   void SetupWidgetActions();
 
   IAppCommandService& m_command_service;
-  CustomSplitter* m_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
 
   QAction* m_toggle_left_sidebar{nullptr};
   QAction* m_toggle_right_sidebar{nullptr};

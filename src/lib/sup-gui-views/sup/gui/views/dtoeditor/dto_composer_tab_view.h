@@ -21,6 +21,8 @@
 #ifndef SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_TAB_VIEW_H_
 #define SUP_GUI_VIEWS_DTOEDITOR_DTO_COMPOSER_TAB_VIEW_H_
 
+#include <sup/gui/app/app_view_context.h>
+
 #include <QWidget>
 #include <memory>
 
@@ -38,7 +40,6 @@ namespace sup::gui
 class DtoComposerTabController;
 class DtoComposerActions;
 class DtoComposerActionHandler;
-class IAppCommandService;
 
 /**
  * @brief The DtoComposerTabView class represents a main tab-based view to assemble AnyValue.
@@ -52,7 +53,12 @@ class DtoComposerTabView : public QWidget
   Q_OBJECT
 
 public:
-  explicit DtoComposerTabView(IAppCommandService& command_service, QWidget* parent_widget = nullptr);
+  /**
+   * @brief Main c-tor.
+   *
+   * The services of the context must outlive the view.
+   */
+  explicit DtoComposerTabView(const AppViewContext& context, QWidget* parent_widget = nullptr);
   ~DtoComposerTabView() override;
 
   DtoComposerTabView(const DtoComposerTabView&) = delete;
@@ -66,7 +72,7 @@ private:
   void SetupConnections();
   void SummonContextMenu(const QPoint& point);
 
-  IAppCommandService& m_command_service;
+  AppViewContext m_context;
   mvvm::ISessionModel* m_model{nullptr};
 
   QTabWidget* m_tab_widget{nullptr};

@@ -95,24 +95,24 @@ void DtoEditorMainWindow::InitComponents()
   m_tab_widget->SetBaseColor(GetMainToolBarColor());
 
   // explorer view
-  m_explorer_view = new DtoExplorerView;
+  m_explorer_view = new DtoExplorerView(m_context.GetSettingsManager());
   m_tab_widget->AddWidget(
       m_explorer_view, "Explore",
       utils::FindIcon("file-search-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   // compare view
-  m_compare_view = new DtoCompareView;
+  m_compare_view = new DtoCompareView(m_context.GetSettingsManager());
   m_tab_widget->AddWidget(
       m_compare_view, "Compare",
       utils::FindIcon("application-brackets-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   // composer view
-  m_composer_view = new DtoComposerView(m_context.GetCommandService());
+  m_composer_view = new DtoComposerView(m_context.GetViewContext());
   m_tab_widget->AddWidget(m_composer_view, "Compose",
                           utils::FindIcon("file-tree-outline", mvvm::ColorFlavor::kForDarkThemes));
 
   // waveform view
-  m_waveform_view = new DtoWaveformView(m_context.GetCommandService());
+  m_waveform_view = new DtoWaveformView(m_context.GetViewContext());
   m_tab_widget->AddWidget(
       m_waveform_view, "Waveforms",
       utils::FindIcon("chart-timeline-variant-shimmer", mvvm::ColorFlavor::kForDarkThemes));

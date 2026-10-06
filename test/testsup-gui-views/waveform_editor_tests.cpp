@@ -20,7 +20,11 @@
 
 #include "sup/gui/views/waveformeditor/waveform_editor.h"
 
+#include <sup/gui/views/waveformeditor/waveform_editor_widget.h>
+#include <sup/gui/widgets/settings_splitter.h>
+
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 namespace sup::gui::test
 {
@@ -47,6 +51,14 @@ TEST_F(WaveformEditorTest, SetGetWaveform)
   widget.SetWaveform(expected, "abc");
   auto waveform = widget.GetWaveform();
   EXPECT_EQ(waveform, expected);
+}
+
+TEST_F(WaveformEditorTest, WidgetWithSettingsManager)
+{
+  TestSettingsManager settings_manager;
+  const WaveformEditorWidget widget(settings_manager);
+
+  EXPECT_NE(widget.findChild<SettingsSplitter*>(), nullptr);
 }
 
 }  // namespace sup::gui::test

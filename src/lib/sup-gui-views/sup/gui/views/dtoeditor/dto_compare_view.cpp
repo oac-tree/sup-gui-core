@@ -27,8 +27,8 @@
 #include <sup/gui/model/configuration_item.h>
 #include <sup/gui/model/configuration_model.h>
 #include <sup/gui/model/import_helper.h>
-#include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/message_helper.h>
+#include <sup/gui/widgets/settings_splitter.h>
 
 #include <mvvm/model/item_selection.h>
 
@@ -44,11 +44,11 @@ constexpr auto kSplitterSettingName("DtoCompareView/splitter");
 
 }
 
-DtoCompareView::DtoCompareView(QWidget* parent_widget)
+DtoCompareView::DtoCompareView(ISettingsManager& settings_manager, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_splitter(new sup::gui::CustomSplitter(kSplitterSettingName))
+    , m_splitter(new sup::gui::SettingsSplitter(kSplitterSettingName, settings_manager))
     , m_explorer_panel(new DtoCompareToolsPanel)
-    , m_splittable_config_editor(new ConfigurationSplittableWidget)
+    , m_splittable_config_editor(new ConfigurationSplittableWidget(settings_manager))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(4, 1, 4, 4);
@@ -58,7 +58,7 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
   m_splitter->addWidget(m_explorer_panel);
   m_splitter->addWidget(m_splittable_config_editor);
 
-  ReadSettings();
+  m_splitter->RestoreState();
 
   SetupConnections();
 
@@ -70,10 +70,7 @@ DtoCompareView::DtoCompareView(QWidget* parent_widget)
           m_splittable_config_editor, &ConfigurationSplittableWidget::SetPanelSyncAppearanceFlag);
 }
 
-DtoCompareView::~DtoCompareView()
-{
-  WriteSettings();
-}
+DtoCompareView::~DtoCompareView() = default;
 
 void DtoCompareView::SetConfigurationModel(ConfigurationModel* model)
 {
@@ -98,16 +95,6 @@ void DtoCompareView::OnImportFromFileRequest(const QString& file_name)
 
   AppendConfigurationFromFile(file_name.toStdString(), on_error,
                               *m_configuration_model->GetConfigurationContainer());
-}
-
-void DtoCompareView::ReadSettings()
-{
-  m_splitter->ReadSettings();
-}
-
-void DtoCompareView::WriteSettings()
-{
-  m_splitter->WriteSettings();
 }
 
 void DtoCompareView::SetupConnections()

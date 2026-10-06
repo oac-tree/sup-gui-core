@@ -50,9 +50,10 @@ bool IsJSONFile(const QString& file_info)
 
 }  // namespace
 
-DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
+DtoExplorerPanel::DtoExplorerPanel(ISettingsManager& settings_manager, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_collapsible_list(new sup::gui::CollapsibleListView(kCollapsibleListSettingName))
+    , m_collapsible_list(
+          new sup::gui::CollapsibleListView(kCollapsibleListSettingName, settings_manager))
     , m_file_tree_view(new sup::gui::FileTreeView(kFileTreeSettingsGroup))
     , m_configuration_list_widget(new ConfigurationListWidget)
     , m_stack_widget(new sup::gui::ItemStackWidget)
@@ -71,7 +72,7 @@ DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
   m_stack_widget->AddWidget(m_collapsible_list, m_file_tree_view->actions());
   layout->addWidget(m_stack_widget);
 
-  ReadSettings();
+  m_collapsible_list->ReadSettings();
 
   connect(m_file_tree_view, &FileTreeView::FileClicked, this, &DtoExplorerPanel::FileClicked);
 
@@ -88,10 +89,7 @@ DtoExplorerPanel::DtoExplorerPanel(QWidget* parent_widget)
           &DtoExplorerPanel::SelectionChanged);
 }
 
-DtoExplorerPanel::~DtoExplorerPanel()
-{
-  WriteSettings();
-}
+DtoExplorerPanel::~DtoExplorerPanel() = default;
 
 void DtoExplorerPanel::SetConfigurationContainer(ConfigurationContainerItem* container)
 {
@@ -106,16 +104,6 @@ mvvm::ItemSelection DtoExplorerPanel::GetSelection() const
 void DtoExplorerPanel::SetSelection(const mvvm::ItemSelection& selection)
 {
   m_configuration_list_widget->SetSelection(selection);
-}
-
-void DtoExplorerPanel::ReadSettings()
-{
-  m_collapsible_list->ReadSettings();
-}
-
-void DtoExplorerPanel::WriteSettings()
-{
-  m_collapsible_list->WriteSettings();
 }
 
 }  // namespace sup::gui
