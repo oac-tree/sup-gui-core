@@ -35,6 +35,8 @@ target_sources(${library_name} PRIVATE
   settings_container_item.h
   sup_dto_model.cpp
   sup_dto_model.h
+  undo_settings_item.cpp
+  undo_settings_item.h
   waveform_model.cpp
   waveform_model.h
 )

@@ -26,6 +26,7 @@ target_sources(${test} PRIVATE
   standard_message_handlers_tests.cpp
   sup_dto_model_tests.cpp
   sup_gui_core_exceptions_tests.cpp
+  undo_settings_item_tests.cpp
   version_helper_tests.cpp
   version_tests.cpp
   waveform_model_tests.cpp

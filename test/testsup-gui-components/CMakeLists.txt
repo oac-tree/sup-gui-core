@@ -33,6 +33,7 @@ target_sources(${test} PRIVATE
   project_settings_storage_tests.cpp
   scoped_callback_tests.cpp
   settings_archive_tests.cpp
+  settings_info_visit_tests.cpp
   settings_manager_tests.cpp
   waveform_display_controller_tests.cpp
   waveform_editor_action_hadler_tests.cpp
