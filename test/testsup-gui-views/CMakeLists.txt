@@ -6,6 +6,7 @@ target_sources(${test} PRIVATE
   anyvalue_editor_app_context_tests.cpp
   anyvalue_editor_tests.cpp
   anyvalue_waveform_editor_tests.cpp
+  collapsible_list_view_tests.cpp
   combo_tool_bar_tests.cpp
   configuration_list_widget_tests.cpp
   configuration_panel_mirror_controller_tests.cpp

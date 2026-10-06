@@ -22,6 +22,7 @@
 #define SUP_GUI_WIDGETS_COLLAPSIBLE_LIST_VIEW_H_
 
 #include <QWidget>
+#include <string>
 
 class QSplitter;
 
@@ -30,6 +31,8 @@ namespace sup::gui
 
 class CollapsibleToolBar;
 class CustomSplitter;
+class ISettingsManager;
+class SettingsSplitter;
 
 /**
  * @brief The CollapsibleListView class represents a column of collapsible panels.
@@ -58,6 +61,19 @@ public:
   explicit CollapsibleListView(const QString& setting_name, QWidget* parent_widget = nullptr);
 
   /**
+   * @brief Constructor storing the splitter state in application settings.
+   *
+   * The state is provided to the settings manager on Collect. The settings manager must outlive
+   * the view.
+   *
+   * @param group The settings group of the splitter.
+   * @param settings_manager The manager to store settings.
+   * @param parent_widget The parent widget of this view.
+   */
+  CollapsibleListView(std::string group, ISettingsManager& settings_manager,
+                      QWidget* parent_widget = nullptr);
+
+  /**
    * @brief Adds user widget to the splitter.
    *
    * Widget is added as it is, without collapsible bar and menus.
@@ -84,7 +100,7 @@ public:
   QSplitter* GetSplitter() const;
 
   /**
-   * @brief Reads splitter state from disk.
+   * @brief Reads splitter state from settings.
    *
    * This method shall be called after all widgets have been already added.
    */
@@ -95,11 +111,18 @@ public:
    *
    * This method can be safely called at any moment, even on the main window destruction. All last
    * known visibility flags of widgets populating a splitter will be correctly preserved.
+   *
+   * Does nothing for the view storing its state in the settings manager.
    */
   void WriteSettings();
 
 private:
-  CustomSplitter* m_splitter{nullptr};
+  //! Sets up the layout with the given splitter.
+  void InitSplitter(QSplitter* splitter);
+
+  QSplitter* m_splitter{nullptr};
+  CustomSplitter* m_custom_splitter{nullptr};
+  SettingsSplitter* m_settings_splitter{nullptr};
 };
 
 }  // namespace sup::gui
