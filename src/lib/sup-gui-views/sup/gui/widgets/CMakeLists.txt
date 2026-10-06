@@ -51,6 +51,8 @@ target_sources(${library_name} PRIVATE
   scoped_cursor.h
   settings_callbacks.cpp
   settings_callbacks.h
+  settings_header_view.cpp
+  settings_header_view.h
   settings_splitter.cpp
   settings_splitter.h
   steady_menu.cpp

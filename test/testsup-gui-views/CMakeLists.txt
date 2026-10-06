@@ -19,6 +19,7 @@ target_sources(${test} PRIVATE
   item_display_name_combo_adapter_tests.cpp
   item_stack_widget_tests.cpp
   main.cpp
+  settings_header_view_tests.cpp
   settings_helper_tests.cpp
   settings_splitter_tests.cpp
   splittable_combo_panel_tests.cpp
