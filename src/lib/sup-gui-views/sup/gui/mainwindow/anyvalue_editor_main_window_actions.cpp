@@ -31,8 +31,9 @@
 #include <sup/gui/core/version.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/mainwindow/settings_editor_dialog.h>
-#include <sup/gui/mainwindow/settings_helper.h>
 #include <sup/gui/mainwindow/status_bar_helper.h>
+#include <sup/gui/model/persistent_settings_model.h>
+#include <sup/gui/settings/persistent_settings_model_helper.h>
 #include <sup/gui/style/style_helper.h>
 
 #include <mvvm/project/project_handler.h>
@@ -50,10 +51,10 @@ namespace sup::gui
 {
 
 AnyValueEditorMainWindowActions::AnyValueEditorMainWindowActions(
-    mvvm::IProject* project, mvvm::ISessionModel* settings, IAppCommandService& command_service,
-    QMainWindow* main_window)
+    mvvm::IProject* project, ISettingsManager& settings_manager,
+    IAppCommandService& command_service, QMainWindow* main_window)
     : QObject(main_window)
-    , m_settings(settings)
+    , m_settings_manager(settings_manager)
     , m_command_service(command_service)
     , m_project_handler(std::make_unique<mvvm::ProjectHandler>(project))
 {
@@ -233,14 +234,13 @@ void AnyValueEditorMainWindowActions::OnChangeSystemFont()
 
 void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
 {
-  if (m_settings == nullptr)
-  {
-    return;
-  }
-  SettingsEditorDialog dialog(*m_settings);
+  // temporary dialog model filled from the settings manager
+  auto settings_model = CreatePersistentSettingsModel(m_settings_manager);
+  SettingsEditorDialog dialog(*settings_model);
   if (dialog.exec() == QDialog::Accepted)
   {
-    dialog.PropagateSettingsToModel(*m_settings);
+    dialog.PropagateSettingsToModel(*settings_model);
+    WritePersistentSettingsModel(*settings_model, m_settings_manager);
   }
 }
 

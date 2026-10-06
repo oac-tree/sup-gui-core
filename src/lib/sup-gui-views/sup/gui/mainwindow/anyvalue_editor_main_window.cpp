@@ -21,15 +21,13 @@
 #include "anyvalue_editor_main_window.h"
 
 #include "anyvalue_editor_app_context.h"
-#include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/components/anyvalue_editor_project.h>
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 #include <sup/gui/mainwindow/anyvalue_editor_main_window_actions.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/model/persistent_settings_model.h>
-#include <sup/gui/model/settings_constants.h>
+#include <sup/gui/model/undo_settings_item.h>
 #include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
 #include <sup/gui/widgets/window_info.h>
@@ -52,9 +50,7 @@ constexpr auto kWindowSettingsGroup = "MainWindow";
 }  // namespace
 
 AnyValueEditorMainWindow::AnyValueEditorMainWindow(AnyValueEditorAppContext& context)
-    : m_context(context)
-    , m_settings(std::make_unique<PersistentSettingsModel>())
-    , m_project(CreateProject())
+    : m_context(context), m_project(CreateProject())
 {
   InitApplication();
 
@@ -87,8 +83,8 @@ void AnyValueEditorMainWindow::InitApplication()
 void AnyValueEditorMainWindow::InitComponents()
 {
   // it should be initilised first, since it creates global proxy actions used by others
-  m_action_manager = new AnyValueEditorMainWindowActions(m_project.get(), m_settings.get(),
-                                                         m_context.GetCommandService(), this);
+  m_action_manager = new AnyValueEditorMainWindowActions(
+      m_project.get(), m_context.GetSettingsManager(), m_context.GetCommandService(), this);
 
   m_anyvalue_editor = new AnyValueEditorWidget(m_context.GetCommandService());
 
@@ -119,12 +115,10 @@ void AnyValueEditorMainWindow::ReadSettings()
   m_window_settings_connection =
       settings_manager.RegisterProvider(kWindowSettingsGroup, SettingsScope::kApplication,
                                         [this]() { return WindowInfo{saveGeometry()}; });
-  ReadApplicationSettings(*m_settings);
 }
 
 void AnyValueEditorMainWindow::WriteSettings()
 {
-  WriteApplicationSettings(*m_settings);
   m_context.GetSettingsManager().Collect(SettingsScope::kApplication);
 }
 
@@ -155,9 +149,9 @@ void AnyValueEditorMainWindow::OnProjectLoad()
     throw RuntimeException("No model exists");
   }
 
-  const auto enable_undo = m_settings->Data<bool>(constants::kUseUndoSetting);
-  const auto undo_limit = m_settings->Data<int>(constants::kUndoLimitSetting);
-  m_project->GetApplicationModel()->SetUndoEnabled(enable_undo, undo_limit);
+  const auto undo_info =
+      m_context.GetSettingsManager().Get<UndoInfo>(kUndoSettingsGroup, SettingsScope::kApplication);
+  m_project->GetApplicationModel()->SetUndoEnabled(undo_info.is_enabled, undo_info.undo_limit);
 
   m_anyvalue_editor->SetAnyValueItemContainer(m_project->GetApplicationModel()->GetRootItem());
   UpdateProjectNames();

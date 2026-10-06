@@ -47,7 +47,6 @@ class DtoEditorProject;
 class DtoExplorerView;
 class DtoWaveformView;
 class IAppCommandService;
-class PersistentSettingsModel;
 
 /**
  * @brief The DtoEditorMainWindow class represents a main window of sup-dto-editor application.
@@ -109,7 +108,6 @@ private:
   std::unique_ptr<DtoEditorProject> CreateProject();
 
   AnyValueEditorAppContext& m_context;
-  std::unique_ptr<PersistentSettingsModel> m_settings;
   std::unique_ptr<DtoEditorProject> m_project;
   mvvm::MainVerticalBarWidget* m_tab_widget{nullptr};
   DtoEditorMainWindowActions* m_action_manager{nullptr};

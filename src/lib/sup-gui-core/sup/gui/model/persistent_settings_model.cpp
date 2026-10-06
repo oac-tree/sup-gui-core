@@ -20,9 +20,7 @@
 
 #include "persistent_settings_model.h"
 
-#include "common_settings_item.h"
-
-#include <mvvm/model/model_utils.h>
+#include "undo_settings_item.h"
 
 namespace sup::gui
 {
@@ -52,19 +50,9 @@ void PersistentSettingsModel::Clear()
   PopulateModel();
 }
 
-std::vector<const mvvm::CompoundItem*> PersistentSettingsModel::GetSettingsItems() const
-{
-  return mvvm::utils::GetTopItems<mvvm::CompoundItem>(*this);
-}
-
-std::vector<mvvm::CompoundItem*> PersistentSettingsModel::GetSettingsItems()
-{
-  return mvvm::utils::GetTopItems<mvvm::CompoundItem>(*this);
-}
-
 void PersistentSettingsModel::PopulateModel()
 {
-  (void)InsertItem<CommonSettingsItem>();
+  (void)InsertItem<UndoSettingsItem>();
 }
 
 }  // namespace sup::gui

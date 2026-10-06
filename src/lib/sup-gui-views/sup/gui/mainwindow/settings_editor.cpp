@@ -25,6 +25,7 @@
 #include "stacked_widget_provider.h"
 
 #include <sup/gui/model/persistent_settings_model.h>
+#include <sup/gui/model/undo_settings_item.h>
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_selection.h>
@@ -59,7 +60,7 @@ SettingsEditor::SettingsEditor(const mvvm::ISessionModel& model, QWidget* parent
   m_splitter->setSizes({200, 400});
 
   m_stacked_widget_provider->RegisterWidget<CommonSettingsEditor>(
-      mvvm::GetTypeName<CommonSettingsItem>());
+      mvvm::GetTypeName<UndoSettingsItem>());
   m_stacked_widget_provider->RegisterDefaultWidget<CommonSettingsEditor>();
 
   connect(m_list_component_provider.get(), &mvvm::ItemViewComponentProvider::SelectionChanged, this,

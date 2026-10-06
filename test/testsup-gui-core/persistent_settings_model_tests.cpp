@@ -20,8 +20,11 @@
 
 #include "sup/gui/model/persistent_settings_model.h"
 
+#include <sup/gui/model/undo_settings_item.h>
+
+#include <mvvm/model/model_utils.h>
+
 #include <gtest/gtest.h>
-#include <testutils/folder_test.h>
 
 namespace sup::gui::test
 {
@@ -35,55 +38,40 @@ class PersistentSettingsModelTest : public ::testing::Test
 
 TEST_F(PersistentSettingsModelTest, InitialState)
 {
-  PersistentSettingsModel model;
+  const PersistentSettingsModel model;
 
-  EXPECT_EQ(model.GetSettingsItems().size(), 1);
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
 
-  EXPECT_EQ(model.Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);
-  EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
+  auto undo_settings = mvvm::utils::GetTopItem<UndoSettingsItem>(model);
+  ASSERT_NE(undo_settings, nullptr);
+  EXPECT_EQ(undo_settings->GetUndoInfo().is_enabled, constants::kUseUndoDefault);
+  EXPECT_EQ(undo_settings->GetUndoInfo().undo_limit, constants::kUndoLimitDefault);
 }
 
 TEST_F(PersistentSettingsModelTest, Clear)
 {
   PersistentSettingsModel model;
 
-  model.GetSettingsItems().at(0)->SetProperty(constants::kUndoLimitSetting, 42);
-  EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), 42);
+  mvvm::utils::GetTopItem<UndoSettingsItem>(model)->SetUndoInfo(UndoInfo{false, 42});
   model.Clear();
 
   // after clearing all setting items, and their values have been re-initialised
-  ASSERT_EQ(model.GetSettingsItems().size(), 1);
-  EXPECT_EQ(model.Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);
-  EXPECT_EQ(model.Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
-}
-
-TEST_F(PersistentSettingsModelTest, AutoDisableSettings)
-{
-  PersistentSettingsModel model;
-
-  auto common_settings = model.GetSettingsItems().at(0);
-  ASSERT_EQ(model.GetSettingsItems().size(), 1);
-
-  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting).IsEnabled());
-  EXPECT_TRUE(common_settings->GetItem(constants::kUndoLimitSetting).IsEnabled());
-
-  // changing the value of the setting
-  common_settings->GetItem(constants::kUseUndoSetting).SetData(false);
-
-  EXPECT_TRUE(common_settings->GetItem(constants::kUseUndoSetting).IsEnabled());
-  EXPECT_FALSE(common_settings->GetItem(constants::kUndoLimitSetting).IsEnabled());
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
+  const auto undo_info = mvvm::utils::GetTopItem<UndoSettingsItem>(model)->GetUndoInfo();
+  EXPECT_EQ(undo_info.is_enabled, constants::kUseUndoDefault);
+  EXPECT_EQ(undo_info.undo_limit, constants::kUndoLimitDefault);
 }
 
 TEST_F(PersistentSettingsModelTest, Clone)
 {
   PersistentSettingsModel model;
+  mvvm::utils::GetTopItem<UndoSettingsItem>(model)->SetUndoInfo(UndoInfo{false, 42});
 
   auto clone = model.Clone();
   auto cloned_model = dynamic_cast<PersistentSettingsModel*>(clone.get());
   ASSERT_NE(cloned_model, nullptr);
-  EXPECT_EQ(cloned_model->GetSettingsItems().size(), 1);
-  EXPECT_EQ(cloned_model->Data<bool>(constants::kUseUndoSetting), constants::kUseUndoDefault);
-  EXPECT_EQ(cloned_model->Data<int>(constants::kUndoLimitSetting), constants::kUndoLimitDefault);
+  EXPECT_EQ(cloned_model->GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(mvvm::utils::GetTopItem<UndoSettingsItem>(*cloned_model)->GetUndoInfo().undo_limit, 42);
 }
 
 }  // namespace sup::gui::test

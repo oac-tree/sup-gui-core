@@ -23,13 +23,11 @@
 #include "anyvalue_editor_app_context.h"
 #include "color_palette.h"
 #include "dto_editor_main_window_actions.h"
-#include "settings_helper.h"
 
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/mainwindow/main_window_helper.h>
-#include <sup/gui/model/persistent_settings_model.h>
-#include <sup/gui/model/settings_constants.h>
 #include <sup/gui/model/sup_dto_model.h>
+#include <sup/gui/model/undo_settings_item.h>
 #include <sup/gui/model/waveform_model.h>
 #include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/style/style_helper.h>
@@ -56,9 +54,7 @@ namespace sup::gui
 {
 
 DtoEditorMainWindow::DtoEditorMainWindow(AnyValueEditorAppContext& context)
-    : m_context(context)
-    , m_settings(std::make_unique<PersistentSettingsModel>())
-    , m_project(CreateProject())
+    : m_context(context), m_project(CreateProject())
 {
   InitApplication();
 
@@ -91,7 +87,7 @@ void DtoEditorMainWindow::InitApplication()
 
 void DtoEditorMainWindow::InitComponents()
 {
-  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), m_settings.get(),
+  m_action_manager = new DtoEditorMainWindowActions(m_project.get(), m_context.GetSettingsManager(),
                                                     m_context.GetCommandService(), this);
 
   m_tab_widget = new mvvm::MainVerticalBarWidget;
@@ -150,12 +146,10 @@ void DtoEditorMainWindow::ReadSettings()
   m_window_settings_connection =
       settings_manager.RegisterProvider(kWindowSettingsGroup, SettingsScope::kApplication,
                                         [this]() { return WindowInfo{saveGeometry()}; });
-  ReadApplicationSettings(*m_settings);
 }
 
 void DtoEditorMainWindow::WriteSettings()
 {
-  WriteApplicationSettings(*m_settings);
   m_context.GetSettingsManager().Collect(SettingsScope::kApplication);
 }
 
@@ -183,10 +177,10 @@ void DtoEditorMainWindow::OnExitRequest(mvvm::AppExitRequest exit_request)
 
 void DtoEditorMainWindow::OnProjectLoad()
 {
-  const auto enable_undo = m_settings->Data<bool>(constants::kUseUndoSetting);
-  const auto undo_limit = m_settings->Data<int>(constants::kUndoLimitSetting);
-  m_project->GetWaveformModel()->SetUndoEnabled(enable_undo, undo_limit);
-  m_project->GetSupDtoModel()->SetUndoEnabled(enable_undo, undo_limit);
+  const auto undo_info =
+      m_context.GetSettingsManager().Get<UndoInfo>(kUndoSettingsGroup, SettingsScope::kApplication);
+  m_project->GetWaveformModel()->SetUndoEnabled(undo_info.is_enabled, undo_info.undo_limit);
+  m_project->GetSupDtoModel()->SetUndoEnabled(undo_info.is_enabled, undo_info.undo_limit);
 
   m_explorer_view->SetConfigurationModel(m_project->GetConfigurationModel());
   m_compare_view->SetConfigurationModel(m_project->GetConfigurationModel());

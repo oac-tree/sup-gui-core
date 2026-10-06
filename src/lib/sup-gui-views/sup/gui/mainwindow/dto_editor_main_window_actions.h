@@ -37,13 +37,13 @@ namespace mvvm
 {
 class IProject;
 class ProjectHandler;
-class ISessionModel;
 }  // namespace mvvm
 
 namespace sup::gui
 {
 
 class IAppCommandService;
+class ISettingsManager;
 
 /**
  * @brief The DtoEditorMainWindowActions class handles actions of the main menubar.
@@ -53,7 +53,7 @@ class DtoEditorMainWindowActions : public QObject
   Q_OBJECT
 
 public:
-  explicit DtoEditorMainWindowActions(mvvm::IProject* project, mvvm::ISessionModel* settings,
+  explicit DtoEditorMainWindowActions(mvvm::IProject* project, ISettingsManager& settings_manager,
                                       IAppCommandService& command_service,
                                       QMainWindow* main_window = nullptr);
   ~DtoEditorMainWindowActions() override;
@@ -115,7 +115,7 @@ private:
   QToolButton* m_toggle_left_sidebar_button{nullptr};
   QToolButton* m_toggle_right_sidebar_button{nullptr};
 
-  mvvm::ISessionModel* m_settings{nullptr};
+  ISettingsManager& m_settings_manager;
   IAppCommandService& m_command_service;
   std::unique_ptr<mvvm::ProjectHandler> m_project_handler;
 };
