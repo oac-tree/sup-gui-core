@@ -51,6 +51,8 @@ target_sources(${library_name} PRIVATE
   scoped_cursor.h
   settings_callbacks.cpp
   settings_callbacks.h
+  settings_splitter.cpp
+  settings_splitter.h
   steady_menu.cpp
   steady_menu.h
   visibility_agent_base.cpp

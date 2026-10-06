@@ -20,6 +20,7 @@ target_sources(${test} PRIVATE
   item_stack_widget_tests.cpp
   main.cpp
   settings_helper_tests.cpp
+  settings_splitter_tests.cpp
   splittable_combo_panel_tests.cpp
   splittable_editor_controller_tests.cpp
   stacked_widget_provider_tests.cpp
