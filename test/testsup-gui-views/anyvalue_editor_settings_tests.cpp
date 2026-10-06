@@ -63,8 +63,8 @@ TEST_F(AnyValueEditorSettingsTest, WidgetCollect)
 
   m_manager.Collect(SettingsScope::kApplication);
 
-  EXPECT_TRUE(m_storage.Read("AnyValueEditor/splitter/state").has_value());
-  EXPECT_TRUE(m_storage.Read("AnyValueEditor/header_state/state").has_value());
+  EXPECT_TRUE(m_storage.Read("AnyValueEditorWidget/splitter/state").has_value());
+  EXPECT_TRUE(m_storage.Read("AnyValueEditorTreePanel/tree_header/state").has_value());
 }
 
 TEST_F(AnyValueEditorSettingsTest, DialogGeometryRoundTrip)

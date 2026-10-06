@@ -79,10 +79,10 @@ QString GetSplitterSettingName()
 }
 
 //! Settings group of the main splitter.
-constexpr auto kSplitterSettingsGroup = "AnyValueEditor/splitter";
+constexpr auto kSplitterSettingsGroup = "AnyValueEditorWidget/splitter";
 
 //! Settings group of the import and export directory.
-constexpr auto kWorkdirSettingsGroup = "AnyValueEditor/workdir";
+constexpr auto kWorkdirSettingsGroup = "AnyValueEditorWidget/workdir";
 
 //! File filter of import and export dialogs.
 const QString kJsonFilter("All JSON files (*.json *.JSON)");

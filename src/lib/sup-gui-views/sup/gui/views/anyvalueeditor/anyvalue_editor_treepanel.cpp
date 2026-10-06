@@ -40,7 +40,7 @@ namespace
 {
 
 const QString kHeaderStateSettingName("AnyValueEditor/header_state");
-constexpr auto kHeaderSettingsGroup = "AnyValueEditor/header_state";
+constexpr auto kHeaderSettingsGroup = "AnyValueEditorTreePanel/tree_header";
 const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 
 /**
