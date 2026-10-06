@@ -16,6 +16,7 @@ target_sources(${library_name} PRIVATE
   app_context_focus_controller.h
   app_helper.cpp
   app_helper.h
+  app_view_context.h
   default_command_service.cpp
   default_command_service.h
   i_action_container.h

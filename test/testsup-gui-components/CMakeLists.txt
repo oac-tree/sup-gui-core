@@ -19,6 +19,7 @@ target_sources(${test} PRIVATE
   app_command_context_tests.cpp
   app_helper_tests.cpp
   app_settings_storage_tests.cpp
+  app_view_context_tests.cpp
   custom_children_waveform_strategies_tests.cpp
   custom_row_strategies_tests.cpp
   dto_composer_action_handler_tests.cpp
