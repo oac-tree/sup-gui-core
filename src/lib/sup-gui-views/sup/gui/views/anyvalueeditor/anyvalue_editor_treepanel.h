@@ -24,6 +24,7 @@
 #include <QModelIndex>
 #include <QWidget>
 
+class QHeaderView;
 class QTreeView;
 class QLineEdit;
 class QTimer;
@@ -39,7 +40,7 @@ namespace sup::gui
 {
 
 class AnyValueItem;
-class CustomHeaderView;
+class ISettingsManager;
 class TreeViewComponentProvider;
 
 /**
@@ -52,6 +53,14 @@ class AnyValueEditorTreePanel : public QWidget
 
 public:
   explicit AnyValueEditorTreePanel(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing column widths in application settings.
+   *
+   * The settings manager must outlive the panel.
+   */
+  explicit AnyValueEditorTreePanel(ISettingsManager& settings_manager,
+                                   QWidget* parent_widget = nullptr);
   ~AnyValueEditorTreePanel() override;
 
   AnyValueEditorTreePanel(const AnyValueEditorTreePanel&) = delete;
@@ -66,7 +75,7 @@ public:
 
   std::vector<AnyValueItem*> GetSelectedItems() const;
 
-  void SetSelected(const mvvm::SessionItem *item);
+  void SetSelected(const mvvm::SessionItem* item);
 
   QTreeView* GetTreeView();
 
@@ -74,11 +83,13 @@ signals:
   void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
+  AnyValueEditorTreePanel(QHeaderView* header, QWidget* parent_widget);
+
   void AdjustTreeAppearance();
 
   QTreeView* m_tree_view{nullptr};
   QLineEdit* m_line_edit{nullptr};
-  CustomHeaderView* m_custom_header{nullptr};
+  QHeaderView* m_header{nullptr};
 
   //! Coalesces bursts of keystrokes in the filter field into a single filter change.
   QTimer* m_filter_timer{nullptr};

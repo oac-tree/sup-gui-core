@@ -4,6 +4,7 @@ add_executable(${test})
 
 target_sources(${test} PRIVATE
   anyvalue_editor_app_context_tests.cpp
+  anyvalue_editor_settings_tests.cpp
   anyvalue_editor_tests.cpp
   anyvalue_waveform_editor_tests.cpp
   collapsible_list_view_tests.cpp

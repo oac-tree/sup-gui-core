@@ -24,11 +24,11 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
 #include <sup/gui/widgets/custom_header_view.h>
+#include <sup/gui/widgets/settings_header_view.h>
 
 #include <mvvm/model/item_selection.h>
 
 #include <QLineEdit>
-#include <QSettings>
 #include <QTimer>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -40,6 +40,7 @@ namespace
 {
 
 const QString kHeaderStateSettingName("AnyValueEditor/header_state");
+constexpr auto kHeaderSettingsGroup = "AnyValueEditor/header_state";
 const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 
 /**
@@ -52,10 +53,25 @@ constexpr int kFilterDelayMsec{300};
 }  // namespace
 
 AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
+    : AnyValueEditorTreePanel(
+          new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, nullptr),
+          parent_widget)
+{
+}
+
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(ISettingsManager& settings_manager,
+                                                 QWidget* parent_widget)
+    : AnyValueEditorTreePanel(
+          new SettingsHeaderView(kHeaderSettingsGroup, settings_manager, kDefaultColumnStretch),
+          parent_widget)
+{
+}
+
+AnyValueEditorTreePanel::AnyValueEditorTreePanel(QHeaderView* header, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
-    , m_custom_header(new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, this))
+    , m_header(header)
     , m_filter_timer(new QTimer(this))
     , m_component_provider(std::make_unique<TreeViewComponentProvider>(nullptr, m_tree_view))
 {
@@ -71,7 +87,7 @@ AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
   layout->addWidget(m_tree_view);
   layout->addWidget(m_line_edit);
 
-  m_tree_view->setHeader(m_custom_header);
+  m_tree_view->setHeader(m_header);
   m_tree_view->setEditTriggers(QAbstractItemView::EditKeyPressed
                                | QAbstractItemView::DoubleClicked);
   m_tree_view->setAlternatingRowColors(true);
@@ -132,7 +148,12 @@ QTreeView* AnyValueEditorTreePanel::GetTreeView()
 
 void AnyValueEditorTreePanel::AdjustTreeAppearance()
 {
-  m_custom_header->AdjustColumnsWidth();
+  if (auto header = qobject_cast<SettingsHeaderView*>(m_header); header != nullptr)
+  {
+    header->AdjustColumnsWidth();
+    return;
+  }
+  qobject_cast<CustomHeaderView*>(m_header)->AdjustColumnsWidth();
 }
 
 }  // namespace sup::gui

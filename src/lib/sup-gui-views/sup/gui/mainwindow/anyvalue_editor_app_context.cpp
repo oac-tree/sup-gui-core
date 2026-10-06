@@ -47,4 +47,9 @@ ISettingsManager& AnyValueEditorAppContext::GetSettingsManager()
   return *m_settings_manager;
 }
 
+AppViewContext AnyValueEditorAppContext::GetViewContext()
+{
+  return {*m_command_service, *m_settings_manager};
+}
+
 }  // namespace sup::gui

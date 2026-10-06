@@ -86,7 +86,7 @@ void AnyValueEditorMainWindow::InitComponents()
   m_action_manager = new AnyValueEditorMainWindowActions(
       m_project.get(), m_context.GetSettingsManager(), m_context.GetCommandService(), this);
 
-  m_anyvalue_editor = new AnyValueEditorWidget(m_context.GetCommandService());
+  m_anyvalue_editor = new AnyValueEditorWidget(m_context.GetViewContext());
 
   setCentralWidget(m_anyvalue_editor);
 

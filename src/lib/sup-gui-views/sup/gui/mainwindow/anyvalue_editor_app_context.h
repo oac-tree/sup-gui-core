@@ -21,6 +21,8 @@
 #ifndef SUP_GUI_MAINWINDOW_ANYVALUE_EDITOR_APP_CONTEXT_H_
 #define SUP_GUI_MAINWINDOW_ANYVALUE_EDITOR_APP_CONTEXT_H_
 
+#include <sup/gui/app/app_view_context.h>
+
 #include <memory>
 
 namespace sup::gui
@@ -51,6 +53,11 @@ public:
    * @brief Returns settings manager with application storage attached.
    */
   ISettingsManager& GetSettingsManager();
+
+  /**
+   * @brief Returns services shared by views.
+   */
+  AppViewContext GetViewContext();
 
 private:
   std::unique_ptr<IAppCommandService> m_command_service;

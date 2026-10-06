@@ -29,6 +29,8 @@
 #include <QWidget>
 #include <memory>
 
+class QSplitter;
+
 namespace mvvm
 {
 class SessionItem;
@@ -42,8 +44,9 @@ class AnyValueEditorActionHandler;
 class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
 class AnyValueEditorActions;
-class CustomSplitter;
 class IAppCommandService;
+class ISettingsManager;
+struct AppViewContext;
 class ScalarQuickToolbar;
 
 /**
@@ -59,6 +62,13 @@ class AnyValueEditorWidget : public QWidget
 public:
   explicit AnyValueEditorWidget(IAppCommandService& command_service,
                                 QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing widget settings in application settings.
+   *
+   * The services of the context must outlive the widget.
+   */
+  explicit AnyValueEditorWidget(const AppViewContext& context, QWidget* parent_widget = nullptr);
   ~AnyValueEditorWidget() override;
 
   AnyValueEditorWidget(const AnyValueEditorWidget&) = delete;
@@ -113,6 +123,9 @@ public:
   void ImportAnyValueFromFile(const QString& file_name);
 
 private:
+  AnyValueEditorWidget(IAppCommandService& command_service, ISettingsManager* settings_manager,
+                       QWidget* parent_widget);
+
   void SetupConnections();
   void SetupWidgetActions();
   void ReadSettings();
@@ -132,6 +145,7 @@ private:
   QWidget* CreateRightPanel();
 
   IAppCommandService& m_command_service;
+  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based widget
 
   QAction* m_show_right_sidebar{nullptr};
   std::unique_ptr<AnyValueEditorActionHandler> m_action_handler;
@@ -141,7 +155,7 @@ private:
   ScalarQuickToolbar* m_quick_toolbar{nullptr};
   QWidget* m_left_panel{nullptr};
   QWidget* m_right_panel{nullptr};
-  CustomSplitter* m_splitter{nullptr};
+  QSplitter* m_splitter{nullptr};
 };
 
 }  // namespace sup::gui

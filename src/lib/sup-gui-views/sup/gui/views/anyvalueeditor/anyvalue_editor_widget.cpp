@@ -27,6 +27,7 @@
 
 #include <sup/gui/app/app_command_context.h>
 #include <sup/gui/app/app_constants.h>
+#include <sup/gui/app/app_view_context.h>
 #include <sup/gui/app/i_app_command_service.h>
 #include <sup/gui/components/anyvalue_editor_action_handler.h>
 #include <sup/gui/components/tree_helper.h>
@@ -41,13 +42,13 @@
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
 #include <sup/gui/widgets/scoped_cursor.h>
+#include <sup/gui/widgets/settings_splitter.h>
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QAction>
 #include <QMenu>
-#include <QSettings>
 #include <QTreeView>
 #include <QVBoxLayout>
 #include <iostream>
@@ -77,6 +78,33 @@ QString GetSplitterSettingName()
   return QString(kGroupName) + "/" + "splitter";
 }
 
+//! Settings group of the main splitter.
+constexpr auto kSplitterSettingsGroup = "AnyValueEditor/splitter";
+
+/**
+ * @brief Creates the tree panel, storing its settings in the manager if given, or in QSettings.
+ */
+sup::gui::AnyValueEditorTreePanel* CreateTreePanel(sup::gui::ISettingsManager* settings_manager)
+{
+  if (settings_manager != nullptr)
+  {
+    return new sup::gui::AnyValueEditorTreePanel(*settings_manager);
+  }
+  return new sup::gui::AnyValueEditorTreePanel;
+}
+
+/**
+ * @brief Creates the main splitter, storing its state in the manager if given, or in QSettings.
+ */
+QSplitter* CreateSplitter(sup::gui::ISettingsManager* settings_manager)
+{
+  if (settings_manager != nullptr)
+  {
+    return new sup::gui::SettingsSplitter(kSplitterSettingsGroup, *settings_manager);
+  }
+  return new sup::gui::CustomSplitter(GetSplitterSettingName());
+}
+
 /**
  * @brief Maximum number of AnyValueItems for which the tree is expanded automatically.
  *
@@ -104,17 +132,30 @@ namespace sup::gui
 
 AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
                                            QWidget* parent_widget)
+    : AnyValueEditorWidget(command_service, nullptr, parent_widget)
+{
+}
+
+AnyValueEditorWidget::AnyValueEditorWidget(const AppViewContext& context, QWidget* parent_widget)
+    : AnyValueEditorWidget(context.command_service, &context.settings_manager, parent_widget)
+{
+}
+
+AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
+                                           ISettingsManager* settings_manager,
+                                           QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_command_service(command_service)
+    , m_settings_manager(settings_manager)
     , m_action_handler(
           std::make_unique<AnyValueEditorActionHandler>(CreateActionContext(), nullptr))
     , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
     , m_text_panel(new AnyValueEditorTextPanel)
-    , m_tree_panel(new AnyValueEditorTreePanel)
+    , m_tree_panel(CreateTreePanel(settings_manager))
     , m_quick_toolbar(new ScalarQuickToolbar(m_action_handler.get()))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
-    , m_splitter(new CustomSplitter(GetSplitterSettingName()))
+    , m_splitter(CreateSplitter(settings_manager))
 {
   auto layout = new QVBoxLayout(this);
 
@@ -179,7 +220,9 @@ void AnyValueEditorWidget::OnExportToFileRequest()
 
 void AnyValueEditorWidget::OnImportWaveformRequest()
 {
-  auto dialog = CreateWaveformEditorDialog(GetTopItem(), this);
+  auto dialog = m_settings_manager != nullptr
+                    ? CreateWaveformEditorDialog(GetTopItem(), *m_settings_manager, this)
+                    : CreateWaveformEditorDialog(GetTopItem(), this);
   if (dialog->exec() == QDialog::Accepted)
   {
     // For the moment we replace entire top item with the new waveform. This might be changed later
@@ -249,12 +292,20 @@ void AnyValueEditorWidget::SetupWidgetActions()
 
 void AnyValueEditorWidget::ReadSettings()
 {
-  m_splitter->ReadSettings();
+  if (auto splitter = qobject_cast<SettingsSplitter*>(m_splitter); splitter != nullptr)
+  {
+    splitter->RestoreState();
+    return;
+  }
+  qobject_cast<CustomSplitter*>(m_splitter)->ReadSettings();
 }
 
 void AnyValueEditorWidget::WriteSettings()
 {
-  m_splitter->WriteSettings();
+  if (auto splitter = qobject_cast<CustomSplitter*>(m_splitter); splitter != nullptr)
+  {
+    splitter->WriteSettings();
+  }
 }
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const
