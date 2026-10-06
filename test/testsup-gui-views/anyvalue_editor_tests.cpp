@@ -24,6 +24,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 namespace sup::gui::test
 {
@@ -33,11 +34,13 @@ namespace sup::gui::test
  */
 class AnyValueEditorTest : public ::testing::Test
 {
+public:
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(AnyValueEditorTest, InitialState)
 {
-  AnyValueEditor editor(nullptr);
+  AnyValueEditor editor(m_settings_manager);
 
   auto result = editor.GetResult();
   EXPECT_EQ(result.get(), nullptr);
@@ -45,7 +48,7 @@ TEST_F(AnyValueEditorTest, InitialState)
 
 TEST_F(AnyValueEditorTest, SetNullAsInitialValue)
 {
-  AnyValueEditor editor(nullptr);
+  AnyValueEditor editor(m_settings_manager);
 
   EXPECT_NO_FATAL_FAILURE(editor.SetInitialValue(nullptr));
   auto result = editor.GetResult();
@@ -54,7 +57,7 @@ TEST_F(AnyValueEditorTest, SetNullAsInitialValue)
 
 TEST_F(AnyValueEditorTest, SetInt32AsInitialValue)
 {
-  AnyValueEditor editor(nullptr);
+  AnyValueEditor editor(m_settings_manager);
 
   AnyValueScalarItem item;
   item.SetAnyTypeName(mvvm::constants::kInt32TypeName);

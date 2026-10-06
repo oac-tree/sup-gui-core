@@ -41,7 +41,7 @@ std::unique_ptr<AnyValueEditorDialog> CreateWaveformEditorDialog(const AnyValueI
                                                                  ISettingsManager& settings_manager,
                                                                  QWidget* parent)
 {
-  auto editor = std::make_unique<AnyValueWaveformEditor>();
+  auto editor = std::make_unique<AnyValueWaveformEditor>(settings_manager);
   editor->SetInitialValue(item);
   auto result = std::make_unique<AnyValueEditorDialog>(std::move(editor), settings_manager, parent);
   result->setWindowTitle("Import Waveform");

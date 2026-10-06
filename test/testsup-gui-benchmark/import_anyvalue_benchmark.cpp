@@ -37,14 +37,15 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include <QPlainTextEdit>
-#include <QTreeView>
+#include <benchmark/benchmark.h>
 #include <definition.h>
 #include <repository.h>
 #include <syntaxhighlighter.h>
-#include <benchmark/benchmark.h>
 #include <testutils/cmake_info.h>
+#include <testutils/test_settings_manager.h>
 
+#include <QPlainTextEdit>
+#include <QTreeView>
 #include <cstdlib>
 #include <memory>
 
@@ -314,8 +315,7 @@ BENCHMARK_F(ImportBenchmark, Import05c_DestroyPopulatedModel)(benchmark::State& 
   {
     state.PauseTiming();
     auto model = std::make_unique<mvvm::ApplicationModel>();
-    model->InsertItem(CreateAnyValueItem(anyvalue), model->GetRootItem(),
-                      mvvm::TagIndex::Append());
+    model->InsertItem(CreateAnyValueItem(anyvalue), model->GetRootItem(), mvvm::TagIndex::Append());
     state.ResumeTiming();
 
     model.reset();
@@ -348,7 +348,8 @@ BENCHMARK_F(ImportBenchmark, Import05e_JsonViewSetContent)(benchmark::State& sta
   {
     state.PauseTiming();
     {
-      CodeView view(CodeView::kJSON);
+      test::TestSettingsManager settings_manager;
+      CodeView view(CodeView::kJSON, settings_manager);
       view.show();
       state.ResumeTiming();
 

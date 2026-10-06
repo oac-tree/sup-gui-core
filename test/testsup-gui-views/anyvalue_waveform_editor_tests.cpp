@@ -24,6 +24,7 @@
 #include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_settings_manager.h>
 
 namespace sup::gui::test
 {
@@ -33,11 +34,13 @@ namespace sup::gui::test
  */
 class AnyValueWaveformEditorTest : public ::testing::Test
 {
+public:
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(AnyValueWaveformEditorTest, InitialState)
 {
-  AnyValueWaveformEditor editor;
+  AnyValueWaveformEditor editor(m_settings_manager);
 
   auto waveform_item = editor.GetResult();
   ASSERT_NE(waveform_item.get(), nullptr);
@@ -48,7 +51,7 @@ TEST_F(AnyValueWaveformEditorTest, InitialState)
 
 TEST_F(AnyValueWaveformEditorTest, CreateWaveformFromWrongItem)
 {
-  AnyValueWaveformEditor editor;
+  AnyValueWaveformEditor editor(m_settings_manager);
 
   AnyValueScalarItem wrong_item;
 
@@ -63,7 +66,7 @@ TEST_F(AnyValueWaveformEditorTest, CreateWaveformFromWrongItem)
 
 TEST_F(AnyValueWaveformEditorTest, CreateWaveformFromArrayItem)
 {
-  AnyValueWaveformEditor editor;
+  AnyValueWaveformEditor editor(m_settings_manager);
   auto array_item = std::make_unique<AnyValueArrayItem>();
   auto struct_item0 = std::make_unique<AnyValueStructItem>();
   struct_item0->AddScalarField("a", 1.0);

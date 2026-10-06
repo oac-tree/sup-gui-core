@@ -34,11 +34,13 @@ namespace sup::gui::test
  */
 class WaveformEditorTest : public ::testing::Test
 {
+public:
+  TestSettingsManager m_settings_manager;
 };
 
 TEST_F(WaveformEditorTest, InitialState)
 {
-  const WaveformEditor widget;
+  const WaveformEditor widget(m_settings_manager);
   auto waveform = widget.GetWaveform();
   EXPECT_TRUE(waveform.empty());
 }
@@ -47,7 +49,7 @@ TEST_F(WaveformEditorTest, SetGetWaveform)
 {
   const std::vector<std::pair<double, double>> expected = {{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}};
 
-  WaveformEditor widget;
+  WaveformEditor widget(m_settings_manager);
   widget.SetWaveform(expected, "abc");
   auto waveform = widget.GetWaveform();
   EXPECT_EQ(waveform, expected);

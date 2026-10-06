@@ -26,6 +26,7 @@
 namespace sup::gui
 {
 
+class ISettingsManager;
 class WaveformEditor;
 
 /**
@@ -41,6 +42,14 @@ class AnyValueWaveformEditor : public AbstractAnyValueEditor
 
 public:
   explicit AnyValueWaveformEditor(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing editor settings in application settings.
+   *
+   * The settings manager must outlive the editor.
+   */
+  explicit AnyValueWaveformEditor(ISettingsManager& settings_manager,
+                                  QWidget* parent_widget = nullptr);
   ~AnyValueWaveformEditor() override;
 
   AnyValueWaveformEditor(const AnyValueWaveformEditor&) = delete;
@@ -53,6 +62,8 @@ public:
   std::unique_ptr<sup::gui::AnyValueItem> GetResult() const override;
 
 private:
+  AnyValueWaveformEditor(WaveformEditor* waveform_editor, QWidget* parent_widget);
+
   WaveformEditor* m_waveform_editor{nullptr};
 };
 

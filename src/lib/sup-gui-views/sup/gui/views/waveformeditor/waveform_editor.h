@@ -37,6 +37,7 @@ class ChartViewportItem;
 namespace sup::gui
 {
 
+class ISettingsManager;
 class WaveformEditorWidget;
 struct WaveformEditorContext;
 
@@ -54,6 +55,13 @@ class WaveformEditor : public QWidget
 
 public:
   explicit WaveformEditor(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing editor settings in application settings.
+   *
+   * The settings manager must outlive the editor.
+   */
+  explicit WaveformEditor(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
   ~WaveformEditor() override;
 
   WaveformEditor(const WaveformEditor&) = delete;
@@ -67,6 +75,8 @@ public:
   std::vector<std::pair<double, double>> GetWaveform() const;
 
 private:
+  WaveformEditor(WaveformEditorWidget* editor_widget, QWidget* parent_widget);
+
   std::unique_ptr<mvvm::ApplicationModel> m_model;
 
   QToolBar* m_tool_bar{nullptr};
