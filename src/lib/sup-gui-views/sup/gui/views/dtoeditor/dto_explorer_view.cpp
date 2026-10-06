@@ -45,7 +45,7 @@ constexpr auto kSplitterSettingName = "DtoExplorerView/splitter";
 DtoExplorerView::DtoExplorerView(ISettingsManager& settings_manager, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_explorer_panel(new DtoExplorerPanel(settings_manager))
-    , m_json_view(new sup::gui::CodeView(CodeView::kJSON))
+    , m_json_view(new sup::gui::CodeView(CodeView::kJSON, settings_manager))
     , m_right_panel(new sup::gui::ItemStackWidget)
     , m_splitter(new sup::gui::SettingsSplitter(kSplitterSettingName, settings_manager))
 {

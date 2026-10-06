@@ -25,6 +25,7 @@
 
 #include <QDialog>
 #include <memory>
+#include <string>
 
 class QPlainTextEdit;
 class QLabel;
@@ -32,6 +33,8 @@ class QLayout;
 
 namespace sup::gui
 {
+
+class ISettingsManager;
 
 /**
  * @brief The DetailedMessageBox class is a dialog similar to QMessageBox with a place for large
@@ -60,9 +63,28 @@ public:
   DetailedMessageBox(const QString& setting_key, const MessageEvent& message,
                      QWidget* parent_widget = nullptr);
 
+  /**
+   * @brief Creates a message box storing its geometry in application settings.
+   *
+   * The geometry is restored on construction and stored when the dialog is closed. The settings
+   * manager must outlive the dialog.
+   *
+   * @param group The settings group of the dialog geometry.
+   * @param settings_manager The manager to store settings.
+   * @param message A message event to display.
+   * @param parent_widget An optional parent widget.
+   */
+  DetailedMessageBox(const std::string& group, ISettingsManager& settings_manager,
+                     const MessageEvent& message, QWidget* parent_widget = nullptr);
+
   QPlainTextEdit* GetTextEdit() const;
 
+  void done(int result) override;
+
 private:
+  DetailedMessageBox(const QString& setting_key, ISettingsManager* settings_manager,
+                     const MessageEvent& message, QWidget* parent_widget);
+
   std::unique_ptr<QLayout> CreateIconAndTextLayout();
   std::unique_ptr<QLayout> CreateInformativeLayout(const std::string& informative);
   static std::unique_ptr<QLayout> CreateIconLayout();
@@ -78,6 +100,7 @@ private:
   void WriteSettings();
 
   QString m_setting_group;
+  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based dialog
   QLabel* m_text_label{nullptr};
   QLabel* m_informative_label{nullptr};
   QPlainTextEdit* m_detailed_text_edit{nullptr};

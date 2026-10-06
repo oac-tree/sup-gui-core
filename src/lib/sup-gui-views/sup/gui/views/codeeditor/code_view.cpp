@@ -20,6 +20,7 @@
 
 #include "code_view.h"
 
+#include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/codeeditor/code_editor.h>
 
 #include <mvvm/utils/file_utils.h>
@@ -41,6 +42,12 @@ namespace
 const QString kGroupName("CodeView");
 const QString kWorkdirSettingName = kGroupName + "/" + "workdir";
 
+//! Settings group of the export directory.
+constexpr auto kWorkdirSettingsGroup = "CodeView/workdir";
+
+//! File filter of the export dialog.
+const QString kExportFilter("XML files (*.xml *.XML);;JSON files (*.json)");
+
 QString SuggestFileName(CodeView::LanguageDefinition language)
 {
   return language == CodeView::kXML ? "untitled.xml" : "untitled.json";
@@ -54,7 +61,22 @@ QString LanguageName(CodeView::LanguageDefinition language)
 }  // namespace
 
 CodeView::CodeView(LanguageDefinition language, QWidget* parent_widget)
-    : QWidget(parent_widget), m_text_edit(new CodeEditor), m_language(language)
+    : CodeView(language, nullptr, parent_widget)
+{
+}
+
+CodeView::CodeView(LanguageDefinition language, ISettingsManager& settings_manager,
+                   QWidget* parent_widget)
+    : CodeView(language, &settings_manager, parent_widget)
+{
+}
+
+CodeView::CodeView(LanguageDefinition language, ISettingsManager* settings_manager,
+                   QWidget* parent_widget)
+    : QWidget(parent_widget)
+    , m_text_edit(new CodeEditor)
+    , m_language(language)
+    , m_settings_manager(settings_manager)
 {
   setWindowTitle(LanguageName(language) + " View");
 
@@ -67,12 +89,18 @@ CodeView::CodeView(LanguageDefinition language, QWidget* parent_widget)
   m_text_edit->SetDefinition(LanguageName(language));
   m_text_edit->setReadOnly(true);
 
-  ReadSettings();
+  if (m_settings_manager == nullptr)
+  {
+    ReadSettings();
+  }
 }
 
 CodeView::~CodeView()
 {
-  WriteSettings();
+  if (m_settings_manager == nullptr)
+  {
+    WriteSettings();
+  }
 }
 
 void CodeView::SetFile(const QString& file_name)
@@ -115,14 +143,25 @@ void CodeView::ClearText()
 
 void CodeView::OnExportToFileRequest()
 {
-  auto file_name = QFileDialog::getSaveFileName(
-      this, "Save File", m_current_workdir + "/" + SuggestFileName(m_language),
-      tr("XML files (*.xml *.XML);;JSON files (*.json)"));
+  QString file_name;
+  if (m_settings_manager != nullptr)
+  {
+    file_name = GetDialogFileNameToSave(SuggestFileName(m_language), kExportFilter, this,
+                                        *m_settings_manager, kWorkdirSettingsGroup);
+  }
+  else
+  {
+    file_name = QFileDialog::getSaveFileName(
+        this, "Save File", m_current_workdir + "/" + SuggestFileName(m_language), kExportFilter);
+    if (!file_name.isEmpty())
+    {
+      auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
+      m_current_workdir = QString::fromStdString(parent_path);
+    }
+  }
 
   if (!file_name.isEmpty())
   {
-    auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-    m_current_workdir = QString::fromStdString(parent_path);
     QFile file(file_name);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -132,7 +171,7 @@ void CodeView::OnExportToFileRequest()
   }
 }
 
-CodeEditor *CodeView::GetCodeEditor()
+CodeEditor* CodeView::GetCodeEditor()
 {
   return m_text_edit;
 }

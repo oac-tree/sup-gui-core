@@ -236,7 +236,7 @@ void AnyValueEditorMainWindowActions::OnApplicationSettingsDialog()
 {
   // temporary dialog model filled from the settings manager
   auto settings_model = CreatePersistentSettingsModel(m_settings_manager);
-  SettingsEditorDialog dialog(*settings_model);
+  SettingsEditorDialog dialog(*settings_model, m_settings_manager);
   if (dialog.exec() == QDialog::Accepted)
   {
     dialog.PropagateSettingsToModel(*settings_model);

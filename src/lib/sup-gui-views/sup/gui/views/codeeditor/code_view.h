@@ -27,6 +27,7 @@ namespace sup::gui
 {
 
 class CodeEditor;
+class ISettingsManager;
 
 /**
  * @brief Simple viewer of XML/JSON content.
@@ -51,6 +52,14 @@ public:
   };
 
   explicit CodeView(LanguageDefinition language = kXML, QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing the export directory in application settings.
+   *
+   * The settings manager must outlive the view.
+   */
+  CodeView(LanguageDefinition language, ISettingsManager& settings_manager,
+           QWidget* parent_widget = nullptr);
   ~CodeView() override;
 
   CodeView(const CodeView&) = delete;
@@ -71,6 +80,8 @@ public:
   CodeEditor* GetCodeEditor();
 
 private:
+  CodeView(LanguageDefinition language, ISettingsManager* settings_manager, QWidget* parent_widget);
+
   struct ScrollBarPosition
   {
     int vertical{0};
@@ -86,6 +97,7 @@ private:
   QString m_current_workdir;
   ScrollBarPosition m_cached_scrollbar_pos;
   LanguageDefinition m_language;
+  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based view
 };
 
 }  // namespace sup::gui

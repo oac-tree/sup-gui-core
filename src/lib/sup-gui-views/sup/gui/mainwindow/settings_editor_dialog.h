@@ -22,6 +22,8 @@
 #define SUP_GUI_MAINWINDOW_SETTINGS_EDITOR_DIALOG_H_
 
 #include <QDialog>
+#include <functional>
+#include <memory>
 
 class QLabel;
 
@@ -33,6 +35,7 @@ class ISessionModel;
 namespace sup::gui
 {
 
+class ISettingsManager;
 class SettingsEditor;
 
 /**
@@ -46,6 +49,15 @@ public:
   using widget_factory_func_t = std::function<std::unique_ptr<QWidget>()>;
 
   explicit SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing the dialog geometry in application settings.
+   *
+   * The geometry is restored on construction and stored when the dialog is closed. The settings
+   * manager must outlive the dialog.
+   */
+  SettingsEditorDialog(const mvvm::ISessionModel& model, ISettingsManager& settings_manager,
+                       QWidget* parent_widget = nullptr);
   ~SettingsEditorDialog() override;
 
   SettingsEditorDialog(const SettingsEditorDialog&) = delete;
@@ -63,10 +75,15 @@ public:
    */
   void RegisterWidget(const std::string& key, const widget_factory_func_t& factory_func);
 
+  void done(int result) override;
+
 protected:
   void keyPressEvent(QKeyEvent* event) override;
 
 private:
+  SettingsEditorDialog(const mvvm::ISessionModel& model, ISettingsManager* settings_manager,
+                       QWidget* parent_widget);
+
   /**
    * @brief Saves results of editing in persistent settings of QSettings file.
    */
@@ -84,6 +101,7 @@ private:
 
   QLabel* m_label{nullptr};
   SettingsEditor* m_settings_editor{nullptr};
+  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based dialog
 };
 
 }  // namespace sup::gui

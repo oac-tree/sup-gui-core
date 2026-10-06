@@ -23,7 +23,9 @@
 #include "settings_editor.h"
 #include "settings_helper.h"
 
+#include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/widgets/dialog_helper.h>
+#include <sup/gui/widgets/window_info.h>
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/style/mvvm_style_helper.h>
@@ -42,10 +44,36 @@ namespace
 const QString kGroupName = "SettingsEditorDialog";
 const QString kWindowSizeSettingName = kGroupName + "/" + "size";
 
+//! Settings group of the dialog geometry.
+constexpr auto kWindowSettingsGroup = "SettingsEditorDialog";
+
+//! Returns the default dialog size.
+QSize GetDefaultSize()
+{
+  return {mvvm::style::UnitSize(30), mvvm::style::UnitSize(30)};
+}
+
 }  // namespace
 
 SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget)
-    : QDialog(parent_widget), m_label(new QLabel), m_settings_editor(new SettingsEditor(model))
+    : SettingsEditorDialog(model, nullptr, parent_widget)
+{
+}
+
+SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model,
+                                           ISettingsManager& settings_manager,
+                                           QWidget* parent_widget)
+    : SettingsEditorDialog(model, &settings_manager, parent_widget)
+{
+}
+
+SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model,
+                                           ISettingsManager* settings_manager,
+                                           QWidget* parent_widget)
+    : QDialog(parent_widget)
+    , m_label(new QLabel)
+    , m_settings_editor(new SettingsEditor(model))
+    , m_settings_manager(settings_manager)
 {
   setWindowTitle("Application Settings");
 
@@ -63,7 +91,10 @@ SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model, QWi
 
 SettingsEditorDialog::~SettingsEditorDialog()
 {
-  WriteSettings();
+  if (m_settings_manager == nullptr)
+  {
+    WriteSettings();
+  }
 }
 
 void SettingsEditorDialog::PropagateSettingsToModel(mvvm::ISessionModel& model)
@@ -75,6 +106,16 @@ void SettingsEditorDialog::RegisterWidget(const std::string& key,
                                           const widget_factory_func_t& factory_func)
 {
   m_settings_editor->RegisterWidget(key, factory_func);
+}
+
+void SettingsEditorDialog::done(int result)
+{
+  if (m_settings_manager != nullptr)
+  {
+    m_settings_manager->Set(kWindowSettingsGroup, WindowInfo{saveGeometry()},
+                            SettingsScope::kApplication);
+  }
+  QDialog::done(result);
 }
 
 void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)
@@ -92,9 +133,19 @@ void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)
 
 void SettingsEditorDialog::ReadSettings()
 {
+  if (m_settings_manager != nullptr)
+  {
+    const auto info =
+        m_settings_manager->Get<WindowInfo>(kWindowSettingsGroup, SettingsScope::kApplication);
+    if (!restoreGeometry(info.geometry))
+    {
+      resize(GetDefaultSize());
+    }
+    return;
+  }
+
   const QSettings settings;
-  const auto default_size = QSize(mvvm::style::UnitSize(30), mvvm::style::UnitSize(30));
-  resize(settings.value(kWindowSizeSettingName, default_size).toSize());
+  resize(settings.value(kWindowSizeSettingName, GetDefaultSize()).toSize());
 }
 
 void SettingsEditorDialog::WriteSettings()

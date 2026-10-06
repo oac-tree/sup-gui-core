@@ -28,9 +28,12 @@
 #include <QString>
 #include <cstdint>
 #include <optional>
+#include <string>
 
 namespace sup::gui
 {
+
+class ISettingsManager;
 
 /**
  * @brief Initialize core COA application.
@@ -131,7 +134,7 @@ bool SummonChangeSystemFontDialog();
  * @return Selected file name. Will be empty if dialog was canceled.
  */
 QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent = nullptr,
-                              const QString& key = {});
+                                const QString& key = {});
 
 /**
  * @brief Opens dialog and let user to select the file to save.
@@ -146,9 +149,40 @@ QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent = nullptr
  * @param key The key to store the setting in the global application persistent setting file.
  * @return Selected file name. Will be empty if dialog was canceled.
  */
-QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter, QWidget* parent = nullptr,
-                                const QString& key = {});
+QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter,
+                                QWidget* parent = nullptr, const QString& key = {});
 
+/**
+ * @brief Opens dialog and lets the user select the file to open.
+ *
+ * The dialog starts in the working directory stored in application settings. The directory of the
+ * selected file is stored back.
+ *
+ * @param filter Filter string (i.e. "All JSON files (*.json *.JSON)")
+ * @param parent The parent widget will be used to center file selection dialog.
+ * @param settings_manager The manager to store the working directory.
+ * @param group The settings group of the working directory.
+ * @return Selected file name. Will be empty if dialog was canceled.
+ */
+QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent,
+                                ISettingsManager& settings_manager, const std::string& group);
+
+/**
+ * @brief Opens dialog and lets the user select the file to save.
+ *
+ * The dialog starts in the working directory stored in application settings. The directory of the
+ * selected file is stored back.
+ *
+ * @param name_prototype For example "untitled.json"
+ * @param filter Filter string (i.e. "All JSON files (*.json *.JSON)")
+ * @param parent The parent widget will be used to center file selection dialog.
+ * @param settings_manager The manager to store the working directory.
+ * @param group The settings group of the working directory.
+ * @return Selected file name. Will be empty if dialog was canceled.
+ */
+QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter,
+                                QWidget* parent, ISettingsManager& settings_manager,
+                                const std::string& group);
 
 }  // namespace sup::gui
 

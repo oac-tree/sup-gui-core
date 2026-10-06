@@ -23,6 +23,8 @@
 #include <sup/gui/app/app_constants.h>
 #include <sup/gui/app/menu_bar_action_registry.h>
 #include <sup/gui/core/version_helper.h>
+#include <sup/gui/settings/i_settings_manager.h>
+#include <sup/gui/settings/workdir_info.h>
 #include <sup/gui/widgets/settings_callbacks.h>
 
 #include <mvvm/utils/file_utils.h>
@@ -68,6 +70,31 @@ std::optional<QString> GetPrefferedStyle(const QString& preferred_style)
     }
   }
   return std::nullopt;
+}
+
+//! Opens the dialog to select an existing file. Returns empty string if canceled.
+QString SelectFileToOpen(const QString& filter, QWidget* parent, const QString& working_dir)
+{
+  QFileDialog dialog(parent, "Select file to load", working_dir);
+  dialog.setFileMode(QFileDialog::ExistingFile);
+  dialog.setNameFilter(filter);
+  const QStringList selected_files =
+      (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
+  return selected_files.empty() ? QString() : selected_files.at(0);
+}
+
+//! Opens the dialog to select a file to save. Returns empty string if canceled.
+QString SelectFileToSave(const QString& name_prototype, const QString& filter, QWidget* parent,
+                         const QString& working_dir)
+{
+  return QFileDialog::getSaveFileName(parent, "Save File", working_dir + "/" + name_prototype,
+                                      filter);
+}
+
+//! Returns the directory of the file.
+QString GetParentDir(const QString& file_name)
+{
+  return QString::fromStdString(mvvm::utils::GetParentPath(file_name.toStdString()));
 }
 
 }  // namespace
@@ -233,18 +260,12 @@ QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent, const QS
     working_dir = read_func(key).toString();
   }
 
-  QFileDialog dialog(parent, "Select file to load", working_dir);
-  dialog.setFileMode(QFileDialog::ExistingFile);
-  dialog.setNameFilter(filter);
-  const QStringList selected_files =
-      (dialog.exec() == QDialog::Accepted) ? dialog.selectedFiles() : QStringList();
-  const QString file_name = selected_files.empty() ? QString() : selected_files.at(0);
+  const QString file_name = SelectFileToOpen(filter, parent, working_dir);
 
   if (!file_name.isEmpty() && !key.isEmpty())
   {
     const auto write_func = sup::gui::GetSettingsWriteFunc();
-    const auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-    write_func(key, QString::fromStdString(parent_path));
+    write_func(key, GetParentDir(file_name));
   }
 
   return file_name;
@@ -260,14 +281,44 @@ QString GetDialogFileNameToSave(const QString& name_prototype, const QString& fi
     working_dir = read_func(key).toString();
   }
 
-  const QString file_name =
-      QFileDialog::getSaveFileName(parent, "Save File", working_dir + "/" + name_prototype, filter);
+  const QString file_name = SelectFileToSave(name_prototype, filter, parent, working_dir);
 
   if (!file_name.isEmpty() && !key.isEmpty())
   {
     const auto write_func = sup::gui::GetSettingsWriteFunc();
-    const auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-    write_func(key, QString::fromStdString(parent_path));
+    write_func(key, GetParentDir(file_name));
+  }
+
+  return file_name;
+}
+
+QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent,
+                                ISettingsManager& settings_manager, const std::string& group)
+{
+  const auto workdir = settings_manager.Get<WorkdirInfo>(group, SettingsScope::kApplication);
+  const QString file_name = SelectFileToOpen(filter, parent, QString::fromStdString(workdir.path));
+
+  if (!file_name.isEmpty())
+  {
+    settings_manager.Set(group, WorkdirInfo{GetParentDir(file_name).toStdString()},
+                         SettingsScope::kApplication);
+  }
+
+  return file_name;
+}
+
+QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter,
+                                QWidget* parent, ISettingsManager& settings_manager,
+                                const std::string& group)
+{
+  const auto workdir = settings_manager.Get<WorkdirInfo>(group, SettingsScope::kApplication);
+  const QString file_name =
+      SelectFileToSave(name_prototype, filter, parent, QString::fromStdString(workdir.path));
+
+  if (!file_name.isEmpty())
+  {
+    settings_manager.Set(group, WorkdirInfo{GetParentDir(file_name).toStdString()},
+                         SettingsScope::kApplication);
   }
 
   return file_name;

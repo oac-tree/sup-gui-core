@@ -81,6 +81,24 @@ QString GetSplitterSettingName()
 //! Settings group of the main splitter.
 constexpr auto kSplitterSettingsGroup = "AnyValueEditor/splitter";
 
+//! Settings group of the import and export directory.
+constexpr auto kWorkdirSettingsGroup = "AnyValueEditor/workdir";
+
+//! File filter of import and export dialogs.
+const QString kJsonFilter("All JSON files (*.json *.JSON)");
+
+/**
+ * @brief Creates the text panel, storing its settings in the manager if given, or in QSettings.
+ */
+sup::gui::AnyValueEditorTextPanel* CreateTextPanel(sup::gui::ISettingsManager* settings_manager)
+{
+  if (settings_manager != nullptr)
+  {
+    return new sup::gui::AnyValueEditorTextPanel(*settings_manager);
+  }
+  return new sup::gui::AnyValueEditorTextPanel;
+}
+
 /**
  * @brief Creates the tree panel, storing its settings in the manager if given, or in QSettings.
  */
@@ -150,7 +168,7 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
     , m_action_handler(
           std::make_unique<AnyValueEditorActionHandler>(CreateActionContext(), nullptr))
     , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
-    , m_text_panel(new AnyValueEditorTextPanel)
+    , m_text_panel(CreateTextPanel(settings_manager))
     , m_tree_panel(CreateTreePanel(settings_manager))
     , m_quick_toolbar(new ScalarQuickToolbar(m_action_handler.get()))
     , m_left_panel(CreateLeftPanel())
@@ -198,7 +216,9 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container
 void AnyValueEditorWidget::OnImportFromFileRequest()
 {
   const QString file_name =
-      GetDialogFileNameToOpen("All JSON files (*.json *.JSON)", this, GetWorkdirSettingName());
+      m_settings_manager != nullptr
+          ? GetDialogFileNameToOpen(kJsonFilter, this, *m_settings_manager, kWorkdirSettingsGroup)
+          : GetDialogFileNameToOpen(kJsonFilter, this, GetWorkdirSettingName());
 
   if (file_name.isEmpty())
   {
@@ -210,8 +230,11 @@ void AnyValueEditorWidget::OnImportFromFileRequest()
 
 void AnyValueEditorWidget::OnExportToFileRequest()
 {
-  const auto file_name = GetDialogFileNameToSave("untitled.json", "All JSON files (*.json *.JSON)",
-                                                 this, GetWorkdirSettingName());
+  const auto file_name =
+      m_settings_manager != nullptr
+          ? GetDialogFileNameToSave("untitled.json", kJsonFilter, this, *m_settings_manager,
+                                    kWorkdirSettingsGroup)
+          : GetDialogFileNameToSave("untitled.json", kJsonFilter, this, GetWorkdirSettingName());
   if (!file_name.isEmpty())
   {
     m_action_handler->OnExportToFileRequest(file_name.toStdString());

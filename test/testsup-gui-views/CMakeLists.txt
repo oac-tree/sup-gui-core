@@ -15,6 +15,7 @@ target_sources(${test} PRIVATE
   configuration_tab_widget_tests.cpp
   container_helper_tests.cpp
   custom_splitter_controller_tests.cpp
+  dialog_settings_tests.cpp
   dto_compare_view_tests.cpp
   dto_composer_view_tests.cpp
   dto_explorer_view_tests.cpp

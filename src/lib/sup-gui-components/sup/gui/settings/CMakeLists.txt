@@ -18,4 +18,5 @@ target_sources(${library_name} PRIVATE
   settings_archive.h
   settings_manager.cpp
   settings_manager.h
+  workdir_info.h
 )

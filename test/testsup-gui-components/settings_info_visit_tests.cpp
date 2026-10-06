@@ -21,6 +21,7 @@
 #include <sup/gui/model/undo_settings_item.h>
 #include <sup/gui/settings/in_memory_settings_storage.h>
 #include <sup/gui/settings/settings_archive.h>
+#include <sup/gui/settings/workdir_info.h>
 
 #include <gtest/gtest.h>
 
@@ -78,6 +79,15 @@ TEST_F(SettingsInfoVisitTest, UndoInfoRoundTrip)
 
   EXPECT_FALSE(info.is_enabled);
   EXPECT_EQ(info.undo_limit, 42);
+}
+
+TEST_F(SettingsInfoVisitTest, WorkdirInfoRoundTrip)
+{
+  WriteToStorage(m_storage, kGroup, WorkdirInfo{"/home/user"});
+
+  const std::vector<std::string> expected_keys({"Group/path"});
+  EXPECT_EQ(m_storage.GetKeys(), expected_keys);
+  EXPECT_EQ(ReadFromStorage<WorkdirInfo>(m_storage, kGroup).path, "/home/user");
 }
 
 }  // namespace sup::gui::test

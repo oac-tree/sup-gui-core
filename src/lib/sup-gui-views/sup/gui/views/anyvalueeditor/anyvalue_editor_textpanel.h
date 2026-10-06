@@ -35,6 +35,7 @@ namespace sup::gui
 {
 
 class CodeView;
+class ISettingsManager;
 class VisibilityAgentBase;
 class AnyValueItem;
 class IMessageHandler;
@@ -50,6 +51,14 @@ class AnyValueEditorTextPanel : public QWidget
 
 public:
   explicit AnyValueEditorTextPanel(QWidget* parent_widget = nullptr);
+
+  /**
+   * @brief Constructor storing the export directory in application settings.
+   *
+   * The settings manager must outlive the panel.
+   */
+  explicit AnyValueEditorTextPanel(ISettingsManager& settings_manager,
+                                   QWidget* parent_widget = nullptr);
   ~AnyValueEditorTextPanel() override;
 
   AnyValueEditorTextPanel(const AnyValueEditorTextPanel&) = delete;
@@ -70,6 +79,8 @@ signals:
   void ExportToFileRequest();
 
 private:
+  AnyValueEditorTextPanel(CodeView* json_view, QWidget* parent_widget);
+
   void SetContainerIntern(mvvm::SessionItem* container);
   void SendMessage(const std::string& what) const;
   void SetupActions();

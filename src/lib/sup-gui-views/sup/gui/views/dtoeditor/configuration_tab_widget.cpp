@@ -41,7 +41,7 @@ ConfigurationTabWidget::ConfigurationTabWidget(ISettingsManager& settings_manage
                                                QWidget* parent_widget)
     : SessionItemWidget(parent_widget)
     , m_tree_panel(new AnyValueEditorTreePanel(settings_manager))
-    , m_text_panel(new AnyValueEditorTextPanel)
+    , m_text_panel(new AnyValueEditorTextPanel(settings_manager))
     , m_tab_widget(new QTabWidget)
 {
   auto layout = new QVBoxLayout(this);
