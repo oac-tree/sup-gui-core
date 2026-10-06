@@ -22,6 +22,8 @@
 
 #include <sup/gui/app/app_command_service.h>
 #include <sup/gui/app/menu_bar_action_registry.h>
+#include <sup/gui/settings/app_settings_storage.h>
+#include <sup/gui/settings/i_settings_manager.h>
 
 #include <gtest/gtest.h>
 
@@ -44,6 +46,12 @@ TEST_F(AnyValueEditorAppContextTest, InitialState)
   AnyValueEditorAppContext context;
 
   EXPECT_NE(dynamic_cast<AppCommandService*>(&context.GetCommandService()), nullptr);
+
+  auto& settings_manager = context.GetSettingsManager();
+  EXPECT_NE(
+      dynamic_cast<AppSettingsStorage*>(settings_manager.GetStorage(SettingsScope::kApplication)),
+      nullptr);
+  EXPECT_EQ(settings_manager.GetStorage(SettingsScope::kProject), nullptr);
 }
 
 }  // namespace sup::gui::test

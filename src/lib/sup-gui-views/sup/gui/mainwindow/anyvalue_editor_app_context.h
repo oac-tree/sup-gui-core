@@ -27,6 +27,9 @@ namespace sup::gui
 {
 
 class IAppCommandService;
+class ISettingsManager;
+class ISettingsStorage;
+class SettingsManager;
 
 /**
  * @brief The AnyValueEditorAppContext contains all common resources for AnyValueEditor application.
@@ -44,8 +47,19 @@ public:
 
   IAppCommandService& GetCommandService();
 
+  /**
+   * @brief Returns settings manager with application storage attached.
+   */
+  ISettingsManager& GetSettingsManager();
+
 private:
   std::unique_ptr<IAppCommandService> m_command_service;
+
+  //!< persistent storage for application settings, used by the settings manager
+  std::unique_ptr<ISettingsStorage> m_app_settings_storage;
+
+  //!< reads, writes and observes widget settings
+  std::unique_ptr<SettingsManager> m_settings_manager;
 };
 
 }  // namespace sup::gui

@@ -28,6 +28,7 @@ target_sources(${test} PRIVATE
   waveform_editor_tests.cpp
   waveform_table_component_provider_tests.cpp
   waveform_table_widget_tests.cpp
+  window_info_tests.cpp
 )
 
 target_link_libraries(${test} PRIVATE sup-gui-views sup-gui-core-test-utils)

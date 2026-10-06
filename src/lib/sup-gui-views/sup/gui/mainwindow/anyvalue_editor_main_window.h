@@ -21,6 +21,8 @@
 #ifndef SUP_GUI_MAINWINDOW_ANYVALUE_EDITOR_MAIN_WINDOW_H_
 #define SUP_GUI_MAINWINDOW_ANYVALUE_EDITOR_MAIN_WINDOW_H_
 
+#include <sup/gui/settings/scoped_callback.h>
+
 #include <mvvm/widgets/main_window_types.h>
 
 #include <QMainWindow>
@@ -102,6 +104,7 @@ private:
   std::unique_ptr<AnyValueEditorProject> m_project;
   AnyValueEditorMainWindowActions* m_action_manager{nullptr};
   AnyValueEditorWidget* m_anyvalue_editor{nullptr};
+  ScopedCallback m_window_settings_connection;
 };
 
 }  // namespace sup::gui

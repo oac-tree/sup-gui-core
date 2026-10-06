@@ -22,6 +22,7 @@
 #define SUP_GUI_MAINWINDOW_DTO_EDITOR_MAIN_WINDOW_H_
 
 #include <sup/gui/components/dto_editor_project.h>
+#include <sup/gui/settings/scoped_callback.h>
 
 #include <mvvm/widgets/main_window_types.h>
 
@@ -116,6 +117,7 @@ private:
   DtoCompareView* m_compare_view{nullptr};
   DtoComposerView* m_composer_view{nullptr};
   DtoWaveformView* m_waveform_view{nullptr};
+  ScopedCallback m_window_settings_connection;
 };
 
 }  // namespace sup::gui

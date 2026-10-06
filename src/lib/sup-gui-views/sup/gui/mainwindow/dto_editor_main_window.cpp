@@ -31,25 +31,25 @@
 #include <sup/gui/model/settings_constants.h>
 #include <sup/gui/model/sup_dto_model.h>
 #include <sup/gui/model/waveform_model.h>
+#include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/dtoeditor/dto_compare_view.h>
 #include <sup/gui/views/dtoeditor/dto_composer_view.h>
 #include <sup/gui/views/dtoeditor/dto_explorer_view.h>
 #include <sup/gui/views/dtoeditor/dto_waveform_view.h>
+#include <sup/gui/widgets/window_info.h>
 
 #include <mvvm/widgets/app_restarter.h>
 #include <mvvm/widgets/main_vertical_bar_widget.h>
 
 #include <QCloseEvent>
-#include <QMenuBar>
-#include <QSettings>
 #include <QDebug>
+#include <QMenuBar>
 
 namespace
 {
-const QString kGroupName = "MainWindow";
-const QString kWindowSizeSettingName = kGroupName + "/" + "size";
-const QString kWindowPosSettingName = kGroupName + "/" + "position";
+//! Settings group of main window geometry.
+constexpr auto kWindowSettingsGroup = "MainWindow";
 }  // namespace
 
 namespace sup::gui
@@ -140,19 +140,23 @@ void DtoEditorMainWindow::InitComponents()
 
 void DtoEditorMainWindow::ReadSettings()
 {
-  const QSettings settings;
-  resize(settings.value(kWindowSizeSettingName, QSize(800, 600)).toSize());
-
-  move(settings.value(kWindowPosSettingName, QPoint(800, 600)).toPoint());
+  auto& settings_manager = m_context.GetSettingsManager();
+  const auto window_info =
+      settings_manager.Get<WindowInfo>(kWindowSettingsGroup, SettingsScope::kApplication);
+  if (!restoreGeometry(window_info.geometry))
+  {
+    resize(QSize(800, 600));
+  }
+  m_window_settings_connection =
+      settings_manager.RegisterProvider(kWindowSettingsGroup, SettingsScope::kApplication,
+                                        [this]() { return WindowInfo{saveGeometry()}; });
   ReadApplicationSettings(*m_settings);
 }
 
 void DtoEditorMainWindow::WriteSettings()
 {
-  QSettings settings;
-  settings.setValue(kWindowSizeSettingName, size());
-  settings.setValue(kWindowPosSettingName, pos());
   WriteApplicationSettings(*m_settings);
+  m_context.GetSettingsManager().Collect(SettingsScope::kApplication);
 }
 
 bool DtoEditorMainWindow::CanCloseApplication()

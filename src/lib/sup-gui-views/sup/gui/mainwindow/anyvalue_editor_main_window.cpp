@@ -30,7 +30,9 @@
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/model/persistent_settings_model.h>
 #include <sup/gui/model/settings_constants.h>
+#include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_widget.h>
+#include <sup/gui/widgets/window_info.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/widgets/app_restarter.h>
@@ -38,24 +40,14 @@
 #include <QCloseEvent>
 #include <QCoreApplication>
 #include <QMenuBar>
-#include <QSettings>
 
 namespace sup::gui
 {
 
 namespace
 {
-const QString kMainWindowGroupName("MainWindow");
-
-QString GetWindowSizeSettingName()
-{
-  return kMainWindowGroupName + "/" + "size";
-}
-
-QString GetWindowPosSettingName()
-{
-  return kMainWindowGroupName + "/" + "position";
-}
+//! Settings group of main window geometry.
+constexpr auto kWindowSettingsGroup = "MainWindow";
 
 }  // namespace
 
@@ -117,18 +109,23 @@ void AnyValueEditorMainWindow::InitComponents()
 
 void AnyValueEditorMainWindow::ReadSettings()
 {
-  const QSettings settings;
-  resize(settings.value(GetWindowSizeSettingName(), QSize(800, 600)).toSize());
-  move(settings.value(GetWindowPosSettingName(), QPoint(200, 200)).toPoint());
+  auto& settings_manager = m_context.GetSettingsManager();
+  const auto window_info =
+      settings_manager.Get<WindowInfo>(kWindowSettingsGroup, SettingsScope::kApplication);
+  if (!restoreGeometry(window_info.geometry))
+  {
+    resize(QSize(800, 600));
+  }
+  m_window_settings_connection =
+      settings_manager.RegisterProvider(kWindowSettingsGroup, SettingsScope::kApplication,
+                                        [this]() { return WindowInfo{saveGeometry()}; });
   ReadApplicationSettings(*m_settings);
 }
 
 void AnyValueEditorMainWindow::WriteSettings()
 {
-  QSettings settings;
-  settings.setValue(GetWindowSizeSettingName(), size());
-  settings.setValue(GetWindowPosSettingName(), pos());
   WriteApplicationSettings(*m_settings);
+  m_context.GetSettingsManager().Collect(SettingsScope::kApplication);
 }
 
 bool AnyValueEditorMainWindow::CanCloseApplication()
