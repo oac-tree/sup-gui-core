@@ -32,6 +32,7 @@
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QApplication>
+#include <QDir>
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QLocale>
@@ -89,6 +90,15 @@ QString SelectFileToSave(const QString& name_prototype, const QString& filter, Q
 {
   return QFileDialog::getSaveFileName(parent, "Save File", working_dir + "/" + name_prototype,
                                       filter);
+}
+
+//! Returns the stored working directory, or the home directory if nothing is stored.
+sup::gui::WorkdirInfo GetWorkdirInfo(const sup::gui::ISettingsManager& settings_manager,
+                                     const std::string& group)
+{
+  return settings_manager.Get<sup::gui::WorkdirInfo>(
+      group, sup::gui::SettingsScope::kApplication,
+      sup::gui::WorkdirInfo{QDir::homePath().toStdString()});
 }
 
 //! Returns the directory of the file.
@@ -295,7 +305,7 @@ QString GetDialogFileNameToSave(const QString& name_prototype, const QString& fi
 QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent,
                                 ISettingsManager& settings_manager, const std::string& group)
 {
-  const auto workdir = settings_manager.Get<WorkdirInfo>(group, SettingsScope::kApplication);
+  const auto workdir = GetWorkdirInfo(settings_manager, group);
   const QString file_name = SelectFileToOpen(filter, parent, QString::fromStdString(workdir.path));
 
   if (!file_name.isEmpty())
@@ -311,7 +321,7 @@ QString GetDialogFileNameToSave(const QString& name_prototype, const QString& fi
                                 QWidget* parent, ISettingsManager& settings_manager,
                                 const std::string& group)
 {
-  const auto workdir = settings_manager.Get<WorkdirInfo>(group, SettingsScope::kApplication);
+  const auto workdir = GetWorkdirInfo(settings_manager, group);
   const QString file_name =
       SelectFileToSave(name_prototype, filter, parent, QString::fromStdString(workdir.path));
 
