@@ -13,12 +13,6 @@ target_sources(${library_name} PRIVATE
   combo_tool_bar.h
   container_helper.cpp
   container_helper.h
-  custom_header_view.cpp
-  custom_header_view.h
-  custom_splitter.cpp
-  custom_splitter.h
-  custom_splitter_controller.cpp
-  custom_splitter_controller.h
   detailed_message_box.cpp
   detailed_message_box.h
   dialog_helper.cpp
