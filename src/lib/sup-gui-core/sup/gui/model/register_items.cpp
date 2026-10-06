@@ -21,7 +21,6 @@
 #include "register_items.h"
 
 #include "anyvalue_item.h"
-#include "common_settings_item.h"
 #include "scalartype_property_item.h"
 #include "settings_container_item.h"
 #include "undo_settings_item.h"
@@ -37,7 +36,6 @@ void RegisterSessionItems()
   (void)mvvm::RegisterGlobalItem<AnyValueEmptyItem>();
   (void)mvvm::RegisterGlobalItem<AnyValueScalarItem>();
   (void)mvvm::RegisterGlobalItem<AnyValueStructItem>();
-  (void)mvvm::RegisterGlobalItem<CommonSettingsItem>();
   (void)mvvm::RegisterGlobalItem<ScalarTypePropertyItem>();
   (void)mvvm::RegisterGlobalItem<SettingsContainerItem>();
   (void)mvvm::RegisterGlobalItem<UndoSettingsItem>();

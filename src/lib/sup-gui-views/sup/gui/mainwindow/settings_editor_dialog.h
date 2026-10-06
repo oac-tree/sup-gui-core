@@ -79,11 +79,6 @@ protected:
   void keyPressEvent(QKeyEvent* event) override;
 
 private:
-  /**
-   * @brief Saves results of editing in persistent settings of QSettings file.
-   */
-  void SaveToPersistentSettings();
-
   QLabel* m_label{nullptr};
   SettingsEditor* m_settings_editor{nullptr};
   ISettingsManager& m_settings_manager;

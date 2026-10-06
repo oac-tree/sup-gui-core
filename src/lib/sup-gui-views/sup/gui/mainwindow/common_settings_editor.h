@@ -36,7 +36,7 @@ namespace sup::gui
 {
 
 /**
- * @brief The CommonSettingsEditor class is intended to present CommonSettingsItem.
+ * @brief The CommonSettingsEditor class presents properties of a settings item.
  */
 class CommonSettingsEditor : public SessionItemWidget
 {

@@ -10,8 +10,6 @@ target_sources(${library_name} PRIVATE
   anyvalue_item_utils.h
   anyvalue_utils.cpp
   anyvalue_utils.h
-  common_settings_item.cpp
-  common_settings_item.h
   configuration_container_item.cpp
   configuration_container_item.h
   configuration_item.cpp

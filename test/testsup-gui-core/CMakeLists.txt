@@ -22,7 +22,6 @@ target_sources(${test} PRIVATE
   scalar_conversion_utils_tests.cpp
   scalartype_property_item_tests.cpp
   settings_container_item_tests.cpp
-  settings_item_tests.cpp
   standard_message_handlers_tests.cpp
   sup_dto_model_tests.cpp
   sup_gui_core_exceptions_tests.cpp
