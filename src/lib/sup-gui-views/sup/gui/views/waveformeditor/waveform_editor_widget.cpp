@@ -27,7 +27,6 @@
 #include <sup/gui/components/waveform_display_controller.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/style/style_helper.h>
-#include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/settings_splitter.h>
 
 #include <mvvm/model/application_model.h>
@@ -44,27 +43,8 @@ namespace sup::gui
 namespace
 {
 
-constexpr auto kGroupName("WaveformEditorWidget");
-
-QString GetSplitterSettingName()
-{
-  return QString(kGroupName) + "/" + "splitter";
-}
-
 //! Settings group of the splitter.
 constexpr auto kSplitterSettingsGroup = "WaveformEditorWidget/splitter";
-
-/**
- * @brief Creates the splitter, storing its state in the manager if given, or in QSettings.
- */
-QSplitter* CreateSplitter(ISettingsManager* settings_manager)
-{
-  if (settings_manager != nullptr)
-  {
-    return new SettingsSplitter(kSplitterSettingsGroup, *settings_manager);
-  }
-  return new CustomSplitter(GetSplitterSettingName());
-}
 
 /**
  * @brief Returns list of actions intended for canvas toolbar.
@@ -89,23 +69,12 @@ QList<QAction*> GetTableToolBarActions(WaveformEditorActions* editor_actions)
 
 }  // namespace
 
-WaveformEditorWidget::WaveformEditorWidget(QWidget* parent_widget)
-    : WaveformEditorWidget(nullptr, parent_widget)
-{
-}
-
 WaveformEditorWidget::WaveformEditorWidget(ISettingsManager& settings_manager,
-                                           QWidget* parent_widget)
-    : WaveformEditorWidget(&settings_manager, parent_widget)
-{
-}
-
-WaveformEditorWidget::WaveformEditorWidget(ISettingsManager* settings_manager,
                                            QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_action_handler(new WaveformEditorActionHandler(CreateActionContext(), this))
     , m_actions(new WaveformEditorActions(m_action_handler, this))
-    , m_splitter(CreateSplitter(settings_manager))
+    , m_splitter(new SettingsSplitter(kSplitterSettingsGroup, settings_manager))
     , m_chart_canvas(new mvvm::ChartCanvas)
     , m_table_tool_bar(new QToolBar)
     , m_table_widget(new WaveformTableWidget(nullptr))
@@ -123,13 +92,10 @@ WaveformEditorWidget::WaveformEditorWidget(ISettingsManager* settings_manager,
   addActions(GetCanvasToolBarActions(m_actions));
 
   SetupConnections();
-  ReadSettings();
+  m_splitter->RestoreState();
 }
 
-WaveformEditorWidget::~WaveformEditorWidget()
-{
-  WriteSettings();
-}
+WaveformEditorWidget::~WaveformEditorWidget() = default;
 
 mvvm::LineSeriesItem* WaveformEditorWidget::GetLineSeriesItem() const
 {
@@ -204,24 +170,6 @@ void WaveformEditorWidget::SetupConnections()
   // propagate notification from canvas to toolbar, that
   connect(m_chart_canvas, &mvvm::ChartCanvas::OperationModeChanged, m_actions,
           &WaveformEditorActions::SetPointerButtonGroup);
-}
-
-void WaveformEditorWidget::ReadSettings()
-{
-  if (auto splitter = qobject_cast<SettingsSplitter*>(m_splitter); splitter != nullptr)
-  {
-    splitter->RestoreState();
-    return;
-  }
-  qobject_cast<CustomSplitter*>(m_splitter)->ReadSettings();
-}
-
-void WaveformEditorWidget::WriteSettings()
-{
-  if (auto splitter = qobject_cast<CustomSplitter*>(m_splitter); splitter != nullptr)
-  {
-    splitter->WriteSettings();
-  }
 }
 
 std::unique_ptr<QWidget> WaveformEditorWidget::CreateTableEnvelopWidget()

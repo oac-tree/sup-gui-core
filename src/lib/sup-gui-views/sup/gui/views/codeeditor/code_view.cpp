@@ -23,12 +23,8 @@
 #include <sup/gui/mainwindow/main_window_helper.h>
 #include <sup/gui/views/codeeditor/code_editor.h>
 
-#include <mvvm/utils/file_utils.h>
-
 #include <QFile>
-#include <QFileDialog>
 #include <QScrollBar>
-#include <QSettings>
 #include <QTextStream>
 #include <QToolBar>
 #include <QVBoxLayout>
@@ -38,9 +34,6 @@ namespace sup::gui
 
 namespace
 {
-
-const QString kGroupName("CodeView");
-const QString kWorkdirSettingName = kGroupName + "/" + "workdir";
 
 //! Settings group of the export directory.
 constexpr auto kWorkdirSettingsGroup = "CodeView/workdir";
@@ -60,18 +53,7 @@ QString LanguageName(CodeView::LanguageDefinition language)
 
 }  // namespace
 
-CodeView::CodeView(LanguageDefinition language, QWidget* parent_widget)
-    : CodeView(language, nullptr, parent_widget)
-{
-}
-
 CodeView::CodeView(LanguageDefinition language, ISettingsManager& settings_manager,
-                   QWidget* parent_widget)
-    : CodeView(language, &settings_manager, parent_widget)
-{
-}
-
-CodeView::CodeView(LanguageDefinition language, ISettingsManager* settings_manager,
                    QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_text_edit(new CodeEditor)
@@ -88,20 +70,9 @@ CodeView::CodeView(LanguageDefinition language, ISettingsManager* settings_manag
 
   m_text_edit->SetDefinition(LanguageName(language));
   m_text_edit->setReadOnly(true);
-
-  if (m_settings_manager == nullptr)
-  {
-    ReadSettings();
-  }
 }
 
-CodeView::~CodeView()
-{
-  if (m_settings_manager == nullptr)
-  {
-    WriteSettings();
-  }
-}
+CodeView::~CodeView() = default;
 
 void CodeView::SetFile(const QString& file_name)
 {
@@ -143,22 +114,8 @@ void CodeView::ClearText()
 
 void CodeView::OnExportToFileRequest()
 {
-  QString file_name;
-  if (m_settings_manager != nullptr)
-  {
-    file_name = GetDialogFileNameToSave(SuggestFileName(m_language), kExportFilter, this,
-                                        *m_settings_manager, kWorkdirSettingsGroup);
-  }
-  else
-  {
-    file_name = QFileDialog::getSaveFileName(
-        this, "Save File", m_current_workdir + "/" + SuggestFileName(m_language), kExportFilter);
-    if (!file_name.isEmpty())
-    {
-      auto parent_path = mvvm::utils::GetParentPath(file_name.toStdString());
-      m_current_workdir = QString::fromStdString(parent_path);
-    }
-  }
+  const auto file_name = GetDialogFileNameToSave(SuggestFileName(m_language), kExportFilter, this,
+                                                 m_settings_manager, kWorkdirSettingsGroup);
 
   if (!file_name.isEmpty())
   {
@@ -174,18 +131,6 @@ void CodeView::OnExportToFileRequest()
 CodeEditor* CodeView::GetCodeEditor()
 {
   return m_text_edit;
-}
-
-void CodeView::ReadSettings()
-{
-  const QSettings settings;
-  m_current_workdir = settings.value(kWorkdirSettingName, QDir::homePath()).toString();
-}
-
-void CodeView::WriteSettings()
-{
-  QSettings settings;
-  settings.setValue(kWorkdirSettingName, m_current_workdir);
 }
 
 void CodeView::SaveScrollBarPosition()

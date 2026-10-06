@@ -54,12 +54,11 @@ class WaveformEditor : public QWidget
   Q_OBJECT
 
 public:
-  explicit WaveformEditor(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing editor settings in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the editor.
+   * Editor settings are stored in application settings. The settings manager must outlive
+   * the editor.
    */
   explicit WaveformEditor(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
   ~WaveformEditor() override;
@@ -75,8 +74,6 @@ public:
   std::vector<std::pair<double, double>> GetWaveform() const;
 
 private:
-  WaveformEditor(WaveformEditorWidget* editor_widget, QWidget* parent_widget);
-
   std::unique_ptr<mvvm::ApplicationModel> m_model;
 
   QToolBar* m_tool_bar{nullptr};

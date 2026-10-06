@@ -38,7 +38,6 @@
 #include <sup/gui/style/style_helper.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog.h>
 #include <sup/gui/views/anyvalueeditor/anyvalue_editor_dialog_factory.h>
-#include <sup/gui/widgets/custom_splitter.h>
 #include <sup/gui/widgets/item_stack_widget.h>
 #include <sup/gui/widgets/message_helper.h>
 #include <sup/gui/widgets/scoped_cursor.h>
@@ -66,18 +65,6 @@ std::vector<sup::gui::AnyValueEditorActions::ActionKey> GetToolBarActionKeys()
           ActionKey::kMoveUp, ActionKey::kMoveDown};
 }
 
-constexpr auto kGroupName("AnyValueEditor");
-
-QString GetWorkdirSettingName()
-{
-  return QString(kGroupName) + "/" + "workdir";
-}
-
-QString GetSplitterSettingName()
-{
-  return QString(kGroupName) + "/" + "splitter";
-}
-
 //! Settings group of the main splitter.
 constexpr auto kSplitterSettingsGroup = "AnyValueEditorWidget/splitter";
 
@@ -86,42 +73,6 @@ constexpr auto kWorkdirSettingsGroup = "AnyValueEditorWidget/workdir";
 
 //! File filter of import and export dialogs.
 const QString kJsonFilter("All JSON files (*.json *.JSON)");
-
-/**
- * @brief Creates the text panel, storing its settings in the manager if given, or in QSettings.
- */
-sup::gui::AnyValueEditorTextPanel* CreateTextPanel(sup::gui::ISettingsManager* settings_manager)
-{
-  if (settings_manager != nullptr)
-  {
-    return new sup::gui::AnyValueEditorTextPanel(*settings_manager);
-  }
-  return new sup::gui::AnyValueEditorTextPanel;
-}
-
-/**
- * @brief Creates the tree panel, storing its settings in the manager if given, or in QSettings.
- */
-sup::gui::AnyValueEditorTreePanel* CreateTreePanel(sup::gui::ISettingsManager* settings_manager)
-{
-  if (settings_manager != nullptr)
-  {
-    return new sup::gui::AnyValueEditorTreePanel(*settings_manager);
-  }
-  return new sup::gui::AnyValueEditorTreePanel;
-}
-
-/**
- * @brief Creates the main splitter, storing its state in the manager if given, or in QSettings.
- */
-QSplitter* CreateSplitter(sup::gui::ISettingsManager* settings_manager)
-{
-  if (settings_manager != nullptr)
-  {
-    return new sup::gui::SettingsSplitter(kSplitterSettingsGroup, *settings_manager);
-  }
-  return new sup::gui::CustomSplitter(GetSplitterSettingName());
-}
 
 /**
  * @brief Maximum number of AnyValueItems for which the tree is expanded automatically.
@@ -148,32 +99,18 @@ void ExpandTreeIfSmallEnough(QTreeView& tree_view, const sup::gui::AnyValueItem*
 namespace sup::gui
 {
 
-AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
-                                           QWidget* parent_widget)
-    : AnyValueEditorWidget(command_service, nullptr, parent_widget)
-{
-}
-
 AnyValueEditorWidget::AnyValueEditorWidget(const AppViewContext& context, QWidget* parent_widget)
-    : AnyValueEditorWidget(context.command_service, &context.settings_manager, parent_widget)
-{
-}
-
-AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
-                                           ISettingsManager* settings_manager,
-                                           QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_command_service(command_service)
-    , m_settings_manager(settings_manager)
+    , m_context(context)
     , m_action_handler(
           std::make_unique<AnyValueEditorActionHandler>(CreateActionContext(), nullptr))
     , m_actions(new AnyValueEditorActions(m_action_handler.get(), this))
-    , m_text_panel(CreateTextPanel(settings_manager))
-    , m_tree_panel(CreateTreePanel(settings_manager))
+    , m_text_panel(new AnyValueEditorTextPanel(context.settings_manager))
+    , m_tree_panel(new AnyValueEditorTreePanel(context.settings_manager))
     , m_quick_toolbar(new ScalarQuickToolbar(m_action_handler.get()))
     , m_left_panel(CreateLeftPanel())
     , m_right_panel(CreateRightPanel())
-    , m_splitter(CreateSplitter(settings_manager))
+    , m_splitter(new SettingsSplitter(kSplitterSettingsGroup, context.settings_manager))
 {
   auto layout = new QVBoxLayout(this);
 
@@ -188,21 +125,19 @@ AnyValueEditorWidget::AnyValueEditorWidget(IAppCommandService& command_service,
 
   SetupConnections();
   SetupWidgetActions();
-  ReadSettings();
+  m_splitter->RestoreState();
 }
 
 AnyValueEditorWidget::~AnyValueEditorWidget()
 {
   try
   {
-    m_command_service.UnregisterWidgetUniqueId(this);
+    m_context.command_service.UnregisterWidgetUniqueId(this);
   }
   catch (const RuntimeException& ex)
   {
     std::cerr << "Problem in AnyValueEditorWidget:" << ex.what() << std::endl;
   }
-
-  WriteSettings();
 }
 
 void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container)
@@ -216,9 +151,7 @@ void AnyValueEditorWidget::SetAnyValueItemContainer(mvvm::SessionItem* container
 void AnyValueEditorWidget::OnImportFromFileRequest()
 {
   const QString file_name =
-      m_settings_manager != nullptr
-          ? GetDialogFileNameToOpen(kJsonFilter, this, *m_settings_manager, kWorkdirSettingsGroup)
-          : GetDialogFileNameToOpen(kJsonFilter, this, GetWorkdirSettingName());
+      GetDialogFileNameToOpen(kJsonFilter, this, m_context.settings_manager, kWorkdirSettingsGroup);
 
   if (file_name.isEmpty())
   {
@@ -230,11 +163,8 @@ void AnyValueEditorWidget::OnImportFromFileRequest()
 
 void AnyValueEditorWidget::OnExportToFileRequest()
 {
-  const auto file_name =
-      m_settings_manager != nullptr
-          ? GetDialogFileNameToSave("untitled.json", kJsonFilter, this, *m_settings_manager,
-                                    kWorkdirSettingsGroup)
-          : GetDialogFileNameToSave("untitled.json", kJsonFilter, this, GetWorkdirSettingName());
+  const auto file_name = GetDialogFileNameToSave("untitled.json", kJsonFilter, this,
+                                                 m_context.settings_manager, kWorkdirSettingsGroup);
   if (!file_name.isEmpty())
   {
     m_action_handler->OnExportToFileRequest(file_name.toStdString());
@@ -243,9 +173,7 @@ void AnyValueEditorWidget::OnExportToFileRequest()
 
 void AnyValueEditorWidget::OnImportWaveformRequest()
 {
-  auto dialog = m_settings_manager != nullptr
-                    ? CreateWaveformEditorDialog(GetTopItem(), *m_settings_manager, this)
-                    : CreateWaveformEditorDialog(GetTopItem(), this);
+  auto dialog = CreateWaveformEditorDialog(GetTopItem(), m_context.settings_manager, this);
   if (dialog->exec() == QDialog::Accepted)
   {
     // For the moment we replace entire top item with the new waveform. This might be changed later
@@ -307,28 +235,10 @@ void AnyValueEditorWidget::SetupWidgetActions()
   connect(m_show_right_sidebar, &QAction::triggered, this,
           [this](auto) { m_right_panel->setVisible(!m_right_panel->isVisible()); });
 
-  auto context = m_command_service.RegisterWidgetUniqueId(this);
-  m_actions->RegisterActionsForContext(context, m_command_service);
-  m_command_service.AddActionToCommand(m_show_right_sidebar, constants::kToggleRightPanelCommandId,
-                                       context);
-}
-
-void AnyValueEditorWidget::ReadSettings()
-{
-  if (auto splitter = qobject_cast<SettingsSplitter*>(m_splitter); splitter != nullptr)
-  {
-    splitter->RestoreState();
-    return;
-  }
-  qobject_cast<CustomSplitter*>(m_splitter)->ReadSettings();
-}
-
-void AnyValueEditorWidget::WriteSettings()
-{
-  if (auto splitter = qobject_cast<CustomSplitter*>(m_splitter); splitter != nullptr)
-  {
-    splitter->WriteSettings();
-  }
+  auto context = m_context.command_service.RegisterWidgetUniqueId(this);
+  m_actions->RegisterActionsForContext(context, m_context.command_service);
+  m_context.command_service.AddActionToCommand(m_show_right_sidebar,
+                                               constants::kToggleRightPanelCommandId, context);
 }
 
 AnyValueEditorContext AnyValueEditorWidget::CreateActionContext() const

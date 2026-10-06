@@ -28,44 +28,21 @@
 
 #include <QKeyEvent>
 #include <QLabel>
-#include <QSettings>
 #include <QVBoxLayout>
-
-namespace
-{
-
-QString GetDialogSizeSettingName(const QString& editor_name)
-{
-  return QString("AnyValueEditorDialog") + "/" + editor_name + "window_size";
-}
-
-}  // namespace
 
 namespace sup::gui
 {
 
 AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
-                                           QWidget* parent_widget)
-    : AnyValueEditorDialog(std::move(editor), nullptr, parent_widget)
-{
-}
-
-AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
                                            ISettingsManager& settings_manager,
-                                           QWidget* parent_widget)
-    : AnyValueEditorDialog(std::move(editor), &settings_manager, parent_widget)
-{
-}
-
-AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
-                                           ISettingsManager* settings_manager,
                                            QWidget* parent_widget)
     : QDialog(parent_widget)
     , m_anyvalue_editor(editor.release())
     , m_settings_manager(settings_manager)
 {
   setWindowTitle("Input request");
-  ReadSettings();
+  (void)restoreGeometry(
+      m_settings_manager.Get<WindowInfo>(GetSettingsGroup(), SettingsScope::kApplication).geometry);
 
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -74,13 +51,7 @@ AnyValueEditorDialog::AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEdito
   layout->addLayout(CreateButtonLayout(this, "Set AnyValue", "Cancel").release());
 }
 
-AnyValueEditorDialog::~AnyValueEditorDialog()
-{
-  if (m_settings_manager == nullptr)
-  {
-    WriteSettings();
-  }
-}
+AnyValueEditorDialog::~AnyValueEditorDialog() = default;
 
 void AnyValueEditorDialog::SetInitialValue(const AnyValueItem* item)
 {
@@ -99,11 +70,8 @@ void AnyValueEditorDialog::SetDescription(const QString& description)
 
 void AnyValueEditorDialog::done(int result)
 {
-  if (m_settings_manager != nullptr)
-  {
-    m_settings_manager->Set(GetSettingsGroup(), WindowInfo{saveGeometry()},
-                            SettingsScope::kApplication);
-  }
+  m_settings_manager.Set(GetSettingsGroup(), WindowInfo{saveGeometry()},
+                         SettingsScope::kApplication);
   QDialog::done(result);
 }
 
@@ -118,30 +86,6 @@ void AnyValueEditorDialog::keyPressEvent(QKeyEvent* event)
   }
 
   QDialog::keyPressEvent(event);
-}
-
-void AnyValueEditorDialog::ReadSettings()
-{
-  if (m_settings_manager != nullptr)
-  {
-    (void)restoreGeometry(
-        m_settings_manager->Get<WindowInfo>(GetSettingsGroup(), SettingsScope::kApplication)
-            .geometry);
-    return;
-  }
-
-  const QSettings settings;
-  const auto setting_name = GetDialogSizeSettingName(m_anyvalue_editor->windowTitle());
-  if (settings.contains(setting_name))
-  {
-    resize(settings.value(setting_name).toSize());
-  }
-}
-
-void AnyValueEditorDialog::WriteSettings()
-{
-  QSettings settings;
-  settings.setValue(GetDialogSizeSettingName(m_anyvalue_editor->windowTitle()), size());
 }
 
 std::string AnyValueEditorDialog::GetSettingsGroup() const

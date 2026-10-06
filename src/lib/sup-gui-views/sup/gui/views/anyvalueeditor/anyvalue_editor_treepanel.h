@@ -24,7 +24,6 @@
 #include <QModelIndex>
 #include <QWidget>
 
-class QHeaderView;
 class QTreeView;
 class QLineEdit;
 class QTimer;
@@ -41,6 +40,7 @@ namespace sup::gui
 
 class AnyValueItem;
 class ISettingsManager;
+class SettingsHeaderView;
 class TreeViewComponentProvider;
 
 /**
@@ -52,12 +52,10 @@ class AnyValueEditorTreePanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTreePanel(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing column widths in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the panel.
+   * Column widths are stored in application settings. The settings manager must outlive the panel.
    */
   explicit AnyValueEditorTreePanel(ISettingsManager& settings_manager,
                                    QWidget* parent_widget = nullptr);
@@ -83,13 +81,11 @@ signals:
   void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
-  AnyValueEditorTreePanel(QHeaderView* header, QWidget* parent_widget);
-
   void AdjustTreeAppearance();
 
   QTreeView* m_tree_view{nullptr};
   QLineEdit* m_line_edit{nullptr};
-  QHeaderView* m_header{nullptr};
+  SettingsHeaderView* m_header{nullptr};
 
   //! Coalesces bursts of keystrokes in the filter field into a single filter change.
   QTimer* m_filter_timer{nullptr};

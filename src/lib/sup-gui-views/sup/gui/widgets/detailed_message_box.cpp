@@ -31,7 +31,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPlainTextEdit>
-#include <QSettings>
 #include <QStyle>
 #include <QVBoxLayout>
 
@@ -41,11 +40,6 @@ namespace sup::gui
 namespace
 {
 
-QString GetDialogSizeSettingName(const QString& setting_key)
-{
-  return setting_key + "/size";
-}
-
 //! Returns the default dialog size.
 QSize GetDefaultSize()
 {
@@ -54,28 +48,10 @@ QSize GetDefaultSize()
 
 }  // namespace
 
-DetailedMessageBox::DetailedMessageBox(const MessageEvent& message, QWidget* parent_widget)
-    : DetailedMessageBox(QString(), message, parent_widget)
-{
-}
-
-DetailedMessageBox::DetailedMessageBox(const QString& setting_key, const MessageEvent& message,
-                                       QWidget* parent_widget)
-    : DetailedMessageBox(setting_key, nullptr, message, parent_widget)
-{
-}
-
 DetailedMessageBox::DetailedMessageBox(const std::string& group, ISettingsManager& settings_manager,
                                        const MessageEvent& message, QWidget* parent_widget)
-    : DetailedMessageBox(QString::fromStdString(group), &settings_manager, message, parent_widget)
-{
-}
-
-DetailedMessageBox::DetailedMessageBox(const QString& setting_key,
-                                       ISettingsManager* settings_manager,
-                                       const MessageEvent& message, QWidget* parent_widget)
     : QDialog(parent_widget)
-    , m_setting_group(setting_key)
+    , m_group(group)
     , m_settings_manager(settings_manager)
     , m_text_label(new QLabel(QString::fromStdString(message.text)))
     , m_detailed_text_edit(new QPlainTextEdit)
@@ -97,11 +73,10 @@ DetailedMessageBox::DetailedMessageBox(const QString& setting_key,
   m_detailed_text_edit->setReadOnly(true);
   m_detailed_text_edit->setLineWrapMode(QPlainTextEdit::LineWrapMode::NoWrap);
 
-  ReadSettings();
-
-  if (m_settings_manager == nullptr)
+  const auto info = m_settings_manager.Get<WindowInfo>(m_group, SettingsScope::kApplication);
+  if (!restoreGeometry(info.geometry))
   {
-    connect(this, &QDialog::accepted, this, &DetailedMessageBox::WriteSettings);
+    resize(GetDefaultSize());
   }
 }
 
@@ -150,45 +125,8 @@ std::unique_ptr<QLayout> DetailedMessageBox::CreateIconLayout()
 
 void DetailedMessageBox::done(int result)
 {
-  if (m_settings_manager != nullptr)
-  {
-    m_settings_manager->Set(m_setting_group.toStdString(), WindowInfo{saveGeometry()},
-                            SettingsScope::kApplication);
-  }
+  m_settings_manager.Set(m_group, WindowInfo{saveGeometry()}, SettingsScope::kApplication);
   QDialog::done(result);
-}
-
-void DetailedMessageBox::ReadSettings()
-{
-  if (m_setting_group.isEmpty())
-  {
-    return;
-  }
-
-  if (m_settings_manager != nullptr)
-  {
-    const auto info = m_settings_manager->Get<WindowInfo>(m_setting_group.toStdString(),
-                                                          SettingsScope::kApplication);
-    if (!restoreGeometry(info.geometry))
-    {
-      resize(GetDefaultSize());
-    }
-    return;
-  }
-
-  const QSettings settings;
-  resize(settings.value(GetDialogSizeSettingName(m_setting_group), GetDefaultSize()).toSize());
-}
-
-void DetailedMessageBox::WriteSettings()
-{
-  if (m_setting_group.isEmpty())
-  {
-    return;
-  }
-
-  QSettings settings;
-  settings.setValue(GetDialogSizeSettingName(m_setting_group), size());
 }
 
 }  // namespace sup::gui

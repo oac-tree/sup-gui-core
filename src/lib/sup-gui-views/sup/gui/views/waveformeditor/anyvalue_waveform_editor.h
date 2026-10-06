@@ -41,12 +41,11 @@ class AnyValueWaveformEditor : public AbstractAnyValueEditor
   Q_OBJECT
 
 public:
-  explicit AnyValueWaveformEditor(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing editor settings in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the editor.
+   * Editor settings are stored in application settings. The settings manager must outlive
+   * the editor.
    */
   explicit AnyValueWaveformEditor(ISettingsManager& settings_manager,
                                   QWidget* parent_widget = nullptr);
@@ -62,8 +61,6 @@ public:
   std::unique_ptr<sup::gui::AnyValueItem> GetResult() const override;
 
 private:
-  AnyValueWaveformEditor(WaveformEditor* waveform_editor, QWidget* parent_widget);
-
   WaveformEditor* m_waveform_editor{nullptr};
 };
 

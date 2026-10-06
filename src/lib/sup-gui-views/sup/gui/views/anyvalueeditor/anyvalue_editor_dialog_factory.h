@@ -32,11 +32,10 @@ class AnyValueEditorDialog;
 class AnyValueItem;
 class ISettingsManager;
 
-std::unique_ptr<AnyValueEditorDialog> CreateWaveformEditorDialog(const AnyValueItem* item,
-                                                                 QWidget* parent);
-
 /**
- * @brief Creates the waveform editor dialog storing its geometry in application settings.
+ * @brief Creates the waveform editor dialog.
+ *
+ * The dialog geometry and editor settings are stored in application settings.
  */
 std::unique_ptr<AnyValueEditorDialog> CreateWaveformEditorDialog(const AnyValueItem* item,
                                                                  ISettingsManager& settings_manager,

@@ -51,12 +51,11 @@ public:
     kJSON
   };
 
-  explicit CodeView(LanguageDefinition language = kXML, QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing the export directory in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the view.
+   * The export directory is stored in application settings. The settings manager must outlive the
+   * view.
    */
   CodeView(LanguageDefinition language, ISettingsManager& settings_manager,
            QWidget* parent_widget = nullptr);
@@ -80,24 +79,19 @@ public:
   CodeEditor* GetCodeEditor();
 
 private:
-  CodeView(LanguageDefinition language, ISettingsManager* settings_manager, QWidget* parent_widget);
-
   struct ScrollBarPosition
   {
     int vertical{0};
     int horizontal{0};
   };
 
-  void ReadSettings();
-  void WriteSettings();
   void SaveScrollBarPosition();
   void RestoreScrollBarPosition();
 
   CodeEditor* m_text_edit{nullptr};
-  QString m_current_workdir;
   ScrollBarPosition m_cached_scrollbar_pos;
   LanguageDefinition m_language;
-  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based view
+  ISettingsManager& m_settings_manager;
 };
 
 }  // namespace sup::gui

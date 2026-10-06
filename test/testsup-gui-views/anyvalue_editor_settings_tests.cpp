@@ -70,7 +70,7 @@ TEST_F(AnyValueEditorSettingsTest, WidgetCollect)
 TEST_F(AnyValueEditorSettingsTest, DialogGeometryRoundTrip)
 {
   {
-    AnyValueEditorDialog dialog(std::make_unique<AnyValueEditor>(), m_manager);
+    AnyValueEditorDialog dialog(std::make_unique<AnyValueEditor>(m_manager), m_manager);
     dialog.resize(321, 234);
     dialog.done(QDialog::Accepted);
   }
@@ -78,7 +78,7 @@ TEST_F(AnyValueEditorSettingsTest, DialogGeometryRoundTrip)
   // geometry is stored on close
   EXPECT_EQ(m_storage.GetKeys().size(), 1);
 
-  const AnyValueEditorDialog dialog(std::make_unique<AnyValueEditor>(), m_manager);
+  const AnyValueEditorDialog dialog(std::make_unique<AnyValueEditor>(m_manager), m_manager);
   EXPECT_EQ(dialog.size(), QSize(321, 234));
 }
 

@@ -25,7 +25,6 @@
 #include <sup/gui/core/version_helper.h>
 #include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/settings/workdir_info.h>
-#include <sup/gui/widgets/settings_callbacks.h>
 
 #include <mvvm/utils/file_utils.h>
 #include <mvvm/widgets/app_utils.h>
@@ -259,47 +258,6 @@ bool SummonChangeSystemFontDialog()
   }
 
   return font_was_changed;
-}
-
-QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent, const QString& key)
-{
-  QString working_dir{};
-  if (!key.isEmpty())
-  {
-    const auto read_func = sup::gui::GetSettingsReadFunc();
-    working_dir = read_func(key).toString();
-  }
-
-  const QString file_name = SelectFileToOpen(filter, parent, working_dir);
-
-  if (!file_name.isEmpty() && !key.isEmpty())
-  {
-    const auto write_func = sup::gui::GetSettingsWriteFunc();
-    write_func(key, GetParentDir(file_name));
-  }
-
-  return file_name;
-}
-
-QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter,
-                                QWidget* parent, const QString& key)
-{
-  QString working_dir{};
-  if (!key.isEmpty())
-  {
-    const auto read_func = sup::gui::GetSettingsReadFunc();
-    working_dir = read_func(key).toString();
-  }
-
-  const QString file_name = SelectFileToSave(name_prototype, filter, parent, working_dir);
-
-  if (!file_name.isEmpty() && !key.isEmpty())
-  {
-    const auto write_func = sup::gui::GetSettingsWriteFunc();
-    write_func(key, GetParentDir(file_name));
-  }
-
-  return file_name;
 }
 
 QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent,

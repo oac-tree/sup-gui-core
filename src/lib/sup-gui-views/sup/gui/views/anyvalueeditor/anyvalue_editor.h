@@ -47,12 +47,11 @@ class AnyValueEditor : public AbstractAnyValueEditor
   Q_OBJECT
 
 public:
-  explicit AnyValueEditor(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing editor settings in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the editor.
+   * Editor settings are stored in application settings. The settings manager must outlive the
+   * editor.
    */
   explicit AnyValueEditor(ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
   ~AnyValueEditor() override;
@@ -69,8 +68,6 @@ public:
   const AnyValueItem* GetTopItem() const;
 
 private:
-  AnyValueEditor(ISettingsManager* settings_manager, QWidget* parent_widget);
-
   std::unique_ptr<NullCommandService> m_command_service;
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   //!< Deliberately put in unique_ptr to delete widget before NullCommandService.

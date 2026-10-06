@@ -50,12 +50,11 @@ class AnyValueEditorTextPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorTextPanel(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing the export directory in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the panel.
+   * The export directory is stored in application settings. The settings manager must outlive the
+   * panel.
    */
   explicit AnyValueEditorTextPanel(ISettingsManager& settings_manager,
                                    QWidget* parent_widget = nullptr);
@@ -79,8 +78,6 @@ signals:
   void ExportToFileRequest();
 
 private:
-  AnyValueEditorTextPanel(CodeView* json_view, QWidget* parent_widget);
-
   void SetContainerIntern(mvvm::SessionItem* container);
   void SendMessage(const std::string& what) const;
   void SetupActions();

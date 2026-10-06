@@ -32,7 +32,6 @@
 
 #include <QKeyEvent>
 #include <QLabel>
-#include <QSettings>
 #include <QVBoxLayout>
 
 namespace sup::gui
@@ -40,9 +39,6 @@ namespace sup::gui
 
 namespace
 {
-
-const QString kGroupName = "SettingsEditorDialog";
-const QString kWindowSizeSettingName = kGroupName + "/" + "size";
 
 //! Settings group of the dialog geometry.
 constexpr auto kWindowSettingsGroup = "SettingsEditorDialog";
@@ -55,20 +51,8 @@ QSize GetDefaultSize()
 
 }  // namespace
 
-SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model, QWidget* parent_widget)
-    : SettingsEditorDialog(model, nullptr, parent_widget)
-{
-}
-
 SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model,
                                            ISettingsManager& settings_manager,
-                                           QWidget* parent_widget)
-    : SettingsEditorDialog(model, &settings_manager, parent_widget)
-{
-}
-
-SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model,
-                                           ISettingsManager* settings_manager,
                                            QWidget* parent_widget)
     : QDialog(parent_widget)
     , m_label(new QLabel)
@@ -86,16 +70,15 @@ SettingsEditorDialog::SettingsEditorDialog(const mvvm::ISessionModel& model,
   layout->addWidget(m_label);
   layout->addLayout(CreateButtonLayout(this, "Save settings", "Cancel").release());
 
-  ReadSettings();
-}
-
-SettingsEditorDialog::~SettingsEditorDialog()
-{
-  if (m_settings_manager == nullptr)
+  const auto info =
+      m_settings_manager.Get<WindowInfo>(kWindowSettingsGroup, SettingsScope::kApplication);
+  if (!restoreGeometry(info.geometry))
   {
-    WriteSettings();
+    resize(GetDefaultSize());
   }
 }
+
+SettingsEditorDialog::~SettingsEditorDialog() = default;
 
 void SettingsEditorDialog::PropagateSettingsToModel(mvvm::ISessionModel& model)
 {
@@ -110,11 +93,8 @@ void SettingsEditorDialog::RegisterWidget(const std::string& key,
 
 void SettingsEditorDialog::done(int result)
 {
-  if (m_settings_manager != nullptr)
-  {
-    m_settings_manager->Set(kWindowSettingsGroup, WindowInfo{saveGeometry()},
-                            SettingsScope::kApplication);
-  }
+  m_settings_manager.Set(kWindowSettingsGroup, WindowInfo{saveGeometry()},
+                         SettingsScope::kApplication);
   QDialog::done(result);
 }
 
@@ -129,29 +109,6 @@ void SettingsEditorDialog::keyPressEvent(QKeyEvent* event)
   }
 
   QDialog::keyPressEvent(event);
-}
-
-void SettingsEditorDialog::ReadSettings()
-{
-  if (m_settings_manager != nullptr)
-  {
-    const auto info =
-        m_settings_manager->Get<WindowInfo>(kWindowSettingsGroup, SettingsScope::kApplication);
-    if (!restoreGeometry(info.geometry))
-    {
-      resize(GetDefaultSize());
-    }
-    return;
-  }
-
-  const QSettings settings;
-  resize(settings.value(kWindowSizeSettingName, GetDefaultSize()).toSize());
-}
-
-void SettingsEditorDialog::WriteSettings()
-{
-  QSettings settings;
-  settings.setValue(kWindowSizeSettingName, size());
 }
 
 }  // namespace sup::gui

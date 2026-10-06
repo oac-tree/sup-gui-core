@@ -30,7 +30,6 @@ namespace sup::gui
 {
 
 class CollapsibleToolBar;
-class CustomSplitter;
 class ISettingsManager;
 class SettingsSplitter;
 
@@ -47,21 +46,8 @@ class CollapsibleListView : public QWidget
   Q_OBJECT
 
 public:
-  explicit CollapsibleListView(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor.
-   *
-   * @param setting_name The name of a setting key in QSettings file.
-   * @param parent_widget The parent widget of this view.
-   *
-   * @note The setting's name can be "WidgetName/collapsible_list" so the splitter state would be
-   * grouped with other settings of certain widget in QSetting file.
-   */
-  explicit CollapsibleListView(const QString& setting_name, QWidget* parent_widget = nullptr);
-
-  /**
-   * @brief Constructor storing the splitter state in application settings.
+   * @brief Main c-tor.
    *
    * The state is provided to the settings manager on Collect. The settings manager must outlive
    * the view.
@@ -106,23 +92,8 @@ public:
    */
   void ReadSettings();
 
-  /**
-   * @brief Writes splitter state.
-   *
-   * This method can be safely called at any moment, even on the main window destruction. All last
-   * known visibility flags of widgets populating a splitter will be correctly preserved.
-   *
-   * Does nothing for the view storing its state in the settings manager.
-   */
-  void WriteSettings();
-
 private:
-  //! Sets up the layout with the given splitter.
-  void InitSplitter(QSplitter* splitter);
-
-  QSplitter* m_splitter{nullptr};
-  CustomSplitter* m_custom_splitter{nullptr};
-  SettingsSplitter* m_settings_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
 };
 
 }  // namespace sup::gui

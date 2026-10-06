@@ -23,8 +23,6 @@
 
 #include <QWidget>
 
-class QSplitter;
-
 class QToolBar;
 
 namespace mvvm
@@ -45,6 +43,7 @@ class WaveformEditorActionHandler;
 struct WaveformEditorContext;
 class WaveformDisplayController;
 class ISettingsManager;
+class SettingsSplitter;
 
 /**
  * @brief The WaveformEditorWidget class is a waveform editor intended for editing of one waveform
@@ -58,12 +57,11 @@ class WaveformEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit WaveformEditorWidget(QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing the splitter state in application settings.
+   * @brief Main c-tor.
    *
-   * The settings manager must outlive the widget.
+   * The splitter state is stored in application settings. The settings manager must outlive
+   * the widget.
    */
   explicit WaveformEditorWidget(ISettingsManager& settings_manager,
                                 QWidget* parent_widget = nullptr);
@@ -116,11 +114,7 @@ public:
   WaveformEditorContext CreateActionContext() const;
 
 private:
-  WaveformEditorWidget(ISettingsManager* settings_manager, QWidget* parent_widget);
-
   void SetupConnections();
-  void ReadSettings();
-  void WriteSettings();
 
   /**
    * @brief Places table widget together with own toolbar.
@@ -131,7 +125,7 @@ private:
   WaveformEditorActions* m_actions{nullptr};
   std::unique_ptr<WaveformDisplayController> m_display_controller;
 
-  QSplitter* m_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
   QToolBar* m_table_tool_bar{nullptr};
   WaveformTableWidget* m_table_widget{nullptr};

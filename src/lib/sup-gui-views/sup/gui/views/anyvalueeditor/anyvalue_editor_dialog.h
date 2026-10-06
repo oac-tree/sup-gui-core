@@ -40,14 +40,11 @@ class AnyValueEditorDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
-                                QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing the dialog geometry in application settings.
+   * @brief Main c-tor.
    *
-   * The geometry is restored on construction and stored when the dialog is closed. The settings
-   * manager must outlive the dialog.
+   * The dialog geometry is restored on construction and stored when the dialog is closed. The
+   * settings manager must outlive the dialog.
    */
   AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
                        ISettingsManager& settings_manager, QWidget* parent_widget = nullptr);
@@ -78,24 +75,11 @@ protected:
   void keyPressEvent(QKeyEvent* event) override;
 
 private:
-  /**
-   * @brief Loads dialog persistence widget settings from disk.
-   */
-  void ReadSettings();
-
-  /**
-   * @brief Writes persistence widget settings on disk.
-   */
-  void WriteSettings();
-
-  AnyValueEditorDialog(std::unique_ptr<AbstractAnyValueEditor> editor,
-                       ISettingsManager* settings_manager, QWidget* parent_widget);
-
   //! Returns the settings group of the dialog geometry.
   std::string GetSettingsGroup() const;
 
   AbstractAnyValueEditor* m_anyvalue_editor{nullptr};
-  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based dialog
+  ISettingsManager& m_settings_manager;
 };
 
 }  // namespace sup::gui

@@ -122,37 +122,6 @@ bool ShouldResetSettingsAndRestart();
 bool SummonChangeSystemFontDialog();
 
 /**
- * @brief Opens dialog and let user to select the file to open.
- *
- * Will invoke file selection dialog and return user choice. The name will be empty if the user has
- * canceled the dialog. The last working directory will be saved in the persistence settings under
- * the given key (if non-empty), so the next time dialog will be opened there.
- *
- * @param filter Filter string (i.e. "All JSON files (*.json *.JSON)")
- * @param parent The parent widget will be used to center file selection dialog.
- * @param key The key to store the setting in the global application persistent setting file.
- * @return Selected file name. Will be empty if dialog was canceled.
- */
-QString GetDialogFileNameToOpen(const QString& filter, QWidget* parent = nullptr,
-                                const QString& key = {});
-
-/**
- * @brief Opens dialog and let user to select the file to save.
- *
- * Will invoke file selection dialog and return user choice. The name will be empty if the user has
- * canceled the dialog. The last working directory will be saved in the persistence settings under
- * the given key (if non-empty), so the next time dialog will be opened there.
- *
- * @param name_prototype For example "untitled.json"
- * @param filter Filter string (i.e. "All JSON files (*.json *.JSON)")
- * @param parent The parent widget will be used to center file selection dialog.
- * @param key The key to store the setting in the global application persistent setting file.
- * @return Selected file name. Will be empty if dialog was canceled.
- */
-QString GetDialogFileNameToSave(const QString& name_prototype, const QString& filter,
-                                QWidget* parent = nullptr, const QString& key = {});
-
-/**
  * @brief Opens dialog and lets the user select the file to open.
  *
  * The dialog starts in the working directory stored in application settings. The directory of the

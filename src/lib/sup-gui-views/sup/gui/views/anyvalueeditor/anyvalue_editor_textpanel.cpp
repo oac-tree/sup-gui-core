@@ -36,20 +36,10 @@
 namespace sup::gui
 {
 
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(QWidget* parent_widget)
-    : AnyValueEditorTextPanel(new CodeView(CodeView::kJSON), parent_widget)
-{
-}
-
 AnyValueEditorTextPanel::AnyValueEditorTextPanel(ISettingsManager& settings_manager,
                                                  QWidget* parent_widget)
-    : AnyValueEditorTextPanel(new CodeView(CodeView::kJSON, settings_manager), parent_widget)
-{
-}
-
-AnyValueEditorTextPanel::AnyValueEditorTextPanel(CodeView* json_view, QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_json_view(json_view)
+    , m_json_view(new CodeView(CodeView::kJSON, settings_manager))
     , m_message_handler(CreateWidgetOverlayMessageHandler(m_json_view))
 {
   setWindowTitle("JSON view");

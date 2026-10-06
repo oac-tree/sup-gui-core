@@ -23,7 +23,6 @@
 #include <sup/gui/components/anyvalue_editor_helper.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/views/anyvalueeditor/tree_view_component_provider.h>
-#include <sup/gui/widgets/custom_header_view.h>
 #include <sup/gui/widgets/settings_header_view.h>
 
 #include <mvvm/model/item_selection.h>
@@ -39,7 +38,6 @@ namespace sup::gui
 namespace
 {
 
-const QString kHeaderStateSettingName("AnyValueEditor/header_state");
 constexpr auto kHeaderSettingsGroup = "AnyValueEditorTreePanel/tree_header";
 const std::vector<int> kDefaultColumnStretch({2, 1, 1});
 
@@ -52,26 +50,13 @@ constexpr int kFilterDelayMsec{300};
 
 }  // namespace
 
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(QWidget* parent_widget)
-    : AnyValueEditorTreePanel(
-          new CustomHeaderView(kHeaderStateSettingName, kDefaultColumnStretch, nullptr),
-          parent_widget)
-{
-}
-
 AnyValueEditorTreePanel::AnyValueEditorTreePanel(ISettingsManager& settings_manager,
                                                  QWidget* parent_widget)
-    : AnyValueEditorTreePanel(
-          new SettingsHeaderView(kHeaderSettingsGroup, settings_manager, kDefaultColumnStretch),
-          parent_widget)
-{
-}
-
-AnyValueEditorTreePanel::AnyValueEditorTreePanel(QHeaderView* header, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_tree_view(new QTreeView)
     , m_line_edit(new QLineEdit)
-    , m_header(header)
+    , m_header(new SettingsHeaderView(kHeaderSettingsGroup, settings_manager, kDefaultColumnStretch,
+                                      this))
     , m_filter_timer(new QTimer(this))
     , m_component_provider(std::make_unique<TreeViewComponentProvider>(nullptr, m_tree_view))
 {
@@ -148,12 +133,7 @@ QTreeView* AnyValueEditorTreePanel::GetTreeView()
 
 void AnyValueEditorTreePanel::AdjustTreeAppearance()
 {
-  if (auto header = qobject_cast<SettingsHeaderView*>(m_header); header != nullptr)
-  {
-    header->AdjustColumnsWidth();
-    return;
-  }
-  qobject_cast<CustomHeaderView*>(m_header)->AdjustColumnsWidth();
+  m_header->AdjustColumnsWidth();
 }
 
 }  // namespace sup::gui

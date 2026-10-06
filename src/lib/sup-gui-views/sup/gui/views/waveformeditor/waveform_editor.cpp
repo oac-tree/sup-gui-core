@@ -37,21 +37,11 @@
 namespace sup::gui
 {
 
-WaveformEditor::WaveformEditor(QWidget* parent_widget)
-    : WaveformEditor(new WaveformEditorWidget, parent_widget)
-{
-}
-
 WaveformEditor::WaveformEditor(ISettingsManager& settings_manager, QWidget* parent_widget)
-    : WaveformEditor(new WaveformEditorWidget(settings_manager), parent_widget)
-{
-}
-
-WaveformEditor::WaveformEditor(WaveformEditorWidget* editor_widget, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_tool_bar(new QToolBar)
-    , m_editor_widget(editor_widget)
+    , m_editor_widget(new WaveformEditorWidget(settings_manager))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

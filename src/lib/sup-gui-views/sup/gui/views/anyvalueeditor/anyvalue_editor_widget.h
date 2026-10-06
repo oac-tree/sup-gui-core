@@ -21,6 +21,7 @@
 #ifndef SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 #define SUP_GUI_VIEWS_ANYVALUEEDITOR_ANYVALUE_EDITOR_WIDGET_H_
 
+#include <sup/gui/app/app_view_context.h>
 #include <sup/gui/components/anyvalue_editor_context.h>
 
 #include <mvvm/model/i_session_model.h>
@@ -28,8 +29,6 @@
 #include <QString>
 #include <QWidget>
 #include <memory>
-
-class QSplitter;
 
 namespace mvvm
 {
@@ -44,9 +43,7 @@ class AnyValueEditorActionHandler;
 class AnyValueEditorTextPanel;
 class AnyValueEditorTreePanel;
 class AnyValueEditorActions;
-class IAppCommandService;
-class ISettingsManager;
-struct AppViewContext;
+class SettingsSplitter;
 class ScalarQuickToolbar;
 
 /**
@@ -60,13 +57,11 @@ class AnyValueEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit AnyValueEditorWidget(IAppCommandService& command_service,
-                                QWidget* parent_widget = nullptr);
-
   /**
-   * @brief Constructor storing widget settings in application settings.
+   * @brief Main c-tor.
    *
-   * The services of the context must outlive the widget.
+   * Widget settings are stored in application settings. The services of the context must outlive
+   * the widget.
    */
   explicit AnyValueEditorWidget(const AppViewContext& context, QWidget* parent_widget = nullptr);
   ~AnyValueEditorWidget() override;
@@ -123,13 +118,8 @@ public:
   void ImportAnyValueFromFile(const QString& file_name);
 
 private:
-  AnyValueEditorWidget(IAppCommandService& command_service, ISettingsManager* settings_manager,
-                       QWidget* parent_widget);
-
   void SetupConnections();
   void SetupWidgetActions();
-  void ReadSettings();
-  void WriteSettings();
 
   /**
    * @brief Creates a context with all callbacks necessary for AnyValueEditorActions to function.
@@ -144,8 +134,7 @@ private:
   QWidget* CreateLeftPanel();
   QWidget* CreateRightPanel();
 
-  IAppCommandService& m_command_service;
-  ISettingsManager* m_settings_manager{nullptr};  //!< nullptr for QSettings-based widget
+  AppViewContext m_context;
 
   QAction* m_show_right_sidebar{nullptr};
   std::unique_ptr<AnyValueEditorActionHandler> m_action_handler;
@@ -155,7 +144,7 @@ private:
   ScalarQuickToolbar* m_quick_toolbar{nullptr};
   QWidget* m_left_panel{nullptr};
   QWidget* m_right_panel{nullptr};
-  QSplitter* m_splitter{nullptr};
+  SettingsSplitter* m_splitter{nullptr};
 };
 
 }  // namespace sup::gui
