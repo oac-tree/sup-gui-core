@@ -21,7 +21,6 @@
 #include "settings_editor.h"
 
 #include "common_settings_editor.h"
-#include "settings_helper.h"
 #include "stacked_widget_provider.h"
 
 #include <sup/gui/model/persistent_settings_model.h>

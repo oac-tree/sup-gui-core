@@ -21,7 +21,6 @@
 #include "settings_editor_dialog.h"
 
 #include "settings_editor.h"
-#include "settings_helper.h"
 
 #include <sup/gui/settings/i_settings_manager.h>
 #include <sup/gui/widgets/dialog_helper.h>

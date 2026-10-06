@@ -43,8 +43,6 @@ target_sources(${library_name} PRIVATE
   placeholder_widget.h
   scoped_cursor.cpp
   scoped_cursor.h
-  settings_callbacks.cpp
-  settings_callbacks.h
   settings_header_view.cpp
   settings_header_view.h
   settings_splitter.cpp
