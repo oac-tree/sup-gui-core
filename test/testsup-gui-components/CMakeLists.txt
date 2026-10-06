@@ -18,16 +18,21 @@ target_sources(${test} PRIVATE
   anyvalue_viewmodel_tests.cpp
   app_command_context_tests.cpp
   app_helper_tests.cpp
+  app_settings_storage_tests.cpp
   custom_children_waveform_strategies_tests.cpp
   custom_row_strategies_tests.cpp
   dto_composer_action_handler_tests.cpp
   dto_editor_project_tests.cpp
   dto_waveform_action_handler_tests.cpp
+  in_memory_settings_storage_tests.cpp
   item_filter_helper_tests.cpp
   json_panel_controller_tests.cpp
   main.cpp
   mime_conversion_helper_tests.cpp
   null_command_service_tests.cpp
+  scoped_callback_tests.cpp
+  settings_archive_tests.cpp
+  settings_manager_tests.cpp
   waveform_display_controller_tests.cpp
   waveform_editor_action_hadler_tests.cpp
   waveform_helper_tests.cpp

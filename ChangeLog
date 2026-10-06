@@ -1,5 +1,6 @@
 Changes for 2.4.0:
 
+- Add settings manager with application and project scopes
 - Speedup tree filtering
 - Do not expand very large trees by default
 - Do not generate JSON representation for very large trees
