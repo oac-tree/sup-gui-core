@@ -23,12 +23,13 @@
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
-#include <mvvm/editors/allint_spinbox_editor.h>
+#include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_selection.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/test/test_helper.h>
+#include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <gtest/gtest.h>
@@ -268,11 +269,12 @@ TEST_F(TreeViewComponentProviderTests, CheckCellEditorInFilteredStruct)
   delegate->setEditorData(editor.get(), scalar_value_index);
 
   // cell editor should get limits as in "abc" scalar field
-  auto int_editor = dynamic_cast<mvvm::AllIntSpinBoxEditor*>(editor.get());
+  auto int_editor = dynamic_cast<mvvm::AllIntSpinBox*>(editor.get());
   ASSERT_NE(int_editor, nullptr);
   const auto expected_min = std::numeric_limits<mvvm::int8>::lowest();
   const auto expected_max = std::numeric_limits<mvvm::int8>::max();
-  EXPECT_EQ(int_editor->GetLowerLimit(), mvvm::variant_t(expected_min));
+  EXPECT_EQ(int_editor->GetLimitedInteger()->GetLowerBoundAsVariant(),
+            mvvm::variant_t(expected_min));
 }
 
 }  // namespace sup::gui::test
