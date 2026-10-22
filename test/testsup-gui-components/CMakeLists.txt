@@ -21,6 +21,7 @@ target_sources(${test} PRIVATE
   app_settings_storage_tests.cpp
   app_view_context_tests.cpp
   custom_children_waveform_strategies_tests.cpp
+  custom_presentation_items_tests.cpp
   custom_row_strategies_tests.cpp
   dto_composer_action_handler_tests.cpp
   dto_editor_project_tests.cpp

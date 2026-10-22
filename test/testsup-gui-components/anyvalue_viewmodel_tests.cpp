@@ -106,6 +106,57 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(item->GetAnyTypeName(), mvvm::constants::kBooleanTypeName);
 }
 
+//! Value cell becomes a user checkable checkbox after the type change from int32 to bool
+//! (real-life bug).
+TEST_F(AnyValueViewModelTest, ScalarValueCellAfterIntegerToBooleanChange)
+{
+  mvvm::ApplicationModel model;
+  auto item = model.InsertItem<AnyValueScalarItem>();
+  item->SetAnyTypeName(mvvm::constants::kInt32TypeName);
+
+  AnyValueViewModel viewmodel(&model);
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
+
+  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  scalar_type_combo.SetValue(mvvm::constants::kBooleanTypeName);
+  EXPECT_TRUE(
+      viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
+
+  EXPECT_TRUE(viewmodel.flags(item_value_index).testFlag(Qt::ItemIsUserCheckable));
+  EXPECT_FALSE(viewmodel.flags(item_value_index).testFlag(Qt::ItemIsEditable));
+  EXPECT_EQ(viewmodel.data(item_value_index, Qt::CheckStateRole).toInt(), Qt::Unchecked);
+
+  EXPECT_TRUE(viewmodel.setData(item_value_index, Qt::Checked, Qt::CheckStateRole));
+  EXPECT_TRUE(item->Data<bool>());
+  EXPECT_FALSE(item->HasData(mvvm::DataRole::kCheckState));
+}
+
+//! Value cell becomes editable after the type change from bool to int32 (real-life bug).
+TEST_F(AnyValueViewModelTest, ScalarValueCellAfterBooleanToIntegerChange)
+{
+  mvvm::ApplicationModel model;
+  auto item = model.InsertItem<AnyValueScalarItem>();
+  item->SetAnyTypeName(mvvm::constants::kBooleanTypeName);
+
+  AnyValueViewModel viewmodel(&model);
+  auto item_value_index = viewmodel.index(0, 1, QModelIndex());
+  auto item_type_index = viewmodel.index(0, 2, QModelIndex());
+
+  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  scalar_type_combo.SetValue(mvvm::constants::kInt32TypeName);
+  EXPECT_TRUE(
+      viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
+
+  EXPECT_FALSE(viewmodel.flags(item_value_index).testFlag(Qt::ItemIsUserCheckable));
+  EXPECT_TRUE(viewmodel.flags(item_value_index).testFlag(Qt::ItemIsEditable));
+  EXPECT_FALSE(viewmodel.data(item_value_index, Qt::CheckStateRole).isValid());
+
+  EXPECT_TRUE(
+      viewmodel.setData(item_value_index, QVariant::fromValue(mvvm::int32{42}), Qt::EditRole));
+  EXPECT_EQ(item->Data<mvvm::int32>(), 42);
+}
+
 //! Testing how an empty struct item looks in a view model.
 
 TEST_F(AnyValueViewModelTest, EmptyStructItem)

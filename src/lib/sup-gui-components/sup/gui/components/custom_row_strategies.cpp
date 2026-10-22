@@ -20,6 +20,8 @@
 
 #include "custom_row_strategies.h"
 
+#include "custom_presentation_items.h"
+
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
@@ -80,7 +82,15 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
   }
 
   // second column
-  (void)result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
+  if (auto scalar_item = dynamic_cast<AnyValueScalarItem*>(anyvalue_item); scalar_item)
+  {
+    (void)result.emplace_back(std::make_unique<mvvm::ViewItem>(
+        std::make_unique<AnyValueScalarValuePresentationItem>(scalar_item)));
+  }
+  else
+  {
+    (void)result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
+  }
 
   // third column
   (void)result.emplace_back(
