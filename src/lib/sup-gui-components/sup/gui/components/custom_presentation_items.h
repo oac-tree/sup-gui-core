@@ -21,14 +21,13 @@
 #ifndef SUP_GUI_COMPONENTS_CUSTOM_PRESENTATION_ITEMS_H_
 #define SUP_GUI_COMPONENTS_CUSTOM_PRESENTATION_ITEMS_H_
 
-#include <mvvm/providers/abstract_presentation_item.h>
+#include <mvvm/providers/default_data_presentation_item.h>
 
 #include <memory>
 
 namespace mvvm
 {
 class BooleanDataPresentationItem;
-class DefaultDataPresentationItem;
 }  // namespace mvvm
 
 namespace sup::gui
@@ -76,6 +75,37 @@ private:
 
   std::unique_ptr<mvvm::DefaultDataPresentationItem> m_default_presentation;
   std::unique_ptr<mvvm::BooleanDataPresentationItem> m_boolean_presentation;
+};
+
+/**
+ * @brief The AnyValueScalarTypePresentationItem class presents the type name of AnyValueScalarItem.
+ *
+ * @details The cell shows the type name and is edited with a combo of scalar type names. A new
+ * selection changes the scalar type. Presentation-only roles are kept as in the base class.
+ */
+class AnyValueScalarTypePresentationItem : public mvvm::DefaultDataPresentationItem
+{
+public:
+  explicit AnyValueScalarTypePresentationItem(AnyValueScalarItem* item);
+
+  QVariant Data(mvvm::role_t qt_role) const override;
+
+  /**
+   * @brief Sets the data for the given Qt role.
+   *
+   * @details The edit role expects a ComboProperty. The selection of the current type does nothing.
+   */
+  bool SetData(const QVariant& data, mvvm::role_t qt_role) override;
+
+  /**
+   * @brief Returns true if the scalar is editable and has a type.
+   */
+  bool IsEditable() const override;
+
+  bool IsCheckable() const override;
+
+private:
+  AnyValueScalarItem* m_scalar_item{nullptr};
 };
 
 }  // namespace sup::gui

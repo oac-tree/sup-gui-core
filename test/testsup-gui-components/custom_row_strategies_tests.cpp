@@ -20,6 +20,7 @@
 
 #include "sup/gui/components/custom_row_strategies.h"
 
+#include <sup/gui/model/anyvalue_conversion_utils.h>
 #include <sup/gui/model/anyvalue_item.h>
 #include <sup/gui/model/anyvalue_item_constants.h>
 
@@ -51,7 +52,8 @@ TEST_F(CustomRowStrategiesTest, ScalarItem)
   item.SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item.Data<mvvm::int8>(), 0);
 
-  auto combo = item.GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  const auto combo =
+      mvvm::ComboProperty::CreateFrom(GetScalarTypeNames(), mvvm::constants::kInt8TypeName);
   const auto expected_variant = QVariant::fromValue(combo);
 
   AnyValueRowStrategy strategy;

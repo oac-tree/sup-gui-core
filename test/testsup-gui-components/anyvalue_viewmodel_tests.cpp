@@ -72,16 +72,14 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
   auto views = viewmodel.FindViews(item);
-  ASSERT_EQ(views.size(), 2);
+  ASSERT_EQ(views.size(), 3);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), item_value_index);
-
-  views = viewmodel.FindViews(item->FindItem(constants::kAnyValueTypeTag));
-  ASSERT_EQ(views.size(), 1);
-  EXPECT_EQ(viewmodel.indexFromItem(views[0]), item_type_index);
+  EXPECT_EQ(viewmodel.indexFromItem(views[2]), item_type_index);
 
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_displayname_index), item);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_value_index), item);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(item_type_index), item);
 
   EXPECT_EQ(viewmodel.data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
             constants::kScalarTypeName);
@@ -97,7 +95,7 @@ TEST_F(AnyValueViewModelTest, ScalarItem)
   EXPECT_EQ(item->Data<mvvm::int8>(), 42);
 
   // it should be possible to change scalar type
-  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  auto scalar_type_combo = viewmodel.data(item_type_index, Qt::EditRole).value<mvvm::ComboProperty>();
   scalar_type_combo.SetValue(mvvm::constants::kBooleanTypeName);
 
   EXPECT_TRUE(
@@ -118,7 +116,7 @@ TEST_F(AnyValueViewModelTest, ScalarValueCellAfterIntegerToBooleanChange)
   auto item_value_index = viewmodel.index(0, 1, QModelIndex());
   auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
-  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  auto scalar_type_combo = viewmodel.data(item_type_index, Qt::EditRole).value<mvvm::ComboProperty>();
   scalar_type_combo.SetValue(mvvm::constants::kBooleanTypeName);
   EXPECT_TRUE(
       viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
@@ -143,7 +141,7 @@ TEST_F(AnyValueViewModelTest, ScalarValueCellAfterBooleanToIntegerChange)
   auto item_value_index = viewmodel.index(0, 1, QModelIndex());
   auto item_type_index = viewmodel.index(0, 2, QModelIndex());
 
-  auto scalar_type_combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  auto scalar_type_combo = viewmodel.data(item_type_index, Qt::EditRole).value<mvvm::ComboProperty>();
   scalar_type_combo.SetValue(mvvm::constants::kInt32TypeName);
   EXPECT_TRUE(
       viewmodel.setData(item_type_index, QVariant::fromValue(scalar_type_combo), Qt::EditRole));
@@ -225,13 +223,10 @@ TEST_F(AnyValueViewModelTest, StructWithScalarItem)
   auto scalar_type_index = viewmodel.index(0, 2, struct_index);
 
   auto views = viewmodel.FindViews(scalar_item);
-  ASSERT_EQ(views.size(), 2);
+  ASSERT_EQ(views.size(), 3);
   EXPECT_EQ(viewmodel.indexFromItem(views[0]), scalar_displayname_index);
   EXPECT_EQ(viewmodel.indexFromItem(views[1]), scalar_value_index);
-
-  views = viewmodel.FindViews(scalar_item->FindItem(constants::kAnyValueTypeTag));
-  ASSERT_EQ(views.size(), 1);
-  EXPECT_EQ(viewmodel.indexFromItem(views[0]), scalar_type_index);
+  EXPECT_EQ(viewmodel.indexFromItem(views[2]), scalar_type_index);
 
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(scalar_displayname_index), scalar_item);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(scalar_value_index), scalar_item);
@@ -401,7 +396,8 @@ TEST_F(AnyValueViewModelTest, AnyValueItemInTheContainer)
   item->SetAnyTypeName(mvvm::constants::kInt8TypeName);
   EXPECT_EQ(item->Data<mvvm::int8>(), 0);
 
-  auto combo = item->GetItem(constants::kAnyValueTypeTag).Data<mvvm::ComboProperty>();
+  const auto combo =
+      mvvm::ComboProperty::CreateFrom(GetScalarTypeNames(), mvvm::constants::kInt8TypeName);
   const auto expected_variant = QVariant::fromValue(combo);
 
   EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);

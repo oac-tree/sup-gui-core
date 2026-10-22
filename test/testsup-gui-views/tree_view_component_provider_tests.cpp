@@ -21,7 +21,6 @@
 #include "sup/gui/views/anyvalueeditor/tree_view_component_provider.h"
 
 #include <sup/gui/model/anyvalue_item.h>
-#include <sup/gui/model/anyvalue_item_constants.h>
 
 #include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/model/application_model.h>
@@ -90,6 +89,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   auto item_type_index = proxymodel->index(0, 2);
   EXPECT_EQ(provider.GetItemFromViewIndex(item_displayname_index), item);
   EXPECT_EQ(provider.GetItemFromViewIndex(item_value_index), item);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_type_index), item);
 
   // check that proxymodel sees correct data
   EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
@@ -100,7 +100,7 @@ TEST_F(TreeViewComponentProviderTests, Scalar)
   provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelection().GetItem(), item);
 
-  const mvvm::ItemSelection expected_selection({item, item->FindItem(constants::kAnyValueTypeTag)});
+  const mvvm::ItemSelection expected_selection({item});
   EXPECT_EQ(provider.GetSelection(), expected_selection);
 
   EXPECT_EQ(spy_selected.count(), 1);
@@ -136,6 +136,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   auto item_type_index = proxymodel->index(0, 2);
   EXPECT_EQ(provider.GetItemFromViewIndex(item_displayname_index), item);
   EXPECT_EQ(provider.GetItemFromViewIndex(item_value_index), item);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_type_index), item);
 
   // check that proxymodel sees correct data
   EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),
@@ -145,9 +146,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainer)
   // making item selected
   provider.SetSelection(mvvm::ItemSelection(item));
   EXPECT_EQ(provider.GetSelection().GetItem(), item);
-  EXPECT_EQ(
-      provider.GetSelection().GetItems(),
-      std::vector<mvvm::SessionItem*>({item, item->FindItem(constants::kAnyValueTypeTag)}));
+  EXPECT_EQ(provider.GetSelection().GetItems(), std::vector<mvvm::SessionItem*>({item}));
 }
 
 //! Testing how struct looks like with two children, one filtered out
@@ -229,6 +228,7 @@ TEST_F(TreeViewComponentProviderTests, ScalarInContainerAfterModelReset)
   auto item_type_index = proxymodel->index(0, 2);
   EXPECT_EQ(provider.GetItemFromViewIndex(item_displayname_index), item);
   EXPECT_EQ(provider.GetItemFromViewIndex(item_value_index), item);
+  EXPECT_EQ(provider.GetItemFromViewIndex(item_type_index), item);
 
   // check that proxymodel sees correct data
   EXPECT_EQ(proxymodel->data(item_displayname_index, Qt::DisplayRole).toString().toStdString(),

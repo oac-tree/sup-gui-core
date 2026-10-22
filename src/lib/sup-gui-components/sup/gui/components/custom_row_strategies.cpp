@@ -81,20 +81,20 @@ std::vector<std::unique_ptr<mvvm::ViewItem>> AnyValueRowStrategy::ConstructRowIm
     (void)result.emplace_back(mvvm::CreateDisplayNameViewItem(anyvalue_item));
   }
 
-  // second column
+  // second and third columns
   if (auto scalar_item = dynamic_cast<AnyValueScalarItem*>(anyvalue_item); scalar_item)
   {
     (void)result.emplace_back(std::make_unique<mvvm::ViewItem>(
         std::make_unique<AnyValueScalarValuePresentationItem>(scalar_item)));
+    (void)result.emplace_back(std::make_unique<mvvm::ViewItem>(
+        std::make_unique<AnyValueScalarTypePresentationItem>(scalar_item)));
   }
   else
   {
     (void)result.emplace_back(mvvm::CreateDataViewItem(anyvalue_item));
+    (void)result.emplace_back(
+        mvvm::CreateDataViewItem(anyvalue_item->FindItem(constants::kAnyValueTypeTag)));
   }
-
-  // third column
-  (void)result.emplace_back(
-      mvvm::CreateDataViewItem(anyvalue_item->FindItem(constants::kAnyValueTypeTag)));
 
   return result;
 }
