@@ -115,14 +115,7 @@ std::unique_ptr<AnyValueItem> CreateAnyValueItem(const sup::dto::AnyValue& any_v
 void SetDataFromScalar(const dto::AnyValue& value, AnyValueItem& item)
 {
   auto variant = GetVariantFromScalar(value);
-
-  if (item.GetAnyTypeName() != value.GetTypeName())
-  {
-    (void)item.SetData(
-        mvvm::variant_t());  // it resets data on board and allow to change variant type
-    item.SetAnyTypeName(value.GetTypeName());
-  }
-
+  item.SetAnyTypeName(value.GetTypeName());
   (void)item.SetData(variant);
 }
 
