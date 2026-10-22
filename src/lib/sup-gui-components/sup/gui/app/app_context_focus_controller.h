@@ -21,7 +21,8 @@
 #ifndef SUP_GUI_APP_APP_CONTEXT_FOCUS_CONTROLLER_H_
 #define SUP_GUI_APP_APP_CONTEXT_FOCUS_CONTROLLER_H_
 
-class QWidget;
+#include <QPointer>
+#include <QWidget>
 
 namespace sup::gui
 {
@@ -49,11 +50,19 @@ public:
   AppContextFocusController(AppContextFocusController&&) = delete;
   AppContextFocusController& operator=(AppContextFocusController&&) = delete;
 
+  /**
+   * @brief Sets the context stack of all commands from the new focus widget and its parents.
+   *
+   * @details A nested call, made while the commands are updated, doesn't apply its widget
+   * directly. The running call applies the latest focus widget before it returns.
+   */
   void OnFocusWidgetUpdate(const QWidget* old, QWidget* now);
 
 private:
   IAppCommandContextWidgetMap& m_widget_map;
   IAppCommandRegistry& m_command_registry;
+  QPointer<QWidget> m_focus_widget;  //!< latest focus widget
+  bool m_is_updating{false};         //!< true while the commands are updated
 };
 
 }  // namespace sup::gui

@@ -10,6 +10,7 @@ Changes for 2.4.0:
 - Fix scalar value editing after the change of scalar type
 - Scalar type follows the scalar value, ScalarTypePropertyItem is removed. Projects saved with
   earlier versions can't be opened.
+- Fix undo/redo shortcuts lost after the scalar type change
 
 Changes for 2.3.0:
 

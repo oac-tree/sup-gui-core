@@ -31,6 +31,26 @@
 namespace sup::gui
 {
 
+namespace
+{
+
+//! Returns contexts of the widget and its parents, innermost first.
+std::vector<AppCommandContext> GetContextStack(const IAppCommandContextWidgetMap& widget_map,
+                                               const QWidget* widget)
+{
+  std::vector<AppCommandContext> result;
+  for (auto current = widget; current != nullptr; current = current->parentWidget())
+  {
+    if (widget_map.HasContext(current))
+    {
+      result.push_back(widget_map.GetContext(current));
+    }
+  }
+  return result;
+}
+
+}  // namespace
+
 AppContextFocusController::AppContextFocusController(IAppCommandContextWidgetMap& widget_map,
                                                      IAppCommandRegistry& command_registry)
     : m_widget_map(widget_map), m_command_registry(command_registry)
@@ -47,19 +67,22 @@ void AppContextFocusController::OnFocusWidgetUpdate(const QWidget* old, QWidget*
     return;
   }
 
-  std::vector<sup::gui::AppCommandContext> context_summary;
+  m_focus_widget = now;
 
-  auto current = now;
-  while (current != nullptr)
+  if (m_is_updating)
   {
-    if (m_widget_map.HasContext(current))
-    {
-      context_summary.push_back(m_widget_map.GetContext(current));
-    }
-    current = current->parentWidget();
+    // nested call during the command update, the running update applies the new widget
+    return;
   }
 
-  m_command_registry.SetContextStack(context_summary);
+  m_is_updating = true;
+  QPointer<QWidget> applied_widget;
+  do
+  {
+    applied_widget = m_focus_widget;
+    m_command_registry.SetContextStack(GetContextStack(m_widget_map, applied_widget));
+  } while (applied_widget != m_focus_widget);
+  m_is_updating = false;
 }
 
 }  // namespace sup::gui
