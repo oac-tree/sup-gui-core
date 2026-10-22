@@ -22,7 +22,7 @@
 
 #include "anyvalue_item_constants.h"
 #include "anyvalue_item_utils.h"
-#include "scalartype_property_item.h"
+#include "scalar_conversion_utils.h"
 
 #include <sup/gui/core/sup_gui_core_exceptions.h>
 
@@ -114,7 +114,6 @@ AnyValueScalarItem::AnyValueScalarItem() : AnyValueItem(mvvm::GetTypeName<AnyVal
 {
   (void)SetDisplayName(constants::kScalarTypeName);
   (void)SetToolTip(constants::kScalarTypeName);
-  (void)AddProperty<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetVisible(false);
 }
 
 std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
@@ -124,12 +123,22 @@ std::unique_ptr<mvvm::SessionItem> AnyValueScalarItem::Clone() const
 
 void AnyValueScalarItem::SetAnyTypeName(const std::string& type_name)
 {
-  GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).SetScalarTypeName(type_name);
+  if (type_name.empty() || (type_name == GetAnyTypeName()))
+  {
+    return;
+  }
+
+  const auto value = GetVariantFromScalarTypeName(type_name);
+
+  mvvm::utils::BeginMacro(*this, "Change scalar type");
+  (void)mvvm::utils::ReplaceData(*this, value, mvvm::DataRole::kData);
+  (void)SetToolTip(type_name);
+  mvvm::utils::EndMacro(*this);
 }
 
 std::string AnyValueScalarItem::GetAnyTypeName() const
 {
-  return GetItem<ScalarTypePropertyItem>(constants::kAnyValueTypeTag).GetScalarTypeName();
+  return HasData() ? mvvm::utils::TypeName(Data()) : std::string();
 }
 
 bool AnyValueScalarItem::IsScalar() const

@@ -73,6 +73,8 @@ public:
 
 /**
  * @brief The AnyValueScalarItem class represents AnyValue scalar.
+ *
+ * @details The scalar type is the type of the data. Without data the type is undefined.
  */
 class AnyValueScalarItem : public AnyValueItem
 {
@@ -81,8 +83,19 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
+  /**
+   * @brief Sets the scalar type and resets the value to the default of this type.
+   *
+   * @details Does nothing for an empty name or the current type. The change is one undo step.
+   *
+   * @param type_name The scalar type name, e.g. "int32".
+   * @throw RuntimeException if the name is not a scalar type name.
+   */
   void SetAnyTypeName(const std::string& type_name) override;
 
+  /**
+   * @brief Returns the type name of the data, or an empty string without data.
+   */
   std::string GetAnyTypeName() const override;
 
   bool IsScalar() const override;

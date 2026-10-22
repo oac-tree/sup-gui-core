@@ -20,7 +20,6 @@
 
 #include "sup/gui/model/anyvalue_item.h"
 
-#include <sup/gui/model/scalartype_property_item.h>
 
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/application_model.h>

@@ -132,7 +132,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBooleanTypeName);
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_TRUE(item.Data<bool>());
-    EXPECT_EQ(item.GetTotalItemCount(), 1);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
   {  // from int
@@ -143,7 +143,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kInt32TypeName);
     EXPECT_EQ(item.Data<int>(), 42);
-    EXPECT_EQ(item.GetTotalItemCount(), 1);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
   {  // from uint
@@ -154,7 +154,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kUInt32TypeName);
     EXPECT_EQ(item.Data<mvvm::uint32>(), 42);
-    EXPECT_EQ(item.GetTotalItemCount(), 1);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 
   {  // changing uint to bool
@@ -166,7 +166,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     EXPECT_EQ(item.GetAnyTypeName(), anyvalue.GetTypeName());
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kUInt32TypeName);
     EXPECT_EQ(item.Data<mvvm::uint32>(), 42);
-    EXPECT_EQ(item.GetTotalItemCount(), 1);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
 
     sup::dto::AnyValue new_anyvalue{sup::dto::BooleanType};
     new_anyvalue = true;
@@ -175,7 +175,7 @@ TEST_F(AnyValueConversionUtilsTest, SetDataFromScalar)
     EXPECT_EQ(item.GetAnyTypeName(), new_anyvalue.GetTypeName());
     EXPECT_EQ(mvvm::utils::TypeName(item.Data()), mvvm::constants::kBooleanTypeName);
     EXPECT_EQ(item.Data<bool>(), true);
-    EXPECT_EQ(item.GetTotalItemCount(), 1);
+    EXPECT_EQ(item.GetTotalItemCount(), 0);
   }
 }
 

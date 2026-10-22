@@ -8,6 +8,8 @@ Changes for 2.4.0:
 - Implement ScopedCursor to address Wayland issues with application cursor override
 - Build coverage with -O0 by selecting Debug over RelWithDebInfo
 - Fix scalar value editing after the change of scalar type
+- Scalar type follows the scalar value, ScalarTypePropertyItem is removed. Projects saved with
+  earlier versions can't be opened.
 
 Changes for 2.3.0:
 

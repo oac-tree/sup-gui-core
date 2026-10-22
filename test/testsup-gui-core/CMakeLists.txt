@@ -20,7 +20,6 @@ target_sources(${test} PRIVATE
   persistent_settings_model_tests.cpp
   query_result_tests.cpp
   scalar_conversion_utils_tests.cpp
-  scalartype_property_item_tests.cpp
   settings_container_item_tests.cpp
   standard_message_handlers_tests.cpp
   sup_dto_model_tests.cpp
