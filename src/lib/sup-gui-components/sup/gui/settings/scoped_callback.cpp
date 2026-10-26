@@ -37,7 +37,7 @@ ScopedCallback::ScopedCallback(ScopedCallback&& other) noexcept
 {
 }
 
-ScopedCallback& ScopedCallback::operator=(ScopedCallback&& other) noexcept
+ScopedCallback& ScopedCallback::operator=(ScopedCallback&& other) & noexcept
 {
   if (this != &other)
   {

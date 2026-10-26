@@ -210,7 +210,7 @@ inline void ReadArchive::operator()(const std::string& name, T& value)
     static_assert(!std::is_same_v<T, std::vector<bool>>, "std::vector<bool> is not supported");
     mvvm::int32 size{0};
     if (!FromSettingsValue(m_storage.Read(JoinSettingsKey(key, kSettingsVectorSizeKey)), size)
-        || size < 0)
+        || (size < 0))
     {
       return;
     }

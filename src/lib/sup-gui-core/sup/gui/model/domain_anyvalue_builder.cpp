@@ -32,7 +32,7 @@
 namespace sup::gui
 {
 
-enum NodeContext
+enum class NodeContext
 {
   kRoot,
   kStructField,
@@ -46,14 +46,14 @@ struct Node
   bool m_is_visited{false};  //!< True if `value` is a struct and all children are processed.
   NodeContext m_context;
 
-  explicit Node(const AnyValueItem* item, NodeContext context = kRoot)
+  explicit Node(const AnyValueItem* item, NodeContext context = NodeContext::kRoot)
       : m_item(item), m_context(context)
   {
   }
 
-  bool IsArrayContext() const { return m_context == kArrayElement; }
+  bool IsArrayContext() const { return m_context == NodeContext::kArrayElement; }
 
-  bool IsStructContext() const { return m_context == kStructField; }
+  bool IsStructContext() const { return m_context == NodeContext::kStructField; }
 };
 
 struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
@@ -63,7 +63,7 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
 
   explicit DomainAnyValueBuilderImpl(const AnyValueItem& item)
   {
-    (void)m_stack.emplace(&item, kRoot);
+    (void)m_stack.emplace(&item, NodeContext::kRoot);
     ProcessItemStack();
   }
 
@@ -160,7 +160,7 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
     // this is top level object
   }
 
-  void EndComposite(Node& node)
+  void EndComposite(const Node& node)
   {
     assert(node.m_is_visited);
     if (node.IsStructContext())
@@ -176,7 +176,7 @@ struct DomainAnyValueBuilder::DomainAnyValueBuilderImpl
     m_stack.pop();  // we don't need the node anymore
   }
 
-  void AddChildren(Node& node, NodeContext context)
+  void AddChildren(const Node& node, NodeContext context)
   {
     auto children = node.m_item->GetChildren();
     // iteration in reverse order

@@ -148,7 +148,13 @@ bool AnyValueEditorActionHandler::CanRemove() const
 
 void AnyValueEditorActionHandler::RemoveSelected()
 {
-  mvvm::utils::BeginMacro(*GetModel(), "Remove AnyValueItem");
+  auto* model = GetModel();
+  if (model == nullptr)
+  {
+    return;
+  }
+
+  mvvm::utils::BeginMacro(*model, "Remove AnyValueItem");
 
   // remove children from the selection list to avoid double delete
   const mvvm::SessionItem* next_to_select{nullptr};
@@ -157,11 +163,11 @@ void AnyValueEditorActionHandler::RemoveSelected()
   {
     next_to_select = mvvm::utils::FindNextSiblingToSelect(item);
     auto parent = item->GetParent();
-    GetModel()->RemoveItem(item);
+    model->RemoveItem(item);
     UpdateArrayElementNames(*parent);
   }
 
-  mvvm::utils::EndMacro(*GetModel());
+  mvvm::utils::EndMacro(*model);
 
   if (next_to_select != nullptr)
   {
@@ -320,6 +326,12 @@ void AnyValueEditorActionHandler::PasteInto()
 
 void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 {
+  auto* model = GetModel();
+  if (model == nullptr)
+  {
+    throw RuntimeException("Uninitialised model");
+  }
+
   if (auto top_item = GetTopItem(); top_item)
   {
     SendMessage("Only one top item is allowed");
@@ -332,8 +344,8 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
   (void)cloned_item->SetEnabled(true);
   (void)cloned_item->SetEditable(true);
 
-  (void)GetModel()->InsertItem(std::move(cloned_item), GetAnyValueItemContainer(),
-                               mvvm::TagIndex::Append());
+  (void)model->InsertItem(std::move(cloned_item), GetAnyValueItemContainer(),
+                          mvvm::TagIndex::Append());
 }
 
 AnyValueItem* AnyValueEditorActionHandler::GetTopItem()
@@ -406,7 +418,7 @@ mvvm::SessionItem* AnyValueEditorActionHandler::GetParentToInsert() const
 
 mvvm::ISessionModel* AnyValueEditorActionHandler::GetModel() const
 {
-  return (m_container == nullptr)? nullptr : m_container->GetModel();
+  return (m_container == nullptr) ? nullptr : m_container->GetModel();
 }
 
 void AnyValueEditorActionHandler::SendMessage(const MessageEvent& message) const

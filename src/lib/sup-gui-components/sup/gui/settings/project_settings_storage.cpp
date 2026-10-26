@@ -29,7 +29,7 @@ namespace sup::gui
 {
 
 ProjectSettingsStorage::ProjectSettingsStorage(model_func_t model_func)
-    : m_model_func(std::move(model_func))
+    : ISettingsStorage(), m_model_func(std::move(model_func))
 {
 }
 
@@ -42,7 +42,7 @@ std::optional<mvvm::variant_t> ProjectSettingsStorage::Read(const std::string& k
   }
 
   auto item = mvvm::utils::GetTopItem<SettingsContainerItem>(*model);
-  return item == nullptr ? std::nullopt : item->GetValue(key);
+  return (item == nullptr) ? std::nullopt : item->GetValue(key);
 }
 
 void ProjectSettingsStorage::Write(const std::string& key, const mvvm::variant_t& value)

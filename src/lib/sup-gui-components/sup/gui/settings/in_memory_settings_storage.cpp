@@ -42,9 +42,9 @@ std::vector<std::string> InMemorySettingsStorage::GetKeys() const
 {
   std::vector<std::string> result;
   result.reserve(m_values.size());
-  for (const auto& [key, value] : m_values)
+  for (const auto& entry : m_values)
   {
-    result.push_back(key);
+    result.push_back(entry.first);
   }
   return result;
 }

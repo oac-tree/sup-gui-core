@@ -48,7 +48,7 @@ public:
   ScopedCallback(const ScopedCallback&) = delete;
   ScopedCallback& operator=(const ScopedCallback&) = delete;
   ScopedCallback(ScopedCallback&& other) noexcept;
-  ScopedCallback& operator=(ScopedCallback&& other) noexcept;
+  ScopedCallback& operator=(ScopedCallback&& other) & noexcept;
 
   /**
    * @brief Checks if the callback is not called yet.

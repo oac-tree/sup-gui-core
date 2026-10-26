@@ -31,7 +31,7 @@ namespace
 //! Returns the name of the scope for error messages.
 std::string GetScopeName(SettingsScope scope)
 {
-  return scope == SettingsScope::kApplication ? "application" : "project";
+  return (scope == SettingsScope::kApplication) ? "application" : "project";
 }
 
 }  // namespace

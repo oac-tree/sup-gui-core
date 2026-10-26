@@ -27,8 +27,6 @@
 namespace sup::gui
 {
 
-
-
 QList<QString> ItemDisplayNameComboAdapter::GetAvailableItemNames() const
 {
   QList<QString> result{kNoSelection};
@@ -64,7 +62,7 @@ std::int32_t ItemDisplayNameComboAdapter::GetComboIndexFromItem(const mvvm::Sess
   }
 
   const auto index = mvvm::utils::IndexOfItem(m_items, item);
-  return index == mvvm::constants::kInvalidIndex ? 0 : static_cast<std::int32_t>(index) + 1;
+  return (index == mvvm::constants::kInvalidIndex) ? 0 : (static_cast<std::int32_t>(index) + 1);
 }
 
 }  // namespace sup::gui

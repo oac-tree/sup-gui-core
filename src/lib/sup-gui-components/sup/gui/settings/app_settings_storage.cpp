@@ -28,7 +28,7 @@ namespace sup::gui
 {
 
 AppSettingsStorage::AppSettingsStorage(read_func_t read_func, write_func_t write_func)
-    : m_read_func(std::move(read_func)), m_write_func(std::move(write_func))
+    : ISettingsStorage(), m_read_func(std::move(read_func)), m_write_func(std::move(write_func))
 {
 }
 

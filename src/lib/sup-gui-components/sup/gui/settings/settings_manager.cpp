@@ -52,7 +52,7 @@ std::vector<std::uint64_t> FindIds(const MapT& entries, SettingsScope scope,
   std::vector<std::uint64_t> result;
   for (const auto& [id, entry] : entries)
   {
-    if (entry.scope == scope && entry.group == group)
+    if ((entry.scope == scope) && (entry.group == group))
     {
       result.push_back(id);
     }
