@@ -94,6 +94,7 @@ std::size_t AnyValueItem::GetChildrenCount() const
 
 AnyValueEmptyItem::AnyValueEmptyItem() : AnyValueItem(mvvm::GetTypeName<AnyValueEmptyItem>())
 {
+  SetEditable(false); // the main data role (second column) should be non-editable
   (void)SetDisplayName(constants::kEmptyTypeName);
   (void)SetToolTip(constants::kEmptyTypeName);
   (void)AddProperty(constants::kAnyValueTypeTag, constants::kEmptyTypeName)
@@ -152,6 +153,7 @@ bool AnyValueScalarItem::IsScalar() const
 
 AnyValueStructItem::AnyValueStructItem() : AnyValueItem(mvvm::GetTypeName<AnyValueStructItem>())
 {
+  SetEditable(false); // the main data role (second column) should be non-editable
   (void)SetDisplayName(constants::kStructTypeName);
   (void)SetToolTip(constants::kStructTypeName);
   (void)AddProperty(constants::kAnyValueTypeTag, std::string()).SetVisible(false);
@@ -191,6 +193,7 @@ std::vector<const AnyValueItem*> AnyValueStructItem::GetChildren() const
 
 AnyValueArrayItem::AnyValueArrayItem() : AnyValueItem(mvvm::GetTypeName<AnyValueArrayItem>())
 {
+  SetEditable(false); // the main data role (second column) should be non-editable
   (void)SetDisplayName(constants::kArrayTypeName);
   (void)SetToolTip(constants::kArrayTypeName);
   (void)AddProperty(constants::kAnyValueTypeTag, std::string()).SetVisible(false);

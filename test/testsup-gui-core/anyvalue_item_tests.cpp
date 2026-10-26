@@ -71,6 +71,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetDisplayName(), constants::kEmptyTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
+    EXPECT_FALSE(item.IsEditable());
   }
 
   {  // AnyValueScalarItem
@@ -110,6 +111,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetDisplayName(), constants::kStructTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
+    EXPECT_FALSE(item.IsEditable());
   }
 
   {  // AnyValueArrayItem
@@ -129,6 +131,7 @@ TEST_F(AnyValueItemTest, InitialState)
     EXPECT_EQ(item.GetDisplayName(), constants::kArrayTypeName);
     EXPECT_TRUE(item.HasFlag(mvvm::Appearance::kProperty));
     EXPECT_EQ(item.GetChildrenCount(), 0);
+    EXPECT_FALSE(item.IsEditable());
   }
 }
 
