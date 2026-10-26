@@ -106,6 +106,10 @@ SplittableComboPanel* SplittableEditorController::GetFocusWidget()
 void SplittableEditorController::SetFocusWidget(SplittableComboPanel* widget)
 {
   m_focus_handler->SetFocusWidget(widget);
+  if (widget != nullptr)
+  {
+    NotifyFocusPanelSelection(mvvm::ItemSelection(widget->GetCurrentItem()));
+  }
 }
 
 std::vector<SplittableComboPanel*> SplittableEditorController::GetPanels() const
@@ -152,7 +156,7 @@ void SplittableEditorController::onClosePanelRequest()
 void SplittableEditorController::onFocusPanelRequest()
 {
   auto sending_panel = qobject_cast<SplittableComboPanel*>(sender());
-  m_focus_handler->SetFocusWidget(sending_panel);
+  SetFocusWidget(sending_panel);
 }
 
 void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelection& selection)
@@ -163,6 +167,11 @@ void SplittableEditorController::onItemSelectionChanged(const mvvm::ItemSelectio
     return;
   }
 
+  NotifyFocusPanelSelection(selection);
+}
+
+void SplittableEditorController::NotifyFocusPanelSelection(const mvvm::ItemSelection& selection)
+{
   if (m_previous_selection_in_focus_widget != selection)
   {
     m_previous_selection_in_focus_widget = selection;

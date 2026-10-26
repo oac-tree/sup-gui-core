@@ -98,6 +98,8 @@ public:
 
   /**
    * @brief Sets the focus to the specified widget (should be already added to the splitter).
+   *
+   * Emits focusPanelSelectionChanged if the item of the widget differs from the last reported one.
    */
   void SetFocusWidget(SplittableComboPanel* widget);
 
@@ -109,7 +111,8 @@ public:
   std::vector<SplittableComboPanel*> GetPanels() const;
 
 signals:
-  //! The signal is emitted when user changes the selection in the combo box of any panel.
+  //! The signal is emitted when user changes the selection in the combo box of the focus panel,
+  //! or when the focus moves to a panel with another item.
   //! It is used to propagate the selection back to list view.
   void focusPanelSelectionChanged(const mvvm::ItemSelection& selection);
 
@@ -132,6 +135,9 @@ private:
   void onFocusPanelRequest();
   void onItemSelectionChanged(const mvvm::ItemSelection& selection);
   void onReferenceRequest(bool value);
+
+  //! Emits focusPanelSelectionChanged if the selection differs from the last reported one.
+  void NotifyFocusPanelSelection(const mvvm::ItemSelection& selection);
 
   QSplitter* m_splitter{nullptr};
   create_panel_func_t m_factory_func;

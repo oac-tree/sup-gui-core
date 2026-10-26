@@ -283,6 +283,51 @@ TEST_F(SplittableEditorControllerTest, NonFocusPanelEmitsSelectionRequest)
   EXPECT_EQ(spy_selection_changed.count(), 0);
 }
 
+//! Moving the focus to a panel with another item emits the item of the new focus panel.
+TEST_F(SplittableEditorControllerTest, FocusChangeEmitsSelectionOfFocusPanel)
+{
+  auto configuration0 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
+  auto configuration1 = m_model.InsertItem<ConfigurationItem>(m_model.GetConfigurationContainer(),
+                                                              mvvm::TagIndex::Append());
+
+  auto controller = CreateController();
+
+  auto* panel1 = controller->CreatePanel();
+  auto* panel2 = controller->CreatePanel();
+  controller->SetModel(&m_model);
+  panel1->SetItem(configuration0);
+  panel2->SetItem(configuration1);
+
+  EXPECT_EQ(controller->GetFocusWidget(), panel2);
+
+  QSignalSpy spy_selection_changed(controller.get(),
+                                   &SplittableEditorController::focusPanelSelectionChanged);
+
+  // focus request from the panel with another item
+  panel1->focusPanelRequest();
+  EXPECT_EQ(controller->GetFocusWidget(), panel1);
+  EXPECT_EQ(spy_selection_changed.count(), 1);
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed),
+            mvvm::ItemSelection(configuration0));
+
+  // repeated focus request is silent
+  panel1->focusPanelRequest();
+  EXPECT_EQ(spy_selection_changed.count(), 0);
+
+  // programmatic focus change
+  controller->SetFocusWidget(panel2);
+  EXPECT_EQ(spy_selection_changed.count(), 1);
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selection_changed),
+            mvvm::ItemSelection(configuration1));
+
+  // focus moves to the panel with the same item
+  panel1->SetItem(configuration1);
+  panel1->focusPanelRequest();
+  EXPECT_EQ(controller->GetFocusWidget(), panel1);
+  EXPECT_EQ(spy_selection_changed.count(), 0);
+}
+
 TEST_F(SplittableEditorControllerTest, NewPanelAddedSignal)
 {
   auto controller = CreateController();
