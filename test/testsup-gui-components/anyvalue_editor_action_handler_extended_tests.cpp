@@ -117,6 +117,45 @@ TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueMarkedAsDisabled)
   EXPECT_TRUE(copied_item->IsEnabled());
 }
 
+//! Validating that initial empty item stays non-editable.
+
+TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueEmptyItem)
+{
+  AnyValueEmptyItem item;
+  EXPECT_FALSE(item.IsEditable());
+
+  auto handler = CreateActionHandler({});
+  handler->SetInitialValue(item);
+
+  auto copied_item = dynamic_cast<AnyValueEmptyItem*>(handler->GetTopItem());
+  ASSERT_NE(copied_item, nullptr);
+  EXPECT_FALSE(copied_item->IsEditable());
+  EXPECT_TRUE(copied_item->IsEnabled());
+}
+
+//! Validating that initial struct with array stays non-editable.
+
+TEST_F(AnyValueEditorActionHandlerExtendedTest, SetInitialValueStructWithArray)
+{
+  AnyValueStructItem item;
+  (void)item.InsertItem(std::make_unique<AnyValueArrayItem>(), mvvm::TagIndex::Append());
+  item.SetEnabled(false);
+
+  auto handler = CreateActionHandler({});
+  handler->SetInitialValue(item);
+
+  auto copied_item = dynamic_cast<AnyValueStructItem*>(handler->GetTopItem());
+  ASSERT_NE(copied_item, nullptr);
+  EXPECT_FALSE(copied_item->IsEditable());
+  EXPECT_TRUE(copied_item->IsEnabled());
+
+  auto children = copied_item->GetChildren();
+  ASSERT_EQ(children.size(), 1);
+  auto array_item = dynamic_cast<AnyValueArrayItem*>(children.at(0));
+  ASSERT_NE(array_item, nullptr);
+  EXPECT_FALSE(array_item->IsEditable());
+}
+
 TEST_F(AnyValueEditorActionHandlerExtendedTest, AttemptToInsertWhenModelIsAbsent)
 {
   mvvm::ContainerItem container;  // no model

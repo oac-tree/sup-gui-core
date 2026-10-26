@@ -340,9 +340,9 @@ void AnyValueEditorActionHandler::SetInitialValue(const AnyValueItem& item)
 
   auto cloned_item = mvvm::utils::CloneItem(item);
 
-  // if original item was marked as disabled, we should remove it from clone
+  // remove disabled flag from clone, only scalars have editable value column
   (void)cloned_item->SetEnabled(true);
-  (void)cloned_item->SetEditable(true);
+  (void)cloned_item->SetEditable(cloned_item->IsScalar());
 
   (void)model->InsertItem(std::move(cloned_item), GetAnyValueItemContainer(),
                           mvvm::TagIndex::Append());
